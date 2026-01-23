@@ -23,16 +23,23 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
-    --color-accent-foreground: var(--color-white);
+    /* Kidical Mass Brand Colors */
+    --color-kidical-yellow: #FDB913;
+    --color-kidical-green: #5CB85C;
+    --color-kidical-orange: #F0803C;
+    --color-kidical-blue: #2E5090;
+    --color-kidical-light-yellow: #FEF3D5;
+    
+    --color-accent: var(--color-kidical-yellow);
+    --color-accent-content: var(--color-kidical-yellow);
+    --color-accent-foreground: var(--color-neutral-900);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
-        --color-accent-foreground: var(--color-neutral-800);
+        --color-accent: var(--color-kidical-yellow);
+        --color-accent-content: var(--color-kidical-yellow);
+        --color-accent-foreground: var(--color-neutral-900);
     }
 }
 
@@ -64,3 +71,52 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Kidical Mass Custom Styles */
+.bg-kidical-yellow {
+    background-color: var(--color-kidical-yellow);
+}
+
+.bg-kidical-green {
+    background-color: var(--color-kidical-green);
+}
+
+.bg-kidical-orange {
+    background-color: var(--color-kidical-orange);
+}
+
+.bg-kidical-blue {
+    background-color: var(--color-kidical-blue);
+}
+
+.bg-kidical-light-yellow {
+    background-color: var(--color-kidical-light-yellow);
+}
+
+.text-kidical-yellow {
+    color: var(--color-kidical-yellow);
+}
+
+.text-kidical-green {
+    color: var(--color-kidical-green);
+}
+
+.text-kidical-orange {
+    color: var(--color-kidical-orange);
+}
+
+.text-kidical-blue {
+    color: var(--color-kidical-blue);
+}
+
+.border-kidical-yellow {
+    border-color: var(--color-kidical-yellow);
+}
+
+.hover\:bg-kidical-yellow:hover {
+    background-color: var(--color-kidical-yellow);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
+}
