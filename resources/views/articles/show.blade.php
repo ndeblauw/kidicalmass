@@ -12,6 +12,13 @@
 
         <!-- Article Header -->
         <article class="bg-white rounded-xl shadow-lg overflow-hidden">
+            @if($article->getFirstMedia('main'))
+                <div class="aspect-[16/9] overflow-hidden">
+                    <img src="{{ $article->getFirstMediaUrl('main') }}" 
+                         alt="{{ $article->title_nl }}" 
+                         class="w-full h-full object-cover">
+                </div>
+            @endif
             <div class="bg-gradient-to-r from-kidical-yellow to-kidical-orange p-8">
                 <h1 class="text-4xl font-bold text-kidical-blue mb-4">{{ $article->title_nl }}</h1>
                 <div class="flex items-center space-x-4 text-kidical-blue/80">
@@ -45,6 +52,22 @@
                 <div class="prose prose-lg max-w-none text-gray-800">
                     {!! nl2br(e($article->content_nl)) !!}
                 </div>
+
+                <!-- Gallery Images -->
+                @if($article->getMedia('gallery')->count() > 0)
+                    <div class="mt-8">
+                        <h2 class="text-2xl font-bold text-kidical-blue mb-4">Gallery</h2>
+                        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            @foreach($article->getMedia('gallery') as $media)
+                                <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                    <img src="{{ $media->getUrl() }}" 
+                                         alt="{{ $article->title_nl }}" 
+                                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
         </article>
     </div>

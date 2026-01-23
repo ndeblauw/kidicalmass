@@ -8,6 +8,13 @@
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach($articles as $article)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border-t-4 border-kidical-yellow">
+                    @if($article->getFirstMedia('main'))
+                        <div class="aspect-[4/3] overflow-hidden">
+                            <img src="{{ $article->getFirstMediaUrl('main', 'card') }}" 
+                                 alt="{{ $article->title_nl }}" 
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                    @endif
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-kidical-blue mb-3 hover:text-kidical-orange transition-colors">
                             <a href="{{ route('articles.show', $article) }}">{{ $article->title_nl }}</a>

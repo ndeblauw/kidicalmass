@@ -12,6 +12,13 @@
 
         <!-- Activity Card -->
         <article class="bg-white rounded-xl shadow-lg overflow-hidden">
+            @if($activity->getFirstMedia('main'))
+                <div class="aspect-[16/9] overflow-hidden">
+                    <img src="{{ $activity->getFirstMediaUrl('main') }}" 
+                         alt="{{ $activity->title_nl }}" 
+                         class="w-full h-full object-cover">
+                </div>
+            @endif
             <div class="bg-gradient-to-r from-kidical-green to-kidical-blue p-8">
                 <h1 class="text-4xl font-bold text-white mb-6">
                     <x-bike-icon class="w-10 h-10 inline-block mr-2" />
@@ -76,6 +83,22 @@
                 <div class="prose prose-lg max-w-none text-gray-800">
                     {!! nl2br(e($activity->content_nl)) !!}
                 </div>
+
+                <!-- Gallery Images -->
+                @if($activity->getMedia('gallery')->count() > 0)
+                    <div class="mt-8">
+                        <h2 class="text-2xl font-bold text-kidical-blue mb-4">Gallery</h2>
+                        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            @foreach($activity->getMedia('gallery') as $media)
+                                <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                    <img src="{{ $media->getUrl() }}" 
+                                         alt="{{ $activity->title_nl }}" 
+                                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
         </article>
     </div>

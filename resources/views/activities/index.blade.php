@@ -11,6 +11,13 @@
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach($activities as $activity)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border-l-4 border-kidical-green">
+                    @if($activity->getFirstMedia('main'))
+                        <div class="aspect-[4/3] overflow-hidden">
+                            <img src="{{ $activity->getFirstMediaUrl('main', 'card') }}" 
+                                 alt="{{ $activity->title_nl }}" 
+                                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                    @endif
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-kidical-blue mb-3 hover:text-kidical-orange transition-colors">
                             <a href="{{ route('activities.show', $activity) }}">{{ $activity->title_nl }}</a>
