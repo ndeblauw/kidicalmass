@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Activity;
 use App\Models\Article;
+use App\Models\ContactForm;
 use App\Models\Group;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->seedUsers();
         $this->seedArticles();
         $this->seedActivities();
+        $this->seedContactForms();
 
         // Clean up temporary images
         \Database\Factories\ArticleFactory::cleanupTempImages();
@@ -152,5 +154,10 @@ class DatabaseSeeder extends Seeder
                 $activity->groups()->attach($group->id);
             });
         });
+    }
+
+    private function seedContactForms(): void
+    {
+        ContactForm::factory(10)->create();
     }
 }
