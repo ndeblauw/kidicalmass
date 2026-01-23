@@ -93,7 +93,7 @@ class ArticleFactory extends Factory
                 try {
                     $topic = $topics[array_rand($topics)];
                     // Use Unsplash source with specific size and random seed
-                    $url = "https://source.unsplash.com/800x600/?{$topic}&sig={$i}";
+                    $url = "https://picsum.photos/800/600?random={$i}";
                     $response = Http::timeout(15)->get($url);
 
                     if ($response->successful() && strlen($response->body()) > 1000) {
