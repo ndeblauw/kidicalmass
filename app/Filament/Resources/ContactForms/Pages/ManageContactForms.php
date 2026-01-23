@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ContactForms\Pages;
 
 use App\Filament\Resources\ContactForms\ContactFormResource;
-use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageContactForms extends ManageRecords
@@ -13,7 +12,7 @@ class ManageContactForms extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            // Contact forms are submitted through the public form only
         ];
     }
 }

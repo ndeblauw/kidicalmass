@@ -91,8 +91,7 @@ class ContactFormResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Submitted')
                     ->dateTime('M j, Y')
-                    ->sortable()
-                    ->sortable(['created_at' => 'desc']),
+                    ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
