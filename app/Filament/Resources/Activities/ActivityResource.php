@@ -123,12 +123,7 @@ class ActivityResource extends Resource
                 TextColumn::make('activity_type')
                     ->badge()
                     ->formatStateUsing(fn ($state) => $state->label())
-                    ->color(fn ($state) => match ($state) {
-                        ActivityType::KIDICALMASS => 'success',
-                        ActivityType::MEETING => 'info',
-                        ActivityType::WORKSHOP => 'warning',
-                        ActivityType::OTHER => 'gray',
-                    })
+                    ->color(fn ($state) => $state->badgeColor())
                     ->sortable()
                     ->label('Type'),
                 TextColumn::make('begin_date')
