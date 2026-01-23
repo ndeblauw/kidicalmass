@@ -15,7 +15,11 @@
         {{ $slot }}
     </main>
 
+    <!-- Partners/Sponsors Section -->
+    <x-partners />
+
     <x-layouts::site.footer />
+
 
     <!-- Mobile Menu Toggle Script -->
     <script>

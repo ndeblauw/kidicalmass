@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
+use App\Models\Partner;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->seedUsers();
         $this->seedArticles();
         $this->seedActivities();
+        $this->seedPartners();
 
         // Clean up temporary images
         \Database\Factories\ArticleFactory::cleanupTempImages();
@@ -152,5 +154,15 @@ class DatabaseSeeder extends Seeder
                 $activity->groups()->attach($group->id);
             });
         });
+    }
+    private function seedPartners()
+    {
+        // Create partners
+        $groups = Group::inRandomOrder()->take(5)->get();
+        foreach (range(1, 15) as $i) {
+            Partner::factory()->create([
+                'group_id' => $groups[array_rand($groups)]->id,
+            ]);
+        }
     }
 }
