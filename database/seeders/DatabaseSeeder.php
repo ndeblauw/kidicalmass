@@ -17,10 +17,14 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->seedUsers();
         $this->createGroupHierarchy();
+        $this->seedUsers();
         $this->seedArticles();
         $this->seedActivities();
+
+        // Clean up temporary images
+        \Database\Factories\ArticleFactory::cleanupTempImages();
+        \Database\Factories\ActivityFactory::cleanupTempImages();
     }
 
     private function createGroupHierarchy(): void

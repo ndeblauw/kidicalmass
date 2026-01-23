@@ -17,6 +17,8 @@ class ArticleFactory extends Factory
 
     protected static $imageCache = [];
 
+    protected static $imagesDownloaded = false;
+
     public function definition(): array
     {
         return [
@@ -37,21 +39,30 @@ class ArticleFactory extends Factory
 
     protected function attachImages(Article $article): void
     {
-        // Download and cache images if not already cached
-        if (empty(static::$imageCache)) {
+        // Only download images once per seeding run
+        if (! static::$imagesDownloaded) {
             $this->downloadAndCacheImages();
+            static::$imagesDownloaded = true;
         }
 
         // Attach a random main image
         if (! empty(static::$imageCache)) {
             $mainImage = static::$imageCache[array_rand(static::$imageCache)];
-            $article->addMedia($mainImage)->toMediaCollection('main');
+            try {
+                $article->addMedia($mainImage)->toMediaCollection('main');
+            } catch (\Exception $e) {
+                // Silently skip if image attachment fails
+            }
 
             // Randomly attach 0-3 gallery images
             $galleryCount = rand(0, 3);
             for ($i = 0; $i < $galleryCount; $i++) {
                 $galleryImage = static::$imageCache[array_rand(static::$imageCache)];
-                $article->addMedia($galleryImage)->toMediaCollection('gallery');
+                try {
+                    $article->addMedia($galleryImage)->toMediaCollection('gallery');
+                } catch (\Exception $e) {
+                    // Silently skip if image attachment fails
+                }
             }
         }
     }
@@ -61,26 +72,35 @@ class ArticleFactory extends Factory
         $tempDir = storage_path('app/temp-images');
 
         // Check if we already have cached images
-        if (File::exists($tempDir) && count(File::files($tempDir)) >= 20) {
-            static::$imageCache = File::files($tempDir);
+        if (File::exists($tempDir)) {
+            $files = File::files($tempDir);
+            if (count($files) >= 20) {
+                static::$imageCache = $files;
 
-            return;
+                return;
+            }
         }
 
         // Create temp directory
         File::ensureDirectoryExists($tempDir);
 
         // Download 20 images from Unsplash
+        $topics = ['cycling', 'bike', 'family', 'kids', 'outdoor'];
         for ($i = 1; $i <= 20; $i++) {
             $imagePath = $tempDir.'/image-'.$i.'.jpg';
 
             if (! File::exists($imagePath)) {
                 try {
-                    // Use Unsplash API with random cycling/family related images
-                    $response = Http::timeout(10)->get('https://source.unsplash.com/800x600/?cycling,family,bike');
-                    if ($response->successful()) {
+                    $topic = $topics[array_rand($topics)];
+                    // Use Unsplash source with specific size and random seed
+                    $url = "https://source.unsplash.com/800x600/?{$topic}&sig={$i}";
+                    $response = Http::timeout(15)->get($url);
+
+                    if ($response->successful() && strlen($response->body()) > 1000) {
                         File::put($imagePath, $response->body());
                         static::$imageCache[] = $imagePath;
+                        // Small delay to avoid rate limiting
+                        usleep(500000); // 0.5 seconds
                     }
                 } catch (\Exception $e) {
                     // If download fails, skip this image
