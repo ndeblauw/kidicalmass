@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-use Illuminate\View\View;
 
 class ActivityController extends Controller
 {
