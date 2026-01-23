@@ -3,8 +3,6 @@
 namespace App\Filament\Resources\Activities;
 
 use App\Filament\Resources\Activities\Pages\ManageActivities;
-use App\Http\Requests\StoreActivityRequest;
-use App\Http\Requests\UpdateActivityRequest;
 use App\Models\Activity;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;

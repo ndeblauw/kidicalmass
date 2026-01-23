@@ -3,10 +3,7 @@
 namespace App\Filament\Resources\Articles;
 
 use App\Filament\Resources\Articles\Pages\ManageArticles;
-use App\Http\Requests\StoreArticleRequest;
-use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
-use App\Models\User;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
