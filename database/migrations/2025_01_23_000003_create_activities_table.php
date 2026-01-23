@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('title_fr');
             $table->text('content_nl');
             $table->text('content_fr');
+            $table->string('activity_type')->default('kidicalmass');
             $table->dateTime('begin_date');
             $table->dateTime('end_date');
             $table->string('location');

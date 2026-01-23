@@ -20,6 +20,17 @@
                 </div>
             @endif
             <div class="bg-gradient-to-r from-kidical-green to-kidical-blue p-8">
+                <div class="mb-3">
+                    <span class="px-3 py-1 
+                        @if($activity->activity_type->value === 'kidicalmass') bg-green-100 text-green-800
+                        @elseif($activity->activity_type->value === 'meeting') bg-blue-100 text-blue-800
+                        @elseif($activity->activity_type->value === 'workshop') bg-yellow-100 text-yellow-800
+                        @else bg-gray-100 text-gray-800
+                        @endif
+                        text-sm font-semibold rounded-full">
+                        {{ $activity->activity_type->label() }}
+                    </span>
+                </div>
                 <h1 class="text-4xl font-bold text-white mb-6">
                     <x-bike-icon class="w-10 h-10 inline-block mr-2" />
                     {{ $activity->title_nl }}

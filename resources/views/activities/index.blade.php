@@ -22,6 +22,17 @@
                         <h3 class="text-xl font-bold text-kidical-blue mb-3 hover:text-kidical-orange transition-colors">
                             <a href="{{ route('activities.show', $activity) }}">{{ $activity->title_nl }}</a>
                         </h3>
+                        <div class="mb-3">
+                            <span class="px-2 py-1 
+                                @if($activity->activity_type->value === 'kidicalmass') bg-green-100 text-green-800
+                                @elseif($activity->activity_type->value === 'meeting') bg-blue-100 text-blue-800
+                                @elseif($activity->activity_type->value === 'workshop') bg-yellow-100 text-yellow-800
+                                @else bg-gray-100 text-gray-800
+                                @endif
+                                text-xs font-semibold rounded-full">
+                                {{ $activity->activity_type->label() }}
+                            </span>
+                        </div>
                         <div class="space-y-2 mb-4">
                             <div class="flex items-center text-sm text-gray-700">
                                 <svg class="w-4 h-4 mr-2 text-kidical-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">

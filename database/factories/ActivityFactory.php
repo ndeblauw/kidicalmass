@@ -29,6 +29,7 @@ class ActivityFactory extends Factory
             'title_fr' => fake()->sentence(),
             'content_nl' => fake()->paragraphs(2, true),
             'content_fr' => fake()->paragraphs(2, true),
+            'activity_type' => fake()->randomElement(['kidicalmass', 'meeting', 'workshop', 'other']),
             'begin_date' => $beginDate,
             'end_date' => $endDate,
             'location' => fake()->city().', '.fake()->address(),

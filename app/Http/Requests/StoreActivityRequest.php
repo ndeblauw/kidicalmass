@@ -26,6 +26,7 @@ class StoreActivityRequest extends FormRequest
             'title_fr' => ['required', 'string', 'max:255'],
             'content_nl' => ['required', 'string'],
             'content_fr' => ['required', 'string'],
+            'activity_type' => ['required', 'string', 'in:kidicalmass,meeting,workshop,other'],
             'begin_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:begin_date'],
             'location' => ['required', 'string', 'max:255'],
