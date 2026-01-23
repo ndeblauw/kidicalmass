@@ -50,24 +50,15 @@
         </div>
 
         <!-- Financial Support Text -->
-        @php
-            $locale = app()->getLocale();
-        @endphp
         <div class="text-center mt-12 text-gray-700">
-            @if($locale === 'fr')
-                <p class="text-lg">
-                    Avec le soutien financier de / Dankzij steun van :
-                </p>
-            @else
-                <p class="text-lg">
-                    Avec le soutien financier de / Dankzij steun van :
-                </p>
-            @endif
+            <p class="text-lg">
+                Avec le soutien financier de / Dankzij steun van :
+            </p>
             <p class="mt-2 text-sm">
                 Bruxelles Mobilité/ Brussel Mobiliteit, Clean Cities,<br>
                 Bruxelles Ville/Brussel Stad, La commune de Schaerbeek<br>
                 / gemeente Schaerbeek en onze/et nos 
-                <a href="#" class="text-kidical-blue hover:underline font-semibold">spacefunders</a>.
+                <span class="text-kidical-blue font-semibold">spacefunders</span>.
             </p>
         </div>
     </div>
