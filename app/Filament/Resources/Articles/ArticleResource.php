@@ -12,9 +12,11 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -56,6 +58,26 @@ class ArticleResource extends Resource
                     ->multiple()
                     ->preload()
                     ->searchable(),
+                SpatieMediaLibraryFileUpload::make('main')
+                    ->label('Main Image')
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        '4:3',
+                        '16:9',
+                    ])
+                    ->maxSize(5120)
+                    ->disk('media')
+                    ->collection('main')
+                    ->helperText('This image will be used in the card preview on the articles index page.'),
+                SpatieMediaLibraryFileUpload::make('gallery')
+                    ->label('Additional Images')
+                    ->image()
+                    ->multiple()
+                    ->maxSize(5120)
+                    ->disk('media')
+                    ->collection('gallery')
+                    ->helperText('These images will only appear on the article detail page.'),
             ]);
     }
 
@@ -63,6 +85,12 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('main')
+                    ->label('Image')
+                    ->disk('media')
+                    ->collection('main')
+                    ->conversion('thumb')
+                    ->size(60),
                 TextColumn::make('title_nl')
                     ->searchable()
                     ->sortable()
