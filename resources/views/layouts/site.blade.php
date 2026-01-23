@@ -101,7 +101,7 @@
                 <div class="space-y-8">
                     <!-- Logo -->
                     <div class="flex items-center justify-center md:justify-start">
-                        <img src="/img/logo-footer.png" alt="Kidical Mass Logo" class="max-w-xs w-full h-auto" />
+                        <img src="/img/logo-footer.png" alt="Kidical Mass Logo" class="max-w-xs w-full h-auto" onerror="this.style.display='none'" />
                     </div>
                     
                     <!-- Sponsor Badges -->
