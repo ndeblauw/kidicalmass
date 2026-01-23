@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->createGroupHierarchy();
         $this->seedUsers();
+        $this->createGroupHierarchy();
         $this->seedArticles();
         $this->seedActivities();
 
