@@ -14,14 +14,9 @@ class Group extends Model
 
     protected $guarded = [];
 
-    // Override timestamps to handle mixed date/timestamp types
-    public const CREATED_AT = 'created_at';
-    public const UPDATED_AT = 'updated_at';
-
     protected $casts = [
-        'created_at' => 'date',
+        'started_at' => 'date',
         'ended_at' => 'date',
-        'updated_at' => 'datetime',
     ];
 
     public function parent(): BelongsTo

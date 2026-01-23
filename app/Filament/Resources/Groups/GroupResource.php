@@ -47,13 +47,13 @@ class GroupResource extends Resource
                     ->relationship('parent', 'name')
                     ->searchable()
                     ->preload(),
-                DatePicker::make('created_at')
-                    ->label('Created At')
+                DatePicker::make('started_at')
+                    ->label('Started At')
                     ->required()
                     ->default(now()),
                 DatePicker::make('ended_at')
                     ->label('Ended At')
-                    ->after('created_at'),
+                    ->after('started_at'),
             ]);
     }
 
@@ -78,10 +78,10 @@ class GroupResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Parent Group'),
-                TextColumn::make('created_at')
+                TextColumn::make('started_at')
                     ->date()
                     ->sortable()
-                    ->label('Created At'),
+                    ->label('Started At'),
                 TextColumn::make('ended_at')
                     ->date()
                     ->sortable()
@@ -99,7 +99,7 @@ class GroupResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('started_at', 'desc');
     }
 
     public static function getPages(): array
