@@ -38,4 +38,12 @@ enum ActivityType: string
             self::OTHER => 'bg-gray-100 text-gray-800',
         };
     }
+
+    /**
+     * Get an array of options for use in forms and filters
+     */
+    public static function getOptionsArray(): array
+    {
+        return collect(self::cases())->mapWithKeys(fn ($case) => [$case->value => $case->label()])->toArray();
+    }
 }

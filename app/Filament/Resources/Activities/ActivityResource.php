@@ -53,7 +53,7 @@ class ActivityResource extends Resource
                     ->label('Content (FR)'),
                 Select::make('activity_type')
                     ->required()
-                    ->options(collect(ActivityType::cases())->mapWithKeys(fn ($case) => [$case->value => $case->label()])->toArray())
+                    ->options(ActivityType::getOptionsArray())
                     ->default('kidicalmass')
                     ->label('Activity Type'),
                 DateTimePicker::make('begin_date')
@@ -157,7 +157,7 @@ class ActivityResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('activity_type')
-                    ->options(collect(ActivityType::cases())->mapWithKeys(fn ($case) => [$case->value => $case->label()])->toArray())
+                    ->options(ActivityType::getOptionsArray())
                     ->label('Activity Type'),
                 SelectFilter::make('author')
                     ->relationship('author', 'name')
