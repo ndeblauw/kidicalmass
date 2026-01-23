@@ -54,7 +54,7 @@ class ActivityResource extends Resource
                 Select::make('activity_type')
                     ->required()
                     ->options(ActivityType::getOptionsArray())
-                    ->default('kidicalmass')
+                    ->default(ActivityType::KIDICALMASS->value)
                     ->label('Activity Type'),
                 DateTimePicker::make('begin_date')
                     ->required()

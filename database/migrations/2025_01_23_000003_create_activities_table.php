@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ActivityType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
             $table->string('title_fr');
             $table->text('content_nl');
             $table->text('content_fr');
-            $table->string('activity_type')->default('kidicalmass');
+            $table->string('activity_type')->default(ActivityType::KIDICALMASS->value);
             $table->dateTime('begin_date');
             $table->dateTime('end_date');
             $table->string('location');
