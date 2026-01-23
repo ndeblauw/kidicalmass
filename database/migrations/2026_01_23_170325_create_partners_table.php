@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
+
+            $table->foreignId('group_id')->nullable();
             $table->string('name');
             $table->string('url')->nullable();
             $table->text('description_nl')->nullable();
             $table->text('description_fr')->nullable();
             $table->boolean('show_logo')->default(true);
             $table->boolean('visible')->default(true);
+
             $table->timestamps();
         });
     }

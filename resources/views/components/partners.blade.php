@@ -3,7 +3,6 @@
 @php
     $partners = \App\Models\Partner::where('visible', true)
         ->where('show_logo', true)
-        ->with('group')
         ->get();
 @endphp
 
@@ -19,32 +18,35 @@
         </div>
 
         <!-- Partner Logos Grid -->
-        <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+        <div class="grid grid-cols-8 gap-6 md:gap-8">
+            @ray($partners)
             @foreach($partners as $partner)
                 @php
-                    $logo = $partner->getFirstMedia('logo');
+                    $logo = $partner->getFirstMediaUrl('logo');
                 @endphp
-                
+
                 @if($logo)
                     <div class="flex-shrink-0">
                         @if($partner->url)
-                            <a href="{{ $partner->url }}" 
-                               target="_blank" 
+                            <a href="{{ $partner->url }}"
+                               target="_blank"
                                rel="noopener noreferrer"
                                title="{{ $partner->name }}"
-                               class="block hover:opacity-80 transition-opacity">
-                                <img src="{{ $logo->getUrl('partner') }}" 
+                               class=" hover:opacity-80 transition-opacity">
+                                <img src="{{ $logo }}"
                                      alt="{{ $partner->name }}"
-                                     class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
+                                     class="h-20 w-auto rounded-lg object-contain grayscale hover:grayscale-0 transition-all duration-300">
                             </a>
                         @else
-                            <div title="{{ $partner->name }}">
-                                <img src="{{ $logo->getUrl('partner') }}" 
+                            <div class="rounded-lg bg-white flex justify-center items-center">
+                                <img src="{{ $logo->getUrl('partner') }}"
                                      alt="{{ $partner->name }}"
                                      class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300">
                             </div>
                         @endif
                     </div>
+                @else
+                    <div class="rounded-lg bg-white flex justify-center items-center"> {{ $partner->name }}</div>
                 @endif
             @endforeach
         </div>
@@ -57,7 +59,7 @@
             <p class="mt-2 text-sm">
                 Bruxelles Mobilité/ Brussel Mobiliteit, Clean Cities,<br>
                 Bruxelles Ville/Brussel Stad, La commune de Schaerbeek<br>
-                / gemeente Schaerbeek en onze/et nos 
+                / gemeente Schaerbeek en onze/et nos
                 <span class="text-kidical-blue font-semibold">spacefunders</span>.
             </p>
         </div>
