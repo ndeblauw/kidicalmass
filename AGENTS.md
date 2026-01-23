@@ -148,6 +148,7 @@ protected function isAccessible(User $user, ?string $path = null): bool
 ### Controllers & Validation
 - Always create Form Request classes for validation rather than inline validation in controllers. Include both validation rules and custom error messages.
 - Check sibling Form Requests to see if the application uses array or string based validation rules.
+- Never give a return type to a controller method.
 
 ### Queues
 - Use queued jobs for time-consuming operations with the `ShouldQueue` interface.

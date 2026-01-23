@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->createGroupHierarchy();
         $this->seedUsers();
+        $this->createGroupHierarchy();
         $this->seedArticles();
         $this->seedActivities();
     }
@@ -96,6 +96,12 @@ class DatabaseSeeder extends Seeder
 
     private function seedUsers(): void
     {
+        User::create([
+            'name' => 'Nico Deblauwe',
+            'email' => 'nico@deblauwe.be',
+            'password' => '$2y$12$caY7UhzzouF4BRc7rxg1eOndYSP1VhBWrgU6UxZ9cN7QhIel6DKHa',
+        ]);
+
         $this->allGroups->each(function (Group $group) {
             $userCount = rand(1, 3);
             User::factory($userCount)->create()->each(function (User $user) use ($group) {
