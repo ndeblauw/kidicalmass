@@ -11,9 +11,6 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -38,60 +35,32 @@ class ContactFormResource extends Resource
             ->components([
                 TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->disabled(),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->disabled(),
                 TextInput::make('phone')
                     ->tel()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->disabled(),
                 Textarea::make('message')
                     ->required()
                     ->rows(5)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->disabled(),
                 TextInput::make('page_url')
                     ->label('Page URL')
                     ->url()
                     ->required()
-                    ->maxLength(255),
-            ]);
-    }
-
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Section::make('Contact Information')
-                    ->schema([
-                        TextEntry::make('name')
-                            ->label('Name'),
-                        TextEntry::make('email')
-                            ->label('Email')
-                            ->copyable(),
-                        TextEntry::make('phone')
-                            ->label('Phone')
-                            ->placeholder('Not provided'),
-                    ])
-                    ->columns(3),
-                Section::make('Message')
-                    ->schema([
-                        TextEntry::make('message')
-                            ->label('')
-                            ->prose(),
-                    ]),
-                Section::make('Metadata')
-                    ->schema([
-                        TextEntry::make('page_url')
-                            ->label('Submitted From')
-                            ->url(fn ($record) => $record->page_url)
-                            ->openUrlInNewTab(),
-                        TextEntry::make('created_at')
-                            ->label('Submitted At')
-                            ->dateTime('F j, Y - g:i A'),
-                    ])
-                    ->columns(2),
+                    ->maxLength(255)
+                    ->disabled(),
+                TextInput::make('created_at')
+                    ->label('Submitted At')
+                    ->disabled(),
             ]);
     }
 
