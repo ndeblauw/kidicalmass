@@ -93,6 +93,9 @@
         {{ $slot }}
     </main>
 
+    <!-- Partners/Sponsors Section -->
+    <x-partners />
+
     <!-- Footer -->
     <footer class="bg-kidical-blue text-white mt-16">
         <div class="container mx-auto px-4 py-8">
