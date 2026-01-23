@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Article;
 use App\Models\ContactForm;
 use App\Models\Group;
+use App\Models\Partner;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->seedArticles();
         $this->seedActivities();
         $this->seedContactForms();
+        $this->seedPartners();
 
         // Clean up temporary images
         \Database\Factories\ArticleFactory::cleanupTempImages();
@@ -159,5 +161,16 @@ class DatabaseSeeder extends Seeder
     private function seedContactForms(): void
     {
         ContactForm::factory(10)->create();
+    }
+
+  private function seedPartners()
+    {
+        // Create partners
+        $groups = Group::inRandomOrder()->take(5)->get();
+        foreach (range(1, 15) as $i) {
+            Partner::factory()->create([
+                'group_id' => $groups[array_rand($groups)]->id,
+            ]);
+        }
     }
 }

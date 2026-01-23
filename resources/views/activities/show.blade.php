@@ -20,6 +20,11 @@
                 </div>
             @endif
             <div class="bg-gradient-to-r from-kidical-green to-kidical-blue p-8">
+                <div class="mb-3">
+                    <span class="px-3 py-1 {{ $activity->activity_type->badgeClasses() }} text-sm font-semibold rounded-full">
+                        {{ $activity->activity_type->label() }}
+                    </span>
+                </div>
                 <h1 class="text-4xl font-bold text-white mb-6">
                     <x-bike-icon class="w-10 h-10 inline-block mr-2" />
                     {{ $activity->title_nl }}

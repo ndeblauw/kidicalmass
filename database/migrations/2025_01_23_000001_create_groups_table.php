@@ -10,16 +10,13 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+
             $table->string('shortname')->unique();
             $table->string('name');
             $table->string('zip')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('groups')->onDelete('cascade');
+
             $table->timestamps();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('groups');
     }
 };
