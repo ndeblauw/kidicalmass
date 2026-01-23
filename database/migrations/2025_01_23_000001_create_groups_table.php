@@ -14,7 +14,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('zip')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('groups')->onDelete('cascade');
-            $table->timestamps();
+            $table->date('created_at')->nullable();
+            $table->date('ended_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
