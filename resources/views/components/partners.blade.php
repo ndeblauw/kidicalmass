@@ -19,7 +19,6 @@
 
         <!-- Partner Logos Grid -->
         <div class="grid grid-cols-8 gap-6 md:gap-8">
-            @ray($partners)
             @foreach($partners as $partner)
                 @php
                     $logo = $partner->getFirstMediaUrl('logo');

@@ -26,16 +26,8 @@ return new class extends Migration
         });
 
         Schema::create('activity_group', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('activity_id')->constrained()->onDelete('cascade');
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('activity_group');
-        Schema::dropIfExists('activities');
     }
 };
