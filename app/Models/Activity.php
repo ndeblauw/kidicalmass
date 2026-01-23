@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ActivityType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,7 @@ class Activity extends Model implements HasMedia
         return [
             'begin_date' => 'datetime',
             'end_date' => 'datetime',
+            'activity_type' => ActivityType::class,
         ];
     }
 

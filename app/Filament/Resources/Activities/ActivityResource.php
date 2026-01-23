@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Activities;
 
+use App\Enums\ActivityType;
 use App\Filament\Resources\Activities\Pages\ManageActivities;
 use App\Models\Activity;
 use BackedEnum;
@@ -50,6 +51,11 @@ class ActivityResource extends Resource
                     ->required()
                     ->rows(5)
                     ->label('Content (FR)'),
+                Select::make('activity_type')
+                    ->required()
+                    ->options(ActivityType::getOptionsArray())
+                    ->default(ActivityType::KIDICALMASS->value)
+                    ->label('Activity Type'),
                 DateTimePicker::make('begin_date')
                     ->required()
                     ->label('Begin Date'),
@@ -114,6 +120,12 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->label('Title (FR)')
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('activity_type')
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => $state->label())
+                    ->color(fn ($state) => $state->badgeColor())
+                    ->sortable()
+                    ->label('Type'),
                 TextColumn::make('begin_date')
                     ->dateTime()
                     ->sortable()
@@ -144,6 +156,9 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('activity_type')
+                    ->options(ActivityType::getOptionsArray())
+                    ->label('Activity Type'),
                 SelectFilter::make('author')
                     ->relationship('author', 'name')
                     ->searchable()
