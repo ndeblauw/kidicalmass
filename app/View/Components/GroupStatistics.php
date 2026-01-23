@@ -17,17 +17,16 @@ class GroupStatistics extends Component
 
     private function calculateStatistics(): array
     {
-        $stats = Group::query()
+        // Get all groups with created_at dates
+        $groups = Group::query()
             ->whereNotNull('created_at')
-            ->select(
-                DB::raw('YEAR(created_at) as year'),
-                DB::raw('COUNT(*) as count')
-            )
-            ->groupBy('year')
-            ->orderBy('year')
-            ->get()
-            ->pluck('count', 'year')
-            ->toArray();
+            ->orderBy('created_at')
+            ->get();
+
+        // Group by year and count
+        $stats = $groups->groupBy(function ($group) {
+            return $group->created_at->format('Y');
+        })->map->count();
 
         // Calculate cumulative totals
         $cumulative = [];
