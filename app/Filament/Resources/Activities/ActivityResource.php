@@ -10,14 +10,14 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -72,7 +72,7 @@ class ActivityResource extends Resource
                     ->multiple()
                     ->preload()
                     ->searchable(),
-                FileUpload::make('main')
+                SpatieMediaLibraryFileUpload::make('main')
                     ->label('Main Image')
                     ->image()
                     ->imageEditor()
@@ -84,7 +84,7 @@ class ActivityResource extends Resource
                     ->disk('media')
                     ->collection('main')
                     ->helperText('This image will be used in the card preview on the activities index page.'),
-                FileUpload::make('gallery')
+                SpatieMediaLibraryFileUpload::make('gallery')
                     ->label('Additional Images')
                     ->image()
                     ->multiple()
@@ -99,7 +99,7 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('main')
+                SpatieMediaLibraryImageColumn::make('main')
                     ->label('Image')
                     ->disk('media')
                     ->collection('main')
