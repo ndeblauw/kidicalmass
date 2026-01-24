@@ -43,18 +43,17 @@ class PartnerFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Partner $partner) {
-            $this->attachLogo($partner);
+            $this->attachImage($partner);
         });
     }
 
-    protected function attachLogo(Partner $partner): void
+    protected function attachImage(Partner $partner): void
     {
-        $this->attachMediaFromCache(
+        $this->attachSingleMediaFor(
             $partner,
             'logo',
             fn (int $count) => MediaSeeder::ensureImages($count),
             5,
-            0,
             'logos'
         );
     }

@@ -37,22 +37,14 @@ class ArticleFactory extends Factory
 
     protected function attachImages(Article $article): void
     {
-        $this->attachMediaFromCache(
+        $this->attachImagesFor(
             $article,
-            'main',
-            fn (int $count) => MediaSeeder::ensureImages($count),
-            5,
-            0,
-            'images'
-        );
-
-        $this->attachMediaFromCache(
-            $article,
-            'gallery',
             fn (int $count) => MediaSeeder::ensureImages($count),
             5,
             3,
-            'images'
+            'images',
+            'main',
+            'gallery'
         );
     }
 }

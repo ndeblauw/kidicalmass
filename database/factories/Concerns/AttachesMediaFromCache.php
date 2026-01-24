@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
+
 trait AttachesMediaFromCache
 {
     protected static array $mediaCache = [];
@@ -10,7 +12,7 @@ trait AttachesMediaFromCache
      * @param  callable(int):array  $downloader
      */
     protected function attachMediaFromCache(
-        mixed $model,
+        Model $model,
         string $collection,
         callable $downloader,
         int $downloadCount,
@@ -50,5 +52,52 @@ trait AttachesMediaFromCache
             } catch (\Exception $e) {
             }
         }
+    }
+
+    protected function attachImagesFor(
+        Model $model,
+        callable $downloader,
+        int $downloadCount,
+        int $galleryMax = 0,
+        string $cacheKey = 'images',
+        string $mainCollection = 'main',
+        string $galleryCollection = 'gallery'
+    ): void {
+        $this->attachMediaFromCache(
+            $model,
+            $mainCollection,
+            $downloader,
+            $downloadCount,
+            0,
+            $cacheKey
+        );
+
+        if ($galleryMax > 0) {
+            $this->attachMediaFromCache(
+                $model,
+                $galleryCollection,
+                $downloader,
+                $downloadCount,
+                $galleryMax,
+                $cacheKey
+            );
+        }
+    }
+
+    protected function attachSingleMediaFor(
+        Model $model,
+        string $collection,
+        callable $downloader,
+        int $downloadCount,
+        string $cacheKey
+    ): void {
+        $this->attachMediaFromCache(
+            $model,
+            $collection,
+            $downloader,
+            $downloadCount,
+            0,
+            $cacheKey
+        );
     }
 }
