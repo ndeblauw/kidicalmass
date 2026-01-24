@@ -16,16 +16,13 @@ trait AttachesMediaFromCache
         string $collection,
         callable $downloader,
         int $downloadCount,
-        int $galleryMax = 0,
-        ?string $cacheKey = null
+        int $galleryMax = 0
     ): void {
-        $cacheKey ??= $collection;
-
-        if (empty(static::$mediaCache[$cacheKey] ?? [])) {
-            static::$mediaCache[$cacheKey] = $downloader($downloadCount);
+        if (empty(static::$mediaCache[$collection] ?? [])) {
+            static::$mediaCache[$collection] = $downloader($downloadCount);
         }
 
-        $pool = static::$mediaCache[$cacheKey] ?? [];
+        $pool = static::$mediaCache[$collection] ?? [];
 
         if (empty($pool)) {
             return;
@@ -54,50 +51,34 @@ trait AttachesMediaFromCache
         }
     }
 
-    protected function attachImagesFor(
-        Model $model,
-        callable $downloader,
-        int $downloadCount,
-        int $galleryMax = 0,
-        string $cacheKey = 'images',
-        string $mainCollection = 'main',
-        string $galleryCollection = 'gallery'
-    ): void {
-        $this->attachMediaFromCache(
-            $model,
-            $mainCollection,
-            $downloader,
-            $downloadCount,
-            0,
-            $cacheKey
-        );
-
-        if ($galleryMax > 0) {
-            $this->attachMediaFromCache(
-                $model,
-                $galleryCollection,
-                $downloader,
-                $downloadCount,
-                $galleryMax,
-                $cacheKey
-            );
-        }
-    }
-
-    protected function attachSingleMediaFor(
+    protected function attachMultipleMediaFor(
         Model $model,
         string $collection,
         callable $downloader,
         int $downloadCount,
-        string $cacheKey
+        int $maxAdditional = 0
     ): void {
         $this->attachMediaFromCache(
             $model,
             $collection,
             $downloader,
             $downloadCount,
-            0,
-            $cacheKey
+            $maxAdditional
+        );
+    }
+
+    protected function attachSingleMediaFor(
+        Model $model,
+        string $collection,
+        callable $downloader,
+        int $downloadCount
+    ): void {
+        $this->attachMediaFromCache(
+            $model,
+            $collection,
+            $downloader,
+            $downloadCount,
+            0
         );
     }
 }

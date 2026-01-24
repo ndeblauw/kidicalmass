@@ -53,8 +53,7 @@ class PartnerFactory extends Factory
             $partner,
             'logo',
             fn (int $count) => MediaSeeder::ensureImages($count),
-            5,
-            'logos'
+            5
         );
     }
 }
