@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
 
 /**
@@ -12,9 +13,9 @@ use Database\Seeders\MediaSeeder;
  */
 class ArticleFactory extends Factory
 {
-    protected $model = Article::class;
+    use AttachesMediaFromCache;
 
-    protected static $imageCache = [];
+    protected $model = Article::class;
 
     public function definition(): array
     {
@@ -36,27 +37,22 @@ class ArticleFactory extends Factory
 
     protected function attachImages(Article $article): void
     {
-        if (empty(static::$imageCache)) {
-            static::$imageCache = MediaSeeder::ensureImages(5);
-        }
+        $this->attachMediaFromCache(
+            $article,
+            'main',
+            fn (int $count) => MediaSeeder::ensureImages($count),
+            5,
+            0,
+            'images'
+        );
 
-        if (empty(static::$imageCache)) {
-            return;
-        }
-
-        $mainImage = static::$imageCache[array_rand(static::$imageCache)];
-        try {
-            $article->addMedia($mainImage)->preservingOriginal()->toMediaCollection('main');
-        } catch (\Exception $e) {
-        }
-
-        $galleryCount = rand(0, 3);
-        for ($i = 0; $i < $galleryCount; $i++) {
-            $galleryImage = static::$imageCache[array_rand(static::$imageCache)];
-            try {
-                $article->addMedia($galleryImage)->toMediaCollection('gallery');
-            } catch (\Exception $e) {
-            }
-        }
+        $this->attachMediaFromCache(
+            $article,
+            'gallery',
+            fn (int $count) => MediaSeeder::ensureImages($count),
+            5,
+            3,
+            'images'
+        );
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Group;
 use App\Models\Partner;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
 
 /**
@@ -12,16 +13,16 @@ use Database\Seeders\MediaSeeder;
  */
 class PartnerFactory extends Factory
 {
-    protected $model = Partner::class;
+    use AttachesMediaFromCache;
 
-    protected static $logoCache = [];
+    protected $model = Partner::class;
 
     public function definition(): array
     {
         $companyNames = [
-            'Cyclo', 'Farm', 'MonkeyDonkey', 'GRC', 'Ride', 'REM Brussel', 
+            'Cyclo', 'Farm', 'MonkeyDonkey', 'GRC', 'Ride', 'REM Brussel',
             'Citizens Action', 'Heroes for Zero', 'Kids Beschik', 'Ketje',
-            'Pro Velo', 'My Kids Bikes', 'Velokanik', 'Fiets FEB', 
+            'Pro Velo', 'My Kids Bikes', 'Velokanik', 'Fiets FEB',
             'EUCyclo', 'Velophil', 'Angel of Care', 'Gracy',
             'Fietsersbond', 'Bike4Brussels', 'Brussels Mobiliteit'
         ];
@@ -48,18 +49,13 @@ class PartnerFactory extends Factory
 
     protected function attachLogo(Partner $partner): void
     {
-        if (empty(static::$logoCache)) {
-            static::$logoCache = MediaSeeder::ensureLogos(5);
-        }
-
-        if (empty(static::$logoCache)) {
-            return;
-        }
-
-        $logo = static::$logoCache[array_rand(static::$logoCache)];
-        try {
-            $partner->addMedia($logo)->toMediaCollection('logo');
-        } catch (\Exception $e) {
-        }
+        $this->attachMediaFromCache(
+            $partner,
+            'logo',
+            fn (int $count) => MediaSeeder::ensureImages($count),
+            5,
+            0,
+            'logos'
+        );
     }
 }

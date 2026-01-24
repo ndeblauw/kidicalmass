@@ -10,7 +10,6 @@ use App\Models\Partner;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\MediaSeeder;
 use Symfony\Component\Console\Terminal;
 
 class DatabaseSeeder extends Seeder
@@ -23,13 +22,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(MediaSeeder::class);
 
-        // Seed groups first
-        $groupSeeder = app(GroupSeeder::class);
-        $groupSeeder->setContainer($this->container);
-        $groupSeeder->setCommand($this->command);
-        $groupSeeder->run();
-        $this->allGroups = $groupSeeder->getAllGroups();
-        $this->mainGroups = $groupSeeder->getMainGroups();
+        $this->call(GroupSeeder::class);
+        $this->allGroups = Group::all();
+        $this->mainGroups = Group::whereNull('zip')->get();
 
         $this->seedUsers();
         $this->seedArticles();
@@ -38,67 +33,59 @@ class DatabaseSeeder extends Seeder
         $this->seedPartners();
 
         $this->command->newLine();
-        $this->task('Cleanup temporary media', function () {
+        $this->task('Cleanup temporary media (if requested)', function () {
             MediaSeeder::cleanup();
         });
     }
 
     private function seedUsers(): void
     {
-        $this->command->line('Seeding users...');
+        $this->task('Seeding users', function () {
 
-        User::create([
-            'name' => 'Nico Deblauwe',
-            'email' => 'nico@deblauwe.be',
-            'password' => '$2y$12$caY7UhzzouF4BRc7rxg1eOndYSP1VhBWrgU6UxZ9cN7QhIel6DKHa',
-        ]);
+            User::create([
+                'name' => 'Nico Deblauwe',
+                'email' => 'nico@deblauwe.be',
+                'password' => '$2y$12$caY7UhzzouF4BRc7rxg1eOndYSP1VhBWrgU6UxZ9cN7QhIel6DKHa',
+            ]);
 
-        $this->allGroups->each(function (Group $group) {
-            $userCount = rand(1, 3);
-            User::factory($userCount)->create()->each(function (User $user) use ($group) {
-                $user->groups()->attach($group->id);
+            $this->allGroups->each(function (Group $group) {
+                $userCount = rand(1, 3);
+                User::factory($userCount)->create()->each(function (User $user) use ($group) {
+                    $user->groups()->attach($group->id);
+                });
             });
-        });
 
-        $this->command->line('<info>✓</info> Users seeded successfully');
+        });
     }
 
     private function seedArticles(int $nr = 40): void
     {
-        $this->command->line('Seeding articles...');
+        $this->task('Seeding articles', function () use ($nr) {
 
-        $bar = $this->command->getOutput()->createProgressBar($nr);
-        $bar->start();
+            foreach (range(1, $nr) as $i) {
+                $groups = ($i <= 15)
+                    ? [$this->mainGroups->random()->id]
+                    : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
 
-        foreach (range(1, $nr) as $i) {
-            $groups = ($i <= 15)
-                ? [$this->mainGroups->random()->id]
-                : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
+                Article::factory()->create()->groups()->attach($groups);
+            }
 
-            Article::factory()->create()->groups()->attach($groups);
-            $bar->advance();
-        }
-
-        $bar->finish();
-        $this->command->newLine();
+        });
     }
 
     private function seedActivities(int $nr = 30): void
     {
-        $bar = $this->command->getOutput()->createProgressBar($nr);
-        $bar->start();
+        $this->task('Seeding activities', function () use ($nr) {
 
-        foreach (range(1, $nr) as $i) {
-            $groups = ($i <= 15)
-                ? [$this->mainGroups->random()->id]
-                : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
+            foreach (range(1, $nr) as $i) {
+                $groups = ($i <= 15)
+                    ? [$this->mainGroups->random()->id]
+                    : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
 
-            Activity::factory()->create()->groups()->attach($groups);
-            $bar->advance();
-        }
+                Activity::factory()->create()->groups()->attach($groups);
+            }
 
-        $bar->finish();
-        $this->command->newLine();
+        });
     }
 
     private function seedContactForms(): void
@@ -112,12 +99,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->task('Seeding partners', function () {
 
-            // Create partners
             $groups = Group::inRandomOrder()->take(5)->get();
             foreach (range(1, 15) as $i) {
-                Partner::factory()->create([
-                    'group_id' => $groups->random()->id,
-                ]);
+                Partner::factory()->create(['group_id' => $groups->random()->id]);
             }
         });
     }
@@ -126,7 +110,7 @@ class DatabaseSeeder extends Seeder
     {
         $output = $this->command->getOutput();
 
-        $terminalWidth = (new Terminal)->getWidth() - 2 ?: 80;
+        $terminalWidth = (new Terminal)->getWidth() - 3 ?: 80;
 
         $minDots = 3;
 
@@ -135,14 +119,15 @@ class DatabaseSeeder extends Seeder
 
         $dots = max($minDots, $terminalWidth - $labelLen - $statusLen) - 2;
 
-        $output->write('  '.$label);
+        $output->write('  '.$label.' ');
+        $output->write('<fg=gray>');
         $output->write(str_repeat('.', $dots));
 
         try {
             $callback();
-            $output->writeln('. <info>DONE</info>');
+            $output->writeln('. </><fg=green>DONE</fg=green>');
         } catch (\Throwable $e) {
-            $output->writeln(' <error>ERROR</error>');
+            $output->writeln(' </><error>ERROR</error>');
             throw $e;
         }
 

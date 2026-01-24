@@ -11,7 +11,6 @@ class MediaSeeder extends Seeder
     public function run(): void
     {
         static::ensureImages(40);
-        static::ensureLogos(40);
     }
 
     public static function ensureImages(int $count): array
@@ -24,20 +23,9 @@ class MediaSeeder extends Seeder
         );
     }
 
-    public static function ensureLogos(int $count): array
-    {
-        return static::downloadBatch(
-            $count,
-            storage_path('app/temp-logos'),
-            'logo',
-            fn (int $index): string => "https://picsum.photos/400/200?random=logo-{$index}"
-        );
-    }
-
     public static function cleanup(): void
     {
-        File::deleteDirectory(storage_path('app/temp-images'));
-        File::deleteDirectory(storage_path('app/temp-logos'));
+        //File::deleteDirectory(storage_path('app/temp-images'));
     }
 
     private static function downloadBatch(int $count, string $directory, string $prefix, callable $urlResolver): array

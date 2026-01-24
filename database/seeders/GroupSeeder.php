@@ -13,14 +13,11 @@ class GroupSeeder extends Seeder
 
     public function run(): void
     {
-        $this->info('Seeding group hierarchy...');
         $this->createGroupHierarchy();
-        $this->info('✓ Group hierarchy seeded successfully');
     }
 
     private function createGroupHierarchy(): void
     {
-        $this->info('  Creating Belgium...');
         $belgium = Group::create([
             'shortname' => 'belgium',
             'name' => 'Belgium',
@@ -36,7 +33,6 @@ class GroupSeeder extends Seeder
         ];
 
         $regionGroups = [];
-        $this->info('  Creating regional groups...');
         foreach ($regions as $region) {
             $regionGroups[$region['shortname']] = Group::create([
                 'shortname' => $region['shortname'],
@@ -76,7 +72,6 @@ class GroupSeeder extends Seeder
         $this->allGroups = collect([$belgium]);
         $this->mainGroups = collect($regionGroups);
 
-        $this->info('  Creating subgroups...');
         foreach ($regionGroups as $regionShortname => $regionGroup) {
             $availableSubgroups = $subgroupData[$regionShortname];
             $subgroupCount = rand(1, 5);

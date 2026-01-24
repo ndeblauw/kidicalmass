@@ -6,6 +6,7 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
 
 /**
@@ -13,9 +14,9 @@ use Database\Seeders\MediaSeeder;
  */
 class ActivityFactory extends Factory
 {
-    protected $model = Activity::class;
+    use AttachesMediaFromCache;
 
-    protected static $imageCache = [];
+    protected $model = Activity::class;
 
     public function definition(): array
     {
@@ -44,27 +45,22 @@ class ActivityFactory extends Factory
 
     protected function attachImages(Activity $activity): void
     {
-        if (empty(static::$imageCache)) {
-            static::$imageCache = MediaSeeder::ensureImages(5);
-        }
+        $this->attachMediaFromCache(
+            $activity,
+            'main',
+            fn (int $count) => MediaSeeder::ensureImages($count),
+            5,
+            0,
+            'images'
+        );
 
-        if (empty(static::$imageCache)) {
-            return;
-        }
-
-        $mainImage = static::$imageCache[array_rand(static::$imageCache)];
-        try {
-            $activity->addMedia($mainImage)->preservingOriginal()->toMediaCollection('main');
-        } catch (\Exception $e) {
-        }
-
-        $galleryCount = rand(0, 3);
-        for ($i = 0; $i < $galleryCount; $i++) {
-            $galleryImage = static::$imageCache[array_rand(static::$imageCache)];
-            try {
-                $activity->addMedia($galleryImage)->toMediaCollection('gallery');
-            } catch (\Exception $e) {
-            }
-        }
+        $this->attachMediaFromCache(
+            $activity,
+            'gallery',
+            fn (int $count) => MediaSeeder::ensureImages($count),
+            5,
+            3,
+            'images'
+        );
     }
 }
