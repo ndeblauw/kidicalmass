@@ -114,16 +114,4 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Communications Email
-    |--------------------------------------------------------------------------
-    |
-    | Email address where contact form submissions should be sent.
-    |
-    */
-
-    'communications_email' => env('MAIL_COMMUNICATIONS_ADDRESS', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
-
 ];

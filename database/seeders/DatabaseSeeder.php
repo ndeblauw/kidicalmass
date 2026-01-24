@@ -163,13 +163,13 @@ class DatabaseSeeder extends Seeder
         ContactForm::factory(10)->create();
     }
 
-  private function seedPartners()
+    private function seedPartners()
     {
         // Create partners
         $groups = Group::inRandomOrder()->take(5)->get();
         foreach (range(1, 15) as $i) {
             Partner::factory()->create([
-                'group_id' => $groups[array_rand($groups)]->id,
+                'group_id' => $groups->random()->id,
             ]);
         }
     }

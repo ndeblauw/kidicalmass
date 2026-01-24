@@ -13,7 +13,7 @@ class ContactFormComponent extends Component
     #[Validate('required|string|max:255')]
     public string $name = '';
 
-    #[Validate('required|email|max:255')]
+    #[Validate('required|email:rfc,dns,spoof|min:5|max:255')]
     public string $email = '';
 
     #[Validate('required|string|max:5000')]
@@ -24,8 +24,7 @@ class ContactFormComponent extends Component
 
     public string $page_url = '';
 
-    // Honeypot field - should remain empty
-    #[Validate('max:0')]
+    #[Validate('max:0')] // Honeypot field - should remain empty
     public string $website = '';
 
     public bool $submitted = false;
@@ -40,10 +39,11 @@ class ContactFormComponent extends Component
         $this->validate();
 
         // Check honeypot - if filled, it's likely spam
-        if (!empty($this->website)) {
+        if (! empty($this->website)) {
             // Pretend it was successful but don't save
             $this->submitted = true;
             $this->reset(['name', 'email', 'message', 'phone', 'website']);
+
             return;
         }
 
@@ -59,11 +59,11 @@ class ContactFormComponent extends Component
 
         // Send email notification
         try {
-            Mail::to(config('mail.communications_email', config('mail.from.address')))
+            Mail::to(config('kidicalmass.email.communications'))
                 ->send(new ContactFormSubmitted($contactForm));
         } catch (\Exception $e) {
             // Log error but don't fail the submission
-            logger()->error('Failed to send contact form email: ' . $e->getMessage());
+            logger()->error('Failed to send contact form email: '.$e->getMessage());
         }
 
         $this->submitted = true;

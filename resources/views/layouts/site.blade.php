@@ -21,48 +21,10 @@
         <livewire:contact-form-component />
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-kidical-blue text-white mt-16">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <!-- About -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4 flex items-center">
-                        <x-bike-icon class="w-5 h-5 mr-2" />
-                        Kidical Mass Belgium
-                    </h3>
-                    <p class="text-white/80 text-sm">
-                        Safe, fun, and accessible cycling for families and children. Join us in creating a better future for our cities!
-                    </p>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-bold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('home') }}" class="text-white/80 hover:text-kidical-yellow transition-colors">Home</a></li>
-                        <li><a href="{{ route('groups.index') }}" class="text-white/80 hover:text-kidical-yellow transition-colors">Groups</a></li>
-                        <li><a href="{{ route('articles.index') }}" class="text-white/80 hover:text-kidical-yellow transition-colors">Articles</a></li>
-                        <li><a href="{{ route('activities.index') }}" class="text-white/80 hover:text-kidical-yellow transition-colors">Activities</a></li>
-                    </ul>
-                </div>
-
-                <!-- Get Involved -->
-                <div>
-                    <h4 class="font-bold mb-4">Get Involved</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="text-white/80 hover:text-kidical-yellow transition-colors">Join a Group</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-kidical-yellow transition-colors">Organize an Event</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-kidical-yellow transition-colors">Volunteer</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-kidical-yellow transition-colors">Donate</a></li>
-                    </ul>
-                </div>
-
     <!-- Partners/Sponsors Section -->
     <x-partners />
 
     <x-layouts::site.footer />
-
 
     <!-- Mobile Menu Toggle Script -->
     <script>
