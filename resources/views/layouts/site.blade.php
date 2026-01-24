@@ -15,11 +15,16 @@
         {{ $slot }}
     </main>
 
+
+    <!-- Contact Form Section -->
+    <section class="container mx-auto px-4 py-12">
+        <livewire:contact-form-component />
+    </section>
+
     <!-- Partners/Sponsors Section -->
     <x-partners />
 
     <x-layouts::site.footer />
-
 
     <!-- Mobile Menu Toggle Script -->
     <script>
