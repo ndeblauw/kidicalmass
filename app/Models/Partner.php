@@ -2,30 +2,24 @@
 
 namespace App\Models;
 
-use App\Enums\ActivityType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Activity extends Model implements HasMedia
+class Partner extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
 
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return [
-            'begin_date' => 'datetime',
-            'end_date' => 'datetime',
-            'activity_type' => ActivityType::class,
-        ];
-    }
+    protected $casts = [
+        'show_logo' => 'boolean',
+        'visible' => 'boolean',
+    ];
 
     public function registerMediaConversions(?Media $media = null): void
     {
@@ -36,35 +30,23 @@ class Activity extends Model implements HasMedia
             ->sharpen(10);
 
         $this
-            ->addMediaConversion('card')
-            ->width(400)
-            ->height(300)
+            ->addMediaConversion('partner')
+            ->height(80)
             ->sharpen(10);
     }
 
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection('main')
+            ->addMediaCollection('logo')
             ->singleFile()
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
-
-        $this
-            ->addMediaCollection('gallery')
-            ->registerMediaConversions(function (Media $media) {
-                $this->registerMediaConversions($media);
-            });
     }
 
-    public function author(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
-    }
-
-    public function groups(): BelongsToMany
-    {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsTo(Group::class);
     }
 }

@@ -22,6 +22,11 @@
                         <h3 class="text-xl font-bold text-kidical-blue mb-3 hover:text-kidical-orange transition-colors">
                             <a href="{{ route('activities.show', $activity) }}">{{ $activity->title_nl }}</a>
                         </h3>
+                        <div class="mb-3">
+                            <span class="px-2 py-1 {{ $activity->activity_type->badgeClasses() }} text-xs font-semibold rounded-full">
+                                {{ $activity->activity_type->label() }}
+                            </span>
+                        </div>
                         <div class="space-y-2 mb-4">
                             <div class="flex items-center text-sm text-gray-700">
                                 <svg class="w-4 h-4 mr-2 text-kidical-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">

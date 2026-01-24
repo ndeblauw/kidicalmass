@@ -102,5 +102,13 @@ class TestDataSeeder extends Seeder
             'author_id' => $user1->id,
         ]);
         $activity3->groups()->attach([$groupA->id, $groupC->id]);
+
+        // Create partners
+        $groups = [$groupA, $groupB, $groupC];
+        foreach (range(1, 15) as $i) {
+            \App\Models\Partner::factory()->create([
+                'group_id' => $groups[array_rand($groups)]->id,
+            ]);
+        }
     }
 }
