@@ -49,11 +49,8 @@ class PartnerFactory extends Factory
 
     protected function attachImage(Partner $partner): void
     {
-        $this->attachSingleMediaFor(
-            $partner,
-            'logo',
-            fn (int $count) => MediaSeeder::ensureImages($count),
-            5
-        );
+        $this->primeMediaCache('images', fn () => MediaSeeder::ensureImages(5));
+
+        $this->attachSingleMedia($partner, 'logo', 'images');
     }
 }

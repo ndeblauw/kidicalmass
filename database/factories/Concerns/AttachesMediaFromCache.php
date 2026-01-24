@@ -8,77 +8,51 @@ trait AttachesMediaFromCache
 {
     protected static array $mediaCache = [];
 
-    /**
-     * @param  callable(int):array  $downloader
-     */
-    protected function attachMediaFromCache(
-        Model $model,
-        string $collection,
-        callable $downloader,
-        int $downloadCount,
-        int $galleryMax = 0
-    ): void {
-        if (empty(static::$mediaCache[$collection] ?? [])) {
-            static::$mediaCache[$collection] = $downloader($downloadCount);
+    protected function primeMediaCache(string $cacheKey, callable $loader): void
+    {
+        if (empty(static::$mediaCache[$cacheKey] ?? [])) {
+            static::$mediaCache[$cacheKey] = $loader();
         }
+    }
 
-        $pool = static::$mediaCache[$collection] ?? [];
+    protected function attachSingleMedia(Model $model, string $collection, string $cacheKey = 'media'): void
+    {
+        $pool = static::$mediaCache[$cacheKey] ?? [];
 
         if (empty($pool)) {
             return;
         }
 
-        $mainImage = $pool[array_rand($pool)];
+        $mediaPath = $pool[array_rand($pool)];
 
         try {
-            $model->addMedia($mainImage)->preservingOriginal()->toMediaCollection($collection);
+            $model->addMedia($mediaPath)->preservingOriginal()->toMediaCollection($collection);
         } catch (\Exception $e) {
         }
+    }
 
-        if ($galleryMax <= 0) {
+    protected function attachMultipleMedia(
+        Model $model,
+        string $collection,
+        int $min = 0,
+        int $max = 5,
+        string $cacheKey = 'media'
+    ): void {
+        $pool = static::$mediaCache[$cacheKey] ?? [];
+
+        if (empty($pool)) {
             return;
         }
 
-        $galleryCount = rand(0, $galleryMax);
+        $count = $max < $min ? 0 : rand($min, $max);
 
-        for ($i = 0; $i < $galleryCount; $i++) {
-            $galleryImage = $pool[array_rand($pool)];
+        for ($i = 0; $i < $count; $i++) {
+            $mediaPath = $pool[array_rand($pool)];
 
             try {
-                $model->addMedia($galleryImage)->preservingOriginal()->toMediaCollection($collection);
+                $model->addMedia($mediaPath)->preservingOriginal()->toMediaCollection($collection);
             } catch (\Exception $e) {
             }
         }
-    }
-
-    protected function attachMultipleMediaFor(
-        Model $model,
-        string $collection,
-        callable $downloader,
-        int $downloadCount,
-        int $maxAdditional = 0
-    ): void {
-        $this->attachMediaFromCache(
-            $model,
-            $collection,
-            $downloader,
-            $downloadCount,
-            $maxAdditional
-        );
-    }
-
-    protected function attachSingleMediaFor(
-        Model $model,
-        string $collection,
-        callable $downloader,
-        int $downloadCount
-    ): void {
-        $this->attachMediaFromCache(
-            $model,
-            $collection,
-            $downloader,
-            $downloadCount,
-            0
-        );
     }
 }

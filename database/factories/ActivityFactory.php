@@ -45,9 +45,9 @@ class ActivityFactory extends Factory
 
     protected function attachImages(Activity $activity): void
     {
-        $downloader = fn (int $count) => MediaSeeder::ensureImages($count);
+        $this->primeMediaCache('images', fn () => MediaSeeder::ensureImages(5));
 
-        $this->attachSingleMediaFor($activity, 'main', $downloader, 5);
-        $this->attachMultipleMediaFor($activity, 'gallery', $downloader, 5, 3);
+        $this->attachSingleMedia($activity, 'main', 'images');
+        $this->attachMultipleMedia($activity, 'gallery', 0, 3, 'images');
     }
 }

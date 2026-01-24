@@ -110,7 +110,7 @@ class DatabaseSeeder extends Seeder
     {
         $output = $this->command->getOutput();
 
-        $terminalWidth = (new Terminal)->getWidth() - 3 ?: 80;
+        $terminalWidth = min(150, (new Terminal)->getWidth()) - 3 ?: 80;
 
         $minDots = 3;
 
