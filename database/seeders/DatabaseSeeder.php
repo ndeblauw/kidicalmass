@@ -10,6 +10,7 @@ use App\Models\Partner;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\MediaSeeder;
 use Symfony\Component\Console\Terminal;
 
 class DatabaseSeeder extends Seeder
@@ -20,23 +21,25 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->command->info('Starting database seeding...');
+        $this->call(MediaSeeder::class);
 
         // Seed groups first
-        $groupSeeder = new GroupSeeder;
+        $groupSeeder = app(GroupSeeder::class);
+        $groupSeeder->setContainer($this->container);
+        $groupSeeder->setCommand($this->command);
         $groupSeeder->run();
         $this->allGroups = $groupSeeder->getAllGroups();
         $this->mainGroups = $groupSeeder->getMainGroups();
 
-        // $this->seedUsers();
-        // $this->seedArticles();
-        // $this->seedActivities();
+        $this->seedUsers();
+        $this->seedArticles();
+        $this->seedActivities();
         $this->seedContactForms();
         $this->seedPartners();
 
-        $this->task('Cleanup temporary images', function () {
-            \Database\Factories\ArticleFactory::cleanupTempImages();
-            \Database\Factories\ActivityFactory::cleanupTempImages();
+        $this->command->newLine();
+        $this->task('Cleanup temporary media', function () {
+            MediaSeeder::cleanup();
         });
     }
 
@@ -78,14 +81,10 @@ class DatabaseSeeder extends Seeder
 
         $bar->finish();
         $this->command->newLine();
-
-        $this->command->line('<info>✓</info> Articles seeded successfully');
     }
 
     private function seedActivities(int $nr = 30): void
     {
-        $this->command->line('Seeding activities...');
-
         $bar = $this->command->getOutput()->createProgressBar($nr);
         $bar->start();
 
@@ -100,8 +99,6 @@ class DatabaseSeeder extends Seeder
 
         $bar->finish();
         $this->command->newLine();
-
-        $this->command->line('<info>✓</info> Activities seeded successfully');
     }
 
     private function seedContactForms(): void

@@ -6,8 +6,7 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
+use Database\Seeders\MediaSeeder;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Activity>
@@ -17,8 +16,6 @@ class ActivityFactory extends Factory
     protected $model = Activity::class;
 
     protected static $imageCache = [];
-
-    protected static $imagesDownloaded = false;
 
     public function definition(): array
     {
@@ -47,84 +44,27 @@ class ActivityFactory extends Factory
 
     protected function attachImages(Activity $activity): void
     {
-        // Only download images once per seeding run
-        if (! static::$imagesDownloaded) {
-            $this->downloadAndCacheImages();
-            static::$imagesDownloaded = true;
+        if (empty(static::$imageCache)) {
+            static::$imageCache = MediaSeeder::ensureImages(5);
         }
 
-        // Attach a random main image
-        if (! empty(static::$imageCache)) {
-            $mainImage = static::$imageCache[array_rand(static::$imageCache)];
+        if (empty(static::$imageCache)) {
+            return;
+        }
+
+        $mainImage = static::$imageCache[array_rand(static::$imageCache)];
+        try {
+            $activity->addMedia($mainImage)->preservingOriginal()->toMediaCollection('main');
+        } catch (\Exception $e) {
+        }
+
+        $galleryCount = rand(0, 3);
+        for ($i = 0; $i < $galleryCount; $i++) {
+            $galleryImage = static::$imageCache[array_rand(static::$imageCache)];
             try {
-                $activity->addMedia($mainImage)->toMediaCollection('main');
+                $activity->addMedia($galleryImage)->toMediaCollection('gallery');
             } catch (\Exception $e) {
-                // Silently skip if image attachment fails
             }
-
-            // Randomly attach 0-3 gallery images
-            $galleryCount = rand(0, 3);
-            for ($i = 0; $i < $galleryCount; $i++) {
-                $galleryImage = static::$imageCache[array_rand(static::$imageCache)];
-                try {
-                    $activity->addMedia($galleryImage)->toMediaCollection('gallery');
-                } catch (\Exception $e) {
-                    // Silently skip if image attachment fails
-                }
-            }
-        }
-    }
-
-    protected function downloadAndCacheImages(): void
-    {
-        $tempDir = storage_path('app/temp-images');
-
-        // Check if we already have cached images
-        if (File::exists($tempDir)) {
-            $files = File::files($tempDir);
-            if (count($files) >= 20) {
-                static::$imageCache = $files;
-
-                return;
-            }
-        }
-
-        // Create temp directory
-        File::ensureDirectoryExists($tempDir);
-
-        // Download 20 images from Unsplash
-        $topics = ['cycling', 'bike', 'family', 'kids', 'outdoor'];
-        for ($i = 1; $i <= 20; $i++) {
-            $imagePath = $tempDir.'/image-'.$i.'.jpg';
-
-            if (! File::exists($imagePath)) {
-                try {
-                    $topic = $topics[array_rand($topics)];
-                    // Use Unsplash source with specific size and random seed
-                    $url = "https://picsum.photos/800/600?random={$i}";
-                    $response = Http::timeout(15)->get($url);
-
-                    if ($response->successful() && strlen($response->body()) > 1000) {
-                        File::put($imagePath, $response->body());
-                        static::$imageCache[] = $imagePath;
-                        // Small delay to avoid rate limiting
-                        usleep(500000); // 0.5 seconds
-                    }
-                } catch (\Exception $e) {
-                    // If download fails, skip this image
-                    continue;
-                }
-            } else {
-                static::$imageCache[] = $imagePath;
-            }
-        }
-    }
-
-    public static function cleanupTempImages(): void
-    {
-        $tempDir = storage_path('app/temp-images');
-        if (File::exists($tempDir)) {
-            File::deleteDirectory($tempDir);
         }
     }
 }
