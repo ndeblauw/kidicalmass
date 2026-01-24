@@ -10,6 +10,7 @@ use App\Models\Partner;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Console\Terminal;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,25 +20,30 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $this->command->info('Starting database seeding...');
+
         // Seed groups first
         $groupSeeder = new GroupSeeder;
         $groupSeeder->run();
         $this->allGroups = $groupSeeder->getAllGroups();
         $this->mainGroups = $groupSeeder->getMainGroups();
 
-        $this->seedUsers();
-        $this->seedArticles();
-        $this->seedActivities();
+        // $this->seedUsers();
+        // $this->seedArticles();
+        // $this->seedActivities();
         $this->seedContactForms();
         $this->seedPartners();
 
-        // Clean up temporary images
-        \Database\Factories\ArticleFactory::cleanupTempImages();
-        \Database\Factories\ActivityFactory::cleanupTempImages();
+        $this->task('Cleanup temporary images', function () {
+            \Database\Factories\ArticleFactory::cleanupTempImages();
+            \Database\Factories\ActivityFactory::cleanupTempImages();
+        });
     }
 
     private function seedUsers(): void
     {
+        $this->command->line('Seeding users...');
+
         User::create([
             'name' => 'Nico Deblauwe',
             'email' => 'nico@deblauwe.be',
@@ -50,61 +56,98 @@ class DatabaseSeeder extends Seeder
                 $user->groups()->attach($group->id);
             });
         });
+
+        $this->command->line('<info>✓</info> Users seeded successfully');
     }
 
-    private function seedArticles(): void
+    private function seedArticles(int $nr = 40): void
     {
-        $this->mainGroups->each(function (Group $group) {
-            $articleCount = rand(3, 8);
-            Article::factory($articleCount)->create()->each(function (Article $article) use ($group) {
-                $article->groups()->attach($group->id);
-            });
-        });
+        $this->command->line('Seeding articles...');
 
-        $subgroups = $this->allGroups->diff($this->mainGroups);
-        $selectedSubgroups = $subgroups->random(min(3, $subgroups->count()));
+        $bar = $this->command->getOutput()->createProgressBar($nr);
+        $bar->start();
 
-        $selectedSubgroups->each(function (Group $group) {
-            $articleCount = rand(1, 4);
-            Article::factory($articleCount)->create()->each(function (Article $article) use ($group) {
-                $article->groups()->attach($group->id);
-            });
-        });
+        foreach (range(1, $nr) as $i) {
+            $groups = ($i <= 15)
+                ? [$this->mainGroups->random()->id]
+                : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
+
+            Article::factory()->create()->groups()->attach($groups);
+            $bar->advance();
+        }
+
+        $bar->finish();
+        $this->command->newLine();
+
+        $this->command->line('<info>✓</info> Articles seeded successfully');
     }
 
-    private function seedActivities(): void
+    private function seedActivities(int $nr = 30): void
     {
-        $this->mainGroups->each(function (Group $group) {
-            $activityCount = rand(2, 6);
-            Activity::factory($activityCount)->create()->each(function (Activity $activity) use ($group) {
-                $activity->groups()->attach($group->id);
-            });
-        });
+        $this->command->line('Seeding activities...');
 
-        $subgroups = $this->allGroups->diff($this->mainGroups);
-        $selectedSubgroups = $subgroups->random(min(2, $subgroups->count()));
+        $bar = $this->command->getOutput()->createProgressBar($nr);
+        $bar->start();
 
-        $selectedSubgroups->each(function (Group $group) {
-            $activityCount = rand(1, 3);
-            Activity::factory($activityCount)->create()->each(function (Activity $activity) use ($group) {
-                $activity->groups()->attach($group->id);
-            });
-        });
+        foreach (range(1, $nr) as $i) {
+            $groups = ($i <= 15)
+                ? [$this->mainGroups->random()->id]
+                : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
+
+            Activity::factory()->create()->groups()->attach($groups);
+            $bar->advance();
+        }
+
+        $bar->finish();
+        $this->command->newLine();
+
+        $this->command->line('<info>✓</info> Activities seeded successfully');
     }
 
     private function seedContactForms(): void
     {
-        ContactForm::factory(10)->create();
+        $this->task('Seeding contact forms', function () {
+            ContactForm::factory(10)->create();
+        });
     }
 
     private function seedPartners()
     {
-        // Create partners
-        $groups = Group::inRandomOrder()->take(5)->get();
-        foreach (range(1, 15) as $i) {
-            Partner::factory()->create([
-                'group_id' => $groups->random()->id,
-            ]);
+        $this->task('Seeding partners', function () {
+
+            // Create partners
+            $groups = Group::inRandomOrder()->take(5)->get();
+            foreach (range(1, 15) as $i) {
+                Partner::factory()->create([
+                    'group_id' => $groups->random()->id,
+                ]);
+            }
+        });
+    }
+
+    protected function task(string $label, callable $callback): void
+    {
+        $output = $this->command->getOutput();
+
+        $terminalWidth = (new Terminal)->getWidth() - 2 ?: 80;
+
+        $minDots = 3;
+
+        $labelLen = mb_strlen($label);
+        $statusLen = 6;
+
+        $dots = max($minDots, $terminalWidth - $labelLen - $statusLen) - 2;
+
+        $output->write('  '.$label);
+        $output->write(str_repeat('.', $dots));
+
+        try {
+            $callback();
+            $output->writeln('. <info>DONE</info>');
+        } catch (\Throwable $e) {
+            $output->writeln(' <error>ERROR</error>');
+            throw $e;
         }
+
     }
 }
