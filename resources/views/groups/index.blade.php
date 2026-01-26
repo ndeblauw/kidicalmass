@@ -5,6 +5,9 @@
             <p class="text-lg text-gray-700">Find a Kidical Mass group near you</p>
         </div>
 
+        <!-- Group Statistics Component -->
+        <x-group-statistics />
+
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach($groups as $group)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border-t-4 border-kidical-blue">

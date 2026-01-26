@@ -14,6 +14,11 @@ class Group extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'started_at' => 'date',
+        'ended_at' => 'date',
+    ];
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Group::class, 'parent_id');
