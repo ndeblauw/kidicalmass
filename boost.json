@@ -2,12 +2,21 @@
     "agents": [
         "codex",
         "opencode",
-        "phpstorm"
+        "copilot"
     ],
-    "editors": [
-        "codex",
-        "opencode",
-        "phpstorm"
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "packages": [
+        "filament/filament",
+        "spatie/laravel-ray"
     ],
-    "guidelines": []
+    "sail": false,
+    "skills": [
+        "fluxui-development",
+        "livewire-development",
+        "pest-testing",
+        "tailwindcss-development",
+        "debugging-output-and-previewing-html-using-ray"
+    ]
 }
