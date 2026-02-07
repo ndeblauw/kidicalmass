@@ -14,7 +14,7 @@
                 </flux:tab.panel>
 
                 <flux:tab.panel name="activities">
-                    <div class="py-4">{{ __('Activities management coming soon...') }}</div>
+                    <livewire:dashboard.manage-activities />
                 </flux:tab.panel>
 
                 <flux:tab.panel name="groups">
