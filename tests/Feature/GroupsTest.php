@@ -48,18 +48,28 @@ test('visible scope filters invisible groups', function () {
 });
 
 test('groups index only shows visible groups', function () {
-    // Create visible groups
+    // Create a parent group (invisible)
+    $parent = Group::create([
+        'shortname' => 'parent',
+        'name' => 'Parent Group',
+        'invisible' => true,
+        'started_at' => now(),
+    ]);
+
+    // Create visible child groups
     Group::create([
         'shortname' => 'visible1',
         'name' => 'Visible Group 1',
+        'parent_id' => $parent->id,
         'invisible' => false,
         'started_at' => now(),
     ]);
 
-    // Create invisible groups
+    // Create invisible child groups
     Group::create([
         'shortname' => 'invisible1',
         'name' => 'Invisible Group 1',
+        'parent_id' => $parent->id,
         'invisible' => true,
         'started_at' => now(),
     ]);
@@ -69,6 +79,7 @@ test('groups index only shows visible groups', function () {
 
     $response->assertOk()
         ->assertSee('Visible Group 1')
+        ->assertSee('Part of:') // Parent name is shown but only as a reference
         ->assertDontSee('Invisible Group 1');
 });
 

@@ -10,7 +10,6 @@ class GroupController extends Controller
     {
         $groups = Group::visible()
             ->with(['parent', 'children'])
-            ->whereNull('parent_id')
             ->withCount(['articles', 'activities'])
             ->get();
 
