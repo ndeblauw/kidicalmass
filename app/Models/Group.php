@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,7 @@ class Group extends Model
     protected $casts = [
         'started_at' => 'date',
         'ended_at' => 'date',
+        'invisible' => 'boolean',
     ];
 
     public function parent(): BelongsTo
@@ -42,5 +44,10 @@ class Group extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function scopeVisible(Builder $query): void
+    {
+        $query->where('invisible', false);
     }
 }

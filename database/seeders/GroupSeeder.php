@@ -22,6 +22,7 @@ class GroupSeeder extends Seeder
             'shortname' => 'belgium',
             'name' => 'Belgium',
             'zip' => null,
+            'invisible' => true,
             'started_at' => $this->randomStartDate(),
             'ended_at' => $this->randomEndDate(),
         ]);
@@ -39,6 +40,7 @@ class GroupSeeder extends Seeder
                 'name' => $region['name'],
                 'zip' => $region['zip'],
                 'parent_id' => $belgium->id,
+                'invisible' => true,
                 'started_at' => $this->randomStartDate(),
                 'ended_at' => $this->randomEndDate(),
             ]);
