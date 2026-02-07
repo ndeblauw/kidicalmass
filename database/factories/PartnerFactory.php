@@ -4,9 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Group;
 use App\Models\Partner;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Partner>
@@ -24,7 +24,7 @@ class PartnerFactory extends Factory
             'Citizens Action', 'Heroes for Zero', 'Kids Beschik', 'Ketje',
             'Pro Velo', 'My Kids Bikes', 'Velokanik', 'Fiets FEB',
             'EUCyclo', 'Velophil', 'Angel of Care', 'Gracy',
-            'Fietsersbond', 'Bike4Brussels', 'Brussels Mobiliteit'
+            'Fietsersbond', 'Bike4Brussels', 'Brussels Mobiliteit',
         ];
 
         $name = $companyNames[array_rand($companyNames)] ?? fake()->company();

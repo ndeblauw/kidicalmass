@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Group;
+
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -77,6 +78,9 @@ test('invisible field defaults to false', function () {
         'name' => 'Test Group',
         'started_at' => now(),
     ]);
+
+    // Refresh to get the database default
+    $group->refresh();
 
     expect($group->invisible)->toBeFalse();
 });

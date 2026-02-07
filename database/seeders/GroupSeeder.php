@@ -98,6 +98,7 @@ class GroupSeeder extends Seeder
     private function randomStartDate(): ?string
     {
         $startDate = now()->subYears(rand(0, now()->year - 2021));
+
         return $startDate->format('Y-m-d');
     }
 
@@ -106,6 +107,7 @@ class GroupSeeder extends Seeder
         if (rand(1, 100) <= 5) {
             return now()->subDays(rand(1, 365))->format('Y-m-d');
         }
+
         return null;
     }
 
