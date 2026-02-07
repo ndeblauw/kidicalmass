@@ -18,7 +18,7 @@
                 </flux:tab.panel>
 
                 <flux:tab.panel name="groups">
-                    <div class="py-4">{{ __('Group management coming soon...') }}</div>
+                    <livewire:dashboard.manage-group />
                 </flux:tab.panel>
             </flux:tabs>
         @else
