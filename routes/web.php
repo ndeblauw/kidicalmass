@@ -12,4 +12,12 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Impersonation routes (authenticated users with Filament admin access)
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::post('impersonate/{user}', [\App\Http\Controllers\ImpersonateController::class, 'start'])
+        ->name('admin.impersonate.start');
+    Route::post('impersonate/stop', [\App\Http\Controllers\ImpersonateController::class, 'stop'])
+        ->name('admin.impersonate.stop');
+});
+
 require __DIR__.'/settings.php';
