@@ -98,11 +98,12 @@ class UserResource extends Resource
                     ->visible(fn (User $record): bool => Auth::id() !== $record->id)
                     ->requiresConfirmation()
                     ->modalDescription(fn (User $record): string => "You are about to log in as {$record->name}. You will be able to perform actions as this user.")
+                    ->url(fn (User $record): string => '#')
                     ->action(function (User $record) {
-                        session()->put('impersonate_from', Auth::id());
-                        Auth::login($record);
+                        // Use the controller method to handle impersonation
+                        $controller = app(\App\Http\Controllers\ImpersonateController::class);
 
-                        return redirect()->route('dashboard');
+                        return $controller->start(request(), $record);
                     }),
                 EditAction::make(),
                 DeleteAction::make(),

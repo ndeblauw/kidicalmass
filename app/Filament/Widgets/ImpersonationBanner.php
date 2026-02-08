@@ -3,6 +3,8 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\Widget;
+use App\Http\Controllers\ImpersonateController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ImpersonationBanner extends Widget
@@ -23,7 +25,7 @@ class ImpersonationBanner extends Widget
             return null;
         }
 
-        $originalUser = \App\Models\User::find($originalUserId);
+        $originalUser = User::find($originalUserId);
 
         return $originalUser?->name;
     }
