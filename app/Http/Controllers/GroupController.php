@@ -8,8 +8,8 @@ class GroupController extends Controller
 {
     public function index()
     {
-        $groups = Group::with(['parent', 'children'])
-            ->whereNull('parent_id')
+        $groups = Group::visible()
+            ->with(['parent', 'children'])
             ->withCount(['articles', 'activities'])
             ->get();
 
