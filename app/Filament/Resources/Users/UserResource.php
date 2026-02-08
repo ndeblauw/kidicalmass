@@ -5,10 +5,12 @@ namespace App\Filament\Resources\Users;
 use App\Filament\Resources\Users\Pages\ManageUsers;
 use App\Models\User;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -17,6 +19,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -46,6 +49,12 @@ class UserResource extends Resource
                     ->password()
                     ->required(fn (string $context): bool => $context === 'create')
                     ->dehydrated(false),
+                Select::make('groups')
+                    ->relationship('groups', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
+                    ->label('Groups'),
             ]);
     }
 
@@ -59,6 +68,11 @@ class UserResource extends Resource
                 TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('groups.name')
+                    ->badge()
+                    ->searchable()
+                    ->sortable()
+                    ->label('Groups'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -77,6 +91,20 @@ class UserResource extends Resource
                     ->label('Unverified Only'),
             ])
             ->recordActions([
+                Action::make('impersonate')
+                    ->label('Login As')
+                    ->icon(Heroicon::OutlinedUser)
+                    ->color('warning')
+                    ->visible(fn (User $record): bool => Auth::id() !== $record->id)
+                    ->requiresConfirmation()
+                    ->modalDescription(fn (User $record): string => "You are about to log in as {$record->name}. You will be able to perform actions as this user.")
+                    ->action(function (User $record) {
+                        // Store the original user ID before switching
+                        session()->flash('success', "You are now logged in as {$record->name}.");
+                        session()->put('impersonate_from', Auth::id());
+                        Auth::login($record);
+                    })
+                    ->after(fn () => redirect()->route('dashboard')),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
