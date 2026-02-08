@@ -19,13 +19,14 @@ class ImpersonateController extends Controller
             return redirect()->back()->with('error', 'You cannot impersonate yourself.');
         }
 
-        // Store the original user ID in the session
+        // Store the original user ID and flash message before switching
+        session()->flash('success', "You are now logged in as {$user->name}.");
         $request->session()->put('impersonate_from', Auth::id());
 
         // Log in as the target user
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', "You are now logged in as {$user->name}.");
+        return redirect()->route('dashboard');
     }
 
     public function stop(Request $request): RedirectResponse
@@ -49,8 +50,10 @@ class ImpersonateController extends Controller
             return redirect()->route('filament.admin.auth.login')->with('error', 'Original user account not found.');
         }
 
+        // Flash message before switching users
+        session()->flash('success', 'You have stopped impersonating.');
         Auth::login($originalUser);
 
-        return redirect()->route('filament.admin.pages.dashboard')->with('success', 'You have stopped impersonating.');
+        return redirect()->route('filament.admin.pages.dashboard');
     }
 }
