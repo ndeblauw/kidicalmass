@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ImpersonationBanner extends Widget
 {
-    protected static string $view = 'filament.widgets.impersonation-banner';
+    protected string $view = 'filament.widgets.impersonation-banner';
 
     protected int|string|array $columnSpan = 'full';
 
