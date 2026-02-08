@@ -25,7 +25,7 @@ class MediaSeeder extends Seeder
 
     public static function cleanup(): void
     {
-        //File::deleteDirectory(storage_path('app/temp-images'));
+        // File::deleteDirectory(storage_path('app/temp-images'));
     }
 
     private static function downloadBatch(int $count, string $directory, string $prefix, callable $urlResolver): array

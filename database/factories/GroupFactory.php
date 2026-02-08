@@ -15,7 +15,7 @@ class GroupFactory extends Factory
     public function definition(): array
     {
         $startedAt = fake()->dateTimeBetween('2020-01-01', 'now');
-        
+
         return [
             'shortname' => fake()->unique()->slug(2),
             'name' => fake()->company(),

@@ -4,7 +4,6 @@ namespace App\View\Components;
 
 use App\Models\Group;
 use Illuminate\View\Component;
-use Illuminate\Support\Facades\DB;
 
 class GroupStatistics extends Component
 {

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Activity>
