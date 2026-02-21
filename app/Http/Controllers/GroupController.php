@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
+use App\Models\Article;
 use App\Models\Group;
 
 class GroupController extends Controller
@@ -18,33 +20,28 @@ class GroupController extends Controller
 
     public function show(Group $group)
     {
-        $group->load(['parent', 'children', 'users']);
+        $group->load(['parent', 'children', 'users'])->loadCount(['articles', 'activities']);
 
-        // Get direct articles and activities
-        $articles = $group->articles()->with('author')->get();
-        $activities = $group->activities()->with('author')->get();
-
-        // Get inherited articles and activities from parent groups
-        $inheritedArticles = collect();
-        $inheritedActivities = collect();
-
+        $groupIds = collect([$group->id]);
         $currentParent = $group->parent;
         while ($currentParent) {
-            $inheritedArticles = $inheritedArticles->merge(
-                $currentParent->articles()->with('author')->get()
-            );
-            $inheritedActivities = $inheritedActivities->merge(
-                $currentParent->activities()->with('author')->get()
-            );
+            $groupIds->push($currentParent->id);
             $currentParent = $currentParent->parent;
         }
 
-        return view('groups.show', compact(
-            'group',
-            'articles',
-            'activities',
-            'inheritedArticles',
-            'inheritedActivities'
-        ));
+        $articles = Article::query()
+            ->with('author')
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->latest()
+            ->get();
+
+        $activities = Activity::query()
+            ->with('author')
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->where('begin_date', '>=', now())
+            ->orderBy('begin_date')
+            ->get();
+
+        return view('groups.show', compact('group', 'articles', 'activities'));
     }
 }

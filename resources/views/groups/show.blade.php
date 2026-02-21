@@ -69,32 +69,7 @@
                 </section>
             @endif
 
-            <!-- Articles from Parent Groups -->
-            @if($inheritedArticles->isNotEmpty())
-                <section class="bg-gray-50 -mx-4 px-4 py-8 md:-mx-0 md:px-8 md:rounded-xl">
-                    <h2 class="text-2xl font-bold text-kidical-blue mb-6">Articles from Parent Groups</h2>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach($inheritedArticles as $article)
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border-l-2 border-gray-300">
-                                <div class="p-5">
-                                    <h3 class="text-lg font-bold text-kidical-blue mb-2 hover:text-kidical-orange transition-colors">
-                                        <a href="{{ route('articles.show', $article) }}">{{ $article->title_nl }}</a>
-                                    </h3>
-                                    <p class="text-sm text-gray-600 mb-3">
-                                        By {{ $article->author->name }} • {{ $article->created_at->format('M d, Y') }}
-                                    </p>
-                                    <p class="text-gray-700 text-sm mb-3">{{ Str::limit(strip_tags($article->content_nl), 100) }}</p>
-                                    <a href="{{ route('articles.show', $article) }}" class="text-kidical-green hover:text-kidical-orange transition-colors font-semibold text-sm">
-                                        Read More →
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-            @endif
-
-            <!-- Group Articles -->
+            <!-- Articles -->
             @if($articles->isNotEmpty())
                 <section>
                     <h2 class="text-3xl font-bold text-kidical-blue mb-6">Articles</h2>
@@ -119,41 +94,7 @@
                 </section>
             @endif
 
-            <!-- Activities from Parent Groups -->
-            @if($inheritedActivities->isNotEmpty())
-                <section class="bg-gray-50 -mx-4 px-4 py-8 md:-mx-0 md:px-8 md:rounded-xl">
-                    <h2 class="text-2xl font-bold text-kidical-blue mb-6">Activities from Parent Groups</h2>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach($inheritedActivities as $activity)
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border-l-2 border-gray-300">
-                                <div class="p-5">
-                                    <h3 class="text-lg font-bold text-kidical-blue mb-2 hover:text-kidical-orange transition-colors">
-                                        <a href="{{ route('activities.show', $activity) }}">{{ $activity->title_nl }}</a>
-                                    </h3>
-                                    <p class="text-sm text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-kidical-green" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $activity->begin_date->format('M d, Y \a\t H:i') }}
-                                    </p>
-                                    <p class="text-sm text-gray-700 mb-3">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-kidical-green" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $activity->location }}
-                                    </p>
-                                    <p class="text-gray-700 text-sm mb-3">{{ Str::limit(strip_tags($activity->content_nl), 100) }}</p>
-                                    <a href="{{ route('activities.show', $activity) }}" class="text-kidical-green hover:text-kidical-orange transition-colors font-semibold text-sm">
-                                        View Activity →
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-            @endif
-
-            <!-- Group Activities -->
+            <!-- Activities -->
             @if($activities->isNotEmpty())
                 <section>
                     <h2 class="text-3xl font-bold text-kidical-blue mb-6">Activities</h2>
