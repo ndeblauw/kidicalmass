@@ -46,6 +46,9 @@
                 <a href="{{ route('activities.index') }}" class="px-4 py-2 rounded-full text-black hover:bg-kidical-red hover:text-white transition-colors font-semibold {{ request()->routeIs('activities.*') ? 'bg-kidical-red text-white' : '' }}">
                     Activities
                 </a>
+                <a href="{{ route('press.index') }}" class="px-4 py-2 rounded-full text-black hover:bg-kidical-yellow hover:text-black transition-colors font-semibold {{ request()->routeIs('press.*') ? 'bg-kidical-yellow text-black' : '' }}">
+                    Press
+                </a>
             </nav>
 
             <!-- User Menu -->
@@ -96,6 +99,9 @@
             </a>
             <a href="{{ route('activities.index') }}" class="block px-4 py-2 rounded-full text-black hover:bg-kidical-red hover:text-white transition-colors font-semibold {{ request()->routeIs('activities.*') ? 'bg-kidical-red text-white' : '' }}">
                 Activities
+            </a>
+            <a href="{{ route('press.index') }}" class="block px-4 py-2 rounded-full text-black hover:bg-kidical-yellow hover:text-black transition-colors font-semibold {{ request()->routeIs('press.*') ? 'bg-kidical-yellow text-black' : '' }}">
+                Press
             </a>
         </nav>
     </div>

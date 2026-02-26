@@ -16,6 +16,11 @@
     </main>
 
 
+    <!-- Press Section -->
+    <section class="container mx-auto px-4">
+        <livewire:press-section-component />
+    </section>
+
     <!-- Contact Form Section -->
     <section class="container mx-auto px-4 py-12">
         <livewire:contact-form-component />
