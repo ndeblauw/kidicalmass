@@ -11,17 +11,17 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-
             $table->string('title_nl');
             $table->string('title_fr');
             $table->text('content_nl');
             $table->text('content_fr');
             $table->enum('activity_type', array_keys(ActivityType::getOptionsArray()))->default(ActivityType::KIDICALMASS->value);
             $table->dateTime('begin_date');
-            $table->dateTime('end_date');
             $table->string('location');
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
-
+            $table->foreignId('organizer_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('commute_link')->nullable();
+            $table->integer('duration_minutes')->nullable();
             $table->timestamps();
         });
 
@@ -29,5 +29,11 @@ return new class extends Migration
             $table->foreignId('activity_id')->constrained()->onDelete('cascade');
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
         });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('activity_group');
+        Schema::dropIfExists('activities');
     }
 };

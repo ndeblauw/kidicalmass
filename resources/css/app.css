@@ -25,6 +25,7 @@
 
     /* Kidical Mass Brand Colors */
     --color-kidical-yellow: #FDB913;
+    --color-kidical-red: #E63A7B;
     --color-kidical-green: #5CB85C;
     --color-kidical-orange: #F0803C;
     --color-kidical-blue: #2E5090;
@@ -77,6 +78,10 @@ select:focus[data-flux-control] {
     background-color: var(--color-kidical-yellow);
 }
 
+.bg-kidical-red {
+    background-color: var(--color-kidical-red);
+}
+
 .bg-kidical-green {
     background-color: var(--color-kidical-green);
 }
@@ -97,6 +102,10 @@ select:focus[data-flux-control] {
     color: var(--color-kidical-yellow);
 }
 
+.text-kidical-red {
+    color: var(--color-kidical-red);
+}
+
 .text-kidical-green {
     color: var(--color-kidical-green);
 }
@@ -107,6 +116,18 @@ select:focus[data-flux-control] {
 
 .text-kidical-blue {
     color: var(--color-kidical-blue);
+}
+
+.text-kidical-red {
+    color: var(--color-kidical-red);
+}
+
+.logo-brand-text {
+    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif;
+    color: var(--color-kidical-red);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
 }
 
 .border-kidical-yellow {
