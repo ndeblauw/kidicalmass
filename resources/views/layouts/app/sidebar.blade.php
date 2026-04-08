@@ -15,40 +15,52 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="calendar-days" :href="route('activities.index')" :current="request()->routeIs('activities.*')" wire:navigate>
-                        {{ __('Activities') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="newspaper" :href="route('articles.index')" :current="request()->routeIs('articles.*')" wire:navigate>
-                        {{ __('News') }}
-                    </flux:sidebar.item>
                 </flux:sidebar.group>
 
-                @if (isset($managedGroups) && $managedGroups->isNotEmpty())
-                    <flux:sidebar.group :heading="__('Your groups')" class="grid">
-                        @foreach ($managedGroups as $managedGroup)
-                            <flux:sidebar.item
-                                icon="users"
-                                :href="route('home.groups.show', $managedGroup)"
-                                :current="request()->routeIs('home.groups.*') && request()->route('group')?->is($managedGroup)"
-                                wire:navigate
-                            >
-                                {{ $managedGroup->name }}
-                            </flux:sidebar.item>
-                        @endforeach
-                    </flux:sidebar.group>
-                @endif
+                <flux:sidebar.group :heading="__('Your event(s)')" class="grid mt-8">
+                    @forelse(auth()->user()->activities ?? [] as $activity)
+                        <flux:sidebar.item
+                            icon="users"
+                            :href="route('home.activity.show', $activity)"
+                            :current="request()->routeIs('home.activities.*') && request()->route('activity')?->is($activity)"
+                            wire:navigate
+                        >
+                            {{ $activity->title }}
+                        </flux:sidebar.item>
+                    @empty
+                        <flux:text class="px-3 py-2 text-sm text-zinc-500">
+                            {{ __('No events found.') }}
+                        </flux:text>
+                    @endforelse
+                </flux:sidebar.group>
+
+                <flux:sidebar.group :heading="__('Your group(s)')" class="grid mt-8">
+                    @foreach(auth()->user()->groups as $group)
+                        <flux:sidebar.item
+                            icon="users"
+                            :href="route('home.groups.show', $group)"
+                            :current="request()->routeIs('home.groups.*') && request()->route('group')?->is($group)"
+                            wire:navigate
+                        >
+                            {{ $group->name }}
+                        </flux:sidebar.item>
+                    @endforeach
+                </flux:sidebar.group>
+
             </flux:sidebar.nav>
 
             <flux:spacer />
 
             <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
+                <flux:sidebar.group :heading="__('To remove')" class="grid">
+                    <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                        {{ __('Repository') }}
+                    </flux:sidebar.item>
 
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
+                    <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
+                        {{ __('Documentation') }}
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
