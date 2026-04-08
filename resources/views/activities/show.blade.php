@@ -138,13 +138,14 @@
                 </div>
                 <div class="activity-map-info-strip">
                     <div class="activity-map-info-strip__stats">
-                        @if($activity->distance)
-                            <span>{{ $activity->distance }}</span>
-                        @endif
-                        @if($activity->duration)
-                            <span>{{ $activity->duration }}</span>
-                        @endif
-                        <span class="activity-map-badge" id="activity-map-route-type" aria-live="polite"></span>
+                        <span class="activity-map-stat">
+                            <flux:icon.arrows-right-left class="activity-map-stat__icon" aria-hidden="true" />
+                            {{ $activity->distance ?? '—' }}
+                        </span>
+                        <span class="activity-map-stat">
+                            <flux:icon.clock class="activity-map-stat__icon" aria-hidden="true" />
+                            {{ $activity->duration ?? '—' }}
+                        </span>
                     </div>
                     @if($activity->komoot_url)
                         <a href="{{ $activity->komoot_url }}"
@@ -268,41 +269,6 @@
             });
 
             L.marker(coords[0], { icon: departureIcon }).addTo(map);
-
-            // Loop detection (Haversine)
-            function haversineMeters(lat1, lon1, lat2, lon2) {
-                const R = 6371000;
-                const φ1 = lat1 * Math.PI / 180;
-                const φ2 = lat2 * Math.PI / 180;
-                const Δφ = (lat2 - lat1) * Math.PI / 180;
-                const Δλ = (lon2 - lon1) * Math.PI / 180;
-                const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
-                return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            }
-
-            const first = coords[0];
-            const last = coords[coords.length - 1];
-            const distanceBetweenEnds = haversineMeters(first[0], first[1], last[0], last[1]);
-            const isLoop = distanceBetweenEnds <= 150;
-
-            const routeTypeBadge = document.getElementById('activity-map-route-type');
-            if (routeTypeBadge) {
-                routeTypeBadge.textContent = isLoop ? 'Lus' : 'Punt naar punt';
-            }
-
-            if (!isLoop) {
-                const arrivalIcon = L.divIcon({
-                    html: `<svg width="22" height="30" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="white" stroke="#E63A7B" stroke-width="2.5"/>
-                        <circle cx="14" cy="14" r="4" fill="#E63A7B" opacity="0.5"/>
-                    </svg><span class="activity-map-label activity-map-label--end">Aankomst</span>`,
-                    className: 'activity-map-marker activity-map-marker--end',
-                    iconAnchor: [11, 30],
-                    iconSize: [22, 30],
-                });
-
-                L.marker(last, { icon: arrivalIcon }).addTo(map);
-            }
         });
         </script>
         @endpush
