@@ -89,7 +89,7 @@ class Activity extends Model implements HasMedia
 
     public function getEndDateAttribute(): mixed
     {
-        if (!$this->duration_minutes) {
+        if (! $this->duration_minutes) {
             return null;
         }
 

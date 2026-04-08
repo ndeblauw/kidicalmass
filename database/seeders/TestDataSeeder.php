@@ -2,6 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Activity;
+use App\Models\Article;
+use App\Models\Group;
+use App\Models\Partner;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
@@ -12,7 +17,7 @@ class TestDataSeeder extends Seeder
     public function run(): void
     {
         // Create some test users
-        $user1 = \App\Models\User::firstOrCreate(
+        $user1 = User::firstOrCreate(
             ['email' => 'author1@example.com'],
             [
                 'name' => 'Test Author 1',
@@ -20,7 +25,7 @@ class TestDataSeeder extends Seeder
             ]
         );
 
-        $user2 = \App\Models\User::firstOrCreate(
+        $user2 = User::firstOrCreate(
             ['email' => 'author2@example.com'],
             [
                 'name' => 'Test Author 2',
@@ -29,17 +34,17 @@ class TestDataSeeder extends Seeder
         );
 
         // Create some groups
-        $groupA = \App\Models\Group::firstOrCreate(
+        $groupA = Group::firstOrCreate(
             ['shortname' => 'group-a'],
             ['name' => 'Group A']
         );
 
-        $groupB = \App\Models\Group::firstOrCreate(
+        $groupB = Group::firstOrCreate(
             ['shortname' => 'group-b'],
             ['name' => 'Group B']
         );
 
-        $groupC = \App\Models\Group::firstOrCreate(
+        $groupC = Group::firstOrCreate(
             ['shortname' => 'group-c'],
             [
                 'name' => 'Group C',
@@ -48,7 +53,7 @@ class TestDataSeeder extends Seeder
         );
 
         // Create some articles
-        $article1 = \App\Models\Article::create([
+        $article1 = Article::create([
             'title_nl' => 'Eerste artikel',
             'title_fr' => 'Premier article',
             'content_nl' => 'Dit is de inhoud van het eerste artikel in het Nederlands.',
@@ -57,7 +62,7 @@ class TestDataSeeder extends Seeder
         ]);
         $article1->groups()->attach([$groupA->id, $groupB->id]);
 
-        $article2 = \App\Models\Article::create([
+        $article2 = Article::create([
             'title_nl' => 'Tweede artikel',
             'title_fr' => 'Deuxième article',
             'content_nl' => 'Dit is de inhoud van het tweede artikel in het Nederlands.',
@@ -67,7 +72,7 @@ class TestDataSeeder extends Seeder
         $article2->groups()->attach([$groupB->id]);
 
         // Create some activities
-        $activity1 = \App\Models\Activity::create([
+        $activity1 = Activity::create([
             'title_nl' => 'Eerste activiteit',
             'title_fr' => 'Première activité',
             'content_nl' => 'Beschrijving van de eerste activiteit.',
@@ -79,7 +84,7 @@ class TestDataSeeder extends Seeder
         ]);
         $activity1->groups()->attach([$groupA->id]);
 
-        $activity2 = \App\Models\Activity::create([
+        $activity2 = Activity::create([
             'title_nl' => 'Tweede activiteit',
             'title_fr' => 'Deuxième activité',
             'content_nl' => 'Beschrijving van de tweede activiteit.',
@@ -91,7 +96,7 @@ class TestDataSeeder extends Seeder
         ]);
         $activity2->groups()->attach([$groupB->id, $groupC->id]);
 
-        $activity3 = \App\Models\Activity::create([
+        $activity3 = Activity::create([
             'title_nl' => 'Afgelopen activiteit',
             'title_fr' => 'Activité passée',
             'content_nl' => 'Dit is een activiteit in het verleden.',
@@ -106,7 +111,7 @@ class TestDataSeeder extends Seeder
         // Create partners
         $groups = [$groupA, $groupB, $groupC];
         foreach (range(1, 15) as $i) {
-            \App\Models\Partner::factory()->create([
+            Partner::factory()->create([
                 'group_id' => $groups[array_rand($groups)]->id,
             ]);
         }
