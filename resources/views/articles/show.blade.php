@@ -8,6 +8,18 @@
                 </svg>
                 Back to Articles
             </a>
+            @can('update', $article)
+                <a href="{{ route('articles.edit', $article) }}" class="ml-4 inline-flex items-center text-kidical-blue hover:text-kidical-orange transition-colors font-semibold">
+                    Edit
+                </a>
+            @endcan
+            @can('delete', $article)
+                <form method="POST" action="{{ route('articles.destroy', $article) }}" class="inline-block ml-4">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="inline-flex items-center text-red-600 hover:text-red-800 transition-colors font-semibold">Delete</button>
+                </form>
+            @endcan
         </div>
 
         <!-- Article Header -->

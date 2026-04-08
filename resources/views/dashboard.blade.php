@@ -1,18 +1,42 @@
 <x-layouts::app :title="__('Dashboard')">
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+    <div class="space-y-6">
+        <flux:card>
+            <flux:heading size="lg">Upcoming activities</flux:heading>
+            <div class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                @forelse ($upcomingActivities as $activity)
+                    <flux:card>
+                        <flux:heading>{{ $activity->title_nl }}</flux:heading>
+                        <flux:text class="mt-1">{{ $activity->begin_date->format('d/m/Y H:i') }}</flux:text>
+                        <flux:text>{{ $activity->location }}</flux:text>
+                        <flux:button class="mt-4" variant="primary" size="sm" :href="route('activities.show', $activity)">
+                            View activity
+                        </flux:button>
+                    </flux:card>
+                @empty
+                    <flux:text>No upcoming activities found for your groups.</flux:text>
+                @endforelse
             </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+        </flux:card>
+
+        <flux:card>
+            <flux:heading size="lg">Recent past activities</flux:heading>
+            <div class="mt-4 space-y-2">
+                @forelse ($pastActivities as $activity)
+                    <flux:button variant="ghost" class="w-full justify-between" :href="route('activities.show', $activity)">
+                        <span>{{ $activity->title_nl }}</span>
+                        <span class="text-zinc-500">{{ $activity->begin_date->format('d/m/Y') }}</span>
+                    </flux:button>
+                @empty
+                    <flux:text>No recent past activities found.</flux:text>
+                @endforelse
             </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+        </flux:card>
+
+        <flux:card>
+            <flux:heading size="lg">Contact details</flux:heading>
+            <div class="mt-4">
+                @livewire('contact-details-table', ['groups' => $dashboardGroups], key('dashboard-contact-details'))
             </div>
-        </div>
-        <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-        </div>
+        </flux:card>
     </div>
 </x-layouts::app>

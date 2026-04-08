@@ -6,6 +6,13 @@
                 Activities
             </h1>
             <p class="text-lg text-gray-700">Join us for fun family-friendly cycling events</p>
+            @auth
+                <div class="mt-4">
+                    <a href="{{ route('activities.create') }}" class="inline-block px-4 py-2 bg-kidical-blue text-white rounded-lg hover:bg-kidical-green transition-colors font-semibold text-sm">
+                        Create activity
+                    </a>
+                </div>
+            @endauth
         </div>
         
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

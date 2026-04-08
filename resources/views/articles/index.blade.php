@@ -3,6 +3,13 @@
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-kidical-blue mb-4">Articles</h1>
             <p class="text-lg text-gray-700">News, stories, and insights from Kidical Mass Belgium</p>
+            @auth
+                <div class="mt-4">
+                    <a href="{{ route('articles.create') }}" class="inline-block px-4 py-2 bg-kidical-blue text-white rounded-lg hover:bg-kidical-green transition-colors font-semibold text-sm">
+                        Create article
+                    </a>
+                </div>
+            @endauth
         </div>
 
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

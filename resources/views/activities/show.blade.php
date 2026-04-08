@@ -8,6 +8,18 @@
                 </svg>
                 Back to Activities
             </a>
+            @can('update', $activity)
+                <a href="{{ route('activities.edit', $activity) }}" class="ml-4 inline-flex items-center text-kidical-blue hover:text-kidical-orange transition-colors font-semibold">
+                    Edit
+                </a>
+            @endcan
+            @can('delete', $activity)
+                <form method="POST" action="{{ route('activities.destroy', $activity) }}" class="inline-block ml-4">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="inline-flex items-center text-red-600 hover:text-red-800 transition-colors font-semibold">Delete</button>
+                </form>
+            @endcan
         </div>
 
         <!-- Activity Card -->

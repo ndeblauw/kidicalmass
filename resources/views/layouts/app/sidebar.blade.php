@@ -15,7 +15,28 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="calendar-days" :href="route('activities.index')" :current="request()->routeIs('activities.*')" wire:navigate>
+                        {{ __('Activities') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="newspaper" :href="route('articles.index')" :current="request()->routeIs('articles.*')" wire:navigate>
+                        {{ __('News') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @if (isset($managedGroups) && $managedGroups->isNotEmpty())
+                    <flux:sidebar.group :heading="__('Your groups')" class="grid">
+                        @foreach ($managedGroups as $managedGroup)
+                            <flux:sidebar.item
+                                icon="users"
+                                :href="route('home.groups.show', $managedGroup)"
+                                :current="request()->routeIs('home.groups.*') && request()->route('group')?->is($managedGroup)"
+                                wire:navigate
+                            >
+                                {{ $managedGroup->name }}
+                            </flux:sidebar.item>
+                        @endforeach
+                    </flux:sidebar.group>
+                @endif
             </flux:sidebar.nav>
 
             <flux:spacer />

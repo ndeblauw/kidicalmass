@@ -26,7 +26,6 @@ class StoreArticleRequest extends FormRequest
             'title_fr' => ['required', 'string', 'max:255'],
             'content_nl' => ['required', 'string'],
             'content_fr' => ['required', 'string'],
-            'author_id' => ['required', 'exists:users,id'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['exists:groups,id'],
         ];

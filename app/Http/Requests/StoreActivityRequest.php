@@ -32,7 +32,6 @@ class StoreActivityRequest extends FormRequest
             'begin_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:begin_date'],
             'location' => ['required', 'string', 'max:255'],
-            'author_id' => ['required', 'exists:users,id'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['exists:groups,id'],
         ];

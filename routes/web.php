@@ -8,9 +8,16 @@ Route::resource('articles', \App\Http\Controllers\ArticleController::class)->onl
 Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['index', 'show']);
 Route::resource('groups', \App\Http\Controllers\GroupController::class)->only(['index', 'show']);
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+
+    Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('articles', \App\Http\Controllers\ArticleController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+
+    Route::resource('home/groups', \App\Http\Controllers\Home\GroupController::class)
+        ->only(['show', 'edit', 'update'])
+        ->names('home.groups');
+});
 
 // Impersonation routes (authenticated users with Filament admin access)
 Route::middleware(['auth'])->prefix('admin')->group(function () {
