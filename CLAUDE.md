@@ -370,3 +370,28 @@ livewire(ListUsers::class)
 - Always activate the `medialibrary-development` skill when working with media uploads, conversions, collections, responsive images, or any code that uses the `HasMedia` interface or `InteractsWithMedia` trait.
 
 </laravel-boost-guidelines>
+
+## Interface Copy
+
+When writing any interface copy for the public site — labels, CTAs, headings, empty states, error messages, onboarding text, tooltips — always follow the Tone of Voice guide at `docs/tone-of-voice.md`.
+
+The guide defines 4 voice qualities: joyful (not frivolous), warm and inclusive (genuinely), local and grounded, committed (not preachy). Register shifts by context — event pages are warm and concrete, partner pages are a notch more serious.
+
+**The one-line test:** does this sound like someone who loves cycling with kids in their neighbourhood and wants you to come along? If not, rewrite.
+
+## Public Site — Frontend Rules
+
+- Headings: use raw `<h1>`–`<h6>`, never `flux:heading`.
+  Why: `flux:heading` overrides `@layer base` typography with its own utility classes.
+
+- Other Flux components (`flux:button`, `flux:badge`, `flux:icon.*`, `flux:separator`, `flux:navbar`, `flux:text`) are fine on the public site.
+
+- Templates hold structure only. Keep: `grid`, `flex`, `gap-*`, `p-*`, `m-*`, `max-w-*`, `overflow-*`, `aspect-*`, `object-*`. Strip: `bg-*`, `text-{color}`, `font-*`, `shadow-*`, `rounded-*`, `opacity-*`, `hover:*`, `transition-*`.
+  Why: appearance belongs in `app.css`, not templates.
+
+- Typographic scale (size, weight, line-height) is defined once in `@layer base` in `app.css`. Never set these inline on headings.
+
+- Metadata key-value pairs → `<dl><dt><dd>`.
+- Dates → `<time datetime="ISO8601">`.
+- Decorative icons → `aria-hidden="true"`.
+- `<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">` — never hardcoded.
