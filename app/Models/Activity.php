@@ -22,7 +22,6 @@ class Activity extends Model implements HasMedia
     {
         return [
             'begin_date' => 'datetime',
-            'end_date' => 'datetime',
             'activity_type' => ActivityType::class,
         ];
     }
@@ -63,8 +62,37 @@ class Activity extends Model implements HasMedia
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function organizer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'organizer_id');
+    }
+
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function getEffectiveOrganizerAttribute(): ?User
+    {
+        if ($this->organizer_id) {
+            return $this->organizer;
+        }
+
+        $group = $this->groups()->first();
+
+        if ($group) {
+            return $group->users()->first();
+        }
+
+        return $this->author;
+    }
+
+    public function getEndDateAttribute(): ?\Carbon\Carbon
+    {
+        if (!$this->duration_minutes) {
+            return null;
+        }
+
+        return $this->begin_date->addMinutes($this->duration_minutes);
     }
 }

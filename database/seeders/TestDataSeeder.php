@@ -73,7 +73,7 @@ class TestDataSeeder extends Seeder
             'content_nl' => 'Beschrijving van de eerste activiteit.',
             'content_fr' => 'Description de la première activité.',
             'begin_date' => now()->addDays(7),
-            'end_date' => now()->addDays(7)->addHours(3),
+            'duration_minutes' => 180,
             'location' => 'Brussels',
             'author_id' => $user1->id,
         ]);
@@ -85,7 +85,7 @@ class TestDataSeeder extends Seeder
             'content_nl' => 'Beschrijving van de tweede activiteit.',
             'content_fr' => 'Description de la deuxième activité.',
             'begin_date' => now()->addDays(14),
-            'end_date' => now()->addDays(14)->addHours(2),
+            'duration_minutes' => 120,
             'location' => 'Antwerp',
             'author_id' => $user2->id,
         ]);
@@ -97,7 +97,7 @@ class TestDataSeeder extends Seeder
             'content_nl' => 'Dit is een activiteit in het verleden.',
             'content_fr' => 'Ceci est une activité dans le passé.',
             'begin_date' => now()->subDays(7),
-            'end_date' => now()->subDays(7)->addHours(2),
+            'duration_minutes' => 120,
             'location' => 'Ghent',
             'author_id' => $user1->id,
         ]);

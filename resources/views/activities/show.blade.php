@@ -50,27 +50,71 @@
                             <div class="font-bold">{{ $activity->location }}</div>
                         </div>
                     </div>
-                    @if($activity->end_date && $activity->end_date->ne($activity->begin_date))
-                        <div class="flex items-center space-x-3 text-white">
-                            <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                            </svg>
-                            <div>
-                                <div class="text-sm font-semibold opacity-90">End Time</div>
-                                <div class="font-bold">{{ $activity->end_date->format('F d, Y \a\t H:i') }}</div>
-                            </div>
+                    <div class="flex items-center space-x-3 text-white">
+                        <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <div class="text-sm font-semibold opacity-90">End Time</div>
+                            <div class="font-bold">{{ $activity->end_date?->format('H:i') ?? '-' }}</div>
                         </div>
-                    @endif
+                    </div>
                     <div class="flex items-center space-x-3 text-white">
                         <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
                         </svg>
                         <div>
                             <div class="text-sm font-semibold opacity-90">Organizer</div>
-                            <div class="font-bold">{{ $activity->author->name }}</div>
+                            <div class="font-bold">{{ $activity->effective_organizer?->name ?? '-' }}</div>
                         </div>
                     </div>
                 </div>
+
+                @if($activity->activity_type === \App\Enums\ActivityType::KIDICALMASS && $activity->commute_link)
+                    <div class="mt-4 bg-white/20 backdrop-blur-sm rounded-lg p-4">
+                        <h3 class="text-sm font-semibold opacity-90 mb-2">Critical Mass Details</h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-white">
+                            @if($activity->location)
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <div>
+                                        <div class="text-xs opacity-75">Start Location</div>
+                                        <div class="font-bold">{{ $activity->location }}</div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if($activity->duration_minutes)
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <div>
+                                        <div class="text-xs opacity-75">Duration</div>
+                                        <div class="font-bold">{{ $activity->duration_minutes }} minutes</div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if($activity->commute_link)
+                                <div class="flex items-center space-x-3 md:col-span-2">
+                                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                    </svg>
+                                    <div>
+                                        <div class="text-xs opacity-75">Route</div>
+                                        <a href="{{ $activity->commute_link }}" 
+                                           target="_blank" 
+                                           rel="noopener noreferrer"
+                                           class="font-bold text-kidical-yellow hover:underline">
+                                            View Route →
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
 
                 @if($activity->groups->isNotEmpty())
                     <div class="flex flex-wrap gap-2 mt-4">
