@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('shows the komoot link when komoot_url is set on the activity', function () {
-    $activity = Activity::factory()->create([
+    $activity = Activity::factory()->withFakeGpx()->create([
         'komoot_url' => 'https://www.komoot.com/tour/1234567',
     ]);
 

@@ -126,47 +126,15 @@
                     </div>
                 @endif
 
-                @if($activity->komoot_url && ! $hasMap)
-                    <a href="{{ $activity->komoot_url }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="activity-map-komoot-link">
-                        Bekijk op Komoot
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                @endif
             </div>
         </div>
 
         {{-- RIGHT: map --}}
         @if($hasMap)
             <div class="activity-info-map__map">
-                <div class="activity-map-container">
-                    <div id="activity-map"
-                         class="activity-info-map__embed"
-                         data-coordinates="{{ json_encode($routeCoords) }}"
-                         data-komoot-url="{{ $activity->komoot_url ?? '' }}">
-                    </div>
-                    <div class="activity-map-info-strip">
-                        <div class="activity-map-info-strip__stats">
-                            @if($activity->distance)
-                                <span>{{ $activity->distance }}</span>
-                            @endif
-                            @if($activity->duration)
-                                <span>{{ $activity->duration }}</span>
-                            @endif
-                            <span class="activity-map-badge" id="activity-map-route-type" aria-live="polite"></span>
-                        </div>
-                        @if($activity->komoot_url)
-                            <a href="{{ $activity->komoot_url }}"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="activity-map-komoot-link">
-                                Bekijk op Komoot
-                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
-                        @endif
-                    </div>
+                <div id="activity-map-hero"
+                     class="activity-info-map__embed"
+                     data-coordinates="{{ json_encode($routeCoords) }}">
                 </div>
             </div>
         @endif
@@ -176,49 +144,112 @@
     {{-- FIXED PROMISES — always shown on every Kidical Mass ride --}}
     <section class="activity-promises">
         <h2>Wat kun je verwachten?</h2>
-        <ul class="activity-promises__grid" role="list">
-            <li class="activity-promises__item">
-                <flux:icon.clock class="activity-promises__icon" aria-hidden="true" />
-                <div>
+        <div class="activity-promises__layout">
+            <div class="activity-promises__illustration" aria-hidden="true">
+                <img src="{{ asset('img/illustrations/person-with-boombox.png') }}" alt="">
+            </div>
+            <ul class="activity-promises__col" role="list">
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.clock variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
                     <strong>Op het tempo van het jongste kind</strong>
                     <p>We wachten op iedereen. Geen kind blijft achter.</p>
-                </div>
-            </li>
-            <li class="activity-promises__item">
-                <flux:icon.shield-check class="activity-promises__icon" aria-hidden="true" />
-                <div>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.shield-check variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
                     <strong>Roze hesjes voor en achter</strong>
                     <p>Vrijwilligers begeleiden de groep en zorgen dat iedereen veilig aankomt.</p>
-                </div>
-            </li>
-            <li class="activity-promises__item">
-                <flux:icon.musical-note class="activity-promises__icon" aria-hidden="true" />
-                <div>
+                </li>
+            </ul>
+            <ul class="activity-promises__col" role="list">
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.musical-note variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
                     <strong>Muziek onderweg</strong>
                     <p>Een versierde bakfiets met geluid maakt van elke rit een feest.</p>
-                </div>
-            </li>
-            <li class="activity-promises__item">
-                <flux:icon.flag class="activity-promises__icon" aria-hidden="true" />
-                <div>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.flag variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
                     <strong>Korte verkeersbespreking aan de start</strong>
                     <p>Zodat iedereen weet wat te doen — ook als het je eerste keer is.</p>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </section>
 
-    {{-- ORGANISER --}}
-    <section class="activity-section">
-        <h2>Georganiseerd door</h2>
-        <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
-        @if($activity->groups->isNotEmpty())
-            @foreach($activity->groups as $group)
-                <p><a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a> — elke maand een nieuwe rit door de stad.</p>
-            @endforeach
-        @endif
-        <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
-    </section>
+    {{-- MAP + CHAPTER/TEAM — two-column below the fold --}}
+    @if($hasMap || $activity->groups->isNotEmpty())
+        <section class="activity-lower">
+
+            @if($hasMap)
+                <div class="activity-map-col">
+                    <h2>De route</h2>
+                    <div class="activity-map-container">
+                        <div id="activity-map"
+                             class="activity-map-embed"
+                             data-coordinates="{{ json_encode($routeCoords) }}"
+                             data-komoot-url="{{ $activity->komoot_url ?? '' }}">
+                        </div>
+                        <div class="activity-map-info-strip">
+                            <div class="activity-map-info-strip__stats">
+                                @if($activity->distance)
+                                    <span>{{ $activity->distance }}</span>
+                                @endif
+                                @if($activity->duration)
+                                    <span>{{ $activity->duration }}</span>
+                                @endif
+                                <span class="activity-map-badge" id="activity-map-route-type" aria-live="polite"></span>
+                            </div>
+                            @if($activity->komoot_url)
+                                <a href="{{ $activity->komoot_url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="activity-map-komoot-link">
+                                    Bekijk op Komoot
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <div class="activity-info-col">
+
+                @if($activity->groups->isNotEmpty())
+                    <div class="activity-info-col__block">
+                        <h2>Onderdeel van</h2>
+                        @foreach($activity->groups as $group)
+                            <p>
+                                <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>
+                                — elke maand een nieuwe rit door de stad.
+                            </p>
+                        @endforeach
+                    </div>
+                @endif
+
+                <div class="activity-info-col__block">
+                    <h2>Georganiseerd door</h2>
+                    <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
+                    <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
+                </div>
+
+            </div>
+
+        </section>
+    @else
+        <section class="activity-section">
+            <h2>Georganiseerd door</h2>
+            <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
+            <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
+        </section>
+    @endif
 
     {{-- PHOTO PERMISSION --}}
     <p class="activity-photo-notice">
