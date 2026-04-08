@@ -17,7 +17,13 @@
                 <form method="POST" action="{{ route('activities.destroy', $activity) }}" class="inline-block ml-4">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="inline-flex items-center text-red-600 hover:text-red-800 transition-colors font-semibold">Delete</button>
+                    <button
+                        type="submit"
+                        class="inline-flex items-center text-red-600 hover:text-red-800 transition-colors font-semibold"
+                        onclick="return confirm('Are you sure you want to delete this activity?')"
+                    >
+                        Delete
+                    </button>
                 </form>
             @endcan
         </div>
