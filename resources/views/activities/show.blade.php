@@ -270,26 +270,66 @@
 
             const map = L.map(el, { zoomControl: true, scrollWheelZoom: false });
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
                 maxZoom: 19,
             }).addTo(map);
 
             const polyline = L.polyline(coords, {
                 color: '#E63A7B',
                 weight: 5,
-                opacity: 0.9,
+                opacity: 0.95,
             }).addTo(map);
 
             map.fitBounds(polyline.getBounds(), { padding: [40, 40] });
 
-            L.circleMarker(coords[0], {
-                radius: 9,
-                color: '#E63A7B',
-                weight: 3,
-                fillColor: '#fff',
-                fillOpacity: 1,
-            }).addTo(map);
+            // Departure pin
+            const departureIcon = L.divIcon({
+                html: `<svg width="28" height="38" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="#E63A7B"/>
+                    <circle cx="14" cy="14" r="5.5" fill="rgba(0,0,0,0.2)"/>
+                    <circle cx="14" cy="14" r="3.5" fill="white"/>
+                </svg><span class="activity-map-label">Vertrekpunt</span>`,
+                className: 'activity-map-marker',
+                iconAnchor: [14, 37],
+            });
+
+            L.marker(coords[0], { icon: departureIcon }).addTo(map);
+
+            // Loop detection (Haversine)
+            function haversineMeters(lat1, lon1, lat2, lon2) {
+                const R = 6371000;
+                const φ1 = lat1 * Math.PI / 180;
+                const φ2 = lat2 * Math.PI / 180;
+                const Δφ = (lat2 - lat1) * Math.PI / 180;
+                const Δλ = (lon2 - lon1) * Math.PI / 180;
+                const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
+                return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            }
+
+            const first = coords[0];
+            const last = coords[coords.length - 1];
+            const distanceBetweenEnds = haversineMeters(first[0], first[1], last[0], last[1]);
+            const isLoop = distanceBetweenEnds <= 150;
+
+            const routeTypeBadge = document.getElementById('activity-map-route-type');
+            if (routeTypeBadge) {
+                routeTypeBadge.textContent = isLoop ? 'Lus' : 'Punt naar punt';
+            }
+
+            if (!isLoop) {
+                const arrivalIcon = L.divIcon({
+                    html: `<svg width="22" height="30" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="white" stroke="#E63A7B" stroke-width="2.5"/>
+                        <circle cx="14" cy="14" r="4" fill="#E63A7B" opacity="0.5"/>
+                    </svg><span class="activity-map-label activity-map-label--end">Aankomst</span>`,
+                    className: 'activity-map-marker activity-map-marker--end',
+                    iconAnchor: [11, 30],
+                });
+
+                L.marker(last, { icon: arrivalIcon }).addTo(map);
+            }
         });
         </script>
         @endpush
