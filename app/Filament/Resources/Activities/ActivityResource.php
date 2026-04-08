@@ -82,6 +82,12 @@ class ActivityResource extends Resource
                     ->maxLength(50)
                     ->label('Duration')
                     ->helperText('e.g. max 1u'),
+                TextInput::make('komoot_url')
+                    ->nullable()
+                    ->url()
+                    ->label('Komoot URL')
+                    ->helperText('Paste the public Komoot tour URL (e.g. https://www.komoot.com/tour/123). Optional.')
+                    ->maxLength(500),
                 SpatieMediaLibraryFileUpload::make('gpx')
                     ->label('Route (GPX file)')
                     ->disk('media')

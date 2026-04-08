@@ -5,12 +5,13 @@ namespace Database\Factories;
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\User;
+use Carbon\Carbon;
 use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Activity>
+ * @extends Factory<Activity>
  */
 class ActivityFactory extends Factory
 {
@@ -20,7 +21,7 @@ class ActivityFactory extends Factory
 
     public function definition(): array
     {
-        $beginDate = \Carbon\Carbon::parse(fake()->dateTimeBetween('now', '+1 year'));
+        $beginDate = Carbon::parse(fake()->dateTimeBetween('now', '+1 year'));
         $endDate = $beginDate->copy()->addDays(random_int(1, 2));
 
         return [
@@ -33,6 +34,7 @@ class ActivityFactory extends Factory
             'end_date' => $endDate,
             'location' => fake()->city().', '.fake()->address(),
             'author_id' => User::factory(),
+            'komoot_url' => null,
         ];
     }
 
