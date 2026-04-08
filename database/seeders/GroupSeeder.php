@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 
 class GroupSeeder extends Seeder
 {
+    private const DEFAULT_START_DATE = '2021-01-01';
+
     private $allGroups;
 
     private $mainGroups;
@@ -23,7 +25,7 @@ class GroupSeeder extends Seeder
             'name' => 'Belgium',
             'zip' => null,
             'invisible' => true,
-            'started_at' => '2021-01-01',
+            'started_at' => self::DEFAULT_START_DATE,
             'ended_at' => null,
         ]);
 
@@ -41,7 +43,7 @@ class GroupSeeder extends Seeder
                 'zip' => $region['zip'],
                 'parent_id' => $belgium->id,
                 'invisible' => true,
-                'started_at' => '2021-01-01',
+                'started_at' => self::DEFAULT_START_DATE,
                 'ended_at' => null,
             ]);
         }
@@ -82,7 +84,7 @@ class GroupSeeder extends Seeder
                     'name' => $subgroup['name'],
                     'zip' => $subgroup['zip'],
                     'parent_id' => $regionGroup->id,
-                    'started_at' => '2021-01-01',
+                    'started_at' => self::DEFAULT_START_DATE,
                     'ended_at' => null,
                 ]);
                 $this->allGroups->push($group);

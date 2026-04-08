@@ -8,27 +8,34 @@ use App\Models\Group;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Seeder;
+use RuntimeException;
 
 class ActivitySeeder extends Seeder
 {
+    private const DEFAULT_EVENT_TIME = '14:00';
+    private const AGENDA_YEAR = 2025;
+
     public function run(): void
     {
-        $author = User::query()->first() ?? User::factory()->create();
+        $author = User::query()->first();
+        if (! $author) {
+            throw new RuntimeException('ActivitySeeder requires at least one existing user.');
+        }
 
         foreach ($this->agendaActivities() as $activityData) {
-            $beginDate = $this->parseDate($activityData['date'], $activityData['time'] ?? '14:00');
+            $beginDate = $this->parseDate($activityData['date'], $activityData['time'] ?? self::DEFAULT_EVENT_TIME);
             $endDate = $beginDate->addHours(2);
 
             $activity = Activity::query()->updateOrCreate(
                 [
                     'title_nl' => $activityData['title_nl'],
-                    'begin_date' => $beginDate,
                 ],
                 [
                     'title_fr' => $activityData['title_fr'],
                     'content_nl' => $activityData['content_nl'],
                     'content_fr' => $activityData['content_fr'],
                     'activity_type' => $activityData['activity_type'],
+                    'begin_date' => $beginDate,
                     'end_date' => $endDate,
                     'location' => $activityData['location'],
                     'author_id' => $author->id,
@@ -49,7 +56,7 @@ class ActivitySeeder extends Seeder
     {
         [$day, $month] = array_map('intval', explode('/', $dayAndMonth));
 
-        return CarbonImmutable::create(2025, $month, $day, ...array_map('intval', explode(':', $time)));
+        return CarbonImmutable::create(self::AGENDA_YEAR, $month, $day, ...array_map('intval', explode(':', $time)));
     }
 
     private function agendaActivities(): array
