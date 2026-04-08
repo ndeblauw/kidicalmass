@@ -67,6 +67,28 @@ class ActivityResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Location'),
+                TextInput::make('postal_code')
+                    ->nullable()
+                    ->maxLength(10)
+                    ->label('Postal Code')
+                    ->helperText('e.g. 1000 — used in the display title'),
+                TextInput::make('distance')
+                    ->nullable()
+                    ->maxLength(50)
+                    ->label('Distance')
+                    ->helperText('e.g. 5–7 km'),
+                TextInput::make('duration')
+                    ->nullable()
+                    ->maxLength(50)
+                    ->label('Duration')
+                    ->helperText('e.g. max 1u'),
+                SpatieMediaLibraryFileUpload::make('gpx')
+                    ->label('Route (GPX file)')
+                    ->disk('media')
+                    ->collection('gpx')
+                    ->acceptedFileTypes(['application/gpx+xml', 'application/xml', 'text/xml'])
+                    ->maxSize(5120)
+                    ->helperText('Export GPX from Komoot (or any route planner) and upload here.'),
                 Select::make('author_id')
                     ->label('Author')
                     ->relationship('author', 'name')

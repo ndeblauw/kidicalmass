@@ -56,6 +56,29 @@ class Activity extends Model implements HasMedia
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
+
+        $this->addMediaCollection('gpx')->singleFile();
+    }
+
+    public function getRouteCoordinatesAttribute(): array
+    {
+        $media = $this->getFirstMedia('gpx');
+        if (! $media) {
+            return [];
+        }
+
+        $xml = simplexml_load_file($media->getPath());
+        if (! $xml) {
+            return [];
+        }
+
+        $xml->registerXPathNamespace('gpx', 'http://www.topografix.com/GPX/1/1');
+        $points = $xml->xpath('//gpx:trkpt') ?: $xml->xpath('//trkpt');
+
+        return collect($points)->map(fn ($pt) => [
+            (float) $pt['lat'],
+            (float) $pt['lon'],
+        ])->toArray();
     }
 
     public function author(): BelongsTo

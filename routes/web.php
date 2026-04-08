@@ -1,12 +1,18 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImpersonateController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
+Route::get('/', HomeController::class)->name('home');
 
-Route::resource('articles', \App\Http\Controllers\ArticleController::class)->only(['index', 'show']);
-Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['index', 'show']);
-Route::resource('groups', \App\Http\Controllers\GroupController::class)->only(['index', 'show']);
+Route::resource('articles', ArticleController::class)->only(['index', 'show']);
+Route::resource('activities', ActivityController::class)->only(['index', 'show']);
+Route::get('activities/{activity}/ical', [ActivityController::class, 'ical'])->name('activities.ical');
+Route::resource('groups', GroupController::class)->only(['index', 'show']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -14,9 +20,9 @@ Route::view('dashboard', 'dashboard')
 
 // Impersonation routes (authenticated users with Filament admin access)
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::post('impersonate/{user}', [\App\Http\Controllers\ImpersonateController::class, 'start'])
+    Route::post('impersonate/{user}', [ImpersonateController::class, 'start'])
         ->name('admin.impersonate.start');
-    Route::post('impersonate/stop', [\App\Http\Controllers\ImpersonateController::class, 'stop'])
+    Route::post('impersonate/stop', [ImpersonateController::class, 'stop'])
         ->name('admin.impersonate.stop');
 });
 

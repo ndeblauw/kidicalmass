@@ -134,6 +134,199 @@
     }
 }
 
+@layer components {
+
+    /* ─── Activity detail hero — split layout ─── */
+
+    .activity-hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        align-items: center;
+        padding-block: calc(var(--spacing) * 10);
+        margin-bottom: calc(var(--spacing) * 4);
+
+        @media (min-width: 768px) {
+            grid-template-columns: 3fr 2fr;
+        }
+    }
+
+    .activity-hero__copy {
+        h1 {
+            font-size: clamp(var(--text-4xl), 5vw, var(--text-7xl));
+            line-height: 1.0;
+            margin-block: 0.75rem 1.5rem;
+        }
+    }
+
+    .activity-hero__photo {
+        border-radius: var(--radius-2xl, 1rem);
+        overflow: hidden;
+        aspect-ratio: 4 / 3;
+
+        @media (min-width: 768px) {
+            aspect-ratio: 3 / 4;
+        }
+    }
+
+    .activity-hero__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .activity-hero__meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        font-size: var(--text-lg);
+        color: var(--color-text-body);
+        margin-bottom: 1.5rem;
+
+        dd {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+
+    .activity-hero__actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .activity-hero__copied {
+        font-size: var(--text-sm);
+        color: var(--color-kidical-green);
+        font-weight: 600;
+    }
+
+    /* ─── Practical strip ─── */
+
+    .activity-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 0.5rem;
+        list-style: none;
+        padding: 0;
+        font-size: var(--text-base);
+        font-weight: 600;
+        color: var(--color-kidical-ink);
+        border-block: 1px solid var(--color-zinc-200);
+        padding-block: 0.875rem;
+        margin-bottom: calc(var(--spacing) * 12);
+    }
+
+    /* ─── Generic content section ─── */
+
+    .activity-section {
+        margin-bottom: calc(var(--spacing) * 10);
+        max-width: 48rem;
+    }
+
+    /* ─── Fixed promises block ─── */
+
+    .activity-promises {
+        margin-bottom: calc(var(--spacing) * 14);
+
+        h2 {
+            margin-bottom: 2rem;
+        }
+    }
+
+    .activity-promises__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        list-style: none;
+        padding: 0;
+
+        @media (min-width: 640px) {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .activity-promises__item {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+
+        strong {
+            display: block;
+            font-size: var(--text-base);
+            font-weight: 700;
+            color: var(--color-kidical-ink);
+            margin-bottom: 0.25rem;
+        }
+
+        p {
+            font-size: var(--text-base);
+            line-height: 1.5;
+            margin: 0;
+        }
+    }
+
+    .activity-promises__icon {
+        flex-shrink: 0;
+        width: 1.75rem;
+        height: 1.75rem;
+        color: var(--color-kidical-red);
+        margin-top: 0.125rem;
+    }
+
+    /* ─── Lower two-column: map left, info right ─── */
+
+    .activity-lower {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        margin-bottom: calc(var(--spacing) * 14);
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+        }
+    }
+
+    .activity-map-col {
+        h2 { margin-bottom: 1rem; }
+    }
+
+    .activity-map-embed {
+        height: 380px;
+        border-radius: var(--radius-xl, 0.75rem);
+        overflow: hidden;
+        border: 1px solid var(--color-zinc-200);
+    }
+
+    .activity-info-col {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .activity-info-col__block {
+        h2 { margin-bottom: 0.5rem; }
+        p { margin: 0 0 0.5rem; }
+    }
+
+    /* ─── Photo permission ─── */
+
+    .activity-photo-notice {
+        font-size: var(--text-sm);
+        color: var(--color-zinc-400);
+        margin-block: calc(var(--spacing) * 8);
+    }
+}
+
+/* Leaflet overrides — keep map controls clean */
+.leaflet-control-attribution {
+    font-size: 10px !important;
+    background: rgb(255 255 255 / 0.7) !important;
+}
+
 /* Global: Flux link colour */
 [data-flux-link] {
     color: var(--color-text-link);
