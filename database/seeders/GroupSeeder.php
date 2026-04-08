@@ -23,8 +23,8 @@ class GroupSeeder extends Seeder
             'name' => 'Belgium',
             'zip' => null,
             'invisible' => true,
-            'started_at' => $this->randomStartDate(),
-            'ended_at' => $this->randomEndDate(),
+            'started_at' => '2021-01-01',
+            'ended_at' => null,
         ]);
 
         $regions = [
@@ -41,33 +41,34 @@ class GroupSeeder extends Seeder
                 'zip' => $region['zip'],
                 'parent_id' => $belgium->id,
                 'invisible' => true,
-                'started_at' => $this->randomStartDate(),
-                'ended_at' => $this->randomEndDate(),
+                'started_at' => '2021-01-01',
+                'ended_at' => null,
             ]);
         }
 
         $subgroupData = [
             'flanders' => [
-                ['shortname' => 'antwerp', 'name' => 'Antwerp', 'zip' => '2000'],
-                ['shortname' => 'gent', 'name' => 'Gent', 'zip' => '9000'],
-                ['shortname' => 'leuven', 'name' => 'Leuven', 'zip' => '3000'],
-                ['shortname' => 'hasselt', 'name' => 'Hasselt', 'zip' => '3500'],
-                ['shortname' => 'brugge', 'name' => 'Brugge', 'zip' => '8000'],
+                ['shortname' => 'mechelen', 'name' => 'Mechelen', 'zip' => '2800'],
             ],
             'brussels-capital-region' => [
-                ['shortname' => 'brussels', 'name' => 'Brussels', 'zip' => '1000'],
-                ['shortname' => 'ixelles', 'name' => 'Ixelles', 'zip' => '1050'],
+                ['shortname' => 'bruxelles-ville-brussel-stad', 'name' => 'Bruxelles Ville - Brussel Stad', 'zip' => '1000'],
                 ['shortname' => 'anderlecht', 'name' => 'Anderlecht', 'zip' => '1070'],
-                ['shortname' => 'schaerbeek', 'name' => 'Schaerbeek', 'zip' => '1030'],
-                ['shortname' => 'sint-joost-ten-node', 'name' => 'Sint-Joost-ten-Node', 'zip' => '1210'],
-                ['shortname' => 'molenbeek', 'name' => 'Molenbeek', 'zip' => '1080'],
+                ['shortname' => 'schaerbeek-schaarbeek', 'name' => 'Schaerbeek - Schaarbeek', 'zip' => '1030'],
+                ['shortname' => 'forest-vorst', 'name' => 'Forest - Vorst', 'zip' => '1190'],
+                ['shortname' => 'watermael-boitsfort-auderghem', 'name' => 'Watermael-Boitsfort - Watermaal-Bosvoorde & Auderghem - Oudergem', 'zip' => '1170'],
+                ['shortname' => 'woluwe-saint-pierre-woluwe-saint-lambert', 'name' => 'Woluwe-Saint-Pierre - Woluwe-Saint-Lambert / Woluwe-Sint-Pieters - Woluwe-Sint-Lambrechts', 'zip' => '1150'],
+                ['shortname' => 'evere-haren', 'name' => 'Evere - Haren', 'zip' => '1140'],
+                ['shortname' => 'ixelles-elsene', 'name' => 'Ixelles - Elsene', 'zip' => '1050'],
+                ['shortname' => 'neder-over-heembeek', 'name' => 'Neder-Over-Heembeek', 'zip' => '1120'],
+                ['shortname' => 'etterbeek', 'name' => 'Etterbeek', 'zip' => '1040'],
+                ['shortname' => 'laeken-laken', 'name' => 'Laeken - Laken', 'zip' => '1020'],
+                ['shortname' => 'koekelberg-berchem-ganshoren', 'name' => 'Koekelberg / Berchem / Ganshoren', 'zip' => '1080'],
+                ['shortname' => 'uccle-ukkel', 'name' => 'Uccle - Ukkel', 'zip' => '1180'],
+                ['shortname' => 'jette', 'name' => 'Jette', 'zip' => '1090'],
             ],
             'wallonia' => [
                 ['shortname' => 'mons', 'name' => 'Mons', 'zip' => '7000'],
-                ['shortname' => 'liege', 'name' => 'Liège', 'zip' => '4000'],
-                ['shortname' => 'arlon', 'name' => 'Arlon', 'zip' => '6700'],
                 ['shortname' => 'namur', 'name' => 'Namur', 'zip' => '5000'],
-                ['shortname' => 'nivelles', 'name' => 'Nivelles', 'zip' => '1300'],
             ],
         ];
 
@@ -75,40 +76,20 @@ class GroupSeeder extends Seeder
         $this->mainGroups = collect($regionGroups);
 
         foreach ($regionGroups as $regionShortname => $regionGroup) {
-            $availableSubgroups = $subgroupData[$regionShortname];
-            $subgroupCount = rand(1, 5);
-            $selectedSubgroups = collect($availableSubgroups)->random($subgroupCount);
-
-            foreach ($selectedSubgroups as $subgroup) {
+            foreach ($subgroupData[$regionShortname] as $subgroup) {
                 $group = Group::create([
                     'shortname' => $subgroup['shortname'],
                     'name' => $subgroup['name'],
                     'zip' => $subgroup['zip'],
                     'parent_id' => $regionGroup->id,
-                    'started_at' => $this->randomStartDate(),
-                    'ended_at' => $this->randomEndDate(),
+                    'started_at' => '2021-01-01',
+                    'ended_at' => null,
                 ]);
                 $this->allGroups->push($group);
             }
         }
 
         $this->allGroups = $this->allGroups->merge($this->mainGroups);
-    }
-
-    private function randomStartDate(): ?string
-    {
-        $startDate = now()->subYears(rand(0, now()->year - 2021));
-
-        return $startDate->format('Y-m-d');
-    }
-
-    private function randomEndDate(): ?string
-    {
-        if (rand(1, 100) <= 5) {
-            return now()->subDays(rand(1, 365))->format('Y-m-d');
-        }
-
-        return null;
     }
 
     public function getAllGroups(): \Illuminate\Support\Collection

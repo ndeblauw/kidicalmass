@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Activity;
 use App\Models\Article;
 use App\Models\ContactForm;
 use App\Models\Group;
@@ -73,18 +72,10 @@ class DatabaseSeeder extends Seeder
         });
     }
 
-    private function seedActivities(int $nr = 30): void
+    private function seedActivities(): void
     {
-        $this->task('Seeding activities', function () use ($nr) {
-
-            foreach (range(1, $nr) as $i) {
-                $groups = ($i <= 15)
-                    ? [$this->mainGroups->random()->id]
-                    : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(3, $subgroups->count()))->pluck('id')->toArray();
-
-                Activity::factory()->create()->groups()->attach($groups);
-            }
-
+        $this->task('Seeding activities', function () {
+            $this->call(ActivitySeeder::class);
         });
     }
 
