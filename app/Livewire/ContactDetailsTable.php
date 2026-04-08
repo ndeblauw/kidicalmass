@@ -24,18 +24,16 @@ class ContactDetailsTable extends Component
     /** @var \Illuminate\Support\Collection<int, \App\Models\Group> */
     public Collection $groups;
 
-    public function mount(?Group $group = null, mixed $groups = null): void
+    public function mount($group = null, mixed $groups = null): void
     {
-        if ($group) {
+        if ($group !== null) {
             $this->groups = collect([$group]);
             $this->groupFilter = (string) $group->id;
         } else {
-            $this->groups = match (true) {
-                $groups instanceof EloquentCollection => $groups->values(),
-                $groups instanceof Collection => $groups->values(),
-                default => collect($groups)->filter()->values(),
-            };
+            $this->groups = $groups;
         }
+
+        ray($this->groups, $this->showGroups);
 
         $this->showGroups = $this->groups->count() > 1;
         $this->hasPhoneColumn = Schema::hasColumn('users', 'phone');

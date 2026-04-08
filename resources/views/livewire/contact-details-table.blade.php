@@ -7,6 +7,8 @@
             placeholder="Search by name, email, phone or group"
         />
 
+
+
         @if ($showGroups)
             <flux:select wire:model.live="groupFilter" label="Filter by group">
                 <option value="">All groups</option>

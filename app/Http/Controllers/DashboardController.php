@@ -27,15 +27,9 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        $dashboardGroups = Group::query()
-            ->whereIn('id', $groupIds)
-            ->orderBy('name')
-            ->get();
-
         return view('dashboard', [
             'upcomingActivities' => $upcomingActivities,
             'pastActivities' => $pastActivities,
-            'dashboardGroups' => $dashboardGroups,
         ]);
     }
 }
