@@ -29,13 +29,13 @@ class ActivitySeeder extends Seeder
             $activity = Activity::query()->updateOrCreate(
                 [
                     'title_nl' => $activityData['title_nl'],
+                    'begin_date' => $beginDate,
                 ],
                 [
                     'title_fr' => $activityData['title_fr'],
                     'content_nl' => $activityData['content_nl'],
                     'content_fr' => $activityData['content_fr'],
                     'activity_type' => $activityData['activity_type'],
-                    'begin_date' => $beginDate,
                     'end_date' => $endDate,
                     'location' => $activityData['location'],
                     'author_id' => $author->id,

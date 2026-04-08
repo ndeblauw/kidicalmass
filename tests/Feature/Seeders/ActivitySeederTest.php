@@ -9,14 +9,14 @@ use Database\Seeders\GroupSeeder;
 test('group seeder creates expected agenda groups and does not create legacy city groups', function () {
     $this->seed(GroupSeeder::class);
 
-    $removedLegacyGroups = ['antwerp', 'gent', 'leuven', 'hasselt', 'brugge', 'brussels', 'liege', 'arlon', 'nivelles'];
+    $legacyGroupsThatShouldNotExist = ['antwerp', 'gent', 'leuven', 'hasselt', 'brugge', 'brussels', 'liege', 'arlon', 'nivelles'];
 
     expect(Group::query()->where('shortname', 'schaerbeek-schaarbeek')->exists())->toBeTrue()
         ->and(Group::query()->where('shortname', 'watermael-boitsfort-auderghem')->exists())->toBeTrue()
         ->and(Group::query()->where('shortname', 'mechelen')->exists())->toBeTrue()
         ->and(Group::query()->where('shortname', 'mons')->exists())->toBeTrue()
         ->and(Group::query()->where('shortname', 'namur')->exists())->toBeTrue()
-        ->and(Group::query()->whereIn('shortname', $removedLegacyGroups)->count())->toBe(0);
+        ->and(Group::query()->whereIn('shortname', $legacyGroupsThatShouldNotExist)->count())->toBe(0);
 });
 
 test('activity seeder creates agenda activities and links groups', function () {
