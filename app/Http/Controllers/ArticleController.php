@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use Illuminate\Contracts\View\View;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $articles = Article::with(['author', 'groups'])
             ->latest()
@@ -15,7 +16,7 @@ class ArticleController extends Controller
         return view('articles.index', compact('articles'));
     }
 
-    public function show(Article $article)
+    public function show(Article $article): View
     {
         $article->load(['author', 'groups']);
 

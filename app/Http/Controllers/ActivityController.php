@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use Illuminate\Contracts\View\View;
 
 class ActivityController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $activities = Activity::with(['author', 'groups'])
             ->orderBy('begin_date')
@@ -15,7 +16,7 @@ class ActivityController extends Controller
         return view('activities.index', compact('activities'));
     }
 
-    public function show(Activity $activity)
+    public function show(Activity $activity): View
     {
         $activity->load(['author', 'groups']);
 
