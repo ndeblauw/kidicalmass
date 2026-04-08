@@ -9,7 +9,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading: 'Poppins', ui-sans-serif, system-ui, sans-serif;
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -24,13 +25,18 @@
     --color-zinc-950: #0a0a0a;
 
     /* Kidical Mass Brand Colors */
+    --color-kidical-ink: #281a39;
     --color-kidical-yellow: #FDB913;
     --color-kidical-red: #E63A7B;
     --color-kidical-green: #5CB85C;
     --color-kidical-orange: #F0803C;
-    --color-kidical-blue: #2E5090;
+    --color-kidical-blue: #4B64AD;
+    --color-kidical-light-blue: #B7E7F0;
     --color-kidical-light-yellow: #FEF3D5;
-    
+
+    --color-text-body: color-mix(in oklab, var(--color-kidical-ink), white 50%);
+    --color-text-link: var(--color-kidical-ink);
+
     --color-accent: var(--color-kidical-yellow);
     --color-accent-content: var(--color-kidical-yellow);
     --color-accent-foreground: var(--color-neutral-900);
@@ -45,7 +51,6 @@
 }
 
 @layer base {
-
     *,
     ::after,
     ::before,
@@ -53,91 +58,131 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
+
+    body {
+        color: var(--color-text-body);
+        font-size: var(--text-xl);
+        line-height: 1.625;
+    }
+
+    a {
+        color: var(--color-text-link);
+        text-decoration: none;
+        background-image:
+            linear-gradient(var(--color-kidical-yellow), var(--color-kidical-yellow)),
+            linear-gradient(color-mix(in oklab, var(--color-kidical-yellow), transparent 30%), color-mix(in oklab, var(--color-kidical-yellow), transparent 30%));
+        background-repeat: no-repeat;
+        background-position: left center, left bottom;
+        background-size: 0% 100%, 100% 1px;
+        transition: background-size 0.25s ease-out;
+    }
+
+    a:hover {
+        background-size: 100% 100%, 100% 1px;
+    }
+
+    header a,
+    footer ul a {
+        background-image: none;
+        transition: none;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+        font-weight: 800;
+    }
+
+    h1 { font-size: var(--text-6xl); line-height: 1.05; color: var(--color-kidical-blue); }
+    h2 { font-size: var(--text-4xl); line-height: 1.15; }
+    h3 { font-size: var(--text-3xl); line-height: 1.25; }
+    h4 { font-size: var(--text-2xl); line-height: 1.35; }
+    h5 { font-size: var(--text-xl);  line-height: 1.4; }
+    h6 { font-size: var(--text-lg);  line-height: 1.5; }
+
+    dt {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        color: var(--color-zinc-500);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
 }
 
+@layer components {
+    .activity-meta {
+        background-color: var(--color-kidical-light-yellow);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        gap: 1.25rem;
+    }
+
+    .activity-meta dd {
+        font-weight: 600;
+        color: var(--color-kidical-ink);
+    }
+
+    .logo-brand-text {
+        font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif;
+        color: var(--color-kidical-red);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
+    }
+}
+
+/* Global: Flux link colour */
+[data-flux-link] {
+    color: var(--color-text-link);
+    text-decoration: none;
+}
+
+/* Footer */
+footer h3 {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-zinc-500);
+}
+
+footer [data-flux-text] {
+    color: var(--color-kidical-ink);
+}
+
+footer ul [data-flux-link] {
+    text-decoration: none;
+}
+
+/* Site header nav links */
+header [data-flux-navbar-items] [data-content] {
+    font-size: var(--text-base);
+    font-weight: 700;
+}
+
+header [data-flux-navbar-items][data-current] [data-content] {
+    color: var(--color-kidical-ink);
+}
+
+header [data-flux-navbar-items][data-current]::after {
+    display: none;
+}
+
+/* Flux overrides */
 [data-flux-field]:not(ui-radio, ui-checkbox) {
     @apply grid gap-2;
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
-}
-
-/* \[:where(&)\]:size-4 {
-    @apply size-4;
-} */
-
-/* Kidical Mass Custom Styles */
-.bg-kidical-yellow {
-    background-color: var(--color-kidical-yellow);
-}
-
-.bg-kidical-red {
-    background-color: var(--color-kidical-red);
-}
-
-.bg-kidical-green {
-    background-color: var(--color-kidical-green);
-}
-
-.bg-kidical-orange {
-    background-color: var(--color-kidical-orange);
-}
-
-.bg-kidical-blue {
-    background-color: var(--color-kidical-blue);
-}
-
-.bg-kidical-light-yellow {
-    background-color: var(--color-kidical-light-yellow);
-}
-
-.text-kidical-yellow {
-    color: var(--color-kidical-yellow);
-}
-
-.text-kidical-red {
-    color: var(--color-kidical-red);
-}
-
-.text-kidical-green {
-    color: var(--color-kidical-green);
-}
-
-.text-kidical-orange {
-    color: var(--color-kidical-orange);
-}
-
-.text-kidical-blue {
-    color: var(--color-kidical-blue);
-}
-
-.text-kidical-red {
-    color: var(--color-kidical-red);
-}
-
-.logo-brand-text {
-    font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif;
-    color: var(--color-kidical-red);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    line-height: 1;
-}
-
-.border-kidical-yellow {
-    border-color: var(--color-kidical-yellow);
-}
-
-.hover\:bg-kidical-yellow:hover {
-    background-color: var(--color-kidical-yellow);
-}
-
-.hero-section {
-    background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
 }

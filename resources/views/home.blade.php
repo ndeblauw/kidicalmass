@@ -2,20 +2,14 @@
     <!-- Hero Section -->
     <div class="hero-section -mx-4 -mt-8 mb-12 px-4 py-16 md:py-24 text-center">
         <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold text-kidical-blue mb-6">
+            <h1 class="mb-6">
                 <x-bike-icon class="w-12 h-12 md:w-16 md:h-16 inline-block mr-2" />
                 Kidical Mass Belgium
             </h1>
-            <p class="text-xl md:text-2xl text-kidical-blue/90 mb-8">
-                Safe, fun, and accessible cycling for families and children
-            </p>
+            <flux:text class="mb-8">Safe, fun, and accessible cycling for families and children</flux:text>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('activities.index') }}" class="px-8 py-3 bg-kidical-green text-white rounded-lg hover:bg-kidical-blue transition-colors font-bold text-lg shadow-lg">
-                    View Activities
-                </a>
-                <a href="{{ route('groups.index') }}" class="px-8 py-3 bg-white text-kidical-blue rounded-lg hover:bg-kidical-light-yellow transition-colors font-bold text-lg shadow-lg">
-                    Find Your Group
-                </a>
+                <flux:button href="{{ route('activities.index') }}" variant="primary">View Activities</flux:button>
+                <flux:button href="{{ route('groups.index') }}">Find Your Group</flux:button>
             </div>
         </div>
     </div>
@@ -24,70 +18,66 @@
         <!-- Latest Articles -->
         <section>
             <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-kidical-blue">Latest Articles</h2>
-                <a href="{{ route('articles.index') }}" class="text-kidical-green hover:text-kidical-orange transition-colors font-semibold">
-                    View All →
-                </a>
+                <h2>Latest Articles</h2>
+                <flux:button href="{{ route('articles.index') }}" variant="ghost">View All</flux:button>
             </div>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach($latestArticles as $article)
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border-t-4 border-kidical-yellow">
+                    <article class="overflow-hidden">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-kidical-blue mb-3">{{ $article->title_nl }}</h3>
-                            <div class="flex items-center text-sm text-gray-600 mb-3">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                                </svg>
-                                <span>{{ $article->author->name }}</span>
-                                <span class="mx-2">•</span>
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>{{ $article->created_at->format('M d, Y') }}</span>
-                            </div>
-                            <p class="text-gray-700 mb-4">{{ Str::limit(strip_tags($article->content_nl), 150) }}</p>
-                            <a href="{{ route('articles.show', $article) }}" class="inline-block px-4 py-2 bg-kidical-green text-white rounded-lg hover:bg-kidical-orange transition-colors font-semibold text-sm">
-                                Read More
-                            </a>
+                            <h3 class="mb-3">{{ $article->title_nl }}</h3>
+                            <dl class="flex items-center gap-3 mb-3">
+                                <div class="flex items-center gap-1">
+                                    <flux:icon.user aria-hidden="true" />
+                                    <dt class="sr-only">Author</dt>
+                                    <dd>{{ $article->author->name }}</dd>
+                                </div>
+                                <span aria-hidden="true">•</span>
+                                <div class="flex items-center gap-1">
+                                    <flux:icon.calendar-days aria-hidden="true" />
+                                    <dt class="sr-only">Date</dt>
+                                    <dd><time datetime="{{ $article->created_at->format('Y-m-d') }}">{{ $article->created_at->format('M d, Y') }}</time></dd>
+                                </div>
+                            </dl>
+                            <flux:text class="mb-4">{{ Str::limit(strip_tags($article->content_nl), 150) }}</flux:text>
+                            <flux:button href="{{ route('articles.show', $article) }}" variant="primary">Read More</flux:button>
                         </div>
-                    </div>
+                    </article>
                 @endforeach
             </div>
         </section>
 
         <!-- Upcoming Activities -->
-        <section class="bg-kidical-light-yellow -mx-4 px-4 py-12 md:-mx-0 md:px-8 md:rounded-2xl">
+        <section class="-mx-4 px-4 py-12 md:-mx-0 md:px-8">
             <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-kidical-blue">Upcoming Activities</h2>
-                <a href="{{ route('activities.index') }}" class="text-kidical-green hover:text-kidical-orange transition-colors font-semibold">
-                    View All →
-                </a>
+                <h2>Upcoming Activities</h2>
+                <flux:button href="{{ route('activities.index') }}" variant="ghost">View All</flux:button>
             </div>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach($upcomingActivities as $activity)
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border-l-4 border-kidical-green">
+                    <article class="overflow-hidden">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-kidical-blue mb-3">{{ $activity->title_nl }}</h3>
-                            <div class="space-y-2 mb-4">
-                                <div class="flex items-center text-sm text-gray-700">
-                                    <svg class="w-4 h-4 mr-2 text-kidical-green" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span class="font-semibold">{{ $activity->begin_date->format('M d, Y \a\t H:i') }}</span>
+                            <h3 class="mb-3">{{ $activity->title_nl }}</h3>
+                            <dl class="space-y-2 mb-4">
+                                <div class="flex items-center gap-2">
+                                    <flux:icon.calendar-days class="shrink-0" aria-hidden="true" />
+                                    <div>
+                                        <dt class="sr-only">Date</dt>
+                                        <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $activity->begin_date->format('M d, Y \a\t H:i') }}</time></dd>
+                                    </div>
                                 </div>
-                                <div class="flex items-center text-sm text-gray-700">
-                                    <svg class="w-4 h-4 mr-2 text-kidical-green" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <span>{{ $activity->location }}</span>
+                                <div class="flex items-center gap-2">
+                                    <flux:icon.map-pin class="shrink-0" aria-hidden="true" />
+                                    <div>
+                                        <dt class="sr-only">Location</dt>
+                                        <dd>{{ $activity->location }}</dd>
+                                    </div>
                                 </div>
-                            </div>
-                            <p class="text-gray-700 mb-4">{{ Str::limit(strip_tags($activity->content_nl), 150) }}</p>
-                            <a href="{{ route('activities.show', $activity) }}" class="inline-block px-4 py-2 bg-kidical-orange text-white rounded-lg hover:bg-kidical-blue transition-colors font-semibold text-sm">
-                                View Activity
-                            </a>
+                            </dl>
+                            <flux:text class="mb-4">{{ Str::limit(strip_tags($activity->content_nl), 150) }}</flux:text>
+                            <flux:button href="{{ route('activities.show', $activity) }}" variant="primary">View Activity</flux:button>
                         </div>
-                    </div>
+                    </article>
                 @endforeach
             </div>
         </section>
@@ -95,36 +85,28 @@
         <!-- Groups -->
         <section>
             <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-kidical-blue">Local Groups</h2>
-                <a href="{{ route('groups.index') }}" class="text-kidical-green hover:text-kidical-orange transition-colors font-semibold">
-                    View All →
-                </a>
+                <h2>Local Groups</h2>
+                <flux:button href="{{ route('groups.index') }}" variant="ghost">View All</flux:button>
             </div>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach($groups as $group)
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border-t-4 border-kidical-blue">
+                    <article class="overflow-hidden">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-kidical-blue mb-3">{{ $group->name }}</h3>
-                            <div class="flex items-center text-sm text-gray-600 mb-3">
-                                <svg class="w-4 h-4 mr-1 text-kidical-blue" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span class="font-semibold">{{ $group->zip }}</span>
+                            <h3 class="mb-3">{{ $group->name }}</h3>
+                            <dl class="mb-3">
+                                <div class="flex items-center gap-1">
+                                    <flux:icon.map-pin aria-hidden="true" />
+                                    <dt class="sr-only">ZIP</dt>
+                                    <dd>{{ $group->zip }}</dd>
+                                </div>
+                            </dl>
+                            <div class="flex items-center gap-2 mb-4">
+                                <flux:badge>{{ $group->articles_count }} articles</flux:badge>
+                                <flux:badge>{{ $group->activities_count }} activities</flux:badge>
                             </div>
-                            <div class="flex items-center text-sm text-gray-600 mb-4">
-                                <span class="px-3 py-1 bg-kidical-light-yellow rounded-full text-kidical-blue font-semibold">
-                                    {{ $group->articles_count }} articles
-                                </span>
-                                <span class="mx-2">•</span>
-                                <span class="px-3 py-1 bg-kidical-light-yellow rounded-full text-kidical-blue font-semibold">
-                                    {{ $group->activities_count }} activities
-                                </span>
-                            </div>
-                            <a href="{{ route('groups.show', $group) }}" class="inline-block px-4 py-2 bg-kidical-blue text-white rounded-lg hover:bg-kidical-green transition-colors font-semibold text-sm">
-                                View Group
-                            </a>
+                            <flux:button href="{{ route('groups.show', $group) }}" variant="primary">View Group</flux:button>
                         </div>
-                    </div>
+                    </article>
                 @endforeach
             </div>
         </section>
