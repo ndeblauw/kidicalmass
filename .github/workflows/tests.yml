@@ -18,7 +18,7 @@ jobs:
     environment: Testing
     strategy:
       matrix:
-        php-version: ["8.4", "8.5"]
+        php-version: ["8.4"]
 
     steps:
       - name: Checkout code
@@ -41,6 +41,9 @@ jobs:
 
       - name: Add Flux Credentials Loaded From ENV
         run: composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
+
+      - name: Clear Composer Cache
+        run: composer clear-cache
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
