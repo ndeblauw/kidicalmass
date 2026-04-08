@@ -633,7 +633,7 @@
 
     .activity-map-label {
         font-family: var(--font-heading);
-        font-size: 0.6875rem;
+        font-size: var(--text-sm);
         font-weight: 700;
         color: var(--color-kidical-ink);
         background: white;

@@ -254,7 +254,7 @@
                 opacity: 0.95,
             }).addTo(map);
 
-            map.fitBounds(polyline.getBounds(), { padding: [40, 40] });
+            map.fitBounds(polyline.getBounds(), { padding: [16, 16] });
 
             // Departure pin
             const departureIcon = L.divIcon({
