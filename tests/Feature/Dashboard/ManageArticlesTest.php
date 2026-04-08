@@ -148,3 +148,16 @@ test('article content is required', function () {
         ->call('save')
         ->assertHasErrors(['content']);
 });
+
+test('dispatching open-article-form opens the create form', function () {
+    $user = User::factory()->create();
+    $group = Group::factory()->create();
+    $user->groups()->attach($group);
+
+    $this->actingAs($user);
+
+    Livewire::test(ManageArticles::class)
+        ->dispatch('open-article-form')
+        ->assertSet('showForm', true)
+        ->assertSet('editingArticleId', null);
+});

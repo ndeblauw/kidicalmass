@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class ManageActivities extends Component
 {
+    protected $listeners = ['open-activity-form' => 'create'];
+
     public $title = '';
 
     public $description = '';

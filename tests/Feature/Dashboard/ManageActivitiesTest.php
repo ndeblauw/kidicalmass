@@ -183,3 +183,16 @@ test('activity end_date must be after or equal to begin_date', function () {
         ->call('save')
         ->assertHasErrors(['end_date']);
 });
+
+test('dispatching open-activity-form opens the create form', function () {
+    $user = User::factory()->create();
+    $group = Group::factory()->create();
+    $user->groups()->attach($group);
+
+    $this->actingAs($user);
+
+    Livewire::test(ManageActivities::class)
+        ->dispatch('open-activity-form')
+        ->assertSet('showForm', true)
+        ->assertSet('editingActivityId', null);
+});

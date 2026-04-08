@@ -29,3 +29,17 @@ test('dashboard lists the groups the user belongs to', function () {
         ->assertSee('alpha')
         ->assertSee('beta');
 });
+
+test('dashboard tabs use Alpine state outside Livewire components', function () {
+    $user = User::factory()->create();
+    $group = Group::factory()->create();
+
+    $user->groups()->attach($group->id);
+
+    $this->actingAs($user);
+
+    $this->get('/dashboard')
+        ->assertOk()
+        ->assertSee('x-model="activeTab"', false)
+        ->assertDontSee('wire:model="activeTab"', false);
+});

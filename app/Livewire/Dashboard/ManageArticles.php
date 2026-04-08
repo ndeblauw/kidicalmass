@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class ManageArticles extends Component
 {
+    protected $listeners = ['open-article-form' => 'create'];
+
     public $title = '';
 
     public $content = '';

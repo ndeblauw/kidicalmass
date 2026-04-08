@@ -1,12 +1,38 @@
 <x-layouts::app :title="__('Dashboard')">
-    <div class="flex h-full w-full flex-1 flex-col gap-6 p-6">
+    <div class="flex h-full w-full flex-1 flex-col gap-6 p-6" x-data="{ activeTab: 'articles' }">
         @php
             $user = auth()->user()->loadMissing('groups');
             $userGroups = $user->groups->sortBy('name');
         @endphp
 
-        <flux:heading size="xl">{{ __('Dashboard') }}</flux:heading>
-        <flux:subheading>{{ __('Manage your groups, articles, and activities') }}</flux:subheading>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <flux:heading size="xl">{{ __('Dashboard') }}</flux:heading>
+                <flux:subheading>{{ __('Manage your groups, articles, and activities') }}</flux:subheading>
+            </div>
+
+            @if($userGroups->isNotEmpty())
+                <div class="flex flex-wrap gap-2">
+                    <flux:button
+                        icon="plus"
+                        variant="primary"
+                        type="button"
+                        x-on:click.prevent="activeTab = 'articles'; $dispatch('open-article-form'); $nextTick(() => document.getElementById('dashboard-articles')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));"
+                    >
+                        {{ __('Create Article') }}
+                    </flux:button>
+
+                    <flux:button
+                        icon="plus"
+                        variant="outline"
+                        type="button"
+                        x-on:click.prevent="activeTab = 'activities'; $dispatch('open-activity-form'); $nextTick(() => document.getElementById('dashboard-activities')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));"
+                    >
+                        {{ __('Create Activity') }}
+                    </flux:button>
+                </div>
+            @endif
+        </div>
 
         <flux:card>
             <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -65,16 +91,16 @@
         </flux:card>
 
         @if($userGroups->count() > 0)
-            <flux:tabs wire:model="activeTab">
+            <flux:tabs x-model="activeTab">
                 <flux:tab name="articles">{{ __('Articles') }}</flux:tab>
                 <flux:tab name="activities">{{ __('Activities') }}</flux:tab>
                 <flux:tab name="groups">{{ __('Groups') }}</flux:tab>
 
-                <flux:tab.panel name="articles">
+                <flux:tab.panel name="articles" id="dashboard-articles">
                     <livewire:dashboard.manage-articles />
                 </flux:tab.panel>
 
-                <flux:tab.panel name="activities">
+                <flux:tab.panel name="activities" id="dashboard-activities">
                     <livewire:dashboard.manage-activities />
                 </flux:tab.panel>
 
