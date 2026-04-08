@@ -149,7 +149,7 @@ test('group show mixes parent and direct content with correct ordering', functio
         'content_fr' => 'Later parent activity',
         'activity_type' => 'kidicalmass',
         'begin_date' => now()->addDays(5),
-        'end_date' => now()->addDays(5)->addHour(),
+        'duration_minutes' => 60,
         'location' => 'Parent place',
         'author_id' => $author->id,
     ]);
@@ -162,7 +162,7 @@ test('group show mixes parent and direct content with correct ordering', functio
         'content_fr' => 'Nearest child activity',
         'activity_type' => 'kidicalmass',
         'begin_date' => now()->addDay(),
-        'end_date' => now()->addDay()->addHour(),
+        'duration_minutes' => 60,
         'location' => 'Child place',
         'author_id' => $author->id,
     ]);
@@ -175,7 +175,7 @@ test('group show mixes parent and direct content with correct ordering', functio
         'content_fr' => 'Past child activity',
         'activity_type' => 'kidicalmass',
         'begin_date' => now()->subDay(),
-        'end_date' => now()->subDay()->addHour(),
+        'duration_minutes' => 60,
         'location' => 'Past place',
         'author_id' => $author->id,
     ]);

@@ -5,12 +5,13 @@ namespace Database\Factories;
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\User;
+use Carbon\Carbon;
 use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Activity>
+ * @extends Factory<Activity>
  */
 class ActivityFactory extends Factory
 {
@@ -20,8 +21,8 @@ class ActivityFactory extends Factory
 
     public function definition(): array
     {
-        $beginDate = \Carbon\Carbon::parse(fake()->dateTimeBetween('now', '+1 year'));
-        $endDate = $beginDate->copy()->addDays(random_int(1, 2));
+        $beginDate = Carbon::parse(fake()->dateTimeBetween('now', '+1 year'));
+        $durationMinutes = fake()->randomElement([60, 90, 120, 180]);
 
         return [
             'title_nl' => fake()->sentence(),
@@ -30,8 +31,13 @@ class ActivityFactory extends Factory
             'content_fr' => fake()->paragraphs(2, true),
             'activity_type' => fake()->randomElement(ActivityType::cases()),
             'begin_date' => $beginDate,
-            'end_date' => $endDate,
             'location' => fake()->city().', '.fake()->address(),
+            'commute_link' => fake()->randomElement([
+                'https://www.komoot.com/plan/tour/123456',
+                'https://ridewithgps.com/routes/12345',
+                null,
+            ]),
+            'duration_minutes' => $durationMinutes,
             'author_id' => User::factory(),
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Activities;
 use App\Enums\ActivityType;
 use App\Filament\Resources\Activities\Pages\ManageActivities;
 use App\Models\Activity;
+use App\Models\User;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -16,6 +17,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
@@ -59,14 +61,21 @@ class ActivityResource extends Resource
                 DateTimePicker::make('begin_date')
                     ->required()
                     ->label('Begin Date'),
-                DateTimePicker::make('end_date')
-                    ->required()
-                    ->label('End Date')
-                    ->after('begin_date'),
                 TextInput::make('location')
                     ->required()
                     ->maxLength(255)
-                    ->label('Location'),
+                    ->label('Location')
+                    ->helperText('For Critical Mass: enter the starting address'),
+                TextInput::make('commute_link')
+                    ->label('Commute Route Link')
+                    ->helperText('URL to visualize the route (e.g., Komoot, RideWithGPS)')
+                    ->url()
+                    ->maxLength(500),
+                TextInput::make('duration_minutes')
+                    ->label('Duration (minutes)')
+                    ->helperText('Duration of the activity in minutes')
+                    ->numeric()
+                    ->minValue(1),
                 Select::make('author_id')
                     ->label('Author')
                     ->relationship('author', 'name')
@@ -77,7 +86,14 @@ class ActivityResource extends Resource
                     ->relationship('groups', 'name')
                     ->multiple()
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->afterStateUpdated(fn ($state, $set) => $set('organizer_id', null)),
+                Select::make('organizer_id')
+                    ->label('Organizer')
+                    ->options(fn (Get $get): array => self::getOrganizerOptions($get))
+                    ->searchable()
+                    ->preload()
+                    ->helperText('Leave empty to automatically assign from the responsible group or author.'),
                 SpatieMediaLibraryFileUpload::make('main')
                     ->label('Main Image')
                     ->image()
@@ -99,6 +115,23 @@ class ActivityResource extends Resource
                     ->collection('gallery')
                     ->helperText('These images will only appear on the activity detail page.'),
             ]);
+    }
+
+    public static function getOrganizerOptions(Get $get): array
+    {
+        $groupIds = $get('groups') ?? [];
+
+        if (empty($groupIds)) {
+            return User::query()
+                ->orderBy('name')
+                ->pluck('name', 'id')
+                ->toArray();
+        }
+
+        return User::whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     public static function table(Table $table): Table
@@ -131,9 +164,9 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->label('Begin Date'),
                 TextColumn::make('end_date')
-                    ->dateTime()
-                    ->sortable()
-                    ->label('End Date'),
+                    ->label('End Date')
+                    ->getStateUsing(fn ($record) => $record->end_date?->format('Y-m-d H:i:s'))
+                    ->sortable(),
                 TextColumn::make('location')
                     ->searchable()
                     ->sortable()
@@ -142,10 +175,20 @@ class ActivityResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Author'),
+                TextColumn::make('organizer.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Organizer')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('groups.name')
                     ->badge()
                     ->separator(',')
                     ->label('Groups'),
+                TextColumn::make('commute_link')
+                    ->label('Route')
+                    ->url(fn ($record) => $record->commute_link)
+                    ->openUrlInNewTab()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -171,7 +214,7 @@ class ActivityResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->where('begin_date', '>=', now()))
                     ->label('Upcoming Activities'),
                 Filter::make('past')
-                    ->query(fn (Builder $query): Builder => $query->where('end_date', '<', now()))
+                    ->query(fn (Builder $query): Builder => $query->whereRaw('DATE_ADD(begin_date, INTERVAL duration_minutes MINUTE) < NOW()'))
                     ->label('Past Activities'),
             ])
             ->recordActions([
