@@ -4,94 +4,174 @@
 @php($hasMap = count($routeCoords) > 0)
 @php($mainImage = $activity->getFirstMedia('main'))
 
-    {{-- HERO — split layout: big copy left, photo right --}}
+    {{-- HERO — poster layout: dark blue bg, circular photo, angled title --}}
     <section class="activity-hero">
 
-        <div class="activity-hero__copy">
-            <flux:badge color="yellow" variant="solid" class="mb-4">{{ $activity->activity_type->label() }}</flux:badge>
+        {{-- Daisy: full bleed, right side, slightly cropped --}}
+        <img src="{{ asset('img/logo-icon.png') }}"
+             alt=""
+             aria-hidden="true"
+             class="activity-hero__daisy">
 
-            <h1>{{ $activity->title_nl }}</h1>
+        {{-- Content aligned to container --}}
+        <div class="container mx-auto px-4 activity-hero__inner">
 
-            <dl class="activity-hero__meta">
-                <div>
-                    <dt class="sr-only">Datum en tijd</dt>
-                    <dd>
-                        <flux:icon.calendar-days aria-hidden="true" />
-                        <time datetime="{{ $activity->begin_date->toIso8601String() }}">
-                            {{ $activity->begin_date->translatedFormat('l j F · H\hi') }}
-                        </time>
-                    </dd>
-                </div>
-                <div>
-                    <dt class="sr-only">Locatie</dt>
-                    <dd>
-                        <flux:icon.map-pin aria-hidden="true" />
-                        {{ $activity->location }}
-                    </dd>
-                </div>
-            </dl>
+            <div class="activity-hero__copy">
+                <h1>{{ $activity->title_nl }}</h1>
 
-            <div class="activity-hero__actions">
-                <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="primary">
-                    + Agenda
-                </flux:button>
+                @if($activity->groups->isNotEmpty())
+                    <div class="activity-hero__chapter">
+                        <svg class="activity-hero__chapter-pin" viewBox="0 0 40 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M20 2C10.059 2 2 10.059 2 20C2 32 20 52 20 52C20 52 38 32 38 20C38 10.059 29.941 2 20 2Z" fill="var(--color-kidical-red)"/>
+                            <circle cx="20" cy="20" r="7.5" fill="rgba(0,0,0,0.25)"/>
+                            <circle cx="20" cy="20" r="4.5" fill="white"/>
+                        </svg>
+                        <div class="activity-hero__chapter-label">
+                            @foreach($activity->groups as $group)
+                                <span>{{ $group->name }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
 
-                <div
-                    x-data
-                    x-on:click="
-                        if (navigator.share) {
-                            navigator.share({ title: @js($activity->title_nl), url: window.location.href })
-                        } else {
-                            navigator.clipboard.writeText(window.location.href)
-                            $dispatch('url-copied')
-                        }
-                    "
-                >
-                    <flux:button icon="share" variant="ghost">Delen</flux:button>
-                    <span
-                        class="activity-hero__copied"
-                        x-show="false"
-                        x-on:url-copied.window="$el.style.display='inline'; setTimeout(() => $el.style.display='none', 2000)"
-                    >
-                        Gekopieerd!
-                    </span>
-                </div>
+            <div class="activity-hero__visual">
+                @if($mainImage)
+                    <div class="activity-hero__photo">
+                        <img src="{{ $mainImage->getUrl() }}"
+                             alt="{{ $activity->title_nl }}"
+                             class="activity-hero__img">
+                    </div>
+                @endif
+                <img src="{{ asset('img/illustrations/kid-waving.png') }}"
+                     alt=""
+                     aria-hidden="true"
+                     class="activity-hero__illustration">
+            </div>
+
+        </div>
+
+    </section>
+
+    {{-- META + MAP — full-bleed two-column --}}
+    <section class="activity-info-map">
+
+        {{-- LEFT: yellow meta panel --}}
+        <div class="activity-info-map__meta">
+            <div class="activity-info-map__meta-inner">
+                <dl class="activity-info-list">
+                    <div class="activity-info-item">
+                        <div class="activity-info-item__icon-wrap">
+                            <flux:icon.calendar-days variant="solid" class="activity-info-item__icon" aria-hidden="true" />
+                        </div>
+                        <div>
+                            <dt>Wanneer</dt>
+                            <dd>
+                                <time datetime="{{ $activity->begin_date->toIso8601String() }}">
+                                    {{ $activity->begin_date->translatedFormat('l j F') }}<br>
+                                    {{ $activity->begin_date->translatedFormat('H\hi') }}
+                                </time>
+                            </dd>
+                        </div>
+                    </div>
+
+                    <div class="activity-info-item">
+                        <div class="activity-info-item__icon-wrap">
+                            <flux:icon.map-pin variant="solid" class="activity-info-item__icon" aria-hidden="true" />
+                        </div>
+                        <div>
+                            <dt>Vertrekpunt</dt>
+                            <dd>{{ $activity->location }}</dd>
+                        </div>
+                    </div>
+
+                    @if($activity->distance)
+                        <div class="activity-info-item">
+                            <div class="activity-info-item__icon-wrap">
+                                <flux:icon.arrows-right-left variant="solid" class="activity-info-item__icon" aria-hidden="true" />
+                            </div>
+                            <div>
+                                <dt>Afstand</dt>
+                                <dd>{{ $activity->distance }}</dd>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($activity->duration)
+                        <div class="activity-info-item">
+                            <div class="activity-info-item__icon-wrap">
+                                <flux:icon.clock variant="solid" class="activity-info-item__icon" aria-hidden="true" />
+                            </div>
+                            <div>
+                                <dt>Duur</dt>
+                                <dd>{{ $activity->duration }}</dd>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="activity-info-item">
+                        <div class="activity-info-item__icon-wrap">
+                            <flux:icon.ticket variant="solid" class="activity-info-item__icon" aria-hidden="true" />
+                        </div>
+                        <div>
+                            <dt>Deelname</dt>
+                            <dd>Gratis &middot; Geen inschrijving nodig</dd>
+                        </div>
+                    </div>
+                </dl>
+
+                @if($activity->content_nl)
+                    <div class="activity-info-description">
+                        {!! nl2br(e($activity->content_nl)) !!}
+                    </div>
+                @endif
+
+                @if($activity->komoot_url && ! $hasMap)
+                    <a href="{{ $activity->komoot_url }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="activity-map-komoot-link">
+                        Bekijk op Komoot
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                @endif
             </div>
         </div>
 
-        @if($mainImage)
-            <div class="activity-hero__photo">
-                <img src="{{ $mainImage->getUrl() }}"
-                     alt="{{ $activity->title_nl }}"
-                     class="activity-hero__img">
+        {{-- RIGHT: map --}}
+        @if($hasMap)
+            <div class="activity-info-map__map">
+                <div class="activity-map-container">
+                    <div id="activity-map"
+                         class="activity-info-map__embed"
+                         data-coordinates="{{ json_encode($routeCoords) }}"
+                         data-komoot-url="{{ $activity->komoot_url ?? '' }}">
+                    </div>
+                    <div class="activity-map-info-strip">
+                        <div class="activity-map-info-strip__stats">
+                            @if($activity->distance)
+                                <span>{{ $activity->distance }}</span>
+                            @endif
+                            @if($activity->duration)
+                                <span>{{ $activity->duration }}</span>
+                            @endif
+                            <span class="activity-map-badge" id="activity-map-route-type" aria-live="polite"></span>
+                        </div>
+                        @if($activity->komoot_url)
+                            <a href="{{ $activity->komoot_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="activity-map-komoot-link">
+                                Bekijk op Komoot
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </div>
         @endif
 
     </section>
-
-    {{-- PRACTICAL STRIP --}}
-    <ul class="activity-strip" role="list">
-        @if($activity->distance)
-            <li>{{ $activity->distance }}</li>
-            <li aria-hidden="true">·</li>
-        @endif
-        @if($activity->duration)
-            <li>{{ $activity->duration }}</li>
-            <li aria-hidden="true">·</li>
-        @endif
-        <li>Gratis</li>
-        <li aria-hidden="true">·</li>
-        <li>Geen inschrijving nodig</li>
-        <li aria-hidden="true">·</li>
-        <li>Alle leeftijden welkom</li>
-    </ul>
-
-    {{-- UNIQUE RIDE DESCRIPTION — only shown when admin filled it in --}}
-    @if($activity->content_nl)
-        <section class="activity-section">
-            <p>{!! nl2br(e($activity->content_nl)) !!}</p>
-        </section>
-    @endif
 
     {{-- FIXED PROMISES — always shown on every Kidical Mass ride --}}
     <section class="activity-promises">
@@ -128,50 +208,17 @@
         </ul>
     </section>
 
-    {{-- MAP + CHAPTER/TEAM — two-column below the fold --}}
-    @if($hasMap || $activity->groups->isNotEmpty())
-        <section class="activity-lower">
-
-            @if($hasMap)
-                <div class="activity-map-col">
-                    <h2>De route</h2>
-                    <div id="activity-map"
-                         class="activity-map-embed"
-                         data-coordinates="{{ json_encode($routeCoords) }}">
-                    </div>
-                </div>
-            @endif
-
-            <div class="activity-info-col">
-
-                @if($activity->groups->isNotEmpty())
-                    <div class="activity-info-col__block">
-                        <h2>Onderdeel van</h2>
-                        @foreach($activity->groups as $group)
-                            <p>
-                                <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>
-                                — elke maand een nieuwe rit door de stad.
-                            </p>
-                        @endforeach
-                    </div>
-                @endif
-
-                <div class="activity-info-col__block">
-                    <h2>Georganiseerd door</h2>
-                    <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
-                    <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
-                </div>
-
-            </div>
-
-        </section>
-    @else
-        <section class="activity-section">
-            <h2>Georganiseerd door</h2>
-            <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
-            <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
-        </section>
-    @endif
+    {{-- ORGANISER --}}
+    <section class="activity-section">
+        <h2>Georganiseerd door</h2>
+        <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
+        @if($activity->groups->isNotEmpty())
+            @foreach($activity->groups as $group)
+                <p><a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a> — elke maand een nieuwe rit door de stad.</p>
+            @endforeach
+        @endif
+        <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
+    </section>
 
     {{-- PHOTO PERMISSION --}}
     <p class="activity-photo-notice">
@@ -216,5 +263,29 @@
         </script>
         @endpush
     @endif
+
+    {{-- FIXED ACTION BAR --}}
+    <div class="activity-actions-bar" x-data>
+        <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="primary">
+            + Agenda
+        </flux:button>
+        <div
+            x-on:click="
+                if (navigator.share) {
+                    navigator.share({ title: @js($activity->title_nl), url: window.location.href })
+                } else {
+                    navigator.clipboard.writeText(window.location.href)
+                    $dispatch('url-copied')
+                }
+            "
+        >
+            <flux:button icon="share" variant="ghost">Delen</flux:button>
+            <span
+                x-show="false"
+                x-on:url-copied.window="$el.style.display='inline'; setTimeout(() => $el.style.display='none', 2000)"
+                class="activity-hero__copied"
+            >Gekopieerd!</span>
+        </div>
+    </div>
 
 </x-layouts::site>
