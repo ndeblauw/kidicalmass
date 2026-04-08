@@ -1,22 +1,26 @@
 {
     "agents": [
-        "codex",
-        "opencode",
-        "copilot"
+        "claude_code",
+        "copilot",
+        "opencode"
     ],
     "guidelines": true,
-    "herd_mcp": false,
     "mcp": true,
+    "nightwatch_mcp": false,
     "packages": [
         "filament/filament",
-        "spatie/laravel-ray"
+        "spatie/laravel-ray",
+        "spatie/laravel-medialibrary"
     ],
     "sail": false,
     "skills": [
+        "fortify-development",
+        "laravel-best-practices",
         "fluxui-development",
         "livewire-development",
         "pest-testing",
         "tailwindcss-development",
+        "medialibrary-development",
         "debugging-output-and-previewing-html-using-ray"
     ]
 }
