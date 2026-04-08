@@ -87,7 +87,7 @@ class Activity extends Model implements HasMedia
         return $this->author;
     }
 
-    public function getEndDateAttribute(): ?\Carbon\Carbon
+    public function getEndDateAttribute(): mixed
     {
         if (!$this->duration_minutes) {
             return null;
