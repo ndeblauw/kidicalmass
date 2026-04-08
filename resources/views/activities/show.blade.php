@@ -129,12 +129,32 @@
             </div>
         </div>
 
-        {{-- RIGHT: map --}}
+        {{-- RIGHT: route map --}}
         @if($hasMap)
             <div class="activity-info-map__map">
-                <div id="activity-map-hero"
-                     class="activity-info-map__embed"
+                <div id="activity-map"
+                     class="activity-info-map__route"
                      data-coordinates="{{ json_encode($routeCoords) }}">
+                </div>
+                <div class="activity-map-info-strip">
+                    <div class="activity-map-info-strip__stats">
+                        @if($activity->distance)
+                            <span>{{ $activity->distance }}</span>
+                        @endif
+                        @if($activity->duration)
+                            <span>{{ $activity->duration }}</span>
+                        @endif
+                        <span class="activity-map-badge" id="activity-map-route-type" aria-live="polite"></span>
+                    </div>
+                    @if($activity->komoot_url)
+                        <a href="{{ $activity->komoot_url }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="activity-map-komoot-link">
+                            Bekijk op Komoot
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    @endif
                 </div>
             </div>
         @endif
@@ -183,72 +203,24 @@
         </div>
     </section>
 
-    {{-- MAP + CHAPTER/TEAM — two-column below the fold --}}
-    @if($hasMap || $activity->groups->isNotEmpty())
-        <section class="activity-lower">
-
-            @if($hasMap)
-                <div class="activity-map-col">
-                    <h2>De route</h2>
-                    <div class="activity-map-container">
-                        <div id="activity-map"
-                             class="activity-map-embed"
-                             data-coordinates="{{ json_encode($routeCoords) }}">
-                        </div>
-                        <div class="activity-map-info-strip">
-                            <div class="activity-map-info-strip__stats">
-                                @if($activity->distance)
-                                    <span>{{ $activity->distance }}</span>
-                                @endif
-                                @if($activity->duration)
-                                    <span>{{ $activity->duration }}</span>
-                                @endif
-                                <span class="activity-map-badge" id="activity-map-route-type" aria-live="polite"></span>
-                            </div>
-                            @if($activity->komoot_url)
-                                <a href="{{ $activity->komoot_url }}"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="activity-map-komoot-link">
-                                    Bekijk op Komoot
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <div class="activity-info-col">
-
-                @if($activity->groups->isNotEmpty())
-                    <div class="activity-info-col__block">
-                        <h2>Onderdeel van</h2>
-                        @foreach($activity->groups as $group)
-                            <p>
-                                <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>
-                                — elke maand een nieuwe rit door de stad.
-                            </p>
-                        @endforeach
-                    </div>
-                @endif
-
-                <div class="activity-info-col__block">
-                    <h2>Georganiseerd door</h2>
-                    <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
-                    <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
-                </div>
-
-            </div>
-
-        </section>
-    @else
+    {{-- CHAPTER/TEAM --}}
+    @if($activity->groups->isNotEmpty())
         <section class="activity-section">
-            <h2>Georganiseerd door</h2>
-            <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
-            <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
+            <h2>Onderdeel van</h2>
+            @foreach($activity->groups as $group)
+                <p>
+                    <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>
+                    — elke maand een nieuwe rit door de stad.
+                </p>
+            @endforeach
         </section>
     @endif
+
+    <section class="activity-section">
+        <h2>Georganiseerd door</h2>
+        <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
+        <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
+    </section>
 
     {{-- PHOTO PERMISSION --}}
     <p class="activity-photo-notice">
