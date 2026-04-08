@@ -193,8 +193,7 @@
                     <div class="activity-map-container">
                         <div id="activity-map"
                              class="activity-map-embed"
-                             data-coordinates="{{ json_encode($routeCoords) }}"
-                             data-komoot-url="{{ $activity->komoot_url ?? '' }}">
+                             data-coordinates="{{ json_encode($routeCoords) }}">
                         </div>
                         <div class="activity-map-info-strip">
                             <div class="activity-map-info-strip__stats">
@@ -293,6 +292,7 @@
                 </svg><span class="activity-map-label">Vertrekpunt</span>`,
                 className: 'activity-map-marker',
                 iconAnchor: [14, 37],
+                iconSize: [28, 38],
             });
 
             L.marker(coords[0], { icon: departureIcon }).addTo(map);
@@ -326,6 +326,7 @@
                     </svg><span class="activity-map-label activity-map-label--end">Aankomst</span>`,
                     className: 'activity-map-marker activity-map-marker--end',
                     iconAnchor: [11, 30],
+                    iconSize: [22, 30],
                 });
 
                 L.marker(last, { icon: arrivalIcon }).addTo(map);
