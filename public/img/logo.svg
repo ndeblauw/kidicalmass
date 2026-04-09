@@ -4,25 +4,25 @@
       .logo-text {
         font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Nunito', Arial, sans-serif;
         font-weight: 900;
-        fill: #E63A7B;
+        fill: #1d67cd;
       }
     </style>
   </defs>
 
   <!-- Daisy petals (12 petals) -->
   <g transform="translate(72, 75)">
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(0)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(30)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(60)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(90)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(120)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(150)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(180)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(210)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(240)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(270)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(300)" />
-    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#FDB913" transform="rotate(330)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(0)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(30)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(60)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(90)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(120)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(150)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(180)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(210)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(240)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(270)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(300)" />
+    <ellipse cx="0" cy="-42" rx="13" ry="24" fill="#f9d924" transform="rotate(330)" />
 
     <!-- Center circle -->
     <circle cx="0" cy="0" r="26" fill="white" />

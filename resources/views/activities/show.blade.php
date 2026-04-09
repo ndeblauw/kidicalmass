@@ -43,10 +43,6 @@
                              class="activity-hero__img">
                     </div>
                 @endif
-                <img src="{{ asset('img/illustrations/kid-waving.png') }}"
-                     alt=""
-                     aria-hidden="true"
-                     class="activity-hero__illustration">
             </div>
 
         </div>
@@ -81,7 +77,7 @@
                         </div>
                         <div>
                             <dt>Vertrekpunt</dt>
-                            <dd>{{ $activity->location }}</dd>
+                            <dd>{!! nl2br(e($activity->location)) !!}</dd>
                         </div>
                     </div>
 
@@ -164,10 +160,10 @@
 
     {{-- FIXED PROMISES — always shown on every Kidical Mass ride --}}
     <section class="activity-promises">
-        <h2>Wat kun je verwachten?</h2>
         <div class="activity-promises__layout">
-            <div class="activity-promises__illustration" aria-hidden="true">
-                <img src="{{ asset('img/illustrations/person-with-boombox.png') }}" alt="">
+            <div class="activity-promises__illustration">
+                <h2>Wat kun je verwachten?</h2>
+                <img src="{{ asset('img/illustrations/person-with-boombox.png') }}" alt="" aria-hidden="true" loading="lazy">
             </div>
             <ul class="activity-promises__col" role="list">
                 <li class="activity-promises__item">
@@ -204,29 +200,72 @@
         </div>
     </section>
 
-    {{-- CHAPTER/TEAM --}}
-    @if($activity->groups->isNotEmpty())
-        <section class="activity-section">
-            <h2>Onderdeel van</h2>
-            @foreach($activity->groups as $group)
-                <p>
-                    <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>
-                    — elke maand een nieuwe rit door de stad.
-                </p>
-            @endforeach
-        </section>
-    @endif
+    {{-- ORGANIZERS + VOLUNTEER CTA --}}
+    <section class="activity-organizers">
+        <div class="activity-organizers__inner" x-data="{ open: false }">
 
-    <section class="activity-section">
-        <h2>Georganiseerd door</h2>
-        <p>{{ $activity->author->name }} en lokale vrijwilligers.</p>
-        <p><a href="{{ route('home') }}#contact">Wil je meerijden als roze hesje? →</a></p>
+            {{-- Normal content --}}
+            <template x-if="!open"><div class="activity-organizers__content">
+
+                <h2 class="activity-organizers__title">Van en voor de buurt</h2>
+
+                @if($activity->groups->isNotEmpty())
+                    <p class="activity-organizers__lead">
+                        Georganiseerd door vrijwilligers van Kidical Mass
+                        @foreach($activity->groups as $group)
+                            <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>@if(!$loop->last), @endif
+                        @endforeach
+                    </p>
+                @endif
+
+                <div class="activity-organizers__team">
+                    <div class="activity-organizers__person">
+                        <img src="https://i.pravatar.cc/128?img=47"
+                             alt="{{ Str::before($activity->author->name, ' ') }}"
+                             class="activity-organizers__avatar"
+                             loading="lazy">
+                        <div class="activity-organizers__person-info">
+                            <span class="activity-organizers__name">{{ Str::before($activity->author->name, ' ') }}</span>
+                            <span class="activity-organizers__role">Organisator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-organizers__volunteer">
+                    <h3>Roze hesje worden?</h3>
+                    <p>Als roze hesje begeleid je de groep en zorg je dat iedereen veilig aankomt. Je rijdt vooraan of achteraan, houdt kruispunten vrij en zorgt dat geen enkel kind achterblijft. <a href="{{ route('volunteer') }}" class="activity-organizers__volunteer-link">Lees hoe dat werkt.</a></p>
+                    <div class="activity-organizers__actions">
+                        <button x-on:click="open = true" class="activity-organizers__join-btn">
+                            Ik wil meedoen als roze hesje
+                        </button>
+                    </div>
+                </div>
+
+            </div></template>
+
+            {{-- Volunteer signup form (replaces content) --}}
+            <template x-if="open">
+                <div class="activity-organizers__content activity-organizers__signup">
+
+                    <button x-on:click="open = false" class="activity-organizers__back-btn">
+                        <flux:icon.arrow-left class="activity-organizers__back-icon" aria-hidden="true" />
+                        Terug
+                    </button>
+
+                    <h2 class="activity-organizers__title">Meld je aan</h2>
+                    <p class="activity-organizers__lead">We nemen zo snel mogelijk contact op met je als roze hesje.</p>
+
+                    <livewire:volunteer-signup />
+
+                </div>
+            </template>
+
+            <div class="activity-organizers__photo">
+                <img src="{{ asset('img/pink-vest-volunteer.jpg') }}" alt="Roze hesjes begeleiden de groep" loading="lazy">
+            </div>
+
+        </div>
     </section>
-
-    {{-- PHOTO PERMISSION --}}
-    <p class="activity-photo-notice">
-        Tijdens de rit worden foto's gemaakt. Door deel te nemen ga je akkoord met publicatie.
-    </p>
 
     @if($hasMap)
         @push('scripts')
@@ -240,6 +279,8 @@
             const coords = JSON.parse(el.dataset.coordinates || '[]');
             if (!coords.length) return;
 
+            const brandRed = getComputedStyle(document.documentElement).getPropertyValue('--color-kidical-red').trim() || '#E63A7B';
+
             const map = L.map(el, { zoomControl: true, scrollWheelZoom: false });
 
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -249,17 +290,18 @@
             }).addTo(map);
 
             const polyline = L.polyline(coords, {
-                color: '#E63A7B',
+                color: brandRed,
                 weight: 5,
                 opacity: 0.95,
             }).addTo(map);
 
-            map.fitBounds(polyline.getBounds(), { padding: [16, 16] });
+            map.invalidateSize();
+            map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });
 
             // Departure pin
             const departureIcon = L.divIcon({
                 html: `<svg width="28" height="38" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="#E63A7B"/>
+                    <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="${brandRed}"/>
                     <circle cx="14" cy="14" r="5.5" fill="rgba(0,0,0,0.2)"/>
                     <circle cx="14" cy="14" r="3.5" fill="white"/>
                 </svg><span class="activity-map-label">Vertrekpunt</span>`,
@@ -274,28 +316,54 @@
         @endpush
     @endif
 
+    @push('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const cards = document.querySelectorAll('.activity-promises__item');
+        cards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)`;
+            card.style.transitionDelay = `${i * 90}ms`;
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        cards.forEach(card => observer.observe(card));
+    });
+    </script>
+    @endpush
+
     {{-- FIXED ACTION BAR --}}
-    <div class="activity-actions-bar" x-data>
-        <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="primary">
-            + Agenda
+    <div class="activity-actions-bar" x-data="{ copied: false }">
+        <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="ghost">
+            Bewaar in agenda
         </flux:button>
-        <div
+        <flux:button
+            icon="share"
+            variant="ghost"
             x-on:click="
                 if (navigator.share) {
                     navigator.share({ title: @js($activity->title_nl), url: window.location.href })
                 } else {
-                    navigator.clipboard.writeText(window.location.href)
-                    $dispatch('url-copied')
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        copied = true
+                        setTimeout(() => copied = false, 2000)
+                    })
                 }
             "
-        >
-            <flux:button icon="share" variant="ghost">Delen</flux:button>
-            <span
-                x-show="false"
-                x-on:url-copied.window="$el.style.display='inline'; setTimeout(() => $el.style.display='none', 2000)"
-                class="activity-hero__copied"
-            >Gekopieerd!</span>
-        </div>
+        >Deel</flux:button>
+        <span x-show="copied" class="activity-actions-bar__copied">Gekopieerd!</span>
     </div>
 
 </x-layouts::site>

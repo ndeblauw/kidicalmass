@@ -13,6 +13,7 @@ Route::resource('articles', ArticleController::class)->only(['index', 'show']);
 Route::resource('activities', ActivityController::class)->only(['index', 'show']);
 Route::get('activities/{activity}/ical', [ActivityController::class, 'ical'])->name('activities.ical');
 Route::resource('groups', GroupController::class)->only(['index', 'show']);
+Route::view('/vrijwilliger', 'volunteer')->name('volunteer');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

@@ -1,63 +1,66 @@
-@props(['title' => 'Want to be our Partner/Sponsor? (local/regional)'])
-
 @php
     $partners = \App\Models\Partner::where('visible', true)
         ->where('show_logo', true)
         ->get();
+
+    $locale = app()->getLocale();
+    $bmLogo = $locale === 'fr'
+        ? asset('img/sponsors/bm-fr.avif')
+        : asset('img/sponsors/bm-nl.avif');
+    $bmAlt = $locale === 'fr'
+        ? 'Avec le soutien de Bruxelles Mobilité'
+        : 'Met de steun van Brussel Mobiliteit';
 @endphp
 
-@if($partners->count() > 0)
-<div class="py-12 mt-16">
-    <div class="container mx-auto px-4">
-        <!-- Title -->
-        <div class="text-center mb-8">
-            <h2>{{ $title }} <a href="mailto:info@kidicalmass.be">Mail</a> us!</h2>
-        </div>
+<section class="partners-section">
+    <div class="partners-inner container mx-auto px-4">
 
-        <!-- Partner Logos Grid -->
-        <div class="grid grid-cols-8 gap-6 md:gap-8">
-            @foreach($partners as $partner)
-                @php
-                    $logo = $partner->getFirstMediaUrl('logo');
-                @endphp
+        {{-- Left column: all content --}}
+        <div class="partners-left">
 
-                @if($logo)
-                    <div class="flex-shrink-0">
-                        @if($partner->url)
-                            <a href="{{ $partner->url }}"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               title="{{ $partner->name }}">
-                                <img src="{{ $logo }}"
-                                     alt="{{ $partner->name }}"
-                                     class="h-20 w-auto object-contain">
-                            </a>
-                        @else
-                            <div class="flex justify-center items-center">
-                                <img src="{{ $logo->getUrl('partner') }}"
-                                     alt="{{ $partner->name }}"
-                                     class="h-20 w-auto object-contain">
-                            </div>
+            <div class="partners-heading-content">
+                <h2>Partners &amp; sponsors</h2>
+                <p class="partners-cta">Want to join them? <a href="#">Sponsor formulas</a> · <a href="#">Partner charter</a></p>
+            </div>
+
+            @if($partners->isNotEmpty())
+                <div class="partners-logo-strip">
+                    @foreach($partners as $partner)
+                        @php $logoUrl = $partner->getFirstMediaUrl('logo', 'partner'); @endphp
+                        @if($logoUrl)
+                            @if($partner->url)
+                                <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" title="{{ $partner->name }}" class="partners-logo-link">
+                                    <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partners-logo">
+                                </a>
+                            @else
+                                <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partners-logo">
+                            @endif
                         @endif
-                    </div>
-                @else
-                    <div class="flex justify-center items-center">{{ $partner->name }}</div>
-                @endif
-            @endforeach
+                    @endforeach
+                </div>
+            @endif
+
+            <div class="partners-bottom-band">
+                <div class="partners-bm-col">
+                    <img src="{{ $bmLogo }}" alt="{{ $bmAlt }}" class="partners-bm-logo">
+                </div>
+                <div class="partners-links-col">
+                    <span class="partners-also-label">Also supported by</span>
+                    <ul class="partners-links-list">
+                        <li><a href="#">Clean Cities</a></li>
+                        <li><a href="#">Bruxelles Ville / Brussel Stad</a></li>
+                        <li><a href="#">La commune de Schaerbeek / Gemeente Schaerbeek</a></li>
+                        <li><a href="#">Our spacefunders</a></li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Financial Support Text -->
-        <div class="text-center mt-12">
-            <flux:text>
-                Avec le soutien financier de / Dankzij steun van :
-            </flux:text>
-            <flux:text class="mt-2">
-                Bruxelles Mobilité/ Brussel Mobiliteit, Clean Cities,<br>
-                Bruxelles Ville/Brussel Stad, La commune de Schaerbeek<br>
-                / gemeente Schaerbeek en onze/et nos
-                <span>spacefunders</span>.
-            </flux:text>
+        {{-- Right column: illustration spanning full section height --}}
+        <div class="partners-illustration-col" aria-hidden="true">
+            <img src="{{ asset('img/illustrations/kid-on-bike-teal.png') }}" alt="">
         </div>
+
     </div>
-</div>
-@endif
+</section>
