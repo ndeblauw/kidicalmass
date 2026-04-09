@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\ContactForm;
 use App\Models\Group;
 use App\Models\Partner;
+use App\Models\Press;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->seedActivities();
         $this->seedContactForms();
         $this->seedPartners();
+        $this->seedPress();
 
         $this->command->newLine();
         $this->task('Cleanup temporary media (if requested)', function () {
@@ -103,6 +105,21 @@ class DatabaseSeeder extends Seeder
             foreach (range(1, 15) as $i) {
                 Partner::factory()->create(['group_id' => $groups->random()->id]);
             }
+        });
+    }
+
+    private function seedPress(int $nr = 20): void
+    {
+        $this->task('Seeding press', function () use ($nr) {
+
+            foreach (range(1, $nr) as $i) {
+                $groups = ($i <= 8)
+                    ? [$this->mainGroups->random()->id]
+                    : ($subgroups = $this->allGroups->diff($this->mainGroups))->random(min(2, $subgroups->count()))->pluck('id')->toArray();
+
+                Press::factory()->create()->groups()->attach($groups);
+            }
+
         });
     }
 

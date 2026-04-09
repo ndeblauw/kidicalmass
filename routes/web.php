@@ -7,6 +7,7 @@ Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 Route::resource('articles', \App\Http\Controllers\ArticleController::class)->only(['index', 'show']);
 Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['index', 'show']);
 Route::resource('groups', \App\Http\Controllers\GroupController::class)->only(['index', 'show']);
+Route::resource('press', \App\Http\Controllers\PressController::class)->only(['index']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

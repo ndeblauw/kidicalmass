@@ -10,6 +10,7 @@ it('renders main pages with status 200', function () {
     $this->get('/groups')->assertOk();
     $this->get('/articles')->assertOk();
     $this->get('/activities')->assertOk();
+    $this->get('/press')->assertOk();
     $this->get('/login')->assertOk();
     $this->get('/register')->assertOk();
 });
