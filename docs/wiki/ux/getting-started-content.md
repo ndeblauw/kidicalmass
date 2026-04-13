@@ -62,7 +62,7 @@ updated: 2026-04-13
 
 No. Just show up at the meeting point at the listed time. No ticket, no name on a list — nothing to do in advance.
 
-*FR/NL note: Keep the reassurance blunt. "Rien à faire à l'avance." / "Niets op voorhand doen."*
+*FR/NL note: Keep the reassurance blunt. "Rien à faire à l'avance." / "Je hoeft niets op voorhand te regelen."*
 
 ---
 
@@ -87,7 +87,7 @@ Not at all. We ride at the pace of the youngest child — slower than you think.
 ### Q4
 **Q: What if it rains?**
 
-Rides happen in most weather — a bit of drizzle won't stop us. Cancellations are rare and only happen in genuinely extreme conditions. Check the Facebook event or your chapter page on the day if you're unsure.
+Rides happen in all weather. A bit of drizzle won't stop us — riding in the rain is practically a tradition. If conditions are truly extreme, it'll be announced on the Facebook event or your chapter page the morning of.
 
 *FR/NL note: "a bit of drizzle" → FR: "un peu de pluie" / NL: "een beetje regen". Keep it light — KM rides in the rain are a badge of honour.*
 
@@ -98,7 +98,9 @@ Rides happen in most weather — a bit of drizzle won't stop us. Cancellations a
 
 Helmets are recommended but not mandatory. Bring water. That's really it — no special kit, no picnic required, no preparation needed.
 
-*FR/NL note: Helmet policy is "recommended, not mandatory" — confirm this remains consistent with Belgian law (helmets are mandatory for children under 12 in some regions; add a regional note if needed before launch).*
+*Implementer note: In Belgium, helmets are required by law for children under 12 in some regions — check your local rules. The "recommended but not mandatory" guidance may not apply everywhere. Add a regional note before launch if needed.*
+
+*FR/NL note: Helmet policy is "recommended, not mandatory" — confirm this remains consistent with Belgian law.*
 
 ---
 
@@ -133,7 +135,7 @@ Yes — completely. No registration fee, no entry fee, no donation requested. Co
 
 - **Name:** Fietsbieb / Vélothèque
 - **Description:** Borrow a child's bike for the year — up to age 12, returned when they've grown out of it.
-- **Key detail:** €20/year + €20 refundable deposit. Available in 10 Brussels communes: Anderlecht, Ixelles, Etterbeek, Jette, Laeken, Molenbeek, Neder-Over-Heembeek, Schaerbeek, Sint-Agatha-Berchem, Uccle.
+- **Key detail:** €20/year + €20 refundable deposit. Available across 10 Brussels communes — check fietsbieb.be for the list.
 - **Coverage:** Brussels only
 - **Link domain:** fietsbieb.be / velotheque.be
 
@@ -185,7 +187,7 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 
 - **Name:** Families on Bike
 - **Organisation:** ProVelo
-- **Description:** Free coaching sessions for Brussels families who want to start cycling together. Learn to ride in traffic, plan a safe route, and test different bike setups — cargo bikes, child seats, tag-alongs. Sessions run in Anderlecht and the Saint-Gilles/Forest area.
+- **Description:** Free coaching sessions for Brussels families who want to start cycling together. Learn to ride in traffic, plan a safe route, and test different bike setups — cargo bikes, child seats, tag-alongs. Sessions run in Anderlecht and the Saint-Gilles/Forest area. A practical, relaxed way to go from pavement nerves to road-ready as a family.
 - **Link:** provelo.org
 
 *Open question: Confirm the programme is active in 2026 and locations are current before including.*
@@ -212,7 +214,7 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 
 ## Bottom CTA
 
-**Section heading (optional, subtle):** Ready for your first ride?
+**Section heading (optional, subtle):** Come as you are. The ride starts here.
 
 **Primary button:** Find a ride near you →
 *Links to: /events*
