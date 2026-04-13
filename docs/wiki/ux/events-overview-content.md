@@ -103,6 +103,8 @@ The date group header for the Grande Kidical Mass weekend carries an additional 
 
 ### Standard card template
 
+*Link target note:* The entire card is a single tappable/clickable target leading to the event detail page — not just the title. Do not add a separate "Read more" link inside the card.
+
 **Title**
 `Kidical Mass [Municipality]`
 For bilingual chapters (Brussels municipalities with both FR and NL names):
@@ -122,6 +124,8 @@ For bilingual chapters (Brussels municipalities with both FR and NL names):
 **Municipality**
 `[Municipality name]`
 *(Same as the primary name in the card title — no translation needed here.)*
+
+*NL note:* In NL context, use the NL municipality name (`Elsene`) rather than the FR form, but the event title retains both. Meeting point names stay in their local language.
 
 **Meeting point**
 `[Place name / street name]`
@@ -145,8 +149,6 @@ Ixelles · Place Flagey
 Kidical Mass Ixelles – Elsene     15:00
 Elsene · Place Flagey
 ```
-
-*NL note:* In NL context, use the NL municipality name (`Elsene`) rather than the FR form, but the event title retains both. Meeting point names stay in their local language.
 
 ---
 
@@ -203,8 +205,8 @@ Shown when the upcoming list is empty and no location filter is active.
 | Language | Copy |
 |---|---|
 | EN | No upcoming rides right now. The season runs from March to November — check back soon! |
-| FR | Pas de balade prévue pour l'instant. La saison s'étend de mars à novembre — revenez bientôt ! |
-| NL | Voorlopig geen ritten gepland. Het seizoen loopt van maart tot november — kom snel terug! |
+| FR | Pas de balade prévue pour l'instant. La saison va de mars à novembre — revenez bientôt ! |
+| NL | Er zijn momenteel geen ritten gepland. Het seizoen loopt van maart tot november — kom snel terug! |
 
 *Tone note:* "check back soon" / "revenez bientôt" keeps the door open without manufactured urgency. The season range is the reassurance — it tells the family the movement is active and predictable.
 
@@ -240,6 +242,6 @@ Shown when a location filter is active and returns zero upcoming events.
 |---|---|
 | EN | Find a Kidical Mass bike ride near you. Family-friendly parades for children of all ages, across Belgium. |
 | FR | Trouvez une balade Kidical Mass près de chez vous. Des cortèges vélo pour familles et enfants dans toute la Belgique. |
-| NL | Vind een Kidical Mass rit bij jou in de buurt. Fietsparades voor families en kinderen door heel België. |
+| NL | Vind een Kidical Mass-rit bij jou in de buurt. Fietsparades voor families en kinderen door heel België. |
 
 *Note:* Under 160 characters each. No exclamation marks in meta descriptions — they can read as spam in SERPs. "Family-friendly" / "voor families" does the reassurance work without over-promising.
