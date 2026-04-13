@@ -17,3 +17,9 @@
 | [Getting Started](ux/getting-started.md) | Full UX spec for first-timer onboarding — FAQ, no-bike resources, other activities | UX |
 | [Chapters](ux/chapters.md) | Full UX spec for chapters overview (map + list) and chapter page template | UX |
 | [About Section](ux/about.md) | Full UX spec for all About pages: Mission (new), Overview, Organisation, Vision, News, Press, Partners | UX |
+| [Home — Content](ux/home-content.md) | Companion copy for the homepage: hero, events strip, stats bar, volunteer strip, partners | UX |
+| [Events Overview — Content](ux/events-overview-content.md) | Companion copy for the events listing page: filter bar, cards, empty states | UX |
+| [Getting Started — Content](ux/getting-started-content.md) | Companion copy for the getting started page: fact cards, FAQ, bike resources, activities | UX |
+| [Help Out — Content](ux/help-out-content.md) | Companion copy for the volunteer page: pitch, role cards, form, start-a-chapter | UX |
+| [Chapters — Content](ux/chapters-content.md) | Companion copy for chapters overview and chapter page template | UX |
+| [About Section — Content](ux/about-content.md) | Companion copy for all 6 About sub-pages: Mission, Vision, Organisation, News, Press, Partners | UX |

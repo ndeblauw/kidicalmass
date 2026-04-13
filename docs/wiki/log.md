@@ -33,6 +33,9 @@ Pages completed:
 
 Created `ux/activity-detail-content.md`: full copy template for the `/events/[slug]` page. Covers all 8 sections (hero, practical strip, what to expect, chapter context, team + volunteer ask, partners, photo permission, meta). EN/FR/NL for all static copy; database-driven fields marked as variables. Includes default "what to expect" body, two event-specific theme examples (Spooky Edition, Safety First campaign), and final photo permission copy.
 
+## [2026-04-13] write | UX content pages — all 7 sections
+All 7 UX wireframe pages now have companion content pages with full EN copy and FR/NL inline notes.
+
 ## [2026-04-13] restructure | UX wiki reorganisation
 
 Restructured UX content into cleaner buckets. ux-planning.md now holds site-level content (principles, strategy, scope, sitemap, migration plan). Extracted all 14 page specs from the raw Notion dump into 7 files in ux/: activity-detail.md, events-overview.md, home.md, help-out.md, getting-started.md, chapters.md (overview + template), about.md (all about/* pages). Removed old plane files (_strategy, _scope, _structure, _skeleton) and the activity-detail subfolder.
