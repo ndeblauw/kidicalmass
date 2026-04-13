@@ -226,6 +226,15 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 
 ## Meta
 
+**Page title tag:**
+Getting Started — Kidical Mass
+*(FR: Premiers pas — Kidical Mass | NL: Aan de slag — Kidical Mass)*
+
+**Meta description:**
+First time at a Kidical Mass? Come as you are. Here's what to expect at a ride, what to bring, and what to do if you don't have a bike.
+*(FR: Première fois à une Kidical Mass ? Venez comme vous êtes. Ce qui vous attend lors d'un ride, quoi apporter, et comment participer sans vélo.)*
+*(NL: Eerste keer bij Kidical Mass? Kom zoals je bent. Wat je kan verwachten bij een rit, wat je meebrengt en hoe je meedoet zonder fiets.)*
+
 | Field | Value |
 |---|---|
 | Page URL | `/getting-started` (also `/fr/getting-started`, `/nl/getting-started`) |
