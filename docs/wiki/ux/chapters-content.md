@@ -13,9 +13,9 @@ updated: 2026-04-13
 
 ## Page header
 
-**H1:** Chapters
+**H1:** Chapters | FR: "Groupes" | NL: "Groepen"
 
-**Subtitle (dynamic):** [N] active groups across Belgium
+**Subtitle (dynamic):** [N] active groups across Belgium | FR: "[N] groupes actifs en Belgique" | NL: "[N] actieve groepen in België"
 
 *Note: number is pulled from the database. At time of writing, approximately 16 active chapters.*
 
@@ -41,7 +41,7 @@ Liège — kidicalmassliege.org ↗
 **Section heading:** Find your chapter
 
 *Introductory line (optional, before the list):*
-Click any chapter to see upcoming rides, meet the local team, and get in touch.
+Tap your neighbourhood to see the next ride, meet the local team, and say hello.
 
 ---
 
@@ -62,6 +62,8 @@ Click any chapter to see upcoming rides, meet the local team, and get in touch.
 - [Schaerbeek / Schaarbeek](../chapters/schaerbeek)
 - [Watermael-Boitsfort – Watermaal-Bosvoorde & Auderghem – Oudergem](../chapters/watermael-boitsfort-auderghem)
 - [Woluwe-Saint-Pierre & Woluwe-Saint-Lambert / Woluwe-Sint-Pieters & Woluwe-Sint-Lambrechts](../chapters/woluwe)
+
+*Implementation note: the & in "Watermael-Boitsfort – Watermaal-Bosvoorde & Auderghem – Oudergem" joins two municipality pairs under one chapter. Each side of the & uses – to join the FR/NL names for that municipality. This is a 4-municipality chapter displayed as one list entry.*
 
 *Implementation note: bilingual official names shown throughout all language routes. Multi-municipality chapters show combined name and hyphenated postal codes in the chapter page header.*
 
@@ -93,15 +95,16 @@ New chapters keep joining. If your municipality isn't on the map yet, you could 
 **Primary CTA:** Find out how →
 *Links to /help-out#start-a-chapter*
 
-**Secondary CTA:** Questions? Get in touch with the coordination team →
-*Links to the coordination team email or contact page — confirm with Nico.*
+**Secondary CTA:** Email the coordination team → bike@kidicalmass.be
 
 ---
 
 ## Meta
 
-**Page title (browser tab):** Chapters — Kidical Mass Belgium
+**Page title (browser tab):** Chapters — Kidical Mass Belgium | FR: "Groupes — Kidical Mass" | NL: "Groepen — Kidical Mass"
 **Meta description:** Find your local Kidical Mass chapter. [N] active groups organising monthly family bike rides across Belgium.
+- FR: "Trouvez votre groupe Kidical Mass local en Belgique. [N] groupes actifs à Bruxelles, en Wallonie et en Flandre."
+- NL: "Vind je lokale Kidical Mass-groep in heel België. [N] actieve groepen in Brussel, Wallonië en Vlaanderen."
 
 ---
 ---
@@ -130,7 +133,7 @@ New chapters keep joining. If your municipality isn't on the map yet, you could 
 
 **Section heading:** Upcoming rides in [Municipality]
 
-*Events are auto-populated from the database — same compact card as /events.*
+*Events are auto-populated from the database — same compact card as /events. See [events-overview-content.md](events-overview-content.md) for the full event card template and field definitions.*
 
 **Empty state (no upcoming events):**
 No upcoming rides in [Municipality] right now. Head to [all rides across Belgium](/events) to find one near you — or check back soon.
