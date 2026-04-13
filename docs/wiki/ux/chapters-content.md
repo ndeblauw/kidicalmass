@@ -47,6 +47,8 @@ Tap your neighbourhood to see the next ride, meet the local team, and say hello.
 
 ### Brussels
 
+*Note: `–` separates different municipalities in one chapter; `/` separates FR and NL variants of the same municipality name. Do not standardise — both are intentional.*
+
 *Displayed as a linked list. Each entry links to /chapters/[postal-code].*
 
 - [Anderlecht](../chapters/anderlecht)

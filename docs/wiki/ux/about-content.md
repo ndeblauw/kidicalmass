@@ -157,7 +157,7 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 *(FR: Mission — Kidical Mass | NL: Missie — Kidical Mass)*
 
 **Meta description:** Kidical Mass Belgium organises joyful, safe bike parades for children and families. 150+ parades, 16+ communities, and counting.
-*(FR: Kidical Mass Belgium organise des parades cyclistes festives pour enfants et familles. 150+ parades, 16+ communautés et encore plus.)*
+*(FR: Kidical Mass Belgium organise des parades cyclistes festives pour enfants et familles. 150+ parades, 16+ communes et encore plus.)*
 *(NL: Kidical Mass Belgium organiseert feestelijke, veilige fietsparades voor kinderen en gezinnen. 150+ parades, 16+ gemeenschappen en meer.)*
 
 - Content dependency: Stats must be reviewed before launch (coordination duo owns this)
