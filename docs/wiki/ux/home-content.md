@@ -17,6 +17,8 @@ updated: 2026-04-13
 **FR:** Des kets à vélo. Ensemble.
 **NL:** Kinderen op de fiets. Samen.
 
+> ⚠️ "Kets" is Brussels dialect — confirm with Leticia whether this is the intended national FR headline or a Brussels-specific variant.
+
 *Mobile variant (line-break at "Together." / "Ensemble." / "Samen." on its own line) — same copy, same weight.*
 
 ### Subheadline
@@ -69,6 +71,8 @@ updated: 2026-04-13
 ```
 
 *Card links to /events/[slug]. No additional copy on the card itself — the date, time, neighbourhood, and meeting point are the full message.*
+
+*Date/month abbreviations must localise to the visitor's language (e.g. EN: "Sat 19 Apr", FR: "sam. 19 avr.", NL: "za 19 apr") — unless a locale-neutral numeric format like "19/04" is preferred; confirm the preferred format with Nico before implementing.*
 
 ### Off-season empty state
 
@@ -134,9 +138,11 @@ Two stats separated by a centred dot (·). Dynamic — pulled from the database 
 [N] active chapters  ·  [N] parades this season
 ```
 
-**EN example:** 16 active chapters · 60 parades this season
-**FR example:** 16 groupes actifs · 60 balades cette saison
-**NL example:** 16 actieve groepen · 60 ritten dit seizoen
+**EN example:** [N] active chapters · [N] parades this season
+**FR example:** [N] groupes actifs · [N] balades cette saison
+**NL example:** [N] actieve groepen · [N] ritten dit seizoen
+
+> ⚠️ The raw site's "16 chapters / 60 parades" stat refers to Brussels municipalities only (2025). National figures must come from the database. Confirm correct national counts with Nico before using any example values.
 
 ### Separator
 
