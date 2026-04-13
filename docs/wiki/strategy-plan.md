@@ -1,7 +1,7 @@
 ---
 title: Strategie & plan — Nieuwe website Kidical Mass Belgium
 tags: []
-sources: [notion/strategy-plan.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 

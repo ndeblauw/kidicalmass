@@ -1,7 +1,7 @@
 ---
 title: Key Decisions — Events, Chapters, Volunteers, Sponsors
 tags: []
-sources: [notion/key-decisions.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 

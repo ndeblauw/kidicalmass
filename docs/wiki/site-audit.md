@@ -1,7 +1,7 @@
 ---
 title: Deep Site Audit — Current Wix Site
 tags: []
-sources: [notion/site-audit.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 

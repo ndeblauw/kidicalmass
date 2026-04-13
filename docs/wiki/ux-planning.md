@@ -1,7 +1,7 @@
 ---
 title: UX planning
 tags: []
-sources: [notion/ux-planning.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 

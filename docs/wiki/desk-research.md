@@ -1,7 +1,7 @@
 ---
 title: Desk Research Plan & Findings
 tags: []
-sources: [notion/desk-research.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 

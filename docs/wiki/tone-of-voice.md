@@ -1,7 +1,7 @@
 ---
 title: Tone of Voice — Kidical Mass Belgium
 tags: []
-sources: [notion/tone-of-voice-notion.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 

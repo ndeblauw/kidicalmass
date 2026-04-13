@@ -402,7 +402,6 @@ The project maintains a persistent wiki in `docs/wiki/`. Raw source files live i
 
 ### Directory layout
 - `docs/raw/` — immutable source files. Never modify these.
-  - `docs/raw/notion/` — pages fetched from Notion
   - `docs/raw/assets/` — downloaded images
 - `docs/wiki/` — LLM-maintained markdown pages
   - `docs/wiki/index.md` — catalog of every page (table: Page / Summary / Category)

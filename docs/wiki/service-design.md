@@ -1,7 +1,7 @@
 ---
 title: Service Design Overview
 tags: []
-sources: [notion/service-design.md]
+sources: [notion]
 updated: 2026-04-13
 ---
 
