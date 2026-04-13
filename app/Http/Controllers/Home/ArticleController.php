@@ -7,6 +7,7 @@ use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -14,23 +15,24 @@ class ArticleController extends Controller
 {
     public function create(): View
     {
-        $this->authorize('create', Article::class);
-
         return view('articles.create', [
             'article' => new Article(),
             'groups' => Group::query()->orderBy('name')->get(),
+            'users' => User::query()->orderBy('name')->get(),
         ]);
     }
 
     public function store(StoreArticleRequest $request): RedirectResponse
     {
-        $this->authorize('create', Article::class);
-
         $article = Article::create([
-            ...$request->safe()->except('groups'),
+            ...$request->safe()->except('groups', 'image'),
             'author_id' => $request->user()->id,
         ]);
         $article->groups()->sync($request->validated('groups', []));
+
+        if ($request->hasFile('image')) {
+            $article->addMediaFromRequest('image')->toMediaCollection('main');
+        }
 
         return redirect()->route('articles.show', $article)
             ->with('status', 'Article created.');
@@ -38,22 +40,24 @@ class ArticleController extends Controller
 
     public function edit(Article $article): View
     {
-        $this->authorize('update', $article);
-
         $article->load('groups');
 
         return view('articles.edit', [
             'article' => $article,
             'groups' => Group::query()->orderBy('name')->get(),
+            'users' => User::query()->orderBy('name')->get(),
         ]);
     }
 
     public function update(UpdateArticleRequest $request, Article $article): RedirectResponse
     {
-        $this->authorize('update', $article);
-
-        $article->update($request->safe()->except('groups'));
+        $article->update($request->safe()->except('groups', 'image'));
         $article->groups()->sync($request->validated('groups', []));
+
+        if ($request->hasFile('image')) {
+            $article->clearMediaCollection('main');
+            $article->addMediaFromRequest('image')->toMediaCollection('main');
+        }
 
         return redirect()->route('articles.show', $article)
             ->with('status', 'Article updated.');
@@ -61,8 +65,6 @@ class ArticleController extends Controller
 
     public function destroy(Article $article): RedirectResponse
     {
-        $this->authorize('delete', $article);
-
         $article->delete();
 
         return redirect()->route('articles.index')

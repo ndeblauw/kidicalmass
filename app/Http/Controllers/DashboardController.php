@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Article;
 use App\Models\Group;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class DashboardController extends Controller
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')
-            ->take(5)
+            ->take(4)
             ->get();
 
         $pastActivities = Activity::query()
@@ -27,9 +28,16 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        $latestNews = Article::query()
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->orderByDesc('created_at')
+            ->take(5)
+            ->get();
+
         return view('dashboard', [
             'upcomingActivities' => $upcomingActivities,
             'pastActivities' => $pastActivities,
+            'latestNews' => $latestNews,
         ]);
     }
 }

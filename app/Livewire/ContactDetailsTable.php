@@ -33,8 +33,6 @@ class ContactDetailsTable extends Component
             $this->groups = $groups;
         }
 
-        ray($this->groups, $this->showGroups);
-
         $this->showGroups = $this->groups->count() > 1;
         $this->hasPhoneColumn = Schema::hasColumn('users', 'phone');
     }

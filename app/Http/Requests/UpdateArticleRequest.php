@@ -28,6 +28,7 @@ class UpdateArticleRequest extends FormRequest
             'content_fr' => ['required', 'string'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['exists:groups,id'],
+            'image' => ['nullable', 'image', 'max:10240'],
         ];
     }
 }

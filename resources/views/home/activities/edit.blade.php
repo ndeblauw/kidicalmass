@@ -3,14 +3,17 @@
         <flux:card>
             <flux:heading size="lg">Edit activity</flux:heading>
 
-            <form method="POST" action="{{ route('activities.update', $activity) }}" class="mt-6 space-y-4">
+            @ray($errors)
+
+            <form method="POST" action="{{ route('home.activities.update', $activity) }}" class="mt-6 space-y-4">
                 @csrf
                 @method('PUT')
 
-                @include('activities._form')
+                @include('home.activities._form')
 
                 <div class="flex justify-end gap-2">
-                    <flux:button variant="ghost" :href="route('activities.show', $activity)" wire:navigate>Cancel</flux:button>
+                    <flux:button variant="ghost" :href="route('activities.show', $activity)" wire:navigate>Cancel
+                    </flux:button>
                     <flux:button type="submit" variant="primary">Save changes</flux:button>
                 </div>
             </form>

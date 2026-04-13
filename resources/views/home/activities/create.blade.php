@@ -3,10 +3,10 @@
         <flux:card>
             <flux:heading size="lg">Create activity</flux:heading>
 
-            <form method="POST" action="{{ route('activities.store') }}" class="mt-6 space-y-4">
+            <form method="POST" action="{{ route('home.activities.store') }}" class="mt-6 space-y-4">
                 @csrf
 
-                @include('activities._form')
+                @include('home.activities._form')
 
                 <div class="flex justify-end gap-2">
                     <flux:button variant="ghost" :href="route('activities.index')" wire:navigate>Cancel</flux:button>

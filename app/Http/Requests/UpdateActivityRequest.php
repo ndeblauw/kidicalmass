@@ -38,6 +38,7 @@ class UpdateActivityRequest extends FormRequest
             'duration_minutes' => ['nullable', 'integer', 'min:1'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['exists:groups,id'],
+            'image' => ['nullable', 'image', 'max:10240'],
         ];
     }
 }
