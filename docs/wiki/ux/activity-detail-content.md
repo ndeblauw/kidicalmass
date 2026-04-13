@@ -72,8 +72,10 @@ One scannable line. Pipe-separated on desktop, stacked on mobile. Labels are sta
 | Duration | `max [Y] min` | `max [Y] min` | `max [Y] min` |
 | Admission | Free | Gratuit | Gratis |
 | Age | All ages | Tous les âges | Alle leeftijden |
-| Music | Music along the way | Musique en route | Muziek onderweg | The music note icon (🎵) is a UI element, not part of the copy string — the icon is rendered by the component, not typed into the database field. |
+| Music | Music along the way | Musique en route | Muziek onderweg |
 | Guardian note | Children accompanied by an adult | Enfants accompagnés d'un adulte | Kinderen begeleid door een volwassene |
+
+> The music note icon (🎵) is a UI element, not part of the copy string — the icon is rendered by the component, not typed into the database field.
 
 > The guardian note is always shown — it is both reassurance for parents and a legal responsibility signal. Keep it as a short label, not a paragraph.
 
