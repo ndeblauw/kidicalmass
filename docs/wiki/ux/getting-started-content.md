@@ -25,31 +25,43 @@ updated: 2026-04-13
 - **Icon:** 🚲
 - **Label:** Short and slow
 - **Explanation:** Rides are 5–7 km at the pace of the slowest child — usually under an hour.
+- *(FR: **Court et tranquille** — 5 à 7 km au rythme du plus petit, rarement plus d'une heure.)*
+- *(NL: **Kort en rustig** — 5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.)*
 
 ### Card 2
 - **Icon:** 🎵
 - **Label:** Music all the way
 - **Explanation:** There's always a sound system. Expect a cheerful, noisy parade through the neighbourhood.
+- *(FR: **Musique non-stop** — Il y a toujours une sono. Une balade festive et bruyante dans le quartier.)*
+- *(NL: **Muziek onderweg** — Er is altijd een geluidssysteem. Verwacht een vrolijke, luidruchtige optocht door de buurt.)*
 
 ### Card 3
 - **Icon:** 📍
 - **Label:** Fixed meeting point
 - **Explanation:** Every ride starts at a set location published on the event page — just show up there.
+- *(FR: **Point de départ fixe** — Chaque balade commence au même endroit, publié sur la page de l'événement. Il suffit de se pointer.)*
+- *(NL: **Vaste startplaats** — Elke rit vertrekt op dezelfde plek, gepubliceerd op de eventpagina. Gewoon opdagen.)*
 
 ### Card 4
 - **Icon:** 🆓
 - **Label:** Free, no sign-up
 - **Explanation:** No ticket, no registration, no cost. Turn up at the start, that's all.
+- *(FR: **Gratuit, sans inscription** — Pas de ticket, pas d'inscription, aucun frais. On se retrouve au départ, c'est tout.)*
+- *(NL: **Gratis, geen inschrijving** — Geen ticket, geen registratie, geen kosten. Gewoon komen opdagen.)*
 
 ### Card 5
 - **Icon:** 👶
 - **Label:** All ages welcome
 - **Explanation:** From about 3 years old and up, on their own bike, in a cargo bike, or on a child seat.
+- *(FR: **Tous les âges bienvenus** — Dès environ 3 ans, sur leur propre vélo, dans un cargo ou sur un siège enfant.)*
+- *(NL: **Alle leeftijden welkom** — Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.)*
 
 ### Card 6
 - **Icon:** 🦺
 - **Label:** Trained volunteers
 - **Explanation:** Pink-vest volunteers ride along to keep the group safe at junctions and crossings.
+- *(FR: **Bénévoles formés** — Des bénévoles en gilet rose encadrent la balade aux carrefours et traversées.)*
+- *(NL: **Opgeleide vrijwilligers** — Vrijwilligers in roze hesje begeleiden de groep bij kruispunten en oversteken.)*
 
 ---
 
@@ -62,7 +74,13 @@ updated: 2026-04-13
 
 No. Just show up at the meeting point at the listed time. No ticket, no name on a list — nothing to do in advance.
 
-*FR/NL note: Keep the reassurance blunt. "Rien à faire à l'avance." / "Je hoeft niets op voorhand te regelen."*
+**FR: Faut-il s'inscrire ?**
+
+Non. Il suffit de se présenter au point de départ à l'heure indiquée. Pas de ticket, pas de liste — rien à faire à l'avance.
+
+**NL: Moet ik me inschrijven?**
+
+Nee. Gewoon opdagen op het vertrekpunt op het aangegeven tijdstip. Geen ticket, geen lijst — je hoeft niets op voorhand te regelen.
 
 ---
 
@@ -71,7 +89,13 @@ No. Just show up at the meeting point at the listed time. No ticket, no name on 
 
 From around 3 years old. Children ride on their own bike (balance bikes aren't suited to the road), sit in a cargo bike, or ride on a child seat. Adults are always responsible for their child's safety during the ride.
 
-*FR/NL note: "balance bikes" → FR: "vélos sans pédales" / NL: "loopfietsen". Clarify these aren't road-safe at group pace.*
+**FR: À partir de quel âge ?**
+
+Dès environ 3 ans. Les enfants roulent sur leur propre vélo (les vélos sans pédales ne sont pas adaptés à la route), dans un cargo ou sur un siège enfant. Les adultes restent responsables de la sécurité de leur enfant pendant la balade.
+
+**NL: Vanaf welke leeftijd?**
+
+Vanaf een jaar of 3. Kinderen rijden op hun eigen fiets (loopfietsen zijn niet geschikt voor de weg), in een bakfiets of op een kinderzitje. Ouders blijven altijd verantwoordelijk voor de veiligheid van hun kind.
 
 ---
 
@@ -80,7 +104,13 @@ From around 3 years old. Children ride on their own bike (balance bikes aren't s
 
 Not at all. We ride at the pace of the youngest child — slower than you think. Many parents join a Kidical Mass ride as their first time cycling in traffic. You're not alone, and nobody will rush you.
 
-*FR/NL note: This is the most important reassurance on the page. Keep the warmth. "Tu n'as pas besoin d'être un pro du vélo." is the phrasing used on the volunteer page — use the same register here.*
+**FR: Faut-il être à l'aise à vélo ?**
+
+Pas du tout. On roule au rythme du plus jeune — plus lentement qu'on ne l'imagine. Beaucoup de parents participent à leur première balade en circulation lors d'une Kidical Mass. Vous n'êtes pas seul·e, et personne ne vous pressera.
+
+**NL: Moet ik goed kunnen fietsen?**
+
+Helemaal niet. We rijden op het tempo van het jongste kind — trager dan je denkt. Veel ouders fietsen voor het eerst in het verkeer tijdens een Kidical Mass. Je staat er niet alleen voor, en niemand haast je.
 
 ---
 
@@ -89,7 +119,13 @@ Not at all. We ride at the pace of the youngest child — slower than you think.
 
 Rides happen in all weather. A bit of drizzle won't stop us — riding in the rain is practically a tradition. If conditions are truly extreme, it'll be announced on the Facebook event or your chapter page the morning of.
 
-*FR/NL note: "a bit of drizzle" → FR: "un peu de pluie" / NL: "een beetje regen". Keep it light — KM rides in the rain are a badge of honour.*
+**FR: Et s'il pleut ?**
+
+Les balades ont lieu par tous les temps. Un peu de pluie ne nous arrête pas — rouler sous la pluie est presque une tradition. En cas de conditions vraiment extrêmes, un message sera publié sur l'événement Facebook ou la page de votre section le matin même.
+
+**NL: Wat als het regent?**
+
+De rit gaat door bij elk weer. Een beetje regen houdt ons niet tegen — fietsen in de regen is zo goed als traditie. Bij écht extreme omstandigheden wordt het die ochtend aangekondigd op het Facebook-event of de pagina van jouw afdeling.
 
 ---
 
@@ -100,7 +136,17 @@ Helmets are recommended but not mandatory. Bring water. That's really it — no 
 
 *Implementer note: In Belgium, helmets are required by law for children under 12 in some regions — check your local rules. The "recommended but not mandatory" guidance may not apply everywhere. Add a regional note before launch if needed.*
 
-*FR/NL note: Helmet policy is "recommended, not mandatory" — confirm this remains consistent with Belgian law.*
+**FR: Que faut-il emporter ?**
+
+Le port du casque est recommandé mais pas obligatoire. Prenez de l'eau. C'est vraiment tout — pas de tenue spéciale, pas de pique-nique, pas de préparation particulière.
+
+*Note régionale : vérifiez les règles locales concernant le casque avant le lancement.*
+
+**NL: Wat moeten we meebrengen?**
+
+Een helm is aangeraden maar niet verplicht. Neem wat water mee. Dat is echt alles — geen speciale uitrusting, geen picknick, geen voorbereiding nodig.
+
+*Regionale noot: controleer de lokale regels rond helmplicht voor kinderen voor de lancering.*
 
 ---
 
@@ -109,7 +155,13 @@ Helmets are recommended but not mandatory. Bring water. That's really it — no 
 
 Yes — completely. No registration fee, no entry fee, no donation requested. Come as you are.
 
-*FR/NL note: "Come as you are" is a recurring phrase on this page and worth keeping consistent across languages. FR: "Venez comme vous êtes." NL: "Kom zoals je bent."*
+**FR: C'est vraiment gratuit ?**
+
+Oui — entièrement. Pas de frais d'inscription, pas de droit d'entrée, pas de don demandé. Venez comme vous êtes.
+
+**NL: Is het echt gratis?**
+
+Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraagd. Kom zoals je bent.
 
 ---
 
@@ -240,7 +292,7 @@ First time at a Kidical Mass? Come as you are. Here's what to expect at a ride, 
 | Field | Value |
 |---|---|
 | Page URL | `/getting-started` (also `/fr/getting-started`, `/nl/getting-started`) |
-| Status | Copy draft — ready for FR/NL translation |
+| Status | Copy draft — FR/NL translations added for fact cards and FAQ |
 | Primary CTA target | `/events` |
 | Secondary CTA target | `/chapters` |
 | External links | loopz.be, fietsbieb.be, mykidsbikes.be, cyclo.be, provelo.org, rideyourfuture.be |
