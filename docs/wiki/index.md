@@ -23,3 +23,5 @@
 | [Help Out — Content](ux/help-out-content.md) | Companion copy for the volunteer page: pitch, role cards, form, start-a-chapter | UX |
 | [Chapters — Content](ux/chapters-content.md) | Companion copy for chapters overview and chapter page template | UX |
 | [About Section — Content](ux/about-content.md) | Companion copy for all 6 About sub-pages: Mission, Vision, Organisation, News, Press, Partners | UX |
+| [Image Map — Asset Catalogue](image-map.md) | Catalogue of all usable assets in `docs/raw/assets/`: 11 illustrations, 36 photos, 11 event posters, 12 chapter posters, 3 logos | Assets |
+| [Image Map — New Site Slots](image-map-new-site.md) | Per-page slot map for kidicalmass.be — have / candidate / missing, with gap priority list | Assets |

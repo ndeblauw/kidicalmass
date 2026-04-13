@@ -1,5 +1,13 @@
 # Wiki Log
 
+## [2026-04-13] image-map | Photography expanded — Downloads batch
+
+Added 23 new photos from `~/Downloads/kidical-photos/`. Identified 4 duplicates: upgraded `ride-brussels-boulevard-crowd.jpg` (787→1960px wide) and `volunteer-pink-vest.jpg` (740→1200px tall) with higher-res originals; skipped `cf0153_6f0e0e6d` and `cf0153_0a3acc1b` as duplicates of `kidical-mass-16` and `kidical-mass-13`. Photography collection now 36 photos. Highlights: three 8688×5792 professional shots, Cinquantenaire crowd at 5472×3648, DJ-on-boombox-bike. Homepage and About hero slots upgraded from ⚠️ to ✅. Updated `image-map.md` and `image-map-new-site.md`.
+
+## [2026-04-13] image-map | Asset catalogue + new site slot map
+
+Visually assessed all 143 files in `docs/raw/website/assets/`. Applied exclusion criteria from spec (size, screenshots, iStock, social story formats, Wix UI elements, QR codes, third-party event assets). Copied 50 usable assets to `docs/raw/assets/` with clean kebab-case names: 11 illustrations, 13 photos, 11 event posters, 12 chapter posters, 3 logos. Wrote `image-map.md` (asset catalogue) and `image-map-new-site.md` (per-page slot map with gap priority list).
+
 ## [2026-04-13] ingest | Notion project — initial migration
 
 Migrated 7 pages from the Notion project "Kidical Mass Belgium — Website Project" verbatim:
