@@ -14,7 +14,7 @@ updated: 2026-04-13
 **Heading:** Help out
 *(FR: S'engager · NL: Meehelpen)*
 
-**Subtitle:** Join the people who make every ride happen.
+**Subtitle:** Join the hundreds of people who make every ride happen.
 
 ---
 
@@ -60,7 +60,7 @@ Every ride runs because someone planned it. You work out the route, set the timi
 **Icon:** 📢
 **Role name:** Communicator
 
-You're the one who makes sure people show up. Share rides on social media, put up flyers in the neighbourhood, pass the word through school groups and local channels. Word of mouth is how Kidical Mass grows — and you're good at it.
+You're the one who makes sure people show up. Share rides on social media, put up flyers in the neighbourhood, pass the word through school groups and local channels. Word of mouth is how Kidical Mass grows — and you're good at it. The moment a parent you've never met shows up because they saw your post — that's your doing.
 
 *(FR/NL note: "communicator" works across languages. Avoid "PR" or "marketing" — too corporate for the ToV.)*
 
@@ -169,6 +169,15 @@ Starting a chapter takes a core team of two or three people, a meeting point, an
 ---
 
 ## Meta
+
+**Page title tag:**
+Help out — Kidical Mass
+*(FR: S'engager — Kidical Mass | NL: Meehelpen — Kidical Mass)*
+
+**Meta description:**
+Join the team that makes Kidical Mass rides happen. Choose your role — pink vest, co-organiser, communicator, photographer, or DJ — and get in touch.
+*(FR: Rejoignez l'équipe qui fait vivre les rides Kidical Mass. Choisissez votre rôle et prenez contact.)*
+*(NL: Sluit je aan bij het team dat Kidical Mass-ritten mogelijk maakt. Kies je rol en neem contact op.)*
 
 **Page URL:** `/help-out` · `/nl/meehelpen` · `/fr/s-engager` · `/en/help-out`
 *(Redirect from /volunteer and /contribute if those URLs were ever public)*
