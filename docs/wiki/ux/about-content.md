@@ -106,7 +106,7 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 
 **Section heading:** Everyone is welcome
 
-**Body:** You don't need to be a confident cyclist. You don't need a bike. You don't need to be from the neighbourhood. Kidical Mass is designed to reflect the full diversity of each community — and to lower every barrier that might stop a family from showing up.
+**Body:** You don't need to be a confident cyclist. Never ridden in traffic before? That's fine — many of our rides are parents' first time on a road, and our volunteers make sure no one feels alone. You don't need a bike. You don't need to be from the neighbourhood. Kidical Mass is designed to reflect the full diversity of each community — and to lower every barrier that might stop a family from showing up.
 
 **Link:** No bike? → [Getting Started](/getting-started)
 
@@ -152,6 +152,13 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 ---
 
 ## Meta
+
+**Page title tag:** Mission — Kidical Mass
+*(FR: Mission — Kidical Mass | NL: Missie — Kidical Mass)*
+
+**Meta description:** Kidical Mass Belgium organises joyful, safe bike parades for children and families. 150+ parades, 16+ communities, and counting.
+*(FR: Kidical Mass Belgium organise des parades cyclistes festives pour enfants et familles. 150+ parades, 16+ communautés et encore plus.)*
+*(NL: Kidical Mass Belgium organiseert feestelijke, veilige fietsparades voor kinderen en gezinnen. 150+ parades, 16+ gemeenschappen en meer.)*
 
 - Content dependency: Stats must be reviewed before launch (coordination duo owns this)
 - Photo dependency: Hero needs a strong Belgian city ride photo — verify existing assets in `docs/raw/assets/`
@@ -245,6 +252,13 @@ Children are experts on their own neighbourhoods. They should be consulted — g
 
 ## Meta
 
+**Page title tag:** Vision — Kidical Mass
+*(FR: Vision — Kidical Mass | NL: Visie — Kidical Mass)*
+
+**Meta description:** Kidical Mass advocates for streets that are safe and welcoming for children. Here's what we stand for and why.
+*(FR: Kidical Mass plaide pour des rues sûres et accueillantes pour les enfants. Voici ce que nous défendons et pourquoi.)*
+*(NL: Kidical Mass pleit voor straten die veilig en uitnodigend zijn voor kinderen. Dit is waarvoor we staan en waarom.)*
+
 - The four demands are adapted from the raw manifesto (`what-we-want.md`) and the revendications page. The EN phrasing above is a ToV rewrite — not a literal translation.
 - The manifesto PDF link should be re-hosted on the new site rather than pointing to the legacy Wix URL. Flag as technical dependency.
 
@@ -311,6 +325,13 @@ Local chapters organise their own parades — choosing routes, setting meeting p
 
 ## Meta
 
+**Page title tag:** Organisation — Kidical Mass
+*(FR: Organisation — Kidical Mass | NL: Organisatie — Kidical Mass)*
+
+**Meta description:** A national coordination team and local chapters across Belgium. No headquarters. No paid staff. Just people who show up.
+*(FR: Une équipe de coordination nationale et des groupes locaux en Belgique. Pas de siège. Pas de staff rémunéré. Des personnes qui s'engagent.)*
+*(NL: Een nationaal coördinatieteam en lokale groepen in heel België. Geen hoofdkantoor. Geen betaald personeel. Gewoon mensen die er zijn.)*
+
 - No legal entity details on this page (out of scope per wireframe)
 - If a legal entity (vzw/asbl) exists or is planned, add a brief factual note — confirm with coordination duo
 - The "no paid staff" claim must be verified before publishing — confirm current status with the coordination team
@@ -367,6 +388,13 @@ Each news card shows:
 ---
 
 ## Meta
+
+**Page title tag:** News — Kidical Mass
+*(FR: Actualités — Kidical Mass | NL: Nieuws — Kidical Mass)*
+
+**Meta description:** Updates from the Kidical Mass Belgium movement — rides, events, and community news.
+*(FR: Actualités du mouvement Kidical Mass Belgique — rides, événements et nouvelles de la communauté.)*
+*(NL: Updates van de Kidical Mass België-beweging — ritten, evenementen en gemeenschapsnieuws.)*
 
 - News is database-driven. Articles are created in the CMS.
 - Category tags should be a controlled list — agree the taxonomy with the coordination duo before launch.
@@ -429,6 +457,13 @@ Each press card shows:
 ---
 
 ## Meta
+
+**Page title tag:** Press — Kidical Mass
+*(FR: Presse — Kidical Mass | NL: Pers — Kidical Mass)*
+
+**Meta description:** Kidical Mass Belgium in the media. Press coverage from local chapters across Belgium.
+*(FR: Kidical Mass Belgique dans les médias. Revue de presse des groupes locaux en Belgique.)*
+*(NL: Kidical Mass België in de media. Persaandacht van lokale groepen in heel België.)*
 
 - Press coverage is aggregated from chapters — confirm the workflow for how chapters submit press links.
 - Consider whether each item requires manual curation or can be submitted via a simple form.
@@ -522,6 +557,13 @@ Page URL: `/about/partners` · `/over/partners` · `/a-propos/partenaires`
 ---
 
 ## Meta
+
+**Page title tag:** Partners — Kidical Mass
+*(FR: Partenaires — Kidical Mass | NL: Partners — Kidical Mass)*
+
+**Meta description:** The organisations who support Kidical Mass Belgium — institutional partners, movement allies, and operational supporters.
+*(FR: Les organisations qui soutiennent Kidical Mass Belgique — partenaires institutionnels, alliés du mouvement et soutiens opérationnels.)*
+*(NL: De organisaties die Kidical Mass België steunen — institutionele partners, bondgenoten en operationele ondersteuners.)*
 
 - Partner logos must be provided in SVG or high-res PNG. Flag as asset dependency.
 - Partner descriptors (1-sentence copy per partner) must be approved by each partner before publishing. Flag as content dependency.
