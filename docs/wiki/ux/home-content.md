@@ -142,7 +142,7 @@ Two stats separated by a centred dot (·). Dynamic — pulled from the database 
 **FR example:** [N] groupes actifs · [N] balades cette saison
 **NL example:** [N] actieve groepen · [N] ritten dit seizoen
 
-> ⚠️ The raw site's "16 chapters / 60 parades" stat refers to Brussels municipalities only (2025). National figures must come from the database. Confirm correct national counts with Nico before using any example values.
+> ⚠️ These stats are database-driven and reflect the national movement. Confirm current national figures with Nico before launch. Do not use the "16 chapters / 60 parades" figures from the old website — those referred to Brussels only (2025).
 
 ### Separator
 

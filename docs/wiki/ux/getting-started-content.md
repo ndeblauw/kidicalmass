@@ -176,6 +176,7 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 ### Resource card 1 — Loopz
 
 - **Name:** Loopz
+- **Coverage label:** *🇧🇪 Available nationally*
 - **Description:** Rent a bike through a local shop partner — adult and child bikes available.
 - **Key detail:** From €6/month. Use code **KIDICALMASS** for 2 months free.
 - **Coverage:** National (Belgium-wide via partner shops)
@@ -186,6 +187,7 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 ### Resource card 2 — Fietsbieb / Vélothèque
 
 - **Name:** Fietsbieb / Vélothèque
+- **Coverage label:** *🏙️ Brussels only*
 - **Description:** Borrow a child's bike for the year — up to age 12, returned when they've grown out of it.
 - **Key detail:** €20/year + €20 refundable deposit. Available across 10 Brussels communes — check fietsbieb.be for the list.
 - **Coverage:** Brussels only
@@ -198,6 +200,7 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 ### Resource card 3 — Kidical Mouse
 
 - **Name:** Kidical Mouse
+- **Coverage label:** *🏙️ Brussels rides only*
 - **Description:** A cargo bike shows up at the ride start — hop on if you don't have a ride yet.
 - **Key detail:** Available at the ride start. Brussels rides. No booking needed.
 - **Coverage:** Brussels (confirm whether available at all Brussels rides or specific ones — if specific, update to "available at some rides — check your chapter page")
@@ -210,6 +213,7 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 ### Resource card 4 — My Kids Bikes
 
 - **Name:** My Kids Bikes
+- **Coverage label:** *🇧🇪 Available nationally*
 - **Description:** Subscribe to a quality kids' bike that grows with your child — swap sizes as they grow.
 - **Key detail:** Subscription service. Woom & BeMoov bikes.
 - **Coverage:** Belgium
@@ -220,6 +224,11 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 ---
 
 ### Below-cards note
+
+> Coverage varies by region. Outside Brussels, Loopz and My Kids Bikes are your best national options. Ask your local chapter for any regional alternatives.
+>
+> *(FR: La disponibilité varie selon les régions. En dehors de Bruxelles, Loopz et My Kids Bikes sont vos meilleures options nationales.)*
+> *(NL: Het aanbod verschilt per regio. Buiten Brussel zijn Loopz en My Kids Bikes je beste nationale opties.)*
 
 Also: **Cyclo** (Brussels) sells second-hand bikes at accessible prices — worth a look if you're ready to buy. [cyclo.be →]
 
@@ -261,6 +270,11 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 - **Organisation:** Ride Your Future
 - **Description:** A 110-metre pumptrack plus a dedicated kids' track in Laeken, Brussels. Open to all levels — a great place to build balance and bike confidence outside of traffic, at your own pace.
 - **Link:** rideyourfuture.be
+
+> **Note:** These three activities are Brussels-based examples. If you're elsewhere in Belgium, ask your local chapter what's available near you — or check ProVelo's regional programmes across the country.
+>
+> *(FR: Ces trois activités sont des exemples bruxellois. En dehors de Bruxelles, demandez à votre groupe local ce qui est disponible près de chez vous.)*
+> *(NL: Deze drie activiteiten zijn Brusselse voorbeelden. Buiten Brussel: vraag aan je lokale groep wat er in de buurt beschikbaar is.)*
 
 ---
 
