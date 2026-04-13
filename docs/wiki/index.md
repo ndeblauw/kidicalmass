@@ -5,8 +5,7 @@
 | [Desk Research](desk-research.md) | Ecosystem mapping, Liège split, comparable orgs, event data model, finance, open tasks | Org |
 | [Service Design Overview](service-design.md) | Actors, current service map, 5 structural problems, chapter pages analysis, user journeys | Org |
 | [Key Decisions](key-decisions.md) | Decisions on Events, Chapters, Volunteers, Sponsors with rationale | Org |
-| [Tone of Voice (Notion)](tone-of-voice-notion.md) | 4 voice qualities, context table, bilingual dimension, reference phrases (Notion source) | Org |
-| [Tone of Voice](tone-of-voice.md) | Tone of voice guide (codebase version) | Org |
+| [Tone of Voice](tone-of-voice.md) | 4 voice qualities, context table, bilingual dimension, reference phrases | Org |
 | [Strategy & Plan](strategy-plan.md) | Website strategy and plan in Dutch — Fase 1 & 2, 3 journeys, next steps | Org |
 | [Site Audit](site-audit.md) | Deep audit of current Wix site — page-by-page issues, 7 cross-cutting problems, key signals | Org |
 | [UX Planning](ux-planning.md) | Full UX planning + 14 child pages: all page types, content migration, user journeys | UX |
