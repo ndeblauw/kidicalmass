@@ -373,7 +373,7 @@ livewire(ListUsers::class)
 
 ## Interface Copy
 
-When writing any interface copy for the public site — labels, CTAs, headings, empty states, error messages, onboarding text, tooltips — always follow the Tone of Voice guide at `docs/tone-of-voice.md`.
+When writing any interface copy for the public site — labels, CTAs, headings, empty states, error messages, onboarding text, tooltips — always follow the Tone of Voice guide at `docs/wiki/tone-of-voice.md`.
 
 The guide defines 4 voice qualities: joyful (not frivolous), warm and inclusive (genuinely), local and grounded, committed (not preachy). Register shifts by context — event pages are warm and concrete, partner pages are a notch more serious.
 
@@ -395,3 +395,45 @@ The guide defines 4 voice qualities: joyful (not frivolous), warm and inclusive 
 - Dates → `<time datetime="ISO8601">`.
 - Decorative icons → `aria-hidden="true"`.
 - `<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">` — never hardcoded.
+
+## Wiki
+
+The project maintains a persistent wiki in `docs/wiki/`. Raw source files live in `docs/raw/`. The wiki is LLM-maintained — you write and update it, the user reads it.
+
+### Directory layout
+- `docs/raw/` — immutable source files. Never modify these.
+  - `docs/raw/notion/` — pages fetched from Notion
+  - `docs/raw/assets/` — downloaded images
+  - `docs/raw/chunks/` — script-generated chunks from large files
+- `docs/wiki/` — LLM-maintained markdown pages
+  - `docs/wiki/index.md` — catalog of every page (table: Page / Summary / Category)
+  - `docs/wiki/log.md` — append-only chronological log
+
+### Page format
+Every wiki page has YAML frontmatter:
+```yaml
+---
+title: Page Title
+tags: []
+sources: [notion/slug.md]
+updated: YYYY-MM-DD
+---
+```
+Cross-links use standard markdown: `[Page Title](relative-path.md)`.
+
+### Ingest workflow
+1. Run `node scripts/ingest.cjs <file>` to chunk a large source (outputs to `docs/raw/chunks/`).
+2. Read chunks one at a time, discuss key takeaways.
+3. Write or update a wiki page in `docs/wiki/`.
+4. Update `docs/wiki/index.md`.
+5. Update any other relevant wiki pages (cross-references, contradictions).
+6. Append to `docs/wiki/log.md`: `## [YYYY-MM-DD] ingest | <title>`.
+
+### Query workflow
+1. Read `docs/wiki/index.md` to find relevant pages.
+2. Drill into those pages.
+3. Synthesise answer with citations.
+4. If the answer is a useful comparison or analysis, file it back as a new wiki page.
+
+### Lint
+Periodically check for: contradictions, stale claims, orphan pages (no inbound links), concepts mentioned but lacking their own page, missing cross-references.

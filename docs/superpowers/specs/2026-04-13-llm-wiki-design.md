@@ -93,6 +93,24 @@ CLAUDE.md reference updated: `docs/tone-of-voice.md` → `docs/wiki/tone-of-voic
 
 ---
 
+## Notion Content Migration
+
+The existing Notion project page "Kidical Mass Belgium — Website Project" is ingested verbatim as the initial set of wiki pages. All sub-pages are fetched and converted to markdown, **excluding** the "Look & feel examples" page.
+
+Sub-pages to migrate:
+- Meeting Notes
+- Desk Research Plan & Findings
+- Service Design Overview
+- Key Decisions — Events, Chapters, Volunteers, Sponsors
+- Tone of Voice Guide — Kidical Mass Belgium
+- Strategie & plan — Nieuwe website Kidical Mass Belgium
+- UX planning
+- Deep Site Audit — Current Wix Site
+
+Each page is saved to `docs/raw/notion/<slug>.md` as the immutable source, and also written verbatim to `docs/wiki/<slug>.md` as the initial wiki page. The `docs/wiki/index.md` and `docs/wiki/log.md` are seeded with entries for each migrated page.
+
+---
+
 ## Out of Scope
 
 - Embedding-based search / RAG infrastructure (use `index.md` at this scale).
