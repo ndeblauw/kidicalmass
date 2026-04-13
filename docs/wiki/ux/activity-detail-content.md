@@ -52,6 +52,9 @@ Komoot route embed. No copy. The map speaks for itself: a coloured route through
 
 > The map carries the emotional argument. A route winding through a real neighbourhood is more persuasive than any sentence about safe cycling.
 
+**Accessibility alt text for the map container:** "Route map for Kidical Mass [Municipality] on [Date]"
+*(FR: "Carte du parcours pour Kidical Mass [Commune] le [Date]" | NL: "Routekaart voor Kidical Mass [Gemeente] op [Datum]")*
+
 ---
 
 ## Practical strip
@@ -69,7 +72,7 @@ One scannable line. Pipe-separated on desktop, stacked on mobile. Labels are sta
 | Duration | `max [Y] min` | `max [Y] min` | `max [Y] min` |
 | Admission | Free | Gratuit | Gratis |
 | Age | All ages | Tous les âges | Alle leeftijden |
-| Music | Music along the way | Musique en route | Muziek onderweg |
+| Music | Music along the way | Musique en route | Muziek onderweg | The music note icon (🎵) is a UI element, not part of the copy string — the icon is rendered by the component, not typed into the database field. |
 | Guardian note | Children accompanied by an adult | Enfants accompagnés d'un adulte | Kinderen begeleid door een volwassene |
 
 > The guardian note is always shown — it is both reassurance for parents and a legal responsibility signal. Keep it as a short label, not a paragraph.
@@ -88,6 +91,8 @@ On roule au rythme du plus petit. De la musique, de nouvelles rencontres, et un 
 
 **NL:**
 We rijden op het tempo van de jongste. Muziek, nieuwe vrienden, en je buurt van een andere kant — samen, stap voor stap.
+
+> 2–3 lines max. Sensory first, context second. Never open with a policy statement — open with what you will see, hear, feel.
 
 ---
 
@@ -170,10 +175,10 @@ Logos where available, names otherwise. No taglines, no descriptions. The sectio
 ## Photo permission
 
 **EN (final copy):**
-Photos are taken during the ride. By taking part, you agree to their publication on our channels.
+Photos are taken during the ride. By taking part, you agree to the publication of these photos on our channels.
 
 **FR:**
-Des photos sont prises pendant la balade. En participant, vous acceptez leur publication sur nos canaux.
+Des photos sont prises pendant la balade. En participant, vous acceptez la publication de ces photos sur nos canaux.
 
 **NL:**
 Tijdens de rit worden foto's gemaakt. Door deel te nemen ga je akkoord met publicatie op onze kanalen.
