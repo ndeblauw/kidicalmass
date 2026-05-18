@@ -22,3 +22,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Internal interview notes — sensitive, keep in Notion not in this public repo
+/docs/raw/interview-*.md
