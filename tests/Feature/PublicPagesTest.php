@@ -1,0 +1,71 @@
+<?php
+
+use App\Models\Activity;
+use App\Models\Article;
+use App\Models\Group;
+
+use function Pest\Laravel\get;
+
+/**
+ * Covers the public content pages after the Surface pass: each renders its real
+ * data, and the hand-designed activity detail page keeps its branded markup.
+ */
+beforeEach(function () {
+    $this->group = Group::factory()->create(['name' => 'Kidical Mass Testville']);
+
+    $this->activity = Activity::factory()->create([
+        'title_nl' => 'Surface Test Ride',
+        'begin_date' => now()->addWeek(),
+    ]);
+    $this->activity->groups()->attach($this->group);
+
+    $this->article = Article::factory()->create(['title_nl' => 'Surface Test Article']);
+    $this->article->groups()->attach($this->group);
+});
+
+it('renders the home page with real data', function () {
+    get('/')
+        ->assertOk()
+        ->assertSee('Surface Test Ride')
+        ->assertSee('Kidical Mass Testville')
+        ->assertSee('Surface Test Article')
+        ->assertSee('Find a ride', escape: false);
+});
+
+it('renders the activities index with the event listed', function () {
+    get('/activities')
+        ->assertOk()
+        ->assertSee('Surface Test Ride');
+});
+
+it('renders the articles index with the article listed', function () {
+    get('/articles')
+        ->assertOk()
+        ->assertSee('Surface Test Article');
+});
+
+it('renders the groups index with the group listed', function () {
+    get('/groups')
+        ->assertOk()
+        ->assertSee('Kidical Mass Testville');
+});
+
+it('renders the article detail with its content', function () {
+    get(route('articles.show', $this->article))
+        ->assertOk()
+        ->assertSee('Surface Test Article');
+});
+
+it('renders the group detail with its upcoming ride', function () {
+    get(route('groups.show', $this->group))
+        ->assertOk()
+        ->assertSee('Kidical Mass Testville')
+        ->assertSee('Surface Test Ride');
+});
+
+it('keeps the activity detail page branded', function () {
+    get(route('activities.show', $this->activity))
+        ->assertOk()
+        ->assertSee('Surface Test Ride')
+        ->assertSee('activity-hero', escape: false);
+});

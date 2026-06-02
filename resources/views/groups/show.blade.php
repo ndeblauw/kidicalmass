@@ -1,132 +1,99 @@
 <x-layouts::site title="{{ $group->name }}">
-    <div class="max-w-6xl mx-auto">
-        <!-- Back Button -->
-        <div class="mb-6">
-            <a href="{{ route('groups.index') }}" class="inline-flex items-center text-kidical-blue hover:text-kidical-orange transition-colors font-semibold">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                </svg>
-                Back to Groups
-            </a>
-        </div>
+    <div class="mx-auto max-w-4xl space-y-12">
+        <a href="{{ route('groups.index') }}" class="inline-block font-semibold text-kidical-blue hover:underline">← All groups</a>
 
-        <!-- Group Header -->
-        <div class="bg-gradient-to-r from-kidical-blue to-kidical-green text-white rounded-xl shadow-lg p-8 mb-8">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                <div>
-                    <h1 class="text-4xl font-bold mb-4">{{ $group->name }}</h1>
-                    <div class="flex items-center space-x-3 text-white/90">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="font-semibold text-lg">{{ $group->zip }}</span>
-                    </div>
-                </div>
-                <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 text-center">
-                        <div class="text-2xl font-bold">{{ $group->articles_count }}</div>
-                        <div class="text-sm opacity-90">Articles</div>
-                    </div>
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 text-center">
-                        <div class="text-2xl font-bold">{{ $group->activities_count }}</div>
-                        <div class="text-sm opacity-90">Activities</div>
-                    </div>
-                </div>
+        <header class="space-y-3">
+            <h1>{{ $group->name }}</h1>
+            <div class="flex flex-wrap items-center gap-2">
+                @if ($group->zip)
+                    <span class="rounded-full bg-kidical-light-blue/60 px-3 py-1 text-sm font-semibold text-kidical-ink">{{ $group->zip }}</span>
+                @endif
+                <span class="rounded-full bg-kidical-light-yellow px-3 py-1 text-sm font-semibold text-kidical-ink">{{ $group->activities_count }} activities</span>
+                <span class="rounded-full bg-kidical-light-yellow px-3 py-1 text-sm font-semibold text-kidical-ink">{{ $group->articles_count }} articles</span>
             </div>
-            @if($group->parent)
-                <div class="mt-4 pt-4 border-t border-white/30">
-                    <span class="text-white/80">Part of:</span>
-                    <a href="{{ route('groups.show', $group->parent) }}" class="ml-2 px-3 py-1 bg-white text-kidical-blue rounded-full text-sm font-semibold hover:bg-kidical-yellow transition-colors">
-                        {{ $group->parent->name }}
-                    </a>
+            @if ($group->parent)
+                <p class="text-sm text-kidical-ink/60">
+                    Part of: <a href="{{ route('groups.show', $group->parent) }}" class="font-semibold text-kidical-blue hover:underline">{{ $group->parent->name }}</a>
+                </p>
+            @endif
+        </header>
+
+        @if ($group->children->isNotEmpty())
+            <section class="space-y-4">
+                <h2 class="text-2xl text-kidical-ink">Subgroups</h2>
+                <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($group->children as $child)
+                        <li>
+                            <a
+                                href="{{ route('groups.show', $child) }}"
+                                class="link-plain group block h-full rounded-xl border border-kidical-ink/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                            >
+                                <h3 class="text-lg text-kidical-blue group-hover:text-kidical-orange transition-colors">{{ $child->name }}</h3>
+                                @if ($child->zip)
+                                    <p class="mt-1 text-sm text-kidical-ink/60">{{ $child->zip }}</p>
+                                @endif
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </section>
+        @endif
+
+        <section class="space-y-4">
+            <h2 class="text-2xl text-kidical-ink">Upcoming rides</h2>
+            @if ($activities->isNotEmpty())
+                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($activities as $activity)
+                        <x-event-card :activity="$activity" />
+                    @endforeach
                 </div>
+            @else
+                <p class="text-kidical-ink/70">No upcoming rides for {{ $group->name }} right now.</p>
             @endif
-        </div>
+        </section>
 
-        <div class="space-y-12">
-            <!-- Subgroups -->
-            @if($group->children->isNotEmpty())
-                <section>
-                    <h2 class="text-3xl font-bold text-kidical-blue mb-6">Subgroups</h2>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach($group->children as $child)
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow border-l-4 border-kidical-blue">
-                                <div class="p-5">
-                                    <h3 class="text-lg font-bold text-kidical-blue mb-2">{{ $child->name }}</h3>
-                                    <p class="text-gray-600 mb-3">
-                                        <svg class="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $child->zip }}
-                                    </p>
-                                    <a href="{{ route('groups.show', $child) }}" class="inline-block px-4 py-2 bg-kidical-green text-white rounded-lg hover:bg-kidical-orange transition-colors font-semibold text-sm">
-                                        View Subgroup →
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
+        {{-- Team + volunteer form (PAT-6 / PAT-11) --}}
+        <section class="space-y-4">
+            <h2 class="text-2xl text-kidical-ink">Organised by</h2>
+            @if ($group->users->isNotEmpty())
+                <ul class="flex flex-wrap gap-3">
+                    @foreach ($group->users as $member)
+                        <li class="rounded-xl border border-kidical-ink/10 bg-white px-5 py-3 shadow-sm">
+                            <span class="block font-bold text-kidical-ink">{{ $member->name }}</span>
+                            <span class="block text-xs font-semibold uppercase tracking-wide text-kidical-ink/50">Organiser</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-kidical-ink/70">No team listed yet.</p>
             @endif
 
-            <!-- Articles -->
-            @if($articles->isNotEmpty())
-                <section>
-                    <h2 class="text-3xl font-bold text-kidical-blue mb-6">Articles</h2>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach($articles as $article)
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow border-t-4 border-kidical-yellow">
-                                <div class="p-5">
-                                    <h3 class="text-lg font-bold text-kidical-blue mb-2 hover:text-kidical-orange transition-colors">
-                                        <a href="{{ route('articles.show', $article) }}">{{ $article->title_nl }}</a>
-                                    </h3>
-                                    <p class="text-sm text-gray-600 mb-3">
-                                        By {{ $article->author->name }} • {{ $article->created_at->format('M d, Y') }}
-                                    </p>
-                                    <p class="text-gray-700 text-sm mb-3">{{ Str::limit(strip_tags($article->content_nl), 100) }}</p>
-                                    <a href="{{ route('articles.show', $article) }}" class="inline-block px-4 py-2 bg-kidical-green text-white rounded-lg hover:bg-kidical-orange transition-colors font-semibold text-sm">
-                                        Read More →
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-            @endif
+            <x-wire.placeholder
+                label="Volunteer sign-up"
+                note="Routed to this chapter's lead (PAT-6)"
+                class="min-h-28"
+            />
+        </section>
 
-            <!-- Activities -->
-            @if($activities->isNotEmpty())
-                <section>
-                    <h2 class="text-3xl font-bold text-kidical-blue mb-6">Activities</h2>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach($activities as $activity)
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow border-l-4 border-kidical-green">
-                                <div class="p-5">
-                                    <h3 class="text-lg font-bold text-kidical-blue mb-2 hover:text-kidical-orange transition-colors">
-                                        <a href="{{ route('activities.show', $activity) }}">{{ $activity->title_nl }}</a>
-                                    </h3>
-                                    <p class="text-sm text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-kidical-green" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $activity->begin_date->format('M d, Y \a\t H:i') }}
-                                    </p>
-                                    <p class="text-sm text-gray-700 mb-3">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-kidical-green" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $activity->location }}
-                                    </p>
-                                    <p class="text-gray-700 text-sm mb-3">{{ Str::limit(strip_tags($activity->content_nl), 100) }}</p>
-                                    <a href="{{ route('activities.show', $activity) }}" class="inline-block px-4 py-2 bg-kidical-orange text-white rounded-lg hover:bg-kidical-blue transition-colors font-semibold text-sm">
-                                        View Activity →
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-            @endif
-        </div>
+        @if ($articles->isNotEmpty())
+            <section class="space-y-4">
+                <h2 class="text-2xl text-kidical-ink">News</h2>
+                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($articles as $article)
+                        <x-article-card :article="$article" />
+                    @endforeach
+                </div>
+            </section>
+        @endif
+
+        {{-- Optional chapter-managed sections (PAT-11 · hide-if-empty) --}}
+        <section class="space-y-4">
+            <h2 class="text-2xl text-kidical-ink">More</h2>
+            <div class="grid gap-4 sm:grid-cols-3">
+                <x-wire.placeholder label="Local partners" note="hide-if-empty" class="min-h-24" />
+                <x-wire.placeholder label="Press coverage" note="hide-if-empty" class="min-h-24" />
+                <x-wire.placeholder label="Downloads" note="hide-if-empty" class="min-h-24" />
+            </div>
+        </section>
     </div>
 </x-layouts::site>

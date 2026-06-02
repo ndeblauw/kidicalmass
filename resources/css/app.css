@@ -133,6 +133,24 @@
     .hero-section {
         background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
     }
+
+    /* ─── Home hero — full-bleed blue band, mirrors the activity-hero language ─── */
+    .home-hero {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: calc(var(--spacing) * -8);
+        background-color: var(--color-kidical-blue);
+        color: white;
+        overflow: hidden;
+    }
+
+    .home-hero h1 {
+        color: white;
+        display: inline-block;
+        transform: rotate(-3deg);
+        transform-origin: center;
+        line-height: 1.0;
+    }
 }
 
 @layer components {
@@ -1356,4 +1374,10 @@ input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* Block / card-wrapping links opt out of the animated text underline. */
+.link-plain {
+    background-image: none;
+    transition: none;
 }
