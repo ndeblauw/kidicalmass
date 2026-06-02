@@ -8,7 +8,8 @@ it('shows the five-item dutch main nav on a public page', function () {
         ->assertSee('Afdelingen')
         ->assertSee('Voor het eerst')
         ->assertSee('Meehelpen')
-        ->assertSee('Over ons');
+        ->assertSee('Over ons')
+        ->assertDontSee('Register');
 });
 
 it('links the footer to contact, membership and legal pages', function () {

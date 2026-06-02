@@ -60,7 +60,7 @@
             <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')">{{ __('nav.chapters') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')">{{ __('nav.getting_started') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('volunteer') }}" :current="request()->routeIs('volunteer')">{{ __('nav.help_out') }}</flux:navbar.item>
-            <flux:navbar.item href="{{ route('about.mission') }}" :current="request()->routeIs('about.*')">{{ __('nav.about') }}</flux:navbar.item>
+            <flux:navbar.item href="{{ route('about') }}" :current="request()->routeIs('about.*')">{{ __('nav.about') }}</flux:navbar.item>
             @guest
                 <flux:navbar.item href="{{ route('login') }}">{{ __('nav.login') }}</flux:navbar.item>
             @endguest

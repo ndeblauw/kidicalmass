@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
+use Illuminate\View\View;
 
 class GroupController extends Controller
 {
-    public function index(string $locale)
+    public function index(string $locale): View
     {
         $groups = Group::visible()
             ->with(['parent', 'children'])
@@ -18,7 +19,7 @@ class GroupController extends Controller
         return view('groups.index', compact('groups'));
     }
 
-    public function show(string $locale, Group $group)
+    public function show(string $locale, Group $group): View
     {
         $group->load(['parent', 'children', 'users'])->loadCount(['articles', 'activities']);
 

@@ -29,8 +29,9 @@ class AppServiceProvider extends ServiceProvider
 
     protected function configureDefaults(): void
     {
-        // Single locale for now — widen/derive when fr lands.
-        URL::defaults(['locale' => 'nl']);
+        // Fallback for non-HTTP contexts (artisan, queued jobs); HTTP requests
+        // override this per-request via the SetLocale middleware.
+        URL::defaults(['locale' => config('app.locale')]);
 
         Date::use(CarbonImmutable::class);
 

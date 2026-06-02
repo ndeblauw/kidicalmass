@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function __invoke(string $locale)
+    /** @param string $locale Supplied by the {locale} route prefix (set via SetLocale middleware); kept first for route-model binding order. */
+    public function __invoke(string $locale): View
     {
         $latestArticles = Article::with(['author', 'groups'])
             ->latest()

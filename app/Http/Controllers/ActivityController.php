@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ActivityController extends Controller
 {
-    public function index(string $locale)
+    public function index(string $locale): View
     {
         $activities = Activity::with(['author', 'groups'])
             ->orderBy('begin_date')
@@ -16,7 +17,7 @@ class ActivityController extends Controller
         return view('activities.index', compact('activities'));
     }
 
-    public function show(string $locale, Activity $activity)
+    public function show(string $locale, Activity $activity): View
     {
         $activity->load(['author', 'groups']);
 

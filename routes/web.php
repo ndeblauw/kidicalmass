@@ -6,13 +6,14 @@ use App\Http\Controllers\BuildDashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
 Route::get('/', fn () => redirect('/nl'));
 
 Route::prefix('{locale}')
-    ->whereIn('locale', ['nl'])
+    ->whereIn('locale', SetLocale::SUPPORTED)
     ->middleware('setlocale')
     ->group(function (): void {
         Route::get('/', HomeController::class)->name('home');
