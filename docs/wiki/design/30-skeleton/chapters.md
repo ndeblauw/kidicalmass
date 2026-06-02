@@ -232,7 +232,7 @@ Not a primary UX audience for the public page — they interact via the admin pa
 **Must have:**
 - Local event schedule (auto-populated from Events database)
 - Team section (optional — hidden if no team added)
-- Volunteer contact form (routed to this chapter's lead)
+- Volunteer contact form (routed to this chapter's lead by context) — name, email, optional role checkboxes + message; the J2 conversion point (Help out only orients → routes here)
 - Local partners (optional)
 
 **Should have:**
@@ -301,12 +301,15 @@ Fixed template, single page. Every chapter follows the same section order. Secti
 │  └──────────┘  └──────────┘  └──────────┘           │
 │                                                      │
 │  Want to help in Schaerbeek?                         │
-│  [2-sentence warm pitch]                             │
+│  Join Sofie, Marc & Lena. [2-sentence warm pitch]    │
 │                                                      │
-│  Name ___________________________                    │
-│  Email __________________________                    │
-│  Message (optional) ______________                   │
-│                    [ Send → ]                        │
+│  Name  ___________________________                   │
+│  Email ___________________________                   │
+│  I'd like to help with:  (optional)                  │
+│   [ ] Pink vest  [ ] Co-org  [ ] Comms               │
+│   [ ] Photo  [ ] DJ  [ ] Not sure yet                │
+│  Message (optional) ______________________           │
+│                    [ I'm in → ]                      │
 │                                                      │
 │  More about volunteering →                           │
 │                                                      │
@@ -368,12 +371,18 @@ Fixed template, single page. Every chapter follows the same section order. Secti
 │                      │
 │  Want to help in     │
 │  Schaerbeek?         │
-│  [pitch — 2 lines]   │
+│  Join Sofie, Marc &  │
+│  Lena. [pitch]       │
 │                      │
 │  Name _____________  │
 │  Email _____________ │
+│  Help with: (opt.)   │
+│  [ ] Pink vest       │
+│  [ ] Co-org [ ] Comms│
+│  [ ] Photo [ ] DJ    │
+│  [ ] Not sure yet    │
 │  Message (opt.) ___  │
-│  [ Send → ]          │
+│  [ I'm in → ]        │
 │  More about vol. →   │
 ├──────────────────────┤
 │  Local partners      │
@@ -398,7 +407,22 @@ Fixed template, single page. Every chapter follows the same section order. Secti
 - **Chapter header:** Municipality name large. Postal code smaller below. No chapter colours or logos. Brussels chapters show the NL/FR language toggle.
 - **Upcoming events:** Same compact card as /events. Auto-populated. If no upcoming events: "No upcoming rides for Schaerbeek right now. Check /events for rides across Belgium." Past events are not shown on the page — a "Past rides →" link routes to /events with pre-set location filter.
 - **Team section:** Name + role label + optional photo (no bio). Photos optional — hidden if not uploaded. The section disappears entirely if no team members added in admin.
-- **Volunteer form:** 3 fields only (name, email, optional message). Short by design — low friction. "Send →" on submit shows inline confirmation. Routes to chapter lead email.
+- **Volunteer form (J2 — the form lives here, not on Help out):** name, email, optional **role checkboxes** (pink vest · co-org · comms · photo · DJ · *Not sure yet*), optional message. Routing is **implicit by context** — submitting from this page sends the `Volunteer enquiry` ([content model](../20-structure.md)) to *this* chapter's lead; no municipality dropdown. Short by design. "I'm in →" on submit shows the inline confirmation below. The "*Not sure yet*" box removes the barrier of needing to know your role before reaching out. Names in the pitch ("join Sofie, Marc & Lena") make the team concrete — the trust work that lets the confirmation stay modest.
+- **Faces before form** is deliberate: you see the team, *then* you're invited to join *them*. One merged section, not two.
+- **Confirmation state (resolved — was open-Q #4).** Replaces the form in place on submit. Warm + one hook, nothing more: *"the team"* (no name, no SLA — keeps the promise honest and independent of [D-1](../01-concerns.md)) plus the chapter's **next ride**, which already sits directly above the form (zero new data dependency). This is the J2 "post-submit limbo" antidote — see [help-out.md § post-submit limbo](help-out.md).
+- **Built (2026-06-02).** This section is live: the placeholder is replaced by the **`ChapterVolunteerSignup`** Livewire component (`#aanmelden` anchor, `?intent=volunteer` welcome banner, name/email/role-checkboxes/message → `ContactForm`, warm "Je bent erbij" + next-ride `<x-event-card>` confirmation). Distinct from the event-detail `VolunteerSignup` — do not merge. `[backend]` routes to the central comms inbox tagged with the chapter name; **per-lead routing still pending** (no per-group lead email on the `Group` model) — specced for Nico in [GitHub #37](https://github.com/ndeblauw/kidicalmass/issues/37). The rest of the chapter page is still in **English** and needs its own NL pass.
+
+```
+│  Want to help in Schaerbeek?                         │
+│  ┌────────────────────────────────────────────────┐ │
+│  │  🎉  You're in.                                 │ │
+│  │  Someone from the Schaerbeek team will be       │ │
+│  │  in touch soon.                                 │ │
+│  │  Don't wait for the email — come say hi:        │ │
+│  │  → Next ride: Sun 28 Jun · 15:00 · Pl. Colignon │ │
+│  │    (the ride card is right above ↑)             │ │
+│  └────────────────────────────────────────────────┘ │
+```
 - **Local partners:** Logo + name + optional external link. Populated by chapter lead in admin. Hidden when empty.
 - **Press coverage:** Outlet + headline + date + link. Structured list, not cards. Hidden when empty. Items automatically surface on /about/press.
 - **Downloads:** File name + format + download button. Chapter-specific flyers. Hidden when empty.
@@ -410,6 +434,6 @@ Fixed template, single page. Every chapter follows the same section order. Secti
 1. **Team photos:** Are team member photos required or optional? Proposed: optional. If no photo uploaded, show initials avatar or a generic silhouette placeholder. Confirm with Nico.
 2. **Brussels bilingual toggle:** On a Brussels chapter page with the NL/FR toggle, does switching language change the URL (e.g., `/nl/chapters/1030` vs `/fr/chapters/1030`) or is it a client-side toggle that doesn't update the URL? URL-based routing is preferred for shareability. Confirm with Nico.
 3. **Empty chapter page state:** A chapter lead might create a chapter page in admin but not add any team members, partners, or downloads. The result is a page with only an events section (or empty events). Is this acceptable at launch? Proposed: acceptable, with the empty sections hidden. An admin nudge could encourage completing the page.
-4. **Volunteer form — confirmation state:** Same question as Help Out page. What does the inline confirmation message say? Copy needed.
+4. **Volunteer form — confirmation state:** ✅ Resolved (J2 pass, 2026-06-02) — warm "you're in" + the chapter's next-ride hook, "the team" with no name/SLA. See the annotation above. Final ToV copy (NL/FR) still to write.
 5. **Multi-municipality chapter header:** For chapters spanning multiple municipalities (e.g., Woluwe-St-Pierre & St-Lambert), how does the header display? Proposed: "Woluwe-Saint-Pierre & Saint-Lambert" as the primary name, "1150–1200" as the postal code line. Long names may wrap on mobile — confirm typography handles this.
 6. **Press coverage aggregation:** The spec says chapter press items automatically surface on /about/press. Confirm with Nico this is implemented at the data model level — every press item entry has a chapter_id field that the press page queries.

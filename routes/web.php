@@ -6,6 +6,7 @@ use App\Http\Controllers\BuildDashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
+use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
@@ -27,11 +28,12 @@ Route::prefix('{locale}')
         Route::get('chapters', [GroupController::class, 'index'])->name('groups.index');
         Route::get('chapters/{group}', [GroupController::class, 'show'])->name('groups.show');
 
-        // Help out.
-        Route::view('help-out', 'volunteer')->name('volunteer');
+        // Help out (J2 orientation page — lists groups so a volunteer can route to a chapter).
+        Route::get('help-out', VolunteerController::class)->name('volunteer');
 
         // Getting started.
         Route::view('getting-started', 'getting-started')->name('getting-started');
+        Route::view('find-a-bike', 'find-a-bike')->name('find-a-bike');
 
         // About section.
         Route::view('about', 'about.index')->name('about');
@@ -43,8 +45,11 @@ Route::prefix('{locale}')
         Route::view('about/press', 'about.press')->name('about.press');
         Route::view('about/partners', 'about.partners')->name('about.partners');
 
-        // Membership.
-        Route::view('membership', 'membership')->name('membership');
+        // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
+        // `membership` (links use route('membership')). The old /membership path 301s
+        // here so anything indexed from the old site keeps resolving.
+        Route::view('steun-ons', 'steun-ons')->name('membership');
+        Route::get('membership', fn (string $locale) => redirect()->route('membership', ['locale' => $locale], 301))->name('membership.legacy');
 
         // Contact (national).
         Route::view('contact', 'contact')->name('contact');

@@ -10,9 +10,9 @@ beforeEach(function () {
     $this->report = app(BuildStatus::class)->report();
 });
 
-it('parses all 21 pages with stages and confidence', function () {
+it('parses all 22 pages with stages and confidence', function () {
     $pages = collect($this->report['pages']);
-    expect($pages)->toHaveCount(21);
+    expect($pages)->toHaveCount(22);
 
     $home = $pages->firstWhere('id', 'P-01');
     expect($home['name'])->toContain('Home')
@@ -29,7 +29,7 @@ it('parses patterns and concerns and builds an id map', function () {
 });
 
 it('computes overview counts', function () {
-    expect($this->report['overview']['pagesTotal'])->toBe(21)
+    expect($this->report['overview']['pagesTotal'])->toBe(22)
         ->and($this->report['overview']['avgConfidence'])->toBeGreaterThan(0);
 });
 
@@ -57,14 +57,4 @@ it('reports per-source freshness', function () {
     expect($this->report['sources'])->toHaveKey('skeleton')
         ->and($this->report['sources']['skeleton']['file'])->toBe('00-page-registry.md')
         ->and($this->report['sources']['skeleton']['ago'])->toBeString();
-});
-
-it('reports structure staleness as null or a newer page', function () {
-    $stale = $this->report['structureStale'];
-    if ($stale !== null) {
-        expect($stale['pageId'])->toMatch('/^P-\d+/')
-            ->and($stale)->toHaveKey('pageDate');
-    } else {
-        expect($stale)->toBeNull();
-    }
 });

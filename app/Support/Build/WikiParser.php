@@ -58,36 +58,4 @@ class WikiParser
 
         return $out;
     }
-
-    /** First fenced ``` block after a heading line containing $afterHeading. */
-    public function extractFencedBlock(string $markdown, string $afterHeading): ?string
-    {
-        $past = false;
-        $inFence = false;
-        $buf = [];
-
-        foreach (preg_split('/\R/u', $markdown) as $line) {
-            $trim = trim($line);
-            if (! $past) {
-                if (str_starts_with($trim, '#') && str_contains($line, $afterHeading)) {
-                    $past = true;
-                }
-
-                continue;
-            }
-            if (! $inFence && str_starts_with($trim, '```')) {
-                $inFence = true;
-
-                continue;
-            }
-            if ($inFence && str_starts_with($trim, '```')) {
-                return implode("\n", $buf);
-            }
-            if ($inFence) {
-                $buf[] = $line;
-            }
-        }
-
-        return null;
-    }
 }

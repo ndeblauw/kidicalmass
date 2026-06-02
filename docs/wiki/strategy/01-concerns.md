@@ -59,7 +59,7 @@ v1 = bilingual NL + FR, routed; English deferred. → D6.
 Families + potential volunteers primary; potential chapter leads demoted to secondary. → D4, [`20-personas.md`](20-personas.md).
 
 ### `S-9` — Top organisational objective — **Closed** (2026-05-18)
-"Bring money in" via recurring membership is the #1 objective; site-wide CTA + membership page. → D5, [`10-organisation-goals.md`](10-organisation-goals.md).
+"Bring money in" via recurring support is the #1 objective; site-wide CTA + dedicated page. → D5, [`10-organisation-goals.md`](10-organisation-goals.md). **Amended 2026-06-02 (Frederik):** the objective stands; its *expression* was reworked — framed as **"steun", not "lid"/membership**, and **prominence elevated** from quiet-footer-only to a nav CTA + contextual blocks + footer. Design-plane detail in [`design/10-scope.md` § Support](../design/10-scope.md); the reopened one-off path is [`D-9`](../design/01-concerns.md).
 
 ### `S-10` — Positioning register — **Closed** (2026-05-18)
 Light and broad, mildly activist, never hardcore-cyclist. → D7.

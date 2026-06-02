@@ -6,9 +6,11 @@ phase: design
 updated: 2026-04-13
 ---
 
-Status: ✅ Complete. Page URL: `/getting-started` (trilingual: `/nl/getting-started`, `/fr/getting-started`, `/en/getting-started`)
+Status: ✅ Plan complete; wireframe view built (NL). Page URL: `/getting-started` (live build is **NL-only** — `/nl/getting-started`; FR/EN copy in the content file is kept as reference for when the locale layer expands).
 
 **Summary:** This page removes the last friction before a first ride. It reassures — it doesn't sell. No equivalent on the current site. "Don't have a bike?" is a dedicated section, not a footnote. The page ends with a single CTA to /events. Updated: My Kids Bikes added to the "Don't have a bike?" section based on raw site content.
+
+> **2026-06-02 re-plan:** open questions re-verified — see [getting-started-research.md](getting-started-research.md). Two facts were stale and are corrected below: **Fietsbieb** is now €30/yr (€10 reduced) + €20 deposit and covers **Vlaanderen + Brussel** (no longer Brussels-only); **Loopz** domain is loopz.bike. The content file's "helmet required under 12" note was **factually wrong** (no such Belgian law) and removed.
 
 ---
 
@@ -47,11 +49,11 @@ A family reads this page and thinks: "OK, we can do this." Then they click the C
 
 **Must have:**
 - What to expect at a ride (pace, duration, vibe, safety)
-- Practical FAQ (age, gear, weather, registration)
-- Don't have a bike? (Loopz, Fietsbieb, Kidical Mouse, My Kids Bikes)
+- Practical FAQ (age, gear, weather, registration, **safety**, **no-bike**)
+- ~~Don't have a bike? (Loopz, Fietsbieb, Kidical Mouse, My Kids Bikes)~~ → **moved to the standalone Find a bike page (`/find-a-bike`, P-22)**, reached from the no-bike FAQ item. Content detail in this file is the source for that page.
 
 **Should have:**
-- Other bike activities for kids in Belgium (ProVelo, Cyclo, Ride Your Future — enough content for a structured section, not just a paragraph)
+- ~~Other bike activities for kids in Belgium (ProVelo, Cyclo, Ride Your Future)~~ — **removed from this page in the 2026-06-02 distill** (sent first-timers away at the conversion moment). Content retained in the content file for relocation to a resources/chapter spot.
 
 **Out of scope:**
 - Event calendar (that's /events)
@@ -73,15 +75,16 @@ Note: Cyclo (second-hand bikes for sale) exists in the raw content but is a purc
 
 ## Structure
 
-Single page. Story arc: "Here's what happens" → "Common worries answered" → "No bike? No problem" → "Other ways to ride" → "Ready? Find your first ride."
+Single page. Story arc: "Here's what happens" → "Common worries answered" → **"Ready? Find your first ride."** → (only for those still blocked) "No bike? No problem."
 
-**Section flow:**
+**Section flow (distilled 2026-06-02 — see note below):**
 1. Page header
 2. What to expect at a ride
 3. Practical FAQ
-4. Don't have a bike?
-5. Other bike activities (structured section — 3 substantive activities from raw site)
-6. CTA to /events
+4. **CTA to /events** ← lifted to the "yes" moment, right after the FAQ
+5. ~~Don't have a bike? section~~ — **folded into one FAQ item** ("Wat als we geen fiets hebben?") that links out to the standalone **Find a bike** page (`/find-a-bike`, P-22). The provider detail no longer sits on this page at all.
+
+> **Distill note (2026-06-02, Frederik critique):** the page was carrying too much between intent and the CTA. Changes: the CTA moved up to directly after the FAQ (the natural conversion moment); **"Other ways to cycle with your kids" was removed** (it pointed first-timers *away* at the decision moment — content retained in the content file for a later resources/chapter spot); and, in a follow-up, **"Don't have a bike?" was folded into a single FAQ item that links to a new standalone page, [Find a bike](getting-started-content.md) (`/find-a-bike`, P-22)** — the brand promise stays on-page as one reassuring line, the provider detail (Loopz/Fietsbieb/Kidical Mouse/My Kids Bikes/Cyclo) lives on the dedicated page. The desktop/mobile ASCII below predates these changes and still shows the original 6-section order.
 
 **Key links out:**
 - CTA → /events
@@ -160,9 +163,9 @@ Single page. Story arc: "Here's what happens" → "Common worries answered" → 
 │  ┌────────────────────┐  ┌────────────────────┐     │
 │  │ Loopz              │  │ Fietsbieb          │     │
 │  │ Bike subscription  │  │ Borrow a child     │     │
-│  │ from €6/month      │  │ bike for €20/year  │     │
-│  │ Code KIDICALMASS   │  │ 10 Brussels        │     │
-│  │ = 2 months free ✓  │  │ communes           │     │
+│  │ from €6/month      │  │ bike €30/yr (€10   │     │
+│  │ Code KIDICALMASS   │  │ reduced) +€20 dep. │     │
+│  │ = 2 months free ✓  │  │ Flanders + Brussel │     │
 │  └────────────────────┘  └────────────────────┘     │
 │  ┌────────────────────┐  ┌────────────────────┐     │
 │  │ Kidical Mouse      │  │ My Kids Bikes      │     │
@@ -272,9 +275,9 @@ Single page. Story arc: "Here's what happens" → "Common worries answered" → 
 │ └──────────────────┘ │
 │ ┌──────────────────┐ │
 │ │ Fietsbieb        │ │
-│ │ €20/year child   │ │
-│ │ bike borrow      │ │
-│ │ 10 BXL communes  │ │
+│ │ €30/yr (€10 red.)│ │
+│ │ + €20 deposit    │ │
+│ │ Flanders+Brussel │ │
 │ └──────────────────┘ │
 │ ┌──────────────────┐ │
 │ │ Kidical Mouse    │ │
@@ -328,10 +331,14 @@ Single page. Story arc: "Here's what happens" → "Common worries answered" → 
 
 ## Open Questions / Necessary Refinements
 
-1. **My Kids Bikes current status:** The raw site lists My Kids Bikes (mykidsbikes.be) as a sponsor. Verify it's still active and the website is live before including in the spec. If discontinued, remove.
-2. **Cyclo note:** The raw site lists Cyclo for second-hand bike purchase. Proposed: include as a brief additional note ("Also: Cyclo Brussels sells second-hand bikes →") rather than a full card — it's a purchase, not a loan/subscription. Confirm this distinction is correct.
-3. **"Other bike activities" — scope beyond Brussels:** The 3 activities (ProVelo, Cyclo, Ride Your Future) are all Brussels-based. The page is national. Proposed: include these as the Brussels examples with a note "More local activities may be available near you — ask at your chapter." If national equivalents are known, add them.
-4. **Fietsbieb commune list:** The raw site lists 10 Brussels communes. These should be checked against the current Fietsbieb website before launch — the list may have changed.
-5. **Kidical Mouse availability:** Operational ✅ per existing spec. Confirm it's available at any chapter's ride or only specific ones. If only some, the card copy should say "available at some rides — check your chapter page."
-6. **FAQ — helmet policy:** The current proposal says "helmets recommended, not mandatory." Confirm this is the official Kidical Mass policy. If it varies by commune (some have mandatory laws), add a note.
-7. **ProVelo Families on Bike:** Verify the programme is still active in 2026 and the locations (Anderlecht + Saint-Gilles/Forest area) are current before including.
+Re-verified 2026-06-02 — full evidence + sources in [getting-started-research.md](getting-started-research.md).
+
+1. ✅ **My Kids Bikes — RESOLVED.** mykidsbikes.be is live (Woom subscription, "zéro souci"). Keep the card. Brand is **Woom**; "BeMoov" is unconfirmed on the live site — dropped from copy.
+2. ✅ **Cyclo note — RESOLVED.** Confirmed a purchase (second-hand sales), not a loan. Kept as a brief "also" note under the no-bike cards + a card in "Other ways to cycle."
+3. ✅ **"Other activities" scope — RESOLVED.** The 3 examples are Brussels-based; page carries a note that local options vary and to ask your chapter. No national equivalents hard-coded.
+4. ✅ **Fietsbieb — CHANGED & CORRECTED.** From 1 Jan 2026: **€30/yr (€10 reduced) + €20 deposit**, and coverage is **Vlaanderen + Brussel** (no longer Brussels-only). Old "€20/year, 10 BXL communes" was stale — fixed in skeleton + content.
+5. 🚩 **Kidical Mouse — OPEN, needs client.** No public source; web cannot confirm whether it runs at every Brussels ride or only some. Card copy stays cautious ("aan de start van sommige ritten — check je afdeling") pending Leticia/Cecilia.
+6. ✅ **Helmet policy — RESOLVED.** No Belgian law requires a helmet for children on normal bikes. "Aangeraden, niet verplicht" is correct. The content file's "required under 12 in some regions" note was **wrong** and removed.
+7. ✅ **Pro Velo Families on Bike — RESOLVED.** Active in 2026 (free, Brussels). Locations spread wider than the old "Anderlecht + St-Gilles/Forest" — copy softened to "verschillende Brusselse gemeenten" + link to provelo.org.
+8. ⬜ **Loopz domain — FIXED.** loopz.be → **loopz.bike**.
+9. ✅ **Police coordination phrasing — CONFIRMED (Frederik, 2026-06-02).** Safety FAQ + marshal fact card draw on the volunteer ROI + Jorge interview (min. 4 roze hesjes front/back/intersections; route coordinated with the local police where needed). Kept "waar nodig" so it doesn't promise an escort on every ride (involvement varies by commune). Source ROI held privately (captured working-tree only, signatories redacted, per the public-repo guardrail).

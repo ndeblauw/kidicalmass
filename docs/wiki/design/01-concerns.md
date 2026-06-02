@@ -15,10 +15,10 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 | State | Count | IDs |
 |---|---|---|
 | Open | 0 | — |
-| Partly | 3 | `D-1`, `D-3`, `D-7` |
+| Partly | 4 | `D-1`, `D-3`, `D-7`, `D-9` |
 | Closed | 2 | `D-2`, `D-4` |
 
-**Conclusion gate:** **no fully-Open design concern remains.** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre) and `D-3` (Grande KM, confirm with Leticia) carry decided directions with named remainders.
+**Conclusion gate:** **no fully-Open design concern remains.** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
 
 ---
 
@@ -40,6 +40,12 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 ### `D-3` — Grande Kidical Mass as a featured event *(was strategy `S-5`)*
 - **Remainder:** migration normalises the annual flagship into Events as a *featured* event (no hand-built yearly page). Not explicitly confirmed with Leticia.
 - **Safe to:** design against; confirm before retiring the yearly-page pattern.
+
+### `D-9` — One-off support path *(funding)* — **decided direction, pending Leticia** (2026-06-02)
+- **Context:** the support flow was reworked (term "steun" not "lid"; prominence elevated) — see [`10-scope.md` § Support](10-scope.md) and [`30-skeleton/steun-ons.md`](30-skeleton/steun-ons.md). Growfunding/Spacefunding is **recurring-only**; v1 had **dropped** a one-off path.
+- **Decided direction (Frederik 2026-06-02):** **reinstate a discreet one-off option** on `/steun-ons`, secondary to the monthly lead — most likely the **BE72… bank transfer** that was dropped, or a one-off Growfunding gift if the platform allows.
+- **Remainder:** confirm with **Leticia** that a one-off is wanted in v1, and pin the **mechanism + account/IBAN** (the live BE-number was never re-captured here per the public-repo guardrail — lives in Notion).
+- **Safe to:** design the page with a secondary "liever één keer?" slot; do not publish an IBAN until confirmed.
 
 ### `D-7` — Redirect map *(launch)* — **drafted** (2026-06-02)
 - **Resolved:** old Wix URLs → new routes documented in [`26-redirect-map.md`](26-redirect-map.md); all `301`. **Language rule decided:** redirects target neutral paths, a locale middleware resolves `/nl/`|`/fr/` (Accept-Language → cookie → geo, fallback NL).

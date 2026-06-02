@@ -38,11 +38,3 @@ it('extracts concern D- headings and the status summary table', function () {
     $summary = $this->parser->extractRows($md, '/^(Open|Partly|Closed)$/i');
     expect($summary)->not->toBeEmpty();
 });
-
-it('extracts the sitemap fenced block from the structure doc', function () {
-    $md = $this->parser->read('docs/wiki/design/20-structure.md');
-    $tree = $this->parser->extractFencedBlock($md, 'Sitemap');
-
-    expect($tree)->toContain('Home')
-        ->and($tree)->toContain('Chapters');
-});

@@ -8,8 +8,8 @@ return [
     'about' => 'Over ons',
     'follow_us' => 'Volg ons',
 
-    // Persistent membership CTA
-    'membership_cta' => 'Word lid',
+    // Persistent support CTA (was "Word lid" — retired; everyone rides for free)
+    'membership_cta' => 'Steun Kidical Mass',
 
     'website_by' => 'Website door',
 ];

@@ -48,12 +48,15 @@ updated: 2026-06-02
 **News / Blog**
 - Already built by Nico — included in MVP
 
-**Membership / funding (top org objective; verified vs live campaign 2026-06-02)**
-- Dedicated [membership page](30-skeleton/membership.md) explaining **Spacefunding** (the recurring-support model) on the **Growfunding** platform. Recurring only — monthly or annual; **no one-off path exists**.
-- Entry tier **€3/mo "Kidi Buddy" → t-shirt = your membership, makes you a co-financer**. 6 tiers total (€3–€500/mo); €20+ add logo/social placement (cross-ref Partners).
-- The site **links out** to the Growfunding campaign — it does **not** process payments. Lead with the entry tier + a "see all tiers" link.
-- Persistent site-wide CTA (global footer, every page) → membership ([PAT-10](40-patterns.md)).
-- The t-shirt **is** the membership — no separate web store. Prefer recurring over grant dossiers.
+**Support / funding — "Steun Kidical Mass" (top org objective; terminology + prominence reworked 2026-06-02)**
+- Dedicated [`/steun-ons` page](30-skeleton/steun-ons.md) (was `/membership`) explaining **Spacefunding** (the recurring-support model) on the **Growfunding** platform.
+- **Terminology (Frederik):** the public verb is **"steun" / "steun Kidical Mass"**, the giver **"steunt mee"** — **never "lid"/"member"**. Everyone rides for free; you support so it *stays* free. "Spacefunding" + "Kidi Buddy" survive only as the *name of the model / entry tier*, not the public verb. Retires "Word lid"/"Lid worden" sitewide.
+- **Lead the ask with the plain act: "Steun vanaf €3 per maand"** — you're just *supporting*. The **t-shirt** is the **visible token ("draag je steun")**, a thank-you beneath the act; **"Kidi Buddy" does not front the card** (too specialised — Frederik 2026-06-02), it stays the tier name on Growfunding. 6 tiers total (€3–€500/mo); €20+ add logo/social placement (cross-ref Partners).
+- **No backer count** on the page — reassure via **movement/participation scale** ("honderden gezinnen elke maand"), not "X mensen steunen" (small + stale-stats trap; Frederik 2026-06-02).
+- **Recurring is the lead** (monthly via Growfunding); a **discreet one-off path is provisionally back in scope** (reverses the v1 "recurring-only" cut) — pending Leticia + the mechanism (the dropped BE72… transfer or a one-off gift). See [design concern `D-9`](01-concerns.md).
+- The site **links out** to Growfunding — it does **not** process payments. Offer a "see all tiers" link as the secondary path.
+- **Prominence (elevated 2026-06-02):** a **"Steun" CTA button in the primary nav** (top-right, replacing login → login moves to the footer), **contextual "Steun" blocks** on **Home + end of event-detail** (the warm "just rode / believer" moments), **and** the persistent footer CTA. All asks route to `/steun-ons`. Supersedes the earlier quiet-footer-only call ([PAT-10](40-patterns.md); [org-goals trade-off](../strategy/10-organisation-goals.md)).
+- The t-shirt is a **thank-you/token**, not merchandise — no separate web store. Prefer recurring over grant dossiers.
 
 **Accounts — volunteers only (clarified 2026-06-02)**
 - **A site account = a volunteer** (`group_user`, belongs to a chapter; already modelled). **Families have no account.** A **spacefunding member** pays externally via Growfunding and gets **no** site account — distinct concept; a person can be both, neither implies the other.
@@ -80,7 +83,7 @@ updated: 2026-06-02
 
 ### Content Requirements
 
-**National pages:** Home, What is Kidical Mass / how it works, Events / calendar, Chapter overview + map, Getting Started, Help Out, News, Sponsors / partners, **Membership / spacefunding** (new). Mission/Vision/Organisation: shorten and audience-segment — keep internal-org detail off the public site (interview 2026-05-18).
+**National pages:** Home, What is Kidical Mass / how it works, Events / calendar, Chapter overview + map, Getting Started, Help Out, News, Sponsors / partners, **Steun Kidical Mass / spacefunding** (`/steun-ons`). Mission/Vision/Organisation: shorten and audience-segment — keep internal-org detail off the public site (interview 2026-05-18).
 
 **Chapter pages (per chapter):** Local schedule (public rides), Team, Local partners, Press coverage, Downloads, + the chapter's meetings/workshops (publicly visible)
 

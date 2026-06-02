@@ -4,7 +4,6 @@ return [
     // Wiki sources (relative to base_path). The markdown is the source of truth;
     // the /build dashboard only parses it.
     'sources' => [
-        'structure' => 'docs/wiki/design/20-structure.md',
         'skeleton' => 'docs/wiki/design/30-skeleton/00-page-registry.md',
         'concerns' => 'docs/wiki/design/01-concerns.md',
         'patterns' => 'docs/wiki/design/40-patterns.md',
@@ -16,7 +15,7 @@ return [
         'P-01' => 'docs/wiki/design/30-skeleton/home.md',
         'P-02' => 'docs/wiki/design/30-skeleton/events-overview.md',
         'P-03' => 'docs/wiki/design/30-skeleton/activity-detail.md',
-        'P-04' => 'docs/wiki/design/30-skeleton/membership.md',
+        'P-04' => 'docs/wiki/design/30-skeleton/steun-ons.md',
         'P-08' => 'docs/wiki/design/30-skeleton/my-activities.md',
         'P-10' => 'docs/wiki/design/30-skeleton/chapters.md',
         'P-11' => 'docs/wiki/design/30-skeleton/chapters.md',
@@ -51,13 +50,14 @@ return [
         '/' => ['view' => 'resources/views/home.blade.php', 'route' => '/'],
         '/events' => ['view' => 'resources/views/activities/index.blade.php', 'route' => 'events'],
         '/events/[slug]' => ['view' => 'resources/views/activities/show.blade.php', 'route' => 'events/{activity}'],
-        '/membership' => ['view' => null, 'route' => 'membership'],
+        '/steun-ons' => ['view' => 'resources/views/steun-ons.blade.php', 'route' => 'steun-ons'],
         '/contact' => ['view' => null, 'route' => 'contact'],
         '/privacy' => ['view' => null, 'route' => 'privacy'],
         '/login' => ['view' => null, 'route' => 'login'],
         '/chapters' => ['view' => 'resources/views/groups/index.blade.php', 'route' => 'chapters'],
         '/chapters/[postal-code]' => ['view' => 'resources/views/groups/show.blade.php', 'route' => 'chapters/{group}'],
         '/getting-started' => ['view' => null, 'route' => 'getting-started'],
+        '/find-a-bike' => ['view' => 'resources/views/find-a-bike.blade.php', 'route' => 'find-a-bike'],
         '/help-out' => ['view' => null, 'route' => 'help-out'],
         '/about' => ['view' => null, 'route' => 'about'],
         '/about/mission' => ['view' => null, 'route' => 'about/mission'],

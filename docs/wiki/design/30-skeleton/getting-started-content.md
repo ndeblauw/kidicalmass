@@ -59,14 +59,15 @@ updated: 2026-04-13
 
 ### Card 6
 - **Icon:** 🦺
-- **Label:** Trained volunteers
-- **Explanation:** Pink-vest volunteers ride along to keep the group safe at junctions and crossings.
-- *(FR: **Bénévoles formés** — Des bénévoles en gilet rose encadrent la balade aux carrefours et traversées.)*
-- *(NL: **Opgeleide vrijwilligers** — Vrijwilligers in roze hesje begeleiden de groep bij kruispunten en oversteken.)*
+- **Label:** At least four pink vests
+- **Explanation:** Trained marshals ride at the front and back and keep every junction clear — so no child is left behind.
+- *(FR: **Au moins quatre gilets roses** — Des accompagnateur·ices formé·es ouvrent et ferment la marche et sécurisent chaque carrefour, pour que personne ne reste à la traîne.)*
+- *(NL: **Minstens vier roze hesjes** — Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij — zodat geen kind achterblijft.)*
+- *Source: volunteer ROI (min. 4 marshals / ~1 per 10 riders; capitaine-ouvreur + fermeur/vélo-balais + intersection marshals). Public-safe facts only.*
 
 ---
 
-## Common questions (6 FAQ items)
+## Common questions (7 FAQ items)
 
 **Section heading:** Common questions
 
@@ -115,6 +116,23 @@ Helemaal niet. We rijden op het tempo van het jongste kind — trager dan je den
 
 ---
 
+### Q3b — Is it safe in traffic? *(added 2026-06-02 — top first-timer anxiety)*
+**Q: Is it safe in traffic?**
+
+It's what everything is built around. We ride slowly, at the children's pace, with trained marshals around the group keeping every junction clear. Where needed, organisers coordinate the route with the local police in advance.
+
+**FR: Est-ce sûr dans la circulation ?**
+
+C'est ce autour de quoi tout est pensé. On roule lentement, au rythme des enfants, avec des accompagnateur·ices formé·es autour du groupe qui sécurisent chaque carrefour. Au besoin, les organisateur·ices coordonnent le parcours avec la police locale à l'avance.
+
+**NL: Is het veilig in het verkeer?**
+
+Daar draait alles om. We rijden traag, op kindertempo, met opgeleide begeleiders rond de groep die elke kruising vrijhouden. Waar nodig stemmen de organisatoren de route vooraf af met de lokale politie.
+
+*Source: volunteer ROI ("coordonner le parcours avec les autorités locales si besoin") + Jorge interview (organisers liaise with local police to secure the route). **Confirmed by Frederik 2026-06-02.** Keep "waar nodig / au besoin" so it doesn't read as a guaranteed escort on every ride; police involvement varies by commune.*
+
+---
+
 ### Q4
 **Q: What if it rains?**
 
@@ -135,7 +153,7 @@ De fietstocht gaat door bij elk weer. Een beetje regen houdt ons niet tegen — 
 
 Helmets are recommended but not mandatory. Bring water. That's really it — no special kit, no picnic required, no preparation needed.
 
-*Implementer note: In Belgium, helmets are required by law for children under 12 in some regions — check your local rules. The "recommended but not mandatory" guidance may not apply everywhere. Add a regional note before launch if needed.*
+*Implementer note (verified 2026-06-02): there is NO Belgian law requiring a helmet for children on a normal bike — the only legal requirement is for speed pedelecs. "Recommended but not mandatory" is accurate nationwide; no regional caveat needed. See getting-started-research.md.*
 
 **FR: Que faut-il emporter ?**
 
@@ -168,7 +186,9 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 
 ## Don't have a bike? (4 resource cards + note)
 
-**Section heading:** Don't have a bike?
+> **Moved 2026-06-02:** this section no longer lives on Getting Started. It is now the **standalone Find a bike page** (`/find-a-bike`, P-22, view `find-a-bike.blade.php`), reached from a single Getting Started FAQ item ("Wat als we geen fiets hebben?"). The copy below is the source for that page — keep maintaining it here.
+
+**Section heading:** Geen fiets? Geen probleem
 
 **Intro line:** Not having a bike is not a reason to miss out. Here are some options.
 
@@ -181,17 +201,17 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 - **Description:** Rent a bike through a local shop partner — adult and child bikes available.
 - **Key detail:** From €6/month. Use code **KIDICALMASS** for 2 months free.
 - **Coverage:** National (Belgium-wide via partner shops)
-- **Link domain:** loopz.be
+- **Link domain:** loopz.bike
 
 ---
 
 ### Resource card 2 — Fietsbieb / Vélothèque
 
 - **Name:** Fietsbieb / Vélothèque
-- **Coverage label:** *🏙️ Brussels only*
-- **Description:** Borrow a child's bike for the year — up to age 12, returned when they've grown out of it.
-- **Key detail:** €20/year + €20 refundable deposit. Available across 10 Brussels communes — check fietsbieb.be for the list.
-- **Coverage:** Brussels only
+- **Coverage label:** *🇧🇪 Vlaanderen + Brussel*
+- **Description:** Borrow a child's bike for the year — up to age 12, swap for a bigger size as they grow.
+- **Key detail:** €30/year (€10 with verhoogde tegemoetkoming) + €20 refundable deposit. Runs across Flanders and Brussels — check fietsbieb.be for your nearest point. *(Updated 2026: price rose from €20→€30 on 1 Jan 2026; no longer Brussels-only.)*
+- **Coverage:** Flanders + Brussels
 - **Link domain:** fietsbieb.be / velotheque.be
 
 *FR/NL note: Use "Fietsbieb" in NL context, "Vélothèque" in FR context. Show both on the EN page.*
@@ -216,11 +236,11 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 - **Name:** My Kids Bikes
 - **Coverage label:** *🇧🇪 Available nationally*
 - **Description:** Subscribe to a quality kids' bike that grows with your child — swap sizes as they grow.
-- **Key detail:** Subscription service. Woom & BeMoov bikes.
+- **Key detail:** All-inclusive monthly subscription, Woom bikes. Price by bike size.
 - **Coverage:** Belgium
 - **Link domain:** mykidsbikes.be
 
-*Open question: Verify mykidsbikes.be is still active before launch (listed as sponsor on raw site — status may have changed).*
+*Verified 2026-06-02: mykidsbikes.be is live (Woom "zéro souci" subscription). "BeMoov" dropped — not confirmed on the live site.*
 
 ---
 
@@ -239,6 +259,8 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 
 ## Other ways to cycle with your kids (3 cards)
 
+> **Relocated 2026-06-02 (distill):** this section was **removed from the Getting Started page** — it pointed first-timers away at the conversion moment. Copy kept here for reuse on a future resources page or chapter page. Do not re-add to Getting Started.
+
 **Section heading:** Other ways to cycle with your kids
 
 **Intro line:** Kidical Mass isn't the only way to enjoy cycling with your kids in Belgium. Here are a few more things worth knowing about.
@@ -249,10 +271,10 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 
 - **Name:** Families on Bike
 - **Organisation:** ProVelo
-- **Description:** Free coaching sessions for Brussels families who want to start cycling together. Learn to ride in traffic, plan a safe route, and test different bike setups — cargo bikes, child seats, tag-alongs. Sessions run in Anderlecht and the Saint-Gilles/Forest area. A practical, relaxed way to go from pavement nerves to road-ready as a family.
+- **Description:** Free coaching sessions for Brussels families who want to start cycling together. Learn to ride in traffic, plan a safe route, and test different bike setups — cargo bikes, child seats, trailers — free for a few weeks. Sessions run across several Brussels communes. A practical, relaxed way to go from pavement nerves to road-ready as a family.
 - **Link:** provelo.org
 
-*Open question: Confirm the programme is active in 2026 and locations are current before including.*
+*Verified 2026-06-02: active in 2026 (free, Brussels, funded by Breathe Cities). Locations vary by season — don't hard-code communes; link to provelo.org.*
 
 ---
 

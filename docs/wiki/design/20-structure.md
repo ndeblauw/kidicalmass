@@ -28,7 +28,9 @@ About expands to: Mission, Vision, Organisation, News, Press, Partners.
 
 "Help out" / "Meehelpen" / "S'engager" ✅ Warmer than "Volunteer" — better fit for Tone of Voice.
 
-**Footer & utilities (not main nav):** national **Contact**, **Membership** CTA (persistent), **Privacy** + **Cookies** (GDPR-mandatory), and a discreet **volunteer login**. There is **no public Register** — volunteer accounts are invite/lead-provisioned (recruited via WhatsApp/phone per [persona P4](../strategy/20-personas.md)), so the site exposes a login link only.
+**Support CTA in the primary nav (elevated 2026-06-02; label + mobile resolved 2026-06-02 via critique #3/#4):** a distinct accent button **"♥ Steun ons"** (a **heart icon** disambiguates the *give* action from **Meehelpen**/volunteer) sits top-right of the header, in the slot previously held by the **login button** — which **moves to the footer** utilities. The 5 main-nav links are **unchanged**; it's a CTA button, not a 6th link. **Mobile (75% of traffic):** pinned as the **first, accent-styled item at the top of the hamburger menu**. Links to `/steun-ons`. See [org goals #1](../strategy/10-organisation-goals.md) and [PAT-10](40-patterns.md).
+
+**Footer & utilities (not main nav):** national **Contact**, **Steun** CTA (persistent, → `/steun-ons`), a single **Privacy & cookies** page (GDPR-mandatory; `/cookies` 301s to `/privacy` — folded 2026-06-02), and a discreet **volunteer login** (now **footer-only** — removed from the header where Steun took its slot, 2026-06-02). There is **no public Register** — volunteer accounts are invite/lead-provisioned (recruited via WhatsApp/phone per [persona P4](../strategy/20-personas.md)), so the site exposes a login link only.
 
 ### Sitemap
 
@@ -74,10 +76,11 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 │       ├── Don't have a bike? — DEFERRED, post-core (provider list to verify; not v1) ← 2026-06-02
 │       └── Other bike activities for kids in Belgium
 │
-├── Help out (/help-out) ✅
+├── Help out (/help-out) ✅  — orientation only; routes to the chapter (J2, 2026-06-02)
 │   ├── Roles + how to volunteer (5 roles confirmed: pink vest, co-organiser,
 │   │   communicator, photographer, DJ) ✅
-│   ├── Contact form → routed to nearest chapter
+│   ├── "Find your chapter →" /chapters — the routed contact form lives on the
+│   │   chapter page (form moved off Help out; routing is by context)
 │   └── Start a chapter (short overview + email CTA) ✅
 │
 ├── About (/about)
@@ -94,17 +97,17 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 │   └── Partners (/about/partners)
 │       └── National sponsors/partners with logo display
 │
-├── Membership / Spacefunding (/membership)  ← added 2026-05-18
-│   └── What spacefunding is · become a member (recurring) · t-shirt = membership
-│   └── Persistent CTA in the global footer on every page
-│   └── One-off bank donation (BE72…) DROPPED for v1 — recurring-only; confirm with Leticia ← 2026-06-02
+├── Steun Kidical Mass (/steun-ons)  ← was /membership; reworked 2026-06-02
+│   └── What spacefunding is · steun maandelijks (recurring) · t-shirt = token of support (not membership)
+│   └── Reached from: "Steun" nav CTA (top-right, replaces login) + contextual blocks (Home, end of event-detail) + persistent footer CTA — all → /steun-ons
+│   └── Discreet one-off path provisionally back in scope (reverses the v1 cut) — pending Leticia (D-9)
 │
 └── Footer / utilities (not main nav)
     ├── Contact (/contact) ← NEW: national front door → coordination duo
     │   └── Buckets: press · partnership/sponsor · general (per-chapter volunteer ≠ here → Help out)
-    ├── Privacy (/privacy) · Cookies (/cookies) ← NEW: GDPR-mandatory (form + email capture)
+    ├── Privacy & cookies (/privacy) ← NEW: GDPR-mandatory (form + email capture); one page — /cookies 301s here (folded 2026-06-02)
     ├── 404 / error page
-    └── Volunteer login (/login) — discreet; NO public Register (invite-only)
+    └── Volunteer login (/login) — discreet; NO public Register (invite-only); footer-only since Steun took the header slot (2026-06-02)
 │
 ══ LOGGED-IN FRONTEND (volunteers only) ══════════════════════════════
 │  account = group_user, invite/lead-provisioned; gates attendance + back-office
@@ -140,7 +143,7 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 - **Chapter pages are self-published** — chapter leads manage their own content within design constraints. No approval flow needed.
 - **Chapters overview supports grants + existing groups** — the map mainly serves grant applications and helps families find existing groups; recruiting new leads is secondary (reframed, interview 2026-05-18)
 - **Liège + Mons are hosted full chapters, not external pins** (revised 2026-06-02) — both run their own domains (`kidicalmassliege.org`, `mons.bike`) but get first-class hosted `/chapters/[postal]` pages (page may link out to their domain). Reverses the earlier "Liège = external pin" call; aligns with [P5](../strategy/20-personas.md) ("make a hosted page more attractive than a separate domain"). Liège's page is authored from their site's data (no `kidicalmass.be` page exists to migrate)
-- **Membership is site-wide** — dedicated `/membership` page + a persistent CTA in the global footer on every page (top org objective)
+- **Support is site-wide and prominent** (reworked 2026-06-02) — dedicated **`/steun-ons`** page (was `/membership`) + a **"Steun" CTA button in the primary nav** (top-right, replacing login, which moves to the footer) + **contextual "Steun" blocks** on Home and end of event-detail + the persistent footer CTA. All route to `/steun-ons`. Framed as **support, not membership** ("lid" retired; everyone rides free). Elevated from the earlier quiet-footer-only call (top org objective). One-off path provisional ([D-9](01-concerns.md))
 - **Site is canonical, not a Facebook replacement** — Facebook stays for reach and turnout signal; the site is the link Facebook points to
 - **One Activity model; all types public to view** — rides and meetups/workshops alike (meetups public as a traction signal — D-2). Login gates attendance + back-office, not viewing. Meetups live in the same system as rides, not a separate product. **Public meetups surface on chapter pages only** — `/events` stays rides-only (J1); there is no national meetup-aggregation view (a logged-in volunteer's cross-group view is [My activities](30-skeleton/my-activities.md)).
 - **Account ≠ paying member** — a logged-in group-volunteer account (which gates attendance + back-office) is distinct from a spacefunding donor (funding status). A person can be both; neither implies the other.
@@ -149,7 +152,7 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 - **Three tiers, three audiences** — (1) public site (families, would-be volunteers, sponsors, press); (2) logged-in *frontend* for volunteers (P4) — `My activities` + a **separate branded** per-chapter back-office, **read-mostly**; (3) Filament `/admin` — the content CMS for leads (P5) + duo (P6). The back-office is **not** the admin panel: rank-and-file volunteers never touch Filament
 - **Accounts are invite-only** — leads provision volunteers in `/admin` (recruited via WhatsApp/phone — [P4](../strategy/20-personas.md)); the public site exposes a **login link only, no Register**. Post-login landing = `My activities`
 - **National contact has its own front door** — `/contact` routes to the coordination duo with press / partnership / general buckets, serving the secondary audiences (sponsors, press) the chapter-routed Help out form does not. Per-chapter volunteer enquiries still go through Help out (J2)
-- **Legal/utility pages are in scope** — Privacy + Cookies are GDPR-mandatory given the volunteer enquiry form and per-region email opt-in; plus a 404. They live in the footer cluster, not main nav
+- **Legal/utility pages are in scope** — a single **Privacy & cookies** page is GDPR-mandatory given the volunteer enquiry form and per-region email opt-in; plus a 404. Privacy + cookies were **folded into one page** (2026-06-02); `/cookies` 301s to `/privacy` so any links indexed from the old Wix site keep resolving. It lives in the footer cluster, not main nav
 - **Per-region email subscription is homed** — the low-frequency "next ride near you" opt-in (Scope feature) lives as a control on **Events** (per-region) and on each **chapter page** (per-chapter); it is not a separate page
 
 ### Content Model (entities)
@@ -163,7 +166,7 @@ The authoritative entity list. Status: ✅ on `main` · 🟡 partial · ❌ to b
 | **Article** (News) | title NL/FR, body, author, published_at | optional **Group** (any lead can post) | ✅ | Already built. |
 | **Group** (chapter) | name (bilingual official), postal code(s), language, map location | has many Activities, group_users, local partners | 🟡 | Drives `/chapters/[postal-code]`; fixed template. |
 | **group_user** (volunteer account) | role | pivot User ↔ Group | ✅ | **The only kind of site account — accounts are volunteers only.** Gates attendance + back-office (meetup *viewing* is public). **≠ spacefunding member.** |
-| **Spacefunding member** | recurring-donor status | external (Growfunding) — **no site account** | ❌ | Recurring support via the **Growfunding** platform (Spacefunding model); the site links out, doesn't store it. Not a shop. See [scope § Membership](10-scope.md). |
+| **Spacefunding member** *(internal; public verb = "steun")* | recurring-donor status | external (Growfunding) — **no site account** | ❌ | Recurring support via the **Growfunding** platform (Spacefunding model); the site links out, doesn't store it. **Public verb = "steun", not "lid"** (terminology reworked 2026-06-02). A **discreet one-off path** is provisionally back in scope ([D-9](01-concerns.md)). Not a shop. See [scope § Support](10-scope.md). |
 | **Volunteer enquiry** | name, email, chosen role, chosen chapter, message | routed to a **Group**'s lead | ❌ | Replaces the `bike@` inbox; per-chapter routing (J2). |
 | **Contact message** (national) | name, email, topic (`press`/`partnership`/`general`), message | routed to the **coordination duo** (no Group) | ❌ | New — the `/contact` front door. Distinct from per-chapter Volunteer enquiry; serves sponsors/press (secondary audiences). |
 | **Email subscription** | email, scope (region *or* **Group**), locale, confirmed_at | optional **Group** (per-chapter) | ❌ | New — low-frequency "next ride near you" opt-in (Scope). Control lives on Events + chapter pages, not a page. Double opt-in for GDPR. |

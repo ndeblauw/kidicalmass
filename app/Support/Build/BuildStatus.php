@@ -16,7 +16,6 @@ class BuildStatus
 
         $skeleton = $this->parser->read($cfg['sources']['skeleton']);
         $concernsMd = $this->parser->read($cfg['sources']['concerns']);
-        $structureMd = $this->parser->read($cfg['sources']['structure']);
         $patternsMd = $this->parser->read($cfg['sources']['patterns']);
 
         $pages = $this->parsePages($skeleton, $cfg, $warnings);
@@ -51,13 +50,11 @@ class BuildStatus
             'warnings' => $warnings,
             'overview' => $this->overview($pages, $patterns, $concerns),
             'drift' => $drift,
-            'sitemap' => $this->parser->extractFencedBlock($structureMd, 'Sitemap'),
             'pages' => $pages,
             'patterns' => $patterns,
             'concerns' => $concerns,
             'idMap' => $this->buildIdMap($pages, $patterns, $concerns),
             'sources' => $this->freshness($cfg),
-            'structureStale' => $this->structureStaleness($cfg, $pages),
         ];
     }
 
@@ -68,7 +65,7 @@ class BuildStatus
     private function freshness(array $cfg): array
     {
         $out = [];
-        foreach (['structure', 'skeleton', 'concerns', 'patterns'] as $key) {
+        foreach (['skeleton', 'concerns', 'patterns'] as $key) {
             $full = base_path($cfg['sources'][$key]);
             if (! file_exists($full)) {
                 continue;
@@ -82,46 +79,6 @@ class BuildStatus
         }
 
         return $out;
-    }
-
-    /**
-     * Soft staleness hint: if any page's brief/view was edited AFTER 20-structure.md,
-     * the sitemap's hand-written description of that page may be behind reality.
-     * Returns the newest divergent page, or null when the structure doc is current.
-     */
-    private function structureStaleness(array $cfg, array $pages): ?array
-    {
-        $structFull = base_path($cfg['sources']['structure']);
-        if (! file_exists($structFull)) {
-            return null;
-        }
-        $structTs = filemtime($structFull);
-        $newest = null;
-        $newestTs = $structTs;
-
-        foreach ($pages as $p) {
-            foreach ([$p['briefPath'], $p['viewPath']] as $rel) {
-                if (! $rel) {
-                    continue;
-                }
-                $full = base_path($rel);
-                if (file_exists($full) && filemtime($full) > $newestTs) {
-                    $newestTs = filemtime($full);
-                    $newest = $p;
-                }
-            }
-        }
-
-        if ($newest === null) {
-            return null;
-        }
-
-        return [
-            'pageId' => $newest['id'],
-            'page' => "{$newest['id']} {$newest['name']}",
-            'pageDate' => Carbon::createFromTimestamp($newestTs)->translatedFormat('j M'),
-            'structureDate' => Carbon::createFromTimestamp($structTs)->translatedFormat('j M'),
-        ];
     }
 
     private function parsePages(string $md, array $cfg, array &$warnings): array

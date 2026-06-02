@@ -1,12 +1,14 @@
 ---
 title: Help Out — Content
 tags: [content]
-sources: [ux/help-out.md]
+sources: [help-out.md, raw/website/volunteer.md, raw/website/volunteer-roi-charter.md]
 phase: design
-updated: 2026-04-13
+updated: 2026-06-02
 ---
 
 *Content companion to [help-out.md](help-out.md). All copy in English. FR/NL notes inline.*
+
+> **Reframed 2026-06-02 (J2 pass):** Help out is now an orientation page — the contact form moved to the **chapter page** ([chapters.md](chapters.md)). The role-card and get/ask copy below stays; the form copy is kept here for lineage but its home is the chapter page. Tone constraint for all copy: **"positive, not preachy"** — defend the idea with a smile, no anti-car rhetoric (ROI *Action positive*; see [raw charter](../../../raw/website/volunteer-roi-charter.md)).
 
 ---
 
@@ -23,8 +25,7 @@ updated: 2026-04-13
 
 You don't need to be a cycling expert or event professional — just the desire to help. Being a Kidical Mass volunteer means showing up for your neighbourhood: a few hours a month, alongside parents and local cyclists who want to see more kids on bikes. You'll be part of the team that makes rides safe, joyful, and real — and you'll get a lot more back than you put in.
 
-**Inline link (after paragraph):** Read the volunteer guidelines →
-*(External Google Doc, opens in new tab. Link text stays short — the destination is clear.)*
+*(No guidelines link here — per the J2 reframe it moves to "What we ask" (the commitment moment), not the page entry. See [help-out.md § Guidelines](help-out.md).)*
 
 ---
 
@@ -108,50 +109,34 @@ Framing note: present these as two sides of a real deal, not a legal contract. T
 
 **We ask:**
 - Show up with enthusiasm and a positive attitude
-- Follow our [community guidelines](external-google-doc) *(inline link, opens new tab)*
+- Onderschrijf onze afspraken rond vriendelijkheid en veiligheid *(the formal charter/ROI is NOT linked here — only in volunteer onboarding / the logged-in back-office; PDF later. Frederik 2026-06-02)*
 - If you're part of a chapter team: send one representative to each annual meetup
 
 *(Copywriting note: "Optional training — if you want it" softens the implicit "you might not know what you're doing" anxiety. The meetup ask is honest but scoped: "if you're part of a chapter team" makes it clear this isn't a commitment for solo volunteers.)*
 
 ---
 
-## Contact form
+## Find your chapter (primary CTA)
 
-**Section heading:** I want to get involved
+**Section heading:** Ready? Find your local chapter.
 
-**Lead-in text:** Fill in the form — your nearest chapter lead will be in touch.
+**Body:** Every chapter has its own team — you'll reach them directly, not a central inbox.
 
-### Form fields
+**Button label:** Find your chapter →  *(→ /chapters)*
 
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| Name | Text input | Yes | Label: "Your name" |
-| Email | Email input | Yes | Label: "Your email" |
-| Municipality | Dropdown | Yes | Label: "Your municipality" — routes submission to nearest chapter lead; falls back to bike@kidicalmass.be if no chapter exists |
-| I'm interested in | Checkboxes | No | See role options below |
-| Message | Textarea | No | Label: "Anything else?" — low-stakes label, not "Message" which can feel formal |
+*(This is the page's single primary action. There is **no contact form on this page** — per the J2 reframe it lives on each chapter page, routed by context. See [chapters.md](chapters.md).)*
 
-### Role checkboxes
+---
 
-- [ ] Pink vest
-- [ ] Co-organiser
-- [ ] Communicator
-- [ ] Photographer
-- [ ] DJ
-- [ ] Not sure yet *(important — removes the barrier of needing to know your role before reaching out)*
+## Contact form copy → lives on the chapter page
 
-### Submit CTA
+The routed enquiry form now lives with the **chapter page** ([chapters.md](chapters.md)) — submitting from a chapter routes to *that* chapter's lead by context (no municipality dropdown). Copy kept here for lineage:
 
-**Button label:** I'm in →
-
-*(Short, direct, confident. Matches the ToV: enthusiastic, not corporate. Do not use "Submit" or "Send".)*
-
-### Post-submit confirmation (inline, no redirect)
-
-> Thanks! Your local Kidical Mass lead will be in touch soon.
-> In the meantime, find your local chapter →
-
-*(Link "find your local chapter" → /chapters. Keep confirmation warm and brief — they've done the thing, don't over-congratulate.)*
+- **Lead-in:** "Want to help in [Chapter]? Join [team names]."
+- **Fields:** Your name · Your email · *I'd like to help with:* (optional role checkboxes) · "Anything else?" (optional message — low-stakes label, not "Message")
+- **Role checkboxes:** Pink vest · Co-organiser · Communicator · Photographer · DJ · **Not sure yet** *(removes the barrier of needing to know your role before reaching out)*
+- **Submit:** "I'm in →" *(enthusiastic, not corporate — never "Submit"/"Send")*
+- **Confirmation (inline, warm + one hook):** "You're in. Someone from the [Chapter] team will be in touch soon. Don't wait for the email — come say hi at our next ride →" *(promise "the team", no name/SLA; surface the chapter's next ride, which sits directly above the form)*
 
 ---
 
@@ -185,14 +170,13 @@ Join the team that makes Kidical Mass rides happen. Choose your role — pink ve
 *(FR: Rejoignez l'équipe qui fait vivre les rides Kidical Mass. Choisissez votre rôle et prenez contact.)*
 *(NL: Sluit je aan bij het team dat Kidical Mass-fietstochten mogelijk maakt. Kies je rol en neem contact op.)*
 
-**Page URL:** `/help-out` · `/nl/meehelpen` · `/fr/s-engager` · `/en/help-out`
+**Page URL:** `/help-out` · `/nl/meehelpen` · `/fr/s-engager` *(EN deferred — D6)*
 *(Redirect from /volunteer and /contribute if those URLs were ever public)*
 
-**Primary CTA:** Form submit ("I'm in →")
+**Primary CTA:** Find your chapter → (`/chapters`)
 **Secondary CTA:** Start a chapter email
 
-**Open copy questions (from help-out.md):**
-1. Municipality dropdown options — confirm routing logic with Nico before writing final placeholder text.
-2. Fallback routing (no local chapter) — confirm bike@kidicalmass.be is the right address with Leticia.
-3. Volunteer guidelines link — confirm the Google Doc URL is permanent and publicly accessible.
-4. "4 meetups/year" — confirm this applies to all Belgian chapters, not just Brussels.
+**Open copy questions (see [help-out.md § Open Questions](help-out.md)):**
+1. Chapter→lead routing + duo fallback — confirm with Nico (form lives on chapter page; routed by context). *(No municipality dropdown — that copy is retired.)*
+2. Volunteer guidelines (ROI) — confirm the Google Doc is meant for public linking and is viewable without a Google account; consider a friendlier public excerpt.
+3. "4 meetups/year" — confirm this applies to all Belgian chapters, not just Brussels.

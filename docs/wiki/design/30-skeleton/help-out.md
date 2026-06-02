@@ -1,95 +1,128 @@
 ---
 title: Help Out
 tags: []
-sources: [notion, raw/website/volunteer.md]
+sources: [notion, raw/website/volunteer.md, raw/website/volunteer-roi-charter.md]
 phase: design
-updated: 2026-04-13
+updated: 2026-06-02
 ---
 
-Status: ✅ Complete. Page URL: `/help-out` · `/nl/help-out` · `/fr/help-out` · `/en/help-out` ✅
+Status: ✅ Reframed (2026-06-02). Page URL: `/help-out` · `/nl/meehelpen` · `/fr/s-engager` ✅ *(EN deferred — D6)*
 
-**Page title confirmed: "Help out" / "Meehelpen" / "S'engager"** — warmer than "Volunteer", fits ToV. *(Redirect from /contribute if that URL was ever public)*
+**Page title confirmed: "Help out" / "Meehelpen" / "S'engager"** — warmer than "Volunteer", fits ToV. *(Redirect from /volunteer and /contribute if those URLs were ever public)*
 
-**Summary:** Two questions in sequence: "How do I help an existing chapter?" (roles + form) then "What if there's no chapter near me?" (start a chapter CTA). Roles are invitations, not job descriptions. 5 roles confirmed: pink vest, co-organiser, communicator, photographer, DJ. The form routes to the nearest chapter lead — not a central inbox. Updated: "What we expect" honest commitment section added from raw volunteer page.
+**Summary:** Help out is now a pure **orientation page** — it motivates and *routes*; it does **not** hold the contact form. This reconciles the page with the already-decided structure ([20-structure.md](../20-structure.md): *"the volunteer contact form lives on chapter pages"*) and with [chapters.md](chapters.md). The flow: **pitch → roles-as-invitation → what joining looks like → "Find your chapter →" (`/chapters`)**, with a calm secondary exit for "no chapter near me". The volunteer then contacts *from* their chapter page, so routing is implicit by context — no municipality dropdown.
+
+> **Reframe note (2026-06-02):** the earlier version of this file put a routed contact form *on* Help out (with a municipality dropdown). That contradicted [`20-structure.md`](../20-structure.md) (form on chapter pages) and the chapter-page form in [`chapters.md`](chapters.md). The J2 UX pass resolved it in favour of **routing-via-chapter**: Help out orients, the chapter page converts. See [log 2026-06-02](../../log.md).
+
+> **Built — the confident seam (2026-06-02).** The CTA is no longer a button to the family `/chapters` index. After a `/critique`, it became an **inline group picker**: tap your group → land straight on that chapter page's sign-up form (`/chapters/[id]?intent=volunteer#aanmelden`), where an `intent`-aware welcome leads with the form ("Je komt meehelpen — welkom"). No map detour, no typing. View `resources/views/volunteer.blade.php` (groups from `VolunteerController`); chapter form = `ChapterVolunteerSignup` Livewire component (distinct from the event-detail `VolunteerSignup`). `[backend]` it still emails the **central comms inbox**, tagged with the chapter name + chosen roles — true per-lead routing waits on a per-group lead email (open Q1).
+
+---
+
+## The J2 flow (what this page is one step of)
+
+```
+        ┌─────────────┐   "Find your chapter →"   ┌────────────┐
+Home ──▶ │  Help out   │ ─────────────────────────▶│ /chapters  │
+ vol CTA │(orientation)│                           │ (map+list) │
+         └─────────────┘                           └─────┬──────┘
+              │ secondary exit                           │ pick city
+              ▼ "No chapter near you? Start one →"        ▼
+        mailto / link-out                        ┌──────────────────┐
+                                                 │ Chapter page     │
+                                                 │  • upcoming rides │ ◀─ J1 data
+                                                 │  • Organised by   │
+                                                 │  • HELP OUT block │ ← form lives here
+                                                 │    (role ✓ + msg) │   (see chapters.md)
+                                                 └────────┬─────────┘
+                                                          │ submit
+                                                          ▼ inline confirmation:
+                                                   warm + "come to our next ride ↑"
+```
 
 ---
 
 ## Strategy
 
-The conversion page for people who want to help. Replaces the current email-only signup with a clear path from curiosity to contact.
+The conversion page for people who want to help. Replaces the `bike@` email black hole with a clear path from curiosity to a *routed, local* contact.
+
+### The reframe (J2 UX pass, 2026-06-02)
+
+A volunteer doesn't email a national org — they **walk into their neighbourhood's group**. Routing isn't a dropdown; it's *wayfinding through the chapter*. This does three things at once:
+
+- **Reinforces locality** (core ToV: "local and grounded") — by the time they contact, they've *seen* their local chapter is real (its rides, its place on the map, its named team).
+- **Makes routing implicit** — contacting *from* a chapter page sends the enquiry to that chapter by context, not by a form field someone has to get right.
+- **Keeps the promise honest** — because the chapter page does the trust-building, the confirmation copy stays modest (*"someone from your local team will be in touch soon"*) without feeling like a black hole. We lean on **shown locality, not an over-promised reply speed** — which deliberately sidesteps the unvalidated reply-loop assumption in [D-1](../01-concerns.md).
 
 ### Who arrives and in what mental state
 
-**Former or current ride participant — warm and inspired**
-The most common path. They attended a ride, they loved it, they thought "I want to be part of this." They arrive already sold. The page must not waste their energy with a heavy pitch — they're ready. What they need is: role clarity (what specifically could I do?), commitment honesty (what does it actually involve?), and a simple contact action.
+**Former or current ride participant — warm and inspired.** The most common path. They attended a ride, loved it, thought "I want to be part of this." They arrive already sold. Don't waste their energy with a heavy pitch — give them role clarity, commitment honesty, and a fast route to their chapter.
 
-**Curious outsider — "I've heard about this, can I help?"**
-Arrived via a friend, social media, or the homepage volunteer CTA. Not a former rider. They need a bit more context on what Kidical Mass is before they can self-identify a role. The "why volunteer" pitch handles this.
+**Curious outsider — "I've heard about this, can I help?"** Arrived via a friend, social media, or the homepage volunteer CTA. Not a former rider; needs a bit of context before they can self-identify a role. The pitch handles this.
 
-**Potential chapter lead — "There's no chapter near me"**
-Usually a parent in a city without a Kidical Mass. They may not even know "start a chapter" is an option — the page needs to surface it. The "Don't see your city?" section handles this, but it must be prominent enough to catch them before they leave.
+**Potential chapter lead — "There's no chapter near me."** A parent in a city without a Kidical Mass. May not know "start a chapter" is an option. Handled as a calm **secondary exit**, not a dead end, and deliberately *not* designed deeply here (anti-overlap: that edges into J3/chapter-lead territory).
 
 ### Key psychological insight
 
-The raw volunteer page says explicitly: "Tu n'as pas besoin d'être un pro du vélo ou de l'événementiel, juste l'envie d'aider." This is the central message. Many potential volunteers are hesitating because they think they're not qualified. The page's job is to dissolve that hesitation with warmth and specificity, not a list of requirements.
+The raw volunteer page says it plainly: *"Tu n'as pas besoin d'être un pro du vélo ou de l'événementiel, juste l'envie d'aider."* Many potential volunteers hesitate because they think they're not qualified. The page's job is to dissolve that hesitation with warmth and specificity — **not** a requirements list.
 
-At the same time: the raw page is honest about what the commitment involves (4×/year meetings, following the community guidelines). This honesty is a strength, not a deterrent — it sets expectations and attracts committed people. Include this clearly.
+At the same time, honesty about the commitment (meetups, guidelines) *attracts* the right people. Include it warmly.
 
-### Organisational objectives
+### The post-submit limbo (new risk this reframe opens)
 
-Replace the bike@ email black hole with a structured, routed contact form. Every submission reaches the right chapter lead automatically. No central inbox.
+Because we deliberately don't promise a fast reply, **the silence after submitting is the new risk moment.** The flow must make the wait feel like *being welcomed in*, not *being ignored* — so the chapter-page confirmation surfaces the chapter's **next ride** ("come say hi this Sunday"). The hook reuses ride data already on the chapter page; no new dependency. (Confirmation lives on the chapter page — see [chapters.md](chapters.md).)
+
+### Organisational objective
+
+Replace the `bike@` email black hole with a structured, routed enquiry. Every submission reaches the right chapter by context. No central inbox.
 
 ---
 
 ## Scope
 
 **Must have:**
-- Overview of volunteer roles (5 confirmed: pink vest, co-organiser, communicator, photographer, DJ)
-- "What to expect as a volunteer" — what the movement offers (community, meetups, kit, training)
-- "What we expect" — honest commitment (4×/year meetings, following guidelines) — from raw volunteer page ✅
-- Contact form routed to nearest chapter
-- "Start a chapter" section (static for MVP)
+- Short pitch ("why volunteer") — leads with the *"you don't need to be a pro"* barrier-dissolver
+- Overview of the 5 volunteer roles as **invitation cards** (pink vest, co-organiser, communicator, photographer, DJ)
+- "What you'll get / what we ask" — honest commitment, **distilled from the ROI principles** (see Guidelines below)
+- **Primary CTA: "Find your chapter →"** → `/chapters` (the routing step)
+- "Start a chapter" secondary exit for new cities (static for MVP; link-out)
 
 **Should have:**
-- Short pitch ("Why volunteer") before the roles
-- Link to volunteer guidelines (Google Doc — external, opens new tab)
+- Link to the volunteer guidelines (external Google Doc) — placed at the *commitment* moment, not as an entry gate
 
-**Out of scope:**
-- Structured onboarding workflow (deferred)
-- Volunteer dashboard (deferred)
-- Per-role signup (MVP routes everyone through one form)
-- Inline volunteer rules content (Google Doc stays external for MVP)
-- A chapter map or locator (use /chapters for that)
+**Out of scope / moved:**
+- ~~Contact form on this page~~ → **moved to the chapter page** ([chapters.md](chapters.md)); routing is by context
+- ~~Municipality dropdown~~ → no longer needed (routing-via-chapter)
+- Per-role signup (all roles go through the one chapter-page form; role is a checkbox there)
+- Structured onboarding workflow / volunteer dashboard (deferred → back-office, [D-1](../01-concerns.md))
+- Inline volunteer rules content (the ROI stays an external link for MVP)
+- A chapter map or locator on this page (that's `/chapters`)
 
 ---
 
 ## Structure
 
-Single page, no sub-navigation. Answers: "How can I help?" then "What if there's no chapter near me?"
+Single orientation page, no sub-navigation, **no form**. Answers "why and how can I help?" then routes to "where" (`/chapters`).
 
 **Section flow:**
 1. Page header — "Help out" / "Meehelpen" / "S'engager"
-2. Why volunteer — the pitch
-3. What you'll get + what we expect (combined honest section)
-4. Roles overview (5 roles as invitation cards)
-5. Contact form — routed to nearest chapter
-6. Start a chapter — CTA for new cities
+2. Why volunteer — the pitch (barrier-dissolver first)
+3. Roles overview (5 roles as invitation cards)
+4. What joining looks like (honest get/ask — distilled ROI principles + guidelines link)
+5. **Find your chapter** — the single primary action → `/chapters`
+6. Start a chapter — calm secondary exit for new cities
 
 **Key links out:**
-- Form → chapter lead email (routed by municipality selection)
-- "Start a chapter" → mailto:bike@kidicalmass.be
-- Chapter pages → /chapters/[code]
-- Volunteer guidelines → Google Doc (external, new tab)
+- Primary CTA → `/chapters` (then the chapter page holds the routed form)
+- "Start a chapter" → `mailto:bike@kidicalmass.be` (+ secondary link to `/chapters`)
+- Volunteer guidelines → Google Doc (external, new tab) — see Guidelines
 
 ---
 
 ## Skeleton
 
-**Form is the primary action.** Everything above it is orientation and motivation. The form itself is short — name, email, municipality, role interest checkboxes, optional message.
+**One primary action.** Everything on the page is orientation and motivation; the page's single job is to route a motivated person to their chapter. No competing form.
 
-**Roles as orientation, not form fields.** The 5 role cards help people self-identify before reaching the form. The form's role checkboxes mirror the role names. No one-role-per-form-path — all go through the same form.
-
-**Honest commitment section.** Placed before the form, after roles. Warmly worded but not hidden. Inspired by the raw volunteer page: 4×/year meetings + following the community guidelines. Honest expectations attract the right people and reduce drop-off after signup.
+**Roles as orientation, not form fields.** The 5 role cards help people self-identify *before* they reach the chapter-page form (where the role becomes a checkbox). Role intent does **not** carry across the `/chapters` hop in MVP — the checkboxes start fresh on the chapter form. A `?role=` deep-link that pre-ticks the box is a noted future enhancement.
 
 ### Desktop
 
@@ -98,96 +131,42 @@ Single page, no sub-navigation. Answers: "How can I help?" then "What if there's
 │ NAV                                                  │
 ├──────────────────────────────────────────────────────┤
 │  Help out                                            │
-│  Join hundreds of people who make every ride happen. │
+│  Join the people who make every ride happen.         │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
-│  [Pitch — 3–4 sentences, movement-first]             │
-│  Being a Kidical Mass volunteer means showing up for │
-│  your neighbourhood. You'll be part of a team of     │
-│  parents, cyclists, and community builders who make  │
-│  every ride safe, joyful, and real. A few hours on   │
-│  a Sunday — and much more back.                      │
-│                                                      │
-│  Read the volunteer guidelines →         [ext. link] │
-│                                                      │
+│  [Pitch — 3–4 sentences. "You don't need to be a     │
+│   cycling or events pro — just the urge to help."    │
+│   Dissolves the qualified-enough barrier first.]     │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
 │  How you can help                                    │
-│                                                      │
-│  ┌──────────────┐  ┌──────────────┐                 │
-│  │ 🦺 Pink vest  │  │ 🗓 Co-org    │                 │
-│  │               │  │              │                 │
-│  │ Ride alongside│  │ Plan & prep  │                 │
-│  │ the group.    │  │ the route,   │                 │
-│  │ Keep everyone │  │ timing, and  │                 │
-│  │ together and  │  │ logistics.   │                 │
-│  │ safe.         │  │ The backbone │                 │
-│  └──────────────┘  └──────────────┘                 │
-│  ┌──────────────┐  ┌──────────────┐                 │
-│  │ 📢 Comms      │  │ 📸 Photo     │                 │
-│  │               │  │              │                 │
-│  │ Share the     │  │ Capture the  │                 │
-│  │ rides online  │  │ best moments.│                 │
-│  │ and in your   │  │ Your photos  │                 │
-│  │ neighbourhood.│  │ bring new    │                 │
-│  │               │  │ families in. │                 │
-│  └──────────────┘  └──────────────┘                 │
-│  ┌──────────────┐                                   │
-│  │ 🎵 DJ        │                                   │
-│  │               │                                   │
-│  │ Set the mood  │                                   │
-│  │ before, during│                                   │
-│  │ and after.    │                                   │
-│  │ Music is half │                                   │
-│  │ the vibe.     │                                   │
-│  └──────────────┘                                   │
-│                                                      │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐  │
+│  │ 🦺 Pink vest  │ │ 🗓 Co-org    │ │ 📢 Comms      │  │
+│  │ ride alongside│ │ plan & prep  │ │ spread the    │  │
+│  │ keep it safe  │ │ the route    │ │ word          │  │
+│  └──────────────┘ └──────────────┘ └──────────────┘  │
+│  ┌──────────────┐ ┌──────────────┐                   │
+│  │ 📸 Photo     │ │ 🎵 DJ        │  (invitations,    │
+│  │ capture it   │ │ set the mood │   not job specs)  │
+│  └──────────────┘ └──────────────┘                   │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
 │  What joining looks like                             │
-│                                                      │
-│  You'll get:                                         │
-│  · Kidical Mass kit and support from day one         │
-│  · Optional training (safety, route planning)        │
-│  · 4 volunteer meetups a year — good food included   │
-│  · A community of parents and bike enthusiasts       │
-│                                                      │
-│  We ask:                                             │
-│  · Show up with enthusiasm and a positive attitude   │
-│  · Follow our community guidelines                   │
-│  · Send one representative to each annual meetup     │
-│    (if you're part of a chapter team)                │
-│                                                      │
+│  You'll get:              We ask:                    │
+│  · kit + support          · enthusiasm & a positive, │
+│  · optional training        respectful attitude      │
+│  · 4 meetups/year         · follow our guidelines →  │
+│  · a real community         (kindness + safety)      │
+│                           · one rep at the annual    │
+│                             meetup (if on a team)    │
 ├──────────────────────────────────────────────────────┤
+│  [distinct background — the single primary action]   │
 │                                                      │
-│  I want to get involved                              │
-│  Fill in the form — your nearest chapter lead        │
-│  will be in touch.                                   │
+│   Ready? Find your local chapter.                    │
+│   Every chapter has its own team — you'll reach      │
+│   them directly, not a central inbox.                │
 │                                                      │
-│  Name ___________________________                    │
-│  Email __________________________                    │
-│  Municipality  [ dropdown ▼ ]                        │
-│  I'm interested in:                                  │
-│  [✓] Pink vest  [ ] Co-organiser  [ ] Comms          │
-│  [ ] Photographer  [ ] DJ  [ ] Not sure yet          │
-│  Message (optional) _____________________            │
-│                       _____________________           │
+│            [ Find your chapter → ]  (→ /chapters)    │
 │                                                      │
-│                  [ I'm in → ]                        │
-│                                                      │
-├──────────────────────────────────────────────────────┤
-│                                                      │
-│  [distinct background / section break]               │
-│                                                      │
-│  Don't see your city?                                │
-│  Starting a chapter takes a core team of 2–3 people, │
-│  a meeting point, and a route idea. We handle the    │
-│  brand, training, and national visibility.           │
-│  If you're curious, reach out.                       │
-│                                                      │
-│  [ Email the coordination team → ]                  │
-│  See which cities already have a chapter →          │
-│                                                      │
+│   No Kidical Mass in your city yet?                  │
+│   You could start one → Email the team   [mailto]    │
 ├──────────────────────────────────────────────────────┤
 │ FOOTER                                               │
 └──────────────────────────────────────────────────────┘
@@ -200,84 +179,48 @@ Single page, no sub-navigation. Answers: "How can I help?" then "What if there's
 │ NAV (hamburger)      │
 ├──────────────────────┤
 │  Help out            │
-│  Join hundreds of    │
-│  people who make     │
-│  every ride happen.  │
+│  Join the people who │
+│  make every ride     │
+│  happen.             │
 ├──────────────────────┤
 │  [Pitch — 3–4 lines] │
-│  Being a KM          │
-│  volunteer means...  │
-│                      │
-│  Guidelines →        │
+│  You don't need to   │
+│  be a pro…           │
 ├──────────────────────┤
 │  How you can help    │
-│                      │
 │ ┌──────────────────┐ │
 │ │ 🦺 Pink vest      │ │
-│ │ Ride alongside.  │ │
-│ │ Keep it safe.    │ │
+│ │ ride alongside,  │ │
+│ │ keep it safe     │ │
 │ └──────────────────┘ │
 │ ┌──────────────────┐ │
 │ │ 🗓 Co-organiser  │ │
-│ │ Plan and prep    │ │
-│ │ the ride.        │ │
 │ └──────────────────┘ │
 │ ┌──────────────────┐ │
 │ │ 📢 Comms          │ │
-│ │ Share online and │ │
-│ │ in your area.    │ │
 │ └──────────────────┘ │
 │ ┌──────────────────┐ │
 │ │ 📸 Photographer  │ │
-│ │ Capture the best │ │
-│ │ moments.         │ │
 │ └──────────────────┘ │
 │ ┌──────────────────┐ │
 │ │ 🎵 DJ             │ │
-│ │ Set the mood for │ │
-│ │ the ride.        │ │
 │ └──────────────────┘ │
 ├──────────────────────┤
 │  What joining looks  │
 │  like                │
-│                      │
-│  You'll get:         │
-│  · Kit and support   │
-│  · Optional training │
-│  · 4 meetups/year    │
-│  · A community       │
-│                      │
-│  We ask:             │
-│  · Enthusiasm        │
-│  · Follow guidelines │
-│  · Annual meetup rep │
-├──────────────────────┤
-│  I want to get       │
-│  involved            │
-│                      │
-│  Name _____________  │
-│  Email _____________ │
-│  Municipality  [▼]   │
-│  Interested in:      │
-│  [  ] Pink vest      │
-│  [  ] Co-organiser   │
-│  [  ] Comms          │
-│  [  ] Photographer   │
-│  [  ] DJ             │
-│  [  ] Not sure yet   │
-│  Message (opt.) ___  │
-│                      │
-│  [ I'm in → ]        │
+│  You'll get: …       │
+│  We ask: …           │
+│  (follow guidelines→)│
 ├──────────────────────┤
 │  [section break]     │
-│  Don't see your      │
-│  city?               │
-│  It takes 2–3 people │
-│  and a route idea.   │
-│  We handle the rest. │
+│  Ready? Find your    │
+│  local chapter.      │
+│  You'll reach them   │
+│  directly.           │
+│  [Find your chapter→]│
 │                      │
-│  [ Email the team →] │
-│  See all chapters →  │
+│  No chapter yet?     │
+│  Start one →         │
 ├──────────────────────┤
 │ FOOTER               │
 └──────────────────────┘
@@ -285,21 +228,40 @@ Single page, no sub-navigation. Answers: "How can I help?" then "What if there's
 
 ### Annotations
 
-- **Header subtitle:** "Join hundreds of people who make every ride happen." Grounded in real numbers (100+ active volunteers per the raw site). Community-first, not movement-first.
-- **Pitch paragraph:** 3–4 sentences max. Ends with a time/reward framing ("a few hours on a Sunday — and much more back"). Link to external Google Doc for guidelines — opens new tab.
-- **Role cards:** 5 cards, 2-column grid on desktop. Icon + role name + 2-sentence description. Invitation language, not job description language. Odd fifth card (DJ) sits left-aligned in its own row on desktop; full width on mobile.
-- **"What joining looks like":** Combined "get/ask" framing borrowed from the raw volunteer page. Short bullet pairs. Honest without being heavy. This section reduces anxiety by setting clear expectations.
-- **Contact form:** Municipality dropdown determines routing. Role checkboxes let people pre-identify without obligation. "Not sure yet" checkbox is important — removes the barrier of needing to know your role before reaching out.
-- **Submit CTA:** "I'm in →" — short, direct, confident. ToV register: enthusiastic, not corporate.
-- **Start a chapter:** Visually distinct section (different background). Short, honest, warm. Email CTA only (mailto: link) — structured intake deferred. Secondary link to /chapters so they can see the map.
+- **Header subtitle:** "Join the people who make every ride happen." Community-first, grounded in real scale (100+ active volunteers per the raw site).
+- **Pitch:** 3–4 sentences. Leads with the barrier-dissolver (*"you don't need to be a pro"*), ends on a time/reward framing. No guidelines link here — that belongs at the commitment moment, below.
+- **Role cards:** 5 cards, invitation language not job descriptions. Orientation only — they do **not** link into a form on this page; the role becomes a checkbox on the chapter-page form. Full per-card copy in [help-out-content.md](help-out-content.md).
+- **"What joining looks like":** the honest get/ask. The "we ask" side is distilled from the ROI principles (kindness + safety + meetups) — warm, not legalese. The guidelines link sits here.
+- **"Find your chapter →":** the single primary action, in a visually distinct band. The page has *one* job: motivate, then route. Copy makes the locality promise explicit ("reach them directly, not a central inbox").
+- **Start a chapter:** calm secondary exit, visually quieter than the primary CTA. Email CTA (mailto) + secondary link to `/chapters`.
+
+---
+
+## Guidelines / ROI — repurposing the charter
+
+The volunteer guidelines doc (FR *"Règlement d'Ordre Intérieur"* / NL *"Huishoudelijk reglement"*, captured at [`raw/website/volunteer-roi-charter.md`](../../../raw/website/volunteer-roi-charter.md)) is an **operational charter for organisers & escorts (P4/P5)** — not curiosity-stage material. Most of it (min. 4 escorts/ride, captain-sweeper roles, 8–9 km/h, the shared-vest bag, feedback-after-every-ride, "no political action without coordination") is **post-signup operational know-how** → belongs in the onboarding email / chapter back-office ([D-1](../01-concerns.md)), **not** this page.
+
+**What this page repurposes — the 🧭 principles only:**
+
+| ROI principle | Use here | Note |
+|---|---|---|
+| **Bienveillance — #kindnessisking** | "We ask" + pitch tone | Warmest line in the doc — pure ToV |
+| **Inclusion** (all kids/families, any level) | Pitch | Dissolves the "am I good enough?" barrier at the source |
+| **Action positive** (no anti-car rhetoric; modal shift at one's own pace; with a smile) | **Tone constraint for ALL copy in this flow** | This *is* the ToV "committed, not preachy" quality in their own words — it governs how every line is written, not just a bullet |
+| **Sécurité avant tout** | Pink-vest card + "we ask" | One warm line; operational safety detail stays in onboarding |
+| **Organisation partagée — co-coordination** | "what you'll get" (community) | Reinforces "you're joining a real local team" |
+
+**Decisions:**
+- **Rename it** — surface as "volunteer guidelines" / *"onze afspraken"*, never "ROI / Huishoudelijk reglement" (bureaucratic, off-ToV).
+- **Link it in volunteer onboarding only, not on this public page** (Frederik 2026-06-02). The doc is confirmed public + kept, but Help out's "what we ask" just *names* the agreements (kindness + safety) without linking the formal charter. The link itself lives in the logged-in back-office / volunteer "getting started" ([D-1](../01-concerns.md), P-09). **Host as a PDF later**, replacing the Google Doc link.
+- **Companion asset:** the "Safety First" video (`youtu.be/i9YQxJ-ChNM`, referenced on the raw volunteer page) is friendlier than the charter text for the safety/training angle — prefer it on the pink-vest card.
 
 ---
 
 ## Open Questions / Necessary Refinements
 
-1. **Municipality dropdown options:** The form routes to a chapter lead by municipality. This requires the admin panel to have a chapter → lead email mapping. Confirm with Nico that this routing logic is in place at MVP.
-2. **"No chapter near me" form routing:** If someone selects a municipality without a chapter, the form routes to bike@kidicalmass.be. Confirm this fallback with Leticia — is this the right address?
-3. **Volunteer guidelines link:** The raw page links to a Google Doc. Confirm the link is permanent and accessible without a Google account. If not, consider hosting the PDF on the site itself.
-4. **4 meetups/year — accuracy:** The raw site says 4 meetups per year. Confirm this is still the expectation for all Belgian chapters (not just Brussels). If Walloon/Flemish chapters have different meetup expectations, adjust the "We ask" copy.
-5. **"I'm in →" post-submission:** On form submit, the page shows a confirmation message inline (not a redirect). Copy for the confirmation state needs to be written. Example: "Thanks! Your local Kidical Mass lead will be in touch soon. In the meantime, come find your local chapter →"
-6. **Role cards — brief copy:** The descriptions above are working examples. Final copy needs a ToV pass — particularly ensuring the pink vest description doesn't sound intimidating ("safety" language can feel heavy).
+1. **Chapter→lead routing + fallback** *(build — [GitHub #37](https://github.com/ndeblauw/kidicalmass/issues/37))* — the `Volunteer enquiry` ([content model](../20-structure.md)) currently emails the central comms inbox tagged with the chapter; per-group lead routing (with a fallback when a chapter has no lead) is specced for Nico in #37. *(Lower-stakes than before: we deliberately promise "the team", no name or SLA, so the design doesn't hinge on this.)*
+2. **Is the ROI safe to surface publicly?** ✅ Resolved (Frederik 2026-06-02): confirmed public + keep the doc, but **not linked on this public page** — only in volunteer onboarding / the logged-in back-office ([D-1](../01-concerns.md)). Host as a **PDF later**. Help out's "what we ask" now names the agreements (kindness + safety) without linking the charter.
+3. **A short "good vibes" excerpt?** *(content)* — would the team like a one-screen charter in KM's voice (warm enough to inline) distinct from the full legal ROI (external source of truth)? That would be the ideal thing to inline in "We ask".
+4. **"4 meetups/year"** *(client)* — confirm this applies to all Belgian chapters, not just Brussels.
+5. **Confirmation + role checkboxes** — both now live on the chapter page; specced in [chapters.md](chapters.md).

@@ -12,10 +12,15 @@ it('shows the five-item dutch main nav on a public page', function () {
         ->assertDontSee('Register');
 });
 
-it('links the footer to contact, membership and legal pages', function () {
+it('links the footer to contact, membership and the combined legal page', function () {
+    // Privacy + cookies are one page now; the footer carries a single legal link.
     get('/nl')
         ->assertSee(route('contact'))
         ->assertSee(route('membership'))
         ->assertSee(route('privacy'))
-        ->assertSee(route('cookies'));
+        ->assertSee('Privacy & cookies');
+});
+
+it('301s the old /cookies path to the combined privacy page', function () {
+    get('/nl/cookies')->assertRedirect(route('privacy', ['locale' => 'nl']));
 });

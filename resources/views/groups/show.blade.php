@@ -68,11 +68,26 @@
                 <p class="text-kidical-ink/70">No team listed yet.</p>
             @endif
 
-            <x-wire.placeholder
-                label="Volunteer sign-up"
-                note="Routed to this chapter's lead (PAT-6)"
-                class="min-h-28"
-            />
+            {{-- J2 sign-up — routed to this chapter by context (PAT-6). Anchor target for
+                 the Help-out picker (?intent=volunteer#aanmelden); leads with the form then. --}}
+            <div id="aanmelden" class="space-y-3 scroll-mt-24">
+                @if (request('intent') === 'volunteer')
+                    <p class="rounded-xl bg-kidical-light-yellow px-4 py-3 text-kidical-ink">
+                        Je komt meehelpen in {{ $group->name }}. Welkom! Laat hieronder je gegevens achter.
+                    </p>
+                @endif
+
+                <h3 class="text-xl text-kidical-ink">Help mee in {{ $group->name }}</h3>
+                <p class="text-kidical-ink/70">
+                    Een paar uur per maand, samen met het team hierboven. Je hoort rechtstreeks van de lokale groep, niet van een centrale mailbox.
+                </p>
+
+                <livewire:chapter-volunteer-signup :group="$group" />
+
+                <p>
+                    <a href="{{ route('volunteer') }}" class="font-semibold text-kidical-blue hover:underline">Meer over meehelpen →</a>
+                </p>
+            </div>
         </section>
 
         @if ($articles->isNotEmpty())

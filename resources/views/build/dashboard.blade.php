@@ -28,30 +28,6 @@
   .drift{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;margin-bottom:20px}
   .drift h3{margin:0 0 6px;font-size:12px;color:#b91c1c;text-transform:uppercase}
   .drift ul{margin:0;padding-left:18px} .drift li{color:#b91c1c}
-  .smap{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 14px;overflow:auto;font-size:12px}
-  .smap-root{color:var(--faint);font-size:11px;font-family:ui-monospace,Menlo,monospace;margin-bottom:8px}
-  .smap-banner{margin:14px 0 6px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-top:1px solid var(--line);padding-top:10px}
-  .smap-banner.first{border-top:0;padding-top:0;margin-top:2px}
-  .smap-caption{color:var(--faint);font-size:11px;margin:-2px 0 6px;font-style:italic}
-  .smap-row,.smap-item{position:relative;border-bottom:1px solid var(--line)}
-  .smap-row:last-child,.smap-item:last-child{border-bottom:0}
-  .smap-group>summary,.smap-row>.smap-sum{list-style:none;padding:6px 64px 6px 0;display:flex;align-items:baseline;gap:8px}
-  .smap-group>summary{cursor:pointer}
-  .smap-group>summary::-webkit-details-marker{display:none}
-  .smap-group>summary::before{content:'▸';color:var(--faint);font-size:9px;line-height:1.7;transition:transform .12s ease;display:inline-block;flex:0 0 auto}
-  .smap-group[open]>summary::before{transform:rotate(90deg)}
-  .smap-row>.smap-sum::before{content:'·';color:var(--faint);flex:0 0 auto}
-  .smap-group>summary:hover{background:#fff}
-  .smap-label{font-weight:600;color:#111827}
-  .smap-slug{font-family:ui-monospace,Menlo,monospace;color:var(--faint);font-size:11px}
-  .smap-trail{color:var(--mut);font-size:11px}
-  .smap-jump{position:absolute;right:4px;top:6px;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--accent);border:1px solid var(--line);border-radius:10px;padding:1px 7px;background:#fff;white-space:nowrap}
-  .smap-jump:hover{border-color:var(--accent);text-decoration:none}
-  .smap-body{margin:0 0 8px 12px;border-left:1px solid var(--line);padding:2px 0 2px 12px;display:grid;gap:1px}
-  .smap-line{font-family:ui-monospace,Menlo,monospace;white-space:pre-wrap;font-size:11.5px;color:var(--mut);line-height:1.55}
-  .smap-pre{color:var(--faint)}
-  .smap-node{color:#111827;font-weight:500}
-  .smap-node:hover{color:var(--accent)}
   table{width:100%;border-collapse:collapse;font-size:12px}
   th{text-align:left;color:var(--faint);font-weight:500;font-size:10px;text-transform:uppercase;padding:6px;border-bottom:1px solid var(--line)}
   td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -68,9 +44,6 @@
   .freshness{display:flex;flex-wrap:wrap;gap:16px;margin:-4px 0 18px;font-size:11px;color:var(--faint)}
   .freshness .fr-file{font-family:ui-monospace,Menlo,monospace}
   .freshness .fr-age{color:var(--mut)}
-  .stale-hint{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#92400e}
-  .stale-hint code{background:rgba(0,0,0,.05);padding:1px 4px;border-radius:4px;font-size:11px}
-  .stale-hint a{color:#92400e;text-decoration:underline}
   .cgroup{display:flex;align-items:center;gap:8px;margin:22px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);font-weight:600}
   .cgroup .cgcount{color:var(--faint)}
   .dot{display:inline-block;width:8px;height:8px;border-radius:50%}
@@ -112,14 +85,12 @@
 
   <nav class="sections">
     <a href="#overzicht">@include('build.icon', ['name' => 'chart-bar', 'class' => 'nav-ico']) Overzicht</a>
-    <a href="#structuur">@include('build.icon', ['name' => 'map', 'class' => 'nav-ico']) Structuur</a>
     <a href="#paginas">@include('build.icon', ['name' => 'document-text', 'class' => 'nav-ico']) Pagina's</a>
     <a href="#patronen">@include('build.icon', ['name' => 'squares-2x2', 'class' => 'nav-ico']) Patronen</a>
     <a href="#concerns">@include('build.icon', ['name' => 'flag', 'class' => 'nav-ico']) Concerns</a>
   </nav>
 
   @include('build.sections.overzicht')
-  @include('build.sections.structuur')
   @include('build.sections.paginas')
   @include('build.sections.patronen')
   @include('build.sections.concerns')

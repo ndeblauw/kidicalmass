@@ -11,7 +11,7 @@
                     <a href="{{ route('activities.index') }}" class="link-plain inline-flex items-center rounded-full bg-kidical-yellow px-6 py-3 font-bold text-kidical-ink shadow-sm transition-colors hover:bg-white">
                         Find a ride →
                     </a>
-                    <a href="#upcoming" class="font-bold text-white hover:underline">New here? Start here →</a>
+                    <a href="{{ route('getting-started') }}" class="font-bold text-white hover:underline">New here? Start here →</a>
                 </div>
             </div>
         </section>

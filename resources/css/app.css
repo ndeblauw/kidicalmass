@@ -1207,6 +1207,26 @@ body:has(.activity-actions-bar) .site-footer {
     max-width: 220px;
 }
 
+.site-footer__cta {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 9999px;
+    background-color: var(--color-kidical-yellow);
+    background-image: none;
+    color: var(--color-kidical-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    transition: transform 0.2s, filter 0.2s;
+
+    &:hover {
+        background-image: none;
+        filter: brightness(1.05);
+        transform: translateY(-1px);
+    }
+}
+
 .site-footer__col-title {
     font-family: var(--font-heading);
     font-size: var(--text-sm);
@@ -1315,6 +1335,382 @@ header [data-flux-navbar-items][data-current]::after {
     display: none;
 }
 
+@layer components {
+
+    /* ═══ Getting Started (P-12) — mirrors the ride/show layout system ═══ */
+
+    /* HERO reuses .activity-hero* ; these are the GS-only adjustments. */
+    .gs-hero__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--color-kidical-sky);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 0.5rem 1rem;
+        border-radius: 0.75rem;
+        transform: rotate(-3deg);
+        margin-bottom: 1.5rem;
+        animation: hero-chapter-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+
+    .gs-hero__badge svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .gs-hero__lead {
+        color: rgba(255, 255, 255, 0.92);
+        font-size: clamp(var(--text-xl), 2vw, var(--text-2xl));
+        font-weight: 700;
+        line-height: 1.4;
+        max-width: 32ch;
+        margin-bottom: 0.5rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+    }
+
+    /* The hero circle holds an illustration (contained), not a cover photo. */
+    .gs-hero__circle {
+        background-color: var(--color-kidical-light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gs-hero__circle img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+
+    /* Expectations reuse .activity-promises* verbatim; only the 3rd card per
+       column needs a tilt the ride page (2 per column) never defines. */
+    .gs-expect .activity-promises__item:nth-child(3) {
+        transform: rotate(-1deg);
+    }
+
+    /* ─── FAQ accordion (contained, white) ─── */
+    .gs-faq-section {
+        max-width: 46rem;
+        margin-inline: auto;
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+
+    .gs-section__title {
+        color: var(--color-kidical-ink);
+        margin-bottom: 1.5rem;
+    }
+
+    .gs-faq {
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+
+    .gs-faq__item {
+        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+
+    .gs-faq__q {
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: 1.25rem 0;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-lg);
+        color: var(--color-kidical-ink);
+        transition: color 0.2s;
+    }
+
+    .gs-faq__q::-webkit-details-marker { display: none; }
+
+    .gs-faq__q:hover { color: var(--color-kidical-red); }
+
+    .gs-faq__q::after {
+        content: "";
+        flex-shrink: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+        background-color: var(--color-kidical-red);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14M5 12h14' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14M5 12h14' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .gs-faq__item[open] .gs-faq__q::after { transform: rotate(135deg); }
+
+    .gs-faq__a {
+        padding-bottom: 1.4rem;
+        max-width: 60ch;
+    }
+
+    .gs-faq__item[open] .gs-faq__a {
+        animation: fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* ─── Closing CTA — full-bleed yellow band ─── */
+    .gs-cta {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-bottom: calc(var(--spacing) * -8);
+        background: var(--color-kidical-yellow);
+        overflow: hidden;
+    }
+
+    .gs-cta__inner {
+        padding-block: clamp(3rem, 6vw, 5rem);
+        text-align: center;
+    }
+
+    .gs-cta h2 {
+        color: var(--color-kidical-ink);
+        display: inline-block;
+        transform: rotate(-3deg);
+        margin-bottom: 1rem;
+    }
+
+    .gs-cta__sub {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
+        font-weight: 700;
+        margin-bottom: 1.75rem;
+    }
+
+    .gs-cta__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.95rem 1.875rem;
+        border-radius: 0.875rem;
+        background: var(--color-kidical-blue);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-lg);
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s;
+    }
+
+    .gs-cta__btn:hover {
+        transform: translateY(-2px);
+        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
+    }
+
+    /* ═══ Help out (P-13) — surface pass (built on the ride/show kit) ═══
+       Hero + roles reuse .activity-hero* / .activity-promises*; only genuine
+       deltas live here, plus the get/ask band, photo joy-band, picker and coda. */
+
+    /* Hero deltas (on .activity-hero, solid blue) */
+    .ho-hero__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--color-kidical-sky);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.4rem 0.95rem;
+        border-radius: 9999px;
+        transform: rotate(-3deg);
+    }
+
+    .ho-hero__badge svg { width: 1.1rem; height: 1.1rem; }
+
+    .ho-hero__lead {
+        color: color-mix(in oklab, white, transparent 6%);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+        font-weight: 700;
+        line-height: 1.3;
+        max-width: 32ch;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+
+    /* Pitch intro (contained) */
+    .ho-intro {
+        max-width: 60ch;
+        margin-block: calc(var(--spacing) * 12);
+        font-size: clamp(var(--text-lg), 1.6vw, var(--text-2xl));
+        line-height: 1.5;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+    }
+
+    /* Roles — reuse .activity-promises; warm yellow ground + the 3rd-card tilt */
+    .ho-roles { background: var(--color-kidical-yellow); }
+    .ho-roles .activity-promises__item:nth-child(3) { transform: rotate(-1deg); }
+
+    /* "Wat meedoen inhoudt" — sky band, two honest columns */
+    .ho-deal {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: var(--color-kidical-sky);
+        padding-block: clamp(2.75rem, 6vw, 4.5rem);
+    }
+
+    .ho-deal__title { color: var(--color-kidical-ink); margin-bottom: 2rem; }
+
+    .ho-deal__cols {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+
+        @media (min-width: 768px) { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+    }
+
+    .ho-deal__col h3 {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        color: var(--color-kidical-ink);
+        margin-bottom: 1rem;
+    }
+
+    .ho-deal__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+
+    .ho-deal__list li {
+        position: relative;
+        padding-left: 1.9rem;
+        line-height: 1.5;
+        color: var(--color-kidical-ink);
+    }
+
+    .ho-deal__list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.18em;
+        width: 1.25rem;
+        height: 1.25rem;
+        background-color: var(--color-kidical-green);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .ho-deal__list--ask li::before {
+        background-color: var(--color-kidical-red);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    /* Photo joy-band — real volunteers (contained on white) */
+    .ho-joy { margin-block: calc(var(--spacing) * 14); }
+
+    .ho-joy__title { color: var(--color-kidical-ink); margin-bottom: 0.5rem; }
+
+    .ho-joy__lead {
+        max-width: 54ch;
+        margin-bottom: 2rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
+    }
+
+    .ho-joy__grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+
+        @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    }
+
+    .ho-joy__photo {
+        margin: 0;
+        border-radius: 1.25rem;
+        overflow: hidden;
+        aspect-ratio: 4 / 5;
+        box-shadow: 0 10px 30px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .ho-joy__photo:nth-child(odd) { transform: rotate(-1.5deg); }
+    .ho-joy__photo:nth-child(even) { transform: rotate(1.5deg); }
+    .ho-joy__photo:hover { transform: rotate(0deg) scale(1.03); }
+
+    .ho-joy__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Find your group — light-blue band, the climax */
+    .ho-find {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: var(--color-kidical-light-blue);
+        padding-block: clamp(2.75rem, 6vw, 4.5rem);
+    }
+
+    .ho-find__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
+
+    .ho-find__lead {
+        max-width: 54ch;
+        font-size: clamp(var(--text-lg), 1.5vw, var(--text-2xl));
+        line-height: 1.5;
+        margin-bottom: 2rem;
+        color: var(--color-kidical-ink);
+    }
+
+    .ho-groups {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+
+        @media (min-width: 480px) { grid-template-columns: repeat(2, 1fr); }
+        @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); }
+        @media (min-width: 1024px) { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .ho-group {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+        height: 100%;
+        padding: 0.95rem 1.15rem;
+        border-radius: 0.85rem;
+        background: white;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s;
+    }
+
+    .ho-group:hover {
+        transform: translateY(-2px) rotate(-1deg);
+        box-shadow: 0 10px 24px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+    }
+
+    .ho-group__name { font-family: var(--font-heading); font-weight: 800; color: var(--color-kidical-ink); }
+
+    .ho-group__zip {
+        flex-shrink: 0;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+
+    /* Start a group — quiet coda */
+    .ho-start {
+        max-width: 60ch;
+        margin-block: calc(var(--spacing) * 14);
+        padding-top: 2rem;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+
+    .ho-start__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-2xl);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 10%);
+        margin-bottom: 0.75rem;
+    }
+
+    .ho-start p { margin-bottom: 0.75rem; }
+}
+
 /* ─── Keyframes ─── */
 
 @keyframes hero-h1-in {
@@ -1356,7 +1752,13 @@ header [data-flux-navbar-items][data-current]::after {
     .activity-organizers__content,
     .volunteer-signup__success-icon,
     .volunteer-signup__success h3,
-    .volunteer-signup__success p {
+    .volunteer-signup__success p,
+    .gs-hero__badge,
+    .gs-hero__lead,
+    .gs-faq__item[open] .gs-faq__a,
+    .ho-hero__copy h1,
+    .ho-hero__lead,
+    .ho-hero__visual img {
         animation: none;
     }
 }

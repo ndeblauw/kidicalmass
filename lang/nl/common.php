@@ -2,7 +2,7 @@
 
 return [
     'contact' => 'Contact',
-    'membership' => 'Lid worden',
+    'membership' => 'Steun ons',
     'privacy' => 'Privacy',
     'cookies' => 'Cookies',
     'privacy_cookies' => 'Privacy & cookies',
