@@ -95,10 +95,33 @@ Status after the Leticia interview (2026-05-18):
 2. **Photo gallery dissolves — RESOLVED:** confirmed. A few inline photos per chapter to show it's fun; no gallery system. Rides go to social media.
 3. **"I don't have a bike" demoted — RESOLVED:** confirmed. Very small % (like Fietsbieb); lives as a Getting Started section.
 4. **Grande Kidical Mass loses its dedicated page — STILL OPEN:** not explicitly raised in the interview. Confirm in a later check that the flagship as a *featured event* (not a hand-built yearly page) is acceptable.
-5. **Liège stays external — RESOLVED (refined):** KM wants Liège's ride data *in* the site and to bring them back into the network; show as a pin and include the data even though it duplicates their own site.
+5. **Liège — REVISED 2026-06-02:** now a **hosted full chapter** (like Mons), not an external pin — both bring their data *and* a hosted `/chapters/` page into the site, though they keep their own domains (page may link out). *(Earlier: external pin with ride data included.)*
+
+### Content-level cross-check (2026-06-02)
+
+Page-by-page mapping above is complete — **no whole page is lost.** But reading the raw page *bodies* (not just titles) surfaced content fragments and risks the page map hides. Logged here so none evaporate.
+
+**Transition risks**
+
+- **Chapter pages launch near-empty (biggest risk).** Only **two** chapters have real scraped content: **Namur (`/5000`)** and **Mons (`/7000`)**. The Brussels postal pages (`/1000`…) are *not in the scrape* — and the [Site Audit](../site-audit.md) confirms "13+ active local groups but not one has its own page." So "seed the chapter pages" only yields a name + postal + agenda-derived rides for ~13 Brussels chapters; **intro, team, partners, history, photos must be authored fresh by each lead.** This is the cutover/maintainability question, not a migration. → ties to the cutover plan below.
+- **Mons + Liège both hosted as full chapters (decided 2026-06-02).** Both run their own domains (`mons.bike`, `kidicalmassliege.org`); the hosted page may link out but is first-class. **This revises the earlier "Liège = external pin" call** (Decision Flag #5 below) — Liège now gets a hosted `/chapters/` page authored from their site's data (no `kidicalmass.be` page exists to migrate), not just a map pin.
+
+**Structural fixes already applied** (to [Structure](20-structure.md))
+
+- **Chapter template gained two fields** the real pages use but the template lacked: an **intro / "what our rides are like"** lead paragraph, and an optional **History / our story** block (Mons-style founders + milestones, hidden if empty).
+
+**Content fragments to carry (don't drop silently)**
+
+- **One-off donation IBAN** ("Donation unique / Eénmalige donaties — BE72 8919 4405 3116") is live on home + spacefunding, but [Scope](10-scope.md) says membership is *recurring-only, no one-off path*. **Decided 2026-06-02:** **drop the one-off IBAN for v1** (recurring-only stands); **confirm with Leticia** before final, as money channels are hers.
+- **"What is a ride" practical spec** (ages ~4–12, **no draisiennes/balance bikes**, child accompanied by an adult, max 5–7 km, slow pace, max 1 h, free/no registration, music) — the canonical ride definition, on home + every chapter page. → `/getting-started` "what to expect" + event-detail field defaults.
+- **"Don't have a bike" provider list mismatch.** Live `/help-je-n-ai-pas-de-vélo` lists **Cyclo** (2nd-hand), **Fietsbieb** (10 named Brussels communes), **Loopz** (promo code `KIDICALMASS` = 2 months free), **My Kids Bikes**. Structure/scope say "Loopz, Fietsbieb, **Kidical Mouse**." **Decided 2026-06-02: out of scope for v1 core** — the whole "don't have a bike" provider section is **deferred** (verify current providers later; focus on core). Preserve the Loopz promo code for when it returns.
+- **Vision is heavier than "merge."** `what-we-want` is **FR-only**, **dated** (2024 elections), **Brussels-specific coalition** manifesto + parent quotes + external PDF (`cloud.heroesforzero.be`). `/about/vision` needs a **rewrite + a fresh NL translation** + de-dating, not a light merge. The external manifesto PDF is third-party — link, don't rehost.
+- **Volunteer rules (ROI / huishoudelijk reglement, on Google Docs) + "Safety First" YouTube video** — currently external; these are the back-office "documents + video" (D-1). Decide host-vs-link at build.
+- **National partners/funders + campaign affiliation** — home names Bruxelles Mobilité, Clean Cities, Bruxelles Ville, Commune de Schaerbeek, spacefunders, + "#StreetsForKids by Clean Cities" affiliation. → `/about/partners` (don't lose the campaign affiliation).
+- **Contact domain inconsistency** (`.be` vs `.brussels`; bike@/cecilia@/contact@kidicalmass.brussels + local emails) — resolved by routed forms + `/contact`; pick one canonical domain at build.
 
 ### Open Questions for Migration
 
 - **Redirect map:** ✅ documented in [`26-redirect-map.md`](26-redirect-map.md) (closes the design side of `D-7`). Build fill-ins (locale middleware, event slugs, combined-postal canonicals) tracked there.
 - **Build order for Nico:** Proposed: (1) Events + Event detail → (2) Chapters + Chapter pages → (3) Help out → (4) Getting Started → (5) About section → (6) Home. Validate with Nico.
-- **Cutover plan:** When do chapter leads switch from Wix to Filament? Is there a parallel-running period?
+- **Cutover plan:** When do chapter leads switch from Wix to Filament? Is there a parallel-running period? **Sharpened by the cross-check:** because Brussels chapter pages have no migratable content, cutover needs a *content-authoring* onboarding for leads (not just a data move) — Namur + Mons can seed as worked examples.

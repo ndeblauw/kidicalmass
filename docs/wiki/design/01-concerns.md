@@ -33,7 +33,8 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
   - **Before signing up:** a volunteer clearly sees *what to expect*.
   - **Once logged in:** the things now living in WhatsApp — how it works, documents to read, a video, when the meetups are, who leads the chapter and their role, what roles exist and what yours is / could be.
 - **Attendance rule (decided):** "I'm coming" is **account-only, volunteers-only**, on **all** activity types (rides + meetups). **Display shows the hosts/organisers attending (a social nudge), not the full attendee list** (Leticia); the lead may see the full roster. Adds an **Attendance** relation ([content model](20-structure.md)).
-- **Remainder:** detailing the structure is real work — Frederik will seek clarity (and possibly the actual material) from the Alexandre/J3 interview before specing it. Full brief deferred until then.
+- **Structural boundary (decided, Frederik 2026-06-02):** the back-office is a **separate branded frontend surface** (`/backstage/[postal-code]`, read-mostly), **not** the Filament `/admin` panel — rank-and-file volunteers (P4) never touch Filament. Accounts are **invite-only** (leads provision in `/admin`; no public Register). Post-login landing = [My activities](20-structure.md). These are locked in [Structure](20-structure.md).
+- **Remainder:** the back-office *content* detail is real work — Frederik will seek clarity (and possibly the actual material) from the Alexandre/J3 interview before specing it. Content brief deferred until then.
 - **Next step:** Alexandre (Schaerbeek, J3) interview.
 
 ### `D-3` — Grande Kidical Mass as a featured event *(was strategy `S-5`)*

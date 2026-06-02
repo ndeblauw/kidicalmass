@@ -18,8 +18,11 @@ Every page/route, its brief, and its honest pipeline status. **Lifecycle:** `stu
 | `/events` | Events overview | [events-overview.md](events-overview.md) | [events-overview-content.md](events-overview-content.md) | ❓ | spec | Replaces `/agenda`; redirect-critical ([D-7](../01-concerns.md)). |
 | `/events/[slug]` | Event detail | [activity-detail.md](activity-detail.md) | [activity-detail-content.md](activity-detail-content.md) | ❓ | spec | Komoot embed; per-event partners. |
 | `/membership` | Membership / spacefunding | [membership.md](membership.md) | — | ❓ | spec | Links out to Growfunding; lead €3/mo entry. |
-| (account) | My activities | [my-activities.md](my-activities.md) | — | ❓ | spec (provisional) | Volunteers only; depends on [D-1/D-2](../01-concerns.md). |
-| (account) | Chapter back-office | — | — | ❓ | **stub** (provisional) | Per-chapter materials + attendance; brief deferred until [D-1](../01-concerns.md) confirms. |
+| `/contact` | Contact (national) | — | — | ❓ | **stub** | New front door → coordination duo; press/partnership/general buckets. |
+| `/privacy` · `/cookies` | Legal / GDPR | — | — | ❓ | **stub** | Mandatory (enquiry form + email opt-in). Footer cluster. |
+| `/login` | Volunteer login | — | — | ❓ | **stub** | Login only — no public Register (invite-only accounts). |
+| `/my-activities` | My activities | [my-activities.md](my-activities.md) | — | ❓ | spec (provisional) | Volunteers only; post-login landing; depends on [D-1/D-2](../01-concerns.md). |
+| `/backstage/[postal-code]` | Chapter back-office | — | — | ❓ | **stub** (provisional) | **Separate branded frontend surface, not Filament (decided)**; per-chapter materials + attendance. Content brief pending [D-1](../01-concerns.md)/Alexandre. |
 | `/chapters` | Chapters overview | [chapters.md](chapters.md) | [chapters-content.md](chapters-content.md) | ❓ | spec | Map + list; PAT-8. |
 | `/chapters/[postal-code]` | Chapter page (template) | [chapters.md](chapters.md) | [chapters-content.md](chapters-content.md) | ❓ | spec | Self-published; hide-if-empty sections (PAT-11); redirect-critical. |
 | `/getting-started` | Getting Started | [getting-started.md](getting-started.md) | [getting-started-content.md](getting-started-content.md) | ❓ | spec | New page; no current-site equivalent. |

@@ -28,3 +28,7 @@ yarn-error.log
 
 # Superpowers visual brainstorm scratch
 .superpowers/
+
+# OS / editor cruft
+.DS_Store
+/.obsidian
