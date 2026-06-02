@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 
 class ActivityController extends Controller
 {
-    public function index()
+    public function index(string $locale)
     {
         $activities = Activity::with(['author', 'groups'])
             ->orderBy('begin_date')
@@ -16,14 +16,14 @@ class ActivityController extends Controller
         return view('activities.index', compact('activities'));
     }
 
-    public function show(Activity $activity)
+    public function show(string $locale, Activity $activity)
     {
         $activity->load(['author', 'groups']);
 
         return view('activities.show', compact('activity'));
     }
 
-    public function ical(Activity $activity): Response
+    public function ical(string $locale, Activity $activity): Response
     {
         $summary = e($activity->title_nl);
         $location = e($activity->location);

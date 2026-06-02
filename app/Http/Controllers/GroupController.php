@@ -8,7 +8,7 @@ use App\Models\Group;
 
 class GroupController extends Controller
 {
-    public function index()
+    public function index(string $locale)
     {
         $groups = Group::visible()
             ->with(['parent', 'children'])
@@ -18,7 +18,7 @@ class GroupController extends Controller
         return view('groups.index', compact('groups'));
     }
 
-    public function show(Group $group)
+    public function show(string $locale, Group $group)
     {
         $group->load(['parent', 'children', 'users'])->loadCount(['articles', 'activities']);
 

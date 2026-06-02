@@ -8,7 +8,7 @@ use App\Models\Group;
 
 class HomeController extends Controller
 {
-    public function __invoke()
+    public function __invoke(string $locale)
     {
         $latestArticles = Article::with(['author', 'groups'])
             ->latest()

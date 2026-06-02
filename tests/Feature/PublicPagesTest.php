@@ -24,7 +24,7 @@ beforeEach(function () {
 });
 
 it('renders the home page with real data', function () {
-    get('/')
+    get('/nl')
         ->assertOk()
         ->assertSee('Surface Test Ride')
         ->assertSee('Kidical Mass Testville')
@@ -33,19 +33,19 @@ it('renders the home page with real data', function () {
 });
 
 it('renders the activities index with the event listed', function () {
-    get('/activities')
+    get('/nl/events')
         ->assertOk()
         ->assertSee('Surface Test Ride');
 });
 
 it('renders the articles index with the article listed', function () {
-    get('/articles')
+    get('/nl/about/news')
         ->assertOk()
         ->assertSee('Surface Test Article');
 });
 
 it('renders the groups index with the group listed', function () {
-    get('/groups')
+    get('/nl/chapters')
         ->assertOk()
         ->assertSee('Kidical Mass Testville');
 });
