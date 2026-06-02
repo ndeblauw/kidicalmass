@@ -43,7 +43,7 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 | [Skeleton — page registry](design/30-skeleton/00-page-registry.md) | Every route + spec/content/build/lifecycle status | design |
 | [Skeleton — per-page briefs](design/30-skeleton/) | 7 page specs + 7 content companions (home, events, activity-detail, chapters, getting-started, help-out, about) | design |
 | [Patterns Library](design/40-patterns.md) | Shared UI patterns with stable IDs (PAT-1…PAT-17) | design |
-| [Surface (plane 5)](design/50-surface.md) | Visual direction; seeds `DESIGN.md` (tokens pending, D-4) | design |
+| [Surface (plane 5)](design/50-surface.md) | Visual direction & rationale; tokens live in `app.css` `@theme`, documented in [`DESIGN.md`](../../DESIGN.md) (D-4 closed) | design |
 | [Asset map — catalogue](design/60-asset-map.md) | 50 usable assets in `docs/raw/assets/` | design |
 | [Asset map — per-page slots](design/61-asset-slots.md) | Slot map: have / candidate / missing | design |
 

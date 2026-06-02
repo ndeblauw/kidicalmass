@@ -3,7 +3,7 @@ title: Design — plan & status
 tags: [design]
 sources: [wiki/ux-planning, notion]
 phase: design
-updated: 2026-06-01
+updated: 2026-06-02
 ---
 
 # Design — plan & status
@@ -21,7 +21,7 @@ updated: 2026-06-01
 | Skeleton (plane 4) — per-page briefs | [`30-skeleton/`](30-skeleton/) — 7 specs + 7 content companions | ✅ complete |
 | Skeleton — page registry / build tracker | [`30-skeleton/00-page-registry.md`](30-skeleton/00-page-registry.md) | ✅ created |
 | Patterns library | [`40-patterns.md`](40-patterns.md) | 🟡 first pass (extracted from specs) |
-| Surface (plane 5) | [`50-surface.md`](50-surface.md) → seeds `DESIGN.md` | 🟡 direction only; tokens pending |
+| Surface (plane 5) | [`50-surface.md`](50-surface.md) → [`DESIGN.md`](../../../DESIGN.md) | ✅ tokens live in `app.css` `@theme`, documented in `DESIGN.md` (D-4 closed) |
 | Asset map | [`60-asset-map.md`](60-asset-map.md) + [`61-asset-slots.md`](61-asset-slots.md) | ✅ complete |
 
 Open design-plane decisions: [`01-concerns.md`](01-concerns.md).

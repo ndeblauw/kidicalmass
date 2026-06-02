@@ -3,7 +3,7 @@ title: Patterns Library
 tags: [design, patterns]
 sources: [wiki/design/30-skeleton]
 phase: design
-updated: 2026-06-01
+updated: 2026-06-02
 ---
 
 # Patterns Library
@@ -37,4 +37,4 @@ Shared UI patterns with stable IDs. Per-page briefs in [`30-skeleton/`](30-skele
 
 - PAT-7 role illustrations: 4 of 5 missing ([asset slots](61-asset-slots.md)).
 - PAT-2 hero on Home wants video; no footage exists yet (asset gap).
-- Patterns have no visual tokens yet — see [Surface](50-surface.md) / `D-4`.
+- Visual tokens are live in [`app.css`](../../../resources/css/app.css) `@theme`, documented in [`DESIGN.md`](../../../DESIGN.md) (`D-4` closed). Patterns should pull colour/type from tokens, not per-page values.

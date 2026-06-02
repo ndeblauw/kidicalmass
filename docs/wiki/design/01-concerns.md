@@ -14,20 +14,15 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 | State | Count | IDs |
 |---|---|---|
-| Open | 1 | `D-4` |
+| Open | 0 | — |
 | Partly | 3 | `D-1`, `D-3`, `D-7` |
-| Closed | 1 | `D-2` |
+| Closed | 2 | `D-2`, `D-4` |
 
-**Conclusion gate:** `D-4` (tokens) is the only fully-Open concern. `D-2` is closed (meetups public, surfaced on chapter pages only); `D-7` (redirect map) is now drafted with build fill-ins named; `D-1`/`D-3` have decided directions with named remainders.
+**Conclusion gate:** **no fully-Open design concern remains.** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre) and `D-3` (Grande KM, confirm with Leticia) carry decided directions with named remainders.
 
 ---
 
-## Open
-
-### `D-4` — Surface plane / design tokens — **Open** (gap)
-- **What:** no machine-readable `DESIGN.md` exists; brand is described only in prose ("Look & feel examples", Notion; dark blue + yellow + white).
-- **Why open:** the Surface plane is only a [direction sketch](50-surface.md). Tokens must be defined before/at build.
-- **Next step:** turn [`50-surface.md`](50-surface.md) into a `DESIGN.md` token set.
+*No fully-Open concerns.*
 
 ---
 
@@ -58,6 +53,11 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 - **Where they surface (settled):** **chapter pages only** — each chapter page lists its own meetups/workshops publicly. **No national movement/aggregation view**, and **not** on the family ride calendar (`/events` stays rides-only, J1-focused). A logged-in volunteer's cross-group view lives in [My activities](30-skeleton/my-activities.md), not a public surface.
 - **Decided:** the `Activity` viewing rule (no view-gate) + what login gates (attendance, back-office).
 - **Remaining detail (not a standing concern):** the logged-in [My activities](30-skeleton/my-activities.md) default-municipality filter is a skeleton-level "to test", documented there.
+
+### `D-4` — Surface plane / design tokens — **Closed** (2026-06-02)
+- **Resolved:** the original premise ("no machine-readable tokens exist") was outdated — tokens are **live in [`resources/css/app.css`](../../../resources/css/app.css) `@theme`** (Tailwind v4), set in the merged `design/activity-page` redesign. **Source-of-truth decision:** `app.css` is canonical; **[`DESIGN.md`](../../../DESIGN.md)** (repo root) is the human-readable documentation — palette, typography (Poppins / Nunito Sans / Fredoka One), semantic tokens, and the signature design language (−3° tilts, red icon chips, full-bleed colour blocks). Direction/rationale stay in [`50-surface.md`](50-surface.md).
+- **Palette status:** approved (the as-built redesign is the intended brand system), per Frederik 2026-06-02.
+- **Not a blocker:** spacing/radius aren't formally tokenised (Tailwind defaults + ad-hoc component values); lift into `@theme` later if reuse grows — noted in `DESIGN.md`.
 
 ---
 
