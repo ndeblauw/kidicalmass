@@ -3,7 +3,7 @@ title: Design — concerns register
 tags: [design, concerns]
 sources: [wiki/strategy/01-concerns, wiki/design]
 phase: design
-updated: 2026-06-02
+updated: 2026-06-03
 ---
 
 # Design — concerns register
@@ -14,15 +14,23 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 | State | Count | IDs |
 |---|---|---|
-| Open | 0 | — |
+| Open | 1 | `D-10` |
 | Partly | 4 | `D-1`, `D-3`, `D-7`, `D-9` |
 | Closed | 2 | `D-2`, `D-4` |
 
-**Conclusion gate:** **no fully-Open design concern remains.** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
+**Conclusion gate:** **one fully-Open design concern: `D-10` (page metadata / SEO / social share previews — never addressed).** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
 
 ---
 
-*No fully-Open concerns.*
+## Open
+
+### `D-10` — Page metadata, SEO & social share previews — **Open** (flagged 2026-06-03)
+- **Problem:** the public `<head>` ([`layouts/site.blade.php`](../../../resources/views/layouts/site.blade.php)) is a stub. Page titles are passed bare and unsuffixed (e.g. Help-out is just **"Meehelpen"**, with no `· Kidical Mass` pattern); the `<meta name="description">` is **hardcoded, English, and site-wide** (wrong language for the NL site, identical on every page); and there are **no Open Graph / Twitter Card tags, no canonical URL, and no `hreflang`/locale alternates** at all. Shared links (WhatsApp/Facebook/Instagram — on a ~75 %-mobile, heavily-shared audience) render with no preview title, copy, or image. This affects **every P-row**, so it is tracked here as a cross-cutting concern rather than per page.
+- **Two sides:**
+  - **Build mechanism** — a `<head>` metadata partial driven by per-page props (`$title`, `$description`, `$ogImage`, canonical) with a single title pattern; locale-aware `hreflang` alternates once the `/nl`·`/fr` middleware lands (couples to [`D-7`](#d-7--redirect-map-launch--drafted-2026-06-02)); favicon/touch-icon stack. Graduates to `build/01-concerns.md` when Build opens (coding days 2026-06-16/17).
+  - **Design / content** — the title pattern, a per-page description written in voice ([`tone-of-voice.md`](../../tone-of-voice.md)), and an **OG-image strategy per page type** (events especially want their own hero/route image; a branded default for the rest).
+- **Safe to:** keep shipping pages now; this is additive `<head>` work that doesn't block the surface pass. Do **not** call the site launch-ready until it's resolved — bare share previews are launch-visible.
+- **Next step:** decide title pattern + default OG image with Frederik; spec the per-page-type description/OG plan; build the head partial when Build opens.
 
 ---
 
