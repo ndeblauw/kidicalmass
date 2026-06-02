@@ -25,3 +25,14 @@ it('does not show the komoot link when komoot_url is not set', function () {
         ->assertOk()
         ->assertDontSee('Bekijk op Komoot');
 });
+
+it('renders the share handler without leaking an uncompiled @js directive', function () {
+    $activity = Activity::factory()->create([
+        'title_nl' => 'Kidical Mass Gent',
+    ]);
+
+    $this->get(route('activities.show', $activity))
+        ->assertOk()
+        ->assertDontSee('@js(', escape: false)
+        ->assertSee("shareTitle: 'Kidical Mass Gent'", escape: false);
+});

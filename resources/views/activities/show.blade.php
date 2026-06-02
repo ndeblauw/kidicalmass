@@ -345,7 +345,7 @@
     @endpush
 
     {{-- FIXED ACTION BAR --}}
-    <div class="activity-actions-bar" x-data="{ copied: false }">
+    <div class="activity-actions-bar" x-data="{ copied: false, shareTitle: @js($activity->title_nl) }">
         <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="ghost">
             Bewaar in agenda
         </flux:button>
@@ -354,7 +354,7 @@
             variant="ghost"
             x-on:click="
                 if (navigator.share) {
-                    navigator.share({ title: @js($activity->title_nl), url: window.location.href })
+                    navigator.share({ title: shareTitle, url: window.location.href })
                 } else {
                     navigator.clipboard.writeText(window.location.href).then(() => {
                         copied = true
