@@ -19,8 +19,8 @@
         <div class="partners-left">
 
             <div class="partners-heading-content">
-                <h2>Partners &amp; sponsors</h2>
-                <p class="partners-cta">Want to join them? <a href="#">Sponsor formulas</a> · <a href="#">Partner charter</a></p>
+                <h2>{{ __('partners.heading') }}</h2>
+                <p class="partners-cta">{{ __('partners.cta') }} <a href="#">{{ __('partners.sponsor_formulas') }}</a> · <a href="#">{{ __('partners.partner_charter') }}</a></p>
             </div>
 
             @if($partners->isNotEmpty())
@@ -45,7 +45,7 @@
                     <img src="{{ $bmLogo }}" alt="{{ $bmAlt }}" class="partners-bm-logo">
                 </div>
                 <div class="partners-links-col">
-                    <span class="partners-also-label">Also supported by</span>
+                    <span class="partners-also-label">{{ __('partners.also_supported_by') }}</span>
                     <ul class="partners-links-list">
                         <li><a href="#">Clean Cities</a></li>
                         <li><a href="#">Bruxelles Ville / Brussel Stad</a></li>

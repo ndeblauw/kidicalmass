@@ -1,6 +1,7 @@
 <x-stub
-    title="Privacybeleid"
+    title="Privacy & cookies"
     :sections="[
-        'GDPR' => 'placeholder — juridische tekst nog aan te leveren (contactformulier + e-mailinschrijving)',
+        'Privacy' => 'placeholder — juridische tekst nog aan te leveren (contactformulier + e-mailinschrijving)',
+        'Cookies' => 'placeholder — cookietekst nog aan te leveren',
     ]"
 />

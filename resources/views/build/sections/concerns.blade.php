@@ -2,7 +2,9 @@
     use App\Support\Build\BuildStatus;
 
     $groups = collect($concerns)->groupBy('status');
-    $order = ['open' => 'Open', 'partly' => 'Partly', 'closed' => 'Closed'];
+    // Closed concerns are intentionally not listed here — the register markdown keeps the
+    // full record (and the decisions live in DESIGN.md / structure.md). Dashboard shows live ones.
+    $order = ['open' => 'Open', 'partly' => 'Partly'];
 @endphp
 <section id="concerns">
   <h2 class="sec">@include('build.icon', ['name' => 'flag', 'class' => 'sec-ico']) Concerns — register (D-)</h2>

@@ -49,9 +49,10 @@ Route::prefix('{locale}')
         // Contact (national).
         Route::view('contact', 'contact')->name('contact');
 
-        // Legal / utilities.
+        // Legal / utilities. Privacy + cookies are one page; /cookies 301s to it
+        // so any links indexed from the old Wix site keep resolving.
         Route::view('privacy', 'privacy')->name('privacy');
-        Route::view('cookies', 'cookies')->name('cookies');
+        Route::get('cookies', fn (string $locale) => redirect()->route('privacy', ['locale' => $locale], 301))->name('cookies');
     });
 
 // Authenticated (unprefixed — deferred logged-in tier).
