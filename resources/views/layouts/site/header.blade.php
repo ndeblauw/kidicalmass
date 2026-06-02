@@ -22,7 +22,7 @@
                 <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')" class="font-bold text-lg">{{ __('nav.getting_started') }}</flux:navbar.item>
                 <flux:navbar.item href="{{ route('volunteer') }}" :current="request()->routeIs('volunteer')" class="font-bold text-lg">{{ __('nav.help_out') }}</flux:navbar.item>
                 <flux:dropdown>
-                    <flux:navbar.item icon:trailing="chevron-down" :current="request()->routeIs('about.*') || request()->routeIs('articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
+                    <flux:navbar.item icon:trailing="chevron-down" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
                     <flux:menu>
                         <flux:menu.item href="{{ route('about.mission') }}">{{ __('nav.mission') }}</flux:menu.item>
                         <flux:menu.item href="{{ route('about.vision') }}">{{ __('nav.vision') }}</flux:menu.item>
@@ -60,7 +60,7 @@
             <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')">{{ __('nav.chapters') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')">{{ __('nav.getting_started') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('volunteer') }}" :current="request()->routeIs('volunteer')">{{ __('nav.help_out') }}</flux:navbar.item>
-            <flux:navbar.item href="{{ route('about') }}" :current="request()->routeIs('about.*')">{{ __('nav.about') }}</flux:navbar.item>
+            <flux:navbar.item href="{{ route('about') }}" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')">{{ __('nav.about') }}</flux:navbar.item>
             @guest
                 <flux:navbar.item href="{{ route('login') }}">{{ __('nav.login') }}</flux:navbar.item>
             @endguest

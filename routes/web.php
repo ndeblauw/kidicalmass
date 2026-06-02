@@ -10,7 +10,7 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
-Route::get('/', fn () => redirect('/nl'));
+Route::get('/', fn () => redirect('/nl', 301));
 
 Route::prefix('{locale}')
     ->whereIn('locale', SetLocale::SUPPORTED)
