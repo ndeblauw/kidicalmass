@@ -2,6 +2,7 @@
 title: About Section — Copy (all 6 sub-pages)
 tags: [content, copy, about]
 sources: [raw/website/le-projet-het-project.md, raw/website/organisation.md, raw/website/what-we-want.md, raw/website/nos-revendications-onze-aanbevelingen.md, raw/website/press.md, ux/about.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -22,7 +23,7 @@ Page URL: `/about/mission` · `/over/missie` · `/a-propos/mission`
 **Subtitle:** We organise joyful, safe bike parades for children across Belgium — and we're just getting started.
 
 > **FR note:** "Nous organisons des cortèges vélo festifs et sécurisés pour les enfants à travers toute la Belgique — et nous ne faisons que commencer."
-> **NL note:** "We organiseren vrolijke, veilige fietsoptochten voor kinderen in heel België — en we zijn nog maar net begonnen."
+> **NL note:** "We organiseren vrolijke, veilige fietsparades voor kinderen in heel België — en we zijn nog maar net begonnen."
 
 ---
 
@@ -36,9 +37,9 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 >
 > "Chaque cortège est accompagné de musique tout au long du trajet. Nous roulons au rythme du plus jeune enfant, sur des itinéraires soigneusement choisis, encadrés par des bénévoles formés en gilets roses fluo. La Kidical Mass, c'est une façon de redécouvrir son quartier ensemble, de faire de nouvelles rencontres et de gagner confiance sur un vélo. Pour les enfants — et souvent pour les parents aussi."
 >
-> **NL note:** "Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsoptochten organiseren in heel België. We begonnen in 2020 in Brussel en zijn ondertussen actief in meer dan 16 gemeenten in Brussel, Wallonië en Vlaanderen — en we blijven groeien."
+> **NL note:** "Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en zijn ondertussen actief in meer dan 16 gemeenten in Brussel, Wallonië en Vlaanderen — en we blijven groeien."
 >
-> "Elke optocht heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen — en vaak ook voor de ouders."
+> "Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen — en vaak ook voor de ouders."
 
 ---
 
@@ -58,7 +59,7 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 > **FR body:** "Chaque Kidical Mass commence avec quelques personnes qui veulent quelque chose de mieux pour leur quartier. Nous aidons de nouveaux groupes à démarrer un cortège local — de la première réunion au premier départ."
 >
 > **NL heading:** "Gemeenschappen helpen om te starten"
-> **NL body:** "Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale optocht op te starten — van de eerste vergadering tot de eerste rit."
+> **NL body:** "Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale fietsparade op te starten — van de eerste vergadering tot de eerste fietstocht."
 
 ### Axis 2 — Support
 
@@ -82,7 +83,7 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 > **FR body:** "Les cortèges festifs ne sont qu'un début. Nous travaillons avec les villes et les régions pour défendre des infrastructures plus sûres, un trafic plus calme et des rues qui accueillent vraiment les enfants et les familles."
 >
 > **NL heading:** "Pleiten voor kindvriendelijke straten"
-> **NL body:** "Vrolijke optochten zijn een begin, geen eindpunt. We werken samen met steden en regio's om te pleiten voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen."
+> **NL body:** "Vrolijke fietsparades zijn een begin, geen eindpunt. We werken samen met steden en regio's om te pleiten voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen."
 
 ---
 
@@ -98,7 +99,7 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 | **16+** | communities across Belgium |
 
 > **FR labels:** "cortèges depuis 2020" · "participant·es" · "bénévoles actif·ves" · "communes à travers la Belgique"
-> **NL labels:** "optochten sinds 2020" · "deelnemers" · "actieve vrijwilligers" · "gemeenten in heel België"
+> **NL labels:** "fietsparades sinds 2020" · "deelnemers" · "actieve vrijwilligers" · "gemeenten in heel België"
 
 ---
 
@@ -147,7 +148,7 @@ Every parade has music along the route. We ride at the pace of the youngest chil
 > **FR buttons:** "Trouver un cortège" · "Donner un coup de main"
 >
 > **NL heading:** "Doe mee met de beweging"
-> **NL buttons:** "Zoek een optocht" · "Help mee"
+> **NL buttons:** "Zoek een fietstocht" · "Help mee"
 
 ---
 
@@ -319,7 +320,7 @@ At the local level, each chapter is autonomous. Chapter leads decide their own r
 Local chapters organise their own parades — choosing routes, setting meeting points, recruiting local volunteers, and building relationships with local partners and municipalities. They are the movement. The national coordination team exists to support them, not the other way around.
 
 > **FR note:** "Les groupes locaux organisent leurs propres cortèges — en choisissant les itinéraires, en fixant les points de rendez-vous, en recrutant des bénévoles locaux et en construisant des relations avec leurs partenaires et municipalités locales. Ils sont le mouvement. L'équipe de coordination nationale existe pour les soutenir, pas l'inverse."
-> **NL note:** "Lokale groepen organiseren hun eigen optochten — ze kiezen routes, bepalen verzamelpunten, werven lokale vrijwilligers en bouwen relaties op met lokale partners en gemeenten. Zij zijn de beweging. Het nationale coördinatieteam bestaat om hen te ondersteunen, niet andersom."
+> **NL note:** "Lokale groepen organiseren hun eigen fietsparades — ze kiezen routes, bepalen verzamelpunten, werven lokale vrijwilligers en bouwen relaties op met lokale partners en gemeenten. Zij zijn de beweging. Het nationale coördinatieteam bestaat om hen te ondersteunen, niet andersom."
 
 ---
 
@@ -394,7 +395,7 @@ Each news card shows:
 
 **Meta description:** Updates from the Kidical Mass Belgium movement — rides, events, and community news.
 *(FR: Actualités du mouvement Kidical Mass Belgique — rides, événements et nouvelles de la communauté.)*
-*(NL: Updates van de Kidical Mass België-beweging — ritten, evenementen en gemeenschapsnieuws.)*
+*(NL: Updates van de Kidical Mass België-beweging — fietstochten, evenementen en gemeenschapsnieuws.)*
 
 - News is database-driven. Articles are created in the CMS.
 - Category tags should be a controlled list — agree the taxonomy with the coordination duo before launch.
@@ -427,7 +428,7 @@ Journalists, we're happy to talk. We can connect you with local chapter leads, s
 Contact: [bike@kidicalmass.be](mailto:bike@kidicalmass.be)
 
 > **FR note:** "Journalistes, nous sommes heureux d'échanger. Nous pouvons vous mettre en contact avec des responsables de groupes locaux, partager des statistiques, organiser une opportunité photo lors d'un prochain cortège, ou vous donner un aperçu du mouvement."
-> **NL note:** "Journalisten, we praten graag met jullie. We kunnen jullie in contact brengen met lokale groepsverantwoordelijken, statistieken delen, een fotomoment regelen bij een aankomende optocht of achtergrondinformatie over de beweging geven."
+> **NL note:** "Journalisten, we praten graag met jullie. We kunnen jullie in contact brengen met lokale groepsverantwoordelijken, statistieken delen, een fotomoment regelen bij een aankomende fietsparade of achtergrondinformatie over de beweging geven."
 
 ---
 
@@ -524,7 +525,7 @@ Page URL: `/about/partners` · `/over/partners` · `/a-propos/partenaires`
 > **FR intro:** "Ces organisations soutiennent la Kidical Mass sur le terrain — en prêtant du matériel, en offrant un soutien logistique ou en aidant les familles à accéder à un vélo pour leur premier cortège."
 >
 > **NL heading:** "Operationele partners"
-> **NL intro:** "Deze organisaties ondersteunen Kidical Mass op het terrein — door materiaal uit te lenen, logistieke steun te bieden of gezinnen te helpen een fiets te vinden voor hun eerste rit."
+> **NL intro:** "Deze organisaties ondersteunen Kidical Mass op het terrein — door materiaal uit te lenen, logistieke steun te bieden of gezinnen te helpen een fiets te vinden voor hun eerste fietstocht."
 
 **Partners in this category:**
 

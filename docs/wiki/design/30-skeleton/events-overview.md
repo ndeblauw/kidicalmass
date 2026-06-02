@@ -2,6 +2,7 @@
 title: Events Overview
 tags: []
 sources: [notion, raw/website/agenda.md]
+phase: design
 updated: 2026-04-13
 ---
 

@@ -2,6 +2,7 @@
 title: Activity Detail
 tags: []
 sources: [notion]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -43,7 +44,7 @@ Not a generic event listing. Four things that carry the character:
 
 ### Tone
 
-Warm, specific, sensory. Joyful without being frivolous. Local — named landmarks, named people, named streets. See [tone-of-voice.md](../tone-of-voice.md).
+Warm, specific, sensory. Joyful without being frivolous. Local — named landmarks, named people, named streets. See [tone-of-voice.md](../../tone-of-voice.md).
 
 ---
 
@@ -87,9 +88,9 @@ Warm, specific, sensory. Joyful without being frivolous. Local — named landmar
 ### What Is NOT on This Page
 
 - Facebook link (removed — no longer needed)
-- Registration or RSVP flow (deferred — possible future feature)
-- "Who's attending" / social proof of attendance (deferred)
-- Private volunteer back-of-event (deferred to later phase)
+- **Family** registration / RSVP — families just show up; no account, no public headcount.
+- **Volunteer attendance ("I'm coming")** — *now provisionally IN* ([PAT-18](../40-patterns.md)): a logged-in volunteer can mark attendance; the chapter lead sees the roster. Account-only, volunteers only; distinct from a family RSVP. Lean, pending Alexandre ([D-1](../01-concerns.md)).
+- Private volunteer back-of-event — *now provisionally IN* as a minimal per-chapter back-office ([D-1](../01-concerns.md) lean); brief deferred until confirmed.
 
 ---
 
@@ -172,7 +173,7 @@ One quiet line. Legally necessary, not visually prominent.
 ├──────────────────────────────────────────────────────┤
 │                                                      │
 │  Onderdeel van Kidical Mass Brussel-Stad →           │
-│  Elke maand een nieuwe rit door de stad.             │
+│  Elke maand een nieuwe fietstocht door de stad.             │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
 │                                                      │
@@ -187,7 +188,7 @@ One quiet line. Legally necessary, not visually prominent.
 │  [logo]  [logo]  [logo]                              │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
-│  Tijdens de rit worden foto's gemaakt. Door deel     │
+│  Tijdens de fietstocht worden foto's gemaakt. Door deel     │
 │  te nemen ga je akkoord met publicatie.              │
 ├──────────────────────────────────────────────────────┤
 │ FOOTER                                               │

@@ -2,6 +2,7 @@
 title: Deep Site Audit — Current Wix Site
 tags: []
 sources: [notion]
+phase: discovery
 updated: 2026-04-13
 ---
 

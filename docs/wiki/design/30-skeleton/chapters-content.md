@@ -2,6 +2,7 @@
 title: Chapters — Content
 tags: [content]
 sources: [ux/chapters.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -51,19 +52,19 @@ Tap your neighbourhood to see the next ride, meet the local team, and say hello.
 
 *Displayed as a linked list. Each entry links to /chapters/[postal-code].*
 
-- [Anderlecht](../chapters/anderlecht)
-- [Berchem-Sainte-Agathe / Sint-Agatha-Berchem](../chapters/berchem-sainte-agathe)
-- [Bruxelles-Ville / Brussel-Stad](../chapters/bruxelles-ville)
-- [Etterbeek](../chapters/etterbeek)
-- [Evere – Haren](../chapters/evere-haren)
-- [Forest – Vorst](../chapters/forest-vorst)
-- [Ixelles – Elsene](../chapters/ixelles-elsene)
-- [Jette](../chapters/jette)
-- [Molenbeek](../chapters/molenbeek)
-- [Neder-Over-Heembeek](../chapters/neder-over-heembeek)
-- [Schaerbeek / Schaarbeek](../chapters/schaerbeek)
-- [Watermael-Boitsfort – Watermaal-Bosvoorde & Auderghem – Oudergem](../chapters/watermael-boitsfort-auderghem)
-- [Woluwe-Saint-Pierre & Woluwe-Saint-Lambert / Woluwe-Sint-Pieters & Woluwe-Sint-Lambrechts](../chapters/woluwe)
+- [Anderlecht](/chapters/anderlecht)
+- [Berchem-Sainte-Agathe / Sint-Agatha-Berchem](/chapters/berchem-sainte-agathe)
+- [Bruxelles-Ville / Brussel-Stad](/chapters/bruxelles-ville)
+- [Etterbeek](/chapters/etterbeek)
+- [Evere – Haren](/chapters/evere-haren)
+- [Forest – Vorst](/chapters/forest-vorst)
+- [Ixelles – Elsene](/chapters/ixelles-elsene)
+- [Jette](/chapters/jette)
+- [Molenbeek](/chapters/molenbeek)
+- [Neder-Over-Heembeek](/chapters/neder-over-heembeek)
+- [Schaerbeek / Schaarbeek](/chapters/schaerbeek)
+- [Watermael-Boitsfort – Watermaal-Bosvoorde & Auderghem – Oudergem](/chapters/watermael-boitsfort-auderghem)
+- [Woluwe-Saint-Pierre & Woluwe-Saint-Lambert / Woluwe-Sint-Pieters & Woluwe-Sint-Lambrechts](/chapters/woluwe)
 
 *Implementation note: the & in "Watermael-Boitsfort – Watermaal-Bosvoorde & Auderghem – Oudergem" joins two municipality pairs under one chapter. Each side of the & uses – to join the FR/NL names for that municipality. This is a 4-municipality chapter displayed as one list entry.*
 
@@ -74,8 +75,8 @@ Tap your neighbourhood to see the next ride, meet the local team, and say hello.
 ### Wallonia
 
 - [Liège](https://kidicalmassliege.org) ↗ *(external site)*
-- [Mons](../chapters/mons)
-- [Namur](../chapters/namur)
+- [Mons](/chapters/mons)
+- [Namur](/chapters/namur)
 
 ---
 

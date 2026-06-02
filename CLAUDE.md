@@ -370,3 +370,17 @@ livewire(ListUsers::class)
 - Always activate the `medialibrary-development` skill when working with media uploads, conversions, collections, responsive images, or any code that uses the `HasMedia` interface or `InteractsWithMedia` trait.
 
 </laravel-boost-guidelines>
+
+# Documentation (Cascade)
+
+Project knowledge lives in `docs/`, organised with the **Cascade** playbook. Read the wiki before substantive product work.
+
+- **`docs/raw/`** — immutable sources (Wix scrape, assets). Cite, never edit. Internal interview/meeting notes are kept in Notion and out of git.
+- **`docs/wiki/`** — the synthesis, one folder per phase: `discovery/` (kept in Notion — see its `00-`), `strategy/`, `design/`, `build/`. Plus cross-cutting `index.md`, `log.md`, `glossary.md`, `tone-of-voice.md` (voice).
+- **Start at [`docs/wiki/index.md`](docs/wiki/index.md)** (catalogue) and the relevant phase's `00-*-plan.md` + `01-concerns.md`.
+
+**Phases** run over time (Discovery → Strategy → Design → Build); only the active phase is fully decided. **Planes** run within Design (Scope → Structure → Skeleton → Surface); upper planes constrain lower — work top-down. Migration onto this structure is in progress: Strategy is fully re-shelved; Design/Discovery content still lives in flat files (see each `00-plan.md`).
+
+**Concerns registers (`01-concerns.md`) are the keystone:** every open question is a stable-ID concern in `Open` / `Partly` / `Closed` state. A phase closes only when nothing is silently Open.
+
+**Page conventions:** YAML frontmatter on every page (`title`, `tags`, `sources`, `phase`, `updated`). Filenames numbered in dependency order (`00` plan, `01` concerns, then `10`/`20`/…). Keep `index.md` and `log.md` current; history lives in `log.md` + git, not inline "was X now Y" notes.

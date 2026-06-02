@@ -2,6 +2,7 @@
 title: Activity Detail — Content
 tags: [content]
 sources: [ux/activity-detail.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -118,7 +119,7 @@ This ride is part of the 2026 Safety First campaign — a push for safer school 
 Cette balade fait partie de la campagne Safety First 2026 — pour des abords d'école plus sûrs partout en Belgique. Venez faire entendre votre voix.
 
 **NL:**
-Deze rit is onderdeel van de Safety First-campagne 2026 — voor veiligere schoolomgevingen in heel België. Kom mee.
+Deze fietstocht is onderdeel van de Safety First-campagne 2026 — voor veiligere schoolomgevingen in heel België. Kom mee.
 
 > 2–3 lines max. Sensory first, context second. Never open with a policy statement — open with what you will see, hear, feel.
 
@@ -133,7 +134,7 @@ This ride is part of [Chapter name]'s monthly series →
 Cette balade fait partie de la série mensuelle de [Nom du chapitre] →
 
 **NL:**
-Deze rit is onderdeel van de maandelijkse reeks van [Naam hoofdstuk] →
+Deze fietstocht is onderdeel van de maandelijkse reeks van [Naam hoofdstuk] →
 
 > The arrow links to the chapter page. One sentence. No list of future dates here — those live on the chapter page and the events index.
 
@@ -183,7 +184,7 @@ Photos are taken during the ride. By taking part, you agree to the publication o
 Des photos sont prises pendant la balade. En participant, vous acceptez la publication de ces photos sur nos canaux.
 
 **NL:**
-Tijdens de rit worden foto's gemaakt. Door deel te nemen ga je akkoord met publicatie op onze kanalen.
+Tijdens de fietstocht worden foto's gemaakt. Door deel te nemen ga je akkoord met publicatie op onze kanalen.
 
 > Display at small text size, below the partners section. Visually quiet — this line must be present for legal reasons but should not compete for attention. No bold, no icon, no coloured background.
 

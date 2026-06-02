@@ -2,6 +2,7 @@
 title: Events Overview — Content
 tags: [content]
 sources: [ux/events-overview.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -21,10 +22,10 @@ updated: 2026-04-13
 
 | EN | FR | NL |
 |---|---|---|
-| Find a ride near you | Trouvez une balade près de chez vous | Vind een rit bij jou in de buurt |
+| Find a ride near you | Trouvez une balade près de chez vous | Vind een fietstocht bij jou in de buurt |
 
 *FR note:* "balade" is warmer than "événement" or "trajet" — it carries the leisurely, neighbourhood feel.
-*NL note:* "rit" is direct and casual; avoid "evenement" which sounds corporate.
+*NL note:* "fietstocht" is the warm in-motion word for a CTA; the concept noun is "fietsparade" (see glossary). Avoid "evenement" (corporate), and "rit" / "stoet" / "optocht".
 
 ---
 
@@ -206,7 +207,7 @@ Shown when the upcoming list is empty and no location filter is active.
 |---|---|
 | EN | No upcoming rides right now. The season runs from March to November — check back soon! |
 | FR | Pas de balade prévue pour l'instant. La saison va de mars à novembre — revenez bientôt ! |
-| NL | Er zijn momenteel geen ritten gepland. Het seizoen loopt van maart tot november — kom snel terug! |
+| NL | Er zijn momenteel geen fietstochten gepland. Het seizoen loopt van maart tot november — kom snel terug! |
 
 *Tone note:* "check back soon" / "revenez bientôt" keeps the door open without manufactured urgency. The season range is the reassurance — it tells the family the movement is active and predictable.
 
@@ -220,7 +221,7 @@ Shown when a location filter is active and returns zero upcoming events.
 |---|---|
 | EN | No upcoming rides in [Municipality]. Try 'All locations' to see rides nearby. |
 | FR | Pas de balade à venir à [Commune]. Essayez « Toutes les communes » pour voir les balades proches. |
-| NL | Geen aankomende ritten in [Gemeente]. Probeer « Alle gemeenten » voor ritten in de buurt. |
+| NL | Geen aankomende fietstochten in [Gemeente]. Probeer « Alle gemeenten » voor fietstochten in de buurt. |
 
 *Note:* `[Municipality]` / `[Commune]` / `[Gemeente]` is populated dynamically with the selected filter value (e.g. "Mons", "Schaerbeek", "Gent"). The quoted string `'All locations'` / `« Toutes les communes »` / `« Alle gemeenten »` should visually match the UI control label — use the same typography or inline code style.
 
@@ -242,6 +243,6 @@ Shown when a location filter is active and returns zero upcoming events.
 |---|---|
 | EN | Find a Kidical Mass bike ride near you. Family-friendly parades for children of all ages, across Belgium. |
 | FR | Trouvez une balade Kidical Mass près de chez vous. Des cortèges vélo pour familles et enfants dans toute la Belgique. |
-| NL | Vind een Kidical Mass-rit bij jou in de buurt. Fietsparades voor families en kinderen door heel België. |
+| NL | Vind een Kidical Mass-fietstocht bij jou in de buurt. Fietsparades voor families en kinderen door heel België. |
 
 *Note:* Under 160 characters each. No exclamation marks in meta descriptions — they can read as spam in SERPs. "Family-friendly" / "voor families" does the reassurance work without over-promising.

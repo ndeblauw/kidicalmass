@@ -2,6 +2,7 @@
 title: Getting Started — Content
 tags: [content]
 sources: [ux/getting-started.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -33,14 +34,14 @@ updated: 2026-04-13
 - **Label:** Music all the way
 - **Explanation:** There's always a sound system. Expect a cheerful, noisy parade through the neighbourhood.
 - *(FR: **Musique non-stop** — Il y a toujours une sono. Une balade festive et bruyante dans le quartier.)*
-- *(NL: **Muziek onderweg** — Er is altijd een geluidssysteem. Verwacht een vrolijke, luidruchtige optocht door de buurt.)*
+- *(NL: **Muziek onderweg** — Er is altijd een geluidssysteem. Verwacht een vrolijke, luidruchtige fietsparade door de buurt.)*
 
 ### Card 3
 - **Icon:** 📍
 - **Label:** Fixed meeting point
 - **Explanation:** Every ride starts at a set location published on the event page — just show up there.
 - *(FR: **Point de départ fixe** — Chaque balade commence au même endroit, publié sur la page de l'événement. Il suffit de se pointer.)*
-- *(NL: **Vaste startplaats** — Elke rit vertrekt op dezelfde plek, gepubliceerd op de eventpagina. Gewoon opdagen.)*
+- *(NL: **Vaste startplaats** — Elke fietstocht vertrekt op dezelfde plek, gepubliceerd op de eventpagina. Gewoon opdagen.)*
 
 ### Card 4
 - **Icon:** 🆓
@@ -125,7 +126,7 @@ Les balades ont lieu par tous les temps. Un peu de pluie ne nous arrête pas —
 
 **NL: Wat als het regent?**
 
-De rit gaat door bij elk weer. Een beetje regen houdt ons niet tegen — fietsen in de regen is zo goed als traditie. Bij écht extreme omstandigheden wordt het die ochtend aangekondigd op het Facebook-event of de pagina van jouw afdeling.
+De fietstocht gaat door bij elk weer. Een beetje regen houdt ons niet tegen — fietsen in de regen is zo goed als traditie. Bij écht extreme omstandigheden wordt het die ochtend aangekondigd op het Facebook-event of de pagina van jouw afdeling.
 
 ---
 
@@ -288,7 +289,7 @@ Local options vary across Belgium. Your chapter may know of nearby resources —
 **Secondary link:** Find your local chapter →
 *Links to: /chapters*
 
-*FR/NL note: Primary CTA should be translated directly — "Trouver un trajet près de chez vous →" / "Vind een rit bij jou in de buurt →". Keep the arrow.*
+*FR/NL note: Primary CTA should be translated directly — "Trouver un trajet près de chez vous →" / "Vind een fietstocht bij jou in de buurt →". Keep the arrow.*
 
 ---
 
@@ -301,7 +302,7 @@ Getting Started — Kidical Mass
 **Meta description:**
 First time at a Kidical Mass? Come as you are. Here's what to expect at a ride, what to bring, and what to do if you don't have a bike.
 *(FR: Première fois à une Kidical Mass ? Venez comme vous êtes. Ce qui vous attend lors d'un ride, quoi apporter, et comment participer sans vélo.)*
-*(NL: Eerste keer bij Kidical Mass? Kom zoals je bent. Wat je kan verwachten bij een rit, wat je meebrengt en hoe je meedoet zonder fiets.)*
+*(NL: Eerste keer bij Kidical Mass? Kom zoals je bent. Wat je kan verwachten bij een fietstocht, wat je meebrengt en hoe je meedoet zonder fiets.)*
 
 | Field | Value |
 |---|---|

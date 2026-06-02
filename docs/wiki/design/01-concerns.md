@@ -1,0 +1,67 @@
+---
+title: Design — concerns register
+tags: [design, concerns]
+sources: [wiki/strategy/01-concerns, wiki/design]
+phase: design
+updated: 2026-06-02
+---
+
+# Design — concerns register
+
+Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** · **Partly** · **Closed**. Several graduated from the Strategy register when the Design phase opened — their lineage is noted.
+
+## At a glance
+
+| State | Count | IDs |
+|---|---|---|
+| Open | 1 | `D-4` |
+| Partly | 3 | `D-1`, `D-3`, `D-7` |
+| Closed | 1 | `D-2` |
+
+**Conclusion gate:** `D-4` (tokens) is the only fully-Open concern. `D-2` is closed (meetups public, surfaced on chapter pages only); `D-7` (redirect map) is now drafted with build fill-ins named; `D-1`/`D-3` have decided directions with named remainders.
+
+---
+
+## Open
+
+### `D-4` — Surface plane / design tokens — **Open** (gap)
+- **What:** no machine-readable `DESIGN.md` exists; brand is described only in prose ("Look & feel examples", Notion; dark blue + yellow + white).
+- **Why open:** the Surface plane is only a [direction sketch](50-surface.md). Tokens must be defined before/at build.
+- **Next step:** turn [`50-surface.md`](50-surface.md) into a `DESIGN.md` token set.
+
+---
+
+## Partly
+
+### `D-1` — Private organiser back-office + attendance *(was strategy `S-3`)* — **validated as a design input**
+- **Validated (Frederik 2026-06-02):** build a per-chapter volunteer back-office, in two layers:
+  - **Before signing up:** a volunteer clearly sees *what to expect*.
+  - **Once logged in:** the things now living in WhatsApp — how it works, documents to read, a video, when the meetups are, who leads the chapter and their role, what roles exist and what yours is / could be.
+- **Attendance rule (decided):** "I'm coming" is **account-only, volunteers-only**, on **all** activity types (rides + meetups). **Display shows the hosts/organisers attending (a social nudge), not the full attendee list** (Leticia); the lead may see the full roster. Adds an **Attendance** relation ([content model](20-structure.md)).
+- **Remainder:** detailing the structure is real work — Frederik will seek clarity (and possibly the actual material) from the Alexandre/J3 interview before specing it. Full brief deferred until then.
+- **Next step:** Alexandre (Schaerbeek, J3) interview.
+
+### `D-3` — Grande Kidical Mass as a featured event *(was strategy `S-5`)*
+- **Remainder:** migration normalises the annual flagship into Events as a *featured* event (no hand-built yearly page). Not explicitly confirmed with Leticia.
+- **Safe to:** design against; confirm before retiring the yearly-page pattern.
+
+### `D-7` — Redirect map *(launch)* — **drafted** (2026-06-02)
+- **Resolved:** old Wix URLs → new routes documented in [`26-redirect-map.md`](26-redirect-map.md); all `301`. **Language rule decided:** redirects target neutral paths, a locale middleware resolves `/nl/`|`/fr/` (Accept-Language → cookie → geo, fallback NL).
+- **Remainder (build, not design):** locale middleware + 301 config; fill the three Grande KM event `{slug}`s at seed; confirm the two combined-postal canonicals; preserve `/post/{slug}` slugs through blog migration; post-launch crawl of the critical set. Hand-off list in [`26-redirect-map.md` § Build hand-off](26-redirect-map.md).
+
+---
+
+## Closed
+
+### `D-2` — Meetup visibility breadth *(was strategy `S-4`)* — **Closed** (Frederik 2026-06-02)
+- **Decided & locked:** meetups (`meeting`/`workshop`/`other`) are **fully public** — visible to non-logged-in visitors, **all details** (incl. meeting point), **all groups (cross-group)** — as a traction/recruitment signal showing the movement's momentum. **Login gates attendance + the back-office, not viewing.** This **revises `D-8`** (which previously login-gated meetups) and is treated as **locked**: it diverges from Leticia's earlier "strong local communities" stance, accepted as the decided direction with no further client gate.
+- **Where they surface (settled):** **chapter pages only** — each chapter page lists its own meetups/workshops publicly. **No national movement/aggregation view**, and **not** on the family ride calendar (`/events` stays rides-only, J1-focused). A logged-in volunteer's cross-group view lives in [My activities](30-skeleton/my-activities.md), not a public surface.
+- **Decided:** the `Activity` viewing rule (no view-gate) + what login gates (attendance, back-office).
+- **Remaining detail (not a standing concern):** the logged-in [My activities](30-skeleton/my-activities.md) default-municipality filter is a skeleton-level "to test", documented there.
+
+---
+
+## Notes
+
+- `D-5` (patterns not extracted) and `D-6` (page registry missing) — **resolved** in this pass: [`40-patterns.md`](40-patterns.md) and [`30-skeleton/00-page-registry.md`](30-skeleton/00-page-registry.md) now exist (first pass). Not tracked as standing concerns.
+- Content-level notes (e.g. FR hero "kets" neutrality, date/month format) live in the relevant skeleton/content files, not here.

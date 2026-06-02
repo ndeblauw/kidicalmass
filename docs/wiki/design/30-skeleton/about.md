@@ -2,6 +2,7 @@
 title: About Section
 tags: []
 sources: [notion, raw/website/le-projet-het-project.md, raw/website/organisation.md, raw/website/what-we-want.md, raw/website/nos-revendications-onze-aanbevelingen.md, raw/website/press.md, raw/website/my-blog.md]
+phase: design
 updated: 2026-04-13
 ---
 

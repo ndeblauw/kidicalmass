@@ -2,6 +2,7 @@
 title: Home
 tags: []
 sources: [notion, raw/website/index.md]
+phase: design
 updated: 2026-04-13
 ---
 

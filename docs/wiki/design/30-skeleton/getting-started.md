@@ -2,6 +2,7 @@
 title: Getting Started
 tags: []
 sources: [notion, raw/website/help-je-n-ai-pas-de-vélo.md, raw/website/activités-vélo-fietsactiviteiten-kids.md]
+phase: design
 updated: 2026-04-13
 ---
 

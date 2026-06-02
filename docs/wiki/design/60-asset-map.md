@@ -2,6 +2,7 @@
 title: Image Map — Asset Catalogue
 tags: [assets, images, design]
 sources: [docs/raw/assets/]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -9,7 +10,7 @@ updated: 2026-04-13
 
 Catalogue of all usable assets in `docs/raw/assets/`. Organised into four sections matching the folder structure. Cross-reference with `public/img/` for what is already live on the new site.
 
-See [Image Map — New Site](image-map-new-site.md) for the per-page slot mapping.
+See [Asset Slots — per-page map](61-asset-slots.md) for the per-page slot mapping.
 
 ---
 

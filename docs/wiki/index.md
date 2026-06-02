@@ -1,27 +1,54 @@
 # Wiki Index
 
-| Page | Summary | Category |
-|------|---------|----------|
-| [Desk Research](desk-research.md) | Ecosystem mapping, Liège split, comparable orgs, event data model, finance, open tasks | Org |
-| [Service Design Overview](service-design.md) | Actors, current service map, 5 structural problems, chapter pages analysis, user journeys | Org |
-| [Key Decisions](key-decisions.md) | Decisions on Events, Chapters, Volunteers, Sponsors with rationale | Org |
-| [Tone of Voice](tone-of-voice.md) | 4 voice qualities, context table, bilingual dimension, reference phrases | Org |
-| [Strategy & Plan](strategy-plan.md) | Website strategy and plan in Dutch — Fase 1 & 2, 3 journeys, next steps | Org |
-| [Site Audit](site-audit.md) | Deep audit of current Wix site — page-by-page issues, 7 cross-cutting problems, key signals | Org |
-| [UX Planning](ux-planning.md) | Site-level UX: principles, strategy, scope, sitemap, content migration plan | UX |
-| [Activity Detail](ux/activity-detail.md) | Full UX spec (strategy, scope, structure, skeleton + wireframes) for the event detail page | UX |
-| [Activity Detail — Content](ux/activity-detail-content.md) | Copy template for the event detail page — all sections, EN/FR/NL, variables and final static copy | UX |
-| [Events Overview](ux/events-overview.md) | Full UX spec for the events list and calendar page — filter bar, date grouping, wireframes | UX |
-| [Home](ux/home.md) | Full UX spec for the homepage — hero, events strip, map, stats, news, partners | UX |
-| [Help Out](ux/help-out.md) | Full UX spec for the volunteer page — 5 roles, routed form, start-a-chapter CTA | UX |
-| [Getting Started](ux/getting-started.md) | Full UX spec for first-timer onboarding — FAQ, no-bike resources, other activities | UX |
-| [Chapters](ux/chapters.md) | Full UX spec for chapters overview (map + list) and chapter page template | UX |
-| [About Section](ux/about.md) | Full UX spec for all About pages: Mission (new), Overview, Organisation, Vision, News, Press, Partners | UX |
-| [Home — Content](ux/home-content.md) | Companion copy for the homepage: hero, events strip, stats bar, volunteer strip, partners | UX |
-| [Events Overview — Content](ux/events-overview-content.md) | Companion copy for the events listing page: filter bar, cards, empty states | UX |
-| [Getting Started — Content](ux/getting-started-content.md) | Companion copy for the getting started page: fact cards, FAQ, bike resources, activities | UX |
-| [Help Out — Content](ux/help-out-content.md) | Companion copy for the volunteer page: pitch, role cards, form, start-a-chapter | UX |
-| [Chapters — Content](ux/chapters-content.md) | Companion copy for chapters overview and chapter page template | UX |
-| [About Section — Content](ux/about-content.md) | Companion copy for all 6 About sub-pages: Mission, Vision, Organisation, News, Press, Partners | UX |
-| [Image Map — Asset Catalogue](image-map.md) | Catalogue of all usable assets in `docs/raw/assets/`: 11 illustrations, 36 photos, 11 event posters, 12 chapter posters, 3 logos | Assets |
-| [Image Map — New Site Slots](image-map-new-site.md) | Per-page slot map for kidicalmass.be — have / candidate / missing, with gap priority list | Assets |
+Catalogue of every page. The wiki is being migrated to the **Cascade** structure (phases: Discovery → Strategy → Design → Build; see [CLAUDE.md](../../CLAUDE.md) → Documentation). Strategy is fully re-shelved; Design/Discovery content still lives in flat files pending a later pass.
+
+## Cross-cutting
+
+| Page | Summary | Phase |
+|------|---------|-------|
+| [Glossary](glossary.md) | Shared NL/FR vocabulary + don't-use terms | cross-cutting |
+| [Tone of Voice](tone-of-voice.md) | 4 voice qualities, context table, bilingual dimension, reference phrases (the *voice* gate) | cross-cutting |
+| [Log](log.md) | Append-only change timeline | cross-cutting |
+
+## Discovery — kept in Notion
+
+| Page | Summary | Phase |
+|------|---------|-------|
+| [Discovery plan & status](discovery/00-discovery-plan.md) | Pointer: discovery synthesis (desk research, service design, interviews) lives in Notion, deliberately out of git | discovery |
+| [Site Audit](site-audit.md) | Deep audit of current Wix site — page-by-page issues, 7 cross-cutting problems (the one discovery doc kept in-repo) | discovery |
+
+## Strategy
+
+| Page | Summary | Phase |
+|------|---------|-------|
+| [Strategy Brief](strategy/00-strategy-brief.md) | The locked decisions (D1–D9) everything downstream rests on | strategy |
+| [Concerns register](strategy/01-concerns.md) | Open/Partly/Closed strategy concerns with stable IDs (the keystone) | strategy |
+| [Organisation Goals](strategy/10-organisation-goals.md) | Ranked org objectives; money-in is #1 | strategy |
+| [Personas](strategy/20-personas.md) | 5 actors + anti-overlap contract; primary = families & volunteers | strategy |
+| [Jobs-to-be-done](strategy/30-jobs-to-be-done.md) | Functional/emotional/social jobs per persona | strategy |
+| [Value Proposition](strategy/40-value-proposition.md) | Overall + per-persona promises (drafts pending S-1/S-2) | strategy |
+| [User Journeys](strategy/50-user-journeys.md) | J1 find a ride · J2 become a volunteer · J3 chapter lead publishes | strategy |
+| [Key Decisions — evidence](strategy/90-key-decisions-evidence.md) | Proxy-interview evidence behind the brief (the brief is canonical) | strategy |
+
+## Design (Garrett's planes)
+
+| Page | Summary | Phase |
+|------|---------|-------|
+| [Design plan & status](design/00-design-plan.md) | Plane status + project UX principles | design |
+| [Concerns register](design/01-concerns.md) | Open design decisions (D-1…D-7); incl. items graduated from Strategy | design |
+| [Scope (plane 2)](design/10-scope.md) | MVP in / won't-have, functional specs, content requirements | design |
+| [Structure (plane 3)](design/20-structure.md) | Navigation, sitemap, content-model table | design |
+| [Content Migration Plan](design/25-content-migration.md) | Every Wix page → its new home (Rewrite/Migrate/Merge/Absorb/Drop/Seed) | design |
+| [Redirect Map](design/26-redirect-map.md) | Old Wix URLs → new routes (301); locale-middleware language rule; launch-critical (closes D-7) | design |
+| [Skeleton — page registry](design/30-skeleton/00-page-registry.md) | Every route + spec/content/build/lifecycle status | design |
+| [Skeleton — per-page briefs](design/30-skeleton/) | 7 page specs + 7 content companions (home, events, activity-detail, chapters, getting-started, help-out, about) | design |
+| [Patterns Library](design/40-patterns.md) | Shared UI patterns with stable IDs (PAT-1…PAT-17) | design |
+| [Surface (plane 5)](design/50-surface.md) | Visual direction; seeds `DESIGN.md` (tokens pending, D-4) | design |
+| [Asset map — catalogue](design/60-asset-map.md) | 50 usable assets in `docs/raw/assets/` | design |
+| [Asset map — per-page slots](design/61-asset-slots.md) | Slot map: have / candidate / missing | design |
+
+## Build — not opened (YAGNI)
+
+| Page | Summary | Phase |
+|------|---------|-------|
+| [Build plan & status](build/00-build-plan.md) | What's already on `main`; what the phase will need (DESIGN.md, redirect map) | build |

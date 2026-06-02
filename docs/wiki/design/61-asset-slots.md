@@ -1,13 +1,14 @@
 ---
 title: Image Map — New Site Slots
 tags: [assets, images, design]
-sources: [docs/wiki/ux/home.md, docs/wiki/ux/about.md, docs/wiki/ux/activity-detail.md, docs/wiki/ux/chapters.md, docs/wiki/ux/help-out.md, docs/wiki/ux/getting-started.md, docs/wiki/ux/events-overview.md]
+sources: [wiki/design/30-skeleton]
+phase: design
 updated: 2026-04-13 (photography expanded)
 ---
 
 # Image Map — New Site Slots
 
-Per-page image slot map for kidicalmass.be. Each row is one slot on one page, cross-referenced against the asset catalogue in [image-map.md](image-map.md).
+Per-page image slot map for kidicalmass.be. Each row is one slot on one page, cross-referenced against the asset catalogue in [60-asset-map.md](60-asset-map.md).
 
 **Status key:**
 - ✅ Have it — a specific named asset is ready to use

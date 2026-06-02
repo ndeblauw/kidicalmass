@@ -1,9 +1,12 @@
 ---
-title: Key Decisions — Events, Chapters, Volunteers, Sponsors
-tags: []
+title: Key Decisions — evidence (Events, Chapters, Volunteers, Sponsors)
+tags: [strategy, evidence]
 sources: [notion]
-updated: 2026-04-13
+phase: strategy
+updated: 2026-06-02
 ---
+
+> **This is strategy *evidence*, not the canonical decisions.** The [Strategy Brief](00-strategy-brief.md) (D1–D9) is canonical; the decisions below have been distilled into it. This page is kept as the underlying proxy-interview material and rationale. Where the two differ, the brief wins.
 
 ## Decisions (current direction)
 

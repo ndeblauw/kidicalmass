@@ -2,6 +2,7 @@
 title: Home — Content
 tags: [content]
 sources: [ux/home.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -31,7 +32,7 @@ updated: 2026-04-13
 
 **EN:** Find a ride →
 **FR:** Trouver une balade →
-**NL:** Vind een rit →
+**NL:** Vind een fietstocht →
 
 *Solid button. Leads to /events.*
 
@@ -51,7 +52,7 @@ updated: 2026-04-13
 
 **EN:** Upcoming rides
 **FR:** Prochaines balades
-**NL:** Volgende ritten
+**NL:** Volgende fietstochten
 
 ### "See all" link label
 
@@ -78,7 +79,7 @@ updated: 2026-04-13
 
 **EN:** No rides right now — the season runs from March to November.
 **FR:** Pas de balades pour l'instant — la saison s'étend de mars à novembre.
-**NL:** Momenteel geen ritten — het seizoen loopt van maart tot november.
+**NL:** Momenteel geen fietstochten — het seizoen loopt van maart tot november.
 
 *Single line. Replaces the 3-card strip entirely. No imagery, no "stay tuned" encouragement — just a honest, warm factual note.*
 
@@ -140,7 +141,7 @@ Two stats separated by a centred dot (·). Dynamic — pulled from the database 
 
 **EN example:** [N] active chapters · [N] parades this season
 **FR example:** [N] groupes actifs · [N] balades cette saison
-**NL example:** [N] actieve groepen · [N] ritten dit seizoen
+**NL example:** [N] actieve groepen · [N] fietstochten dit seizoen
 
 > ⚠️ These stats are database-driven and reflect the national movement. Confirm current national figures with Nico before launch. Do not use the "16 chapters / 60 parades" figures from the old website — those referred to Brussels only (2025).
 
@@ -160,7 +161,7 @@ These stats are current-season only. They are deliberately different from the Mi
 
 **EN:** Want to help make rides happen? Help out →
 **FR:** Envie d'aider à organiser des balades ? Donnez un coup de main →
-**NL:** Wil je helpen om ritten te organiseren? Kom meehelpen →
+**NL:** Wil je helpen om fietstochten te organiseren? Kom meehelpen →
 
 *"Help out →" / "Donnez un coup de main →" / "Kom meehelpen →" links to /help-out.*
 
@@ -237,7 +238,7 @@ Operational and in-kind partners (Loopz, Kidical Mouse) do NOT appear in the hom
 
 **EN:** Every month, hundreds of children ride through Belgian streets — safely, together, with music. Find a ride near you or start your own chapter.
 **FR:** Chaque mois, des centaines d'enfants pédalent dans les rues belges — en sécurité, ensemble, avec de la musique. Trouvez une balade près de chez vous ou lancez votre propre groupe.
-**NL:** Elke maand rijden honderden kinderen door de Belgische straten — veilig, samen, met muziek. Vind een rit bij jou in de buurt of start je eigen groep.
+**NL:** Elke maand rijden honderden kinderen door de Belgische straten — veilig, samen, met muziek. Vind een fietstocht bij jou in de buurt of start je eigen groep.
 
 ---
 

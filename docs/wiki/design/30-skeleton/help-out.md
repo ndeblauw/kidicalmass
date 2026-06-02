@@ -2,6 +2,7 @@
 title: Help Out
 tags: []
 sources: [notion, raw/website/volunteer.md]
+phase: design
 updated: 2026-04-13
 ---
 

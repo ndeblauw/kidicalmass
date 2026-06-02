@@ -2,6 +2,7 @@
 title: Help Out — Content
 tags: [content]
 sources: [ux/help-out.md]
+phase: design
 updated: 2026-04-13
 ---
 
@@ -53,7 +54,7 @@ If you like being in the middle of the action, this one's for you. You ride alon
 Every ride runs because someone planned it. You work out the route, set the timing, pick the meeting point, and coordinate with the local team. It's practical, satisfying work — and once you've done one ride, the next one comes naturally.
 
 *(FR: Chaque ride existe parce que quelqu'un l'a préparé. Vous tracez l'itinéraire, fixez les horaires, choisissez le point de départ et coordonnez avec l'équipe locale. C'est un travail concret et gratifiant — et une fois que vous avez organisé un ride, le suivant coule de source.)*
-*(NL: Elke rit bestaat omdat iemand hem heeft gepland. Jij werkt de route uit, bepaalt het tijdstip, kiest het vertrekpunt en stemt af met het lokale team. Het is praktisch en bevredigend werk — en als je één rit hebt gedaan, gaat de volgende vanzelf.)*
+*(NL: Elke fietstocht bestaat omdat iemand hem heeft gepland. Jij werkt de route uit, bepaalt het tijdstip, kiest het vertrekpunt en stemt af met het lokale team. Het is praktisch en bevredigend werk — en als je één fietstocht hebt gedaan, gaat de volgende vanzelf.)*
 
 ---
 
@@ -65,7 +66,7 @@ Every ride runs because someone planned it. You work out the route, set the timi
 You're the one who makes sure people show up. Share rides on social media, put up flyers in the neighbourhood, pass the word through school groups and local channels. Word of mouth is how Kidical Mass grows — and you're good at it. The moment a parent you've never met shows up because they saw your post — that's your doing.
 
 *(FR: C'est vous qui faites venir les gens. Partagez les rides sur les réseaux sociaux, affichez des flyers dans le quartier, faites passer le mot dans les groupes scolaires et les canaux locaux. Le bouche-à-oreille, c'est comme ça que Kidical Mass grandit — et vous avez ce talent. Le jour où un parent que vous n'avez jamais rencontré arrive parce qu'il a vu votre post — c'est grâce à vous.)*
-*(NL: Jij zorgt ervoor dat mensen komen opdagen. Deel ritten op sociale media, hang flyers op in de buurt, geef het door via schoolgroepen en lokale kanalen. Mond-tot-mondreclame is hoe Kidical Mass groeit — en jij bent er goed in. Het moment dat een ouder die je nog nooit hebt ontmoet opduikt omdat ze jouw bericht zagen — dat is jouw werk.)*
+*(NL: Jij zorgt ervoor dat mensen komen opdagen. Deel fietstochten op sociale media, hang flyers op in de buurt, geef het door via schoolgroepen en lokale kanalen. Mond-tot-mondreclame is hoe Kidical Mass groeit — en jij bent er goed in. Het moment dat een ouder die je nog nooit hebt ontmoet opduikt omdat ze jouw bericht zagen — dat is jouw werk.)*
 
 ---
 
@@ -77,7 +78,7 @@ You're the one who makes sure people show up. Share rides on social media, put u
 A good photo of 40 kids on bikes does more recruitment than any caption ever could. You bring your camera or phone, capture the best moments of the ride, and share them with the team. Your images are what make the next family click "I want to go."
 
 *(FR: Une bonne photo de 40 enfants à vélo fait plus pour le recrutement que n'importe quelle légende. Vous apportez votre appareil ou votre téléphone, capturez les meilleurs moments du ride et partagez-les avec l'équipe. Ce sont vos images qui donnent envie à la prochaine famille de se dire « j'y vais ».)*
-*(NL: Een goede foto van 40 kinderen op de fiets doet meer voor de sfeer dan welke tekst ook. Je brengt je camera of telefoon mee, legt de mooiste momenten van de rit vast en deelt ze met het team. Jouw beelden zijn wat de volgende familie doet denken: "daar wil ik bij zijn".)*
+*(NL: Een goede foto van 40 kinderen op de fiets doet meer voor de sfeer dan welke tekst ook. Je brengt je camera of telefoon mee, legt de mooiste momenten van de fietstocht vast en deelt ze met het team. Jouw beelden zijn wat de volgende familie doet denken: "daar wil ik bij zijn".)*
 
 ---
 
@@ -89,7 +90,7 @@ A good photo of 40 kids on bikes does more recruitment than any caption ever cou
 Music changes everything. You set the mood before the ride, keep the energy up on the road, and send everyone home with a smile. Bluetooth speaker, curated playlist, and a feel for the moment — that's the whole job. Music is half the vibe.
 
 *(FR: La musique change tout. Vous donnez le ton avant le ride, maintenez l'énergie sur la route et renvoyez tout le monde chez soi avec le sourire. Un haut-parleur Bluetooth, une playlist soignée et le sens du moment — c'est tout ce qu'il faut. La musique, c'est la moitié de l'ambiance.)*
-*(NL: Muziek verandert alles. Jij zet de sfeer voor de rit, houdt de energie op de weg hoog en stuurt iedereen met een glimlach naar huis. Een Bluetooth-speaker, een doordachte playlist en gevoel voor het moment — dat is het hele werk. Muziek is de helft van de sfeer.)*
+*(NL: Muziek verandert alles. Jij zet de sfeer voor de fietstocht, houdt de energie op de weg hoog en stuurt iedereen met een glimlach naar huis. Een Bluetooth-speaker, een doordachte playlist en gevoel voor het moment — dat is het hele werk. Muziek is de helft van de sfeer.)*
 
 ---
 
@@ -182,7 +183,7 @@ Help out — Kidical Mass
 **Meta description:**
 Join the team that makes Kidical Mass rides happen. Choose your role — pink vest, co-organiser, communicator, photographer, or DJ — and get in touch.
 *(FR: Rejoignez l'équipe qui fait vivre les rides Kidical Mass. Choisissez votre rôle et prenez contact.)*
-*(NL: Sluit je aan bij het team dat Kidical Mass-ritten mogelijk maakt. Kies je rol en neem contact op.)*
+*(NL: Sluit je aan bij het team dat Kidical Mass-fietstochten mogelijk maakt. Kies je rol en neem contact op.)*
 
 **Page URL:** `/help-out` · `/nl/meehelpen` · `/fr/s-engager` · `/en/help-out`
 *(Redirect from /volunteer and /contribute if those URLs were ever public)*

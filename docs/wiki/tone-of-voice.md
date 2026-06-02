@@ -2,24 +2,36 @@
 title: Tone of Voice — Kidical Mass Belgium
 tags: []
 sources: [notion]
-updated: 2026-04-13
----
-
-*Derived from desk research: the current site, the Leticia interview, press coverage, the volunteer page, chapter pages (Mons, Namur, Liège), the manifesto, and the sponsor charter. This is a starting point — Leticia and the team should recognise themselves in it.*
-
+phase: cross-cutting
+updated: 2026-06-02
 ---
 
 ## Who Is Speaking
 
 Kidical Mass Belgium is not an institution. It's a citizens' movement — run by parents, neighbours, cycling enthusiasts, and community builders who mostly have nothing to do with cycling professionally. The voice that comes through in the existing content is warm, energetic, inclusive, and occasionally a little breathless with enthusiasm. It's the voice of someone who genuinely believes in what they're doing and wants you to come along.
 
-Leticia put it best in her own words: *"Kidical Mass is a citizens' movement of people who actually have nothing to do with cycling itself, but who build a beautiful community."*
+Founder Leticia put it best in her own words: *"Kidical Mass is a citizens' movement of people who actually have nothing to do with cycling itself, but who build a beautiful community."*
 
 That is the voice. Community-first. Joy-first. Cycling is the vehicle, not the point.
 
 ---
 
-## The Four Voice Qualities
+## The Statement
+
+The north star — one sentence that captures *how* and *why* Kidical Mass sounds the way it does. Check every piece of copy against it.
+
+> **Kidical Mass sounds like an enthusiastic neighbour: warm, joyful and concrete, inviting every family — bike or no bike — to help make streets for kids happen.**
+
+Renderings in the brand languages (each stands alone, not a translation of the other):
+
+- **FR** — *« Kidical Mass parle comme un·e voisin·e enthousiaste : chaleureux, joyeux et concret, on invite chaque famille — avec ou sans vélo — à faire de la rue un espace pour les enfants. »*
+- **NL** — *"Kidical Mass klinkt als een enthousiaste buur: warm, vrolijk en concreet — we nodigen elk gezin uit, met of zonder fiets, om samen straten op kindermaat te maken."*
+
+→ *[Needs validation](#needs-validation): does the team recognise themselves in this one sentence?*
+
+---
+
+## The Voice Qualities
 
 ### 1. Joyful — but not frivolous
 
@@ -88,6 +100,20 @@ Leticia described this deliberately: they position as citizens, not activists. I
 
 ---
 
+### 5. Concrete — facts are the reassurance
+
+For a first-time family, the warmth only lands if the practical questions are answered. Ages, distances, duration, pace, meeting point, what to bring — these aren't logistics buried at the bottom, they *are* the welcome. Specifics lower the threshold; abstractions raise it. (This trait runs through the *local* and *inclusive* qualities above — it's worth naming on its own because it's the easiest one to forget under deadline.)
+
+**In practice:**
+- Lead with the numbers: age range, distance in km, duration, start time
+- A named meeting point beats coordinates; "casque conseillé" beats "safety equipment recommended"
+- When in doubt, picture the hesitant parent reading on their phone the night before
+
+**Good:** *"Une boucle de 4 km au rythme des enfants, environ une heure, départ 14h. Casque conseillé, bonne humeur obligatoire."*
+**Avoid:** *"A family-friendly ride suitable for all ages and abilities."*
+
+---
+
 ## Tone by Context
 
 | Context | Register |
@@ -125,10 +151,31 @@ These are drawn directly from the existing content. They represent the voice at 
 
 ---
 
+## Terminology & Word List
+
+A consistent vocabulary strengthens identity. Prefer the left column; avoid the right. For *definitions* of event terms (fietsparade vs. stoet, etc.) see the [glossary](glossary.md) — this table is about the *register* choice between near-synonyms.
+
+| Prefer | Avoid | Why |
+|---|---|---|
+| citizens' movement / mouvement citoyen / burgerbeweging | organisation, NGO, association | They self-identify as citizens, not an institution |
+| family, families / familles / gezinnen | participants, attendees, members | People, not a headcount |
+| neighbourhood / quartier / buurt | catchment area, zone, location | Grounds the event in lived place |
+| join us, come ride / viens rouler / fiets mee | register, sign up, enrol | An invitation, not a transaction |
+| make streets for kids happen | promote sustainable mobility solutions | The brand's own action-line beats jargon |
+| safe streets / rues sûres / veilige straten | traffic-calming measures, modal shift | Plain language the audience uses |
+| volunteers in pink / gilet rose / roze hesje *(explained)* | gilets roses *(cold, unexplained)* | Charming once introduced, opaque before |
+| kids / enfants / kinderen, kets *(BXL, informal)* | minors, juveniles | Affection over administration |
+
+*Note:* *"kets"* (Brussels slang for kids) is a deliberate warmth marker — use it where the audience is Brussels and the register is informal, not in press or partner copy.
+
+→ *[Needs validation](#needs-validation): these prefer/avoid pairs are derived from desk research, not confirmed house style.*
+
+---
+
 ## What to Avoid
 
 - **Corporate positivity.** Phrases like "we are committed to inclusive mobility solutions" are accurate but dead. The voice is human, not institutional.
-- **Jargon without explanation.** Terms like "gilets roses", "porteurs locaux", "espacefunding" are meaningful inside the community. Introduce them to newcomers.
+- **Jargon without explanation.** Terms like "gilets roses", "porteurs locaux", "spacefunding" are meaningful inside the community. Introduce them to newcomers.
 - **Bilingual stacking as an afterthought.** Pasting the NL version below the FR (or vice versa) with a horizontal line between them is not bilingualism — it's two monolingual pages stapled together. Each language should feel like a first draft, not a translation.
 - **Urgency for its own sake.** The movement is growing steadily and healthily. Manufactured emergency language ("we need you NOW") undermines the warmth.
 - **Over-explaining the politics.** The rides speak for themselves. Trust the reader to make the connection between a hundred children cycling safely through their neighbourhood and the kind of city they want.
@@ -141,3 +188,47 @@ Before publishing anything: **does this sound like someone who loves cycling wit
 
 If yes: publish.
 If it sounds like a policy paper, a corporate newsletter, or a guilt trip: rewrite.
+
+---
+
+## Register dial
+
+One axis — **joyful & warm ←————→ serious & factual** — with two hard stops it must never cross: **corporate** and **militant / preachy** (and never hardcore-cyclist). Where each context sits (the dial form of *Tone by Context* above):
+
+```
+joyful/warm ●──────────────────────────────────● serious/factual
+  home,        help out,    mission /    vision/manifesto,
+  events,      chapters     about        press releases,
+  getting started                        partners · press
+```
+
+- **Family-facing** (home, events, getting started, chapters): far warm end — answer practical questions joyfully.
+- **Help out:** warm, but honest about the commitment.
+- **Mission / About:** warm-confident, community-first.
+- **Vision / manifesto / press releases:** state the position clearly; more serious, still human.
+- **Partners / sponsors / press:** a notch more factual — never corporate.
+
+## Pre-ship checklist
+
+The operational gate before publishing any copy:
+
+- [ ] Passes the one-line test (above).
+- [ ] Register matches the context on the dial.
+- [ ] Names the place / people / landmarks where relevant (local, not generic).
+- [ ] Barriers named and dissolved (*no bike? no problem*); age / distance / duration concrete.
+- [ ] Speaks to "you", not "participants" / "members".
+- [ ] Insider terms (roze hesje / gilet rose, spacefunding) introduced for newcomers.
+- [ ] No corporate positivity, manufactured urgency, or moralising.
+- [ ] Each language reads as an original, not a translation.
+- [ ] Correct glossary terms — *fietsparade / parade*, not *stoet / rit* ([glossary](glossary.md)).
+
+---
+
+## Needs Validation
+
+This guide is derived from desk research. Flag for Leticia and the team — points their input would strengthen:
+
+- **The Statement** and its FR/NL renderings — does the team recognise themselves in this one sentence?
+- **"Concrete" as a fifth quality** — inferred from the content; confirm it's a conscious value, not just the work of good chapter writers.
+- **Terminology & Word List** — the prefer/avoid pairs are derived, not confirmed house style. Check the register of *"kets"* especially.
+- **Tone by Context / Register dial** — confirm where each context sits, and add a social-media row once the channels are reviewed.
