@@ -66,6 +66,16 @@ class ActivityResource extends Resource
                     ->maxLength(255)
                     ->label('Location')
                     ->helperText('For Critical Mass: enter the starting address'),
+                TextInput::make('postal_code')
+                    ->nullable()
+                    ->maxLength(10)
+                    ->label('Postal Code')
+                    ->helperText('e.g. 1000 — used in the display title'),
+                TextInput::make('distance')
+                    ->nullable()
+                    ->maxLength(50)
+                    ->label('Distance')
+                    ->helperText('e.g. 5–7 km'),
                 TextInput::make('commute_link')
                     ->label('Commute Route Link')
                     ->helperText('URL to visualize the route (e.g., Komoot, RideWithGPS)')
@@ -76,6 +86,19 @@ class ActivityResource extends Resource
                     ->helperText('Duration of the activity in minutes')
                     ->numeric()
                     ->minValue(1),
+                TextInput::make('komoot_url')
+                    ->nullable()
+                    ->url()
+                    ->label('Komoot URL')
+                    ->helperText('Paste the public Komoot tour URL (e.g. https://www.komoot.com/tour/123). Optional.')
+                    ->maxLength(500),
+                SpatieMediaLibraryFileUpload::make('gpx')
+                    ->label('Route (GPX file)')
+                    ->disk('media')
+                    ->collection('gpx')
+                    ->acceptedFileTypes(['application/gpx+xml', 'application/xml', 'text/xml'])
+                    ->maxSize(5120)
+                    ->helperText('Export GPX from Komoot (or any route planner) and upload here.'),
                 Select::make('author_id')
                     ->label('Author')
                     ->relationship('author', 'name')

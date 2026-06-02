@@ -1,102 +1,57 @@
-<header class="bg-white shadow-md sticky top-0 z-50">
+<header
+    class="sticky top-0 z-50 bg-white shadow-sm"
+    x-data="{ scrolled: false, mobileOpen: false }"
+    x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 })"
+>
     <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
+        <div class="flex items-center justify-between transition-all duration-300" :class="scrolled ? 'h-20' : 'h-28'">
             <!-- Logo -->
-            <a href="{{ route('home') }}" class="flex items-center gap-1 group transition-transform group-hover:scale-105">
-                <!-- Daisy icon (inline SVG) -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="h-12 w-auto" aria-hidden="true">
-                    <g transform="translate(40,40)">
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(0)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(30)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(60)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(90)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(120)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(150)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(180)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(210)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(240)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(270)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(300)" />
-                        <ellipse cx="0" cy="-27" rx="8" ry="15" fill="#FDB913" transform="rotate(330)" />
-                        <circle cx="0" cy="0" r="17" fill="white" />
-                        <circle cx="0" cy="0" r="15" fill="#FFF9E6" />
-                        <circle cx="-5" cy="-4" r="2.2" fill="#333" />
-                        <circle cx="5" cy="-4" r="2.2" fill="#333" />
-                        <path d="M -5 3 Q 0 8 5 3" stroke="#333" stroke-width="1.8" fill="none" stroke-linecap="round" />
-                    </g>
-                </svg>
-                <!-- Brand text -->
-                <div class="logo-brand-text">
-                    <div class="text-xl">KIDICAL</div>
-                    <div class="text-2xl">MASS</div>
-                </div>
+            <a href="{{ route('home') }}" class="flex items-center">
+                <img
+                    src="{{ asset('img/logo.png') }}"
+                    alt="Kidical Mass"
+                    class="w-auto transition-all duration-300"
+                    :class="scrolled ? 'h-16' : 'h-[7.5rem]'"
+                >
             </a>
 
             <!-- Main Navigation -->
-            <nav class="hidden md:flex items-center space-x-1">
-                <a href="{{ route('home') }}" class="px-4 py-2 rounded-full text-black hover:bg-kidical-yellow hover:text-black transition-colors font-semibold {{ request()->routeIs('home') ? 'bg-kidical-yellow text-black' : '' }}">
-                    Home
-                </a>
-                <a href="{{ route('groups.index') }}" class="px-4 py-2 rounded-full text-black hover:bg-kidical-red hover:text-white transition-colors font-semibold {{ request()->routeIs('groups.*') ? 'bg-kidical-red text-white' : '' }}">
-                    Groups
-                </a>
-                <a href="{{ route('articles.index') }}" class="px-4 py-2 rounded-full text-black hover:bg-kidical-yellow hover:text-black transition-colors font-semibold {{ request()->routeIs('articles.*') ? 'bg-kidical-yellow text-black' : '' }}">
-                    Articles
-                </a>
-                <a href="{{ route('activities.index') }}" class="px-4 py-2 rounded-full text-black hover:bg-kidical-red hover:text-white transition-colors font-semibold {{ request()->routeIs('activities.*') ? 'bg-kidical-red text-white' : '' }}">
-                    Activities
-                </a>
-            </nav>
+            <flux:navbar class="hidden md:flex">
+                <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')" class="font-bold text-lg">Groups</flux:navbar.item>
+                <flux:navbar.item href="{{ route('articles.index') }}" :current="request()->routeIs('articles.*')" class="font-bold text-lg">Articles</flux:navbar.item>
+                <flux:navbar.item href="{{ route('activities.index') }}" :current="request()->routeIs('activities.*')" class="font-bold text-lg">Activities</flux:navbar.item>
+            </flux:navbar>
 
             <!-- User Menu -->
-            <div class="flex items-center space-x-2">
+            <div class="hidden md:flex items-center gap-2">
                 @guest
-                    <a href="{{ route('login') }}" class="px-4 py-2 text-black hover:text-kidical-red transition-colors font-semibold">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}" class="px-4 py-2 bg-kidical-yellow text-black rounded-full hover:bg-kidical-red hover:text-white transition-colors font-semibold">
-                        Register
-                    </a>
+                    <flux:button href="{{ route('login') }}" variant="ghost">Login</flux:button>
+                    <flux:button href="{{ route('register') }}">Register</flux:button>
                 @else
                     <flux:dropdown>
-                        <flux:button variant="ghost" size="sm" class="text-black">
-                            {{ Auth::user()->name }}
-                        </flux:button>
+                        <flux:button variant="ghost">{{ Auth::user()->name }}</flux:button>
                         <flux:menu>
-                            <flux:menu.item href="{{ route('profile.edit') }}">
-                                Profile
-                            </flux:menu.item>
+                            <flux:menu.item href="{{ route('profile.edit') }}">Profile</flux:menu.item>
                             <flux:menu.separator />
-                            <flux:menu.item href="{{ route('logout') }}" method="POST">
-                                Logout
-                            </flux:menu.item>
+                            <flux:menu.item href="{{ route('logout') }}" method="POST">Logout</flux:menu.item>
                         </flux:menu>
                     </flux:dropdown>
                 @endguest
             </div>
 
             <!-- Mobile Menu Button -->
-            <button class="md:hidden p-2 text-black hover:text-kidical-red transition-colors" onclick="toggleMobileMenu()">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
+            <flux:button icon="bars-3" variant="ghost" class="md:hidden" x-on:click="mobileOpen = !mobileOpen" aria-label="Toggle menu" />
         </div>
 
         <!-- Mobile Navigation -->
-        <nav id="mobileMenu" class="hidden md:hidden pb-4 space-y-2">
-            <a href="{{ route('home') }}" class="block px-4 py-2 rounded-full text-black hover:bg-kidical-yellow hover:text-black transition-colors font-semibold {{ request()->routeIs('home') ? 'bg-kidical-yellow text-black' : '' }}">
-                Home
-            </a>
-            <a href="{{ route('groups.index') }}" class="block px-4 py-2 rounded-full text-black hover:bg-kidical-red hover:text-white transition-colors font-semibold {{ request()->routeIs('groups.*') ? 'bg-kidical-red text-white' : '' }}">
-                Groups
-            </a>
-            <a href="{{ route('articles.index') }}" class="block px-4 py-2 rounded-full text-black hover:bg-kidical-yellow hover:text-black transition-colors font-semibold {{ request()->routeIs('articles.*') ? 'bg-kidical-yellow text-black' : '' }}">
-                Articles
-            </a>
-            <a href="{{ route('activities.index') }}" class="block px-4 py-2 rounded-full text-black hover:bg-kidical-red hover:text-white transition-colors font-semibold {{ request()->routeIs('activities.*') ? 'bg-kidical-red text-white' : '' }}">
-                Activities
-            </a>
+        <nav x-show="mobileOpen" x-transition class="md:hidden pb-4 space-y-1">
+            <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')">Groups</flux:navbar.item>
+            <flux:navbar.item href="{{ route('articles.index') }}" :current="request()->routeIs('articles.*')">Articles</flux:navbar.item>
+            <flux:navbar.item href="{{ route('activities.index') }}" :current="request()->routeIs('activities.*')">Activities</flux:navbar.item>
+            @guest
+                <flux:navbar.item href="{{ route('login') }}">Login</flux:navbar.item>
+                <flux:navbar.item href="{{ route('register') }}">Register</flux:navbar.item>
+            @endguest
         </nav>
     </div>
 </header>

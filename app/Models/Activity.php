@@ -55,6 +55,29 @@ class Activity extends Model implements HasMedia
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
+
+        $this->addMediaCollection('gpx')->singleFile();
+    }
+
+    public function getRouteCoordinatesAttribute(): array
+    {
+        $media = $this->getFirstMedia('gpx');
+        if (! $media) {
+            return [];
+        }
+
+        $xml = simplexml_load_file($media->getPath());
+        if (! $xml) {
+            return [];
+        }
+
+        $xml->registerXPathNamespace('gpx', 'http://www.topografix.com/GPX/1/1');
+        $points = $xml->xpath('//gpx:trkpt') ?: $xml->xpath('//trkpt');
+
+        return collect($points)->map(fn ($pt) => [
+            (float) $pt['lat'],
+            (float) $pt['lon'],
+        ])->toArray();
     }
 
     public function author(): BelongsTo
@@ -94,5 +117,25 @@ class Activity extends Model implements HasMedia
         }
 
         return $this->begin_date->addMinutes($this->duration_minutes);
+    }
+
+    public function getDurationLabelAttribute(): ?string
+    {
+        if (! $this->duration_minutes) {
+            return null;
+        }
+
+        $hours = intdiv($this->duration_minutes, 60);
+        $minutes = $this->duration_minutes % 60;
+
+        if ($hours === 0) {
+            return "{$minutes} min";
+        }
+
+        if ($minutes === 0) {
+            return "{$hours} u";
+        }
+
+        return "{$hours} u {$minutes} min";
     }
 }
