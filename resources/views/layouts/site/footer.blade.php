@@ -13,10 +13,12 @@
             <div>
                 <h3 class="site-footer__col-title">Explore</h3>
                 <ul class="site-footer__links">
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('groups.index') }}">Groups</a></li>
-                    <li><a href="{{ route('articles.index') }}">Articles</a></li>
-                    <li><a href="{{ route('activities.index') }}">Activities</a></li>
+                    <li><a href="{{ route('home') }}">{{ __('common.home') }}</a></li>
+                    <li><a href="{{ route('contact') }}">{{ __('common.contact') }}</a></li>
+                    <li><a href="{{ route('membership') }}">{{ __('common.membership') }}</a></li>
+                    <li><a href="{{ route('privacy') }}">{{ __('common.privacy') }}</a></li>
+                    <li><a href="{{ route('cookies') }}">{{ __('common.cookies') }}</a></li>
+                    <li><a href="{{ route('login') }}">{{ __('nav.login') }}</a></li>
                 </ul>
             </div>
 
@@ -54,8 +56,8 @@
             <span>&copy; {{ date('Y') }} Kidical Mass Belgium</span>
             <span>Website by <a href="https://bluepundit.eu/" target="_blank" rel="noopener noreferrer">Blue Pundit</a> &amp; <a href="https://frederikvincx.com/" target="_blank" rel="noopener noreferrer">Impact Studio</a></span>
             <ul class="site-footer__bottom-links">
-                <li><a href="#">Privacy</a></li>
-                <li><a href="#">Terms</a></li>
+                <li><a href="{{ route('privacy') }}">{{ __('common.privacy') }}</a></li>
+                <li><a href="{{ route('cookies') }}">{{ __('common.cookies') }}</a></li>
             </ul>
         </div>
 
