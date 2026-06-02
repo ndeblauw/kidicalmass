@@ -409,3 +409,16 @@ The guide defines 4 voice qualities: joyful (not frivolous), warm and inclusive 
 - Dates → `<time datetime="ISO8601">`.
 - Decorative icons → `aria-hidden="true"`.
 - `<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">` — never hardcoded.
+
+## Updating the build pipeline (page status)
+
+The pipeline tracker is the **page registry (`P-nn`) table in [`docs/wiki/design/30-skeleton/00-page-registry.md`](docs/wiki/design/30-skeleton/00-page-registry.md)** — rendered read-only at the `/build` dashboard (`build.dashboard`, non-prod, unlinked). The dashboard *parses* this markdown; the table is the source of truth. Run `/pipeline` to do this guided; the steps below are what it follows.
+
+- **Phase columns:** `UX · Conf · Wire · Assets · UI · Back · OK`. Stage emoji (parsed by `app/Support/Build/Stage.php`): 🔴 niet begonnen · 🟠 bezig · 🟢 goed · ⚪ n.v.t. · ❓ te beslissen. `Conf` = content-confidence `1–5`; `OK` is binary.
+- **Stage meaning** (so a bump is honest): **Wire 🟢** only when the view actually renders and is visually verified — *and* Frederik has done his own critique + refine pass (Claude's render/tone check tops out at 🟠); **Assets** = media sourced (⚪ when the page needs none); **UI** = brand/surface pass; **Back 🟢** only when the data/CMS is wired *and verified live*, not merely coded; **OK** = client sign-off (don't set early).
+- **One update touches four things, in order:**
+  1. The **row** — change the stage emoji(s). Keep all 12 columns intact or the dashboard drops the row.
+  2. The **Top gaps** cell — delete gaps now resolved; add a terse "X live" note (match existing style, tags `[content]`/`[asset]`/`[strategy]`/`[client]`/`[research]`).
+  3. The **Roll-up** prose below the table — keep the aggregate counts/lists consistent with the row you changed.
+  4. Append a **`## [YYYY-MM-DD] build | …`** entry to [`docs/wiki/log.md`](docs/wiki/log.md).
+- **Verify before claiming done:** load `/build`, or run `app(App\Support\Build\BuildStatus::class)->report()` via tinker, and confirm the row's stages parse as intended, `warnings` is empty, and there's no unexpected `drift`.
