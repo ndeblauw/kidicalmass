@@ -1,9 +1,102 @@
-<x-stub
-    title="Missie"
-    :sections="[
-        'Wat Kidical Mass is' => 'inleiding',
-        'De 3 assen' => 'Start (kinderen op de fiets) · Support (dagelijkse mobiliteit) · Spread (fietscultuur)',
-        'Inclusiviteit' => 'iedereen welkom',
-        'Impact in cijfers' => 'live statistieken (PAT-4)',
-    ]"
-/>
+{{--
+    Over ons / Missie — /about/mission (P-15)
+    Built 2026-06-03 to the ride/show layout system (DESIGN.md). The first About leaf:
+    grounds the "why" for deciders & deepeners (chapter leads, partners, press, proud
+    families). Reuses .activity-hero* (blue) + the .activity-promises* idiom (sky band,
+    white tilted cards, red Flux-icon chips) for the three axes; stats on a light-blue
+    band; inclusivity → Getting Started; a parent pull-quote; closing yellow CTA.
+    Colour story: blue → white → sky → light-blue → white → yellow. Structure only;
+    appearance in app.css. Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
+--}}
+<x-layouts::site title="Missie">
+
+    {{-- HERO --}}
+    <section class="activity-hero about-hero">
+        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
+        <div class="container mx-auto px-4 activity-hero__inner">
+            <div class="activity-hero__copy">
+                <span class="about-hero__badge">{{ __('nav.about') }}</span>
+                <h1>Missie</h1>
+                <p class="about-hero__lead">We organiseren vrolijke, veilige fietsparades voor kinderen in heel België. En we zijn nog maar net begonnen.</p>
+            </div>
+            <div class="activity-hero__visual">
+                <div class="activity-hero__photo about-hero__circle">
+                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- WAT KIDICAL MASS IS — contained intro --}}
+    <section class="about-intro">
+        <p>Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en zijn ondertussen actief in meer dan zestien gemeenten in Brussel, Wallonië en Vlaanderen. En we blijven groeien.</p>
+        <p>Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen, en vaak ook voor de ouders.</p>
+    </section>
+
+    {{-- DRIE DINGEN DIE WE DOEN — reuses the promises card idiom on a sky band --}}
+    <section class="about-band about-band--sky">
+        <div class="container mx-auto px-4">
+            <h2 class="about-band__title">Drie dingen die we doen</h2>
+            <ul class="about-card-grid" role="list">
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.rocket-launch variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
+                    <strong>Gemeenschappen helpen starten</strong>
+                    <p>Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale fietsparade op te starten, van de eerste vergadering tot de eerste rit.</p>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.lifebuoy variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
+                    <strong>Bestaande groepen ondersteunen</strong>
+                    <p>Lokale groepen staan er niet alleen voor. We bieden vorming, coördinatiemiddelen, materiaal en nationale zichtbaarheid, zodat elke groep zich kan richten op wat telt: mensen samenbrengen.</p>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.megaphone variant="solid" class="activity-promises__icon" aria-hidden="true" />
+                    </div>
+                    <strong>Pleiten voor kindvriendelijke straten</strong>
+                    <p>Vrolijke fietsparades zijn een begin, geen eindpunt. We werken samen met steden en regio's voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen. <a href="{{ route('about.vision') }}">Lees onze visie →</a></p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    {{-- IMPACT IN CIJFERS — full-bleed light-blue band --}}
+    <section class="about-stats" aria-label="Impact in cijfers">
+        <div class="container mx-auto px-4">
+            <ul class="about-stats__grid" role="list">
+                <li class="about-stat"><span class="about-stat__num">150+</span><span class="about-stat__label">fietsparades sinds 2020</span></li>
+                <li class="about-stat"><span class="about-stat__num">5.500+</span><span class="about-stat__label">deelnemers</span></li>
+                <li class="about-stat"><span class="about-stat__num">120</span><span class="about-stat__label">actieve vrijwilligers</span></li>
+                <li class="about-stat"><span class="about-stat__num">16+</span><span class="about-stat__label">gemeenten in heel België</span></li>
+            </ul>
+        </div>
+    </section>
+
+    {{-- IEDEREEN IS WELKOM — contained --}}
+    <section class="about-section">
+        <h2 class="about-section__title">Iedereen is welkom</h2>
+        <p>Je hoeft geen ervaren fietser te zijn. Nog nooit in het verkeer gefietst? Dat geeft niets. Voor veel ouders is een rit de eerste keer op de baan, en onze begeleiders zorgen dat niemand er alleen voor staat. Je hoeft geen fiets te hebben. Je hoeft niet uit de buurt te komen. Kidical Mass is gemaakt om de volledige diversiteit van elke gemeente te weerspiegelen, en om elke drempel weg te nemen die een gezin kan tegenhouden.</p>
+        <p class="about-section__link"><a href="{{ route('getting-started') }}">Geen fiets of nog nooit meegereden? Voor het eerst mee →</a></p>
+    </section>
+
+    {{-- OUDER AAN HET WOORD — pull-quote --}}
+    <figure class="about-quote">
+        <blockquote>
+            <p>“Wat hij zo leuk vindt aan fietsen, denk ik, is die vrijheid om buiten te zijn, lucht te hebben, er alleen op uit te trekken. Hij wil altijd ver gaan, iets nieuws ontdekken.”</p>
+        </blockquote>
+        <figcaption>Julienne, mama van twee kinderen (2 en 5 jaar)</figcaption>
+    </figure>
+
+    {{-- CTA --}}
+    <x-about-cta
+        title="Doe mee met de beweging"
+        sub="Vind een rit bij jou in de buurt, of geef zelf mee vorm aan de beweging." />
+
+    @push('scripts')
+    <x-about-reveal selector=".about-band .activity-promises__item" />
+    @endpush
+
+</x-layouts::site>

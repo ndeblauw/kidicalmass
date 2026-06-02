@@ -69,3 +69,10 @@ it('keeps the activity detail page branded', function () {
         ->assertSee('Surface Test Ride')
         ->assertSee('activity-hero', escape: false);
 });
+
+it('shows the support callout at the end of an event detail page', function () {
+    get(route('activities.show', $this->activity))
+        ->assertOk()
+        ->assertSee('Fijn meegereden')
+        ->assertSee(route('membership'), escape: false);
+});

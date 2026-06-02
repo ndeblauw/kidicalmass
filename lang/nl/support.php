@@ -9,14 +9,26 @@ return [
 
     // Page hero
     'title' => 'Steun Kidical Mass',
-    'hero_lead' => 'Iedereen fietst gratis mee. Jij zorgt dat dat zo blijft.',
+    'hero_lead' => 'Meefietsen is gratis voor elk gezin. Jouw steun houdt de wielen draaiend.',
 
-    // What your support makes possible
+    // What your support makes possible (promises-band cards: title + body)
     'funds_title' => 'Wat jouw steun mogelijk maakt',
     'funds' => [
-        'meer_rides' => 'Meer ritten in meer buurten',
-        'safety' => 'Veilige begeleiding en opleiding',
-        'independent' => 'Onafhankelijk van subsidies',
+        'meer_rides' => [
+            'icon' => 'map',
+            'title' => 'Meer ritten, meer buurten',
+            'body' => 'Zo kan Kidical Mass groeien naar nieuwe wijken en steden.',
+        ],
+        'safety' => [
+            'icon' => 'shield-check',
+            'title' => 'Veilige begeleiding',
+            'body' => 'Materiaal en opleiding voor de roze hesjes die elke rit veilig houden.',
+        ],
+        'independent' => [
+            'icon' => 'sparkles',
+            'title' => 'Onafhankelijk',
+            'body' => 'Minder afhankelijk van subsidies, meer gedragen door mensen zoals jij.',
+        ],
     ],
 
     // The ask (primary)
@@ -32,12 +44,13 @@ return [
     // All tiers
     'tiers' => 'Meer geven? Bekijk alle tiers op Growfunding',
 
-    // Movement scale (no backer count)
-    'scale' => 'Elke maand rijden honderden gezinnen mee, in heel België.',
+    // Movement scale (no backer count) — used as the closing CTA band
+    'scale' => 'Elke maand rijden honderden gezinnen mee.',
+    'scale_sub' => 'Doe mee en houd het zo, in heel België.',
 
     // Contextual callouts (one component, two variants)
     'home_title' => 'Kidical Mass blijft gratis. Dankzij mensen zoals jij.',
     'home_body' => 'Steun vanaf €3 per maand en maak veilige straten mee mogelijk, in elke buurt. Meefietsen blijft gratis.',
-    'event_title' => 'Fijn meegereden? Help dit blijven bestaan.',
+    'event_title' => 'Fijn meegereden? Steun de volgende rit.',
     'event_body' => 'Met €3 per maand zorg je dat er volgende maand weer een rit is. Meefietsen blijft altijd gratis.',
 ];

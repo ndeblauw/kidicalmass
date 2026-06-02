@@ -57,7 +57,7 @@ Headings are heavy (800) and tightly led; body runs generous (1.6+) for warmth a
 
 The system is **playful but intentional** — the visual counterpart of the [tone of voice](docs/wiki/tone-of-voice.md). Recurring devices, as built on the activity detail page:
 
-- **−3° tilt** — the hero `h1`, the chapter/location badge, and the icon chips are rotated `-3deg`. The brand's defining "joyful, slightly off-grid" gesture; use sparingly and consistently.
+- **−3° tilt** — reserved for the **hero `h1`**, the **badge**, and the **icon chips** (plus the slight alternating tilt on cards). The brand's defining "joyful, slightly off-grid" gesture; use sparingly. **Do NOT tilt section or band titles** (the `h2`/`h3` headings inside promises/CTA/callout bands stay upright) — tilting smaller titles reads as accidental, not intentional (Frederik 2026-06-03). One tilted display headline per page is the rule of thumb.
 - **Red rounded-square icon chips** — `kidical-red` square, `border-radius: 28%`, rotated `-3deg`, white icon inside (`.activity-info-item__icon-wrap`).
 - **Full-bleed colour blocks** — `100vw` breakouts (`margin-left: calc(50% - 50vw)`): the blue activity hero, the yellow info panel + map two-column.
 - **Circular hero photo** with illustration/daisy accents bleeding past its edge (`.activity-hero__photo` `border-radius: 50%`).
@@ -92,7 +92,7 @@ Public pages are built as a **vertical stack of full-bleed colour bands**, each 
 | Component | Classes | What it is |
 |---|---|---|
 | Poster hero | `.activity-hero*` | Solid-colour full-bleed; −3° headline; circular photo/illustration; daisy (`logo-icon`) bleeding past the edge; optional sky badge |
-| Promises band | `.activity-promises*` | Colour band + big tilted H2 + illustration + **white tilted cards** holding red icon chips |
+| Promises band | `.activity-promises*` | Colour band + big **upright** H2 + illustration + **white tilted cards** holding red icon chips (the cards tilt, the title does not) |
 | Meta + map | `.activity-info-map*` | Two-column 50/50; yellow meta panel (red chips, `dl`) + map |
 | Event card | `<x-event-card>` (PAT-1) | Compact ride card |
 
@@ -111,7 +111,7 @@ Public pages are built as a **vertical stack of full-bleed colour bands**, each 
 1. Compose a **band sequence + palette that fits this page's mood** — vary it from other pages; just keep adjacent bands distinct and the page coherent.
 2. **Reuse** `.activity-hero*` / `.activity-promises*` / `.activity-info-map*` before writing any new CSS.
 3. Full-bleed mechanic + `.container` alignment; first band `-8` top, last band `-8` bottom.
-4. Red + Flux chips; white tilted cards; −3° on headline / badge / chips.
+4. Red + Flux chips; white tilted cards; −3° on the hero headline (h1) / badge / chips **only** — never on section or band titles.
 5. Appearance in `app.css`; structure in the Blade.
 6. IntersectionObserver reveals + the reduced-motion opt-out.
 7. Verify: `npm run build`, screenshot desktop + mobile, 0 em-dashes, tests green.

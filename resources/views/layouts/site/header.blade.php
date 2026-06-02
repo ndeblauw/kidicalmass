@@ -34,11 +34,13 @@
                 </flux:dropdown>
             </flux:navbar>
 
-            <!-- User Menu -->
-            <div class="hidden md:flex items-center gap-2">
-                @guest
-                    <flux:button href="{{ route('login') }}" variant="ghost">{{ __('nav.login') }}</flux:button>
-                @else
+            <!-- Support CTA (replaces the login button; login moved to the footer) -->
+            <div class="hidden md:flex items-center gap-3">
+                <a href="{{ route('membership') }}" class="nav-support">
+                    <flux:icon.heart variant="solid" class="nav-support__icon" aria-hidden="true" />
+                    {{ __('support.nav') }}
+                </a>
+                @auth
                     <flux:dropdown>
                         <flux:button variant="ghost">{{ Auth::user()->name }}</flux:button>
                         <flux:menu>
@@ -47,7 +49,7 @@
                             <flux:menu.item href="{{ route('logout') }}" method="POST">Logout</flux:menu.item>
                         </flux:menu>
                     </flux:dropdown>
-                @endguest
+                @endauth
             </div>
 
             <!-- Mobile Menu Button -->
@@ -56,14 +58,16 @@
 
         <!-- Mobile Navigation -->
         <nav x-show="mobileOpen" x-transition class="md:hidden pb-4 space-y-1">
+            {{-- Support CTA pinned first, accent-styled (login lives in the footer) --}}
+            <a href="{{ route('membership') }}" class="nav-support nav-support--mobile">
+                <flux:icon.heart variant="solid" class="nav-support__icon" aria-hidden="true" />
+                {{ __('support.nav') }}
+            </a>
             <flux:navbar.item href="{{ route('activities.index') }}" :current="request()->routeIs('activities.*')">{{ __('nav.events') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')">{{ __('nav.chapters') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')">{{ __('nav.getting_started') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('volunteer') }}" :current="request()->routeIs('volunteer')">{{ __('nav.help_out') }}</flux:navbar.item>
             <flux:navbar.item href="{{ route('about') }}" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')">{{ __('nav.about') }}</flux:navbar.item>
-            @guest
-                <flux:navbar.item href="{{ route('login') }}">{{ __('nav.login') }}</flux:navbar.item>
-            @endguest
         </nav>
     </div>
 </header>

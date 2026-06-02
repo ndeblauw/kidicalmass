@@ -2,7 +2,7 @@
 
 return [
     'events' => 'Kalender',
-    'chapters' => 'Afdelingen',
+    'chapters' => 'Lokale groepen',
     'getting_started' => 'Voor het eerst',
     'help_out' => 'Meehelpen',
     'about' => 'Over ons',

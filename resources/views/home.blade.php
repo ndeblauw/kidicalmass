@@ -87,5 +87,8 @@
                 </div>
             </section>
         @endif
+
+        {{-- Support (PAT-10 contextual block) --}}
+        <x-support-callout variant="home" />
     </div>
 </x-layouts::site>

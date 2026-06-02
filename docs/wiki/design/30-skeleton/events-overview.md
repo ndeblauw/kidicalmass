@@ -1,14 +1,14 @@
 ---
-title: Events Overview
+title: Kalender — Events overview
 tags: []
-sources: [notion, raw/website/agenda.md]
+sources: [notion, raw/website/agenda.md, wiki/design/20-structure.md]
 phase: design
-updated: 2026-04-13
+updated: 2026-06-03
 ---
 
-Status: ✅ Complete. Page URL: `/events` (trilingual: `/nl/events`, `/fr/events`, `/en/events`)
+Status: ✅ UX re-planned 2026-06-03 (NL framing + email opt-in homed). Live view still EN wireframe stub (`activities/index.blade.php`). Page URL: `/events` · **nav label NL = "Kalender"** · route `activities.index` (`/nl/events`, `/fr/events`, `/en/events` later).
 
-**Summary:** One job — get a family to the right event detail page in under 10 seconds. Location filter + date-grouped list. Upcoming = date grouping. Past = month grouping. Cards are compact and text-driven. Filters are minimal by design. Grande Kidical Mass = featured badge on a standard card.
+**Summary:** One job — get a family to the right event detail page in under 10 seconds. Location filter + date-grouped list. Upcoming = date grouping. Past = month grouping. Cards are compact and text-driven. Filters are minimal by design. Grande Kidical Mass = featured badge on a standard card. **Rides only** — meetups/workshops never appear here (they live on chapter pages, D-2/J1). The **per-region "mis geen fietstocht" email opt-in is homed on this page** (resolves old open-Q #4) as a calm band *after* the list, scoped to the active location filter.
 
 ---
 
@@ -39,7 +39,7 @@ A family opens the page, sees events grouped by date, filters to their municipal
 ## Scope
 
 **Must have:**
-- Chronological event list with date grouping
+- Chronological **rides** list with date grouping (`kidicalmass` activity type only)
 - Location filter (by chapter/municipality)
 - Upcoming/past toggle
 - Event cards with: title, date, time, municipality, meeting point
@@ -48,13 +48,15 @@ A family opens the page, sees events grouped by date, filters to their municipal
 **Should have:**
 - "Today" / "Tomorrow" contextual labels
 - Featured badge for Grande Kidical Mass
+- **Per-region "mis geen fietstocht" email opt-in** — the low-frequency "next ride near you" subscription (Scope feature, **homed here** per [20-structure.md](../20-structure.md)). Scoped to the active location filter; double opt-in for GDPR. Calm band *after* the list, not competing with the scan.
 
 **Out of scope:**
+- **Meetups / workshops** — rides only here (D-2/J1); meetups surface on chapter pages, never in this national list
 - Map view (detail page has the map)
-- RSVP / attendance count (deferred)
+- RSVP / attendance count (deferred — "I'm coming" is volunteer-only, on the detail page, D-1)
 - Free-text search (volume doesn't warrant it)
-- Event images on cards (events are practical meetups, not visual showcases)
-- iCal subscription button (lives on the event detail page, not the list)
+- Event images on cards (rides are practical meetups, not visual showcases)
+- Per-event iCal button (lives on the event detail page, not the list — there is an `activities.ical` per-activity route; the list-level subscription is the email opt-in above, not iCal)
 
 ---
 
@@ -71,9 +73,11 @@ Linear list page, no sub-navigation. Two modes determined by the toggle.
 2. Filter bar (toggle + location) — sticky on scroll
 3. Event list (grouped)
 4. Empty state (if applicable)
+5. **"Mis geen fietstocht" email opt-in band** — contextual to the active location filter; sits after the list (post-scan), before the footer
 
 **Key links out:**
 - Event cards → /events/[slug]
+- Email opt-in → confirmation (double opt-in); no page navigation
 
 ---
 
@@ -85,51 +89,54 @@ Linear list page, no sub-navigation. Two modes determined by the toggle.
 
 **Grande Kidical Mass** uses the same card component as any event but with a featured badge (★ icon + "Featured" label). The date header for that weekend may also carry a visual cue.
 
-### Desktop
+### Desktop (NL route shown — `/nl/events`)
 
 ```
 ┌──────────────────────────────────────────────────────┐
 │ NAV                                                  │
 ├──────────────────────────────────────────────────────┤
-│  Events                                              │
-│  Find a ride near you                                │
+│  Kalender                                            │
+│  Vind een fietstocht bij jou in de buurt             │
 ├──────────────────────────────────────────────────────┤
-│ [Upcoming ●] [Past]    Location: [ All locations ▼ ] │  ← sticky
+│ [Aankomend ●] [Voorbije]    Gemeente: [ Alle ▼ ]     │  ← sticky
 ├──────────────────────────────────────────────────────┤
 │                                                      │
-│  Saturday 19 April                                   │
+│  Zaterdag 19 april                                   │
 │  ┌────────────────────────────────────────────────┐  │
 │  │ Kidical Mass Evere – Haren           15:00     │  │
 │  │ Evere · Place de la Mairie                     │  │
 │  └────────────────────────────────────────────────┘  │
 │  ┌────────────────────────────────────────────────┐  │
 │  │ Kidical Mass Ixelles – Elsene        15:00     │  │
-│  │ Ixelles · Place Flagey                         │  │
+│  │ Elsene · Place Flagey                          │  │
 │  └────────────────────────────────────────────────┘  │
 │                                                      │
-│  Saturday 26 April                                   │
+│  Zaterdag 26 april                                   │
 │  ┌────────────────────────────────────────────────┐  │
 │  │ Kidical Mass Forest – Vorst          15:00     │  │
-│  │ Forest · Parvis St-Denis                       │  │
-│  └────────────────────────────────────────────────┘  │
-│  ┌────────────────────────────────────────────────┐  │
-│  │ Kidical Mass Woluwe-St-Pierre        15:00     │  │
-│  │ Woluwe-Saint-Pierre · ...                      │  │
+│  │ Vorst · Parvis St-Denis                        │  │
 │  └────────────────────────────────────────────────┘  │
 │                                                      │
-│  Saturday 10 May  ★ Featured                         │
+│  Zaterdag 10 mei  ★ Uitgelicht                       │
 │  ┌────────────────────────────────────────────────┐  │
 │  │ ★  GRANDE KIDICAL MASS 2026          15:00     │  │
-│  │ Bruxelles · Place du Trône                     │  │
+│  │ Brussel · Place du Trône                       │  │
 │  └────────────────────────────────────────────────┘  │
 │                                                      │
-│  Saturday 17 May                                     │
+│  Zaterdag 17 mei                                     │
 │  ┌────────────────────────────────────────────────┐  │
 │  │ Kidical Mass Mons                    14:00     │  │
 │  │ Mons · ...                                     │  │
 │  └────────────────────────────────────────────────┘  │
 │  ...                                                 │
 │                                                      │
+├──────────────────────────────────────────────────────┤
+│  [ light band — contextual to the active filter ]    │
+│  Mis geen fietstocht                                 │
+│  Eén seintje per maand met de fietstochten bij jou   │
+│  in de buurt. Geen spam, je kan je altijd            │
+│  uitschrijven.                                       │
+│  [ e-mail _______________ ]  [ Hou me op de hoogte ] │
 ├──────────────────────────────────────────────────────┤
 │ FOOTER                                               │
 └──────────────────────────────────────────────────────┘
@@ -218,6 +225,7 @@ Linear list page, no sub-navigation. Two modes determined by the toggle.
 - **Past event cards:** Same structure, lower contrast (muted text, lighter border) — signals "archive" not "action".
 - **Empty state — no upcoming:** "No upcoming rides right now. The season runs from March to November — check back soon!"
 - **Empty state — location filtered, no results:** "No upcoming rides in [municipality]. Try 'All locations' to see rides nearby."
+- **"Mis geen fietstocht" email opt-in band (NEW — homes the Scope subscription):** A single calm band *after* the list, never before it — the page's one job is the scan; the reminder is the "before you go" beat. **Contextual to the active location filter:** "Alle gemeenten" → "fietstochten bij jou in de buurt" (per-region by the email's own geo, or a region picker on submit); a selected municipality → "fietstochten in [Gemeente]". One email field + one button, no account. Double opt-in (GDPR). On the empty-state (season break), this band becomes the *primary* action — when there's nothing to scan, "leave your email and we'll tell you when the season starts" is the right ask. Reuses the per-chapter opt-in control from the chapter page (same component, region vs group scope).
 
 ---
 
@@ -226,5 +234,7 @@ Linear list page, no sub-navigation. Two modes determined by the toggle.
 1. **Filter bar mobile — sticky behaviour:** On mobile, the sticky filter bar takes vertical space that's scarce. Proposed: it collapses to a compact single-line bar (showing selected filter state) after scrolling past it. Confirm UX implementation approach with Nico.
 2. **Location filter options:** The dropdown lists chapters/municipalities. Should Walloon and Flemish municipalities be grouped separately from Brussels ones, or is a flat alphabetical list sufficient at current volume (~20 chapters)?
 3. **Grande Kidical Mass visual differentiation:** The ★ badge is proposed. The exact visual treatment (colour, size, position) is a surface-level decision — confirm at design time.
-4. **iCal / calendar subscription:** The site-level spec mentions per-region iCal subscriptions. Where does this CTA live? Proposed: on the event detail page only (not the list). If a global "subscribe to all events" subscription is wanted, a small CTA could appear at the top of the filter bar. Flag to Nico.
+4. ~~**iCal / calendar subscription**~~ ✅ **Resolved 2026-06-03.** The list-level subscription is the **per-region "mis geen fietstocht" email opt-in**, homed in a band *after* the list (see Skeleton). Per-event iCal stays on the event detail page (`activities.ical` route). No iCal control on the list.
 5. **Past events volume:** How far back does the archive go? 2020 = ~150+ parades. A year selector or lazy-load strategy may be needed to prevent an overwhelming archive list. Flag to Nico.
+6. **Email opt-in geo-scoping (NEW):** When "Alle gemeenten" is active, how does the opt-in know which region to subscribe the user to? Options: (a) a region picker appears on submit; (b) the email is national-but-low-frequency; (c) postal-code field. Proposed: (a) — a single region/chapter picker on submit so the promise ("ritten bij jou in de buurt") stays honest. Confirm the `Email subscription` model's `scope` field (region vs Group) with Nico.
+7. **Live view is still EN + lacks the opt-in (NEW):** `activities/index.blade.php` renders English headers ("Activities", "Find a ride near you"), has no NL strings, and has no opt-in band. The filter bar is a placeholder. NL pass + opt-in band are build tasks once this plan lands.

@@ -1,20 +1,22 @@
 ---
-title: Chapters (Overview + Page Template)
+title: Lokale groepen — Chapters overview + page template
 tags: []
-sources: [notion, raw/website/index.md, raw/website/organisation.md]
+sources: [notion, raw/website/index.md, raw/website/organisation.md, wiki/design/20-structure.md, wiki/glossary.md]
 phase: design
-updated: 2026-04-13
+updated: 2026-06-03
 ---
 
-This file covers two related pages: the **Chapters Overview** (national directory) and the **Chapter Page** (per-chapter template).
+This file covers two related pages: the **Lokale groepen / Chapters Overview** (national directory) and the **Chapter Page** (per-chapter template).
+
+> **Terminology — ✅ resolved 2026-06-03 (Frederik): the public NL term is "Lokale groepen".** Replaces the earlier nav label "Afdelingen", which read top-down/federated; "lokale groepen" is the [glossary](../../glossary.md)-approved, grassroots term the duo use themselves (their org page uses *Lokale groepen*; "afdeling" was already softened to "lokale groep" on Help out). Applied site-wide: `lang/nl/nav.php` `nav.chapters` → **"Lokale groepen"** (nav label = H1, for consistent wayfinding). "chapter" remains the internal EN label only. *(Internal route/file names stay `groups.*` / `chapters.md`.)*
 
 ---
 
-# Chapters Overview
+# Lokale groepen / Chapters Overview
 
-Status: ✅ Complete. Page URL: `/chapters` (trilingual: `/nl/chapters`, `/fr/chapters`, `/en/chapters`)
+Status: ✅ UX re-planned 2026-06-03 (NL framing + Liège/Mons hosted + term resolved to "Lokale groepen"). Live view still EN wireframe stub (`groups/index.blade.php`) and has **drifted** to a card grid with count badges (see open-Q #6). Page URL: `/chapters` · **nav label NL = "Lokale groepen"** · route `groups.index` (`/nl/chapters`, `/fr/chapters`, `/en/chapters` later).
 
-**Summary:** One view serves two audiences — families finding their local chapter, and stakeholders assessing the movement's scale. The map delivers both. The list is first-class alongside the map. Regional grouping: Brussels → Wallonia → Flanders. Names and links only — no per-chapter event previews. "Start a chapter" CTA at the bottom turns gaps in the map into an invitation.
+**Summary:** One view serves two audiences — families finding their local chapter, and stakeholders (grant reviewers, partners) assessing the movement's scale. The map delivers both. The list is first-class alongside the map. Regional grouping: Brussel → Wallonië → Vlaanderen. **Names and links only — no per-chapter event previews, no count badges** (the map carries the scale signal). **Liège + Mons are now hosted full chapters** (first-class `/chapters/[postal]` pages that may link out to their own domains), not external pins — revised 2026-06-02. "Begin een lokale groep" CTA at the bottom turns gaps in the map into an invitation.
 
 ---
 
@@ -27,11 +29,11 @@ The national directory of all chapters. Replaces the hidden `/all-groups` page a
 **Families: "Is there a chapter in my municipality?"**
 Arrive with a specific question. They want to find their local chapter. The map is visual confirmation ("yes, Schaerbeek has one") and the list is the clickable action. Speed matters — they're one step from the chapter page.
 
-**Potential chapter leads: "Which cities don't have a chapter yet?"**
-Arrive looking for gaps. The map is their tool — blank space on the map is the signal. The "Start a chapter" CTA at the bottom catches them before they leave.
-
 **Grant reviewers / partners: "How big is this movement?"**
-Arrive with an evaluative intent. The visual density of pins on the map, the count in the header subtitle, the regional spread — these are the signals they're looking for. They may not click any individual chapter.
+Arrive with an evaluative intent. The visual density of pins on the map, the count in the header subtitle, the regional spread — these are the signals they're looking for. They may not click any individual chapter. **Reframed (interview 2026-05-18):** serving grants + helping families find *existing* groups is now the page's primary job; recruiting *new* leads is secondary. So the map's job is mostly "show the scale + the existing coverage", not "advertise the gaps".
+
+**Potential chapter leads: "Which cities don't have a chapter yet?"** *(secondary)*
+Arrive looking for gaps. Blank space on the map is the signal. The "Begin een lokale groep" CTA at the bottom catches them before they leave — but it's the quiet closing beat, not the page's headline.
 
 ### What good looks like
 
@@ -42,18 +44,19 @@ A family arrives, sees the map of Belgium with pins, spots their municipality (o
 ## Scope
 
 **Must have:**
-- Map of Belgium showing all active chapters (pins tappable → chapter pages)
-- List of all chapters (clickable → chapter page)
-- "Start a chapter" CTA
+- Map of Belgium showing all active chapters (pins tappable → chapter pages); Liège + Mons are **hosted pins** → their hosted `/chapters/[postal]` pages (which may then link out to their own domains)
+- List of all chapters (clickable → chapter page), region-grouped, **name + municipality only**
+- "Begin een lokale groep" CTA
 
 **Should have:**
-- Chapter count as a headline stat
-- Regional grouping (Brussels, Wallonia, Flanders) in the list
+- Chapter count as a headline stat (the scale signal grant reviewers scan)
+- Regional grouping (Brussel, Wallonië, Vlaanderen) in the list
 
 **Out of scope:**
 - Chapter management (that's admin)
 - Inactive or placeholder chapters
-- Per-chapter event preview in the list ✅ Names and links only
+- **Per-chapter previews of any kind in the list** ✅ Names + links only. **No count badges** ("X activities / X articles") — the live build drifted into these; they're noise to a family (who cares how many news posts a group wrote?) and the map already carries the "how big" signal for grants. See open-Q #6.
+- Per-chapter **email opt-in** — that "subscribe to this chapter" control lives on the *chapter page*, not the overview (it needs a single group scope)
 
 ---
 
@@ -69,8 +72,8 @@ Two-part page: map + list. No sub-navigation.
 
 **Key links out:**
 - Map pins / list entries → /chapters/[postal-code] or /chapters/[code1-code2]
-- Liège pin → kidicalmassliege.org ✅
-- "Start a chapter" → /help-out#start-a-chapter
+- Liège + Mons → their **hosted** /chapters/[postal] pages (revised 2026-06-02 — no longer external pins; their page may link out to kidicalmassliege.org / mons.bike)
+- "Begin een lokale groep" → /help-out#start-a-chapter
 
 ---
 
@@ -80,49 +83,53 @@ Two-part page: map + list. No sub-navigation.
 
 **Flanders group hidden until at least one Flemish chapter is active. ✅**
 
-**List is first-class alongside the map** — not a fallback. Handles accessibility and slow connections.
+**List is first-class alongside the map** — not a fallback. Handles accessibility and slow connections. **Plain region-grouped name links — no cards, no count badges** (see Scope; resolves the live drift).
 
-### Desktop
+### Desktop (NL route shown — `/nl/chapters`)
 
 ```
 ┌──────────────────────────────────────────────────────┐
 │ NAV                                                  │
 ├──────────────────────────────────────────────────────┤
-│  Chapters                                            │
-│  16 active groups across Belgium                     │
+│  Lokale groepen                                      │
+│  45 lokale groepen in heel België                    │
 ├──────────────────────────────────────────────────────┤
 │                                                      │
 │  [ MAP — full-width Belgium · ~450px tall ]          │
-│  [ One pin per chapter ]                             │
-│  [ Brussels: cluster pin → expands on tap ]          │
-│  [ Liège: regular pin → kidicalmassliege.org ↗ ]     │
-│  [ Tooltip on hover: municipality name ]             │
+│  [ One pin per chapter — all hosted, none external ] │
+│  [ Brussel: cluster pin → expands on tap ]           │
+│  [ Liège / Mons: regular pins → hosted page ]        │
+│  [ Tooltip on hover: gemeente naam ]                 │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
 │                                                      │
-│  Brussels                                            │
-│  Anderlecht · Berchem-Sainte-Agathe · Bruxelles-Ville│
-│  Etterbeek · Evere – Haren · Forest – Vorst          │
-│  Ixelles – Elsene · Jette · Molenbeek               │
-│  Neder-Over-Heembeek · Schaerbeek                   │
-│  Watermael-Boitsfort & Auderghem                     │
-│  Woluwe-St-Pierre & Woluwe-St-Lambert               │
+│  Vind je groep                                       │
+│  Tik je gemeente aan voor de volgende fietstocht en  │
+│  het lokale team                                     │
 │                                                      │
-│  Wallonia                                            │
-│  Liège (kidicalmassliege.org ↗) · Mons · Namur      │
+│  Brussel                                             │
+│  Anderlecht · Berchem-Sainte-Agathe · Brussel-Stad   │
+│  Etterbeek · Evere – Haren · Vorst – Forest          │
+│  Elsene – Ixelles · Jette · Molenbeek                │
+│  Neder-Over-Heembeek · Schaarbeek                    │
+│  Watermaal-Bosvoorde & Oudergem                      │
+│  Sint-Pieters-Woluwe & Sint-Lambrechts-Woluwe        │
 │                                                      │
-│  [Flanders group — hidden until active]              │
+│  Wallonië                                            │
+│  Liège · Mons · Namur                                │
+│                                                      │
+│  [Vlaanderen — verborgen tot er een groep actief is] │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
-│  [distinct background]                               │
+│  [distinct background — quiet closing beat]          │
 │                                                      │
-│  Don't see your city?                                │
-│  New chapters keep joining. If your city isn't on    │
-│  the map yet, you could be the one to start it.      │
-│  We'll support you.                                  │
+│  Staat jouw stad er nog niet bij?                    │
+│  Er komen steeds nieuwe groepen bij. Je hoeft geen   │
+│  fietsexpert te zijn. Gewoon iemand die zijn buurt   │
+│  graag ziet. Wij helpen je op weg.                   │
 │                                                      │
-│  [ Find out how → ]                                  │
-│  Questions? Email the coordination team →            │
+│  [ Zo begin je → ]                                   │
+│  Vragen? Mail het coördinatieduo →                   │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
 │ FOOTER                                               │
@@ -178,21 +185,23 @@ Two-part page: map + list. No sub-navigation.
 
 ### Annotations
 
-- **Header subtitle:** Dynamic chapter count from database. "16 active groups across Belgium" — updates automatically as new chapters join.
-- **Map:** Leaflet/Mapbox, clean map style (not satellite). Pin touch target minimum 44×44px. Brussels cluster expands on tap to show individual municipality pins. Liège opens external URL in new tab with a visual indicator (↗).
-- **Chapter list:** Plain text list, no images or per-chapter event data. Each entry is a link. Multi-municipality chapters show combined name and hyphenated postal codes: "Woluwe-Saint-Pierre & Saint-Lambert (1150–1200)".
-- **Regional order:** Brussels → Wallonia → Flanders (order of establishment). Flanders section hidden when empty.
-- **"Start a chapter" CTA:** Distinct background section at the bottom. Short, warm, inviting. Email CTA links to /help-out anchor or mailto — consistent with Help Out page.
+- **Header subtitle:** Dynamic chapter count from database. "45 lokale groepen in heel België" — updates automatically as new chapters join. (Count comes from the `Group` model; ~45 per the glossary, not the stale "16".)
+- **Map:** Leaflet/Mapbox, clean map style (not satellite). Pin touch target minimum 44×44px. Brussel cluster expands on tap to show individual municipality pins. **Liège + Mons are ordinary hosted pins** → their hosted `/chapters/[postal]` pages (no external ↗ on the map; their *page* may link out to their domain).
+- **Chapter list:** Plain text region-grouped list, **no cards, no images, no count badges, no per-chapter event data**. Each entry is a link. Multi-municipality chapters show combined name and hyphenated postal codes: "Sint-Pieters-Woluwe & Sint-Lambrechts-Woluwe (1150–1200)". On the NL route, show the NL municipality form first ("Schaarbeek", "Vorst – Forest"); FR route mirrors.
+- **Regional order:** Brussel → Wallonië → Vlaanderen (order of establishment). Vlaanderen section hidden when empty.
+- **"Begin een lokale groep" CTA:** Distinct background section at the bottom — the quiet closing beat (lead-recruiting is secondary, per Strategy). Short, warm, inviting. Reuses the Help-out barrier-dissolver line ("je hoeft geen fietsexpert te zijn"). Links to /help-out#start-a-chapter; secondary mailto to the coördinatieduo.
 
 ---
 
 ## Open Questions / Necessary Refinements
 
-1. **Complete chapter list:** The wireframe above shows approximate chapters based on the raw homepage. The exact list (all active chapters, their names, postal codes, and multi-municipality pairings) needs to come from Leticia/Nico before build. The organigram on the current site mentions "14 groups" — the number may have grown.
+1. **Complete chapter list:** The wireframe above shows approximate chapters based on the raw homepage. The exact list (all active chapters, their names, postal codes, and multi-municipality pairings) needs to come from Leticia/Nico before build. Glossary now says ~45 groups — confirm the live count.
 2. **Map implementation:** Leaflet vs. Mapbox confirmed ✅ in existing spec. Confirm with Nico which library is in use and whether chapter coordinates are stored in the database.
-3. **Brussels cluster behaviour:** When a user taps the Brussels cluster pin, do they see all individual Brussels pins on the map, or are they taken to a "Brussels chapters" filtered list? Proposed: expand on the map to show individual pins. Confirm UX approach.
-4. **Liège external link handling:** Liège appears as a regular pin linking to kidicalmassliege.org. Should the list entry also have a visual ↗ indicator to signal it's external? Proposed: yes, for accessibility.
-5. **Chapter name display language:** On the NL route, should chapter names appear in Dutch (e.g., "Schaerbeek" = "Schaarbeek")? On FR, in French? Or are postal-code-based names neutral? Proposed: use the bilingual official name where it exists (e.g., "Ixelles – Elsene") consistently across all language routes.
+3. **Brussels cluster behaviour:** When a user taps the Brussel cluster pin, do they see all individual Brussel pins on the map, or are they taken to a "Brussel chapters" filtered list? Proposed: expand on the map to show individual pins. Confirm UX approach.
+4. ~~**Liège external link handling**~~ ✅ **Resolved 2026-06-02.** Liège + Mons are **hosted full chapters**, not external pins — ordinary pins → their hosted `/chapters/[postal]` pages (which may link out to their own domains). No external ↗ on the overview.
+5. **Chapter name display language:** On the NL route, show the NL municipality form first ("Schaarbeek", "Vorst – Forest"); FR route mirrors. Bilingual official names where both exist. Confirm the `Group.name` field stores both forms (or a locale-aware accessor exists).
+6. **Live-build drift — cards + count badges (NEW, blocks faithful build):** `groups/index.blade.php` currently renders a **3-col card grid** with **"X activities · X articles" count badges** and a "Part of: [parent]" line — contradicting the "names + links only, no per-chapter previews" decision (Scope). The count badges are noise to a family and the articles count is meaningless to anyone outside the org. **Proposed:** revert to the plain region-grouped name-link list; let the map carry the scale signal. Confirm with Frederik before the NL/build pass.
+7. ~~**Nav/H1 term — "Afdelingen" vs "Lokale groepen"**~~ ✅ **Resolved 2026-06-03 (Frederik): "Lokale groepen".** Applied site-wide — `lang/nl/nav.php` `nav.chapters` → "Lokale groepen" (nav label = H1), `NavigationTest` assertion updated, full suite green. "chapter" stays the internal EN label; route/file names unchanged (`groups.*` / `chapters.md`).
 
 ---
 

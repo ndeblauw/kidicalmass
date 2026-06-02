@@ -267,6 +267,9 @@
         </div>
     </section>
 
+    {{-- Support (PAT-10 contextual block) — the warm "just rode" moment --}}
+    <x-support-callout variant="event" />
+
     @if($hasMap)
         @push('scripts')
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />

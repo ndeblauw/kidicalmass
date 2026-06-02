@@ -23,9 +23,86 @@ it('serves every no-parameter public route with 200', function (string $path) {
     '/nl/privacy',
 ]);
 
-it('marks stub pages as unfinished', function () {
-    // About leaves are still stubs; Getting Started has been built out.
-    get('/nl/about/mission')->assertSee('Stub', escape: false);
+it('renders the About hub with all six sub-page nav cards', function () {
+    get('/nl/about')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Over ons')
+        // The 6 nav cards route to every leaf.
+        ->assertSee(route('about.mission'), escape: false)
+        ->assertSee(route('about.vision'), escape: false)
+        ->assertSee(route('about.organisation'), escape: false)
+        ->assertSee(route('articles.index'), escape: false)
+        ->assertSee(route('about.press'), escape: false)
+        ->assertSee(route('about.partners'), escape: false)
+        // Tone of voice: no em-dashes in rendered copy.
+        ->assertDontSee('—');
+});
+
+it('renders the Mission leaf with its key NL sections and forward links', function () {
+    get('/nl/about/mission')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Drie dingen die we doen')
+        ->assertSee('Iedereen is welkom')
+        ->assertSee('Doe mee met de beweging')
+        // The corridor must hand the visitor forward.
+        ->assertSee(route('getting-started'), escape: false)
+        ->assertSee(route('about.vision'), escape: false)
+        ->assertDontSee('—');
+});
+
+it('renders the Vision leaf with its four demands and parent voices', function () {
+    get('/nl/about/vision')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Wat we vragen')
+        ->assertSee('Veilige fietsinfrastructuur voor kinderen en gezinnen')
+        ->assertSee('het manifest')
+        ->assertDontSee('—');
+});
+
+it('renders the Organisation leaf with the named coordination duo', function () {
+    get('/nl/about/organisation')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Wie wat doet')
+        ->assertSee('Leticia')
+        ->assertSee('Veiligheid en routes')
+        ->assertSee(route('getting-started'), escape: false)
+        ->assertDontSee('—');
+});
+
+it('renders the Partners leaf with curated partners and a contact CTA', function () {
+    get('/nl/about/partners')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Institutionele partners en bondgenoten')
+        ->assertSee('Loopz')
+        ->assertSee('bike@kidicalmass.be')
+        ->assertSee(route('find-a-bike'), escape: false)
+        // Honest: no faker/lorem partner names leak from the seeded model.
+        ->assertDontSee('lorem')
+        ->assertDontSee('—');
+});
+
+it('renders the Press leaf contact-forward with an honest empty state', function () {
+    get('/nl/about/press')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Journalisten, we praten graag')
+        ->assertSee('bike@kidicalmass.be')
+        ->assertSee('We bouwen aan een persoverzicht')
+        ->assertDontSee('—');
+});
+
+it('renders the News feed in NL', function () {
+    get('/nl/about/news')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Nieuws')
+        ->assertSee('Updates van de beweging')
+        ->assertDontSee('—');
 });
 
 it('renders the Getting Started page with its key NL sections', function () {
@@ -79,4 +156,45 @@ it('routes the home "New here?" entry link to Getting Started', function () {
         ->assertOk()
         ->assertSee(route('getting-started'), escape: false)
         ->assertSee('New here? Start here', escape: false);
+});
+
+it('renders the Steun support page with its key NL sections', function () {
+    get('/nl/steun-ons')
+        ->assertOk()
+        ->assertDontSee('Stub', escape: false)
+        ->assertSee('Steun Kidical Mass')
+        ->assertSee('Meefietsen is gratis voor elk gezin')
+        ->assertSee('Steun vanaf €3 per maand')
+        // The riding-stays-free reassurance is non-negotiable (and not phrased as a threat).
+        ->assertSee('Meefietsen blijft altijd gratis')
+        // Links out to Growfunding; the site processes no payments.
+        ->assertSee('growfunding.be')
+        // No backer count (dropped); movement scale instead.
+        ->assertSee('honderden gezinnen')
+        // Terminology: "lid" is retired; tone of voice: no em-dashes.
+        ->assertDontSee('Word lid')
+        ->assertDontSee('Lid worden')
+        ->assertDontSee('—');
+});
+
+it('shows the support callout on the home page', function () {
+    get('/nl')
+        ->assertOk()
+        ->assertSee('Kidical Mass blijft gratis')
+        ->assertSee(route('membership'), escape: false);
+});
+
+it('shows the slim partner recognition strip site-wide, linking to the Partners page', function () {
+    // Recognition only: funder credit + a single link to /about/partners.
+    get('/nl')
+        ->assertOk()
+        ->assertSee('Mede mogelijk gemaakt door')
+        ->assertSee('Met de steun van Brussel Mobiliteit')
+        ->assertSee(route('about.partners'), escape: false)
+        // Acquisition + the supporters list + the dead links moved OFF the global
+        // strip onto /about/partners; they must not leak back into every page.
+        ->assertDontSee('Ook partner worden?')
+        ->assertDontSee('Sponsorformules')
+        ->assertDontSee('Partnercharter')
+        ->assertDontSee('Ook ondersteund door');
 });

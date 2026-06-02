@@ -14,11 +14,11 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 | State | Count | IDs |
 |---|---|---|
-| Open | 1 | `D-10` |
+| Open | 2 | `D-10`, `D-11` |
 | Partly | 4 | `D-1`, `D-3`, `D-7`, `D-9` |
 | Closed | 2 | `D-2`, `D-4` |
 
-**Conclusion gate:** **one fully-Open design concern: `D-10` (page metadata / SEO / social share previews — never addressed).** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
+**Conclusion gate:** **two fully-Open design concerns: `D-10` (page metadata / SEO / social share previews — never addressed) and `D-11` (About credibility leaves have no real data — Partners + Press).** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (back-office detail, pending Alexandre), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
 
 ---
 
@@ -31,6 +31,16 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
   - **Design / content** — the title pattern, a per-page description written in voice ([`tone-of-voice.md`](../../tone-of-voice.md)), and an **OG-image strategy per page type** (events especially want their own hero/route image; a branded default for the rest).
 - **Safe to:** keep shipping pages now; this is additive `<head>` work that doesn't block the surface pass. Do **not** call the site launch-ready until it's resolved — bare share previews are launch-visible.
 - **Next step:** decide title pattern + default OG image with Frederik; spec the per-page-type description/OG plan; build the head partial when Build opens.
+
+### `D-11` — About credibility leaves have no real data *(Partners + Press)* — **Open** (flagged 2026-06-03)
+- **Problem:** the two About leaves whose *whole job* is credibility/social proof have no usable data behind them. **Partners:** the `partners` table holds only faker/lorem-ipsum rows with **no cleared logo assets**, **no national records** (all 15 seeded rows carry a `group_id`, i.e. chapter-local), and **no institutional/in-kind category column**, so it can't drive a real Partners page. **This is now launch-visible site-wide:** the slim `partner-strip` ([PAT-5](40-patterns.md), every page above the footer) reads the model for **national** logos and currently finds none, so it renders only the hardcoded Brussel Mobiliteit logo — **we need real national-partner records + cleared logos to populate it.** **Press:** there is **no Press model/table at all**, and the outlet URLs in the spec ([`about-content.md`](30-skeleton/about-content.md)) are unverified. These pages exist to prove the movement is real — so faking them is self-defeating.
+- **Decided handling (this build):** ship both honestly. **Partners** is built from **curated static NL copy** (the two categories + named partners from the spec) — looks real because the *names* are real, no lorem. **Press** ships **contact-forward** (hero + "journalisten, we praten graag" + `bike@kidicalmass.be`) with an **honest empty state** — no fabricated coverage. Structure is launch-ready; the data is not.
+- **To reach Back 🟢:**
+  - **Partners** — real partner records + cleared logos + a category field (institutional / movement-ally / in-kind), then bind `/about/partners` to the model; reconcile with the site-wide `partner-strip` (which already reads the model for logos).
+  - **Press** — a `Press` model (`outlet, headline, url, date, language, media_type, is_featured, is_archived, chapter_id`) + a curated, **verified** item list (priority: RTBF, BX1 video), incl. the 2020–2021 dead-link "archived" rule.
+- **Couples to:** the all-Brussels partner list (national-scope pass with Leticia) and the `bike@kidicalmass.be` vs dedicated `pers@`/`partners@` question — both in [`about-journey.md` § Open questions](30-skeleton/about-journey.md).
+- **Safe to:** ship the pages now; do **not** call them Back/OK until the data lands.
+- **Next step:** confirm the real partner + press lists with the coordination duo; size the Press model for Build.
 
 ---
 

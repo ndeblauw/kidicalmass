@@ -981,7 +981,11 @@ Lists and contextualises who supports Kidical Mass. Social proof and legitimacy.
 
 - **Brussels-only scope ⚠️:** All confirmed partners are Brussels-based. This is acknowledged as a known gap — the page should include language that makes room for future national partners without implying the current list is exhaustive.
 
-- **"Become a partner" CTA:** Include — Kidical Mass is actively growing and open to new partnerships.
+- **"Become a partner" CTA:** Include — Kidical Mass is actively growing and open to new partnerships. **= a contact CTA** (`bike@kidicalmass.be`), matching the live site. The "Sponsorformules" and "Partnercharter" labels from the old footer were **placeholders for documents that do not exist** (the raw site only had `mailto:` CTAs — see [`partners.md`](partners.md)). If those documents get written, they slot in here; until then, no links.
+
+- **Absorbs the old global band (2026-06-03):** the site-wide partner band was reduced to a slim [PAT-5](../40-patterns.md) recognition strip ([`partners.md`](partners.md)). This page now owns what moved off it: the **"Met de steun van"** funder block (Brussel Mobiliteit), the **"Ook ondersteund door"** supporters list (Clean Cities, Bruxelles Ville / Brussel Stad, Schaarbeek, spacefunders), and partner **categories**.
+
+- **Data gap ⚠️:** the `partners` table has **no category field** (`group_id`, `name`, `url`, `description_nl/fr`, `show_logo`, `visible` only). The institutional / allies / operational grouping can't be data-driven yet — flag to Nico.
 
 ---
 

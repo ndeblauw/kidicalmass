@@ -18,7 +18,7 @@
     </main>
 
 
-    <!-- Partners/Sponsors Section -->
+    {{-- Partner recognition strip (PAT-5, slim). Full story on /about/partners. --}}
     <x-partners />
 
     <x-layouts::site.footer />
