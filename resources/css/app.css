@@ -3421,7 +3421,7 @@ select:focus[data-flux-control] {
        ══════════════════════════════════════════════════════════════════════ */
 
     :root {
-        --page-hero-h: 26rem;          /* desktop hero height (tune live) */
+        --page-hero-h: 30rem;          /* desktop hero height (fits eyebrow + 2-line title + controls) */
     }
 
     .page-hero {
@@ -3440,7 +3440,7 @@ select:focus[data-flux-control] {
         align-items: center;
         height: 100%;
         gap: 1.5rem;
-        padding-top: 5.5rem;           /* clears the floating pill */
+        padding-top: 6.5rem;           /* clears the floating pill (pill bottom ≈ 5.5rem) */
         padding-bottom: 2rem;
 
         @media (min-width: 768px) {
@@ -3516,8 +3516,8 @@ select:focus[data-flux-control] {
     }
 
     @media (max-width: 767px) {
-        :root { --page-hero-h: 20rem; }
-        .page-hero__inner { padding-top: 5rem; }
+        :root { --page-hero-h: 22rem; }
+        .page-hero__inner { padding-top: 5.75rem; }
     }
 }
 
