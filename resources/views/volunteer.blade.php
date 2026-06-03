@@ -13,27 +13,7 @@
 --}}
 <x-layouts::site title="Meehelpen">
 
-    {{-- HERO — poster layout, mirrors the ride/show hero --}}
-    <section class="activity-hero ho-hero">
-
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-
-        <div class="container mx-auto px-4 activity-hero__inner">
-
-            <div class="activity-hero__copy">
-                <h1>Meehelpen</h1>
-                <p class="ho-hero__lead">Word deel van de ploeg die elke rit tot een feest maakt. Je hoeft geen fietsexpert te zijn, gewoon goesting om mee te doen.</p>
-            </div>
-
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo">
-                    <img src="{{ asset('img/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Vrijwilligers van Kidical Mass in roze hesjes met vlaggen" class="activity-hero__img">
-                </div>
-            </div>
-
-        </div>
-
-    </section>
+    <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/kid-waving.png">
 
     {{-- PITCH (contained) --}}
     <p class="ho-intro">
@@ -235,5 +215,7 @@
     });
     </script>
     @endpush
+
+    </x-page-hero>
 
 </x-layouts::site>
