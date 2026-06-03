@@ -3515,6 +3515,12 @@ select:focus[data-flux-control] {
         padding-bottom: 3rem;
     }
 
+    /* .grp-hero__body is styled light-on-blue for the legacy hero; on the white
+       panel it needs dark body text. Scoped so other (blue) uses are untouched. */
+    .page-panel .grp-hero__body {
+        color: var(--color-text-body);
+    }
+
     @media (max-width: 767px) {
         :root { --page-hero-h: 22rem; }
         .page-hero__inner { padding-top: 5.75rem; }

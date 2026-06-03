@@ -7,16 +7,12 @@
 --}}
 <x-layouts::site title="Lokale groepen">
 
-    {{-- HEADER — slim blue band (directory page; the list is the point) --}}
-    <section class="index-hero">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="index-hero__daisy">
+    <x-page-hero
+        eyebrow="Lokale groepen"
+        title="Jouw buurt fietst al, rij mee."
+        illustration="img/illustrations/person-with-boombox.png">
 
-        <div class="container mx-auto px-4 index-hero__inner">
-            <h1>Lokale groepen</h1>
-            <p class="grp-hero__lead">Samen op straat, overal in België.</p>
-            <p class="grp-hero__body">
-                Kidical Mass is één grote beweging die op vaste momenten samen uitrijdt en het hele jaar door lokaal verschil maakt. In elke gemeente trekt een groep buren de straat op voor veilig fietsen met kinderen.
-            </p>
+        <x-slot:controls>
             <dl class="grp-hero__stats">
                 <div class="grp-hero__stat">
                     <dt class="grp-hero__stat-label">lokale {{ $groups->count() === 1 ? 'groep' : 'groepen' }}</dt>
@@ -27,8 +23,11 @@
                     <dd class="grp-hero__stat-num">{{ $activityCount }}</dd>
                 </div>
             </dl>
-        </div>
-    </section>
+        </x-slot:controls>
+
+        <p class="grp-hero__body">
+            Kidical Mass is één grote beweging die op vaste momenten samen uitrijdt en het hele jaar door lokaal verschil maakt. In elke gemeente trekt een groep buren de straat op voor veilig fietsen met kinderen.
+        </p>
 
     @if ($groups->isNotEmpty())
         @php
@@ -84,5 +83,7 @@
             <a href="{{ route('volunteer') }}" class="grp-cta__btn link-plain">Zo begin je →</a>
         </div>
     </section>
+
+    </x-page-hero>
 
 </x-layouts::site>

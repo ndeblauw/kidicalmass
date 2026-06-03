@@ -171,7 +171,7 @@ it('renders Lokale groepen with NL chrome, no count badges and no em-dashes', fu
     get('/nl/chapters')
         ->assertOk()
         ->assertSee('Lokale groepen')
-        ->assertSee('in heel België')
+        ->assertSee('Jouw buurt fietst al, rij mee.')
         ->assertSee('Vind je groep')
         ->assertSee('Staat jouw stad er nog niet bij?')
         ->assertSee(route('volunteer'), escape: false)

@@ -110,7 +110,7 @@ test('groups index header explains the movement and shows live scale stats', fun
 
     get(route('groups.index'))
         ->assertOk()
-        ->assertSee('Samen op straat, overal in België.')
+        ->assertSee('Jouw buurt fietst al, rij mee.')
         ->assertSee('lokale groepen')          // 2 visible gemeente groups
         ->assertSee('activiteiten dit jaar')
         ->assertViewHas('activityCount', 1)     // only the current-year activity counts
