@@ -87,6 +87,11 @@
         </div>
     </section>
 
+    {{-- STEUN — contextual ask right after the "we run on nothing" money model --}}
+    <x-about-support
+        title="Geen hoofdkantoor, geen betaald personeel"
+        body="Kidical Mass draait op vrijwilligers en op de steun van mensen zoals jij. Zo blijven we onafhankelijk en gratis." />
+
     {{-- COÖRDINATIEDUO — named --}}
     <section class="about-section">
         <h2 class="about-section__title">Het coördinatieduo</h2>

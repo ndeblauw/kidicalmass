@@ -75,6 +75,11 @@
         </div>
     </section>
 
+    {{-- STEUN — contextual ask at the peak-intent moment, right after the impact stats --}}
+    <x-about-support
+        title="Al onze ritten zijn gratis"
+        body="Voor elk gezin, in elke buurt. Jouw steun zorgt dat dat zo blijft, en dat er nieuwe buurten bijkomen." />
+
     {{-- IEDEREEN IS WELKOM — contained --}}
     <section class="about-section">
         <h2 class="about-section__title">Iedereen is welkom</h2>
@@ -90,10 +95,15 @@
         <figcaption>Julienne, mama van twee kinderen (2 en 5 jaar)</figcaption>
     </figure>
 
-    {{-- CTA --}}
+    {{-- CTA — deciders first (Help mee primary); the family door stays as secondary --}}
     <x-about-cta
         title="Doe mee met de beweging"
-        sub="Vind een rit bij jou in de buurt, of geef zelf mee vorm aan de beweging." />
+        sub="Word vrijwilliger en help ritten mogelijk maken, of rij gewoon eens mee.">
+        <x-slot:actions>
+            <a href="{{ route('volunteer') }}" class="about-cta__btn about-cta__btn--primary link-plain">Help mee →</a>
+            <a href="{{ route('activities.index') }}" class="about-cta__btn about-cta__btn--ghost link-plain">Vind een rit →</a>
+        </x-slot:actions>
+    </x-about-cta>
 
     @push('scripts')
     <x-about-reveal selector=".about-band .activity-promises__item" />

@@ -44,6 +44,20 @@
                 <p class="about-contact-card__note">We antwoorden zo snel als vrijwilligers dat kunnen.</p>
             </aside>
         </div>
+
+        {{-- Eerder in de media — alleen waarheidsgetrouwe titelnamen, geen verzonnen
+             links of koppen. Het gelinkte archief volgt met een Press-model (zie D-11). --}}
+        <div class="about-press__outlets">
+            <span class="about-press__outlets-label">Eerder verschenen in</span>
+            <ul role="list">
+                <li>RTBF</li>
+                <li>BX1</li>
+                <li>BRUZZ</li>
+                <li>La DH</li>
+                <li>HLN</li>
+                <li>Het Nieuwsblad</li>
+            </ul>
+        </div>
     </section>
 
     {{-- PERSOVERZICHT — honest empty state (no Press model yet, see D-11) --}}

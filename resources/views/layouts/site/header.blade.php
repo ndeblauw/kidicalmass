@@ -21,17 +21,11 @@
                 <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')" class="font-bold text-lg">{{ __('nav.chapters') }}</flux:navbar.item>
                 <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')" class="font-bold text-lg">{{ __('nav.getting_started') }}</flux:navbar.item>
                 <flux:navbar.item href="{{ route('volunteer') }}" :current="request()->routeIs('volunteer')" class="font-bold text-lg">{{ __('nav.help_out') }}</flux:navbar.item>
-                <flux:dropdown>
-                    <flux:navbar.item icon:trailing="chevron-down" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
-                    <flux:menu>
-                        <flux:menu.item href="{{ route('about.mission') }}">{{ __('nav.mission') }}</flux:menu.item>
-                        <flux:menu.item href="{{ route('about.vision') }}">{{ __('nav.vision') }}</flux:menu.item>
-                        <flux:menu.item href="{{ route('about.organisation') }}">{{ __('nav.organisation') }}</flux:menu.item>
-                        <flux:menu.item href="{{ route('articles.index') }}">{{ __('nav.news') }}</flux:menu.item>
-                        <flux:menu.item href="{{ route('about.press') }}">{{ __('nav.press') }}</flux:menu.item>
-                        <flux:menu.item href="{{ route('about.partners') }}">{{ __('nav.partners') }}</flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
+                {{-- "Over ons" links straight to the /about hub (the hub page IS the
+                     sub-page menu, with all six leaves as cards). A JS dropdown was inert
+                     here: the public layout loads no Flux/Alpine scripts. This keeps
+                     desktop consistent with mobile and works with zero JS. --}}
+                <flux:navbar.item href="{{ route('about') }}" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
             </flux:navbar>
 
             <!-- Support CTA (replaces the login button; login moved to the footer) -->

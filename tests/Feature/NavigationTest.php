@@ -12,6 +12,15 @@ it('shows the five-item dutch main nav on a public page', function () {
         ->assertDontSee('Register');
 });
 
+it('links "Over ons" straight to the /about hub instead of a JS dropdown', function () {
+    // The public layout loads no Flux/Alpine JS, so a dropdown menu was inert. The
+    // hub page IS the sub-page menu; the nav must link to it directly (desktop +
+    // mobile both point at route('about')).
+    get('/nl')
+        ->assertSee(route('about'), escape: false)
+        ->assertDontSee('data-flux-dropdown', escape: false);
+});
+
 it('links the footer to contact, membership and the combined legal page', function () {
     // Privacy + cookies are one page now; the footer carries a single legal link.
     get('/nl')

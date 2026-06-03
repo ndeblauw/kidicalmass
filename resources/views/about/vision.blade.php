@@ -87,7 +87,12 @@
     {{-- CTA --}}
     <x-about-cta
         title="Doe mee met de beweging"
-        sub="Elke rit is ook een vraag aan de stad. Rij mee, of geef de beweging mee vorm." />
+        sub="Elke rit is ook een vraag aan de stad. Help mee, of steun de beweging zodat ze kan blijven groeien.">
+        <x-slot:actions>
+            <a href="{{ route('volunteer') }}" class="about-cta__btn about-cta__btn--primary link-plain">Help mee →</a>
+            <a href="{{ route('membership') }}" class="about-cta__btn about-cta__btn--ghost link-plain">Steun Kidical Mass →</a>
+        </x-slot:actions>
+    </x-about-cta>
 
     @push('scripts')
     <x-about-reveal selector=".about-demand" :transform="true" />

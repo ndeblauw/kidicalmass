@@ -24,8 +24,41 @@
         </div>
     </section>
 
-    {{-- SUBPAGINA'S — 6 nav cards --}}
+    {{-- WAAR BEN JE NAAR OP ZOEK — intention triage. Routes to the EXITS deciders
+         actually came for (act), above the browse menu (read). --}}
     <section class="about-section about-section--wide">
+        <h2 class="about-section__title">Waar ben je naar op zoek?</h2>
+        <ul class="about-intent" role="list">
+            <li>
+                <a href="{{ route('volunteer') }}" class="about-intent-card link-plain">
+                    <span class="about-intent-card__label">Een groep starten of meehelpen</span>
+                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('about.press') }}" class="about-intent-card link-plain">
+                    <span class="about-intent-card__label">Ik ben pers</span>
+                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('about.partners') }}" class="about-intent-card link-plain">
+                    <span class="about-intent-card__label">Partner of sponsor worden</span>
+                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('membership') }}" class="about-intent-card link-plain">
+                    <span class="about-intent-card__label">De beweging steunen</span>
+                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    {{-- SUBPAGINA'S — the browse path (6 nav cards) --}}
+    <section class="about-section about-section--wide">
+        <h2 class="about-section__title">Of lees meer over de beweging</h2>
         <ul class="about-nav" role="list">
             <li>
                 <a href="{{ route('about.mission') }}" class="about-nav-card link-plain">
@@ -95,7 +128,7 @@
         sub="Rij mee met een rit bij jou in de buurt, of geef zelf mee vorm aan de beweging." />
 
     @push('scripts')
-    <x-about-reveal selector=".about-nav-card" :transform="true" />
+    <x-about-reveal selector=".about-intent-card, .about-nav-card" :transform="true" />
     @endpush
 
 </x-layouts::site>
