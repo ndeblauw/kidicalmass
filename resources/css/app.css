@@ -3387,6 +3387,35 @@ select:focus[data-flux-control] {
 
 @layer components {
     /* ══════════════════════════════════════════════════════════════════════
+       Floating compact white pill header — sits over the fixed brand-blue
+       hero (.page-hero, z-0) with blue showing around it.
+       ══════════════════════════════════════════════════════════════════════ */
+
+    .site-header {
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 60;                   /* above .page-panel (10) and .page-hero (0) */
+    }
+
+    .site-nav {
+        margin-top: 1rem;
+        background-color: white;
+        border-radius: 1.25rem;
+        box-shadow: 0 0.5rem 1.5rem -0.5rem color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+    }
+
+    .site-nav__bar {
+        height: 4.5rem;
+        padding-inline: 1.25rem;
+    }
+
+    .site-nav__logo {
+        height: 3rem;
+    }
+}
+
+@layer components {
+    /* ══════════════════════════════════════════════════════════════════════
        Unified interior-page hero: a fixed brand-blue hero that the white
        .page-panel scrolls OVER. See spec 2026-06-03-fixed-hero-scroll-over.
        ══════════════════════════════════════════════════════════════════════ */
