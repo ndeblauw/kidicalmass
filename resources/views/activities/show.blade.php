@@ -19,6 +19,10 @@
             <div class="activity-hero__copy">
                 <h1>{{ $activity->title_nl }}</h1>
 
+                <p class="activity-hero__date">
+                    <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ \Illuminate\Support\Str::ucfirst($activity->begin_date->translatedFormat('l j F')) }}</time>
+                </p>
+
                 @if($activity->groups->isNotEmpty())
                     <div class="activity-hero__chapter">
                         <svg class="activity-hero__chapter-pin" viewBox="0 0 40 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -58,15 +62,12 @@
                 <dl class="activity-info-list">
                     <div class="activity-info-item">
                         <div class="activity-info-item__icon-wrap">
-                            <flux:icon.calendar-days variant="solid" class="activity-info-item__icon" aria-hidden="true" />
+                            <flux:icon.clock variant="solid" class="activity-info-item__icon" aria-hidden="true" />
                         </div>
                         <div>
-                            <dt>Wanneer</dt>
+                            <dt>Startuur</dt>
                             <dd>
-                                <time datetime="{{ $activity->begin_date->toIso8601String() }}">
-                                    {{ $activity->begin_date->translatedFormat('l j F') }}<br>
-                                    {{ $activity->begin_date->translatedFormat('H\hi') }}
-                                </time>
+                                <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ $activity->begin_date->translatedFormat('H\hi') }}</time>
                             </dd>
                         </div>
                     </div>

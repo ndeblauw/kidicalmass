@@ -10,11 +10,9 @@ class ActivityController extends Controller
 {
     public function index(string $locale): View
     {
-        $activities = Activity::with(['author', 'groups'])
-            ->orderBy('begin_date')
-            ->paginate(12);
-
-        return view('activities.index', compact('activities'));
+        // The hero + opt-in are static; the filterable rides list is the <livewire:ride-calendar>
+        // component (location-first filter + grouped agenda, rides-only per D-2/J1).
+        return view('activities.index');
     }
 
     public function show(string $locale, Activity $activity): View

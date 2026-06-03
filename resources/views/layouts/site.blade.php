@@ -23,6 +23,7 @@
 
     <x-layouts::site.footer />
 
+    @fluxScripts
     @stack('scripts')
 </body>
 </html>
