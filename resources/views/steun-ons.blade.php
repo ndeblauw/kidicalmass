@@ -15,27 +15,7 @@
         $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
     @endphp
 
-    {{-- HERO — poster layout, mirrors the ride/show hero --}}
-    <section class="activity-hero steun-hero">
-
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-
-        <div class="container mx-auto px-4 activity-hero__inner">
-
-            <div class="activity-hero__copy">
-                <h1>{{ __('support.title') }}</h1>
-                <p class="steun-hero__lead">{{ __('support.hero_lead') }}</p>
-            </div>
-
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo steun-hero__circle">
-                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
-                </div>
-            </div>
-
-        </div>
-
-    </section>
+    <x-page-hero eyebrow="Steun ons" title="Help de beweging groeien." illustration="img/illustrations/crocodile-on-tricycle.png">
 
     {{-- WAT JE STEUN MOGELIJK MAAKT — reuses the promises band --}}
     <section class="activity-promises steun-funds">
@@ -116,5 +96,7 @@
     });
     </script>
     @endpush
+
+    </x-page-hero>
 
 </x-layouts::site>

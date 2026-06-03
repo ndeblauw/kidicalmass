@@ -169,7 +169,7 @@ it('renders the Steun support page with its key NL sections', function () {
         ->assertOk()
         ->assertDontSee('Stub', escape: false)
         ->assertSee('Steun Kidical Mass')
-        ->assertSee('Meefietsen is gratis voor elk gezin')
+        ->assertSee('Help de beweging groeien.')
         ->assertSee('Steun vanaf €3 per maand')
         // The riding-stays-free reassurance is non-negotiable (and not phrased as a threat).
         ->assertSee('Meefietsen blijft altijd gratis')
