@@ -6,7 +6,9 @@
     <title>{{ $title ?? 'Kidical Mass Belgium' }}</title>
     <meta name="description" content="Kidical Mass Belgium - Safe and fun cycling for families and children">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=nunito-sans:400,400i,700&family=poppins:800" rel="stylesheet">
+    {{-- Bunny needs families pipe-separated in ONE family= param; the repeated &family=
+         syntax silently keeps only the first (so Poppins never loaded before this fix). --}}
+    <link href="https://fonts.bunny.net/css?family=nunito-sans:400,400i,700%7Cpoppins:800%7Ccaprasimo:400" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col">

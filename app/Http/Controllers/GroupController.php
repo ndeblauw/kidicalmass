@@ -16,7 +16,9 @@ class GroupController extends Controller
             ->withCount(['articles', 'activities'])
             ->get();
 
-        return view('groups.index', compact('groups'));
+        $activityCount = Activity::whereYear('begin_date', now()->year)->count();
+
+        return view('groups.index', compact('groups', 'activityCount'));
     }
 
     public function show(string $locale, Group $group): View

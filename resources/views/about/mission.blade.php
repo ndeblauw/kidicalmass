@@ -15,7 +15,6 @@
         <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
         <div class="container mx-auto px-4 activity-hero__inner">
             <div class="activity-hero__copy">
-                <span class="about-hero__badge">{{ __('nav.about') }}</span>
                 <h1>Missie</h1>
                 <p class="about-hero__lead">We organiseren vrolijke, veilige fietsparades voor kinderen in heel België. En we zijn nog maar net begonnen.</p>
             </div>

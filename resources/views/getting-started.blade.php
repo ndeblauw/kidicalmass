@@ -21,10 +21,6 @@
         <div class="container mx-auto px-4 activity-hero__inner">
 
             <div class="activity-hero__copy">
-                <span class="gs-hero__badge">
-                    <flux:icon.hand-raised variant="solid" aria-hidden="true" />
-                    Welkom
-                </span>
                 <h1>Voor het eerst mee</h1>
                 <p class="gs-hero__lead">Kom zoals je bent. Dit mag je verwachten.</p>
             </div>

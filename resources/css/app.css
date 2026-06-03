@@ -10,7 +10,10 @@
 
 @theme {
     --font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-heading: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    /* Caprasimo is the header face site-wide (replaces Poppins, which stays a fallback for
+       the brief load / if Caprasimo fails). It ships a single weight, so `font-synthesis:
+       none` on the body keeps the many 800-weight heading rules from faux-bolding it. */
+    --font-heading: 'Caprasimo', 'Poppins', ui-sans-serif, system-ui, sans-serif;
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -64,6 +67,9 @@
         color: var(--color-text-body);
         font-size: var(--text-xl);
         line-height: 1.625;
+        /* Caprasimo (headers) is single-weight; never fake a bold for it. Nunito Sans has a
+           real 400 + 700, so body bold is unaffected. */
+        font-synthesis: none;
     }
 
     a {
@@ -146,9 +152,7 @@
 
     .home-hero h1 {
         color: white;
-        display: inline-block;
-        transform: rotate(-3deg);
-        transform-origin: center;
+        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
         line-height: 1.0;
     }
 }
@@ -302,14 +306,22 @@
     .activity-hero__copy {
         h1 {
             color: white;
-            font-size: clamp(var(--text-4xl), 5vw, var(--text-7xl));
+            font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
             line-height: 1.0;
             margin-block: 0.75rem 2rem;
-            display: inline-block;
-            transform: rotate(-3deg);
-            transform-origin: left center;
             animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
         }
+    }
+
+    /* Date subtitle under the hero title (yellow), so "when" reads with the title. */
+    .activity-hero__date {
+        color: var(--color-kidical-yellow);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+        margin-top: -1.25rem;
+        margin-bottom: 1.25rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
     }
 
     .activity-hero__visual {
@@ -1263,32 +1275,9 @@ header [data-flux-navbar-items][data-current]::after {
     /* ═══ Getting Started (P-12) — mirrors the ride/show layout system ═══ */
 
     /* HERO reuses .activity-hero* ; these are the GS-only adjustments. */
-    .gs-hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: var(--color-kidical-sky);
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        padding: 0.5rem 1rem;
-        border-radius: 0.75rem;
-        transform: rotate(-3deg);
-        margin-bottom: 1.5rem;
-        animation: hero-chapter-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-    }
-
-    .gs-hero__badge svg {
-        width: 1.05rem;
-        height: 1.05rem;
-    }
-
     .gs-hero__lead {
-        color: rgba(255, 255, 255, 0.92);
-        font-size: clamp(var(--text-xl), 2vw, var(--text-2xl));
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
         font-weight: 700;
         line-height: 1.4;
         max-width: 32ch;
@@ -1426,26 +1415,8 @@ header [data-flux-navbar-items][data-current]::after {
        deltas live here, plus the get/ask band, photo joy-band, picker and coda. */
 
     /* Hero deltas (on .activity-hero, solid blue) */
-    .ho-hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: var(--color-kidical-sky);
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding: 0.4rem 0.95rem;
-        border-radius: 9999px;
-        transform: rotate(-3deg);
-    }
-
-    .ho-hero__badge svg { width: 1.1rem; height: 1.1rem; }
-
     .ho-hero__lead {
-        color: color-mix(in oklab, white, transparent 6%);
+        color: var(--color-kidical-yellow);
         font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
         font-weight: 700;
         line-height: 1.3;
@@ -1466,95 +1437,136 @@ header [data-flux-navbar-items][data-current]::after {
     .ho-roles { background: var(--color-kidical-yellow); }
     .ho-roles .activity-promises__item:nth-child(3) { transform: rotate(-1deg); }
 
-    /* "Wat meedoen inhoudt" — sky band, two honest columns */
+    /* "Wat meedoen inhoudt" — scrollytelling (Frederik 2026-06-03). Each block holds ~the
+       viewport with ample air; the large photo on the right crossfades to the active block
+       (JS IntersectionObserver). Bolder type, white (no band). Mobile: stacks, both photos. */
     .ho-deal {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        background: var(--color-kidical-sky);
-        padding-block: clamp(2.75rem, 6vw, 4.5rem);
+        padding-block: clamp(3rem, 6vw, 5rem);
     }
 
-    .ho-deal__title { color: var(--color-kidical-ink); margin-bottom: 2rem; }
-
-    .ho-deal__cols {
+    /* Default stretch (NOT align-items:start) so the media cell grows to the text height —
+       that's what gives the sticky frame room to travel. */
+    .ho-deal__layout {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
 
-        @media (min-width: 768px) { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+        @media (min-width: 1024px) {
+            grid-template-columns: 1fr 1fr;
+            gap: 4.5rem;
+        }
     }
 
-    .ho-deal__col h3 {
+    /* Each block fills ~the viewport, content vertically centred (ample whitespace). */
+    .ho-deal__block + .ho-deal__block { margin-top: 3rem; }
+
+    @media (min-width: 1024px) {
+        .ho-deal__block {
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .ho-deal__block + .ho-deal__block { margin-top: 0; }
+    }
+
+    .ho-deal__subtitle {
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: var(--text-xl);
+        font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+        line-height: 1.05;
         color: var(--color-kidical-ink);
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 
-    .ho-deal__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+    .ho-deal__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; }
 
     .ho-deal__list li {
         position: relative;
-        padding-left: 1.9rem;
-        line-height: 1.5;
+        padding-left: 2.9rem;
+        font-size: clamp(var(--text-xl), 1.7vw, var(--text-2xl));
+        font-weight: 600;
+        line-height: 1.45;
         color: var(--color-kidical-ink);
     }
 
+    /* On-brand markers: the signature rounded-square chip (rotated, white icon) — the same
+       motif as the activity icon chips — instead of the off-brand thin outline ticks. */
     .ho-deal__list li::before {
         content: "";
         position: absolute;
         left: 0;
-        top: 0.18em;
-        width: 1.25rem;
-        height: 1.25rem;
+        top: 0.05em;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 32%;
+        transform: rotate(-4deg);
         background-color: var(--color-kidical-green);
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-size: 64%;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
     .ho-deal__list--ask li::before {
         background-color: var(--color-kidical-red);
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
 
-    /* Photo joy-band — real volunteers (contained on white) */
-    .ho-joy { margin-block: calc(var(--spacing) * 14); }
-
-    .ho-joy__title { color: var(--color-kidical-ink); margin-bottom: 0.5rem; }
-
-    .ho-joy__lead {
-        max-width: 54ch;
-        margin-bottom: 2rem;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
-    }
-
-    .ho-joy__grid {
-        list-style: none;
+    /* Photo frame — mobile: both photos stacked + caption below. */
+    .ho-deal__frame {
+        position: relative;
         margin: 0;
-        padding: 0;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
-
-        @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
     }
 
-    .ho-joy__photo {
-        margin: 0;
-        border-radius: 1.25rem;
-        overflow: hidden;
+    .ho-deal__img {
+        width: 100%;
         aspect-ratio: 4 / 5;
-        box-shadow: 0 10px 30px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
-        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        object-fit: cover;
+        object-position: center 30%;
+        display: block;
+        border-radius: 1.5rem;
+        box-shadow: 0 18px 44px -18px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
 
-    .ho-joy__photo:nth-child(odd) { transform: rotate(-1.5deg); }
-    .ho-joy__photo:nth-child(even) { transform: rotate(1.5deg); }
-    .ho-joy__photo:hover { transform: rotate(0deg) scale(1.03); }
+    /* Desktop: one large sticky photo that crossfades to the active block. */
+    @media (min-width: 1024px) {
+        .ho-deal__media-sticky {
+            position: sticky;
+            top: 5.5rem;
+        }
 
-    .ho-joy__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .ho-deal__frame {
+            display: block;
+            height: calc(100vh - 7.5rem);
+            border-radius: 1.75rem;
+            overflow: hidden;
+            box-shadow: 0 28px 64px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+        }
+
+        .ho-deal__img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            border-radius: 0;
+            box-shadow: none;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 0.8s ease, transform 1.3s ease;
+        }
+        .ho-deal__img.is-active { opacity: 1; transform: scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ho-deal__img { transition: none; transform: none; }
+        .ho-deal__img.is-active { transform: none; }
+    }
+
+    /* (.ho-joy photo band merged into .ho-deal as the sticky collage — 2026-06-03) */
 
     /* Find your group — light-blue band, the climax */
     .ho-find {
@@ -1621,13 +1633,9 @@ header [data-flux-navbar-items][data-current]::after {
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
     }
 
-    .ho-start__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-2xl);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 10%);
-        margin-bottom: 0.75rem;
-    }
+    /* Normalised to the section-title convention (= base h2, full ink) so it reads
+       consistently with .ho-find__title — the find/start pair are peer sections. */
+    .ho-start__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
 
     .ho-start p { margin-bottom: 0.75rem; }
 }
@@ -1635,8 +1643,8 @@ header [data-flux-navbar-items][data-current]::after {
 /* ─── Keyframes ─── */
 
 @keyframes hero-h1-in {
-    from { opacity: 0; transform: rotate(-3deg) translateY(20px); }
-    to   { opacity: 1; transform: rotate(-3deg) translateY(0); }
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes hero-chapter-in {
@@ -1664,24 +1672,17 @@ header [data-flux-navbar-items][data-current]::after {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Slim-header badge: fades up but keeps its −3° tilt and lands at its layout spot
-   (unlike hero-chapter-in, which ends translated 3.5rem down for the chapter label). */
-@keyframes badge-in {
-    from { opacity: 0; transform: translateY(10px) rotate(-3deg); }
-    to   { opacity: 1; transform: translateY(0) rotate(-3deg); }
-}
-
 /* ─── Reduced motion ─── */
 
 @media (prefers-reduced-motion: reduce) {
     .activity-hero__copy h1,
+    .activity-hero__date,
     .activity-hero__photo,
     .activity-hero__chapter,
     .activity-organizers__content,
     .volunteer-signup__success-icon,
     .volunteer-signup__success h3,
     .volunteer-signup__success p,
-    .gs-hero__badge,
     .gs-hero__lead,
     .gs-faq__item[open] .gs-faq__a,
     .ho-hero__copy h1,
@@ -1821,33 +1822,9 @@ select:focus[data-flux-control] {
 
     /* ─── /steun-ons — deltas on .activity-hero* / .activity-promises* ─── */
 
-    /* Hero badge (mirrors gs-hero__badge; red signals the heart/give theme) */
-    .steun-hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: var(--color-kidical-red);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        padding: 0.5rem 1rem;
-        border-radius: 0.75rem;
-        transform: rotate(-3deg);
-        margin-bottom: 1.5rem;
-        animation: hero-chapter-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-    }
-
-    .steun-hero__badge svg {
-        width: 1.05rem;
-        height: 1.05rem;
-    }
-
     .steun-hero__lead {
-        color: rgba(255, 255, 255, 0.92);
-        font-size: clamp(var(--text-xl), 2vw, var(--text-2xl));
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
         font-weight: 700;
         line-height: 1.4;
         max-width: 34ch;
@@ -2060,27 +2037,9 @@ select:focus[data-flux-control] {
 @layer components {
 
     /* ─── Hero deltas (on .activity-hero, solid blue) ─── */
-    .about-hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: var(--color-kidical-sky);
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding: 0.4rem 0.95rem;
-        border-radius: 9999px;
-        transform: rotate(-3deg);
-        margin-bottom: 1.25rem;
-        animation: hero-chapter-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-    }
-
     .about-hero__lead {
-        color: color-mix(in oklab, white, transparent 6%);
-        font-size: clamp(var(--text-xl), 2vw, var(--text-2xl));
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
         font-weight: 700;
         line-height: 1.4;
         max-width: 34ch;
@@ -2702,11 +2661,6 @@ select:focus[data-flux-control] {
         margin-block: 0;
     }
 
-    /* Clearance so the rotated "OVER ONS" badge clears the two-line rotated H1 here */
-    .partners-page .about-hero__badge {
-        margin-bottom: 1.75rem;
-    }
-
     /* In the merged "who backs us" section: the breadth wall gets air below the named cards */
     .partners-page .partner-logo-wall {
         margin-top: 1.5rem;
@@ -2914,7 +2868,6 @@ select:focus[data-flux-control] {
 
 /* About: honour reduced-motion for hero entrance animations */
 @media (prefers-reduced-motion: reduce) {
-    .about-hero__badge,
     .about-hero__lead {
         animation: none;
     }
@@ -2951,12 +2904,9 @@ select:focus[data-flux-control] {
 
     .index-hero h1 {
         color: white;
-        font-size: clamp(var(--text-4xl), 4.5vw, var(--text-6xl));
+        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
         line-height: 1.0;
         margin-block: 0.75rem 1rem;
-        display: inline-block;
-        transform: rotate(-3deg);
-        transform-origin: left center;
         animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
     }
 
@@ -2971,36 +2921,11 @@ select:focus[data-flux-control] {
         pointer-events: none;
     }
 
-    /* ─── Hero badge + lead (sit on the blue band; badge uses ink text for AA contrast) ─── */
-    .kal-hero__badge,
-    .grp-hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: var(--color-kidical-sky);
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        padding: 0.5rem 1rem;
-        border-radius: 0.75rem;
-        transform: rotate(-3deg);
-        margin-bottom: 1.25rem;
-        animation: badge-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-    }
-
-    .kal-hero__badge svg,
-    .grp-hero__badge svg {
-        width: 1.05rem;
-        height: 1.05rem;
-    }
-
+    /* ─── Hero lead (sits on the blue band) ─── */
     .kal-hero__lead,
     .grp-hero__lead {
-        color: rgba(255, 255, 255, 0.92);
-        font-size: clamp(var(--text-lg), 1.6vw, var(--text-xl));
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
         font-weight: 700;
         line-height: 1.4;
         max-width: 38ch;
@@ -3008,81 +2933,299 @@ select:focus[data-flux-control] {
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
 
-    /* ─── Kalender filter bar — sticky under the header, branded ─── */
-    .kal-filter {
-        position: sticky;
-        top: 5rem;
-        z-index: 30;
+    /* ─── Movement context + scale stats (Lokale groepen hero) ─── */
+    .grp-hero__body {
+        margin-top: 0.9rem;
+        max-width: 54ch;
+        font-size: clamp(var(--text-base), 1.4vw, var(--text-lg));
+        font-weight: 600;
+        line-height: 1.5;
+        color: color-mix(in oklab, white, transparent 8%);
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+
+    .grp-hero__stats {
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-        margin-top: calc(var(--spacing) * 8);
-        margin-bottom: 2rem;
-        padding-block: 0.75rem;
-        background: white;
-        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        gap: 2.5rem;
+        margin-top: 1.75rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
     }
 
-    .kal-toggle {
-        display: inline-flex;
-        gap: 0.25rem;
-        padding: 0.25rem;
-        border-radius: 999px;
-        background: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+    .grp-hero__stat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
     }
 
-    .kal-toggle__btn {
-        border-radius: 999px;
-        padding: 0.4rem 1.1rem;
-        font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
-        transition: color 0.18s, background 0.18s;
-    }
-
-    .kal-toggle__btn:hover {
-        color: var(--color-kidical-ink);
-    }
-
-    .kal-toggle__btn--active {
-        background: var(--color-kidical-blue);
-        color: white;
-    }
-
-    .kal-toggle__btn--active:hover {
-        color: white;
-    }
-
-    .kal-select {
-        border-radius: 999px;
-        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
-        background: white;
-        padding: 0.5rem 2.25rem 0.5rem 1.1rem;
-        font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: var(--text-sm);
-        color: var(--color-kidical-ink);
-        cursor: pointer;
-        transition: border-color 0.18s;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23281a39' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 0.85rem center;
-        background-size: 1rem;
-    }
-
-    .kal-select:hover {
-        border-color: color-mix(in oklab, var(--color-kidical-blue), transparent 40%);
-    }
-
-    .kal-day__title {
+    .grp-hero__stat-num {
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: var(--text-2xl);
+        font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+        line-height: 1;
+        color: var(--color-kidical-yellow);
+    }
+
+    .grp-hero__stat-label {
+        font-weight: 700;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, white, transparent 18%);
+    }
+
+    /* ─── Kalender location-first filter (Direction A): the gemeente picker is the
+           hero control — a big yellow searchable select that pops against the blue band.
+           The bold visual treatment of the Flux button lives unlayered below (it must
+           out-rank Flux's own utility classes). ─── */
+    .kal-herofilter {
+        margin-top: clamp(1.5rem, 3vw, 2.25rem);
+        width: 100%;
+        max-width: 34rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+    }
+
+    .kal-herofilter__label {
+        display: block;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-lg), 1.6vw, var(--text-2xl));
+        color: white;
+        margin-bottom: 0.6rem;
+    }
+
+    .kal-herofilter__select {
+        display: block;
+        width: 100%;
+    }
+
+    /* The agenda fills the content container; cards flow in a 2-up responsive grid (below). */
+    .kal-body {
+        max-width: none;
+    }
+
+    /* Period toggle (past/upcoming) — a demoted link above the agenda. */
+    .kal-periodbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: calc(var(--spacing) * 8);
+        margin-bottom: 1rem;
+    }
+
+    .kal-pastlink {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        text-decoration: underline;
+        text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+        text-underline-offset: 3px;
+        padding-bottom: 0.5rem;
+        transition: color 0.18s;
+        cursor: pointer;
+    }
+
+    .kal-pastlink:hover {
+        color: var(--color-kidical-red);
+    }
+
+    .kal-days {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    /* A day reads as a band: a narrow calendar-page date rail on the left, rides on the right.
+       This lets the eye scan straight down the column of dates. */
+    .kal-day {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    @media (min-width: 600px) {
+        .kal-day {
+            grid-template-columns: 4.5rem 1fr;
+            gap: 1.75rem;
+            align-items: start;
+        }
+    }
+
+    /* The date IS the section heading; the <time> renders as a small calendar page. */
+    .kal-day__date {
+        margin: 0;
+        justify-self: start;
+    }
+
+    .kal-day__tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 4.5rem;
+        padding: 0.35rem 0.25rem 0.5rem;
+        background: white;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+        border-top: 3px solid var(--color-kidical-red);
+        border-radius: 0.7rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        font-family: var(--font-heading);
+        line-height: 1.05;
+        text-align: center;
+    }
+
+    .kal-day__eyebrow {
+        font-size: 0.66rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+
+    /* Relative landmark ("Vandaag" / "Morgen" / "Dit weekend") replaces the weekday, in red. */
+    .kal-day__eyebrow--landmark {
+        color: var(--color-kidical-red);
+    }
+
+    .kal-day__num {
+        font-size: var(--text-4xl);
+        font-weight: 800;
         color: var(--color-kidical-ink);
+        margin-block: 0.05rem;
+    }
+
+    .kal-day__month {
+        font-size: var(--text-xs);
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    }
+
+    /* Past view groups by month: the tile shows month name + year (no day number). */
+    .kal-day__tile--month {
+        justify-content: center;
+        padding-block: 0.55rem;
+    }
+
+    .kal-day__num--month {
+        font-size: var(--text-lg);
+        line-height: 1.1;
+    }
+
+    /* Cards flow 2-up where there's room, 1-up on mobile. */
+    .kal-day__cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+        gap: 0.85rem;
+    }
+
+    /* ─── Event card (PAT-1) — WHERE-first: title (municipality) + meeting point are the
+           anchor a parent scans; the time is a small right-side detail. ─── */
+    .event-card {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1rem 1.25rem;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        border-radius: 1rem;
+        background: white;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s;
+    }
+
+    .event-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.10);
+        border-color: color-mix(in oklab, var(--color-kidical-blue), transparent 55%);
+    }
+
+    /* Featured (Grande Kidical Mass) — inline highlight + ★ badge, never a separate block. */
+    .event-card--featured {
+        border-color: var(--color-kidical-yellow);
+        background: var(--color-kidical-light-yellow);
+        box-shadow: 0 2px 16px color-mix(in oklab, var(--color-kidical-yellow), transparent 70%);
+    }
+
+    .event-card--featured:hover {
+        border-color: var(--color-kidical-orange);
+    }
+
+    .event-card__featured-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-kidical-orange);
+    }
+
+    .event-card__body {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .event-card__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        line-height: 1.15;
+        color: var(--color-kidical-blue);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .event-card__loc {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        min-width: 0;
+        font-size: var(--text-base);
+        font-weight: 600;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
+    }
+
+    .event-card__loc-icon {
+        width: 1.05rem;
+        height: 1.05rem;
+        flex-shrink: 0;
+        color: var(--color-kidical-red);
+    }
+
+    .event-card__loc-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* When = a small, muted detail, top-right (date kept for standalone cards). */
+    .event-card__when {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.05rem;
+        text-align: right;
+        padding-top: 0.15rem;
+    }
+
+    .event-card__date {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-kidical-red);
+    }
+
+    .event-card__time {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
     }
 
     .kal-empty {
@@ -3245,11 +3388,61 @@ select:focus[data-flux-control] {
 /* Kalender + Lokale groepen: honour reduced-motion (hero entrance only) */
 @media (prefers-reduced-motion: reduce) {
     .index-hero h1,
-    .kal-hero__badge,
+    .chapter-head h1,
     .kal-hero__lead,
-    .grp-hero__badge,
-    .grp-hero__lead {
+    .kal-herofilter,
+    .grp-hero__lead,
+    .grp-hero__body,
+    .grp-hero__stats {
         animation: none;
+    }
+}
+
+/* ─── Kalender hero picker — big yellow control (UNLAYERED so it out-ranks Flux's
+       own Tailwind utility classes on the select button). Yellow band + blue ink. ─── */
+.kal-herofilter__select {
+    display: block !important;
+    width: 100% !important;
+}
+
+.kal-herofilter__select [data-flux-select-button] {
+    width: 100% !important;
+    height: auto !important;
+    min-height: clamp(3.5rem, 6vw, 4.25rem);
+    padding-inline: clamp(1rem, 2vw, 1.5rem) !important;
+    background-color: var(--color-kidical-yellow) !important;
+    border: none !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(var(--text-lg), 2.2vw, var(--text-2xl)) !important;
+    color: var(--color-kidical-blue) !important;
+    transition: transform 0.18s, box-shadow 0.18s, background-color 0.18s;
+}
+
+.kal-herofilter__select [data-flux-select-button]:hover {
+    background-color: color-mix(in oklab, var(--color-kidical-yellow), white 12%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Selected value + placeholder inherit the blue ink; chevron and clear pick it up too. */
+.kal-herofilter__select [data-flux-select-button] [data-flux-select-placeholder],
+.kal-herofilter__select [data-flux-select-button] [data-flux-select-selected] {
+    color: var(--color-kidical-blue) !important;
+    opacity: 1 !important;
+}
+
+.kal-herofilter__select [data-flux-select-button] svg {
+    color: var(--color-kidical-blue) !important;
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kal-herofilter__select [data-flux-select-button] {
+        transition: none;
     }
 }
 
@@ -3358,3 +3551,453 @@ select:focus[data-flux-control] {
 
     .about-support .support-callout__cta { flex-shrink: 0; }
 }
+
+[x-cloak] { display: none !important; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Chapter page (P-11) — the local group's HOME. Warm arc on the ride/show kit.
+   header+identity -> ride photo -> next ride (hero) -> team+join -> news ->
+   extras -> closing. Structure lives in groups/show.blade.php; appearance here.
+   ══════════════════════════════════════════════════════════════════════════ */
+@layer components {
+
+    /* ─── 1 · Identity header — full-bleed blue band (mirrors .index-hero) ───
+       The chapter is the local group's HOME, so it wears the same crown as the
+       directory that links to it: blue band, daisy mark, white headline. */
+    .chapter-head {
+        position: relative;
+        z-index: 1;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: calc(var(--spacing) * -8);
+        background-color: var(--color-kidical-blue);
+        overflow: hidden;
+    }
+
+    .chapter-head__daisy {
+        position: absolute;
+        right: -2.5rem;
+        top: 50%;
+        transform: translateY(-50%) rotate(15deg);
+        width: 11rem;
+        opacity: 0.9;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .chapter-head__inner {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: calc(var(--spacing) * 9);
+        padding-bottom: calc(var(--spacing) * 9);
+        max-width: 48rem;
+    }
+
+    .chapter-head h1 {
+        color: white;
+        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
+        line-height: 1.0;
+        margin-block: 0.75rem 0.5rem;
+        animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+    }
+
+    .chapter-head__crumb {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, white, transparent 18%);
+    }
+
+    .chapter-head__region {
+        margin-left: 0.35rem;
+        color: color-mix(in oklab, white, transparent 38%);
+    }
+
+    .chapter-head__intro {
+        margin-top: 0.35rem;
+        max-width: 46ch;
+        font-size: clamp(var(--text-lg), 1.5vw, var(--text-xl));
+        font-weight: 600;
+        line-height: 1.45;
+        color: color-mix(in oklab, white, transparent 8%);
+    }
+
+    /* ─── 2 · Warm ride photo (full-bleed band) ─── */
+    .chapter-photo {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        max-height: 26rem;
+        overflow: hidden;
+    }
+
+    .chapter-photo__img {
+        width: 100%;
+        height: 100%;
+        max-height: 26rem;
+        object-fit: cover;
+        object-position: center 38%;
+        display: block;
+    }
+
+    /* ─── Body column (homey, readable measure) ─── */
+    .chapter-body {
+        max-width: 46rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3.25rem;
+        padding-top: 2.5rem;
+        padding-bottom: 1rem;
+    }
+
+    .chapter-section__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-2xl);
+        color: var(--color-kidical-ink);
+        margin-bottom: 1rem;
+    }
+
+    /* ─── 3 · Next ride — the hero (solid blue climax) ─── */
+    .chapter-next__card {
+        background-color: var(--color-kidical-blue);
+        color: white;
+        border-radius: 1.25rem;
+        padding: 1.75rem 1.75rem 2rem;
+        box-shadow: 0 16px 40px -18px color-mix(in oklab, var(--color-kidical-blue), transparent 30%);
+    }
+
+    .chapter-next__date {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: var(--text-sm);
+        color: var(--color-kidical-light-blue);
+        margin-bottom: 0.5rem;
+    }
+
+    .chapter-next__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
+        line-height: 1.05;
+        color: white;
+    }
+
+    .chapter-next__loc {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.85rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .chapter-next__loc svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+
+    .chapter-next__reassure {
+        margin-top: 0.5rem;
+        font-size: var(--text-sm);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .chapter-next__cta {
+        display: inline-block;
+        margin-top: 1.5rem;
+        background-color: var(--color-kidical-yellow);
+        color: var(--color-kidical-ink);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        padding: 0.7rem 1.4rem;
+        border-radius: 0.85rem;
+        transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .chapter-next__cta:hover { transform: translateY(-1px); filter: brightness(1.03); }
+
+    /* Empty / just-started variant — calm, not the loud blue */
+    .chapter-next__card--empty {
+        background-color: var(--color-kidical-light-yellow);
+        color: var(--color-kidical-ink);
+        box-shadow: none;
+    }
+
+    .chapter-next__empty-lead {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        color: var(--color-kidical-ink);
+    }
+
+    .chapter-next__empty-body { margin-top: 0.5rem; color: var(--color-kidical-ink); }
+
+    /* More upcoming — compact list */
+    .chapter-next__more { margin-top: 1.5rem; }
+
+    .chapter-next__more-label {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+        margin-bottom: 0.5rem;
+    }
+
+    .chapter-next__more-list { display: flex; flex-direction: column; gap: 0.35rem; }
+    .chapter-next__more-list a { font-weight: 600; color: var(--color-kidical-ink); }
+    .chapter-next__more-loc { color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%); }
+    .chapter-next__all { display: inline-block; margin-top: 0.85rem; font-weight: 700; color: var(--color-kidical-blue); }
+
+    /* ─── Notify form (faked opt-in; Alpine) ─── */
+    .chapter-notify {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.1rem;
+    }
+
+    .chapter-notify__input {
+        flex: 1 1 14rem;
+        background-color: white;
+        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
+        border-radius: 0.75rem;
+        padding: 0.65rem 0.9rem;
+        color: var(--color-kidical-ink);
+        font-weight: 600;
+    }
+
+    .chapter-notify__input:focus { outline: 2px solid var(--color-kidical-blue); outline-offset: 1px; }
+
+    .chapter-notify__btn {
+        background-color: var(--color-kidical-yellow);
+        color: var(--color-kidical-ink);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        padding: 0.65rem 1.3rem;
+        border-radius: 0.75rem;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .chapter-notify__btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .chapter-notify__done { margin-top: 1rem; font-weight: 700; color: var(--color-kidical-blue); }
+
+    /* ─── 4 · Team — faces, then the invite ─── */
+    .chapter-team__faces {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .chapter-team__face {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: center;
+        width: 5.5rem;
+    }
+
+    .chapter-team__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 9999px;
+        background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%);
+        color: var(--color-kidical-blue);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-lg);
+    }
+
+    .chapter-team__name { font-weight: 700; font-size: var(--text-sm); color: var(--color-kidical-ink); line-height: 1.2; }
+
+    .chapter-team__pitch-title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        color: var(--color-kidical-ink);
+    }
+
+    .chapter-team__pitch { margin-top: 0.5rem; max-width: 50ch; color: var(--color-text-body); line-height: 1.55; }
+
+    .chapter-team__form { margin-top: 1.5rem; }
+
+    .chapter-team__welcome {
+        background-color: var(--color-kidical-light-yellow);
+        color: var(--color-kidical-ink);
+        border-radius: 0.85rem;
+        padding: 0.85rem 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1.1rem;
+    }
+
+    .chapter-team__more { margin-top: 1rem; font-weight: 700; }
+    .chapter-team__more a { color: var(--color-kidical-blue); }
+
+    .chapter-team__role { font-size: var(--text-xs); font-weight: 600; color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%); }
+
+    /* ─── 3b · Typed agenda (rides / workshops / meetings in one format) ─── */
+    .chapter-agenda__list {
+        list-style: none;
+        margin: 1.5rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chapter-agenda__item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.4rem 0.85rem;
+        padding: 0.75rem 0;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+
+    .chapter-agenda__badge {
+        font-size: var(--text-xs);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0.15rem 0.6rem;
+        border-radius: 9999px;
+        flex-shrink: 0;
+    }
+    .chapter-agenda__badge--ride { background: var(--color-kidical-green); color: white; }
+    .chapter-agenda__badge--workshop { background: var(--color-kidical-yellow); color: var(--color-kidical-ink); }
+    .chapter-agenda__badge--meeting { background: color-mix(in oklab, var(--color-kidical-blue), white 78%); color: var(--color-kidical-blue); }
+    .chapter-agenda__badge--other { background: color-mix(in oklab, var(--color-kidical-ink), transparent 88%); color: var(--color-kidical-ink); }
+
+    .chapter-agenda__when { font-weight: 700; color: var(--color-kidical-ink); }
+    .chapter-agenda__what { color: var(--color-text-body); }
+    .chapter-agenda__loc { color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%); }
+    .chapter-agenda__cta { margin-left: auto; font-weight: 700; color: var(--color-kidical-blue); white-space: nowrap; }
+    .chapter-agenda__cta--quiet { color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); }
+
+    /* Promoted "mis geen rit" opt-in — calm panel by the agenda */
+    .chapter-agenda__notify {
+        margin-top: 1.85rem;
+        background-color: var(--color-kidical-light-yellow);
+        border-radius: 1.25rem;
+        padding: 1.4rem 1.5rem 1.55rem;
+    }
+    .chapter-agenda__notify-title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-lg);
+        color: var(--color-kidical-ink);
+        margin-bottom: 0.85rem;
+    }
+
+    /* ─── 4b · On-demand "meehelpen" reveal (mirrors the event-detail pattern) ─── */
+    .chapter-join { margin-top: 1.5rem; }
+    .chapter-join__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1rem; }
+
+    .chapter-join__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--color-kidical-blue);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-base);
+        padding: 0.8rem 1.5rem;
+        border-radius: 0.875rem;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.15s, filter 0.15s;
+    }
+    .chapter-join__btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+    .chapter-join__back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--color-kidical-blue);
+        font-weight: 700;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    /* ─── 5 · News grid ─── */
+    .chapter-news__grid {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+        .chapter-news__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ─── 6 · Local extras ─── */
+    .chapter-extras {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+        .chapter-extras { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .chapter-extras__friends,
+    .chapter-extras__downloads {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        color: var(--color-text-body);
+        font-weight: 600;
+    }
+
+    .chapter-extras__downloads a { color: var(--color-kidical-blue); }
+
+    /* ─── 6 · Closing beat — quiet hand-back (opt-in moved up by the agenda) ─── */
+    .chapter-close {
+        margin-top: 2.5rem;
+    }
+
+    .chapter-close__inner {
+        padding-top: 1.75rem;
+        padding-bottom: 0.5rem;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+
+    .chapter-close__back { font-weight: 700; }
+    .chapter-close__back a { color: var(--color-kidical-blue); }
+
+    .chapter-children { margin-top: 1rem; }
+}
+
+/* ─── Leads read in Nunito Sans regular (Frederik 2026-06-03): the hero/section intro
+   paragraphs were bold (600–700); now plain 400, so they sit calmly under the Caprasimo
+   titles. Last in the layer → overrides the per-class weights. ─── */
+@layer components {
+    .gs-hero__lead,
+    .ho-hero__lead,
+    .steun-hero__lead,
+    .about-hero__lead,
+    .grp-hero__lead,
+    .chapter-head__intro,
+    .activity-organizers__lead {
+        font-family: var(--font-sans);
+        font-weight: 400;
+    }
+}
+

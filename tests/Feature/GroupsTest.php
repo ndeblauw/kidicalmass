@@ -83,8 +83,38 @@ test('groups index only shows visible groups', function () {
 
     $response->assertOk()
         ->assertSee('Visible Group 1')
-        ->assertSee('Part of:') // Parent name is shown but only as a reference
+        ->assertSee('Parent Group') // Parent (invisible) is the region grouping header, not a list entry
         ->assertDontSee('Invisible Group 1');
+});
+
+test('groups index header explains the movement and shows live scale stats', function () {
+    $author = User::factory()->create();
+
+    $brussel = Group::create(['shortname' => 'bxl', 'name' => 'Brussel', 'invisible' => true, 'started_at' => now()]);
+    Group::create(['shortname' => 'sb', 'name' => 'Schaarbeek', 'parent_id' => $brussel->id, 'invisible' => false, 'started_at' => now()]);
+    Group::create(['shortname' => 'and', 'name' => 'Anderlecht', 'parent_id' => $brussel->id, 'invisible' => false, 'started_at' => now()]);
+
+    $thisYear = Activity::create([
+        'title_nl' => 'Rit dit jaar', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x',
+        'activity_type' => 'kidicalmass', 'begin_date' => now(), 'duration_minutes' => 60,
+        'location' => 'Place', 'author_id' => $author->id,
+    ]);
+    $thisYear->groups()->attach($brussel);
+
+    $lastYear = Activity::create([
+        'title_nl' => 'Rit vorig jaar', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x',
+        'activity_type' => 'kidicalmass', 'begin_date' => now()->subYear(), 'duration_minutes' => 60,
+        'location' => 'Place', 'author_id' => $author->id,
+    ]);
+    $lastYear->groups()->attach($brussel);
+
+    get(route('groups.index'))
+        ->assertOk()
+        ->assertSee('Samen op straat, overal in België.')
+        ->assertSee('lokale groepen')          // 2 visible gemeente groups
+        ->assertSee('activiteiten dit jaar')
+        ->assertViewHas('activityCount', 1)     // only the current-year activity counts
+        ->assertViewHas('groups', fn ($groups) => $groups->count() === 2);
 });
 
 test('invisible field defaults to false', function () {
@@ -183,14 +213,15 @@ test('group show mixes parent and direct content with correct ordering', functio
 
     $response = get(route('groups.show', $child));
 
+    // News was CUT from the chapter page (Critique v3) — only the typed activity agenda remains.
     $response->assertOk()
-        ->assertSee('Newer Child News')
-        ->assertSee('Older Parent News')
-        ->assertSee('Nearest Child Activity')
-        ->assertSee('Later Parent Activity')
+        ->assertSee('Nearest Child Activity') // hero title (next ride, incl. parent/region)
+        ->assertSee('Child place')            // hero meeting point
+        ->assertSee('Parent place')           // later ride listed in the agenda
         ->assertDontSee('Past Child Activity')
         ->assertDontSee('Articles from Parent Groups')
-        ->assertDontSee('Activities from Parent Groups');
+        ->assertDontSee('Activities from Parent Groups')
+        ->assertDontSee('Uit de buurt');      // national news no longer on the chapter page
 
     $response->assertViewHas('articles', function ($articles) {
         return $articles->pluck('title_nl')->values()->all() === [
@@ -207,4 +238,104 @@ test('group show mixes parent and direct content with correct ordering', functio
     });
 
     Carbon::setTestNow();
+});
+
+test('chapter home leads with the next ride in NL, not metadata', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+
+    $next = Activity::create([
+        'title_nl' => 'Kidical Mass Schaarbeek',
+        'title_fr' => 'Kidical Mass Schaerbeek',
+        'content_nl' => 'x', 'content_fr' => 'x',
+        'activity_type' => 'kidicalmass',
+        'begin_date' => now()->addWeek(),
+        'duration_minutes' => 60,
+        'location' => 'Place Colignon',
+        'author_id' => $author->id,
+    ]);
+    $next->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Op de agenda')           // unified typed agenda; the ride is the weighted hero
+        ->assertSee('Place Colignon')
+        ->assertSee('Naar de fietstocht')
+        ->assertDontSee('Part of:')
+        ->assertDontSee('Organised by')
+        ->assertDontSee('Subgroups');
+});
+
+test('chapter home shows a designed empty state when no upcoming ride', function () {
+    $group = Group::create(['shortname' => 'nm', 'name' => 'Kidical Mass Namur', 'zip' => '5000', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Nog geen fietstocht gepland')
+        ->assertSee('Hou me op de hoogte');
+});
+
+test('chapter home shows team faces with first names and roles (lead + crew)', function () {
+    $group = Group::create(['shortname' => 'sb2', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    $sofie = User::factory()->create(['name' => 'Sofie Maes']);
+    $group->users()->attach($sofie);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Wie dit trekt')
+        ->assertSee('Sofie')          // first name on the face
+        ->assertSee('trekker')        // lead role label (v3: lead + active volunteers, with roles)
+        ->assertDontSee('Organiser'); // never the cold "Organiser" chip
+});
+
+test('chapter agenda labels a workshop as a workshop, never as a ride', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'and', 'name' => 'Kidical Mass Anderlecht', 'zip' => '1070', 'invisible' => false, 'started_at' => now()]);
+
+    $workshop = Activity::create([
+        'title_nl' => 'Fietscheck en sleutelworkshop', 'title_fr' => 'x',
+        'content_nl' => 'x', 'content_fr' => 'x',
+        'activity_type' => 'workshop',
+        'begin_date' => now()->addDays(3), 'duration_minutes' => 120,
+        'location' => 'Cyclo werkplaats', 'author_id' => $author->id,
+    ]);
+    $workshop->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        // No ride → the warm empty-ride state, NOT the workshop dressed up as a ride.
+        ->assertSee('Nog geen fietstocht gepland')
+        // The workshop shows in the agenda, correctly typed.
+        ->assertSee('Workshop')
+        ->assertSee('Fietscheck en sleutelworkshop')
+        // A workshop never gets the ride CTA.
+        ->assertDontSee('Naar de fietstocht');
+});
+
+test('chapter agenda labels a volunteer meeting as voor vrijwilligers', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'bxl', 'name' => 'Kidical Mass Brussel Stad', 'zip' => '1000', 'invisible' => false, 'started_at' => now()]);
+
+    $meeting = Activity::create([
+        'title_nl' => 'Vrijwilligersmeeting', 'title_fr' => 'x',
+        'content_nl' => 'x', 'content_fr' => 'x',
+        'activity_type' => 'meeting',
+        'begin_date' => now()->addDays(2), 'duration_minutes' => 90,
+        'location' => 'Mundo-B', 'author_id' => $author->id,
+    ]);
+    $meeting->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Voor vrijwilligers')
+        ->assertSee('Vrijwilligersmeeting')
+        ->assertDontSee('Naar de fietstocht');
+});
+
+test('chapter home hides the news block when there is no news', function () {
+    $group = Group::create(['shortname' => 'sb3', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertDontSee('Uit de buurt');
 });

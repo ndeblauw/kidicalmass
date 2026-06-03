@@ -142,7 +142,10 @@ it('renders the Help out orientation page with its key NL sections', function ()
     get('/nl/help-out')
         ->assertOk()
         ->assertDontSee('Meer info volgt') // old stub gone
-        ->assertSee('Wat meedoen inhoudt')
+        // The "wat meedoen inhoudt" eyebrow was dropped (obsolete); the two scrollytelling
+        // blocks now lead the section.
+        ->assertSee('Wat je krijgt')
+        ->assertSee('Wat we vragen')
         ->assertSee('Hoe je kan helpen')
         ->assertSee('Roze hesje')
         // Term: "lokale groep" (the coordination duo's NL word for a chapter).

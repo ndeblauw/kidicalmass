@@ -12,14 +12,21 @@
         <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="index-hero__daisy">
 
         <div class="container mx-auto px-4 index-hero__inner">
-            <span class="grp-hero__badge">
-                <flux:icon.users variant="solid" aria-hidden="true" />
-                Lokaal georganiseerd
-            </span>
             <h1>Lokale groepen</h1>
-            <p class="grp-hero__lead">
-                {{ $groups->count() }} lokale {{ $groups->count() === 1 ? 'groep' : 'groepen' }} in heel België.
+            <p class="grp-hero__lead">Samen op straat, overal in België.</p>
+            <p class="grp-hero__body">
+                Kidical Mass is één grote beweging die op vaste momenten samen uitrijdt en het hele jaar door lokaal verschil maakt. In elke gemeente trekt een groep buren de straat op voor veilig fietsen met kinderen.
             </p>
+            <dl class="grp-hero__stats">
+                <div class="grp-hero__stat">
+                    <dt class="grp-hero__stat-label">lokale {{ $groups->count() === 1 ? 'groep' : 'groepen' }}</dt>
+                    <dd class="grp-hero__stat-num">{{ $groups->count() }}</dd>
+                </div>
+                <div class="grp-hero__stat">
+                    <dt class="grp-hero__stat-label">activiteiten dit jaar</dt>
+                    <dd class="grp-hero__stat-num">{{ $activityCount }}</dd>
+                </div>
+            </dl>
         </div>
     </section>
 

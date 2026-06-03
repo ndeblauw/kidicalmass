@@ -23,10 +23,6 @@
         <div class="container mx-auto px-4 activity-hero__inner">
 
             <div class="activity-hero__copy">
-                <span class="steun-hero__badge">
-                    <flux:icon.heart variant="solid" aria-hidden="true" />
-                    {{ __('support.nav') }}
-                </span>
                 <h1>{{ __('support.title') }}</h1>
                 <p class="steun-hero__lead">{{ __('support.hero_lead') }}</p>
             </div>

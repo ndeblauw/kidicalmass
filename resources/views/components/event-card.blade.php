@@ -1,22 +1,30 @@
-@props(['activity', 'showDate' => true])
+@props(['activity', 'showDate' => true, 'featured' => null])
 
 {{-- PAT-1 · Event card. Hierarchy = WHERE first (a parent scans for a ride near them):
      ride title (municipality) is the anchor, meeting point second, the time is a small
      right-side detail. Date lives in the day header on the Kalender, so pass
-     :show-date="false" there; standalone uses (home/chapter) keep the date. --}}
+     :show-date="false" there; standalone uses (home/chapter) keep the date.
+     Featured = the Grande Kidical Mass flagship (PAT-13/D-3): inline badged card, never a
+     separate block. Auto-detected by name until a real `is_featured` field exists (Nico). --}}
+@php
+    // A parent scans for the TOWN. Every ride is "Kidical Mass <town>", so lead with the
+    // town and drop the repeated brand prefix. One-offs (e.g. "Grande Kidical Mass 2026")
+    // don't start with the prefix, so they keep their full name.
+    $headline = preg_replace('/^\s*kidical\s+mass\s+/i', '', $activity->title_nl);
+    $headline = trim((string) $headline) !== '' ? $headline : $activity->title_nl;
+
+    $isFeatured = $featured ?? \Illuminate\Support\Str::contains(
+        \Illuminate\Support\Str::lower($activity->title_nl), ['grande', 'grote kidical']
+    );
+@endphp
 <a
     href="{{ route('activities.show', $activity) }}"
-    {{ $attributes->merge(['class' => 'event-card link-plain']) }}
+    {{ $attributes->merge(['class' => 'event-card link-plain'.($isFeatured ? ' event-card--featured' : '')]) }}
 >
-    @php
-        // A parent scans for the TOWN. Every ride is "Kidical Mass <town>", so lead with the
-        // town and drop the repeated brand prefix. One-offs (e.g. "Grande Kidical Mass 2026")
-        // don't start with the prefix, so they keep their full name.
-        $headline = preg_replace('/^\s*kidical\s+mass\s+/i', '', $activity->title_nl);
-        $headline = trim((string) $headline) !== '' ? $headline : $activity->title_nl;
-    @endphp
-
     <div class="event-card__body">
+        @if ($isFeatured)
+            <span class="event-card__featured-badge">★ Uitgelicht</span>
+        @endif
         <h3 class="event-card__title">{{ $headline }}</h3>
         @if ($activity->location)
             <p class="event-card__loc">

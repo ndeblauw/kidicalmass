@@ -21,10 +21,6 @@
         <div class="container mx-auto px-4 activity-hero__inner">
 
             <div class="activity-hero__copy">
-                <span class="ho-hero__badge">
-                    <flux:icon.hand-raised variant="solid" aria-hidden="true" />
-                    Doe mee
-                </span>
                 <h1>Meehelpen</h1>
                 <p class="ho-hero__lead">Word deel van de ploeg die elke rit tot een feest maakt. Je hoeft geen fietsexpert te zijn, gewoon goesting om mee te doen.</p>
             </div>
@@ -99,53 +95,70 @@
         </div>
     </section>
 
-    {{-- WAT MEEDOEN INHOUDT — sky band, the honest deal --}}
+    {{-- WAT MEEDOEN INHOUDT — scrollytelling (Frederik 2026-06-03). Each block holds ~the
+         viewport with ample air; the large photo on the right crossfades to match the block
+         you're reading (IntersectionObserver swaps the active image at the viewport centre).
+         Bolder type, white (no band). Mobile: stacks, both photos shown, no swap. --}}
     <section class="ho-deal">
         <div class="container mx-auto px-4">
-            <h2 class="ho-deal__title">Wat meedoen inhoudt</h2>
+            <div class="ho-deal__layout">
 
-            <div class="ho-deal__cols">
-                <div class="ho-deal__col">
-                    <h3>Wat je krijgt</h3>
-                    <ul role="list" class="ho-deal__list ho-deal__list--get">
-                        <li>Kidical Mass-materiaal en steun vanaf dag één</li>
-                        <li>Opleiding rond veiligheid en routeplanning, als je dat wil</li>
-                        <li>Vier gezellige vrijwilligersmomenten per jaar, met lekker eten</li>
-                        <li>Een warme bende ouders en fietsers die echte vrienden worden</li>
-                    </ul>
+                <div class="ho-deal__text">
+                    <div class="ho-deal__block" data-ho-photo="0">
+                        <h3 class="ho-deal__subtitle">Wat je krijgt</h3>
+                        <ul role="list" class="ho-deal__list ho-deal__list--get">
+                            <li>Kidical Mass-materiaal en steun vanaf dag één</li>
+                            <li>Opleiding rond veiligheid en routeplanning, als je dat wil</li>
+                            <li>Vier gezellige vrijwilligersmomenten per jaar, met lekker eten</li>
+                            <li>Een warme bende ouders en fietsers die echte vrienden worden</li>
+                        </ul>
+                    </div>
+
+                    <div class="ho-deal__block" data-ho-photo="1">
+                        <h3 class="ho-deal__subtitle">Wat we vragen</h3>
+                        <ul role="list" class="ho-deal__list ho-deal__list--ask">
+                            <li>Kom met goesting en een vrolijke, respectvolle houding</li>
+                            <li>Onderschrijf onze afspraken rond vriendelijkheid en veiligheid</li>
+                            <li>Maak je deel uit van een lokaal team? Stuur één afgevaardigde naar het jaarlijkse meetup-moment</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="ho-deal__col">
-                    <h3>Wat we vragen</h3>
-                    <ul role="list" class="ho-deal__list ho-deal__list--ask">
-                        <li>Kom met goesting en een vrolijke, respectvolle houding</li>
-                        <li>Onderschrijf onze afspraken rond vriendelijkheid en veiligheid</li>
-                        <li>Maak je deel uit van een lokaal team? Stuur één afgevaardigde naar het jaarlijkse meetup-moment</li>
-                    </ul>
+
+                <div class="ho-deal__media">
+                    <div class="ho-deal__media-sticky">
+                        <figure class="ho-deal__frame">
+                            <img class="ho-deal__img is-active" data-ho-img="0" src="{{ asset('img/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
+                            <img class="ho-deal__img" data-ho-img="1" src="{{ asset('img/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger in roze hesje houdt met een stopbord een kruispunt vrij" loading="lazy">
+                        </figure>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    {{-- JOY — real volunteers (the live site's happy signal) --}}
-    <section class="ho-joy">
-        <h2 class="ho-joy__title">Dit is de bende</h2>
-        <p class="ho-joy__lead">Echte mensen, echte buurten, elke maand opnieuw. Zo ziet meedoen eruit.</p>
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const blocks = document.querySelectorAll('.ho-deal__block');
+            const imgs = document.querySelectorAll('.ho-deal__img');
+            if (blocks.length < 2 || imgs.length < 2) return;
 
-        <ul role="list" class="ho-joy__grid">
-            <li class="ho-joy__photo">
-                <img src="{{ asset('img/volunteers/volunteers-orange-vests-selfie.jpg') }}" alt="Lachende vrijwilligers maken een selfie" loading="lazy">
-            </li>
-            <li class="ho-joy__photo">
-                <img src="{{ asset('img/volunteers/volunteers-pink-vests-cinquantenaire.jpg') }}" alt="Vrijwilligers in roze hesjes aan het Jubelpark" loading="lazy">
-            </li>
-            <li class="ho-joy__photo">
-                <img src="{{ asset('img/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger met een stopbord onderweg" loading="lazy">
-            </li>
-            <li class="ho-joy__photo">
-                <img src="{{ asset('img/volunteers/volunteers-group-pink-vests-park.avif') }}" alt="Groep vrijwilligers samen in het park" loading="lazy">
-            </li>
-        </ul>
-    </section>
+            const setActive = (idx) => imgs.forEach((img, i) => img.classList.toggle('is-active', i === idx));
+
+            // A thin band at the viewport centre: whichever block crosses it drives the photo.
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActive(parseInt(entry.target.dataset.hoPhoto, 10) || 0);
+                    }
+                });
+            }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+            blocks.forEach((block) => io.observe(block));
+        });
+    </script>
+    @endpush
 
     {{-- VIND JE LOKALE GROEP — light-blue band, the climax. Tap your group → its form. --}}
     <section class="ho-find">

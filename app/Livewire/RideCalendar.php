@@ -74,7 +74,6 @@ class RideCalendar extends Component
             'byPeriod' => $activities->groupBy(
                 fn ($activity) => $activity->begin_date->format($when === 'voorbije' ? 'Y-m' : 'Y-m-d')
             ),
-            'headerFormat' => $when === 'voorbije' ? 'MMMM YYYY' : 'dddd D MMMM',
             'hasActivities' => $activities->isNotEmpty(),
         ]);
     }

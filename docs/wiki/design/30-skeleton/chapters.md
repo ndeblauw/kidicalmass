@@ -207,204 +207,253 @@ Two-part page: map + list. No sub-navigation.
 
 ---
 
-# Chapter Page Template
+# Chapter Page — the local group's home
 
-Status: ✅ Complete. Page URL: `/chapters/[postal-code]` (single-municipality) or `/chapters/[code1-code2]` (multi-municipality) ✅
+> **Re-planned from scratch 2026-06-03 (Frederik).** The previous version of this section was marked "✅ Complete" but produced a page Frederik rejected as **not a home**: English, off the ride/show kit, a flat stack of equal-weight sections that opens on metadata (zip + "X activities / X articles" count badges + "Part of:"), buries the next ride below a generic "Subgroups" grid, reduces the team to grey "Organiser" chips, and ends on a catch-all "More" dump of empty placeholders. This re-plan keeps the decisions that still hold (uniform template, J2 form lives here, hide-if-empty, Brussels NL/FR toggle) and rebuilds everything else around one idea: **this page is the local group's home, and a resident should feel it is theirs.** Not yet built — re-plan + critique first (no build todo). Old skeleton history: git + [`log.md`](../../log.md). The Impeccable critique that sharpened this draft is at the end of the section (§ Critique v1 → v2).
 
-**Summary:** One fixed template, every chapter. Municipality name is the only differentiator — no chapter colours, logos, or custom layouts. Events are auto-populated from the database. Team + volunteer form are one section. Sections with no content are hidden entirely. Self-published by chapter leads within design constraints.
+Page URL: `/chapters/[postal-code]` (single-municipality) or `/chapters/[code1-code2]` (multi-municipality). Internal route `groups.show` (`/nl/chapters/{group}`).
+
+**The one-line brief:** every group gets the *same frame*, but each must feel *inhabited* — by its next ride, its faces, its neighbourhood, its own signs of life. Uniformity is in the chrome; character is in the contents. The old build failed because it made the contents generic too.
 
 ---
 
 ## Strategy
 
-The local home page for each chapter. The user arrives with a specific local intent — they want to know when the next ride in their neighbourhood is, who organises it, and how to join. The chapter page is the answer to all three.
+The chapter page is the **local home of one group** — the answer to a resident's three questions: *when do we ride next, who's behind this, and could I be part of it?* It is also, quietly, the proof that this particular local node is alive.
 
-### Who arrives and in what mental state
+### Who arrives, in what mental state, and what they're really after
 
-**Families: "When's the next ride in my neighbourhood?"**
-Arrive from a Google search ("Kidical Mass Schaerbeek"), from the events page, from the chapter map, or from a WhatsApp link. Their primary question is local and practical. They want the next date quickly.
+**1. The local family — "Is there a ride near us soon, and is it for people like us?"** *(primary — the page's headline job)*
+Arrives from a Google search ("Kidical Mass Schaerbeek"), a flyer, an Instagram post, a friend's WhatsApp. The functional job is small and concrete: *the next date, time and meeting point*. But underneath sits the decisive question — **"is this for a family like mine?"** They half-fear a clique of sporty activists: that their toddler on a balance bike will be too slow, that they'll show up on the wrong bike, that they don't belong. They want to *become* the kind of family that does joyful, safe things in its own streets, and to *avoid* the small humiliation of arriving wrong. What converts them is not information — it's **recognition**: ordinary local parents' faces, a warm line, the sense that the streets get closed and toddlers are welcome.
 
-**Local volunteers and curious joiners: "Who's organising, how do I reach them?"**
-Arrive knowing they want to volunteer locally. The team section + form answer this. The proximity of team names to the contact form is deliberate.
+**2. The would-be local helper — "Who runs this, and could that be me?"** *(secondary — often arrives via Help-out's group picker, `?intent=volunteer`)*
+Already half-sold on the movement; hesitant about *this* commitment. Their fear is competence and time: *"I'm not a cycling expert, not an activist, I can't run anything."* They need to see the team as **real, ordinary, friendly people** (not an org, not "Organiser" labels) and to be invited to join *them* by name, at low stakes. They want to *become* someone who shapes their own neighbourhood.
 
-**Chapter leads: managing their own page**
-Not a primary UX audience for the public page — they interact via the admin panel. But the page reflects their work, so the quality of sections depends on them. Empty sections hidden by default means a sparse chapter page doesn't embarrass.
+**3. The returning local / past rider — "When's the next one? Is this still going?"**
+Warm, already a fan; comes back to check the date or relive the last ride. For them the page is most literally a *home* — they should feel ownership and aliveness (recent rides, a photo, news). Their loyalty is the group's engine.
 
-### Key tension resolved
+**4. Stakeholder / curious outsider (journalist, partner scout, grant reviewer)** *(tertiary — served better by /about + the overview)*
+Wants proof this local node is real and active. We do **not** design for them, but the aliveness signals the other three need — a team with names, recent rides, news — serve them as a by-product.
 
-**Brand consistency vs. local ownership:** Strictly uniform template ✅. No custom colours, logos, or layouts per chapter. The municipality name is the only differentiator. Chapter leads control content within the template; they don't control the template.
+### What good feels like
+
+A Schaarbeek parent lands and within a few seconds knows: *there's a ride on Sunday the 28th at Place Colignon, toddlers welcome, run by Sofie and two neighbours — and I could join them.* They feel **invited, not processed.** The page greets them like a home, not a filing cabinet.
+
+### Key tensions to resolve
+
+- **Uniform template vs. feeling inhabited** *(the central one).* The uniform-template decision **stands** — same sections, same brand, no per-group colours/logos/layouts. But "uniform" was wrongly built as "blank." Resolution: **the frame is uniform; the room is furnished by each group's own content** — its next ride, its faces, its meeting place, its news. Character comes from contents surfaced *warmly*, not from custom chrome.
+- **Most-wanted answer vs. cheap metadata.** The old build led with counts and "Part of:" because the model offered them cheaply. Resolution: **lead with the next ride.** Counts and parent-labels are near-zero value to every audience and are cut.
+- **Hide-if-empty honesty vs. looking abandoned** *(the hard problem the old build ignored).* Many groups will have no team photos, no partners, no downloads — some no scheduled ride yet. A home with empty rooms reads as *abandoned*. Resolution: **graceful, warm empty states are a first-class design problem.** A barely-filled group must still feel like an intentional, welcoming placeholder ("deze groep start net — zo doe je mee"), never a broken page.
+- **Leaf chapter vs. region/parent node** *(structural fork — newly surfaced).* Some `groups` rows are *parents* (a region like "Brussel") with children; most are *leaf* chapters. A region node is a **different page** — a directory of its local groups, not a local home. The old build showed a generic "Subgroups" grid on every page. Resolution below (Structure); flagged as an open question for Nico/Frederik.
 
 ---
 
 ## Scope
 
-**Must have:**
-- Local event schedule (auto-populated from Events database)
-- Team section (optional — hidden if no team added)
-- Volunteer contact form (routed to this chapter's lead by context) — name, email, optional role checkboxes + message; the J2 conversion point (Help out only orients → routes here)
-- Local partners (optional)
+Everything below serves one of the three jobs; anything that serves none is cut.
 
-**Should have:**
-- Press coverage (optional — hidden if empty, auto-aggregates to /about/press)
-- Downloads
+**Must have (the home, in priority order):**
+- **Identity header** — municipality name as *place*, subtle region context (breadcrumb, not a "Part of:" line), and **one warm identity line** ("De buurtfietstocht voor en door Schaarbeekse gezinnen."). Brussels chapters: NL/FR toggle.
+- **Next ride — hero** — the single next upcoming ride given real weight: date, time, meeting point, a clear route to the event detail ("Ik kom"). The page's reason to exist.
+- **The team, as faces** — organisers as real people: photo (optional → warm initials fallback), name, light role. Never grey "Organiser" chips.
+- **Join the local crew (J2 form)** — *already built* (`ChapterVolunteerSignup`); sits *with* the team (faces-before-form). Keep.
+- **Graceful empty states** — first-class copy for "no ride scheduled yet", "team not listed yet", and the just-started group.
 
-**Out of scope:**
-- Photo gallery (deferred)
-- Chapter-level news/blog (national for MVP)
-- Customisable layout or colour scheme ✅ Strictly uniform
+**Should have (signs of life — only when there's something to show):**
+- **Recent news** from this group + its region — a warm strip, not a generic grid dumped at the bottom; hide-if-empty.
+- **Past rides →** a link into `/events` filtered to this group (proof of life without clutter).
+- **Local friends/partners** (optional, hide-if-empty) — framed as "vrienden van de groep", not a logo wall.
+- **Downloads** (optional) — the local flyer.
+- **Press** (optional) — auto-aggregates to /about/press.
+- **"Mis geen rit"** — per-chapter email opt-in (single-group scope; deliberately deferred here from the overview).
+
+**Out of scope (unchanged + newly cut):**
+- Per-group colours / logos / custom layout ✅ strictly uniform.
+- Photo gallery (deferred); chapter-level blog (news is national for MVP).
+- **Count badges** ("X activities / X articles") — noise; cut (consistent with the overview, open-Q #6 above).
+- **"Part of: [parent]" metadata line** — replaced by subtle breadcrumb context.
+- **The catch-all "More" section** — its contents become intentional, individually-hidden blocks (or nothing).
 
 ---
 
 ## Structure
 
-Fixed template, single page. Every chapter follows the same section order. Sections with no content are hidden.
+Fixed template, single page, **one warm arc** rather than a flat stack — sections are weighted by job priority, not given equal billing. Sections with no content are hidden; the page degrades *gracefully*, never to a husk.
 
-**Section flow:**
-1. Chapter header
-2. Upcoming events (auto-populated — always shown, may show empty state)
-3. Team + volunteer form (merged section — hidden entirely when no team members added)
-4. Local partners (optional — hidden when empty)
-5. Press coverage (optional — hidden when empty)
-6. Downloads (optional — hidden when empty)
+**Section flow — leaf chapter (the common case):**
+1. **Breadcrumb + identity header** — ← Lokale groepen · region; H1 municipality; one warm identity line. (Brussels: NL/FR toggle.)
+2. **Next ride — hero** — the climax, up top. Warm empty state when none scheduled.
+3. **More upcoming rides** — compact list, only when there's more than one; else folded away.
+4. **The team + join** — faces first, warm pitch naming them, then the J2 form (built). Empty-team state stays warm.
+5. **Signs of life** — recent news from this group/region; hide-if-empty.
+6. **Local extras** — friends/partners · downloads · press, each its *own* hide-if-empty block (no "More" dump). All-empty → nothing shows.
+7. **Closing beat** — "mis geen rit" opt-in + a quiet "deze groep is van jou" line back to the overview.
+
+**Region / parent node variant (has children) — flagged fork:** header → directory of the local groups in this region → (optional) region-wide next rides → "begin een groep" CTA. This is a *different page type*; see open-Q #7 below. Until resolved, a parent node should **not** render the leaf "home" layout.
+
+**Key links out:** next/upcoming ride → `/events/[slug]` · past rides → `/events?group=…` · join → form in place + "meer over meehelpen" → `/help-out` · news → article / `/about/news` · breadcrumb → `/chapters`.
 
 ---
 
 ## Skeleton
 
-**Brussels bilingual toggle ✅:** Brussels chapter pages show a NL/FR toggle in the header. Wallonia → FR default. Flanders → NL default.
+The page reads as **one warm arc**: greet → the next ride (climax) → the faces and the invite → signs of life → quiet practicalities → a closing that hands the group back to the resident. Every optional block is hide-if-empty, and the empty states are designed, not defaulted (see the just-started variant).
 
-**Team + Volunteer CTA merged ✅:** Seeing the team names and immediately being invited to join is the point. One section, not two.
+**Brussels bilingual toggle ✅:** Brussels chapter pages show a NL/FR toggle in the header. Wallonië → FR default. Vlaanderen → NL default.
 
-### Desktop
+**Faces before form ✅:** you see the team, *then* you're invited to join *them*. One merged section, not two.
+
+### Desktop — a filled leaf chapter
 
 ```
 ┌──────────────────────────────────────────────────────┐
 │ NAV                                                  │
 ├──────────────────────────────────────────────────────┤
-│ ← All chapters                                       │
+│ ← Lokale groepen · Brussel              [ NL | FR ]  │
 │                                                      │
-│  Schaerbeek                    [NL | FR]  ← Brussels │
-│  1030                                    only toggle │
+│  Kidical Mass Schaarbeek                             │
+│  De buurtfietstocht voor en door Schaarbeekse        │
+│  gezinnen. Rustig tempo, afgezette straten,          │
+│  iedereen welkom — van kinderfiets tot bakfiets.       │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
-│  Upcoming rides in Schaerbeek                        │
-│                                                      │
+│ [ ── one warm photo of an actual Schaarbeek ride ──] │
+│ [ ── closed street · happy mixed-age kids · band  ──]│
+├──────────────────────────────────────────────────────┤
+│  VOLGENDE RIT   ← hero: the reason the page exists   │
 │  ┌────────────────────────────────────────────────┐  │
-│  │ Kidical Mass Schaerbeek       31 May · 15:00  │  │
-│  │ Meeting point: Place Colignon                  │  │
+│  │  ZONDAG 28 JUNI · 15:00                        │  │
+│  │  Kidical Mass Schaarbeek                       │  │
+│  │  Verzamelen: Place Colignon                    │  │
+│  │  ± 3 km · rustig tempo · kinderen voorop       │  │
+│  │                      [ Naar de fietstocht → ]  │  │
 │  └────────────────────────────────────────────────┘  │
-│  ┌────────────────────────────────────────────────┐  │
-│  │ Kidical Mass Schaerbeek       28 Jun · 15:00  │  │
-│  │ Meeting point: Place Colignon                  │  │
-│  └────────────────────────────────────────────────┘  │
-│                                                      │
-│                   Past rides → /events?...           │
-│                                                      │
+│  Ook later op de kalender:                           │
+│  · zo 26 jul · 15:00 — Place Colignon                │
+│  · zo 30 aug · 15:00 — Place Colignon  Alle ritten → │
 ├──────────────────────────────────────────────────────┤
+│  WIE DIT TREKT   ← faces, then the invite            │
+│  ┌────────┐  ┌────────┐  ┌────────┐                  │
+│  │[photo] │  │[photo] │  │  S M   │ ← initials       │
+│  │ Sofie  │  │ Marc   │  │ Lena   │   fallback       │
+│  │ trekker│  │ mee    │  │ comms  │                  │
+│  └────────┘  └────────┘  └────────┘                  │
 │                                                      │
-│  Organised by                                        │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐           │
-│  │ [photo]  │  │ [photo]  │  │ [photo]  │           │
-│  │ Name     │  │ Name     │  │ Name     │           │
-│  │ Pink vest│  │ Co-org   │  │ Comms    │           │
-│  └──────────┘  └──────────┘  └──────────┘           │
-│                                                      │
-│  Want to help in Schaerbeek?                         │
-│  Join Sofie, Marc & Lena. [2-sentence warm pitch]    │
-│                                                      │
-│  Name  ___________________________                   │
-│  Email ___________________________                   │
-│  I'd like to help with:  (optional)                  │
-│   [ ] Pink vest  [ ] Co-org  [ ] Comms               │
-│   [ ] Photo  [ ] DJ  [ ] Not sure yet                │
-│  Message (optional) ______________________           │
-│                    [ I'm in → ]                      │
-│                                                      │
-│  More about volunteering →                           │
-│                                                      │
+│  Help mee in Schaarbeek                              │
+│  Een paar uur per maand, samen met Sofie, Marc &     │
+│  Lena. Je hoeft geen fietsexpert te zijn.            │
+│  ┌──────────────────────────────────────────────┐    │
+│  │ Naam ________   E-mail ________              │    │
+│  │ Ik help graag met: (optioneel)               │    │
+│  │ [ ] fluohesje [ ] mee-organiseren [ ] comms  │    │
+│  │ [ ] foto [ ] dj [ ] weet nog niet            │    │
+│  │ Bericht (optioneel) ____________             │    │
+│  │                         [ Ik doe mee → ]     │    │
+│  └──────────────────────────────────────────────┘    │
+│  Meer over meehelpen →                               │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
-│  Local partners  [hidden if empty]                   │
-│  ┌────────┐  ┌────────┐                             │
-│  │ [logo] │  │ [logo] │                             │
-│  │ Name   │  │ Name   │                             │
-│  └────────┘  └────────┘                             │
-│                                                      │
+│  UIT DE BUURT   [hide-if-empty]  ← signs of life     │
+│  ┌────────────────┐  ┌────────────────┐              │
+│  │ [cover] nieuws │  │ [cover] nieuws │ group +      │
+│  │ titel · datum  │  │ titel · datum  │ region news  │
+│  └────────────────┘  └────────────────┘              │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
-│  Press coverage  [hidden if empty]                   │
-│  HLN · "Kidical Mass groeit"  Mar 2024  ↗            │
-│  Bruzz · "Kidical Mass trekt..."  Jun 2024  ↗         │
-│                                                      │
+│  Local extras — each its own hide-if-empty block     │
+│  Vrienden van de groep [hide]   Downloads [hide]     │
+│  [logo] [logo]                  Flyer_2026.pdf ↓     │
+│  In de pers [hide]                                   │
+│  HLN · "Kidical Mass groeit" · mrt 2024 ↗            │
 ├──────────────────────────────────────────────────────┤
-│                                                      │
-│  Downloads  [hidden if empty]                        │
-│  Flyer_Schaerbeek_2026.pdf  [↓ Download]             │
-│                                                      │
+│  [light band — quiet closing beat]                   │
+│  Mis geen enkele rit in Schaarbeek                   │
+│  [ e-mail ____________   Hou me op de hoogte ]       │
+│  Deze groep is van jou.  ← Alle lokale groepen       │
 ├──────────────────────────────────────────────────────┤
 │ FOOTER                                               │
 └──────────────────────────────────────────────────────┘
 ```
 
-### Mobile
+### Desktop — a just-started chapter (the empty state, designed)
+
+```
+┌──────────────────────────────────────────────────────┐
+│ ← Lokale groepen · Wallonië                          │
+│  Kidical Mass Namur                                  │
+│  Deze groep is net gestart. Hij wacht op zijn        │
+│  eerste rit — en misschien op jou.                   │
+├──────────────────────────────────────────────────────┤
+│  VOLGENDE RIT                                        │
+│  ┌────────────────────────────────────────────────┐  │
+│  │  Nog geen rit gepland.                         │  │
+│  │  Laat je gegevens achter en je bent de eerste  │  │
+│  │  die het hoort als Namur vertrekt.             │  │
+│  │                       [ Hou me op de hoogte → ]│  │
+│  └────────────────────────────────────────────────┘  │
+├──────────────────────────────────────────────────────┤
+│  Help Namur op gang                                  │
+│  Er is nog geen team. Iemand moet de eerste zijn —   │
+│  en dat hoef je niet alleen te doen.                 │
+│  [ J2 form: naam · e-mail · bericht ]                │
+│  Meer over een groep starten →                       │
+├──────────────────────────────────────────────────────┤
+│  ← Alle lokale groepen                               │
+└──────────────────────────────────────────────────────┘
+```
+*(The "uit de buurt", extras and the duplicate closing band simply do not render — the page is short, warm and intentional, never a husk of empty placeholders.)*
+
+### Mobile — filled leaf chapter
 
 ```
 ┌──────────────────────┐
 │ NAV (hamburger)      │
 ├──────────────────────┤
-│ ← All chapters       │
-│                      │
-│  Schaerbeek          │
-│  1030                │
-│  [NL | FR]           │
+│ ← Lokale groepen     │
+│   · Brussel  [NL|FR] │
+│  Kidical Mass        │
+│  Schaarbeek          │
+│  De buurtfietstocht  │
+│  voor en door        │
+│  Schaarbeekse        │
+│  gezinnen.           │
 ├──────────────────────┤
-│  Upcoming rides      │
-│  in Schaerbeek       │
-│                      │
+│  VOLGENDE RIT        │
 │ ┌──────────────────┐ │
-│ │ KM Schaerbeek    │ │
-│ │ 31 May · 15:00   │ │
+│ │ ZO 28 JUNI·15:00 │ │
 │ │ Place Colignon   │ │
+│ │ ±3km · rustig ·  │ │
+│ │ kinderen voorop  │ │
+│ │   [ Ik kom → ]   │ │
 │ └──────────────────┘ │
-│ ┌──────────────────┐ │
-│ │ KM Schaerbeek    │ │
-│ │ 28 Jun · 15:00   │ │
-│ └──────────────────┘ │
-│  Past rides →        │
+│ Later: 26 jul·30 aug │
+│ Alle ritten →        │
 ├──────────────────────┤
-│  Organised by        │
+│  WIE DIT TREKT       │
+│ [photo] Sofie·trekker│
+│ [photo] Marc · mee   │
+│ [ SM ]  Lena · comms │
 │                      │
-│ [photo] Name · Role  │
-│ [photo] Name · Role  │
-│ [photo] Name · Role  │
-│                      │
-│  Want to help in     │
-│  Schaerbeek?         │
-│  Join Sofie, Marc &  │
-│  Lena. [pitch]       │
-│                      │
-│  Name _____________  │
-│  Email _____________ │
-│  Help with: (opt.)   │
-│  [ ] Pink vest       │
-│  [ ] Co-org [ ] Comms│
-│  [ ] Photo [ ] DJ    │
-│  [ ] Not sure yet    │
-│  Message (opt.) ___  │
-│  [ I'm in → ]        │
-│  More about vol. →   │
+│  Help mee in         │
+│  Schaarbeek          │
+│  Samen met Sofie,    │
+│  Marc & Lena. Geen   │
+│  fietsexpert nodig.  │
+│  [ J2 form ]         │
+│   [ Ik doe mee → ]   │
+│  Meer over meehelpen→│
 ├──────────────────────┤
-│  Local partners      │
-│  [logo] [logo]       │
-│  [hidden if empty]   │
+│  UIT DE BUURT [hide] │
+│ [cover] titel·datum  │
+│ [cover] titel·datum  │
 ├──────────────────────┤
-│  Press coverage      │
-│  Outlet · Title ↗    │
-│  [hidden if empty]   │
+│  Vrienden [hide]     │
+│  Downloads [hide]    │
+│  In de pers [hide]   │
 ├──────────────────────┤
-│  Downloads           │
-│  File.pdf [↓]        │
-│  [hidden if empty]   │
+│ [light band]         │
+│ Mis geen rit in      │
+│ Schaarbeek           │
+│ [ e-mail _______ ]   │
+│ [ Hou me op de hoogte]│
+│ ← Alle groepen       │
 ├──────────────────────┤
 │ FOOTER               │
 └──────────────────────┘
@@ -412,37 +461,84 @@ Fixed template, single page. Every chapter follows the same section order. Secti
 
 ### Annotations
 
-- **Breadcrumb:** "← All chapters" → /chapters. Small, top-left, before the chapter name.
-- **Chapter header:** Municipality name large. Postal code smaller below. No chapter colours or logos. Brussels chapters show the NL/FR language toggle.
-- **Upcoming events:** Same compact card as /events. Auto-populated. If no upcoming events: "No upcoming rides for Schaerbeek right now. Check /events for rides across Belgium." Past events are not shown on the page — a "Past rides →" link routes to /events with pre-set location filter.
-- **Team section:** Name + role label + optional photo (no bio). Photos optional — hidden if not uploaded. The section disappears entirely if no team members added in admin.
-- **Volunteer form (J2 — the form lives here, not on Help out):** name, email, optional **role checkboxes** (pink vest · co-org · comms · photo · DJ · *Not sure yet*), optional message. Routing is **implicit by context** — submitting from this page sends the `Volunteer enquiry` ([content model](../20-structure.md)) to *this* chapter's lead; no municipality dropdown. Short by design. "I'm in →" on submit shows the inline confirmation below. The "*Not sure yet*" box removes the barrier of needing to know your role before reaching out. Names in the pitch ("join Sofie, Marc & Lena") make the team concrete — the trust work that lets the confirmation stay modest.
-- **Faces before form** is deliberate: you see the team, *then* you're invited to join *them*. One merged section, not two.
-- **Confirmation state (resolved — was open-Q #4).** Replaces the form in place on submit. Warm + one hook, nothing more: *"the team"* (no name, no SLA — keeps the promise honest and independent of [D-1](../01-concerns.md)) plus the chapter's **next ride**, which already sits directly above the form (zero new data dependency). This is the J2 "post-submit limbo" antidote — see [help-out.md § post-submit limbo](help-out.md).
-- **Built (2026-06-02).** This section is live: the placeholder is replaced by the **`ChapterVolunteerSignup`** Livewire component (`#aanmelden` anchor, `?intent=volunteer` welcome banner, name/email/role-checkboxes/message → `ContactForm`, warm "Je bent erbij" + next-ride `<x-event-card>` confirmation). Distinct from the event-detail `VolunteerSignup` — do not merge. `[backend]` routes to the central comms inbox tagged with the chapter name; **per-lead routing still pending** (no per-group lead email on the `Group` model) — specced for Nico in [GitHub #37](https://github.com/ndeblauw/kidicalmass/issues/37). The rest of the chapter page is still in **English** and needs its own NL pass.
-
-```
-│  Want to help in Schaerbeek?                         │
-│  ┌────────────────────────────────────────────────┐ │
-│  │  🎉  You're in.                                 │ │
-│  │  Someone from the Schaerbeek team will be       │ │
-│  │  in touch soon.                                 │ │
-│  │  Don't wait for the email — come say hi:        │ │
-│  │  → Next ride: Sun 28 Jun · 15:00 · Pl. Colignon │ │
-│  │    (the ride card is right above ↑)             │ │
-│  └────────────────────────────────────────────────┘ │
-```
-- **Local partners:** Logo + name + optional external link. Populated by chapter lead in admin. Hidden when empty.
-- **Press coverage:** Outlet + headline + date + link. Structured list, not cards. Hidden when empty. Items automatically surface on /about/press.
-- **Downloads:** File name + format + download button. Chapter-specific flyers. Hidden when empty.
+- **Breadcrumb + region context:** "← Lokale groepen · Brussel" — top-left, small. The region replaces the old "Part of: [parent]" metadata line; it's wayfinding, not a stat.
+- **Identity header:** Municipality name as a *place* (large). One **warm identity line** beneath — the recognition signal the tentative family needs ("iedereen welkom — van kinderfiets tot bakfiets"). No postal code in the headline (it's plumbing, not identity); no count badges. ~~Brussels NL/FR toggle~~ deferred (NL-only build; see Decisions). **The "home" feeling must not load-bear on the identity line** (a field leads may never fill — see open-Q #8): the always-group-specific contents (the ride photo, the faces, this group's own rides + meeting place + news) carry it; the identity line is a warm bonus. *(Cadence/"elke laatste zondag" line — dropped 2026-06-03, Frederik: that recurrence doesn't reliably exist; not in spec or build.)*
+- **Warm ride photo:** one real photo of an actual ride for this group (closed street, mixed-age kids) — the single strongest "this is for me / this is alive" signal for a tentative family, and the brand's most native asset. Sits high (band under the header). Optional → **graceful fallback to a shared Kidical Mass ride photo** when the group has none, never a grey block. See open-Q #10. *(Distinct from the deferred photo gallery — this is one ambient image, not an album.)*
+- **Next ride — hero:** the single next upcoming ride, given real visual weight (not one card in a flat list). Reuses the ride/show kit. Date · time · meeting point · a one-line reassurance (tempo / afstand / kinderen voorop) · **"Naar de fietstocht →"** to the event detail (the button *navigates* to the ride page where the actual "ik kom" RSVP lives — PAT-18; it does not capture the RSVP in place, so it reads as navigation, not a false in-place commitment). **Empty state is designed** — "Nog geen rit gepland" turns into the email opt-in, never a dead end.
+- **More upcoming rides:** compact text list, only rendered when there's more than one upcoming ride; "Alle ritten →" links to `/events` filtered to this group (also the home for *past* rides — proof of life without cluttering the page).
+- **The team, as faces:** photo (optional → **warm initials avatar** fallback, never a grey silhouette or an "Organiser" label), name, a light human role ("trekker", "mee", "comms"). The faces are the trust work; the names recur in the pitch. *(This build: initials avatars + names only — no photo or role field exists yet; the role label is dropped until one does. See Decisions.)*
+- **Join (J2 — the form lives here, built):** the `ChapterVolunteerSignup` Livewire component — name, email, optional role checkboxes (fluohesje · mee-organiseren · comms · foto · dj · *weet nog niet*), optional message; `#aanmelden` anchor + `?intent=volunteer` welcome banner. Routing is **implicit by context** (no municipality dropdown). The "*weet nog niet*" box removes the need to know your role before reaching out. Pitch names the team ("samen met Sofie, Marc & Lena") so the ask feels like joining people, not an org.
+- **Confirmation state (built):** replaces the form in place on submit — warm "Je bent erbij" + the chapter's **next ride** (the card sits directly above; zero new data dependency), "het team" with no name/SLA (keeps the promise honest, independent of [D-1](../01-concerns.md)). The J2 "post-submit limbo" antidote — see [help-out.md § post-submit limbo](help-out.md).
+- **Empty-team state stays warm:** no team yet → "Help [stad] op gang. Iemand moet de eerste zijn — en dat hoef je niet alleen te doen." The form leads; the absence becomes an invitation, not an embarrassment.
+- **Uit de buurt (signs of life):** recent news from this group + its region as a small warm strip (cover · title · date), hide-if-empty. Items still aggregate to `/about/news`. *Not* a generic full "News" grid dumped at the page foot.
+- **Local extras:** "Vrienden van de groep" (logo + name + optional link, framed warmly, not a wall), Downloads (local flyer), In de pers (outlet · headline · date · ↗, aggregates to `/about/press`). **Each is its own hide-if-empty block** — the old catch-all "More" grid of placeholders is gone. All-empty → the whole zone is absent. *(This build: faux vrienden + downloads seeded to preview the blocks; "in de pers" stays hide-if-empty — never fabricate press. See Decisions.)*
+- **Closing beat:** the per-chapter **"mis geen rit" email opt-in** (single-group scope) on a quiet light band, plus "Deze groep is van jou." back to `/chapters`. The page hands the group back to the resident. *(This build: the opt-in is **faked** — real-looking input + button, client-side "bedankt" state, does not persist; the subscription model is Nico's. See Decisions.)*
+- **Backend note (carried):** the J2 form currently routes to the central comms inbox tagged with the chapter name; **per-lead routing still pending** (no per-group lead email on `Group`) — [GitHub #37](https://github.com/ndeblauw/kidicalmass/issues/37). The whole view still needs its **NL + ride/show-kit build pass** (the current live view is EN + off-kit).
 
 ---
 
-## Open Questions / Necessary Refinements
+## Build decisions (2026-06-03, Frederik — interview)
 
-1. **Team photos:** Are team member photos required or optional? Proposed: optional. If no photo uploaded, show initials avatar or a generic silhouette placeholder. Confirm with Nico.
-2. **Brussels bilingual toggle:** On a Brussels chapter page with the NL/FR toggle, does switching language change the URL (e.g., `/nl/chapters/1030` vs `/fr/chapters/1030`) or is it a client-side toggle that doesn't update the URL? URL-based routing is preferred for shareability. Confirm with Nico.
-3. **Empty chapter page state:** A chapter lead might create a chapter page in admin but not add any team members, partners, or downloads. The result is a page with only an events section (or empty events). Is this acceptable at launch? Proposed: acceptable, with the empty sections hidden. An admin nudge could encourage completing the page.
-4. **Volunteer form — confirmation state:** ✅ Resolved (J2 pass, 2026-06-02) — warm "you're in" + the chapter's next-ride hook, "the team" with no name/SLA. See the annotation above. Final ToV copy (NL/FR) still to write.
-5. **Multi-municipality chapter header:** For chapters spanning multiple municipalities (e.g., Woluwe-St-Pierre & St-Lambert), how does the header display? Proposed: "Woluwe-Saint-Pierre & Saint-Lambert" as the primary name, "1150–1200" as the postal code line. Long names may wrap on mobile — confirm typography handles this.
-6. **Press coverage aggregation:** The spec says chapter press items automatically surface on /about/press. Confirm with Nico this is implemented at the data model level — every press item entry has a chapter_id field that the press page queries.
+Schema reality: `groups` has only `name, shortname, zip, parent_id, invisible, started_at, ended_at`; `users` has no photo/role; `activities` carry `title_nl/fr, location, postal_code, distance, begin_date`; the news query already walks up to the parent region. So the "character" fields have no home yet. Decisions for **this build**:
+
+- **Data strategy → defaults + spec for Nico.** Build the NL view now with existing data + graceful defaults; do **not** add migrations to the shared schema. Real per-group fields (`intro`/tagline, user photo + role, optional cover, lead email, subscription) become a backend spec / GitHub issue for Nico. *(Nico owns the shared public schema — we don't migrate it from here.)*
+- **Identity line → templated default now** ("De buurtfietstocht voor en door <gemeente> — iedereen welkom, van kinderfiets tot bakfiets."), editable per-group field later (Nico). Not load-bearing.
+- **Warm ride photo → reuse an existing site photo** as the shared fallback for every group (from `public/img/…`); per-group cover later.
+- **Team → faces with initials-avatar fallback** (no photo field yet); **drop the role label** for now (no role data — "Organiser" chip is gone, names only) until a role field exists.
+- **Cadence/rhythm line → DROPPED entirely.** That recurrence doesn't reliably exist; **not in spec, not built.** (Was open-Q #11 + critique finding #7.)
+- **Brussels NL/FR toggle → deferred.** NL-only build; add when the FR locale layer launches.
+- **Region/parent node → deferred.** Build the leaf "home" now. Parent nodes keep a minimal children list (don't break) but get no dedicated region-directory variant this pass.
+- **"Mis geen rit" opt-in → fake it (visible, non-functional).** Frederik wants to see the functionality: render a real-looking email input + button with a client-side "bedankt" state; **does not persist** (no subscription model yet). Spec the model for Nico.
+- **Local extras → faux "vrienden" + "downloads" to preview; "in de pers" hide-if-empty.** Never fabricate press coverage (matches the global press page / D-11). Faux vrienden+downloads are seed/demo content to show the blocks, clearly removable.
+- **"Uit de buurt" news → region-fallback already works** (controller walks parents); hide-if-empty when even that is bare.
+
+### Still open (for Nico / a later pass)
+1. **Backend spec for the character fields** — `Group.intro` (editable identity line), `Group` cover image (medialibrary), `user`↔group **role** + photo, per-group **lead email** (per-lead routing, [GitHub #37](https://github.com/ndeblauw/kidicalmass/issues/37)), and the single-group **`Email subscription`** model (shared with the events-overview placeholder).
+2. **Multi-municipality header** — "Woluwe-Saint-Pierre & Saint-Lambert" as the name, "1150–1200" sub-line; confirm long names wrap cleanly on mobile.
+3. **Press / news aggregation** — confirm chapter press + news carry a `group_id` so `/about/press` + `/about/news` aggregate them.
+4. **Region/parent node** — decide later whether parent nodes are public pages at all (directory variant vs 301 to `/chapters`).
+5. **Final ToV copy (NL/FR)** for the identity-line default, empty states, and the faux opt-in confirmation.
+
+---
+
+## Critique v1 → v2
+
+> Impeccable critique pass on the v1 skeleton above (2026-06-03). The mockups already incorporate the fixes; this records the reasoning so the build doesn't quietly regress.
+
+**What held up (keep):** next-ride-as-hero correctly answers the primary job first; faces-before-form is sound; the designed just-started empty state is the single biggest gain over the old build; cutting count badges / "Part of:" / the "More" dump is right.
+
+**What the critique sharpened:**
+
+1. **Two CTAs competing in the hero zone.** "Ik kom →" (hero) and "Hou me op de hoogte" (empty state) are the *same slot* in two states — good. But on a *filled* page the closing "mis geen rit" opt-in and the hero's "Ik kom" both ask for commitment. **Fix:** the hero owns the immediate action (join the ride); the closing opt-in is visually quiet (light band, secondary) so it never competes with the hero. Reflected in the mockup (hero = solid card + primary button; closing = quiet band).
+2. **The team section carries two jobs (show faces + capture a volunteer).** Risk: the form's visual weight buries the faces, undoing "faces before form". **Fix:** faces get their own visual row *above* the pitch; the form is one contained card, not the section's centre of gravity. The pitch line bridges them by naming the faces.
+3. **"Local extras" still risks looking like a leftover drawer.** Three hide-if-empty blocks side by side can read as a footer junk-zone. **Fix:** they only ever appear when populated, and each is a titled mini-section (not a shared "More" header). When all three are empty — the launch reality for most groups — the entire zone is gone, so the common page is *header → ride → team → closing*, which is clean.
+4. **Identity line is doing the heaviest emotional lifting but had no data home.** A site-wide generic string would flatten every group back to "blank uniform". **Fix:** promoted to open-Q #8 as a per-group editable field with a warm default — the mechanism by which "uniform frame, inhabited room" actually happens. Without it, the re-plan's core promise is just decoration.
+5. **Hierarchy needs to survive a content-poor group.** The arc is satisfying when full, but most launch groups are sparse. **Fix:** the empty/just-started variant is now a *first-class mockup*, not a footnote — it's the page most visitors will actually meet first, so it has to feel intentional on its own.
+
+**Net:** v2 = v1 with (a) the hero owning the one primary action and the closing opt-in demoted to a quiet band, (b) faces visually separated from and above the form, (c) extras strictly per-block hide-if-empty, (d) the identity line promoted to a real (editable) data dependency, and (e) the sparse-group state treated as the primary design target, not the exception.
+
+**Second pass — what the Impeccable critique skill surfaced that the first pass missed** (these are the most "home/alive" of all, and were folded into the mockup + annotations):
+
+6. **No photo of the actual thing.** Kidical Mass is intensely visual and joyful, yet v1 had only *team* photos and *news* covers — no image of a ride. For the tentative family, one real photo of a closed street full of mixed-age kids is the single strongest "this is for me / this is alive" signal, and it was absent. **Fix:** a warm ride-photo band high on the page, with a shared-photo fallback so even a brand-new group looks alive (open-Q #10). This is the biggest emotional gain of the second pass.
+7. **Rhythm was invisible.** A home conveys *cadence* ("elke laatste zondag"), not just the next isolated date. ~~**Fix:** a rhythm line under the header.~~ **Dropped 2026-06-03 (Frederik):** that recurrence doesn't reliably exist across groups — faking a schedule we can't honour is worse than omitting it. Out of spec and build.
+8. **The "home" feeling was over-loaded onto the editable identity line** — a field many leads will leave blank, which would collapse every group back to "blank uniform". **Fix:** explicitly re-seat the load on the always-group-specific contents (photo, faces, this group's own rides/meeting-place/news); the identity line is a bonus, not the foundation.
+9. **Microcopy: hero CTA "Ik kom →" overpromised.** The button *navigates* to the event detail (where the real RSVP lives), so it shouldn't imply the commitment happens in place. **Fix:** "Naar de fietstocht →".
+
+---
+
+## Critique v3 — live-build review (Frederik 2026-06-03, `/critique`)
+
+Reviewing the **built** page (Schaarbeek = filled; Anderlecht = workshop, no team; Brussel Stad = meeting) surfaced that the build **drifted from v2** and that v2 itself missed **activity-type awareness**. Diagnosis: the IA serves the *secondary* audience (would-be volunteer) first — a full-width always-open J2 form is the page's centre of gravity — while the *primary* family's needs are muddled. Resolved with Frederik:
+
+1. **Activity-type blindness (the core bug).** `activity_type` is an enum (`kidicalmass` / `meeting` / `workshop` / `other`) but the hero showed `$activities->first()` as **"Volgende rit → Naar de fietstocht"** regardless — so Brussel Stad's **vrijwilligersmeeting** and Anderlecht's **fietscheck-workshop** masqueraded as the family's headline parade. **Decision (Frederik): one unified "events by de lokale groep" format** — rides, workshops, meetups in a single **type-labeled agenda**; the rendering (label + CTA) adapts per type (Fietstocht → "Naar de fietstocht"; Workshop → "Meer info"; Meeting → "voor vrijwilligers", no family CTA, but **kept** visible per D-2). The soonest **`kidicalmass` ride** gets the weighted card; when there's none, that slot is the "nog geen rit — hou me op de hoogte" empty state and the workshop/meeting still list below (honest, not misleading).
+2. **J2 form was the centre of gravity → make it on-demand.** Port the **event-detail pattern** (`activities/show.blade.php`, `x-data="{ open }"`): faces + one-line pitch + a **"Zelf meehelpen in [gemeente]?" button** that reveals `ChapterVolunteerSignup` on click; auto-open on `?intent=volunteer`. The family page stays light; the helper is served on demand.
+3. **National news → CUT (Frederik).** It was a 2×2 big-image grid, and the region-fallback made it **identical national news on every chapter** — it answers no one's "what's on near me". Removed from the chapter page; national news lives on `/about/news`. (Reinforces v2's "small strip, not a grid" — the build had drifted to the grid.)
+4. **"Mis geen rit" opt-in promoted.** It was buried at the page foot *because the giant news pushed it there*. Move it **up next to the agenda** (calm band) — it's the family's most useful action when no ride is imminent. Cutting news also lifts it.
+5. **"Alle ritten →" must be FILTERED.** The build linked to the bare `/events` index; it must deep-link to the calendar **filtered to this group, incl. past rides** (v2 already said this; build drifted).
+6. **"Wie dit trekt" → lead + active volunteers, with roles (Frederik).** Not just the lonely lead: show the **trekker + the active roze hesjes**, each with a role. **Data dependency:** `group_user` currently holds only leads — needs volunteers attached + a pivot `role` (trekker / roze hesje / comms…). Until then, render whoever's in the pivot.
+
+**Revised arc (family-first):** identity → ride photo → **agenda (typed, ride weighted) + opt-in** → **wie dit trekt (lead + crew) + on-demand meehelpen** → closing. News gone. The volunteer recruitment that dominated is demoted to an on-demand reveal — where the secondary audience actually needs it.
+
+**New data deps for Nico (added to § Still open):** `activity_type`-aware agenda rendering; volunteers + pivot `role` on `group_user`; `/events?group=…` filtered link incl. past; per-chapter subscription model (shared with events-overview).
+
+**Built 2026-06-03 (Frederik: "implement as much as possible, fake the rest").** `groups/show.blade.php` rebuilt to the v3 arc. **Real now:** the **typed agenda** (reads `activity_type` → Fietstocht / Workshop / **Voor vrijwilligers** badge + per-type CTA; the next `kidicalmass` ride is the weighted hero, empty-ride state otherwise — verified on Schaarbeek/Anderlecht/Brussel-Stad); the **filtered "Alle activiteiten … (ook voorbije) →"** deep-link (`route('activities.index', ['gemeente' => $group->id])` — `RideCalendar` already reads `#[Url] gemeente` + `when`); the **on-demand meehelpen reveal** (Alpine `x-show`, auto-opens + welcome banner on `?intent=volunteer`); the J2 form; **news CUT**; opt-in **promoted** beside the agenda; closing demoted to a quiet hand-back. **Faked (clearly commented, removable):** active volunteers + roles (lead = `trekker` from the real pivot + faux `roze hesje`/`communicatie` crew — needs the `group_user` `role` field), friends + downloads, the client-side opt-in. CSS: `.chapter-agenda*`, `.chapter-join*`, `.chapter-team__role` on the ride/show kit; the old full-bleed closing band slimmed. Tests: `GroupsTest` updated to v3 (heading "Op de agenda", empty "Nog geen fietstocht gepland", faces+roles) + **2 new type-label tests** (workshop ≠ ride; meeting → "voor vrijwilligers"). **Verified:** full suite **138 green**, Pint clean, `npm run build` clean, screenshots (3 chapters + reveal + intent). Registry P-11 stage left to Frederik's pipeline. Per-lead routing still GitHub #37.
