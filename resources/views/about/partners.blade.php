@@ -1,14 +1,16 @@
 {{--
     Over ons / Partners & sponsors — /about/partners (P-20)
     Built 2026-06-03 to the DESIGN.md kit. A credibility/social-proof leaf — register a
-    notch more serious (ToV), calmer palette. Built from CURATED STATIC copy on purpose:
-    the `partners` table holds only faker rows with no logos and no category column, so it
-    can't drive a real page yet (see D-11 / about-journey.md). Real names, no lorem.
-    Partner descriptors are factual placeholders pending each partner's approval.
-    Colour story: blue → white → light-blue → yellow. Structure only.
-    Plan: docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md
+    notch more serious (ToV). Curated static copy (the `partners` table is faker rows
+    with no logos/category — D-11). Real names, no lorem.
+    Arrange/polish 2026-06-03 (Frederik): the body is ONE connected column of white
+    sections separated by hairline dividers (not floating islands, not many bands). The
+    single light-blue accent band is the enquiry/CTA at the end — the most important
+    section — not the secondary "operationele partners". Imagery: crowd photo + logo wall.
+    Plan: docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md + partners.md
 --}}
 <x-layouts::site title="Partners & sponsors">
+<div class="partners-page">
 
     {{-- HERO --}}
     <section class="activity-hero about-hero">
@@ -20,16 +22,19 @@
                 <p class="about-hero__lead">Kidical Mass werkt niet alleen. Deze organisaties delen onze overtuiging dat kinderen betere straten verdienen.</p>
             </div>
             <div class="activity-hero__visual">
-                <div class="activity-hero__photo about-hero__circle">
-                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
+                <div class="activity-hero__photo about-hero__circle about-hero__circle--photo">
+                    <img src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="Honderden gezinnen fietsen samen aan het Jubelpark in Brussel tijdens een Kidical Mass">
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- INSTITUTIONEEL + BONDGENOTEN --}}
+    {{-- WIE ONS STEUNT — named institutional anchors (depth) + the full logo wall (breadth)
+         in ONE section. The in-kind/bike-provision partners (Loopz, Kidical Mouse, My Kids
+         Bikes) live in the wall + a one-line find-a-bike pointer — no dedicated cards: that
+         is a family/resource story, not sponsor credibility. (arrange 2026-06-03, Frederik) --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Institutionele partners en bondgenoten</h2>
+        <h2 class="about-section__title">Onze partners en bondgenoten</h2>
         <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op nationaal of regionaal niveau, via financiering, infrastructuur of een gedeeld pleidooi.</p>
         <ul class="about-partner-grid" role="list">
             <li class="about-partner-card">
@@ -49,40 +54,80 @@
                 <p>Europese campagne voor propere, kindvriendelijke mobiliteit. Samen achter #StreetsForKids.</p>
             </li>
         </ul>
+        <figure class="partner-logo-wall">
+            <img src="{{ asset('img/partners/partner-logos-2024.png') }}" alt="Logo's van de vele partners en bondgenoten van Kidical Mass, waaronder Brussel Mobiliteit, Pro Velo, Cyclo, GRACQ, Fietsersbond, Bruzz en vele anderen" loading="lazy">
+            <figcaption>En vele anderen die Kidical Mass mee mogelijk maken.</figcaption>
+        </figure>
+        <p class="about-partners__note">Op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Geen fiets? <a href="{{ route('find-a-bike') }}">Bekijk de opties →</a></p>
     </section>
 
-    {{-- OPERATIONEEL & IN-KIND --}}
+    {{-- WAAROM PARTNER WORDEN — benefit hook (from the Sponsorformules "waarom steunen") --}}
+    <section class="about-section about-section--wide">
+        <h2 class="about-section__title">Waarom partner of sponsor worden?</h2>
+        <p class="about-partners__intro">Als partner steun je een beweging die elke maand honderden gezinnen veilig op de fiets krijgt. En je bouwt mee aan een stad op maat van kinderen.</p>
+        <ul class="about-press__offer" role="list">
+            <li>Je draagt bij aan kindvriendelijke, veilige straten in elke buurt.</li>
+            <li>Je ondersteunt burgerparticipatie en duurzame mobiliteit.</li>
+            <li>Je krijgt positieve zichtbaarheid bij gezinnen, buurtbewoners en beleidsmakers.</li>
+        </ul>
+    </section>
+
+    {{-- ONZE FORMULES — on-page summary of the two tracks; prices live in the
+         downloadable PDF (provisional, pending Leticia's national-scope OK). --}}
+    <section class="about-section about-section--wide">
+        <h2 class="about-section__title">Onze formules</h2>
+        <p class="about-partners__intro">We werken met formules op maat, in twee sporen. Je kiest zelf hoe zichtbaar je wil zijn: van een vermelding op sociale media tot je logo op onze website, flyers en banners.</p>
+        <div class="partner-formules">
+            <div class="partner-formule-track">
+                <h3>Voor vzw's en verenigingen</h3>
+                <ul>
+                    <li><strong>Supporter</strong>: vermelding op sociale media</li>
+                    <li><strong>Partner</strong>: logo op de website + sociale media</li>
+                    <li><strong>Community Partner</strong>: logo op de website, sociale media en flyers van een event</li>
+                </ul>
+            </div>
+            <div class="partner-formule-track">
+                <h3>Voor bedrijven</h3>
+                <ul>
+                    <li><strong>Friend</strong>: logo op de website + sociale media</li>
+                    <li><strong>Sponsor</strong>: logo op de website, sociale media en alle event-flyers</li>
+                    <li><strong>Main Partner</strong>: logo overal, plus ruimte en aanwezigheid op events</li>
+                </ul>
+            </div>
+        </div>
+        <p class="about-partners__note">
+            <a href="{{ asset('downloads/kidical-mass-sponsorformules.pdf') }}" target="_blank" rel="noopener noreferrer">Bekijk alle formules en tarieven (pdf) →</a>
+        </p>
+    </section>
+
+    {{-- WAT WE VRAGEN — charter essence + download (the charter doubles as a values filter) --}}
+    <section class="about-section about-section--wide">
+        <h2 class="about-section__title">Wat we van partners vragen</h2>
+        <p class="about-partners__intro">Kidical Mass is een burgerbeweging, geen reclamebord. We werken samen met partners die onze waarden delen: kindvriendelijkheid, veiligheid, duurzaamheid en inclusie. Je steun komt zonder voorwaarden die onze werking of onze boodschap sturen, en we blijven onafhankelijk en niet-commercieel.</p>
+        <p class="about-partners__note">
+            <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer">Lees ons volledige sponsor- en partnercharter (pdf) →</a>
+        </p>
+    </section>
+
+    {{-- INTERESSE? — the one accent band: this is the primary action. Routed form
+         (PAT-6) + email/phone fallback. Replaces the old mailto "black hole". --}}
     <section class="about-band about-band--light-blue">
-        <div class="container mx-auto px-4">
-            <h2 class="about-band__title">Operationele en in-kind partners</h2>
-            <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op het terrein: ze lenen materiaal uit, bieden logistieke steun of helpen gezinnen aan een fiets voor hun eerste rit.</p>
-            <ul class="about-partner-grid" role="list">
-                <li class="about-partner-card about-partner-card--plain">
-                    <strong>Loopz</strong>
-                    <p>Fietsverhuur voor kinderen en volwassenen, met een korting voor wie meefietst.</p>
-                </li>
-                <li class="about-partner-card about-partner-card--plain">
-                    <strong>Kidical Mouse</strong>
-                    <p>Zet bakfietsen klaar aan de start van sommige Brusselse ritten.</p>
-                </li>
-                <li class="about-partner-card about-partner-card--plain">
-                    <strong>My Kids Bikes</strong>
-                    <p>Abonnement op een kwaliteitsvolle kinderfiets die meegroeit met je kind.</p>
-                </li>
-            </ul>
-            <p class="about-partners__note">Geen fiets? <a href="{{ route('find-a-bike') }}">Bekijk alle opties om er een te lenen of te huren →</a></p>
+        <div class="container mx-auto px-4 partner-enquiry">
+            <div class="partner-enquiry__intro">
+                <h2 class="about-band__title">Interesse? Laten we praten.</h2>
+                <p>Vul kort in wie je bent en waar je interesse naar uitgaat. We nemen snel contact op om samen de juiste formule te vinden. Je verbindt je tot niets.</p>
+                <p class="partner-enquiry__fallback">Liever rechtstreeks?<br>
+                    <a href="mailto:bike@kidicalmass.be">bike@kidicalmass.be</a><br>
+                    <a href="tel:+32495812795">0495 81 27 95</a>
+                </p>
+            </div>
+            <div class="partner-enquiry__form">
+                <livewire:partner-enquiry />
+            </div>
         </div>
     </section>
 
-    {{-- CTA — partner worden (mailto) --}}
-    <x-about-cta
-        title="{{ __('partners.become_partner') }}"
-        sub="Of je nu een lokaal bedrijf, een gemeente of een nationale organisatie bent: als je gelooft in kindvriendelijke straten, praten we graag.">
-        <x-slot:actions>
-            <a href="mailto:bike@kidicalmass.be" class="about-cta__btn about-cta__btn--primary link-plain">Neem contact op →</a>
-        </x-slot:actions>
-    </x-about-cta>
-
+</div>
     @push('scripts')
     <x-about-reveal selector=".about-partner-card" :transform="true" />
     @endpush

@@ -77,7 +77,10 @@ it('renders the Partners leaf with curated partners and a contact CTA', function
     get('/nl/about/partners')
         ->assertOk()
         ->assertDontSee('Stub', escape: false)
-        ->assertSee('Institutionele partners en bondgenoten')
+        // Merged "who backs us": named institutional anchors + the breadth logo wall.
+        ->assertSee('Onze partners en bondgenoten')
+        ->assertSee('En vele anderen die Kidical Mass mee mogelijk maken')
+        // In-kind partners fold into a one-line find-a-bike pointer (no dedicated cards).
         ->assertSee('Loopz')
         ->assertSee('bike@kidicalmass.be')
         ->assertSee(route('find-a-bike'), escape: false)
@@ -197,4 +200,25 @@ it('shows the slim partner recognition strip site-wide, linking to the Partners 
         ->assertDontSee('Sponsorformules')
         ->assertDontSee('Partnercharter')
         ->assertDontSee('Ook ondersteund door');
+});
+
+it('renders the Partners become-a-partner conversion flow (not a mailto black hole)', function () {
+    get('/nl/about/partners')
+        ->assertOk()
+        // benefit hook + formules summary (the two tracks)
+        ->assertSee('Waarom partner of sponsor worden?')
+        ->assertSee('Onze formules')
+        ->assertSee("Voor vzw's en verenigingen", escape: false)
+        ->assertSee('Voor bedrijven')
+        // depth = summary on-page + downloadable PDFs
+        ->assertSee('downloads/kidical-mass-sponsorformules.pdf', escape: false)
+        ->assertSee('downloads/kidical-mass-partnercharter.pdf', escape: false)
+        // charter essence + the routed enquiry form (PAT-6), with email/phone fallback
+        ->assertSee('Wat we van partners vragen')
+        ->assertSee('Interesse? Laten we praten.')
+        ->assertSee('Type organisatie')
+        ->assertSee('Verstuur je aanvraag')
+        ->assertSee('bike@kidicalmass.be')
+        // tone of voice: no em-dashes in rendered copy
+        ->assertDontSee('—');
 });

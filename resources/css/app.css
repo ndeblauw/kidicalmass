@@ -2549,7 +2549,7 @@ select:focus[data-flux-control] {
 
     .about-partner-card {
         background: white;
-        border-radius: 1.25rem;
+        border-radius: 1.5rem;
         padding: 1.5rem;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
         display: flex;
@@ -2645,7 +2645,7 @@ select:focus[data-flux-control] {
 
     .partner-enquiry__form {
         background: white;
-        border-radius: 1.25rem;
+        border-radius: 1.5rem;
         padding: 1.75rem;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
     }
@@ -2654,10 +2654,14 @@ select:focus[data-flux-control] {
     .partner-logo-wall {
         margin: 0;
         text-align: center;
+        /* keep logos legible on narrow screens: scroll rather than shrink to specks */
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
     }
 
     .partner-logo-wall img {
         width: 100%;
+        min-width: 34rem;
         max-width: 60rem;
         height: auto;
         display: block;
@@ -2679,6 +2683,33 @@ select:focus[data-flux-control] {
     button.about-cta__btn:disabled {
         opacity: 0.6;
         cursor: wait;
+    }
+
+    /* ─── Partners page: one connected column (arrange 2026-06-03) ───
+       The white body sections share consistent padding and a hairline divider, so they
+       read as parts of one document instead of floating islands. The hero and the
+       enquiry CTA are the only two (full-bleed) colour bands. */
+    .partners-page .about-section {
+        margin-block: 0;
+        padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+    }
+
+    .partners-page .about-section + .about-section {
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+
+    .partners-page .about-band {
+        margin-block: 0;
+    }
+
+    /* Clearance so the rotated "OVER ONS" badge clears the two-line rotated H1 here */
+    .partners-page .about-hero__badge {
+        margin-bottom: 1.75rem;
+    }
+
+    /* In the merged "who backs us" section: the breadth wall gets air below the named cards */
+    .partners-page .partner-logo-wall {
+        margin-top: 1.5rem;
     }
 
     /* ─── Pers — intro + contact card ─── */
