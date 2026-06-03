@@ -17,10 +17,11 @@ it('shows the eyebrow, title, illustration, controls and body content', function
         ->toContain('Kalender')
         ->toContain('Spring op de fiets, wij rijden samen.')
         ->toContain('kid-on-bike.png')
+        ->toContain('aria-hidden="true"')
         ->toContain('probe-control')
         ->toContain('probe-body')
         ->toContain('page-hero__spacer')
-        ->toContain('page-panel');
+        ->toContain('class="page-panel"');
 });
 
 it('omits the illustration when none is given', function () {
