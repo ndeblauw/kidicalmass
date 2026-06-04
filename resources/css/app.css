@@ -3598,7 +3598,7 @@ select:focus[data-flux-control] {
        ══════════════════════════════════════════════════════════════════════ */
 
     :root {
-        --page-hero-h: 34rem;          /* desktop hero height (fits eyebrow + 2-line title + controls, with breathing room) */
+        --page-hero-h: 40rem;          /* desktop hero height (fits eyebrow + 2-line title + controls, with breathing room) */
     }
 
     .page-hero {
@@ -3617,8 +3617,8 @@ select:focus[data-flux-control] {
         align-items: start;            /* top-anchor copy: titles never clip on the fold */
         height: 100%;
         gap: 1.5rem;
-        padding-top: 8rem;             /* clears the floating pill (pill bottom ≈ 5.5rem) + top breathing */
-        padding-bottom: 3.5rem;
+        padding-top: 11rem;            /* clears the floating pill (pill bottom ≈ 5.5rem) + top breathing */
+        padding-bottom: 5rem;
 
         @media (min-width: 768px) {
             grid-template-columns: 1.2fr 0.8fr;
@@ -3684,9 +3684,9 @@ select:focus[data-flux-control] {
         z-index: 10;
         width: 100vw;
         margin-left: calc(50% - 50vw);
+        margin-top: -2rem;             /* overlap the hero so the rounded corners sit on blue, not the page bg */
         background-color: white;
         border-radius: 2rem 2rem 0 0;
-        box-shadow: 0 -1.5rem 3rem -1rem color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
         min-height: 60vh;              /* guarantees it can cover the hero */
         padding-top: 2.5rem;
         padding-bottom: 3rem;
@@ -3699,8 +3699,8 @@ select:focus[data-flux-control] {
     }
 
     @media (max-width: 767px) {
-        :root { --page-hero-h: 25rem; }
-        .page-hero__inner { padding-top: 6.75rem; }
+        :root { --page-hero-h: 30rem; }
+        .page-hero__inner { padding-top: 9.5rem; }
     }
 }
 
