@@ -10,21 +10,10 @@
 --}}
 <x-layouts::site title="Missie">
 
-    {{-- HERO --}}
-    <section class="activity-hero about-hero">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-        <div class="container mx-auto px-4 activity-hero__inner">
-            <div class="activity-hero__copy">
-                <h1>Missie</h1>
-                <p class="about-hero__lead">We organiseren vrolijke, veilige fietsparades voor kinderen in heel België. En we zijn nog maar net begonnen.</p>
-            </div>
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo about-hero__circle">
-                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-page-hero
+        eyebrow="Missie"
+        title="Veilige straten, voor elk kind."
+        illustration="img/illustrations/tree-tall.png">
 
     {{-- WAT KIDICAL MASS IS — contained intro --}}
     <section class="about-intro">
@@ -107,5 +96,7 @@
     @push('scripts')
     <x-about-reveal selector=".about-band .activity-promises__item" />
     @endpush
+
+    </x-page-hero>
 
 </x-layouts::site>

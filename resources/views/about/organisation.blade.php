@@ -10,21 +10,10 @@
 --}}
 <x-layouts::site title="Organisatie">
 
-    {{-- HERO --}}
-    <section class="activity-hero about-hero">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-        <div class="container mx-auto px-4 activity-hero__inner">
-            <div class="activity-hero__copy">
-                <h1>Organisatie</h1>
-                <p class="about-hero__lead">Een burgerbeweging. Geen hoofdkantoor, geen betaald personeel. Gewoon mensen die opdagen.</p>
-            </div>
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo about-hero__circle">
-                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-page-hero
+        eyebrow="Organisatie"
+        title="Buren die de straat op trekken."
+        illustration="img/illustrations/kid-on-bike-teal.png">
 
     {{-- HOE WE GEORGANISEERD ZIJN — contained intro --}}
     <section class="about-intro">
@@ -120,5 +109,7 @@
     @push('scripts')
     <x-about-reveal selector=".about-organigram__node" :transform="true" />
     @endpush
+
+    </x-page-hero>
 
 </x-layouts::site>

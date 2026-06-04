@@ -12,21 +12,9 @@
 <x-layouts::site title="Partners & sponsors">
 <div class="partners-page">
 
-    {{-- HERO --}}
-    <section class="activity-hero about-hero">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-        <div class="container mx-auto px-4 activity-hero__inner">
-            <div class="activity-hero__copy">
-                <h1>Partners &amp; sponsors</h1>
-                <p class="about-hero__lead">Kidical Mass werkt niet alleen. Deze organisaties delen onze overtuiging dat kinderen betere straten verdienen.</p>
-            </div>
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo about-hero__circle about-hero__circle--photo">
-                    <img src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="Honderden gezinnen fietsen samen aan het Jubelpark in Brussel tijdens een Kidical Mass">
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-page-hero
+        eyebrow="Partners & sponsors"
+        title="Samen sterker voor veilige straten.">
 
     {{-- WIE ONS STEUNT — named institutional anchors (depth) + the full logo wall (breadth)
          in ONE section. The in-kind/bike-provision partners (Loopz, Kidical Mouse, My Kids
@@ -125,6 +113,8 @@
             </div>
         </div>
     </section>
+
+    </x-page-hero>
 
 </div>
     @push('scripts')

@@ -10,21 +10,10 @@
 --}}
 <x-layouts::site title="Visie">
 
-    {{-- HERO --}}
-    <section class="activity-hero about-hero">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-        <div class="container mx-auto px-4 activity-hero__inner">
-            <div class="activity-hero__copy">
-                <h1>Visie</h1>
-                <p class="about-hero__lead">We willen straten waar kinderen vrij kunnen fietsen. België is er nog niet. Maar we weten wat daarvoor nodig is.</p>
-            </div>
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo about-hero__circle">
-                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-page-hero
+        eyebrow="Visie"
+        title="Een stad op kindermaat."
+        illustration="img/illustrations/bird-with-helmet.png">
 
     {{-- POSITIESTATEMENT — contained intro --}}
     <section class="about-intro about-intro--lead">
@@ -96,5 +85,7 @@
     @push('scripts')
     <x-about-reveal selector=".about-demand" :transform="true" />
     @endpush
+
+    </x-page-hero>
 
 </x-layouts::site>

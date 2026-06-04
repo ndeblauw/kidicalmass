@@ -8,20 +8,14 @@
 --}}
 <x-layouts::site title="Over ons">
 
-    {{-- HERO --}}
-    <section class="activity-hero about-hero">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-hero__daisy">
-        <div class="container mx-auto px-4 activity-hero__inner">
-            <div class="activity-hero__copy">
-                <h1>Over ons</h1>
-                <p class="about-hero__lead">Kidical Mass organiseert fietsparades voor gezinnen in heel België en pleit voor kindvriendelijke straten. Een vrijwilligersnetwerk, lokaal geworteld en samen gecoördineerd.</p>
-            </div>
-            <div class="activity-hero__visual">
-                <div class="activity-hero__photo about-hero__circle">
-                    <img src="{{ asset('img/illustrations/kid-on-bike.png') }}" alt="" aria-hidden="true">
-                </div>
-            </div>
-        </div>
+    <x-page-hero
+        eyebrow="Over ons"
+        title="Samen maken we straten voor kinderen."
+        illustration="img/illustrations/tree-round.png">
+
+    {{-- Lead, relocated onto the panel (the hub has no separate intro section). --}}
+    <section class="about-intro">
+        <p>Kidical Mass organiseert fietsparades voor gezinnen in heel België en pleit voor kindvriendelijke straten. Een vrijwilligersnetwerk, lokaal geworteld en samen gecoördineerd.</p>
     </section>
 
     {{-- WAAR BEN JE NAAR OP ZOEK — intention triage. Routes to the EXITS deciders
@@ -130,5 +124,7 @@
     @push('scripts')
     <x-about-reveal selector=".about-intent-card, .about-nav-card" :transform="true" />
     @endpush
+
+    </x-page-hero>
 
 </x-layouts::site>
