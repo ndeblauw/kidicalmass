@@ -3437,7 +3437,7 @@ select:focus[data-flux-control] {
     .page-hero__inner {
         display: grid;
         grid-template-columns: 1fr;
-        align-items: center;
+        align-items: start;            /* top-anchor copy: titles never clip on the fold */
         height: 100%;
         gap: 1.5rem;
         padding-top: 6.5rem;           /* clears the floating pill (pill bottom ≈ 5.5rem) */

@@ -13,70 +13,67 @@
 --}}
 <x-layouts::site title="Voor het eerst mee">
 
-    <x-page-hero eyebrow="Voor het eerst" title="Kom zoals je bent, je eerste rit wordt een feest." illustration="img/illustrations/kid-on-scooter.png">
+    <x-page-hero
+        eyebrow="Voor het eerst"
+        title="Kom zoals je bent."
+        illustration="img/illustrations/kid-on-scooter.png">
 
-    {{-- WAT JE MAG VERWACHTEN — scroll-stacking cards (desktop); static list (mobile) --}}
-    <section class="gs-expect-scroll">
-        <div class="gs-expect-pin">
+    {{-- WAT JE MAG VERWACHTEN — reuses the ride page's promises band --}}
+    <section class="activity-promises gs-expect">
+        <div class="activity-promises__layout">
 
-            <div class="gs-expect-left">
+            <div class="activity-promises__illustration">
                 <h2>Wat je mag verwachten op een rit</h2>
                 <img src="{{ asset('img/illustrations/kid-on-scooter.png') }}" alt="" aria-hidden="true" loading="lazy">
             </div>
 
-            <div class="gs-expect-right">
-                <div class="gs-expect-cards">
-
-                    <div class="gs-expect-card" data-idx="0">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.clock variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Kort en rustig</strong>
-                        <p>5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.</p>
+            <ul class="activity-promises__col" role="list">
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.clock variant="solid" class="activity-promises__icon" aria-hidden="true" />
                     </div>
-
-                    <div class="gs-expect-card" data-idx="1">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.musical-note variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Muziek onderweg</strong>
-                        <p>Er is altijd een geluidssysteem. Een vrolijke, luidruchtige fietsparade door de buurt.</p>
+                    <strong>Kort en rustig</strong>
+                    <p>5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.</p>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.musical-note variant="solid" class="activity-promises__icon" aria-hidden="true" />
                     </div>
-
-                    <div class="gs-expect-card" data-idx="2">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.map-pin variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Vaste startplaats</strong>
-                        <p>Elke rit vertrekt op een vaste plek, vermeld op de eventpagina. Gewoon daar opdagen.</p>
+                    <strong>Muziek onderweg</strong>
+                    <p>Er is altijd een geluidssysteem. Een vrolijke, luidruchtige fietsparade door de buurt.</p>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.map-pin variant="solid" class="activity-promises__icon" aria-hidden="true" />
                     </div>
+                    <strong>Vaste startplaats</strong>
+                    <p>Elke rit vertrekt op een vaste plek, vermeld op de eventpagina. Gewoon daar opdagen.</p>
+                </li>
+            </ul>
 
-                    <div class="gs-expect-card" data-idx="3">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.ticket variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Gratis, geen inschrijving</strong>
-                        <p>Geen ticket, geen registratie, geen kosten. Kom gewoon naar de start.</p>
+            <ul class="activity-promises__col" role="list">
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.ticket variant="solid" class="activity-promises__icon" aria-hidden="true" />
                     </div>
-
-                    <div class="gs-expect-card" data-idx="4">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.users variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Alle leeftijden welkom</strong>
-                        <p>Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.</p>
+                    <strong>Gratis, geen inschrijving</strong>
+                    <p>Geen ticket, geen registratie, geen kosten. Kom gewoon naar de start.</p>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.users variant="solid" class="activity-promises__icon" aria-hidden="true" />
                     </div>
-
-                    <div class="gs-expect-card" data-idx="5">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.shield-check variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Minstens vier roze hesjes</strong>
-                        <p>Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij, zodat geen kind achterblijft.</p>
+                    <strong>Alle leeftijden welkom</strong>
+                    <p>Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.</p>
+                </li>
+                <li class="activity-promises__item">
+                    <div class="activity-promises__icon-wrap">
+                        <flux:icon.shield-check variant="solid" class="activity-promises__icon" aria-hidden="true" />
                     </div>
-
-                </div>
-            </div>
+                    <strong>Minstens vier roze hesjes</strong>
+                    <p>Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij, zodat geen kind achterblijft.</p>
+                </li>
+            </ul>
 
         </div>
     </section>
@@ -146,70 +143,31 @@
         </div>
     </section>
 
-    {{-- Scroll-stacking animation for the expectations cards (desktop only) --}}
+    {{-- Scroll reveal for the expectation cards (mirrors the ride page) --}}
     @push('scripts')
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        if (!window.matchMedia('(min-width: 1024px)').matches) return;
 
-        const section = document.querySelector('.gs-expect-scroll');
-        if (!section) return;
+        const cards = document.querySelectorAll('.gs-expect .activity-promises__item');
+        cards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+            card.style.transitionDelay = `${i * 80}ms`;
+        });
 
-        const stack  = section.querySelector('.gs-expect-cards');
-        const cards  = [...stack.querySelectorAll('.gs-expect-card')];
-        const N      = cards.length;
-
-        // Final resting position for each card in the stack.
-        // Index 0 arrives first (sits at the bottom), index N-1 arrives last (sits on top).
-        const FINALS = [
-            { y: 56, r: -1.5 },
-            { y: 44, r:  1.2 },
-            { y: 32, r: -0.8 },
-            { y: 20, r:  1.5 },
-            { y: 10, r: -0.5 },
-            { y:  0, r:  0.5 },
-        ];
-
-        const scrollPerCard = window.innerHeight * 0.45;
-        const totalExtra    = N * scrollPerCard;
-
-        // Extend section height so sticky pin has enough room to animate all cards.
-        section.style.height = `calc(100dvh + ${totalExtra}px)`;
-
-        // Activate the sticky two-column layout via CSS.
-        section.classList.add('gs-expect-scroll--ready');
-
-        // Size the stack container once the layout has settled.
-        stack.style.height = '340px';
-
-        // Z-order: last card is always visually on top.
-        cards.forEach((card, i) => { card.style.zIndex = String(i + 1); });
-
-        const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
-
-        function render() {
-            const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
-            const scrolled   = window.pageYOffset - sectionTop;
-
-            cards.forEach((card, i) => {
-                const raw = (scrolled - i * scrollPerCard) / scrollPerCard;
-                const t   = Math.max(0, Math.min(1, raw));
-                const e   = easeOutQuart(t);
-                const f   = FINALS[i];
-
-                card.style.opacity   = String(Math.min(1, t * 4));
-                card.style.transform = `translateY(${f.y + 200 * (1 - e)}px) rotate(${f.r * e}deg)`;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
             });
-        }
+        }, { threshold: 0.12 });
 
-        let raf = null;
-        window.addEventListener('scroll', () => {
-            if (raf) cancelAnimationFrame(raf);
-            raf = requestAnimationFrame(render);
-        }, { passive: true });
-
-        render();
+        cards.forEach(card => observer.observe(card));
     });
     </script>
     @endpush
