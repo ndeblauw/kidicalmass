@@ -3598,7 +3598,7 @@ select:focus[data-flux-control] {
        ══════════════════════════════════════════════════════════════════════ */
 
     :root {
-        --page-hero-h: 30rem;          /* desktop hero height (fits eyebrow + 2-line title + controls) */
+        --page-hero-h: 34rem;          /* desktop hero height (fits eyebrow + 2-line title + controls, with breathing room) */
     }
 
     .page-hero {
@@ -3617,8 +3617,8 @@ select:focus[data-flux-control] {
         align-items: start;            /* top-anchor copy: titles never clip on the fold */
         height: 100%;
         gap: 1.5rem;
-        padding-top: 6.5rem;           /* clears the floating pill (pill bottom ≈ 5.5rem) */
-        padding-bottom: 2rem;
+        padding-top: 8rem;             /* clears the floating pill (pill bottom ≈ 5.5rem) + top breathing */
+        padding-bottom: 3.5rem;
 
         @media (min-width: 768px) {
             grid-template-columns: 1.2fr 0.8fr;
@@ -3699,8 +3699,8 @@ select:focus[data-flux-control] {
     }
 
     @media (max-width: 767px) {
-        :root { --page-hero-h: 22rem; }
-        .page-hero__inner { padding-top: 5.75rem; }
+        :root { --page-hero-h: 25rem; }
+        .page-hero__inner { padding-top: 6.75rem; }
     }
 }
 
