@@ -15,7 +15,10 @@
     <x-layouts::site.header />
 
     <!-- Main Content -->
-    <main class="flex-1 container mx-auto px-4 py-8">
+    {{-- pt-28 clears the fixed floating nav pill (~5.5rem). Full-bleed blue bands
+         (.home-hero/.activity-hero/.chapter-head/.page-hero__spacer) cancel it with
+         margin-top: calc(var(--spacing) * -28). --}}
+    <main class="flex-1 container mx-auto px-4 pb-8 pt-28">
         {{ $slot }}
     </main>
 

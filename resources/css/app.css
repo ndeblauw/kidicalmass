@@ -144,7 +144,7 @@
     .home-hero {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        margin-top: calc(var(--spacing) * -8);
+        margin-top: calc(var(--spacing) * -28);
         background-color: var(--color-kidical-blue);
         color: white;
         overflow: hidden;
@@ -282,7 +282,7 @@
         z-index: 1;
         background-color: var(--color-kidical-blue);
         margin-bottom: 0;
-        margin-top: calc(var(--spacing) * -8);
+        margin-top: calc(var(--spacing) * -28);
         width: 100vw;
         margin-left: calc(50% - 50vw);
     }
@@ -294,7 +294,7 @@
         grid-template-columns: 1fr;
         gap: 2rem;
         align-items: center;
-        padding-top: calc(var(--spacing) * 14);
+        padding-top: calc(var(--spacing) * 24);
         padding-bottom: calc(var(--spacing) * 8);
 
         @media (min-width: 768px) {
@@ -1299,10 +1299,187 @@ header [data-flux-navbar-items][data-current]::after {
         object-fit: contain;
     }
 
-    /* Expectations reuse .activity-promises* verbatim; only the 3rd card per
-       column needs a tilt the ride page (2 per column) never defines. */
-    .gs-expect .activity-promises__item:nth-child(3) {
-        transform: rotate(-1deg);
+    /* ─── Stacking-card expectations band ─────────────────────────────────
+       Mobile: full-bleed sky band, tilted static card column.
+       Desktop (JS adds --ready): sticky left (heading + lead + illustration)
+       + scroll-driven stacking deck on the right. ──────────────────────── */
+
+    /* On the getting-started page the white panel background picks up the
+       sky palette so the rounded-top seam looks like one continuous surface. */
+    .page-panel:has(.gs-expect-scroll) {
+        background-color: var(--color-kidical-light-blue);
+    }
+
+    .gs-expect-scroll {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: var(--color-kidical-sky);
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+
+    .gs-expect-pin {
+        padding-inline: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+
+        @media (min-width: 768px) {
+            padding-inline: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
+        }
+    }
+
+    .gs-expect-left {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        h2 {
+            color: var(--color-kidical-ink);
+            margin: 0;
+            font-size: clamp(var(--text-3xl), 3.5vw, calc(var(--text-4xl) * 1.4));
+        }
+
+        /* Lead paragraph under the heading */
+        > p {
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 5%);
+            font-size: clamp(var(--text-base), 1.25vw, var(--text-xl));
+            line-height: 1.65;
+            max-width: 36ch;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        img {
+            width: 200px;
+            object-fit: contain;
+
+            @media (min-width: 768px) {
+                width: 280px;
+            }
+        }
+    }
+
+    .gs-expect-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .gs-expect-card {
+        background: white;
+        border-radius: 2rem;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.125rem;
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+
+        &:nth-child(1) { transform: rotate(-1.5deg); }
+        &:nth-child(2) { transform: rotate(1deg);    }
+        &:nth-child(3) { transform: rotate(-0.8deg); }
+
+        strong {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: clamp(var(--text-2xl), 2vw, var(--text-3xl));
+            font-weight: 800;
+            color: var(--color-kidical-ink);
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: clamp(var(--text-lg), 1.2vw, var(--text-xl));
+            line-height: 1.6;
+            margin: 0;
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
+        }
+    }
+
+    /* Icon chip — base colour + per-card overrides */
+    .gs-expect-card__icon {
+        width: 4.25rem;
+        height: 4.25rem;
+        background: var(--color-kidical-red);
+        border-radius: 28%;
+        transform: rotate(-3deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        svg {
+            width: 2.4rem;
+            height: 2.4rem;
+            color: white;
+        }
+    }
+
+    /* Colour rotation across the 6 cards */
+    .gs-expect-card:nth-child(1) .gs-expect-card__icon { background: var(--color-kidical-red); }
+    .gs-expect-card:nth-child(2) .gs-expect-card__icon { background: var(--color-kidical-blue); }
+    .gs-expect-card:nth-child(3) .gs-expect-card__icon { background: var(--color-kidical-orange); }
+    .gs-expect-card:nth-child(4) .gs-expect-card__icon { background: var(--color-kidical-ink); }
+    .gs-expect-card:nth-child(5) .gs-expect-card__icon { background: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-red) 45%); }
+    .gs-expect-card:nth-child(6) .gs-expect-card__icon { background: color-mix(in oklab, var(--color-kidical-orange), var(--color-kidical-red) 40%); }
+
+    /* ── JS scroll-stacking layout (added on lg+, no reduced-motion) ── */
+
+    .gs-expect-scroll--ready {
+        position: relative;
+        padding: 0;
+    }
+
+    .gs-expect-scroll--ready .gs-expect-pin {
+        position: sticky;
+        top: 0;
+        height: 100dvh;
+        min-height: 600px;
+        overflow: hidden;
+        background: var(--color-kidical-sky); /* covers the fixed hero below */
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 0;
+        gap: 0;
+    }
+
+    .gs-expect-scroll--ready .gs-expect-left {
+        padding: 6.5rem 2rem 0 max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+        gap: 1.25rem;
+
+        h2 {
+            font-size: clamp(var(--text-3xl), 3vw, calc(var(--text-4xl) * 1.5));
+        }
+
+        img {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            max-height: 50vh;
+            object-fit: contain;
+            object-position: bottom left;
+        }
+    }
+
+    .gs-expect-scroll--ready .gs-expect-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 3rem 2rem;
+    }
+
+    .gs-expect-scroll--ready .gs-expect-cards {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        /* height set by JS */
+    }
+
+    .gs-expect-scroll--ready .gs-expect-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
     }
 
     /* ─── FAQ accordion (contained, white) ─── */
@@ -3497,7 +3674,7 @@ select:focus[data-flux-control] {
     .page-hero__spacer {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        margin-top: calc(var(--spacing) * -8);   /* cancel main's py-8 top pad */
+        margin-top: calc(var(--spacing) * -28);   /* cancel main's py-8 top pad */
         height: var(--page-hero-h);
     }
 
@@ -3718,7 +3895,7 @@ select:focus[data-flux-control] {
         z-index: 1;
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        margin-top: calc(var(--spacing) * -8);
+        margin-top: calc(var(--spacing) * -28);
         background-color: var(--color-kidical-blue);
         overflow: hidden;
     }
@@ -3740,7 +3917,7 @@ select:focus[data-flux-control] {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        padding-top: calc(var(--spacing) * 9);
+        padding-top: calc(var(--spacing) * 24);
         padding-bottom: calc(var(--spacing) * 9);
         max-width: 48rem;
     }

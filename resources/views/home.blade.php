@@ -1,7 +1,7 @@
 <x-layouts::site title="Kidical Mass Belgium">
     <div class="space-y-20">
         {{-- Hero · dual CTA --}}
-        <section class="home-hero px-4 py-16 text-center md:py-24">
+        <section class="home-hero px-4 pb-16 pt-28 text-center md:pb-24 md:pt-32">
             <div class="mx-auto max-w-3xl space-y-6">
                 <h1>Kids on bikes. Together.</h1>
                 <p class="mx-auto max-w-2xl text-xl text-white/90">
