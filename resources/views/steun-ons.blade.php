@@ -1,12 +1,13 @@
 {{--
     Steun Kidical Mass — /steun-ons (P-04)
-    Normalized 2026-06-03 to the ride/show layout system (DESIGN.md):
-    - HERO reuses .activity-hero* (blue band, daisy, circular illustration, -3° H1, badge).
-    - "Wat jouw steun mogelijk maakt" reuses .activity-promises* (sky band, white tilted
-      cards, canonical red Flux-icon chips).
+    Mission-led 2026-06-05: the page argues the cause before the ask.
+    - HERO (.page-hero blue band): the cause leads the H1.
+    - MISSION (.steun-mission): why this matters, the driver to give.
+    - PROOF (.steun-proof): real, sourced impact (numbers from docs/raw/website/*).
+    - "Wat jouw steun mogelijk maakt" reuses .activity-promises* (sky band, tilted cards).
     - The ask sits on a contained white section; the page closes on a full-bleed yellow
       CTA band (the movement-scale reassurance + a second Growfunding shot).
-    Colour story: blue → sky → white → yellow. Structure only; appearance in app.css.
+    Colour story: blue → white → sky → white → yellow. Structure only; appearance in app.css.
     Copy: lang/nl/support.php. Plan: docs/wiki/design/30-skeleton/steun-ons.md
 --}}
 <x-layouts::site :title="__('support.title')">
@@ -15,7 +16,28 @@
         $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
     @endphp
 
-    <x-page-hero eyebrow="Steun ons" title="Help de beweging groeien." illustration="img/illustrations/crocodile-on-tricycle.png">
+    <x-page-hero :eyebrow="__('support.hero_eyebrow')" :title="__('support.hero_title')" illustration="img/illustrations/crocodile-on-tricycle.png">
+
+    {{-- WAAROM — the mission (the driver to give), contained white --}}
+    <section class="steun-mission">
+        <h2 class="steun-mission__title">{{ __('support.mission_title') }}</h2>
+        <p class="steun-mission__body">{{ __('support.mission_body') }}</p>
+    </section>
+
+    {{-- PROOF — real, sourced impact (docs/raw/website/*). Numbers stay honest. --}}
+    <section class="steun-proof">
+        <h2 class="steun-proof__title">{{ __('support.proof_title') }}</h2>
+        <p class="steun-proof__body">{{ __('support.proof_body') }}</p>
+        <ul class="steun-proof__stats" role="list">
+            @foreach (__('support.proof_stats') as $stat)
+                <li class="steun-proof__stat">
+                    <span class="steun-proof__stat-value">{{ $stat['value'] }}</span>
+                    <span class="steun-proof__stat-label">{{ $stat['label'] }}</span>
+                </li>
+            @endforeach
+        </ul>
+        <p class="steun-proof__credit">{{ __('support.proof_press') }} {{ __('support.proof_backers') }}</p>
+    </section>
 
     {{-- WAT JE STEUN MOGELIJK MAAKT — reuses the promises band --}}
     <section class="activity-promises steun-funds">
@@ -45,6 +67,7 @@
                 {{ __('support.ask_cta') }}
                 <flux:icon.arrow-up-right class="steun-ask__cta-ext" aria-hidden="true" />
             </a>
+            <p class="steun-ask__where">{{ __('support.ask_where') }}</p>
             <p class="steun-ask__note">{{ __('support.ask_note') }}</p>
             <a href="{{ $growfunding }}" class="steun-ask__tiers" target="_blank" rel="noopener noreferrer">
                 {{ __('support.tiers') }}
