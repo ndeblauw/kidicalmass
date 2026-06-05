@@ -77,23 +77,15 @@
         <figcaption>Julienne, mama van twee kinderen (2 en 5 jaar)</figcaption>
     </figure>
 
-    {{-- CTA — deciders first (Help mee primary); the family door stays as secondary --}}
-    <x-about-cta
-        title="Doe mee met de beweging"
-        sub="Word vrijwilliger en help ritten mogelijk maken, of rij gewoon eens mee.">
-        <x-slot:actions>
-            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Help mee</x-cta-button>
-            <a href="{{ route('activities.index') }}" class="about-cta__btn about-cta__btn--ink link-plain">
-                Vind een rit
-                <span class="about-cta__btn__disc" aria-hidden="true">→</span>
-            </a>
-        </x-slot:actions>
-    </x-about-cta>
-
     @push('scripts')
     <x-about-reveal selector=".about-band .about-card-grid > li" />
     @endpush
 
     </x-page-hero>
+
+    <x-slot:closing>
+        <x-closing-cta heading="Samen maken we straten veiliger"
+            :href="route('activities.index')" label="Vind een rit" />
+    </x-slot:closing>
 
 </x-layouts::site>

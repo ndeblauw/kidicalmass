@@ -116,15 +116,15 @@
         </div>
     </section>
 
-    {{-- CTA --}}
-    <x-about-cta
-        title="Zin om mee te doen?"
-        sub="Rij mee met een rit bij jou in de buurt, of geef zelf mee vorm aan de beweging." />
-
     @push('scripts')
     <x-about-reveal selector=".about-intent-card, .about-nav-card" :transform="true" />
     @endpush
 
     </x-page-hero>
+
+    <x-slot:closing>
+        <x-closing-cta heading="Rij mee met de buurt"
+            :href="route('activities.index')" label="Vind een rit" />
+    </x-slot:closing>
 
 </x-layouts::site>

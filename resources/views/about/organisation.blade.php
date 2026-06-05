@@ -98,21 +98,15 @@
         <p class="about-section__link"><a href="{{ route('getting-started') }}">Hoe een rit praktisch verloopt: Voor het eerst mee →</a></p>
     </section>
 
-    {{-- CTA — start or join a chapter --}}
-    <x-about-cta title="Een afdeling starten of vervoegen?">
-        <x-slot:actions>
-            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Help mee</x-cta-button>
-            <a href="{{ route('getting-started') }}" class="about-cta__btn about-cta__btn--ink link-plain">
-                Voor het eerst mee
-                <span class="about-cta__btn__disc" aria-hidden="true">→</span>
-            </a>
-        </x-slot:actions>
-    </x-about-cta>
-
     @push('scripts')
     <x-about-reveal selector=".about-organigram__node" :transform="true" />
     @endpush
 
     </x-page-hero>
+
+    <x-slot:closing>
+        <x-closing-cta heading="Een afdeling starten of vervoegen?"
+            :href="route('getting-started')" label="Zo begin je" />
+    </x-slot:closing>
 
 </x-layouts::site>

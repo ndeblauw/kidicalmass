@@ -20,3 +20,10 @@ it('still renders the dark footer bottom bar site-wide', function () {
         ->assertOk()
         ->assertSee('Kidical Mass Belgium', escape: false);
 });
+
+it('replaces the about-cta card with the new closing CTA on about pages', function () {
+    get(route('about.mission'))
+        ->assertOk()
+        ->assertSee('Samen maken we straten veiliger', escape: false)
+        ->assertDontSee('about-cta__content', escape: false);
+});
