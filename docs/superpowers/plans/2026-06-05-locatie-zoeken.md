@@ -1083,15 +1083,23 @@ Create `resources/views/components/kal-month-band.blade.php` for the past view (
 
 > Note: in the no-location upcoming branch, `byPeriod` holds plain Activity models, so `<x-kal-day-band :plain="true">` is used; in the banded branches the rows are annotated arrays, so `:plain` defaults to false.
 
-- [ ] **Step 6: Run test to verify it passes**
+- [ ] **Step 6: Update the two existing tests that referenced the removed gemeente filter**
 
-Run: `php artisan test --compact --filter=CalendarProximityTest`
-Expected: PASS (2 tests). Also run `php artisan test --compact --filter=Calendar` and any existing ride-calendar test; fix references to the removed `gemeente` property if a prior test used it.
+`tests/Feature/PublicPagesTest.php` has two now-broken expectations:
 
-- [ ] **Step 7: Commit**
+1. In `it('renders the Kalender with NL chrome and no English/em-dashes', ...)`: the control label changed and the "Alle gemeenten" option is gone. Change `->assertSee('Waar fiets je?')` to `->assertSee('Waar woon je?')` and **delete** the `->assertSee('Alle gemeenten')` line. Leave every other assertion intact.
+
+2. Delete the whole `it('filters the Kalender by gemeente', ...)` test — the single-gemeente filter no longer exists; proximity banding replaces it and is covered by `CalendarProximityTest`. (This deletion is in-scope: the feature under test was intentionally removed.)
+
+- [ ] **Step 7: Run tests to verify they pass**
+
+Run: `php artisan test --compact --filter=CalendarProximityTest` then `php artisan test --compact --filter=PublicPagesTest`
+Expected: both PASS.
+
+- [ ] **Step 8: Commit**
 
 ```bash
-git add app/Livewire/RideCalendar.php resources/views/livewire/ride-calendar.blade.php resources/views/components/kal-day-band.blade.php resources/views/components/kal-month-band.blade.php tests/Feature/Location/CalendarProximityTest.php
+git add app/Livewire/RideCalendar.php resources/views/livewire/ride-calendar.blade.php resources/views/components/kal-day-band.blade.php resources/views/components/kal-month-band.blade.php tests/Feature/Location/CalendarProximityTest.php tests/Feature/PublicPagesTest.php
 git commit -m "feat(calendar): proximity bands replace single-gemeente filter"
 ```
 
