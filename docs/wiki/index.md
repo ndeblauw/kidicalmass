@@ -35,7 +35,7 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 | Page | Summary | Phase |
 |------|---------|-------|
 | [Design plan & status](design/00-design-plan.md) | Plane status + project UX principles | design |
-| [Concerns register](design/01-concerns.md) | Open design decisions (D-1…D-7); incl. items graduated from Strategy | design |
+| [Concerns register](design/01-concerns.md) | Open design decisions (D-1…D-12); incl. items graduated from Strategy | design |
 | [Scope (plane 2)](design/10-scope.md) | MVP in / won't-have, functional specs, content requirements | design |
 | [Structure (plane 3)](design/20-structure.md) | Navigation, sitemap, content-model table | design |
 | [Content Migration Plan](design/25-content-migration.md) | Every Wix page → its new home (Rewrite/Migrate/Merge/Absorb/Drop/Seed) | design |

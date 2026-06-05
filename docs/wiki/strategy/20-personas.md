@@ -3,7 +3,7 @@ title: Personas / Audiences
 tags: [strategy]
 sources: [notion]
 phase: strategy
-updated: 2026-06-01
+updated: 2026-06-05
 ---
 
 # Personas / Audiences
@@ -41,12 +41,12 @@ Six actors interact with the service. They have almost nothing in common except 
 ### Potential chapter leads
 - **Demoted to secondary (D4).** The chapter map + growth story still serve them and grant applications, but recruiting new leads is not a primary site job. Start-a-chapter is a static page for MVP.
 
-## Served elsewhere (not the public site)
+## Served elsewhere (mostly not the public site)
 
 ### P4 — The pink vest (active volunteer)
 *"I escort rides in Forest. I got trained last season."*
-- Recruited by phone/WhatsApp at a ride, coordinates via WhatsApp, **barely uses the website** after first contact. *(Volunteer-interview signal — unvalidated — points to post-onboarding friction: role clarity, briefing, scattered WhatsApp info. This feeds design concern [D-1](../design/01-concerns.md); it is not a strategy claim.)*
-- **Anti-overlap:** *already in; the site plays almost no role in their ongoing experience.* (vs P3.)
+- Recruited by phone/WhatsApp at a ride, coordinates via WhatsApp. After onboarding P4 has a **real (if light) post-onboarding role on the site**: an **invite-only account** giving reliable cross-device access to the **material library**, the **logged-in volunteer roster**, and a visible **growth path** toward deeper contribution. *(Confirmed by Alexandre/J3, 2026-06-05: the post-onboarding friction — scattered WhatsApp materials, who-else-is-in-my-group, role clarity — is what the account answers. Detail in design concern [D-1](../design/01-concerns.md).)*
+- **Anti-overlap:** *already in, and recruited offline (not via the public site) — but, unlike P3, P4 logs in to access materials + roster.* (vs P3, who is not yet committed and stays on the public site.)
 
 ### P5 — The chapter lead (local organiser)
 *"I run the Mons rides. I plan on Komoot, post on Facebook, show up."*

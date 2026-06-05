@@ -3,7 +3,7 @@ title: Strategy — concerns register
 tags: [strategy, concerns]
 sources: [wiki/design/10-scope, wiki/strategy/90-key-decisions-evidence, notion]
 phase: strategy
-updated: 2026-06-02
+updated: 2026-06-05
 ---
 
 # Strategy — concerns register
@@ -29,7 +29,7 @@ The single authoritative answer to *"what's still open — can we conclude the S
 
 These were tracked here while Design was closed; they are scope/design-plane decisions and are now canonical in [design/01-concerns.md](../design/01-concerns.md). Lineage kept for traceability.
 
-- **`S-3` → `D-1`** — Private organiser back-office + "who's coming" attendance. Still the biggest item gating build; awaits the Alexandre (J3) interview.
+- **`S-3` → `D-1`** — Private organiser back-office + "who's coming" attendance. **Resolved by the Alexandre (J3) interview, 2026-06-05:** back-office IN; per-event attendance CUT; replaced by a standing volunteer roster. Canonical detail in [`design/01-concerns.md` `D-1`](../design/01-concerns.md).
 - **`S-4` → `D-2`** — Meetup visibility — **fully decided** (Frederik 2026-06-02): meetups public, full detail, surfaced on chapter pages only; `D-2` now **Closed**. See [`D-2`](../design/01-concerns.md).
 - **`S-5` → `D-3`** — Grande Kidical Mass as a featured event (Partly).
 

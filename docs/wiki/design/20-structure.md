@@ -3,7 +3,7 @@ title: Design — Structure (plane 3)
 tags: [design]
 sources: [wiki/ux-planning, notion]
 phase: design
-updated: 2026-06-02
+updated: 2026-06-05
 ---
 
 # Design — Structure (plane 3)
@@ -49,8 +49,8 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 │   │   └── Meetups/workshops do NOT appear here — they live on chapter pages (D-2)
 │   └── Event detail (/events/[slug])
 │       ├── Date, time, meeting point, distance, route, chapter info
-│       ├── "I'm coming" + hosts-attending display — logged-in volunteers only (D-1)
 │       └── "Grande Kidical Mass" = featured event, same system (D-3)
+│           (no "I'm coming" — per-event attendance cut, D-1; turnout via WhatsApp)
 │
 ├── Chapters (/chapters)
 │   ├── Overview — map + list of all chapters (grouped by region), "start a chapter" CTA
@@ -63,6 +63,7 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 │       ├── Subscribe to this chapter — per-chapter email opt-in ← Scope feature, now homed
 │       ├── History / our story (optional — hidden if empty; Mons-style founders + milestones) ← template gap caught in cross-check
 │       ├── Team (optional — hidden if no team added)
+│       ├── Local volunteers — opt-in public roster (`group_user.is_public`; D-1)
 │       ├── Volunteer mini form (routed to local lead — J2)
 │       ├── Local partners (optional — hidden if empty)
 │       ├── Press coverage (optional — hidden if empty)
@@ -110,23 +111,25 @@ kidicalmass.be (NL / FR — routed per path; EN later)
     └── Volunteer login (/login) — discreet; NO public Register (invite-only); footer-only since Steun took the header slot (2026-06-02)
 │
 ══ LOGGED-IN FRONTEND (volunteers only) ══════════════════════════════
-│  account = group_user, invite/lead-provisioned; gates attendance + back-office
+│  account = group_user (many-to-many), invite/lead-provisioned; gates back-office + roster
 │
 ├── My activities (/my-activities)  ← post-login landing
-│   ├── I'm attending — rides + meetups I marked "I'm coming", soonest first
+│   ├── Upcoming — rides + meetups for my chapter(s), soonest first (no "I'm coming" — attendance cut, D-1)
 │   ├── Meetups & workshops — default = my municipality, cross-group filter (public; here as shortlist)
-│   └── My chapter(s) → link(s) into the back-office
+│   └── My chapter(s) → link(s) into the back-office + volunteer roster
 │
 └── Chapter back-office (/backstage/[postal-code] — per chapter)
     │  Separate BRANDED frontend surface, read-mostly — NOT the Filament panel
     ├── Before signing up: what to expect as a volunteer
-    └── Once logged in (the "things now in WhatsApp"):
-        ├── How it works · documents · intro video
-        ├── Meetup/workshop schedule for this chapter
-        ├── Who leads the chapter + their role
-        ├── What roles exist + what yours is / could be
-        └── Attendance management (lead sees full roster)
-        └── ⚠ Content detail deferred to Alexandre/J3 interview (D-1)
+    ├── Once logged in (the material library — "things now in WhatsApp"):
+    │   ├── How it works · documents · intro video
+    │   ├── Meetup/workshop schedule for this chapter
+    │   ├── Who leads the chapter + their role
+    │   ├── What roles exist + what yours is / could be · growth path
+    │   ├── Promo/poster downloads (stored & distributed, not generated)
+    │   └── Volunteer roster — who else is in this chapter (logged-in only; opt-in public on chapter page)
+    └── New-chapter / organiser onboarding: how to start & run a chapter
+        (commune contact, route planning, promo downloads) — primary beneficiary = new/small chapters (D-1, Alexandre/J3 2026-06-05)
 │
 ══ ADMIN (separate — content CMS) ════════════════════════════════════
 │
@@ -145,8 +148,8 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 - **Liège + Mons are hosted full chapters, not external pins** (revised 2026-06-02) — both run their own domains (`kidicalmassliege.org`, `mons.bike`) but get first-class hosted `/chapters/[postal]` pages (page may link out to their domain). Reverses the earlier "Liège = external pin" call; aligns with [P5](../strategy/20-personas.md) ("make a hosted page more attractive than a separate domain"). Liège's page is authored from their site's data (no `kidicalmass.be` page exists to migrate)
 - **Support is site-wide and prominent** (reworked 2026-06-02) — dedicated **`/steun-ons`** page (was `/membership`) + a **"Steun" CTA button in the primary nav** (top-right, replacing login, which moves to the footer) + **contextual "Steun" blocks** on Home and end of event-detail + the persistent footer CTA. All route to `/steun-ons`. Framed as **support, not membership** ("lid" retired; everyone rides free). Elevated from the earlier quiet-footer-only call (top org objective). One-off path provisional ([D-9](01-concerns.md))
 - **Site is canonical, not a Facebook replacement** — Facebook stays for reach and turnout signal; the site is the link Facebook points to
-- **One Activity model; all types public to view** — rides and meetups/workshops alike (meetups public as a traction signal — D-2). Login gates attendance + back-office, not viewing. Meetups live in the same system as rides, not a separate product. **Public meetups surface on chapter pages only** — `/events` stays rides-only (J1); there is no national meetup-aggregation view (a logged-in volunteer's cross-group view is [My activities](30-skeleton/my-activities.md)).
-- **Account ≠ paying member** — a logged-in group-volunteer account (which gates attendance + back-office) is distinct from a spacefunding donor (funding status). A person can be both; neither implies the other.
+- **One Activity model; all types public to view** — rides and meetups/workshops alike (meetups public as a traction signal — D-2). Login gates the back-office + volunteer roster, not viewing (per-event attendance cut — D-1). Meetups live in the same system as rides, not a separate product. **Public meetups surface on chapter pages only** — `/events` stays rides-only (J1); there is no national meetup-aggregation view (a logged-in volunteer's cross-group view is [My activities](30-skeleton/my-activities.md)).
+- **Account ≠ paying member** — a logged-in group-volunteer account (which gates the back-office + volunteer roster) is distinct from a spacefunding donor (funding status). A person can be both; neither implies the other. A volunteer account is **many-to-many** with chapters (multi-chapter affordance — D-1).
 - **Mission and Vision are separate** — Mission = what Kidical Mass is + impact stats; Vision = policy demands + advocacy
 - **News in About section** — consistent with current site; low volume doesn't justify top-level nav
 - **Three tiers, three audiences** — (1) public site (families, would-be volunteers, sponsors, press); (2) logged-in *frontend* for volunteers (P4) — `My activities` + a **separate branded** per-chapter back-office, **read-mostly**; (3) Filament `/admin` — the content CMS for leads (P5) + duo (P6). The back-office is **not** the admin panel: rank-and-file volunteers never touch Filament
@@ -161,11 +164,11 @@ The authoritative entity list. Status: ✅ on `main` · 🟡 partial · ❌ to b
 
 | Entity | Key fields | Relationships | Status | Notes |
 |---|---|---|---|---|
-| **Activity** | type (`kidicalmass`/`meeting`/`workshop`/`other`), title NL/FR, date, time, meeting point, distance, duration, age range, cost, komoot_url | belongs to ≥1 **Group**; has an organizer; has many **Attendances** | ✅/🟡 | Built by Nico. **All types public to view** (meetups public too — D-2); login gates attendance + back-office, not viewing. No view-gate field needed. |
-| **Attendance** ("I'm coming") | — | pivot **volunteer (`group_user`/User)** ↔ **Activity** | ❌ | New (D-1). **Account-only, volunteers-only**, on **all** activity types. **Display = hosts/organisers attending, not all attendees** (Leticia); lead may see the full roster. |
+| **Activity** | type (`kidicalmass`/`meeting`/`workshop`/`other`), title NL/FR, date, time, meeting point, distance, duration, age range, cost, komoot_url | belongs to ≥1 **Group**; has an organizer | ✅/🟡 | Built by Nico. **All types public to view** (meetups public too — D-2); login gates the back-office + volunteer roster, not viewing. No view-gate field needed. **No `Attendance` relation** (per-event attendance cut — D-1, Alexandre/J3 2026-06-05). |
+| ~~**Attendance** ("I'm coming")~~ | — | — | ❌ **CUT** | **Removed — do not build** (per-event attendance cut, Alexandre/J3 2026-06-05). The social need is met by the standing **volunteer roster** (a visibility flag on `group_user`), not a volunteer↔activity relation. See [`D-1`](01-concerns.md). |
 | **Article** (News) | title NL/FR, body, author, published_at | optional **Group** (any lead can post) | ✅ | Already built. |
 | **Group** (chapter) | name (bilingual official), postal code(s), language, map location | has many Activities, group_users, local partners | 🟡 | Drives `/chapters/[postal-code]`; fixed template. |
-| **group_user** (volunteer account) | role | pivot User ↔ Group | ✅ | **The only kind of site account — accounts are volunteers only.** Gates attendance + back-office (meetup *viewing* is public). **≠ spacefunding member.** |
+| **group_user** (volunteer account) | role, **`is_public` (opt-in roster visibility)** | pivot User ↔ Group — **many-to-many** (a volunteer may belong to >1 chapter; multi-chapter affordance, D-1 Decision D) | ✅/🟡 | **The only kind of site account — accounts are volunteers only.** Gates the back-office + volunteer roster (meetup *viewing* is public). **≠ spacefunding member.** **New: `is_public` boolean** drives the standing volunteer roster — public on the chapter page when opted in; full roster logged-in-only (D-1 Decision C). |
 | **Spacefunding member** *(internal; public verb = "steun")* | recurring-donor status | external (Growfunding) — **no site account** | ❌ | Recurring support via the **Growfunding** platform (Spacefunding model); the site links out, doesn't store it. **Public verb = "steun", not "lid"** (terminology reworked 2026-06-02). A **discreet one-off path** is provisionally back in scope ([D-9](01-concerns.md)). Not a shop. See [scope § Support](10-scope.md). |
 | **Volunteer enquiry** | name, email, chosen role, chosen chapter, message | routed to a **Group**'s lead | ❌ | Replaces the `bike@` inbox; per-chapter routing (J2). |
 | **Contact message** (national) | name, email, topic (`press`/`partnership`/`general`), message | routed to the **coordination duo** (no Group) | ❌ | New — the `/contact` front door. Distinct from per-chapter Volunteer enquiry; serves sponsors/press (secondary audiences). |

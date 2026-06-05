@@ -3,7 +3,7 @@ title: Strategy Brief — Kidical Mass Belgium website
 tags: [strategy, front-door]
 sources: [notion, wiki/strategy/90-key-decisions-evidence, wiki/design/10-scope, wiki/site-audit]
 phase: strategy
-updated: 2026-06-01
+updated: 2026-06-05
 ---
 
 # Strategy Brief
@@ -29,12 +29,12 @@ The small set of **locked decisions** everything downstream rests on. If one of 
 | **D5** | **Bringing money in is the top organisational objective.** Recurring individual membership ("spacefunding") + persistent site-wide CTA. | Recurring individual donors > grant dossiers; lets KM hire and stay self-sufficient. | 2026-05-18 |
 | **D6** | **v1 is bilingual NL + FR, routed (not stacked).** English deferred — same structure, added when review capacity allows. | *"Doe maar twee talen."* The bottleneck is review, not generation. | 2026-05-18 |
 | **D7** | **Positioning stays light and broad — mildly activist, never hardcore-cyclist.** | Appeal to the mass, not a cycling niche; the ride makes the political point. | 2026-05-18 |
-| **D8** | **One `Activity` model; all types publicly viewable.** Rides *and* meetups/workshops are visible to anyone — meetups are public too, as a traction/recruitment signal *(rev. 2026-06-02)*. Login gates **attendance + the back-office**, not viewing. | One system; public meetups show the movement's momentum. | 2026-05-18 |
-| **D9** | **A group-volunteer account ≠ a spacefunding member.** A person can be both; neither implies the other. **Attendance + back-office** depend on being a logged-in volunteer, not on paying (viewing is public). | Keeps funding status and volunteer access cleanly separate. | 2026-05-18 |
+| **D8** | **One `Activity` model; all types publicly viewable.** Rides *and* meetups/workshops are visible to anyone — meetups are public too, as a traction/recruitment signal *(rev. 2026-06-02)*. Login gates the **back-office + volunteer roster**, not viewing. | One system; public meetups show the movement's momentum. | 2026-05-18 |
+| **D9** | **A group-volunteer account ≠ a spacefunding member.** A person can be both; neither implies the other. The **back-office + volunteer roster** depend on being a logged-in volunteer, not on paying (viewing is public). | Keeps funding status and volunteer access cleanly separate. | 2026-05-18 |
 
 ## Confirmed scope cuts (won't-haves)
 
-Photo-gallery system · public web store · poster/flyer auto-generation · worked-out "start a chapter" intake flow. *(These are decisions, not deferrals.)* Full detail: [design/10-scope.md § Out of Scope](../design/10-scope.md).
+Photo-gallery system · public web store · poster/flyer auto-generation · worked-out "start a chapter" intake flow · **per-event attendance / "who's coming"** (volunteers manage turnout via WhatsApp polls — Alexandre, Jorge, Morgane; was provisionally IN, now a confirmed cut — see [`D-1`](../design/01-concerns.md)). *(These are decisions, not deferrals.)* Full detail: [design/10-scope.md § Out of Scope](../design/10-scope.md).
 
 ## Downstream artifacts
 

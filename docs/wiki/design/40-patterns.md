@@ -3,7 +3,7 @@ title: Patterns Library
 tags: [design, patterns]
 sources: [wiki/design/30-skeleton]
 phase: design
-updated: 2026-06-02
+updated: 2026-06-05
 ---
 
 # Patterns Library
@@ -31,7 +31,8 @@ Shared UI patterns with stable IDs. Per-page briefs in [`30-skeleton/`](30-skele
 | **PAT-15** | **Sub-page nav cards** | Cards linking into a section's children, in a story-first order. | About overview | Order justified in [`30-skeleton/about.md`](30-skeleton/about.md). |
 | **PAT-16** | **Empty state** | Friendly on-brand message when no data (no upcoming rides, no chapter team yet). | Events, Chapters, Chapter page | Tone of voice applies. |
 | **PAT-17** | **News preview / article feed** | List of recent articles with author + date. | Home (preview), About/News (feed) | [`30-skeleton/about.md`](30-skeleton/about.md). |
-| **PAT-18** | **"I'm coming" attendance** | Per-activity toggle for a logged-in volunteer; **display shows the hosts/organisers attending (social nudge), not the full attendee list**. | Activity detail, [My activities](30-skeleton/my-activities.md) | **Account-only, volunteers only**, all activity types. Lead may see the full roster. Needs the Attendance relation ([content model](20-structure.md)). |
+| ~~**PAT-18**~~ | ~~**"I'm coming" attendance**~~ | **RETIRED** — per-event attendance cut (Alexandre/J3, 2026-06-05; [`D-1`](01-concerns.md)). Volunteers confirm turnout via WhatsApp polls; no site toggle. Replaced by PAT-19. | — | Do not build. The `Attendance` relation is dropped from the [content model](20-structure.md). |
+| **PAT-19** | **Volunteer roster** | A standing **per-chapter** list of volunteers. **Opt-in public** entries show on the chapter page; the **full roster** is visible to **logged-in volunteers only**. Not per-event. | Chapter page (public, opted-in), back-office / [My activities](30-skeleton/my-activities.md) (full) | Backed by `group_user.is_public` — **no** volunteer↔activity relation ([content model](20-structure.md)). New (D-1, Alexandre/J3). |
 
 ## Gaps / to confirm
 

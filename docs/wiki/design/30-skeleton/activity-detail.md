@@ -89,8 +89,8 @@ Warm, specific, sensory. Joyful without being frivolous. Local — named landmar
 
 - Facebook link (removed — no longer needed)
 - **Family** registration / RSVP — families just show up; no account, no public headcount.
-- **Volunteer attendance ("I'm coming")** — *now provisionally IN* ([PAT-18](../40-patterns.md)): a logged-in volunteer can mark attendance; the chapter lead sees the roster. Account-only, volunteers only; distinct from a family RSVP. Lean, pending Alexandre ([D-1](../01-concerns.md)).
-- Private volunteer back-of-event — *now provisionally IN* as a minimal per-chapter back-office ([D-1](../01-concerns.md) lean); brief deferred until confirmed.
+- **Volunteer attendance ("I'm coming")** — **CUT** (Alexandre/J3, 2026-06-05; [D-1](../01-concerns.md)): volunteers manage turnout via WhatsApp polls, so there is **no per-event attendance signal** on this page. The standing per-chapter **volunteer roster** ([PAT-19](../40-patterns.md)) replaces it, and lives on the chapter page + back-office, not here.
+- Private volunteer back-of-event — no per-event back-office; the per-chapter **back-office (material library)** is its own surface ([D-1](../01-concerns.md)), reached from the chapter page / My activities.
 
 ---
 

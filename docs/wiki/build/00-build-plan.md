@@ -16,7 +16,7 @@ updated: 2026-06-01
 
 - `Activity` model — types `kidicalmass` / `meeting` / `workshop` / `other`, bilingual NL/FR, linked to one or more groups, has an organizer.
 - `Article` model (News) and a `group_user` pivot.
-- **Not built yet:** **Attendance** (volunteer ↔ activity, "I'm coming") and the per-chapter **back-office** — that's what login gates now (D-1). Meetups are **public to view** (D-2), so no view-gate column is needed.
+- **Not built yet:** the per-chapter **back-office** (material library) and the **volunteer roster** (opt-in `group_user.is_public` flag) — that's what login gates now (D-1). **Do NOT build an `Attendance` (volunteer ↔ activity) relation** — per-event attendance was cut (Alexandre/J3, 2026-06-05). Meetups are **public to view** (D-2), so no view-gate column is needed.
 
 ## When this phase opens, it will need
 

@@ -3,7 +3,7 @@ title: Organisation Goals
 tags: [strategy]
 sources: [notion]
 phase: strategy
-updated: 2026-06-01
+updated: 2026-06-05
 ---
 
 # Organisation Goals
@@ -25,7 +25,7 @@ Rough current-state numbers (Leticia, 2026-05-18) — sourced reference so they'
 2. **Make it effortless for families to find and attend rides.** The primary public job; everything else depends on families showing up.
 3. **Convert curious visitors into volunteers** through a clear path from curiosity to contact.
 4. **Give the coordination duo their time back.** Less admin, more trust in the system — the "two weeks' holiday" test ([brief](00-strategy-brief.md)).
-5. **Grow participation in existing chapters; support new chapters well rather than maximise their number.** *(Reframed from "enable new chapter leads to emerge" — 2026-05-18.)*
+5. **Grow participation in existing chapters; support new chapters well rather than maximise their number.** *(Reframed from "enable new chapter leads to emerge" — 2026-05-18.)* The concrete mechanism is the **back-office / material library** — its primary beneficiary is new/small chapters + organiser onboarding, not mature chapters (validated by Alexandre/J3, 2026-06-05; see [`design/01-concerns.md` `D-1`](../design/01-concerns.md)).
 6. **Make movement growth legible** (map, chapters, national reach) — mainly for grant applications and new partnerships.
 7. **Enable chapter self-publishing within strict design constraints** — no approval flows. *(This is the mechanism behind #4 and #5.)*
 
