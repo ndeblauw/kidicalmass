@@ -440,13 +440,13 @@ git commit -m "feat(partners): name-chip fallback + de-dupe Brussel Mobiliteit i
 
 **Files:** none (verification only)
 
-- [ ] **Step 1: Re-seed partners**
+- [ ] **Step 1: Re-seed partners only (do NOT `migrate:fresh` — shared dev DB)**
 
-Run:
+Re-attach logos to the existing partner records without wiping the dev DB. Delete current partners + their media and re-run just the partner seed via tinker:
 ```bash
-php artisan migrate:fresh --seed
+php artisan tinker --execute '\App\Models\Partner::query()->each(fn ($p) => $p->delete()); (new \Database\Seeders\DatabaseSeeder)->setContainer(app())->setCommand(new \Illuminate\Console\Command)->callSeederMethod();'
 ```
-Expected: seeding completes without error.
+If invoking the private `seedPartners()` is awkward, instead loop `partnerData()` inline in tinker, or temporarily expose a `php artisan db:seed --class=PartnerSeeder` path. Simplest reliable route: delete partners, then re-create from `DatabaseSeeder::partnerData()` in a short tinker script. Expected: partners re-created with logo media attached from `raw/`.
 
 - [ ] **Step 2: Verify the strip renders real logos**
 
