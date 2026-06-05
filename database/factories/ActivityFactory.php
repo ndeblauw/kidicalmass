@@ -32,7 +32,14 @@ class ActivityFactory extends Factory
             'activity_type' => fake()->randomElement(ActivityType::cases()),
             'begin_date' => $beginDate,
             'location' => fake()->city().', '.fake()->address(),
-            'postal_code' => (string) fake()->numberBetween(1000, 9999),
+            // Real Belgian postcodes (present in be-postcodes.csv) so the Kalender's
+            // proximity bands have actual coordinates to work with. Weighted toward
+            // Brussels so a tester near the capital sees a populated "In de buurt".
+            'postal_code' => fake()->randomElement([
+                '1000', '1020', '1030', '1040', '1050', '1060', '1070', '1080',
+                '1081', '1083', '1090', '1140', '1150', '1160', '1180', '1190',
+                '1200', '1210', '2000', '3000', '4000', '8000', '9000',
+            ]),
             'distance' => fake()->randomElement(['5 km', '5–7 km', '10 km', null]),
             'commute_link' => fake()->randomElement([
                 'https://www.komoot.com/plan/tour/123456',
