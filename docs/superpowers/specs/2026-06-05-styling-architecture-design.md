@@ -32,7 +32,7 @@ Every styling decision sorts into exactly one layer. The test an author applies:
 | Layer | Lives in | Owns | Example |
 |---|---|---|---|
 | **Tokens** | `@theme` + `@layer base` in `app.css` | Colour, type scale, radius, shadow; link + heading defaults | `--color-kidical-blue`, `h2` size, `--shadow-card` |
-| **Components** | `resources/views/components/*.blade.php` (x-components) | A reusable unit's *appearance + internal spacing*, written as Tailwind utilities baked into the component markup | `<x-card>` → `bg-white rounded-card shadow-card p-6` |
+| **Components** | `resources/views/components/*.blade.php` (x-components) | A reusable unit's *appearance + internal spacing*, written as Tailwind utilities baked into the component markup; parametrised by props/slots | `<x-feature-card>` → `bg-white rounded-card shadow-card p-7` |
 | **Composition** | page Blade templates | How units are *arranged*: section gaps, page margins, grid/flex, alignment, widths, order | `<div class="grid lg:grid-cols-2 gap-12 mt-24">` |
 
 Decision rules:
@@ -56,6 +56,61 @@ its `.blade.php` as token-backed utilities — there is **no `app.css` entry** f
 - **Single source of truth preserved.** Editing the component changes every usage — same
   guarantee BEM gave, in a per-component file instead of the shared sheet.
 
+## Worked example: the feature card (`<x-feature-card>`)
+
+The pilot's central unit. Investigation found the icon-chip card appears under at least two
+different class names with the same anatomy, confirming it is one component, not several:
+
+- `gs-expect-card` (getting-started) — the scroll-stacking "expectations" deck.
+- `activity-promises__item` (mission's "drie dingen die we doen", and reused on steun,
+  chapters, etc.) — a static 3-up grid of tilted white cards.
+
+**Identical anatomy:** white background, rounded corners, drop shadow, flex column with a
+gap; a rotated square-ish icon chip (`border-radius: 28%`, `rotate(-3deg)`, coloured
+background, white Flux icon); then `<strong>` (Caprasimo heading face) + `<p>` body.
+
+**The differences are all parametric, contextual, or placement — not intrinsic to the card:**
+
+- *Content* → props: the Flux icon, the chip colour (getting-started rotates
+  red→blue→orange→…; mission is all red), the title, the body.
+- *Placement / behaviour* → owned by the page: the per-card tilt (`:nth-child` rotation),
+  grid-vs-deck, and the scroll-stacking JS. The card never knows which context it's in.
+- *Scale* → **unified.** getting-started used a larger treatment (radius 2rem, padding
+  2.5rem, bigger chip + type); mission used the default (radius 1.5rem, padding 1.75rem).
+  Decision: **one canonical scale, no `size` prop.** The default/mission scale is canonical
+  (it is the more-reused value, and getting-started is the lone outlier). getting-started's
+  visual presence comes from *placement* — the full-viewport deck and scroll choreography —
+  not from larger cards. This means getting-started's cards shrink to the canonical scale; an
+  accepted visual change, with exact token values confirmed visually during the pilot.
+
+Resulting shape:
+
+```blade
+<x-feature-card icon="clock" color="red" title="Kort en rustig">
+    5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.
+</x-feature-card>
+```
+
+- `icon` — Flux icon name (rendered `variant="solid"`, `aria-hidden`).
+- `color` — maps to a brand token for the chip background (`red|blue|orange|green|…` →
+  `--color-kidical-*`). The page passes the rotation; the card does not own it.
+- `title` — rendered as the card's `<strong>`.
+- default slot — the body copy.
+- All appearance lives as token-backed utilities inside `feature-card.blade.php`; no
+  `app.css` entry. Tilt, grid/deck and scroll JS stay in the page template.
+
+### Card taxonomy (so the pilot stays scoped)
+
+Not every "card" is a feature card. Keep these distinct:
+
+- **Feature card** (icon chip + title + body, static, non-clickable) → `<x-feature-card>`.
+  *This is the pilot.* Replaces `gs-expect-card` and `activity-promises__item`.
+- **Nav card** (clickable, hover lift, arrow, links somewhere) → `about-nav-card`,
+  `about-intent-card`. A separate component family; convert later, not in the pilot.
+- **Event card / article card** → already x-components; leave as-is.
+- One-offs (`about-contact-card`, `about-partner-card`, `about-stat`) → convert
+  opportunistically when their page is touched.
+
 ## Token enrichment (one-time, small)
 
 "Utilities in components" only stays consistent if the values are named tokens. Colours and
@@ -64,10 +119,11 @@ is radius and shadow, currently ad-hoc (`rounded-2xl`, hand-written `box-shadow`
 Add semantic tokens to `@theme`:
 
 - `--radius-card`, `--radius-chip`  → usable as `rounded-card`, `rounded-chip`
-- `--shadow-card`, `--shadow-card-lg`  → usable as `shadow-card`, `shadow-card-lg`
+- `--shadow-card`  → usable as `shadow-card`
 
-(Exact values to be set from the existing card/chip styling during the pilot so nothing
-visually shifts.)
+Because the feature card unifies to a single scale, one canonical value each is enough (no
+`-lg` shadow variant). Set the values from the default/mission card styling during the pilot;
+they become the one source of truth for every feature card.
 
 ## CLAUDE.md rule change (the carve-out)
 
@@ -93,11 +149,19 @@ No big-bang refactor of the existing 4,480 lines. Order:
 1. **Update the CLAUDE.md rule now** — so all parallel agent threads start applying the new
    boundary immediately. This stops the bleeding first.
 2. **Add the radius/shadow tokens now.**
-3. **Pilot on `getting-started.blade.php`** (the page in active work): extract `<x-card>`
-   and `<x-icon-chip>` (or similarly named) as the reusable units, and dissolve the
-   `.gs-expect-*` layout scaffolding into Tailwind composition utilities in the template.
-   This page becomes the worked example the rule points to. The scroll-stacking JS and any
-   CSS it genuinely needs stay page-local (`@push('scripts')` / a small `app.css` block).
+3. **Pilot on `getting-started.blade.php`** (the page in active work):
+   - Build `<x-feature-card>` (token-backed utilities, one canonical scale).
+   - Replace the six `gs-expect-card` blocks with `<x-feature-card>`, passing the icon,
+     the rotating `color`, and the title; body in the slot.
+   - Dissolve the `.gs-expect-*` layout scaffolding (`__left`, `__right`, `__cards`, section
+     margins) into Tailwind composition utilities in the template.
+   - Keep page-local: the per-card tilt, the deck layout, and the scroll-stacking JS
+     (`@push('scripts')` + whatever minimal CSS the deck genuinely needs).
+   - Then point the mission page's `activity-promises__item` cards at the same
+     `<x-feature-card>` to prove reuse across pages. (Mission's tilt/grid stay page-side.)
+   - Confirm visually that the unified scale reads well in both the deck and the 3-up grid;
+     tune the canonical token values if needed.
+   This page becomes the worked example the rule points to.
 4. **Migrate the rest opportunistically** — when an agent next touches a page, it converts
    that page to the model. No dedicated refactor sprint; the old BEM blocks remain valid
    until their page is touched.
@@ -107,8 +171,11 @@ No big-bang refactor of the existing 4,480 lines. Order:
 - Not splitting `app.css` into `@import` partials (considered, set aside — x-components carry
   the load instead).
 - Not removing existing BEM blocks wholesale; they're retired page-by-page.
-- Not changing the token *values* or any page's visual result during the pilot — this is a
-  structural move, the rendered output should be unchanged.
+- No `size` prop on `<x-feature-card>` — scale is unified to one canonical value.
+- Not converting the nav-card / event-card / one-off card families in the pilot.
+
+One intentional visual change is accepted: getting-started's feature cards adopt the canonical
+(smaller) scale. Otherwise the rendered output should be unchanged — this is a structural move.
 
 ## Risks / watch-items
 
