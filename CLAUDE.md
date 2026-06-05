@@ -400,8 +400,11 @@ The guide defines 4 voice qualities: joyful (not frivolous), warm and inclusive 
 
 - Other Flux components (`flux:button`, `flux:badge`, `flux:icon.*`, `flux:separator`, `flux:navbar`, `flux:text`) are fine on the public site.
 
-- Templates hold structure only. Keep: `grid`, `flex`, `gap-*`, `p-*`, `m-*`, `max-w-*`, `overflow-*`, `aspect-*`, `object-*`. Strip: `bg-*`, `text-{color}`, `font-*`, `shadow-*`, `rounded-*`, `opacity-*`, `hover:*`, `transition-*`.
-  Why: appearance belongs in `app.css`, not templates.
+- Styling has three layers — put each decision in exactly one (test: am I styling a *thing* or *placing* things?):
+  - **Tokens** (`@theme` + `@layer base`): colour, type scale, radius, shadow, link/heading defaults. Never a raw hex/px anywhere — use the token.
+  - **Components** (`resources/views/components/*.blade.php`): a reusable unit's appearance **and** internal spacing, written as token-backed Tailwind utilities baked into the component markup (e.g. `<x-feature-card>` → `bg-white rounded-card shadow-card p-10`). This is the single source of truth for that unit's look; there is no `app.css` entry for it. Appearance utilities are expected here, but must reference tokens (`bg-kidical-*`, `rounded-card`, `shadow-card`), never raw values.
+  - **Composition** (page Blade templates): how units are *placed* — section gaps, margins, grid/flex, alignment, widths, order. Keep: `grid`, `flex`, `gap-*`, `p-*`, `m-*`, `max-w-*`, `overflow-*`, `aspect-*`, `object-*`. Still strip appearance utilities (`bg-*`, `text-{color}`, `font-*`, `shadow-*`, `rounded-*`, …) and BEM layout scaffolding from page templates.
+  Why: reusable appearance lives in the component (collision-proof, self-contained); page layout stays freely editable in the template. `app.css` stops growing per-page — new entries only for genuinely global styles (footer, nav, prose) or complex effects no single component owns. Worked example: `<x-feature-card>` (used on getting-started + about/mission). See `docs/superpowers/specs/2026-06-05-styling-architecture-design.md`.
 
 - Typographic scale (size, weight, line-height) is defined once in `@layer base` in `app.css`. Never set these inline on headings.
 
