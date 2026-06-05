@@ -1176,7 +1176,9 @@
 
 .partner-strip {
     background-color: var(--color-kidical-blue);
-    padding-block: 1.25rem;
+    /* generous breathing room; top absorbs 20px card overlap + natural space */
+    padding-top: calc(2rem + 1.25rem);
+    padding-bottom: 2.25rem;
 }
 
 .partner-strip__inner {
@@ -3089,31 +3091,57 @@ select:focus[data-flux-control] {
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 20%);
     }
 
-    /* ─── Shared closing CTA — full-bleed yellow band (mirrors gs-cta) ─── */
+    /* ─── Shared closing CTA — compact floating card, illustration outside left edge ─── */
     .about-cta {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-top: clamp(3rem, 6vw, 5rem);
-        margin-bottom: calc(var(--spacing) * -8);
+        max-width: 56rem;            /* wider so centered text breathes */
+        margin: clamp(3rem, 6vw, 5rem) auto 0;
+        /* cancel main pb-8 (2rem) + 20px gentle overlap into .partner-strip */
+        margin-bottom: calc(var(--spacing) * -8 - 1.25rem);
+        padding: 2.5rem 2.5rem 2.75rem;
+        border-radius: 1.6875rem;    /* 27px */
         background: var(--color-kidical-yellow);
-        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, .16), 0 2px 8px rgba(0, 0, 0, .08);
+        position: relative;
+        overflow: visible;
+        text-align: center;
     }
 
-    .about-cta__inner {
-        padding-block: clamp(3rem, 6vw, 5rem);
-        text-align: center;
+    /* Illustration: outside the card's left edge on the white page background —
+       Option B. The figure "leans against" the card from outside. */
+    .about-cta__visual {
+        position: absolute;
+        left: -5rem;                 /* half outside card boundary */
+        bottom: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .about-cta__visual img {
+        display: block;
+        width: 10.5rem;
+        height: auto;
+        transform: translateY(1rem); /* toes just over the card's bottom edge */
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,.14));
+    }
+
+    /* Content: centered within the wide card, safe distance from the illustration */
+    .about-cta__content {
+        max-width: 34rem;
+        margin-inline: auto;
     }
 
     .about-cta h2 {
         color: var(--color-kidical-ink);
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
 
     .about-cta__sub {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+        font-weight: 400;
+        font-size: var(--text-xl);   /* 33% smaller than the previous 1.875rem */
+        line-height: 1.45;
         margin-bottom: 1.75rem;
-        max-width: 48ch;
+        max-width: 32ch;
         margin-inline: auto;
     }
 
@@ -3127,13 +3155,14 @@ select:focus[data-flux-control] {
     .about-cta__btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.95rem 1.875rem;
-        border-radius: 0.875rem;
+        gap: 0.625rem;
+        padding: 0.875rem 1.25rem 0.875rem 1.625rem;
+        border-radius: 100px;
         font-family: var(--font-heading);
         font-weight: 800;
         font-size: var(--text-lg);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s, filter 0.2s;
+        text-decoration: none;
+        transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .about-cta__btn--primary {
@@ -3146,15 +3175,32 @@ select:focus[data-flux-control] {
         background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
     }
 
-    .about-cta__btn--ghost {
-        background: transparent;
-        color: var(--color-kidical-ink);
-        box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
+    /* Ink-filled secondary: no lift on hover — stays grounded */
+    .about-cta__btn--ink {
+        background: var(--color-kidical-ink);
+        color: white;
     }
 
-    .about-cta__btn--ghost:hover {
-        transform: translateY(-2px);
-        box-shadow: inset 0 0 0 2px var(--color-kidical-ink);
+    .about-cta__btn--ink:hover {
+        background: color-mix(in oklab, var(--color-kidical-ink), white 8%);
+    }
+
+    /* Circle arrow disc — echoes the primary cta-button disc, muted */
+    .about-cta__btn__disc {
+        width: 1.875rem;
+        height: 1.875rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        font-family: var(--font-sans);
+        font-size: 0.8125rem;
+        font-weight: 400;
+        flex-shrink: 0;
+        /* warm amber — muted echo of the yellow card */
+        background: color-mix(in oklab, var(--color-kidical-yellow), var(--color-kidical-ink) 55%);
+        color: var(--color-kidical-yellow);
     }
 }
 
@@ -3937,50 +3983,9 @@ select:focus[data-flux-control] {
 
     .about-intent-card:hover .about-intent-card__arrow { transform: translateX(0.35rem); }
 
-    /* ─── Contextual Steun ask (Missie post-stats, Organisatie post-money-model) ───
-       White card so it reads as a distinct ask on any ground; the yellow CTA
-       button (x-cta-button) pops on white. */
-    .about-support {
-        max-width: 72rem;
-        margin-inline: auto;
-        margin-block: calc(var(--spacing) * 12);
-        padding: clamp(1.75rem, 4vw, 2.5rem);
-        border-radius: 1.5rem;
-        background: white;
-        box-shadow: 0 8px 30px -14px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
-        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-        transform: rotate(-1deg);
-    }
-
-    .about-support__inner {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.5rem;
-    }
-
-    @media (min-width: 768px) {
-        .about-support__inner {
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2.5rem;
-        }
-    }
-
-    .about-support__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-xl), 2.4vw, var(--text-3xl));
-        line-height: 1.15;
-        color: var(--color-kidical-ink);
-    }
-
-    .about-support__body {
-        margin-top: 0.5rem;
-        max-width: 46ch;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
-    }
+    /* Contextual Steun ask on the About leaves (Missie post-stats, Organisatie
+       post-money-model) now reuses the site-wide .support-callout band — merged
+       2026-06-05 so there is a single support component. */
 
 }
 

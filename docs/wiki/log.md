@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-06-04] pipeline | P-01 Home — UX downgraded to 🟠
+
+Homepage UX brief flagged as incomplete — structure and hierarchy not well-planned yet. UX 🟢 → 🟠; `[ux]` gap added to Top gaps. No build work done; this is a honesty correction before the UX pass that should precede the next build iteration.
+
 ## [2026-06-04] build | P-12 Voor het eerst — scroll-stacking card section + UI polish
 
 Rebuilt the "Wat je mag verwachten op een rit" section as a scroll-driven sticky experience: left column (heading + lead para + scooter illustration) stays fixed while 6 cards fly in one-by-one from below and stack into a deck; section unsticks naturally after the last card lands. On mobile the section degrades to a tilted static column (no JS required). Additional polish: hero illustration swapped to `kid-on-bike.png` to remove the scooter duplicate; panel background set to `--color-kidical-light-blue` via `:has(.gs-expect-scroll)` so the rounded top seam flows into the sky band; card typography scaled up with `clamp()`; icon chip colours rotated across the 6 cards (red/cobalt/orange/ink/violet/coral); sticky pin given explicit `background` + `z-index` to prevent the fixed hero bleeding through on large viewports. Wire/UI stay 🟠 — **🟢 gated on Frederik's critique**.

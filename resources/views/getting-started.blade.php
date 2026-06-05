@@ -13,7 +13,7 @@
 
     <x-page-hero
         eyebrow="Voor het eerst"
-        title="Kom zoals je bent."
+        title="Wat je mag verwachten op een rit"
         illustration="img/illustrations/kid-on-bike.png">
 
     {{-- WAT JE MAG VERWACHTEN — scroll-stacking cards (desktop); static list (mobile) --}}
@@ -21,9 +21,7 @@
         <div class="gs-expect-pin">
 
             <div class="gs-expect-left">
-                <h2>Wat je mag verwachten op een rit</h2>
-                <p>Elke rit is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.</p>
-                <img src="{{ asset('img/illustrations/kid-on-scooter.png') }}" alt="" aria-hidden="true" loading="lazy">
+                <p class="mb-12">Elke rit is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.</p>
             </div>
 
             <div class="gs-expect-right">
@@ -83,8 +81,15 @@
         </div>
     </section>
 
-    {{-- VEELGESTELDE VRAGEN — accordion (contained) --}}
+    {{-- VEELGESTELDE VRAGEN — illustration left + accordion right --}}
     <section class="gs-faq-section">
+        <div class="gs-faq-layout">
+
+        <div class="gs-faq-illustration">
+            <img src="{{ asset('img/illustrations/kid-on-scooter.png') }}" alt="" aria-hidden="true" loading="lazy">
+        </div>
+
+        <div class="gs-faq-content">
         <h2 class="gs-section__title">Veelgestelde vragen</h2>
 
         <div class="gs-faq">
@@ -137,6 +142,9 @@
                 </div>
             </details>
         </div>
+        </div>{{-- /gs-faq-content --}}
+
+        </div>{{-- /gs-faq-layout --}}
     </section>
 
     {{-- PRIMARY CTA — full-bleed yellow band --}}
@@ -144,7 +152,7 @@
         <div class="container mx-auto px-4 gs-cta__inner">
             <h2>Klaar voor je eerste rit?</h2>
             <p class="gs-cta__sub">Zoek een rit bij jou in de buurt en kom gewoon langs.</p>
-            <a href="{{ route('activities.index') }}" class="gs-cta__btn link-plain">Vind een rit bij jou in de buurt →</a>
+            <x-cta-button :href="route('activities.index')" variant="blue" class="link-plain">Vind een rit bij jou in de buurt</x-cta-button>
         </div>
     </section>
 
@@ -166,27 +174,27 @@
         // Card 0 arrives first (bottom of stack); card N-1 arrives last (top, fully legible).
         const FINALS = [
             { y: 60, r: -1.5 },
-            { y: 47, r:  1.2 },
-            { y: 34, r: -0.8 },
-            { y: 21, r:  1.5 },
-            { y: 10, r: -0.5 },
-            { y:  0, r:  0.5 },
+            { y: 47, r:  1.0 },
+            { y: 34, r: -1.5 },
+            { y: 21, r:  1.0 },
+            { y: 10, r: -1.5 },
+            { y:  0, r:  1.0 },
         ];
 
-        const scrollPerCard = window.innerHeight * 0.45;
+        const scrollPerCard = window.innerHeight * 0.35;
         const totalExtra    = N * scrollPerCard;
 
-        // Extend section height so the sticky pin has enough scroll room.
         section.style.height = `calc(100dvh + ${totalExtra}px)`;
-
-        // Activate sticky two-column layout via CSS.
         section.classList.add('gs-expect-scroll--ready');
 
-        // Measure card height after the layout switches and size the stack accordingly.
-        // Cards are now position:absolute, so we estimate from padding + content.
-        stack.style.height = '400px';
+        // Measure actual card height after layout switches (cards are now position:absolute).
+        const cardH   = cards[0].offsetHeight;
+        const CARD_GAP = 46; // px — matches the 2.875rem gap in CSS
 
-        // Last card always sits on top.
+        // Size the stack to fit the final deck + one card height visible.
+        stack.style.height = `${FINALS[0].y + cardH + 20}px`;
+
+        // Last card sits on top of the deck.
         cards.forEach((card, i) => { card.style.zIndex = String(i + 1); });
 
         const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
@@ -201,8 +209,11 @@
                 const e   = easeOutQuart(t);
                 const f   = FINALS[i];
 
-                card.style.opacity   = String(Math.min(1, t * 4));
-                card.style.transform = `translateY(${f.y + 220 * (1 - e)}px) rotate(${f.r * e}deg)`;
+                // Cards start at their natural list positions and fly up to the deck.
+                const startY = i * (cardH + CARD_GAP);
+                const y      = startY + (f.y - startY) * e;
+
+                card.style.transform = `translateY(${y}px) rotate(${f.r * e}deg)`;
             });
         }
 

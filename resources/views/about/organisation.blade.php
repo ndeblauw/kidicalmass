@@ -76,7 +76,7 @@
     </section>
 
     {{-- STEUN — contextual ask right after the "we run on nothing" money model --}}
-    <x-about-support
+    <x-support-callout
         title="Geen hoofdkantoor, geen betaald personeel"
         body="Kidical Mass draait op vrijwilligers en op de steun van mensen zoals jij. Zo blijven we onafhankelijk en gratis." />
 
@@ -101,8 +101,11 @@
     {{-- CTA — start or join a chapter --}}
     <x-about-cta title="Een afdeling starten of vervoegen?">
         <x-slot:actions>
-            <a href="{{ route('volunteer') }}" class="about-cta__btn about-cta__btn--primary link-plain">Help mee →</a>
-            <a href="{{ route('getting-started') }}" class="about-cta__btn about-cta__btn--ghost link-plain">Voor het eerst mee →</a>
+            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Help mee</x-cta-button>
+            <a href="{{ route('getting-started') }}" class="about-cta__btn about-cta__btn--ink link-plain">
+                Voor het eerst mee
+                <span class="about-cta__btn__disc" aria-hidden="true">→</span>
+            </a>
         </x-slot:actions>
     </x-about-cta>
 

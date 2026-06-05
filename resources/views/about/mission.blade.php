@@ -64,7 +64,7 @@
     </section>
 
     {{-- STEUN — contextual ask at the peak-intent moment, right after the impact stats --}}
-    <x-about-support
+    <x-support-callout
         title="Al onze ritten zijn gratis"
         body="Voor elk gezin, in elke buurt. Jouw steun zorgt dat dat zo blijft, en dat er nieuwe buurten bijkomen." />
 
@@ -88,8 +88,11 @@
         title="Doe mee met de beweging"
         sub="Word vrijwilliger en help ritten mogelijk maken, of rij gewoon eens mee.">
         <x-slot:actions>
-            <a href="{{ route('volunteer') }}" class="about-cta__btn about-cta__btn--primary link-plain">Help mee →</a>
-            <a href="{{ route('activities.index') }}" class="about-cta__btn about-cta__btn--ghost link-plain">Vind een rit →</a>
+            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Help mee</x-cta-button>
+            <a href="{{ route('activities.index') }}" class="about-cta__btn about-cta__btn--ink link-plain">
+                Vind een rit
+                <span class="about-cta__btn__disc" aria-hidden="true">→</span>
+            </a>
         </x-slot:actions>
     </x-about-cta>
 

@@ -1,10 +1,12 @@
 @props(['title', 'sub' => null])
 
-{{-- Closing CTA band shared across the About leaves. Default actions route the
-     decider forward (rides + help out); pass an `actions` slot to override
-     (e.g. a mailto contact on Pers/Partners). Full-bleed yellow, mirrors gs-cta. --}}
+{{-- Closing CTA — compact floating card that overlaps the partner strip below.
+     Pass an `actions` slot to override the default pair (e.g. mailto on Pers/Partners). --}}
 <section class="about-cta">
-    <div class="container mx-auto px-4 about-cta__inner">
+    <figure class="about-cta__visual" aria-hidden="true">
+        <img src="{{ asset('img/illustrations/kid-waving.png') }}" alt="">
+    </figure>
+    <div class="about-cta__content">
         <h2>{{ $title }}</h2>
         @if ($sub)
             <p class="about-cta__sub">{{ $sub }}</p>
@@ -13,8 +15,11 @@
             @isset($actions)
                 {{ $actions }}
             @else
-                <a href="{{ route('activities.index') }}" class="about-cta__btn about-cta__btn--primary link-plain">Vind een rit →</a>
-                <a href="{{ route('volunteer') }}" class="about-cta__btn about-cta__btn--ghost link-plain">Help mee →</a>
+                <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Help mee</x-cta-button>
+                <a href="{{ route('activities.index') }}" class="about-cta__btn about-cta__btn--ink link-plain">
+                    Vind een rit
+                    <span class="about-cta__btn__disc" aria-hidden="true">→</span>
+                </a>
             @endisset
         </div>
     </div>

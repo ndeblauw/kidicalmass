@@ -15,13 +15,13 @@
                 <div class="page-hero__controls">{{ $controls }}</div>
             @endisset
         </div>
-
-        @if ($illustration)
-            <div class="page-hero__visual">
-                <img src="{{ asset($illustration) }}" alt="" aria-hidden="true" class="page-hero__illustration">
-            </div>
-        @endif
     </div>
+
+    @if ($illustration)
+        <div class="page-hero__visual" aria-hidden="true">
+            <img src="{{ asset($illustration) }}" alt="" class="page-hero__illustration">
+        </div>
+    @endif
 </header>
 
 {{-- Holds the hero's place in normal flow (the hero itself is position:fixed). --}}

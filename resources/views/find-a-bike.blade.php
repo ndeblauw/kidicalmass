@@ -56,9 +56,7 @@
         <section class="space-y-3">
             <h2>Een fiets gevonden?</h2>
             <p>
-                <flux:button href="{{ route('activities.index') }}" variant="primary" icon-trailing="arrow-right">
-                    Vind een rit bij jou in de buurt
-                </flux:button>
+                <x-cta-button :href="route('activities.index')" variant="blue">Vind een rit bij jou in de buurt</x-cta-button>
             </p>
             <p><a href="{{ route('getting-started') }}">← Terug naar Voor het eerst mee</a></p>
         </section>
