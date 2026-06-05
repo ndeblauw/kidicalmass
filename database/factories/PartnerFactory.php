@@ -4,17 +4,15 @@ namespace Database\Factories;
 
 use App\Models\Group;
 use App\Models\Partner;
-use Database\Factories\Concerns\AttachesMediaFromCache;
-use Database\Seeders\MediaSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Partner>
+ * @extends Factory<Partner>
  */
 class PartnerFactory extends Factory
 {
-    use AttachesMediaFromCache;
-
     protected $model = Partner::class;
 
     public function definition(): array
@@ -42,15 +40,28 @@ class PartnerFactory extends Factory
 
     public function configure(): static
     {
-        return $this->afterCreating(function (Partner $partner) {
-            $this->attachImage($partner);
+        return $this->afterCreating(function (Partner $partner): void {
+            $this->attachLogo($partner);
         });
     }
 
-    protected function attachImage(Partner $partner): void
+    /**
+     * Attach the curated logo file matching the partner's slug, if one exists.
+     * No file -> no logo media (the strip renders a name chip instead), so a
+     * stock photo can never be attached as a logo.
+     */
+    protected function attachLogo(Partner $partner): void
     {
-        $this->primeMediaCache('images', fn () => MediaSeeder::ensureImages(5));
+        $slug = Str::slug($partner->name);
+        $matches = File::glob(public_path("img/partners/logos/raw/{$slug}.*"));
 
-        $this->attachSingleMedia($partner, 'logo', 'images');
+        if (empty($matches)) {
+            return;
+        }
+
+        try {
+            $partner->addMedia($matches[0])->preservingOriginal()->toMediaCollection('logo');
+        } catch (\Exception $e) {
+        }
     }
 }
