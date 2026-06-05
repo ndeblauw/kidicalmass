@@ -1947,7 +1947,7 @@
                   "id": "s14wom",
                   "name": "Purpose",
                   "fill": "$text-muted",
-                  "content": "Ride list item with location + time — default and featured (uitgelicht) states",
+                  "content": "Platte agenda-rij: tijd, gemeente (anker), plek. Geen kaart-chrome; dag-koppen + dividers dragen de structuur. Featured = ★ + Uitgelicht-tag.",
                   "fontFamily": "$font-body",
                   "fontSize": 16,
                   "fontWeight": "normal"
@@ -1971,37 +1971,56 @@
                 },
                 "blur": 2
               },
-              "gap": 28,
+              "layout": "vertical",
               "padding": 48,
               "children": [
                 {
-                  "id": "w5Xba4",
+                  "id": "I2ZnJN",
                   "type": "ref",
                   "ref": "JIE9U",
-                  "name": "Default"
+                  "name": "Default",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Yrx95": {
+                      "content": "14:00"
+                    },
+                    "ksX7i": {
+                      "content": "Laken",
+                      "fill": "$kidical-blue"
+                    },
+                    "lWoBb": {
+                      "content": "Ossegempark"
+                    }
+                  }
                 },
                 {
-                  "id": "mKzrV",
+                  "type": "rectangle",
+                  "id": "gS8dm",
+                  "name": "rule",
+                  "fill": "#281a390f",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "id": "eoIoi",
                   "type": "ref",
                   "ref": "JIE9U",
                   "name": "Featured",
-                  "fill": "$kidical-light-yellow",
-                  "stroke": "$kidical-yellow",
+                  "width": "fill_container",
                   "descendants": {
-                    "ku96J": {
+                    "Yrx95": {
+                      "content": "14:00"
+                    },
+                    "ksX7i": {
+                      "content": "★  Grootse Grote Kidical Mass",
+                      "fill": "$kidical-orange",
+                      "width": 340
+                    },
+                    "ZOErV": {
                       "enabled": true
                     },
-                    "o7ueXb": {
-                      "content": "Brussel"
-                    },
-                    "uGzoS": {
-                      "content": "Jubelpark"
-                    },
-                    "ghNGS": {
-                      "content": "ZO 8 JUN"
-                    },
-                    "UC5dL": {
-                      "content": "14:00"
+                    "lWoBb": {
+                      "content": "Brussel · Jubelpark"
                     }
                   }
                 }
@@ -3696,117 +3715,104 @@
       "y": -960,
       "name": "Event Card",
       "reusable": true,
-      "width": 340,
-      "fill": "$white",
-      "cornerRadius": 16,
-      "stroke": "#281a391a",
-      "strokeWidth": 1,
-      "effect": {
-        "type": "shadow",
-        "shadowType": "outer",
-        "color": "#0000000d",
-        "offset": {
-          "x": 0,
-          "y": 2
-        },
-        "blur": 12
-      },
-      "gap": 12,
-      "padding": 16,
+      "width": 560,
+      "fill": "#ffffff00",
+      "stroke": "#00000000",
+      "gap": 18,
+      "padding": [
+        12,
+        2
+      ],
       "justifyContent": "space_between",
       "alignItems": "center",
       "children": [
         {
           "type": "frame",
-          "id": "Y62YxU",
-          "name": "Body",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 8,
+          "id": "S3o4km",
+          "name": "When",
+          "width": 56,
           "children": [
             {
               "type": "text",
-              "id": "ku96J",
-              "x": 0,
-              "y": 0,
-              "name": "Badge",
-              "enabled": false,
-              "fill": "$kidical-orange",
-              "content": "★ UITGELICHT",
+              "id": "Yrx95",
+              "name": "Time",
+              "fill": "$kidical-ink",
+              "content": "14:00",
               "fontFamily": "$font-heading",
-              "fontSize": 12,
-              "fontWeight": "normal",
-              "letterSpacing": 0.6
-            },
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "ksX7i",
+          "name": "Place",
+          "fill": "$kidical-blue",
+          "textGrowth": "fixed-width",
+          "width": 196,
+          "content": "Laken",
+          "lineHeight": 1.15,
+          "fontFamily": "$font-heading",
+          "fontSize": 18,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "ZOErV",
+          "x": 0,
+          "y": 0,
+          "name": "Badge",
+          "enabled": false,
+          "fill": "#F0803C24",
+          "cornerRadius": 999,
+          "padding": [
+            3,
+            9
+          ],
+          "children": [
             {
               "type": "text",
-              "id": "o7ueXb",
-              "name": "Title",
-              "fill": "$kidical-blue",
-              "content": "Amsterdam",
+              "id": "dnqHK",
+              "name": "Badge Label",
+              "fill": "$kidical-orange",
+              "content": "UITGELICHT",
               "fontFamily": "$font-heading",
-              "fontSize": 20,
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "x83AJ",
-              "name": "Location",
-              "gap": 6,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "R00wW1",
-                  "name": "Pin",
-                  "width": 17,
-                  "height": 17,
-                  "icon": "map-pin",
-                  "library": "lucide",
-                  "fill": "$kidical-red"
-                },
-                {
-                  "type": "text",
-                  "id": "uGzoS",
-                  "name": "Place",
-                  "fill": "#281a39d1",
-                  "content": "Vondelpark",
-                  "fontFamily": "$font-body",
-                  "fontSize": 16,
-                  "fontWeight": "700"
-                }
-              ]
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 0.5
             }
           ]
         },
         {
           "type": "frame",
-          "id": "hLIDu",
-          "name": "Time",
-          "layout": "vertical",
-          "gap": 4,
-          "alignItems": "end",
+          "id": "zr4Su",
+          "name": "Loc",
+          "width": "fill_container",
+          "gap": 6,
+          "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "ghNGS",
-              "name": "Date",
-              "fill": "$kidical-red",
-              "content": "DI 27 MEI",
-              "fontFamily": "$font-heading",
-              "fontSize": 12,
-              "fontWeight": "normal",
-              "letterSpacing": 0.7
+              "type": "icon",
+              "id": "HKCLl",
+              "name": "Pin",
+              "width": 14,
+              "height": 14,
+              "icon": "map-pin",
+              "library": "lucide",
+              "fill": "#E63A7Bbf"
             },
             {
               "type": "text",
-              "id": "UC5dL",
-              "name": "Clock",
-              "fill": "#281a396b",
-              "content": "10:30",
+              "id": "lWoBb",
+              "name": "Spot",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Ossegempark",
               "fontFamily": "$font-body",
-              "fontSize": 14,
-              "fontWeight": "700"
+              "fontSize": 15,
+              "fontWeight": "normal"
             }
           ]
         }
@@ -4005,11 +4011,10 @@
             },
             {
               "type": "frame",
-              "id": "mFnOS",
+              "id": "L4kCL8",
               "name": "Days",
               "width": "fill_container",
               "layout": "vertical",
-              "gap": 32,
               "padding": [
                 36,
                 0,
@@ -4019,83 +4024,52 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "BJbbK",
+                  "id": "XGn4o",
                   "name": "Day 7",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "RlxcL",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "UImCr",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "UBEJw",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
+                          "type": "text",
+                          "id": "UlyVs",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zondag 7 september",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "frame",
-                          "id": "n4pW6",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
+                          "id": "CMatb",
+                          "name": "Landmark",
+                          "fill": "#E63A7B1f",
+                          "cornerRadius": 999,
                           "padding": [
-                            6,
                             4,
-                            8,
-                            4
+                            11
                           ],
-                          "alignItems": "center",
                           "children": [
                             {
                               "type": "text",
-                              "id": "xm9De",
-                              "name": "Eyebrow",
+                              "id": "eYTrG",
+                              "name": "L",
                               "fill": "$kidical-red",
-                              "content": "DIT WEEKEND",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 9.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "cgIXr",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "7",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "Prb6t",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "september",
+                              "content": "Dit weekend",
                               "fontFamily": "$font-heading",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -4106,71 +4080,81 @@
                     },
                     {
                       "type": "frame",
-                      "id": "iZqJO",
-                      "name": "Cards",
+                      "id": "z8wfA",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "WRXJY",
+                          "id": "BOQnB",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Laken",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Laken"
-                            },
-                            "uGzoS": {
-                              "content": "Ossegempark, Laken"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Laken",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Ossegempark"
                             }
                           }
                         },
                         {
-                          "id": "S0MnA",
+                          "type": "rectangle",
+                          "id": "lKoSZ",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "QNEf1",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Ukkel",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Ukkel"
-                            },
-                            "uGzoS": {
-                              "content": "Wolvendaelpark, Ukkel"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "10:00"
+                            },
+                            "ksX7i": {
+                              "content": "Ukkel",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Wolvendaelpark"
                             }
                           }
                         },
                         {
-                          "id": "H9rbY",
+                          "type": "rectangle",
+                          "id": "KCx6E",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "EFOCn",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Elsene",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Elsene"
-                            },
-                            "uGzoS": {
-                              "content": "Ter Kamerenbos, Elsene"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "10:00"
+                            },
+                            "ksX7i": {
+                              "content": "Elsene",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Ter Kamerenbos"
                             }
                           }
                         }
@@ -4180,158 +4164,136 @@
                 },
                 {
                   "type": "frame",
-                  "id": "wKHHt",
+                  "id": "xYqW1",
+                  "name": "Divider Wrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "IoW5S",
+                      "name": "Divider",
+                      "fill": "#281a3914",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NvVyE",
                   "name": "Day 14",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "rWJgy",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "hwKNr",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "nmlSb",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Q0r1sa",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
-                          "padding": [
-                            6,
-                            4,
-                            8,
-                            4
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "NEOKL",
-                              "name": "Eyebrow",
-                              "fill": "#281a398c",
-                              "content": "ZONDAG",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 10.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "KdNgT",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "14",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "MG4UF",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "september",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "text",
+                          "id": "SpkSS",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zondag 14 september",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "xZsGp",
-                      "name": "Cards",
+                      "id": "wz1ux",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "v5qtUt",
+                          "id": "ICFjk",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Namen",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Namen"
-                            },
-                            "uGzoS": {
-                              "content": "Place du Théâtre, Namen"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Namen",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Place du Théâtre"
                             }
                           }
                         },
                         {
-                          "id": "f4n5g",
+                          "type": "rectangle",
+                          "id": "McZ9D",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "Y80Yjw",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Etterbeek",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Etterbeek"
-                            },
-                            "uGzoS": {
-                              "content": "Jagveld, Etterbeek"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Etterbeek",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Jagveld"
                             }
                           }
                         },
                         {
-                          "id": "X5ImxL",
+                          "type": "rectangle",
+                          "id": "RxZ6e",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "AJYRk",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Weluwe",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Weluwe"
-                            },
-                            "uGzoS": {
-                              "content": "Park van Weluwe"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "10:00"
+                            },
+                            "ksX7i": {
+                              "content": "Weluwe",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Park van Weluwe"
                             }
                           }
                         }
@@ -4341,158 +4303,136 @@
                 },
                 {
                   "type": "frame",
-                  "id": "fFEQP",
+                  "id": "FIB24",
+                  "name": "Divider Wrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "JmPap",
+                      "name": "Divider",
+                      "fill": "#281a3914",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "u2T6p",
                   "name": "Day 21",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "HDN4e",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "wV4zA",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "XEPpI",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
-                        },
-                        {
-                          "type": "frame",
-                          "id": "j1jfu",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
-                          "padding": [
-                            6,
-                            4,
-                            8,
-                            4
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "a8i5c",
-                              "name": "Eyebrow",
-                              "fill": "#281a398c",
-                              "content": "ZONDAG",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 10.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "DLqft",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "21",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "dgUxA",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "september",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "text",
+                          "id": "z4pp7w",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zondag 21 september",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "ziixV",
-                      "name": "Cards",
+                      "id": "y5BfQ",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "pc87X",
+                          "id": "TAubd",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Gent",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Gent"
-                            },
-                            "uGzoS": {
-                              "content": "Citadelpark, Gent"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Gent",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Citadelpark"
                             }
                           }
                         },
                         {
-                          "id": "MjiDW",
+                          "type": "rectangle",
+                          "id": "k9CRw9",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "Q70Ka",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Molenbeek",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Molenbeek"
-                            },
-                            "uGzoS": {
-                              "content": "Karreveldpark, Molenbeek"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Molenbeek",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Karreveldpark"
                             }
                           }
                         },
                         {
-                          "id": "dbn90",
+                          "type": "rectangle",
+                          "id": "UmKnI",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "q1vdd",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Brussel-Stad",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Brussel-Stad"
-                            },
-                            "uGzoS": {
-                              "content": "Begijnhofplein, Brussel"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "10:00"
+                            },
+                            "ksX7i": {
+                              "content": "Brussel-Stad",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Begijnhofplein"
                             }
                           }
                         }
@@ -4502,116 +4442,82 @@
                 },
                 {
                   "type": "frame",
-                  "id": "CquDP",
+                  "id": "jKkk1",
+                  "name": "Divider Wrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "K1GARD",
+                      "name": "Divider",
+                      "fill": "#281a3914",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "gXqRb",
                   "name": "Day 27",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "Io8lz",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "jCScj",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "fqQxV",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Grq1f",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
-                          "padding": [
-                            6,
-                            4,
-                            8,
-                            4
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "chhrz",
-                              "name": "Eyebrow",
-                              "fill": "#281a398c",
-                              "content": "ZATERDAG",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 10.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "hQJR2",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "27",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "N2M0K5",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "september",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "text",
+                          "id": "FLFlY",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zaterdag 27 september",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "Y7mPQh",
-                      "name": "Cards",
+                      "id": "kY2zw",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "H22kG",
+                          "id": "E1Wm9",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Bergen",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Bergen"
-                            },
-                            "uGzoS": {
-                              "content": "Théâtre la Manège, Bergen"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "10:00"
+                            },
+                            "ksX7i": {
+                              "content": "Bergen",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Théâtre la Manège"
                             }
                           }
                         }
@@ -4621,137 +4527,109 @@
                 },
                 {
                   "type": "frame",
-                  "id": "s28niu",
+                  "id": "OrnGt",
+                  "name": "Divider Wrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "e6X5Yq",
+                      "name": "Divider",
+                      "fill": "#281a3914",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YLkCF",
                   "name": "Day 28",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "QLvoG",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "hp6nU",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "C6IFKU",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
-                        },
-                        {
-                          "type": "frame",
-                          "id": "VKNxf",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
-                          "padding": [
-                            6,
-                            4,
-                            8,
-                            4
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "b9Eyp",
-                              "name": "Eyebrow",
-                              "fill": "#281a398c",
-                              "content": "ZONDAG",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 10.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "DQ3A8",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "28",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "Jc8DJ",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "september",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "text",
+                          "id": "JrLbC",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zondag 28 september",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "I2jWQX",
-                      "name": "Cards",
+                      "id": "BoP0K",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "ntIJp",
+                          "id": "w6KKA",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Schaarbeek",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Schaarbeek"
-                            },
-                            "uGzoS": {
-                              "content": "Gemeenteplein Colignon, Schaarbeek"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Schaarbeek",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Gemeenteplein Colignon"
                             }
                           }
                         },
                         {
-                          "id": "v5UZD1",
+                          "type": "rectangle",
+                          "id": "RfVWm",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "GOnag",
                           "type": "ref",
                           "ref": "JIE9U",
                           "name": "Antwerpen",
-                          "width": 340,
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Antwerpen"
-                            },
-                            "uGzoS": {
-                              "content": "Park Spoor Noord, Antwerpen"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "Antwerpen",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Park Spoor Noord"
                             }
                           }
                         }
@@ -4761,145 +4639,113 @@
                 },
                 {
                   "type": "frame",
-                  "id": "M4Jafx",
+                  "id": "XyPZM",
+                  "name": "Divider Wrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "RECpy",
+                      "name": "Divider",
+                      "fill": "#281a3914",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mkT2l",
                   "name": "Day 4",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "S1NLO9",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "tV50j",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "ZWIyM",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
-                        },
-                        {
-                          "type": "frame",
-                          "id": "cl9vT",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
-                          "padding": [
-                            6,
-                            4,
-                            8,
-                            4
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "ch06D",
-                              "name": "Eyebrow",
-                              "fill": "#281a398c",
-                              "content": "ZONDAG",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 10.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "G8Nun",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "4",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "G8TDG",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "oktober",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "text",
+                          "id": "L2PusV",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zondag 4 oktober",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "NfZTp",
-                      "name": "Cards",
+                      "id": "mYWod",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "uxwoK",
+                          "id": "L7vVc",
                           "type": "ref",
                           "ref": "JIE9U",
-                          "name": "Grootse Grote Kidical Mass najaarseditie",
-                          "width": 340,
-                          "fill": "$kidical-light-yellow",
-                          "stroke": "$kidical-yellow",
+                          "name": "Brussel",
+                          "width": "fill_container",
                           "descendants": {
-                            "ku96J": {
+                            "Yrx95": {
+                              "content": "14:00"
+                            },
+                            "ksX7i": {
+                              "content": "★  Grootse Grote Kidical Mass",
+                              "fill": "$kidical-orange",
+                              "width": 340
+                            },
+                            "ZOErV": {
                               "enabled": true
                             },
-                            "o7ueXb": {
-                              "content": "Grootse Grote Kidical Mass najaarseditie",
-                              "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "fontSize": 18
-                            },
-                            "uGzoS": {
-                              "content": "Jubelpark, Brussel"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
-                              "content": "14:00"
+                            "lWoBb": {
+                              "content": "Brussel · Jubelpark"
                             }
                           }
                         },
                         {
-                          "id": "uo0kF",
+                          "type": "rectangle",
+                          "id": "yHndv",
+                          "name": "rule",
+                          "fill": "#281a390f",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "id": "C0CdS",
                           "type": "ref",
                           "ref": "JIE9U",
-                          "name": "Bright Light Parade",
-                          "width": 340,
+                          "name": "Schaarbeek",
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Bright Light Parade"
-                            },
-                            "uGzoS": {
-                              "content": "Josaphatpark, Schaarbeek"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "18:00"
+                            },
+                            "ksX7i": {
+                              "content": "Bright Light Parade",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Schaarbeek · Josaphatpark"
                             }
                           }
                         }
@@ -4909,116 +4755,82 @@
                 },
                 {
                   "type": "frame",
-                  "id": "F3I4v",
+                  "id": "ZxoNn",
+                  "name": "Divider Wrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "jf44M",
+                      "name": "Divider",
+                      "fill": "#281a3914",
+                      "width": "fill_container",
+                      "height": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pfAIk",
                   "name": "Day 25",
                   "width": "fill_container",
-                  "gap": 28,
+                  "layout": "vertical",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "NwmGU",
-                      "name": "Tile",
-                      "clip": true,
-                      "width": 72,
-                      "fill": "$white",
-                      "cornerRadius": 11,
-                      "stroke": "#281a391f",
-                      "strokeWidth": 1,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#0000000d",
-                        "offset": {
-                          "x": 0,
-                          "y": 2
-                        },
-                        "blur": 10
-                      },
-                      "layout": "vertical",
+                      "id": "LxjWX",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        0,
+                        12,
+                        0
+                      ],
+                      "alignItems": "center",
                       "children": [
                         {
-                          "type": "rectangle",
-                          "id": "djRDK",
-                          "name": "Top Bar",
-                          "fill": "$kidical-red",
-                          "width": "fill_container",
-                          "height": 3
-                        },
-                        {
-                          "type": "frame",
-                          "id": "VF3jM",
-                          "name": "Tile Inner",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 1,
-                          "padding": [
-                            6,
-                            4,
-                            8,
-                            4
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "aIh7l",
-                              "name": "Eyebrow",
-                              "fill": "#281a398c",
-                              "content": "ZONDAG",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 10.5,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.4
-                            },
-                            {
-                              "type": "text",
-                              "id": "i2dAu",
-                              "name": "Num",
-                              "fill": "$kidical-ink",
-                              "content": "25",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 34,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "type": "text",
-                              "id": "JsP34",
-                              "name": "Month",
-                              "fill": "#281a39a6",
-                              "content": "oktober",
-                              "fontFamily": "$font-heading",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "text",
+                          "id": "O7hkew",
+                          "name": "Date",
+                          "fill": "$kidical-ink",
+                          "content": "Zondag 25 oktober",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 22,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "LLC56",
-                      "name": "Cards",
+                      "id": "RTFiR",
+                      "name": "Rows",
                       "width": "fill_container",
-                      "gap": 14,
+                      "layout": "vertical",
                       "children": [
                         {
-                          "id": "DtREq",
+                          "id": "ozAkc",
                           "type": "ref",
                           "ref": "JIE9U",
-                          "name": "Spooky Edition Schaarbeek",
-                          "width": 340,
+                          "name": "Schaarbeek",
+                          "width": "fill_container",
                           "descendants": {
-                            "o7ueXb": {
-                              "content": "Spooky Edition Schaarbeek"
-                            },
-                            "uGzoS": {
-                              "content": "Josaphatpark, Schaarbeek"
-                            },
-                            "ghNGS": {
-                              "enabled": false
-                            },
-                            "UC5dL": {
+                            "Yrx95": {
                               "content": "18:00"
+                            },
+                            "ksX7i": {
+                              "content": "Spooky Edition",
+                              "fill": "$kidical-blue"
+                            },
+                            "lWoBb": {
+                              "content": "Schaarbeek · Josaphatpark"
                             }
                           }
                         }
@@ -9595,12 +9407,13 @@
       "type": "frame",
       "id": "t0ukp",
       "x": -1867,
-      "y": 3169,
+      "y": 2913,
       "name": "Footer Section",
       "width": "fill_container(1440)",
-      "height": 791,
-      "fill": "$kidical-ink",
+      "height": 1098,
+      "fill": "$kidical-yellow",
       "layout": "vertical",
+      "alignItems": "center",
       "children": [
         {
           "type": "rectangle",
@@ -9615,83 +9428,105 @@
           "id": "pgnPZ",
           "name": "CTA Section",
           "width": "fill_container",
-          "height": 434,
+          "height": 733,
           "fill": "$kidical-yellow",
           "layout": "vertical",
-          "gap": 24,
-          "padding": [
-            80,
-            60
-          ],
-          "justifyContent": "center",
+          "gap": 78,
+          "justifyContent": "end",
           "alignItems": "center",
           "children": [
             {
-              "type": "text",
-              "id": "eZnMu",
-              "name": "CTA Heading",
-              "fill": "$kidical-ink",
-              "content": "Klaar voor je eerste rit?",
-              "lineHeight": 1.1,
-              "textAlign": "center",
-              "fontFamily": "$font-heading",
-              "fontSize": 48,
-              "fontWeight": "800"
-            },
-            {
-              "type": "frame",
-              "id": "C5HuaP",
-              "name": "CTA Button",
-              "fill": "$kidical-blue",
-              "cornerRadius": 14,
-              "gap": 8,
-              "padding": [
-                18,
-                36
-              ],
-              "justifyContent": "center",
-              "alignItems": "center",
+              "type": "group",
+              "id": "EKO35",
               "children": [
                 {
                   "type": "text",
-                  "id": "OIvTZ",
-                  "name": "CTA Button Label",
-                  "fill": "$white",
-                  "content": "Vind een rit bij jou in de buurt ",
-                  "lineHeight": 1.4,
+                  "id": "eZnMu",
+                  "x": 0,
+                  "y": 0,
+                  "name": "CTA Heading",
+                  "fill": "$kidical-ink",
+                  "textGrowth": "fixed-width-height",
+                  "width": 540.6284722222223,
+                  "height": 110.3030303030303,
+                  "content": "Klaar voor je eerste rit?",
+                  "lineHeight": 1.1,
+                  "textAlign": "center",
                   "fontFamily": "$font-heading",
-                  "fontSize": 18,
+                  "fontSize": 64,
                   "fontWeight": "800"
                 },
                 {
-                  "type": "group",
-                  "id": "iCmua",
+                  "type": "frame",
+                  "id": "Egm0x",
+                  "x": 73.31423611111109,
+                  "y": 178.68292682926813,
+                  "name": "CTA Button",
+                  "height": 55.31707317073164,
+                  "fill": "$kidical-blue",
+                  "cornerRadius": 14,
+                  "gap": 8,
+                  "padding": [
+                    18,
+                    36
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "type": "ellipse",
-                      "id": "PwjXX",
-                      "x": 0,
-                      "y": 0,
-                      "fill": "$kidical-red",
-                      "width": 29,
-                      "height": 29
-                    },
-                    {
                       "type": "text",
-                      "id": "THAFi",
-                      "x": 6,
-                      "y": 2,
+                      "id": "nHXvR",
                       "name": "CTA Button Label",
                       "fill": "$white",
-                      "content": "→",
+                      "content": "Vind een rit bij jou in de buurt ",
                       "lineHeight": 1.4,
                       "fontFamily": "$font-heading",
                       "fontSize": 18,
                       "fontWeight": "800"
+                    },
+                    {
+                      "type": "group",
+                      "id": "Vo5PT",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "GJip9",
+                          "x": 0,
+                          "y": 0,
+                          "fill": "$kidical-red",
+                          "width": 29,
+                          "height": 29
+                        },
+                        {
+                          "type": "text",
+                          "id": "D9LkAb",
+                          "x": 6,
+                          "y": 2,
+                          "name": "CTA Button Label",
+                          "fill": "$white",
+                          "content": "→",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "800"
+                        }
+                      ]
                     }
                   ]
                 }
               ]
+            },
+            {
+              "type": "rectangle",
+              "id": "s22A6",
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "public/img/illustrations/footerbunch-yellow.png",
+                "mode": "fill"
+              },
+              "width": 980,
+              "height": 358
             }
           ]
         },
@@ -9699,16 +9534,22 @@
           "type": "frame",
           "id": "pBbSo",
           "name": "Footer Main",
-          "width": "fill_container",
-          "gap": 60,
-          "padding": [
-            60,
-            80
+          "width": 1365,
+          "height": 316,
+          "fill": "$kidical-ink",
+          "cornerRadius": [
+            30,
+            30,
+            0,
+            0
           ],
+          "layout": "none",
           "children": [
             {
               "type": "frame",
               "id": "SadO9",
+              "x": 85,
+              "y": 74,
               "name": "Brand Column",
               "width": 320,
               "layout": "vertical",
@@ -9765,8 +9606,10 @@
             {
               "type": "frame",
               "id": "f9MeF9",
+              "x": 465,
+              "y": 74,
               "name": "Discover Column",
-              "width": "fill_container",
+              "width": "fill_container(243.33333333333334)",
               "layout": "vertical",
               "gap": 16,
               "children": [
@@ -9839,8 +9682,10 @@
             {
               "type": "frame",
               "id": "d6cwb",
+              "x": 768.3333333333334,
+              "y": 74,
               "name": "About Column",
-              "width": "fill_container",
+              "width": "fill_container(243.33333333333334)",
               "layout": "vertical",
               "gap": 16,
               "children": [
@@ -9935,8 +9780,10 @@
             {
               "type": "frame",
               "id": "ZQ979",
+              "x": 1071.6666666666667,
+              "y": 74,
               "name": "Social Column",
-              "width": "fill_container",
+              "width": "fill_container(243.33333333333334)",
               "layout": "vertical",
               "gap": 16,
               "children": [
@@ -10053,7 +9900,8 @@
           "type": "frame",
           "id": "Fyzjs",
           "name": "Bottom Bar",
-          "width": "fill_container",
+          "width": 1365,
+          "fill": "$kidical-ink",
           "padding": [
             16,
             80
@@ -10080,6 +9928,622 @@
               "fontFamily": "$font-body",
               "fontSize": 13,
               "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "RH11d",
+      "x": 6584,
+      "y": -960,
+      "name": "Location Picker — States",
+      "width": 2481,
+      "fill": "#eef2fb",
+      "cornerRadius": 24,
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 48,
+      "children": [
+        {
+          "type": "text",
+          "id": "f0ihV",
+          "name": "Title",
+          "fill": "#281a39",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Location Picker",
+          "fontFamily": "Nunito Sans",
+          "fontSize": 20,
+          "fontWeight": "800"
+        },
+        {
+          "type": "frame",
+          "id": "UMPlC",
+          "name": "Row",
+          "width": "fill_container",
+          "gap": 16,
+          "children": [
+            {
+              "type": "frame",
+              "id": "x9ao1",
+              "name": "Panel: 1 — Leeg",
+              "width": 520,
+              "height": 157,
+              "fill": "#1d67cd",
+              "cornerRadius": 20,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                20,
+                20,
+                24,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "iAcgr",
+                  "name": "StateLabel",
+                  "fill": "#ffffff88",
+                  "content": "1 — Leeg",
+                  "fontFamily": "Nunito Sans",
+                  "fontSize": 11,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "Uzxnt",
+                  "name": "Comp",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PQ6vP",
+                      "name": "Pin",
+                      "rotation": 7.728629260650669,
+                      "width": 61,
+                      "height": 81,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "O9oru",
+                          "x": 0.9775759710073544,
+                          "y": -7.203198662923796,
+                          "name": "Shape",
+                          "geometry": "M20 2c-9.941 0-18 8.059-18 18 0 12 18 32 18 32 0 0 18-20 18-32 0-9.941-8.059-18-18-18z",
+                          "viewBox": [
+                            0,
+                            0,
+                            40,
+                            54
+                          ],
+                          "fill": "#E63A7B",
+                          "width": 65,
+                          "height": 88
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "fCPw8",
+                          "x": 25.99644970065765,
+                          "y": 17.815675066726726,
+                          "name": "Dot",
+                          "fill": "#ffffff",
+                          "width": 15,
+                          "height": 15
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "v1RKqw",
+                      "name": "Main",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pgE0L",
+                          "name": "Heading",
+                          "fill": "#ffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 323,
+                          "height": 26,
+                          "content": "Waar wil je fietsen?",
+                          "fontFamily": "Caprasimo",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MK3an",
+                          "name": "Field",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "y08Rd",
+                              "name": "Input",
+                              "clip": true,
+                              "width": 227,
+                              "height": 41,
+                              "fill": "$kidical-light-blue",
+                              "cornerRadius": 14,
+                              "padding": [
+                                0,
+                                14
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "dzpxr",
+                                  "name": "InputText",
+                                  "fill": "#271a38ab",
+                                  "content": "Typ postcode of gemeente",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "MDdoT",
+                              "name": "Geo",
+                              "gap": 5,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Est3l",
+                                  "name": "GeoTxt",
+                                  "fill": "#ffffff",
+                                  "content": "Gebruik mijn locatie",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 15,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sh5XY",
+              "name": "Panel: 2 — Zoeken",
+              "width": 470,
+              "fill": "#1d67cd",
+              "cornerRadius": 20,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                20,
+                20,
+                24,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hNqQo",
+                  "name": "StateLabel",
+                  "fill": "#ffffff88",
+                  "content": "2 — Zoeken",
+                  "fontFamily": "Nunito Sans",
+                  "fontSize": 11,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "KB56f",
+                  "name": "Comp",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "e79OX4",
+                      "name": "Pin",
+                      "rotation": 7.728629260650669,
+                      "width": 61,
+                      "height": 81,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "FiWzh",
+                          "x": 0.9775759710073544,
+                          "y": -7.203198662924024,
+                          "name": "Shape",
+                          "geometry": "M20 2c-9.941 0-18 8.059-18 18 0 12 18 32 18 32 0 0 18-20 18-32 0-9.941-8.059-18-18-18z",
+                          "viewBox": [
+                            0,
+                            0,
+                            40,
+                            54
+                          ],
+                          "fill": "#E63A7B",
+                          "width": 65,
+                          "height": 88
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "R6702a",
+                          "x": 25.99644970065765,
+                          "y": 17.815675066726726,
+                          "name": "Dot",
+                          "fill": "#ffffff",
+                          "width": 15,
+                          "height": 15
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z25zl",
+                      "name": "Main",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "HeCXY",
+                          "name": "Heading",
+                          "fill": "#ffffff",
+                          "textGrowth": "fixed-width-height",
+                          "width": 200,
+                          "height": 26,
+                          "content": "Waar wil je fietsen?",
+                          "fontFamily": "Caprasimo",
+                          "fontSize": 20,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "y2xFl",
+                          "name": "Field",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Is02u",
+                              "name": "Input",
+                              "clip": true,
+                              "width": "fill_container",
+                              "height": 44,
+                              "fill": "$white",
+                              "cornerRadius": 14,
+                              "padding": [
+                                0,
+                                14
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "U2bif",
+                                  "name": "InputText",
+                                  "fill": "$kidical-ink",
+                                  "content": "1030",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "s8Pid",
+                              "name": "Geo",
+                              "gap": 5,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "P34JNJ",
+                                  "name": "GeoTxt",
+                                  "fill": "#ffffff",
+                                  "content": "Gebruik mijn locatie",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r507Ol",
+                          "name": "Suggestions",
+                          "width": "fill_container",
+                          "fill": "#ffffff",
+                          "cornerRadius": 14,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#00000038",
+                            "offset": {
+                              "x": 0,
+                              "y": 12
+                            },
+                            "blur": 32
+                          },
+                          "layout": "vertical",
+                          "padding": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "daq23",
+                              "name": "1030",
+                              "cornerRadius": 10,
+                              "gap": 8,
+                              "padding": [
+                                8,
+                                10
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "ABJ3n",
+                                  "name": "Z",
+                                  "fill": "$kidical-ink",
+                                  "content": "1030",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Z5by1t",
+                                  "name": "C",
+                                  "fill": "$text-body",
+                                  "content": "Schaerbeek",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "M9kic",
+                              "name": "1031",
+                              "cornerRadius": 10,
+                              "gap": 8,
+                              "padding": [
+                                8,
+                                10
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "yfpaD",
+                                  "name": "Z",
+                                  "fill": "$kidical-ink",
+                                  "content": "1031",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "eS22L",
+                                  "name": "C",
+                                  "fill": "$text-body",
+                                  "content": "Bruxelles",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "S24GT",
+                              "name": "1032",
+                              "cornerRadius": 10,
+                              "gap": 8,
+                              "padding": [
+                                8,
+                                10
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "gUlCZ",
+                                  "name": "Z",
+                                  "fill": "$kidical-ink",
+                                  "content": "1032",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cGdaL",
+                                  "name": "C",
+                                  "fill": "$text-body",
+                                  "content": "Laeken",
+                                  "fontFamily": "Nunito Sans",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "LUkV0",
+              "name": "Panel: 5 — Geselecteerd",
+              "width": 372,
+              "fill": "#1d67cd",
+              "cornerRadius": 20,
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                20,
+                20,
+                24,
+                20
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UJN68",
+                  "name": "StateLabel",
+                  "fill": "#ffffff88",
+                  "content": "5 — Geselecteerd",
+                  "fontFamily": "Nunito Sans",
+                  "fontSize": 11,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "epT5U",
+                  "name": "Pill",
+                  "fill": "#ffffff",
+                  "cornerRadius": 999,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#0000002e",
+                    "offset": {
+                      "x": 0,
+                      "y": 8
+                    },
+                    "blur": 24
+                  },
+                  "gap": 8,
+                  "padding": [
+                    10,
+                    10,
+                    10,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dbrS0",
+                      "name": "Pin",
+                      "rotation": 7.728629260650669,
+                      "width": 22,
+                      "height": 32,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "XtDAd",
+                          "x": -0.3994573658592344,
+                          "y": 2.9433730462261565,
+                          "name": "Shape",
+                          "geometry": "M20 2c-9.941 0-18 8.059-18 18 0 12 18 32 18 32 0 0 18-20 18-32 0-9.941-8.059-18-18-18z",
+                          "viewBox": [
+                            0,
+                            0,
+                            40,
+                            54
+                          ],
+                          "fill": "#E63A7B",
+                          "width": 22,
+                          "height": 30
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "FMNDq",
+                          "x": 8.132250299026055,
+                          "y": 11.475080711121223,
+                          "name": "Dot",
+                          "fill": "#ffffff",
+                          "width": 5,
+                          "height": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Fr2u9",
+                      "name": "PillTxt",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RpxJS",
+                          "name": "Pre",
+                          "fill": "$text-body",
+                          "content": "Je fietst rond",
+                          "fontFamily": "Nunito Sans",
+                          "fontSize": 16,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "VOTfk",
+                          "name": "Place",
+                          "fill": "#1d67cd",
+                          "content": "Schaerbeek",
+                          "fontFamily": "Nunito Sans",
+                          "fontSize": 16,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Jhwu7",
+                      "name": "Wijzig",
+                      "fill": "#f9d924",
+                      "cornerRadius": 999,
+                      "padding": [
+                        6,
+                        14
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B527D",
+                          "name": "WijzigTxt",
+                          "fill": "#281a39",
+                          "content": "wijzig",
+                          "fontFamily": "Caprasimo",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
