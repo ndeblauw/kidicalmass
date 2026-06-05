@@ -45,8 +45,7 @@ it('renders the Kalender with NL chrome and no English/em-dashes', function () {
         ->assertOk()
         ->assertSee('Kalender')
         ->assertSee('Spring op de fiets, wij rijden samen.')
-        ->assertSee('Waar fiets je?')                 // location-first filter is the primary control
-        ->assertSee('Alle gemeenten')
+        ->assertSee('Waar woon je?')                  // location-first filter is the primary control
         ->assertSee('Bekijk voorbije ritten')          // period demoted to a link
         ->assertSee('Mis geen fietstocht')
         ->assertDontSee('Activities')
@@ -138,21 +137,6 @@ it('splits the Kalender into upcoming (default) and past via the when toggle', f
         ->assertOk()
         ->assertSee('Voorbije Testrit')
         ->assertDontSee('Surface Test Ride');
-});
-
-it('filters the Kalender by gemeente', function () {
-    $otherGroup = Group::factory()->create(['name' => 'Kidical Mass Elders']);
-    $otherRide = Activity::factory()->create([
-        'title_nl' => 'Rit Elders',
-        'activity_type' => ActivityType::KIDICALMASS,
-        'begin_date' => now()->addWeek(),
-    ]);
-    $otherRide->groups()->attach($otherGroup);
-
-    get('/nl/events?gemeente='.$this->group->id)
-        ->assertOk()
-        ->assertSee('Surface Test Ride')
-        ->assertDontSee('Rit Elders');
 });
 
 it('renders the articles index with the article listed', function () {
