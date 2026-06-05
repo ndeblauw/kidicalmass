@@ -194,8 +194,7 @@ it('shows the slim partner recognition strip site-wide, linking to the Partners 
     // Recognition only: funder credit + a single link to /about/partners.
     get('/nl')
         ->assertOk()
-        ->assertSee('Mede mogelijk gemaakt door')
-        ->assertSee('Met de steun van Brussel Mobiliteit')
+        ->assertSee('Mede mogelijk gemaakt door Brussel Mobiliteit')
         ->assertSee(route('about.partners'), escape: false)
         // Acquisition + the supporters list + the dead links moved OFF the global
         // strip onto /about/partners; they must not leak back into every page.

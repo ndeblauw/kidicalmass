@@ -2,7 +2,8 @@
 
 use App\Models\Partner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Blade;
+
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
@@ -40,7 +41,8 @@ it('renders a name chip for a logo-less partner instead of a gap', function () {
         'visible' => true,
     ]);
 
-    $this->blade('<x-partners />')
+    // The strip self-gates to showcase routes, so exercise it through a real page.
+    get(route('home'))
         ->assertSee('partner-strip__chip', false)
         ->assertSee('Totally Fake Org That Has No Logo');
 });
@@ -55,14 +57,10 @@ it('never renders a stock photo url in the strip', function () {
     $this->blade('<x-partners />')->assertDontSee('picsum');
 });
 
-it('renders Brussel Mobiliteit exactly once', function () {
-    Partner::factory()->create([
-        'name' => 'Brussel Mobiliteit',
-        'group_id' => null,
-        'show_logo' => true,
-        'visible' => true,
-    ]);
+it('shows Brussel Mobiliteit only in the footer, exactly once', function () {
+    // Brussel Mobiliteit moved from the strip to the footer funder credit;
+    // it must appear exactly once on the page, never duplicated back into the strip.
+    $html = get(route('home'))->getContent();
 
-    $html = Blade::render('<x-partners />');
     expect(substr_count($html, 'Brussel Mobiliteit'))->toBe(1);
 });
