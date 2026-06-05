@@ -49,6 +49,12 @@
 
         </div>
 
+        {{-- Funder acknowledgment — quiet, site-wide --}}
+        <div class="site-footer__funder">
+            <span>{{ __('partners.funder_credit') }}</span>
+            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo">
+        </div>
+
         {{-- Bottom bar — utilities --}}
         <div class="site-footer__bottom">
             <span>&copy; {{ date('Y') }} Kidical Mass Belgium</span>

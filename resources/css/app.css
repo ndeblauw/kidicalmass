@@ -1209,10 +1209,6 @@
     display: block;
 }
 
-.partner-strip__logo--bm {
-    height: 2.75rem;
-}
-
 .partner-strip__chip {
     display: inline-flex;
     align-items: center;
@@ -1368,6 +1364,24 @@ body:has(.activity-actions-bar) .site-footer {
         height: 1.5rem;
         display: block;
     }
+}
+
+.site-footer__funder {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-block: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.site-footer__funder-logo {
+    height: 1.875rem;
+    width: auto;
+    object-fit: contain;
+    display: block;
 }
 
 .site-footer__bottom {
