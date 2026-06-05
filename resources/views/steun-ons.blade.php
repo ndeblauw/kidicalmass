@@ -63,9 +63,7 @@
         <div class="container mx-auto px-4 steun-cta__inner">
             <h2>{{ __('support.scale') }}</h2>
             <p class="steun-cta__sub">{{ __('support.scale_sub') }}</p>
-            <a href="{{ $growfunding }}" class="steun-cta__btn link-plain" target="_blank" rel="noopener noreferrer">
-                {{ __('support.ask_cta') }} →
-            </a>
+            <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask_cta') }}</x-cta-button>
         </div>
     </section>
 

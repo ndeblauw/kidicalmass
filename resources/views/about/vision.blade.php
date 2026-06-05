@@ -77,8 +77,11 @@
         title="Doe mee met de beweging"
         sub="Elke rit is ook een vraag aan de stad. Help mee, of steun de beweging zodat ze kan blijven groeien.">
         <x-slot:actions>
-            <a href="{{ route('volunteer') }}" class="about-cta__btn about-cta__btn--primary link-plain">Help mee →</a>
-            <a href="{{ route('membership') }}" class="about-cta__btn about-cta__btn--ghost link-plain">Steun Kidical Mass →</a>
+            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Help mee</x-cta-button>
+            <a href="{{ route('membership') }}" class="about-cta__btn about-cta__btn--ink link-plain">
+                Steun Kidical Mass
+                <span class="about-cta__btn__disc" aria-hidden="true">→</span>
+            </a>
         </x-slot:actions>
     </x-about-cta>
 

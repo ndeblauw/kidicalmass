@@ -109,7 +109,7 @@
         <div class="grp-cta__inner">
             <h2>Staat jouw stad er nog niet bij?</h2>
             <p class="grp-cta__sub">Er komen steeds nieuwe groepen bij. Je hoeft geen fietsexpert te zijn. Gewoon iemand die zijn buurt graag ziet. Wij helpen je op weg.</p>
-            <a href="{{ route('volunteer') }}" class="grp-cta__btn link-plain">Zo begin je →</a>
+            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Zo begin je</x-cta-button>
         </div>
     </section>
 

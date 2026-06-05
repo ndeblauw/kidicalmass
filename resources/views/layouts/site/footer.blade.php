@@ -5,9 +5,9 @@
 
             {{-- Brand + persistent membership CTA --}}
             <div>
-                <img src="{{ asset('img/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo">
+                <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo">
                 <p class="site-footer__tagline">{{ __('footer.tagline') }}</p>
-                <a href="{{ route('membership') }}" class="site-footer__cta">{{ __('footer.membership_cta') }}</a>
+                <x-cta-button :href="route('membership')" icon="heart" size="sm" class="mt-5">{{ __('footer.membership_cta') }}</x-cta-button>
             </div>
 
             {{-- Discover — mirrors the main nav --}}
@@ -47,6 +47,12 @@
                 </div>
             </div>
 
+        </div>
+
+        {{-- Funder acknowledgment — quiet, site-wide --}}
+        <div class="site-footer__funder">
+            <span>{{ __('partners.funder_credit') }}</span>
+            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo">
         </div>
 
         {{-- Bottom bar — utilities --}}

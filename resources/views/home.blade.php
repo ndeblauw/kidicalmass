@@ -8,9 +8,7 @@
                     Every month, hundreds of children ride through Belgian streets — safely, together, with music. Free for everyone.
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 pt-2">
-                    <a href="{{ route('activities.index') }}" class="link-plain inline-flex items-center rounded-full bg-kidical-yellow px-6 py-3 font-bold text-kidical-ink shadow-sm transition-colors hover:bg-white">
-                        Find a ride →
-                    </a>
+                    <x-cta-button :href="route('activities.index')" class="link-plain">Find a ride</x-cta-button>
                     <a href="{{ route('getting-started') }}" class="font-bold text-white hover:underline">New here? Start here →</a>
                 </div>
             </div>
