@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $this->call(PostalCodeSeeder::class);
+
         $this->call(MediaSeeder::class);
 
         $this->call(GroupSeeder::class);
