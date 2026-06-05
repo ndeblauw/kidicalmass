@@ -58,6 +58,14 @@ field. No drift because both reference the single token.
 
 ## Components & files
 
+0. **`resources/views/components/closing-cta.blade.php` (new)**
+   - The page-owned closing block, built once as a reusable component matching the
+     Pencil CTA: large heading + one simple button, on yellow.
+   - API: `<x-closing-cta heading="…" :href="route(…)" label="…" />`. An optional
+     `actions` slot overrides the default single button (for mailto buttons on
+     press/partners). Token-backed Tailwind, full-bleed `bg-kidical-yellow`,
+     big-typography heading (raw `<h2>`, never `flux:heading`).
+
 1. **`resources/views/layouts/site.blade.php` (layout)**
    - Remove the standalone `<x-partners />` call (partners moves into the footer).
    - After `</main>`, render `{{ $closing ?? '' }}` as a full-width region. The page
@@ -79,6 +87,14 @@ field. No drift because both reference the single token.
    - Restyle `partner-strip` from a sky-blue full-bleed band → a **white card on the
      yellow**. Same data, same showcase-route gating, same content. Appearance only.
 
+5. **`resources/views/components/about-cta.blade.php` (remove)**
+   - Delete the component view and migrate its 4 users (about index, mission, vision,
+     organisation) to `<x-slot:closing><x-closing-cta …/></x-slot>`.
+   - **Caveat:** the `.about-cta__btn*` CSS classes are reused by
+     `resources/views/livewire/partner-enquiry.blade.php` (submit button). **Keep
+     those button styles in `app.css`**; only the about-cta container/visual styles
+     are removed. Do not break the enquiry form.
+
 4. **`resources/css/app.css`**
    - Add `.site-footer-zone`: yellow background + vertical padding.
    - Change `.site-footer` to the **inset rounded dark card** (dark bg, `max-width`
@@ -92,13 +108,39 @@ field. No drift because both reference the single token.
 
 ## Scope (this pass)
 
-- Build the mechanism (closing slot + footer zone) and the restyle.
-- Wire the **home page** closing slot as the worked example.
-- Pages with **no** closing slot still render cleanly: page content meets the yellow
+- Build the mechanism (closing slot + footer zone), the `closing-cta` component, and
+  the restyle.
+- **Wire the closing slot on all 17 content pages**, each with tailored copy (drafted
+  below, Frederik to refine). The 4 about-cta pages migrate to the new CTA; about-cta
+  is removed.
+- **Stub pages get no closing CTA** — they render the yellow footer zone only.
+- Any page without a closing slot still renders cleanly: page content meets the yellow
   zone at a normal section boundary; the illustration never looks cut off because the
   zone owns yellow above it.
-- `about-cta` pages are left **untouched** (decide-later). They provide no closing
-  slot for now; their existing floating card stays as is.
+
+### Per-page closing CTA copy (draft — refine)
+
+| Page | Heading | Button → route |
+|---|---|---|
+| home | Klaar voor je eerste rit? | Vind een rit → `activities.index` |
+| activities/index | Zelf een rit in je buurt? | Zo begin je → `getting-started` |
+| activities/show | Nog niet zeker hoe het werkt? | Lees hoe je meerijdt → `getting-started` |
+| groups/index | Geen groep in je buurt? | Start er een → `getting-started` |
+| groups/show | Rij mee in je buurt | Word lid → `membership` |
+| getting-started | Klaar om mee te rijden? | Vind een rit → `activities.index` |
+| find-a-bike | Toch nog een vraag? | Neem contact op → `contact` |
+| volunteer | Geef de straat terug aan kinderen | Word lid → `membership` |
+| steun-ons | Steun Kidical Mass | Word lid → `membership` |
+| articles/index | Zin gekregen om mee te rijden? | Vind een rit → `activities.index` |
+| articles/show | Zin gekregen om mee te rijden? | Vind een rit → `activities.index` |
+| about/index | Rij mee met de buurt | Vind een rit → `activities.index` |
+| about/mission | Samen maken we straten veiliger | Vind een rit → `activities.index` |
+| about/vision | Geloof je hierin? | Word lid → `membership` |
+| about/organisation | Een afdeling starten of vervoegen? | Zo begin je → `getting-started` |
+| about/partners | Partner worden? | Neem contact op → mailto/`partner-enquiry` |
+| about/press | Pers? | Neem contact op → mailto/`contact` |
+
+(about/partners and about/press use the `actions` slot for their mailto/enquiry button.)
 
 ## Open details (non-blocking)
 
@@ -120,6 +162,6 @@ field. No drift because both reference the single token.
 
 ## Non-goals
 
-- Reconciling/removing `about-cta` (separate decision).
 - Rewriting the dark footer's column markup into Tailwind.
-- Rolling the closing slot out to every page (only home this pass).
+- A closing CTA on stub/placeholder pages.
+- Final-form CTA copy — the table is a starting draft for Frederik to refine.
