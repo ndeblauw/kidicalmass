@@ -23,6 +23,9 @@
                     <dd class="grp-hero__stat-num">{{ $activityCount }}</dd>
                 </div>
             </dl>
+            <div class="grp-hero__locate">
+                <livewire:location-picker />
+            </div>
         </x-slot:controls>
 
         <p class="grp-hero__body">
@@ -51,11 +54,37 @@
         <section class="mt-10 space-y-1">
             <h2 class="grp-find__title">Vind je groep</h2>
             <p class="grp-find__sub">Tik je gemeente aan voor de volgende fietstocht en het lokale team.</p>
-            <p class="grp-map-note">
-                <flux:icon.map variant="solid" aria-hidden="true" />
-                Een kaart met alle groepen komt binnenkort.
-            </p>
         </section>
+
+        @if ($myGroups->isNotEmpty())
+            <section class="mt-8">
+                <h3 class="grp-region__title">Jouw groep{{ $myGroups->count() > 1 ? 'en' : '' }}</h3>
+                <ul class="flex flex-wrap gap-2.5">
+                    @foreach ($myGroups as $group)
+                        <li><a href="{{ route('groups.show', $group) }}" class="grp-pill grp-pill--mine link-plain">{{ $group->name }}</a></li>
+                    @endforeach
+                </ul>
+            </section>
+        @endif
+
+        @if ($location)
+            <section class="mt-8">
+                <h3 class="grp-region__title">In de buurt van {{ $location['name'] }}</h3>
+                @if ($nearby->isNotEmpty())
+                    <ul class="flex flex-wrap gap-2.5">
+                        @foreach ($nearby as $row)
+                            <li>
+                                <a href="{{ route('groups.show', $row['item']) }}" class="grp-pill link-plain">
+                                    {{ $row['item']->name }}<span class="grp-pill__km">{{ $row['distance_km'] == 0 ? 'hier' : $row['distance_km'].' km' }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="grp-find__sub">Nog geen groep vlak bij jou. Misschien start jij er een?</p>
+                @endif
+            </section>
+        @endif
 
         <div class="mt-6 space-y-8">
             @foreach ($byRegion as $region => $regionGroups)
