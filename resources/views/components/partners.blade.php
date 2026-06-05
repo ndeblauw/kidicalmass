@@ -6,7 +6,8 @@
         ->whereNull('group_id')
         ->where('visible', true)
         ->where('show_logo', true)
-        ->get();
+        ->get()
+        ->reject(fn ($p) => \Illuminate\Support\Str::slug($p->name) === 'brussel-mobiliteit');
 
     $locale = app()->getLocale();
     $bmLogo = $locale === 'fr'
@@ -36,6 +37,12 @@
                             </a>
                         @else
                             <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo">
+                        @endif
+                    @else
+                        @if($partner->url)
+                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="partner-strip__chip">{{ $partner->name }}</a>
+                        @else
+                            <span class="partner-strip__chip">{{ $partner->name }}</span>
                         @endif
                     @endif
                 @endforeach
