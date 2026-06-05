@@ -47,8 +47,10 @@ class PartnerFactory extends Factory
 
     /**
      * Attach the curated logo file matching the partner's slug, if one exists.
-     * No file -> no logo media (the strip renders a name chip instead), so a
-     * stock photo can never be attached as a logo.
+     * Logo files live at public/img/partners/logos/raw/{slug}.{ext} where the
+     * filename must equal Str::slug($partner->name). No file -> no logo media
+     * (the strip renders a name chip instead), so a stock photo can never be
+     * attached as a logo.
      */
     protected function attachLogo(Partner $partner): void
     {
@@ -59,9 +61,13 @@ class PartnerFactory extends Factory
             return;
         }
 
+        // Deterministic pick if a slug somehow has multiple extensions.
+        sort($matches);
+
         try {
             $partner->addMedia($matches[0])->preservingOriginal()->toMediaCollection('logo');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            // Best-effort during seeding; a failed attach just yields a name chip.
         }
     }
 }
