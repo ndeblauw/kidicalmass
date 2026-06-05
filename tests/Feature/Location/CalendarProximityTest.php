@@ -42,5 +42,6 @@ it('splits upcoming rides into nearby and far when a location is set', function 
         ->assertSee('In de buurt')
         ->assertSee('Verderaf')
         ->assertSee('Jette')
-        ->assertSee('Gent');
+        ->assertSee('Gent')
+        ->assertSee('in jouw buurt'); // 0 km ride shows the buurt label, not a km value
 });

@@ -1,4 +1,4 @@
-@props(['activity', 'showDate' => true, 'featured' => null])
+@props(['activity', 'showDate' => true, 'featured' => null, 'distance' => null])
 
 {{-- PAT-1 · Event card. Hierarchy = WHERE first (a parent scans for a ride near them):
      ride title (municipality) is the anchor, meeting point second, the time is a small
@@ -31,6 +31,9 @@
                 <flux:icon.map-pin variant="solid" class="event-card__loc-icon" aria-hidden="true" />
                 <span class="event-card__loc-text">{{ $activity->location }}</span>
             </p>
+        @endif
+        @if (! is_null($distance))
+            <span class="event-card__distance">{{ $distance == 0 ? 'in jouw buurt' : $distance.' km' }}</span>
         @endif
     </div>
 
