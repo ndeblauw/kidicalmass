@@ -107,8 +107,8 @@
                 <div class="ho-deal__media">
                     <div class="ho-deal__media-sticky">
                         <figure class="ho-deal__frame">
-                            <img class="ho-deal__img is-active" data-ho-img="0" src="{{ asset('img/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
-                            <img class="ho-deal__img" data-ho-img="1" src="{{ asset('img/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger in roze hesje houdt met een stopbord een kruispunt vrij" loading="lazy">
+                            <img class="ho-deal__img is-active" data-ho-img="0" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
+                            <img class="ho-deal__img" data-ho-img="1" src="{{ asset('img/photography/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger in roze hesje houdt met een stopbord een kruispunt vrij" loading="lazy">
                         </figure>
                     </div>
                 </div>

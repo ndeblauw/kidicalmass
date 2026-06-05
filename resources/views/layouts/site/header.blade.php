@@ -5,7 +5,7 @@
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="flex items-center">
                     <img
-                        src="{{ asset('img/logo.png') }}"
+                        src="{{ asset('img/logos/logo.png') }}"
                         alt="Kidical Mass"
                         class="site-nav__logo w-auto"
                     >

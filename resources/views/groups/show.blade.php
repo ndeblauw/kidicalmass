@@ -65,7 +65,7 @@
 
     {{-- 1 · IDENTITY HEADER — system blue band (mirrors .index-hero on the directory) --}}
     <header class="chapter-head">
-        <img src="{{ asset('img/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
+        <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
         <div class="container mx-auto px-4 chapter-head__inner">
             <p class="chapter-head__crumb">
                 <a href="{{ route('groups.index') }}" class="link-plain">← Lokale groepen</a>

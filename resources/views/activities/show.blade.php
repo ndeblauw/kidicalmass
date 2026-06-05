@@ -8,7 +8,7 @@
     <section class="activity-hero">
 
         {{-- Daisy: full bleed, right side, slightly cropped --}}
-        <img src="{{ asset('img/logo-icon.png') }}"
+        <img src="{{ asset('img/logos/logo-icon.png') }}"
              alt=""
              aria-hidden="true"
              class="activity-hero__daisy">
@@ -262,7 +262,7 @@
             </template>
 
             <div class="activity-organizers__photo">
-                <img src="{{ asset('img/pink-vest-volunteer.jpg') }}" alt="Roze hesjes begeleiden de groep" loading="lazy">
+                <img src="{{ asset('img/photography/volunteers/pink-vest-volunteer.jpg') }}" alt="Roze hesjes begeleiden de groep" loading="lazy">
             </div>
 
         </div>

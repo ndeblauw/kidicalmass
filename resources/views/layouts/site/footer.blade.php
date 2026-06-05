@@ -5,7 +5,7 @@
 
             {{-- Brand + persistent membership CTA --}}
             <div>
-                <img src="{{ asset('img/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo">
+                <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo">
                 <p class="site-footer__tagline">{{ __('footer.tagline') }}</p>
                 <a href="{{ route('membership') }}" class="site-footer__cta">{{ __('footer.membership_cta') }}</a>
             </div>
