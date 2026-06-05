@@ -1,5 +1,19 @@
-<footer class="site-footer">
-    <div class="container mx-auto px-4">
+{{-- Yellow footer zone: one continuous kidical-yellow field holding the partner
+     card, the footerbunch illustration, and the inset dark footer card. The page's
+     closing CTA (rendered by the layout just above this) shares the same yellow. --}}
+<div class="site-footer-zone bg-kidical-yellow">
+
+    {{-- Partner recognition — a white card floating on the yellow (showcase routes only) --}}
+    <x-partners />
+
+    {{-- Footerbunch illustration, on the yellow, leading into the dark card --}}
+    <figure class="mx-auto max-w-5xl px-4 -mb-px" aria-hidden="true">
+        <img src="{{ asset('img/illustrations/footerbunch-yellow.png') }}" alt="" class="block w-full">
+    </figure>
+
+    {{-- Dark footer card — inset + rounded-top (styling in .site-footer) --}}
+    <footer class="site-footer">
+        <div class="container mx-auto px-4">
 
         <div class="site-footer__main">
 
@@ -67,4 +81,5 @@
         </div>
 
     </div>
-</footer>
+    </footer>
+</div>

@@ -23,8 +23,11 @@
     </main>
 
 
-    {{-- Partner recognition strip (PAT-5, slim). Full story on /about/partners. --}}
-    <x-partners />
+    {{-- Page-owned closing block (e.g. <x-closing-cta>), rendered full-width directly
+         above the footer zone. The page paints it yellow so it fuses with the zone. --}}
+    @isset($closing)
+        {{ $closing }}
+    @endisset
 
     <x-layouts::site.footer />
 
