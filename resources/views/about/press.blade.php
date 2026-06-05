@@ -64,4 +64,9 @@
 
     </x-page-hero>
 
+    <x-slot:closing>
+        <x-closing-cta heading="Vragen van de pers?"
+            :href="route('contact')" label="Neem contact op" />
+    </x-slot:closing>
+
 </x-layouts::site>

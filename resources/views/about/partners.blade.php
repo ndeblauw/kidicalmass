@@ -121,4 +121,9 @@
     <x-about-reveal selector=".about-partner-card" :transform="true" />
     @endpush
 
+    <x-slot:closing>
+        <x-closing-cta heading="Samen op pad?"
+            :href="route('contact')" label="Neem contact op" />
+    </x-slot:closing>
+
 </x-layouts::site>

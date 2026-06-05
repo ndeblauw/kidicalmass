@@ -89,4 +89,9 @@
         {{-- Support (PAT-10 contextual block) --}}
         <x-support-callout variant="home" />
     </div>
+
+    <x-slot:closing>
+        <x-closing-cta heading="Klaar voor je eerste rit?"
+            :href="route('activities.index')" label="Vind een rit" />
+    </x-slot:closing>
 </x-layouts::site>

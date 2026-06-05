@@ -370,4 +370,9 @@
         <span x-show="copied" class="activity-actions-bar__copied">Gekopieerd!</span>
     </div>
 
+    <x-slot:closing>
+        <x-closing-cta heading="Nog niet zeker hoe het werkt?"
+            :href="route('getting-started')" label="Lees hoe je meerijdt" />
+    </x-slot:closing>
+
 </x-layouts::site>

@@ -263,4 +263,9 @@
             </p>
         </div>
     </section>
+
+    <x-slot:closing>
+        <x-closing-cta heading="Rij mee in je buurt"
+            :href="route('membership')" label="Word lid" icon="heart" />
+    </x-slot:closing>
 </x-layouts::site>

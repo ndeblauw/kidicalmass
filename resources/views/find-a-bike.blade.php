@@ -63,4 +63,9 @@
 
     </div>
 
+    <x-slot:closing>
+        <x-closing-cta heading="Toch nog een vraag?"
+            :href="route('contact')" label="Neem contact op" />
+    </x-slot:closing>
+
 </x-layouts::site>

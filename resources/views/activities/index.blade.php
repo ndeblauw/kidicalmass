@@ -18,4 +18,9 @@
         </div>
     </section>
 
+    <x-slot:closing>
+        <x-closing-cta heading="Zelf een rit in je buurt?"
+            :href="route('getting-started')" label="Zo begin je" />
+    </x-slot:closing>
+
 </x-layouts::site>
