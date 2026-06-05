@@ -45,7 +45,7 @@ it('renders the Mission leaf with its key NL sections and forward links', functi
         ->assertDontSee('Stub', escape: false)
         ->assertSee('Drie dingen die we doen')
         ->assertSee('Iedereen is welkom')
-        ->assertSee('Doe mee met de beweging')
+        ->assertSee('Samen maken we straten veiliger')
         // The corridor must hand the visitor forward.
         ->assertSee(route('getting-started'), escape: false)
         ->assertSee(route('about.vision'), escape: false)
