@@ -29,53 +29,29 @@
             <div class="gs-expect-right">
                 <div class="gs-expect-cards">
 
-                    <div class="gs-expect-card" data-idx="0">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.clock variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Kort en rustig</strong>
-                        <p>5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.</p>
-                    </div>
+                    <x-feature-card class="gs-expect-card" icon="clock" color="red" title="Kort en rustig">
+                        5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.
+                    </x-feature-card>
 
-                    <div class="gs-expect-card" data-idx="1">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.musical-note variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Muziek onderweg</strong>
-                        <p>Er is altijd een geluidssysteem. Een vrolijke, luidruchtige fietsparade door de buurt.</p>
-                    </div>
+                    <x-feature-card class="gs-expect-card" icon="musical-note" color="blue" title="Muziek onderweg">
+                        Er is altijd een geluidssysteem. Een vrolijke, luidruchtige fietsparade door de buurt.
+                    </x-feature-card>
 
-                    <div class="gs-expect-card" data-idx="2">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.map-pin variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Vaste startplaats</strong>
-                        <p>Elke rit vertrekt op een vaste plek, vermeld op de eventpagina. Gewoon daar opdagen.</p>
-                    </div>
+                    <x-feature-card class="gs-expect-card" icon="map-pin" color="orange" title="Vaste startplaats">
+                        Elke rit vertrekt op een vaste plek, vermeld op de eventpagina. Gewoon daar opdagen.
+                    </x-feature-card>
 
-                    <div class="gs-expect-card" data-idx="3">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.ticket variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Gratis, geen inschrijving</strong>
-                        <p>Geen ticket, geen registratie, geen kosten. Kom gewoon naar de start.</p>
-                    </div>
+                    <x-feature-card class="gs-expect-card" icon="ticket" color="ink" title="Gratis, geen inschrijving">
+                        Geen ticket, geen registratie, geen kosten. Kom gewoon naar de start.
+                    </x-feature-card>
 
-                    <div class="gs-expect-card" data-idx="4">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.users variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Alle leeftijden welkom</strong>
-                        <p>Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.</p>
-                    </div>
+                    <x-feature-card class="gs-expect-card" icon="users" color="violet" title="Alle leeftijden welkom">
+                        Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.
+                    </x-feature-card>
 
-                    <div class="gs-expect-card" data-idx="5">
-                        <div class="gs-expect-card__icon">
-                            <flux:icon.shield-check variant="solid" aria-hidden="true" />
-                        </div>
-                        <strong>Minstens vier roze hesjes</strong>
-                        <p>Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij, zodat geen kind achterblijft.</p>
-                    </div>
+                    <x-feature-card class="gs-expect-card" icon="shield-check" color="coral" title="Minstens vier roze hesjes">
+                        Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij, zodat geen kind achterblijft.
+                    </x-feature-card>
 
                 </div>
             </div>
