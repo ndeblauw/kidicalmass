@@ -2324,16 +2324,10 @@ select:focus[data-flux-control] {
         }
     }
 
-    /* the kit only tilts cards 1 & 2; About grids run three across */
-    .about-card-grid .activity-promises__item:nth-child(3) { transform: rotate(-1deg); }
-
-    .about-card-grid .activity-promises__item a {
-        color: var(--color-kidical-blue);
-        font-weight: 700;
-        background-image: none;
-
-        &:hover { background-image: none; text-decoration: underline; }
-    }
+    /* About grids run three across; tilt the <li> grid items (cards are x-feature-card). */
+    .about-card-grid > li:nth-child(1) { transform: rotate(-1.5deg); }
+    .about-card-grid > li:nth-child(2) { transform: rotate(1deg);    }
+    .about-card-grid > li:nth-child(3) { transform: rotate(-1deg);   }
 
     /* ─── Impact stats — full-bleed light-blue band ─── */
     .about-stats {

@@ -26,26 +26,20 @@
         <div class="container mx-auto px-4">
             <h2 class="about-band__title">Drie dingen die we doen</h2>
             <ul class="about-card-grid" role="list">
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.rocket-launch variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Gemeenschappen helpen starten</strong>
-                    <p>Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale fietsparade op te starten, van de eerste vergadering tot de eerste rit.</p>
+                <li>
+                    <x-feature-card icon="rocket-launch" color="red" title="Gemeenschappen helpen starten">
+                        Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale fietsparade op te starten, van de eerste vergadering tot de eerste rit.
+                    </x-feature-card>
                 </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.lifebuoy variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Bestaande groepen ondersteunen</strong>
-                    <p>Lokale groepen staan er niet alleen voor. We bieden vorming, coördinatiemiddelen, materiaal en nationale zichtbaarheid, zodat elke groep zich kan richten op wat telt: mensen samenbrengen.</p>
+                <li>
+                    <x-feature-card icon="lifebuoy" color="red" title="Bestaande groepen ondersteunen">
+                        Lokale groepen staan er niet alleen voor. We bieden vorming, coördinatiemiddelen, materiaal en nationale zichtbaarheid, zodat elke groep zich kan richten op wat telt: mensen samenbrengen.
+                    </x-feature-card>
                 </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.megaphone variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Pleiten voor kindvriendelijke straten</strong>
-                    <p>Vrolijke fietsparades zijn een begin, geen eindpunt. We werken samen met steden en regio's voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen. <a href="{{ route('about.vision') }}">Lees onze visie →</a></p>
+                <li>
+                    <x-feature-card icon="megaphone" color="red" title="Pleiten voor kindvriendelijke straten">
+                        Vrolijke fietsparades zijn een begin, geen eindpunt. We werken samen met steden en regio's voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen. <a href="{{ route('about.vision') }}">Lees onze visie →</a>
+                    </x-feature-card>
                 </li>
             </ul>
         </div>
@@ -94,7 +88,7 @@
     </x-about-cta>
 
     @push('scripts')
-    <x-about-reveal selector=".about-band .activity-promises__item" />
+    <x-about-reveal selector=".about-band .about-card-grid > li" />
     @endpush
 
     </x-page-hero>
