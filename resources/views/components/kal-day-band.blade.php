@@ -7,13 +7,10 @@
 @endphp
 <section class="kal-day">
     <h3 class="kal-day__date">
-        <time datetime="{{ $periodDate->toDateString() }}" class="kal-day__tile">
-            <span class="kal-day__eyebrow @if ($landmark) kal-day__eyebrow--landmark @endif">{{ $landmark ?? \Illuminate\Support\Str::ucfirst($periodDate->isoFormat('dddd')) }}</span>
-            <span class="kal-day__num">{{ $periodDate->isoFormat('D') }}</span>
-            <span class="kal-day__month">{{ $periodDate->isoFormat('MMMM') }}</span>
-        </time>
+        <time datetime="{{ $periodDate->toDateString() }}">{{ \Illuminate\Support\Str::ucfirst($periodDate->isoFormat('dddd D MMMM')) }}</time>
+        @if ($landmark)<span class="kal-day__landmark">{{ $landmark }}</span>@endif
     </h3>
-    <div class="kal-day__cards">
+    <div class="kal-day__rides">
         @foreach ($rows as $row)
             @php($activity = $plain ? $row : $row['item'])
             @php($distance = $plain ? null : ($row['distance_km'] ?? null))

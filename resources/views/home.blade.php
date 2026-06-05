@@ -21,7 +21,7 @@
                 <a href="{{ route('activities.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">See all →</a>
             </div>
             @if ($upcomingActivities->isNotEmpty())
-                <div class="grid gap-5 md:grid-cols-3">
+                <div class="event-list">
                     @foreach ($upcomingActivities->take(3) as $activity)
                         <x-event-card :activity="$activity" />
                     @endforeach
