@@ -38,6 +38,16 @@
     --color-kidical-sky: #40c0f2;
     --color-kidical-light-yellow: #FEF3D5;
 
+    /* Blended chip colours used in the getting-started feature-card rotation,
+       promoted to named tokens so <x-feature-card color="violet|coral"> works. */
+    --color-kidical-violet: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-red) 45%);
+    --color-kidical-coral: color-mix(in oklab, var(--color-kidical-orange), var(--color-kidical-red) 40%);
+
+    /* Feature-card surface tokens (canonical = getting-started scale). */
+    --radius-card: 2rem;
+    --radius-chip: 28%;
+    --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
+
     --color-text-body: color-mix(in oklab, var(--color-kidical-ink), white 50%);
     --color-text-link: var(--color-kidical-ink);
 
@@ -154,6 +164,145 @@
         color: white;
         font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
         line-height: 1.0;
+    }
+
+    /* ─── Primary CTA button (x-cta-button) — animated arrow/heart disc ───
+       The signature site-wide primary action. Disc size is driven by
+       --disc-size so the small (nav/footer) variant is a one-line override;
+       the pill bg + label colour flip per variant, the disc stays brand-red. */
+    .cta-button {
+        --disc-size: 34px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+        text-decoration: none;
+        box-shadow: 0 1px 3px oklch(0% 0 0 / 0.1);
+        transition: background 0.25s ease-out, filter 0.2s, transform 0.2s;
+    }
+
+    /* Variants — yellow for dark/blue grounds, blue for the yellow CTA bands */
+    .cta-button--yellow {
+        background: var(--color-kidical-yellow);
+        color: var(--color-kidical-ink);
+    }
+
+    .cta-button--yellow:hover { background: oklch(97% 0.005 95); }
+
+    .cta-button--blue {
+        background: var(--color-kidical-blue);
+        color: white;
+    }
+
+    .cta-button--blue:hover {
+        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
+    }
+
+    /* Small — fits the nav + footer */
+    .cta-button--sm {
+        --disc-size: 26px;
+        padding: 0.55rem 1.1rem;
+        font-size: var(--text-sm);
+    }
+
+    /* Full-width centred — mobile nav */
+    .cta-button--block {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cta-button__disc svg {
+        width: 42%;
+        height: 42%;
+    }
+
+    /* Slot: controls layout width only — height locked to the disc so the button never shifts vertically */
+    .cta-button__slot {
+        flex-shrink: 0;
+        height: var(--disc-size);
+        overflow: visible;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Disc: scale + opacity only — no layout impact */
+    .cta-button__disc {
+        flex-shrink: 0;
+        width: var(--disc-size);
+        height: var(--disc-size);
+        border-radius: 50%;
+        background: var(--color-kidical-red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Hover-out: left exits immediately, right re-enters after 175ms */
+    .cta-button__slot--left {
+        order: -1;
+        width: 0;
+        margin-right: 0;
+        transition:
+            width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            margin-right 0.3s ease-out;
+    }
+
+    .cta-button__slot--left .cta-button__disc {
+        opacity: 0;
+        transform: scale(0.001);
+        transition:
+            transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            opacity 0.2s ease-in;
+    }
+
+    .cta-button__slot--right {
+        order: 2;
+        width: var(--disc-size);
+        margin-left: 10px;
+        transition:
+            width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.175s,
+            margin-left 0.3s ease-out 0.175s;
+    }
+
+    .cta-button__slot--right .cta-button__disc {
+        opacity: 1;
+        transform: scale(1);
+        transition:
+            transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.175s,
+            opacity 0.2s ease-in 0.175s;
+    }
+
+    /* Hover-in: right exits immediately, left enters after 175ms */
+    .cta-button:hover .cta-button__slot--right {
+        width: 0;
+        margin-left: 0;
+        transition-delay: 0s;
+    }
+
+    .cta-button:hover .cta-button__slot--right .cta-button__disc {
+        opacity: 0;
+        transform: scale(0.001);
+        transition-delay: 0s;
+    }
+
+    .cta-button:hover .cta-button__slot--left {
+        width: var(--disc-size);
+        margin-right: 10px;
+        transition-delay: 0.175s;
+    }
+
+    .cta-button:hover .cta-button__slot--left .cta-button__disc {
+        opacity: 1;
+        transform: scale(1);
+        transition-delay: 0.175s;
+    }
+
+    .cta-button__label {
+        order: 1;
     }
 }
 
@@ -1142,26 +1291,6 @@ body:has(.activity-actions-bar) .site-footer {
     max-width: 220px;
 }
 
-.site-footer__cta {
-    display: inline-block;
-    margin-top: 1.25rem;
-    padding: 0.625rem 1.25rem;
-    border-radius: 9999px;
-    background-color: var(--color-kidical-yellow);
-    background-image: none;
-    color: var(--color-kidical-ink);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: var(--text-sm);
-    transition: transform 0.2s, filter 0.2s;
-
-    &:hover {
-        background-image: none;
-        filter: brightness(1.05);
-        transform: translateY(-1px);
-    }
-}
-
 .site-footer__col-title {
     font-family: var(--font-heading);
     font-size: var(--text-sm);
@@ -1313,7 +1442,7 @@ header [data-flux-navbar-items][data-current]::after {
     .gs-expect-scroll {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        background: var(--color-kidical-sky);
+        background: var(--color-kidical-light-blue);
         padding-block: clamp(3rem, 6vw, 5rem);
     }
 
@@ -1333,18 +1462,12 @@ header [data-flux-navbar-items][data-current]::after {
         flex-direction: column;
         gap: 1.25rem;
 
-        h2 {
-            color: var(--color-kidical-ink);
-            margin: 0;
-            font-size: clamp(var(--text-3xl), 3.5vw, calc(var(--text-4xl) * 1.4));
-        }
-
-        /* Lead paragraph under the heading */
+        /* Lead paragraph */
         > p {
             color: color-mix(in oklab, var(--color-kidical-ink), transparent 5%);
-            font-size: clamp(var(--text-base), 1.25vw, var(--text-xl));
-            line-height: 1.65;
-            max-width: 36ch;
+            font-size: clamp(var(--text-xl), 1.8vw, var(--text-3xl));
+            line-height: 1.55;
+            max-width: 24ch;
             font-weight: 500;
             margin: 0;
         }
@@ -1362,7 +1485,7 @@ header [data-flux-navbar-items][data-current]::after {
     .gs-expect-cards {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 2.875rem;
     }
 
     .gs-expect-card {
@@ -1376,22 +1499,25 @@ header [data-flux-navbar-items][data-current]::after {
 
         &:nth-child(1) { transform: rotate(-1.5deg); }
         &:nth-child(2) { transform: rotate(1deg);    }
-        &:nth-child(3) { transform: rotate(-0.8deg); }
+        &:nth-child(3) { transform: rotate(-1.5deg); }
+        &:nth-child(4) { transform: rotate(1deg);    }
+        &:nth-child(5) { transform: rotate(-1.5deg); }
+        &:nth-child(6) { transform: rotate(1deg);    }
 
         strong {
             display: block;
             font-family: var(--font-heading);
-            font-size: clamp(var(--text-2xl), 2vw, var(--text-3xl));
-            font-weight: 800;
+            font-size: 1.625rem;
+            font-weight: normal;
             color: var(--color-kidical-ink);
             line-height: 1.2;
         }
 
         p {
-            font-size: clamp(var(--text-lg), 1.2vw, var(--text-xl));
+            font-size: 1.3125rem;
             line-height: 1.6;
             margin: 0;
-            color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
         }
     }
 
@@ -1435,7 +1561,7 @@ header [data-flux-navbar-items][data-current]::after {
         height: 100dvh;
         min-height: 600px;
         overflow: hidden;
-        background: var(--color-kidical-sky); /* covers the fixed hero below */
+        background: var(--color-kidical-light-blue); /* covers the fixed hero below */
         z-index: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1444,18 +1570,14 @@ header [data-flux-navbar-items][data-current]::after {
     }
 
     .gs-expect-scroll--ready .gs-expect-left {
-        padding: 6.5rem 2rem 0 max(2rem, calc((100vw - 80rem) / 2 + 2rem));
-        gap: 1.25rem;
-
-        h2 {
-            font-size: clamp(var(--text-3xl), 3vw, calc(var(--text-4xl) * 1.5));
-        }
+        padding: 5rem 2rem 4rem max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+        gap: 2rem;
 
         img {
             flex: 1;
             min-height: 0;
             width: 100%;
-            max-height: 50vh;
+            max-height: 55vh;
             object-fit: contain;
             object-position: bottom left;
         }
@@ -1482,24 +1604,71 @@ header [data-flux-navbar-items][data-current]::after {
         width: 100%;
     }
 
-    /* ─── FAQ accordion (contained, white) ─── */
+    /* ─── FAQ — illustration left + accordion right ─── */
     .gs-faq-section {
-        max-width: 46rem;
-        margin-inline: auto;
+        background: white;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
         padding-block: clamp(3rem, 6vw, 5rem);
     }
 
-    .gs-section__title {
-        color: var(--color-kidical-ink);
+    .gs-faq-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        max-width: 80rem;
+        margin-inline: auto;
+        padding-inline: 1rem;
+        align-items: start;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 280px 1fr;
+            gap: 4rem;
+        }
+    }
+
+    .gs-faq-illustration {
+        display: none;
+
+        @media (min-width: 768px) {
+            display: block;
+
+            img {
+                width: 100%;
+                object-fit: contain;
+                object-position: top;
+                position: sticky;
+                top: 3rem;
+                max-height: 80vh;
+            }
+        }
+    }
+
+    .gs-faq-content {
+        min-width: 0;
+    }
+
+    .gs-faq-section .gs-section__title {
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--color-kidical-red);
         margin-bottom: 1.5rem;
     }
 
-    .gs-faq {
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
-    }
-
     .gs-faq__item {
-        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+        border-bottom: 1px solid #E8E0F0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &[open] {
+            background: #FEF3D5;
+            border-radius: 1.25rem;
+            border-bottom: none;
+            margin-block: 0.375rem;
+        }
     }
 
     .gs-faq__q {
@@ -1509,34 +1678,43 @@ header [data-flux-navbar-items][data-current]::after {
         align-items: center;
         justify-content: space-between;
         gap: 1.5rem;
-        padding: 1.25rem 0;
+        padding: 1.25rem 1.625rem;
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: var(--text-lg);
+        font-size: 1.625rem;
         color: var(--color-kidical-ink);
-        transition: color 0.2s;
+        line-height: 1.4;
     }
 
     .gs-faq__q::-webkit-details-marker { display: none; }
 
-    .gs-faq__q:hover { color: var(--color-kidical-red); }
+    .gs-faq__item[open] .gs-faq__q {
+        padding-inline: 1.875rem;
+    }
 
     .gs-faq__q::after {
         content: "";
         flex-shrink: 0;
-        width: 1.4rem;
-        height: 1.4rem;
+        width: 1.375rem;
+        height: 1.375rem;
         background-color: var(--color-kidical-red);
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14M5 12h14' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14M5 12h14' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
-        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3Crect x='9.5' y='0' width='3' height='22' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3Crect x='9.5' y='0' width='3' height='22' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
     }
 
-    .gs-faq__item[open] .gs-faq__q::after { transform: rotate(135deg); }
+    .gs-faq__item[open] .gs-faq__q::after {
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
 
     .gs-faq__a {
-        padding-bottom: 1.4rem;
-        max-width: 60ch;
+        padding: 0 1.875rem 1.25rem;
+        font-size: 1.3125rem;
+        line-height: 1.65;
+        color: #4a3960;
+
+        p { margin: 0; }
+        a { color: var(--color-kidical-blue); }
     }
 
     .gs-faq__item[open] .gs-faq__a {
@@ -1566,25 +1744,6 @@ header [data-flux-navbar-items][data-current]::after {
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
         font-weight: 700;
         margin-bottom: 1.75rem;
-    }
-
-    .gs-cta__btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.95rem 1.875rem;
-        border-radius: 0.875rem;
-        background: var(--color-kidical-blue);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s;
-    }
-
-    .gs-cta__btn:hover {
-        transform: translateY(-2px);
-        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
     }
 
     /* ═══ Help out (P-13) — surface pass (built on the ride/show kit) ═══
@@ -1895,48 +2054,11 @@ select:focus[data-flux-control] {
    ────────────────────────────────────────────────────────────────────────── */
 @layer components {
 
-    /* Nav accent CTA (replaces the login button; heart disambiguates "give") */
-    .nav-support {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.625rem 1.25rem;
-        border-radius: 9999px;
-        background-color: var(--color-kidical-yellow);
-        background-image: none;
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: var(--text-base);
-        line-height: 1;
-        transition: transform 0.2s, filter 0.2s;
-
-        &:hover {
-            background-image: none;
-            filter: brightness(1.05);
-            transform: translateY(-1px);
-        }
-    }
-
-    .nav-support__icon {
-        width: 1.1rem;
-        height: 1.1rem;
-        color: var(--color-kidical-red);
-    }
-
-    /* Mobile: pinned first, accent, full-width */
-    .nav-support--mobile {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin-bottom: 0.5rem;
-        padding-block: 0.75rem;
-    }
-
     /* ─── Contextual callout (PAT-10) — full-bleed band, yellow support pill ─── */
     .support-callout {
         width: 100vw;
         margin-left: calc(50% - 50vw);
+        margin-bottom: calc(var(--spacing) * -8); /* cancels <main>'s pb-8 */
         background-color: var(--color-kidical-light-blue);
         padding-block: clamp(2.5rem, 5vw, 3.5rem);
     }
@@ -1967,34 +2089,6 @@ select:focus[data-flux-control] {
         margin-top: 0.5rem;
         max-width: 40rem;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
-    }
-
-    /* Same yellow support pill as the nav + footer CTA (consistency) */
-    .support-callout__cta {
-        flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.9rem 1.6rem;
-        border-radius: 9999px;
-        background-color: var(--color-kidical-yellow);
-        background-image: none;
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        transition: transform 0.2s, filter 0.2s;
-
-        &:hover {
-            background-image: none;
-            filter: brightness(1.05);
-            transform: translateY(-1px);
-        }
-    }
-
-    .support-callout__cta-icon {
-        width: 1.15rem;
-        height: 1.15rem;
-        color: var(--color-kidical-red);
     }
 
     /* ─── /steun-ons — deltas on .activity-hero* / .activity-promises* ─── */
@@ -2186,24 +2280,6 @@ select:focus[data-flux-control] {
         margin-bottom: 1.75rem;
     }
 
-    .steun-cta__btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.95rem 1.875rem;
-        border-radius: 0.875rem;
-        background: var(--color-kidical-blue);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s;
-    }
-
-    .steun-cta__btn:hover {
-        transform: translateY(-2px);
-        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
-    }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -3542,24 +3618,6 @@ select:focus[data-flux-control] {
         max-width: 48ch;
     }
 
-    .grp-cta__btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.95rem 1.875rem;
-        border-radius: 0.875rem;
-        background: var(--color-kidical-blue);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s;
-    }
-
-    .grp-cta__btn:hover {
-        transform: translateY(-2px);
-        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
-    }
 }
 
 @layer components {
@@ -3616,14 +3674,8 @@ select:focus[data-flux-control] {
         grid-template-columns: 1fr;
         align-items: start;            /* top-anchor copy: titles never clip on the fold */
         height: 100%;
-        gap: 1.5rem;
         padding-top: 11rem;            /* clears the floating pill (pill bottom ≈ 5.5rem) + top breathing */
         padding-bottom: 5rem;
-
-        @media (min-width: 768px) {
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 3rem;
-        }
     }
 
     .page-hero__eyebrow {
@@ -3650,22 +3702,31 @@ select:focus[data-flux-control] {
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
 
+    /* Illustration: absolutely positioned within the hero frame, right half.
+       Starts ~7rem from the hero top, bleeds below (clipped by hero's overflow:hidden). */
     .page-hero__visual {
-        display: none;                 /* hidden on narrow screens, no bottom illo */
-        justify-content: center;
-        align-items: center;
-        height: 100%;
+        display: none;
 
         @media (min-width: 768px) {
-            display: flex;
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 52%;
+            pointer-events: none;
         }
     }
 
     .page-hero__illustration {
-        max-height: 90%;
-        max-width: 100%;
+        position: absolute;
+        top: 6.5rem;                   /* ~104px; matches Pencil's y:121 in a 680px frame */
+        right: 0;
+        height: 118%;                  /* bleeds ~18% beyond hero bottom */
         width: auto;
+        max-width: 100%;
         object-fit: contain;
+        object-position: right top;
         animation: hero-photo-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
     }
 
@@ -3690,6 +3751,13 @@ select:focus[data-flux-control] {
         min-height: 60vh;              /* guarantees it can cover the hero */
         padding-top: 2.5rem;
         padding-bottom: 3rem;
+    }
+
+    /* Cancel page-panel pb when last element is a full-bleed closing band — those
+       use negative margin-bottom to eat <main>'s pb-8 themselves. */
+    .page-panel:has(.about-cta),
+    .page-panel:has(.gs-cta) {
+        padding-bottom: 0;
     }
 
     /* .grp-hero__body is styled light-on-blue for the legacy hero; on the white
@@ -3831,8 +3899,8 @@ select:focus[data-flux-control] {
     .about-intent-card:hover .about-intent-card__arrow { transform: translateX(0.35rem); }
 
     /* ─── Contextual Steun ask (Missie post-stats, Organisatie post-money-model) ───
-       White card so it reads as a distinct ask on any ground; the yellow Steun pill
-       (.support-callout__cta, reused) pops on white. */
+       White card so it reads as a distinct ask on any ground; the yellow CTA
+       button (x-cta-button) pops on white. */
     .about-support {
         max-width: 72rem;
         margin-inline: auto;
@@ -3875,7 +3943,6 @@ select:focus[data-flux-control] {
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
     }
 
-    .about-support .support-callout__cta { flex-shrink: 0; }
 }
 
 [x-cloak] { display: none !important; }
