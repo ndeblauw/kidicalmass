@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-04T00:00:00Z",
+  "title": "Design System: Kidical Mass Belgium",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Deep Aubergine",
+        "canonical": "oklch(18% 0.09 295)",
+        "tonalRamp": ["#0e0a1a", "#1a1127", "#281a39", "#3d2b52", "#5c4575", "#8a7aa0", "#bbb3ca", "#e8e4f0"]
+      },
+      "yellow": {
+        "role": "secondary",
+        "displayName": "Summer Lemon",
+        "canonical": "oklch(87% 0.20 96)",
+        "tonalRamp": ["#5a4e00", "#8a7700", "#b89e00", "#dbbf00", "#f9d924", "#fce560", "#fee99a", "#fff6d4"]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Belgian Cerulean",
+        "canonical": "oklch(45% 0.19 264)",
+        "tonalRamp": ["#0a1f4d", "#0f2e6e", "#1645a0", "#1d67cd", "#4c8be0", "#7aacec", "#aecdf5", "#deeafb"]
+      },
+      "red": {
+        "role": "accent",
+        "displayName": "Berry Magenta",
+        "canonical": "oklch(55% 0.23 350)",
+        "tonalRamp": ["#4a0d24", "#731936", "#a12651", "#ce346d", "#E63A7B", "#ef6e9b", "#f4a3bc", "#fad7e3"]
+      },
+      "green": {
+        "role": "tertiary",
+        "displayName": "Field Green",
+        "canonical": "oklch(65% 0.16 145)",
+        "tonalRamp": ["#173d17", "#235923", "#336e33", "#448a44", "#5CB85C", "#85cc85", "#b0dfb0", "#ddf2dd"]
+      },
+      "orange": {
+        "role": "tertiary",
+        "displayName": "Tangerine Orange",
+        "canonical": "oklch(65% 0.18 48)",
+        "tonalRamp": ["#4a2000", "#7a3800", "#a35000", "#c96718", "#F0803C", "#f7a472", "#facaad", "#fde8d8"]
+      },
+      "sky": {
+        "role": "tertiary",
+        "displayName": "Kidical Sky",
+        "canonical": "oklch(73% 0.13 213)",
+        "tonalRamp": ["#083343", "#0d4e66", "#1272a0", "#2295c9", "#40c0f2", "#7bd2f6", "#b2e5fb", "#dff3fe"]
+      },
+      "light-blue": {
+        "role": "neutral",
+        "displayName": "Ice Blue",
+        "canonical": "oklch(90% 0.04 213)",
+        "tonalRamp": ["#1a3d4d", "#295e70", "#3c8299", "#5baabb", "#8dcfe0", "#B7E7F0", "#d6f2f8", "#edfafe"]
+      },
+      "light-yellow": {
+        "role": "neutral",
+        "displayName": "Butter Yellow",
+        "canonical": "oklch(95% 0.05 96)",
+        "tonalRamp": ["#4a3e00", "#756200", "#a08600", "#cab000", "#e8cd3a", "#f3e07e", "#f8ecb0", "#FEF3D5"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero h1 — one per page, tilted −3°." },
+      "headline": { "displayName": "Headline", "purpose": "Band and section h2. Never tilted." },
+      "title": { "displayName": "Title", "purpose": "Card headings, h3 sub-sections." },
+      "body": { "displayName": "Body", "purpose": "All flowing copy, max 48rem width." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, dt terms, timestamps, category tags — uppercase." }
+    },
+    "shadows": [
+      { "name": "float", "value": "0 4px 20px rgba(0, 0, 0, 0.08)", "purpose": "Resting content cards — faint ambient lift from coloured band background." },
+      { "name": "deep-float", "value": "0 6px 30px rgba(0, 0, 0, 0.10)", "purpose": "Stacking-card sequences with extra presence." },
+      { "name": "nav", "value": "0 0.5rem 1.5rem -0.5rem color-mix(in oklab, #281a39, transparent 70%)", "purpose": "Floating nav pill — brand-tinted, not generic grey." },
+      { "name": "hover-lift", "value": "0 14px 30px -12px color-mix(in oklab, #281a39, transparent 55%)", "purpose": "Card hover state — communicates interactivity." },
+      { "name": "portrait", "value": "0 18px 44px -18px color-mix(in oklab, #281a39, transparent 45%)", "purpose": "Tall sticky photo frames in scrollytelling sections." }
+    ],
+    "motion": [
+      { "name": "ease-brand", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Standard ease-out for all entrance and hover animations." },
+      { "name": "ease-nav", "value": "ease-out", "purpose": "Link hover underline grow." },
+      { "name": "duration-fast", "value": "0.15s", "purpose": "Quick state changes: border focus, opacity hover." },
+      { "name": "duration-standard", "value": "0.2s", "purpose": "Hover transforms and background transitions." },
+      { "name": "duration-entrance", "value": "0.6s", "purpose": "Hero entrance animations with staggered delays." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "480px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary CTA Pill",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Summer Lemon pill — the primary ride/join call-to-action across the whole site.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Doe mee aan een rit</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; background: #f9d924; color: #281a39; font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1; padding: 0.75rem 1.5rem; text-decoration: none; box-shadow: 0 1px 3px rgba(0,0,0,0.10); transition: background 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-primary:hover { background: oklch(97% 0.005 95); transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 3px solid #281a39; outline-offset: 3px; }"
+    },
+    {
+      "name": "Action Button — Blue",
+      "kind": "button",
+      "refersTo": "button-cta",
+      "description": "Belgian Cerulean fill action button — secondary CTA on yellow bands or closing page beats.",
+      "html": "<a class=\"ds-btn-cta\" href=\"#\">Vind een groep</a>",
+      "css": ".ds-btn-cta { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.875rem; background: #1d67cd; color: #ffffff; font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 800; font-size: 1.125rem; line-height: 1; padding: 0.95rem 1.875rem; text-decoration: none; transition: background 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-cta:hover { background: color-mix(in oklab, #1d67cd, black 10%); transform: translateY(-2px); } .ds-btn-cta:focus-visible { outline: 3px solid #281a39; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent with inset border — always paired alongside a filled action button.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Meer lezen</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.875rem; background: transparent; color: #281a39; font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 800; font-size: 1.125rem; line-height: 1; padding: 0.95rem 1.875rem; text-decoration: none; box-shadow: inset 0 0 0 2px rgba(40, 26, 57, 0.40); transition: box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); } .ds-btn-ghost:hover { box-shadow: inset 0 0 0 2px #281a39; transform: translateY(-2px); } .ds-btn-ghost:focus-visible { outline: 3px solid #281a39; outline-offset: 3px; }"
+    },
+    {
+      "name": "Icon Chip",
+      "kind": "custom",
+      "refersTo": "icon-chip",
+      "description": "Berry Magenta rounded-square with white icon — the site's most recognisable micro-component.",
+      "html": "<div class=\"ds-icon-chip\" aria-hidden=\"true\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div>",
+      "css": ".ds-icon-chip { width: 3.5rem; height: 3.5rem; background: #E63A7B; border-radius: 28%; transform: rotate(-3deg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; } .ds-icon-chip svg { width: 1.85rem; height: 1.85rem; color: white; }"
+    },
+    {
+      "name": "Event Card",
+      "kind": "card",
+      "refersTo": "event-card",
+      "description": "The agenda list unit. Where-first layout: location + title are the scan targets; time is secondary.",
+      "html": "<a class=\"ds-event-card\" href=\"#\"><div class=\"ds-event-card__body\"><p class=\"ds-event-card__title\">Kidical Mass Gent</p><p class=\"ds-event-card__loc\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg><span>Vrijdagmarkt</span></p></div><div class=\"ds-event-card__when\"><span class=\"ds-event-card__date\">Za 14 jun</span><span class=\"ds-event-card__time\">10:00</span></div></a>",
+      "css": ".ds-event-card { display: flex; gap: 1rem; justify-content: space-between; align-items: flex-start; padding: 1rem 1.25rem; border: 1px solid rgba(40, 26, 57, 0.10); border-radius: 1rem; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); text-decoration: none; transition: box-shadow 0.18s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.18s, transform 0.18s; } .ds-event-card:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(0,0,0,0.10); border-color: rgba(29, 103, 205, 0.45); } .ds-event-card__body { min-width: 0; display: flex; flex-direction: column; gap: 0.4rem; } .ds-event-card__title { font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 800; font-size: 1.25rem; line-height: 1.15; color: #1d67cd; margin: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; } .ds-event-card__loc { display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; font-weight: 600; color: rgba(40,26,57,0.82); margin: 0; } .ds-event-card__loc svg { color: #E63A7B; flex-shrink: 0; } .ds-event-card__when { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.05rem; padding-top: 0.15rem; } .ds-event-card__date { font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: #E63A7B; } .ds-event-card__time { font-size: 0.875rem; font-weight: 600; color: rgba(40,26,57,0.42); }"
+    },
+    {
+      "name": "Nav Support Pill",
+      "kind": "nav",
+      "refersTo": "button-primary",
+      "description": "Summer Lemon pill with Berry Magenta heart — the header's CTA and the footer's donate/support link.",
+      "html": "<a class=\"ds-nav-support\" href=\"#\"><svg class=\"ds-nav-support__icon\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z\"/></svg>Steun ons</a>",
+      "css": ".ds-nav-support { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; border-radius: 9999px; background-color: #f9d924; color: #281a39; font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 700; font-size: 0.875rem; line-height: 1; text-decoration: none; transition: filter 0.2s, transform 0.2s; } .ds-nav-support:hover { filter: brightness(1.05); transform: translateY(-1px); } .ds-nav-support__icon { width: 1.1rem; height: 1.1rem; color: #E63A7B; flex-shrink: 0; } .ds-nav-support:focus-visible { outline: 3px solid #281a39; outline-offset: 3px; }"
+    },
+    {
+      "name": "Featured Event Badge",
+      "kind": "chip",
+      "description": "Inline badge for Grande Kidical Mass or featured rides — Tangerine star badge inside the event card.",
+      "html": "<span class=\"ds-featured-badge\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg>Grande Kidical Mass</span>",
+      "css": ".ds-featured-badge { display: inline-flex; align-items: center; gap: 0.25rem; font-family: 'Caprasimo', 'Poppins', sans-serif; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #F0803C; padding: 0; }"
+    },
+    {
+      "name": "Form Input",
+      "kind": "input",
+      "description": "Standard text input for volunteer and chapter notification forms.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field__label\" for=\"ds-input\">Je e-mailadres</label><input class=\"ds-field__input\" id=\"ds-input\" type=\"email\" placeholder=\"naam@voorbeeld.be\"></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 0.375rem; } .ds-field__label { font-size: 0.875rem; font-weight: 700; color: rgba(40,26,57,0.70); text-transform: uppercase; letter-spacing: 0.06em; } .ds-field__input { width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(40,26,57,0.18); border-radius: 0.75rem; font-size: 1.125rem; font-family: 'Nunito Sans', ui-sans-serif, sans-serif; font-weight: 400; color: #281a39; background: white; outline: none; transition: border-color 0.15s; } .ds-field__input:focus { border-color: #E63A7B; } .ds-field__input::placeholder { color: rgba(40,26,57,0.45); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sunday Morning Carnival",
+    "overview": "Kidical Mass Belgium is serious advocacy wearing its most joyful outfit. The visual system is bold, chromatic, and unabashedly local. It feels like the best school-run day of the year: real families, real streets, a sense that anyone on the pavement can join. Every colour choice is a commitment — the blue says here, the yellow says yes, the ink says real.\n\nThe system is built as a vertical stack of full-bleed colour bands. Each page composes its own sequence from the brand palette; no two pages need to match. The components — hero panels, promise cards, icon chips, event cards — are the recurring grammar. The colour sequence is the poetry.\n\nThe system explicitly rejects: guilt-laced charity palette and donation-CTA-every-scroll; the soulless events-platform grid; municipal information architecture with bureaucratic density; protest-poster maximalism or confrontational tone.",
+    "keyCharacteristics": [
+      "Full-bleed colour bands compose each page's unique palette sequence.",
+      "Hero headline at −3° tilt (h1 only, once per page) as the signature display gesture.",
+      "Icon chips: rounded-square (28% radius), Berry Magenta fill, white icon — the most recognisable repeating motif.",
+      "Summer Lemon as the single energy accent: CTAs, hover underlines, action bars on dark grounds.",
+      "Entrance animations on cubic-bezier(0.22, 1, 0.36, 1) ease-out, always reduced-motion aware.",
+      "Tilt is retiring as a card motif. Going forward: flat cards, tilt reserved for the hero h1 and icon chips."
+    ],
+    "rules": [
+      { "name": "The Yellow Rule", "body": "Summer Lemon fills CTAs and active states. Butter Yellow fills quiet warm surfaces. They are not interchangeable. If the context needs to read as action, use Summer Lemon. If it needs to read as warm background, use Butter Yellow.", "section": "colors" },
+      { "name": "The Band Palette Rule", "body": "Pages are composed from brand grounds (blue, sky, light-blue, yellow, orange gradient, white). No page uses every colour. Adjacent bands must contrast visually — two near-identical hues touching is prohibited.", "section": "colors" },
+      { "name": "The Ink Rule", "body": "Deep Aubergine is the text colour everywhere. Never substitute a generic grey in a context where the body ink or a brand-tinted color-mix would do the same job.", "section": "colors" },
+      { "name": "The One-Weight Heading Rule", "body": "All headings use Caprasimo at one effective weight (800). Scale and colour create the hierarchy — never weight variation.", "section": "typography" },
+      { "name": "The Body Width Rule", "body": "Flowing body text is capped at max-width ~48rem. Prose columns never exceed 65ch.", "section": "typography" },
+      { "name": "The Lead Rule", "body": "Hero lead paragraphs use Nunito Sans 400 — not Caprasimo, not bold. They sit calmly under the Caprasimo title.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Every element starts with no shadow. A shadow is earned by: (1) the element floats over other content; (2) it carries a hover/active state; (3) it is a feature image that needs visual separation. Ambient decorative shadows are prohibited.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Summer Lemon for the primary ride CTA across all pages.",
+      "Do compose each page as a unique sequence of colour bands.",
+      "Do use the full-bleed band mechanic (width: 100vw; margin-left: calc(50% - 50vw)) for all coloured sections.",
+      "Do tilt only the hero h1 (−3°) and the icon chip (−3°).",
+      "Do keep body prose under max-width ~48rem and 65ch.",
+      "Do use icon chips (Berry Magenta, 28% radius, white icon) as the primary visual accent in info lists.",
+      "Do add every entrance animation to the prefers-reduced-motion opt-out block in app.css.",
+      "Do use color-mix(in oklab, …) for brand-tinted shadows and muted text.",
+      "Do reference brand tokens as CSS custom properties or Tailwind utilities — never hardcode hex in templates.",
+      "Do use real faces, local street names, and actual chapter data over stock imagery."
+    ],
+    "donts": [
+      "Don't treat the site as an NGO charity page — no guilt-laced stock-photo banner, no donation CTA every scroll.",
+      "Don't build a generic events-platform grid (Eventbrite/Meetup aesthetic).",
+      "Don't apply municipal information architecture — bureaucratic density, grey-on-grey.",
+      "Don't use protest-poster maximalism or confrontational activist tone.",
+      "Don't tilt cards or band/section headings. Card tilt is deprecated for new components.",
+      "Don't add em dashes in copy — use commas, colons, semicolons, or periods.",
+      "Don't use border-left or border-right greater than 1px as a coloured stripe accent.",
+      "Don't use background-clip: text with a gradient background (gradient text).",
+      "Don't use glassmorphism or blur-card decorations.",
+      "Don't substitute generic grey neutrals where a brand-tinted color-mix keeps the palette family warm.",
+      "Don't use identical card grids without compositional variation."
+    ]
+  }
+}

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA Card Playground</title>
+<link href="https://fonts.bunny.net/css?family=caprasimo:400%7Cnunito-sans:400,700" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #111;
+    color: #e0e0e0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+  }
+
+  /* ── Controls panel ── */
+  #controls {
+    background: #1a1a1a;
+    border-right: 1px solid #2a2a2a;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .panel-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #666;
+    margin: 14px 0 8px;
+  }
+  .panel-title:first-child { margin-top: 0; }
+
+  .control-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+
+  .control-label {
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .control-label span { color: #ccc; font-variant-numeric: tabular-nums; }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #f9d924;
+    cursor: pointer;
+  }
+
+  select {
+    background: #222;
+    border: 1px solid #333;
+    color: #ccc;
+    font-size: 12px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    width: 100%;
+    outline: none;
+  }
+  select:focus { border-color: #555; }
+
+  .swatch-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .swatch {
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform .1s, border-color .1s;
+    position: relative;
+    overflow: hidden;
+  }
+  .swatch:hover { transform: scale(1.05); }
+  .swatch.active { border-color: #fff; }
+  .swatch-label { font-size: 9px; text-align: center; color: #888; margin-top: 2px; }
+
+  .preset-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .preset-btn {
+    background: #222;
+    border: 1px solid #333;
+    color: #bbb;
+    font-size: 11px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    transition: background .15s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .preset-btn:hover { background: #2a2a2a; color: #fff; }
+  .preset-btn .preset-desc { font-size: 10px; color: #555; }
+
+  .divider { height: 1px; background: #222; margin: 6px 0; }
+
+  /* ── Right side: preview + prompt ── */
+  #right {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+  }
+
+  #preview-area {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d0d0d;
+    position: relative;
+  }
+
+  /* The mock page context */
+  .page-mock {
+    width: 700px;
+    max-width: 90%;
+    border-radius: 12px;
+    overflow: visible;
+    position: relative;
+  }
+
+  .mock-content {
+    background: white;
+    padding: 40px 48px 56px;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+  }
+
+  .mock-content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: .18;
+  }
+
+  .mock-line { background: #281a39; border-radius: 3px; }
+
+  .mock-partners {
+    background: #1d67cd;
+    padding: 28px 32px;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mock-partners-label {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    white-space: nowrap;
+  }
+
+  .mock-partner-logos {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mock-logo {
+    width: 36px;
+    height: 24px;
+    background: rgba(255,255,255,.2);
+    border-radius: 4px;
+  }
+
+  /* The floating CTA card */
+  .cta-card-wrapper {
+    position: absolute;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    transition: bottom .3s cubic-bezier(.22,1,.36,1);
+  }
+
+  .cta-card {
+    width: 100%;
+    max-width: 520px;
+    padding: 32px 36px;
+    transition: all .3s cubic-bezier(.22,1,.36,1);
+    position: relative;
+  }
+
+  .cta-card__title {
+    font-family: 'Caprasimo', 'Poppins', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: font-size .2s;
+  }
+
+  .cta-card__sub {
+    font-family: 'Nunito Sans', sans-serif;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    transition: color .2s;
+  }
+
+  .cta-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    font-family: 'Caprasimo', sans-serif;
+    font-size: 16px;
+    background: #1d67cd;
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 13px 22px 13px 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform .15s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); }
+
+  .btn-primary .arrow-circle {
+    width: 30px;
+    height: 30px;
+    background: #E63A7B;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .btn-secondary {
+    font-family: 'Caprasimo', sans-serif;
+    font-size: 16px;
+    background: transparent;
+    border-radius: 100px;
+    padding: 13px 22px;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .btn-secondary:hover { transform: translateY(-1px); }
+
+  /* ── Prompt area ── */
+  #prompt-area {
+    background: #161616;
+    border-top: 1px solid #222;
+    padding: 14px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  #prompt-text {
+    flex: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  #copy-btn {
+    background: #222;
+    border: 1px solid #333;
+    color: #ccc;
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+  #copy-btn:hover { background: #2d2d2d; }
+  #copy-btn.copied { color: #f9d924; border-color: #f9d924; }
+
+  /* toggle switch */
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #999;
+  }
+  .toggle {
+    position: relative;
+    width: 32px;
+    height: 18px;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: #333;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .toggle input:checked + .toggle-track { background: #f9d924; }
+  .toggle-thumb {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: white;
+    border-radius: 50%;
+    transition: transform .2s;
+    pointer-events: none;
+  }
+  .toggle input:checked ~ .toggle-thumb { transform: translateX(14px); }
+</style>
+</head>
+<body>
+
+<!-- ── Controls ── -->
+<aside id="controls">
+
+  <div class="panel-title">Presets</div>
+  <div class="preset-row">
+    <button class="preset-btn" onclick="applyPreset('floatingYellow')">
+      Floating Yellow <span class="preset-desc">overlap + shadow</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('nightShift')">
+      Night Shift <span class="preset-desc">ink card, split layout</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('compactPill')">
+      Compact Pill <span class="preset-desc">deep overlap, pill</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('cloudWhite')">
+      Cloud <span class="preset-desc">white, elevated</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('skyDrift')">
+      Sky Drift <span class="preset-desc">light-blue, split</span>
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="panel-title">Card background</div>
+  <div class="swatch-row" id="bg-swatches">
+    <div>
+      <div class="swatch active" data-bg="yellow" style="background:#f9d924" onclick="setSwatch('bg','yellow',this)"></div>
+      <div class="swatch-label">Yellow</div>
+    </div>
+    <div>
+      <div class="swatch" data-bg="ink" style="background:#281a39" onclick="setSwatch('bg','ink',this)"></div>
+      <div class="swatch-label">Ink</div>
+    </div>
+    <div>
+      <div class="swatch" data-bg="white" style="background:#fff; border:1px solid #333" onclick="setSwatch('bg','white',this)"></div>
+      <div class="swatch-label">White</div>
+    </div>
+    <div>
+      <div class="swatch" data-bg="sky" style="background:#B7E7F0" onclick="setSwatch('bg','sky',this)"></div>
+      <div class="swatch-label">Sky</div>
+    </div>
+  </div>
+
+  <div class="panel-title">Shape & Size</div>
+
+  <div class="control-row">
+    <div class="control-label">Border radius <span id="val-radius">32px</span></div>
+    <input type="range" id="ctrl-radius" min="8" max="80" value="32" oninput="updateState('radius', +this.value)">
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">Padding <span id="val-padding">32px</span></div>
+    <input type="range" id="ctrl-padding" min="16" max="56" value="32" oninput="updateState('padding', +this.value)">
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">Max width <span id="val-width">520px</span></div>
+    <input type="range" id="ctrl-width" min="320" max="640" value="520" step="8" oninput="updateState('width', +this.value)">
+  </div>
+
+  <div class="panel-title">Position</div>
+
+  <div class="control-row">
+    <div class="control-label">Overlap into partners <span id="val-overlap">40px</span></div>
+    <input type="range" id="ctrl-overlap" min="0" max="80" value="40" oninput="updateState('overlap', +this.value)">
+  </div>
+
+  <div class="panel-title">Shadow</div>
+
+  <div class="control-row">
+    <select id="ctrl-shadow" onchange="updateState('shadow', this.value)">
+      <option value="none">None</option>
+      <option value="soft">Soft (lifted slightly)</option>
+      <option value="elevated" selected>Elevated (clear depth)</option>
+      <option value="floating">Floating (dramatic)</option>
+    </select>
+  </div>
+
+  <div class="panel-title">Layout</div>
+
+  <div class="control-row">
+    <select id="ctrl-layout" onchange="updateState('layout', this.value)">
+      <option value="centered" selected>Centered stack</option>
+      <option value="split">Left-right split</option>
+    </select>
+  </div>
+
+  <div class="panel-title">Secondary button</div>
+
+  <div class="control-row">
+    <select id="ctrl-sec-btn" onchange="updateState('secBtn', this.value)">
+      <option value="ghost">Ghost outline</option>
+      <option value="ink" selected>Ink fill</option>
+      <option value="textlink">Text link →</option>
+    </select>
+  </div>
+
+  <div class="panel-title">Typography</div>
+
+  <div class="control-row">
+    <div class="control-label">Title size <span id="val-titleSize">28px</span></div>
+    <input type="range" id="ctrl-titleSize" min="20" max="42" value="28" oninput="updateState('titleSize', +this.value)">
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">Sub line length <span id="val-subWidth">32ch</span></div>
+    <input type="range" id="ctrl-subWidth" min="20" max="48" value="32" oninput="updateState('subWidth', +this.value)">
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="toggle-row">
+    Show sub text
+    <label class="toggle">
+      <input type="checkbox" id="ctrl-showSub" checked onchange="updateState('showSub', this.checked)">
+      <div class="toggle-track"></div>
+      <div class="toggle-thumb"></div>
+    </label>
+  </div>
+
+</aside>
+
+<!-- ── Right: preview + prompt ── -->
+<div id="right">
+  <div id="preview-area">
+    <div class="page-mock">
+
+      <!-- Content above (mocked) -->
+      <div class="mock-content" id="mock-content">
+        <div class="mock-content-inner">
+          <div class="mock-line" style="height:10px; width:40%"></div>
+          <div class="mock-line" style="height:7px; width:90%"></div>
+          <div class="mock-line" style="height:7px; width:75%"></div>
+          <div class="mock-line" style="height:7px; width:82%"></div>
+          <div class="mock-line" style="height:7px; width:60%"></div>
+          <div style="height:8px"></div>
+          <div class="mock-line" style="height:7px; width:88%"></div>
+          <div class="mock-line" style="height:7px; width:70%"></div>
+        </div>
+      </div>
+
+      <!-- Partners strip -->
+      <div class="mock-partners" id="mock-partners">
+        <div class="mock-partners-label">Mede mogelijk<br>gemaakt door</div>
+        <div class="mock-partner-logos">
+          <div class="mock-logo"></div>
+          <div class="mock-logo"></div>
+          <div class="mock-logo"></div>
+          <div class="mock-logo"></div>
+          <div class="mock-logo"></div>
+        </div>
+      </div>
+
+      <!-- Floating CTA card -->
+      <div class="cta-card-wrapper" id="card-wrapper">
+        <div class="cta-card" id="cta-card">
+          <div class="cta-card__title" id="card-title">Doe mee met de beweging</div>
+          <div class="cta-card__sub" id="card-sub">Word vrijwilliger en help ritten mogelijk maken, of rij gewoon eens mee.</div>
+          <div class="cta-card__actions" id="card-actions">
+            <button class="btn-primary">
+              Help mee
+              <span class="arrow-circle">→</span>
+            </button>
+            <button class="btn-secondary" id="btn-sec">Vind een rit →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Prompt output -->
+  <div id="prompt-area">
+    <div id="prompt-text"></div>
+    <button id="copy-btn" onclick="copyPrompt()">Copy prompt</button>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────
+const DEFAULTS = {
+  bg: 'yellow',
+  radius: 32,
+  padding: 32,
+  width: 520,
+  overlap: 40,
+  shadow: 'elevated',
+  layout: 'centered',
+  secBtn: 'ink',
+  titleSize: 28,
+  subWidth: 32,
+  showSub: true,
+};
+
+const state = { ...DEFAULTS };
+
+// Color map
+const BG = {
+  yellow: { card: '#f9d924', title: '#281a39', sub: '#281a39', subOpacity: .72, ghost: '#281a39' },
+  ink:    { card: '#281a39', title: '#f9d924', sub: '#ffffff', subOpacity: .7,  ghost: '#f9d924' },
+  white:  { card: '#ffffff', title: '#281a39', sub: '#281a39', subOpacity: .65, ghost: '#281a39' },
+  sky:    { card: '#B7E7F0', title: '#281a39', sub: '#281a39', subOpacity: .72, ghost: '#281a39' },
+};
+
+const SHADOWS = {
+  none:     'none',
+  soft:     '0 4px 16px rgba(0,0,0,.10)',
+  elevated: '0 8px 32px rgba(0,0,0,.16), 0 2px 8px rgba(0,0,0,.08)',
+  floating: '0 16px 48px rgba(0,0,0,.22), 0 4px 12px rgba(0,0,0,.12)',
+};
+
+// ── Update ─────────────────────────────────────────────────────────────
+function updateState(key, val) {
+  state[key] = val;
+  // sync slider labels
+  const map = { radius:'val-radius', padding:'val-padding', width:'val-width',
+                overlap:'val-overlap', titleSize:'val-titleSize', subWidth:'val-subWidth' };
+  const unit = { radius:'px', padding:'px', width:'px', overlap:'px', titleSize:'px', subWidth:'ch' };
+  if (map[key]) document.getElementById(map[key]).textContent = val + (unit[key] || '');
+  renderAll();
+}
+
+function setSwatch(group, val, el) {
+  document.querySelectorAll(`[data-${group}]`).forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  state[group] = val;
+  renderAll();
+}
+
+// ── Render ─────────────────────────────────────────────────────────────
+function renderAll() {
+  const c = BG[state.bg];
+  const card = document.getElementById('cta-card');
+  const wrapper = document.getElementById('card-wrapper');
+  const title = document.getElementById('card-title');
+  const sub = document.getElementById('card-sub');
+  const actions = document.getElementById('card-actions');
+  const secBtn = document.getElementById('btn-sec');
+  const partners = document.getElementById('mock-partners');
+  const mockContent = document.getElementById('mock-content');
+
+  // Card base
+  card.style.background = c.card;
+  card.style.borderRadius = state.radius + 'px';
+  card.style.padding = state.padding + 'px';
+  card.style.maxWidth = state.width + 'px';
+  card.style.width = '100%';
+  card.style.boxShadow = SHADOWS[state.shadow];
+
+  // Title
+  title.style.color = c.title;
+  title.style.fontSize = state.titleSize + 'px';
+
+  // Sub
+  sub.style.color = c.sub;
+  sub.style.opacity = c.subOpacity;
+  sub.style.maxWidth = state.subWidth + 'ch';
+  sub.style.margin = state.layout === 'centered' ? '0 auto 24px' : '0 0 24px';
+  sub.style.display = state.showSub ? 'block' : 'none';
+
+  // Layout
+  if (state.layout === 'split') {
+    card.style.display = 'grid';
+    card.style.gridTemplateColumns = '1fr auto';
+    card.style.alignItems = 'center';
+    card.style.gap = '24px';
+    title.style.textAlign = 'left';
+    sub.style.textAlign = 'left';
+    actions.style.justifyContent = 'flex-end';
+    actions.style.flexDirection = 'column';
+    actions.style.width = 'max-content';
+    // wrap text nodes in a div
+    if (!card.querySelector('.card-text')) {
+      const textWrap = document.createElement('div');
+      textWrap.className = 'card-text';
+      textWrap.appendChild(title);
+      textWrap.appendChild(sub);
+      card.insertBefore(textWrap, actions);
+    }
+  } else {
+    card.style.display = 'block';
+    title.style.textAlign = 'center';
+    sub.style.textAlign = 'center';
+    actions.style.justifyContent = 'center';
+    actions.style.flexDirection = 'row';
+    actions.style.width = 'auto';
+    if (card.querySelector('.card-text')) {
+      const textWrap = card.querySelector('.card-text');
+      card.insertBefore(title, textWrap);
+      card.insertBefore(sub, textWrap);
+      textWrap.remove();
+    }
+  }
+
+  // Secondary button
+  secBtn.style.fontFamily = "'Caprasimo', sans-serif";
+  secBtn.style.fontSize = '16px';
+  secBtn.style.borderRadius = '100px';
+  secBtn.style.padding = '13px 22px';
+  secBtn.style.cursor = 'pointer';
+  secBtn.style.border = 'none';
+  secBtn.style.transition = 'transform .15s';
+
+  if (state.secBtn === 'ghost') {
+    secBtn.style.background = 'transparent';
+    secBtn.style.color = c.ghost;
+    secBtn.style.boxShadow = `inset 0 0 0 2px ${c.ghost}`;
+    secBtn.textContent = 'Vind een rit →';
+  } else if (state.secBtn === 'ink') {
+    const inkBg = state.bg === 'ink' ? '#f9d924' : '#281a39';
+    const inkFg = state.bg === 'ink' ? '#281a39' : '#ffffff';
+    secBtn.style.background = inkBg;
+    secBtn.style.color = inkFg;
+    secBtn.style.boxShadow = 'none';
+    secBtn.textContent = 'Vind een rit →';
+  } else {
+    secBtn.style.background = 'transparent';
+    secBtn.style.color = c.ghost;
+    secBtn.style.boxShadow = 'none';
+    secBtn.textContent = 'Vind een rit →';
+  }
+
+  // Overlap: position wrapper
+  const overlapPx = state.overlap;
+  wrapper.style.bottom = (-overlapPx) + 'px';
+  mockContent.style.paddingBottom = (state.padding + 8 + overlapPx / 2) + 'px';
+  partners.style.paddingTop = (24 + overlapPx) + 'px';
+
+  updatePrompt();
+}
+
+// ── Prompt ─────────────────────────────────────────────────────────────
+function updatePrompt() {
+  const parts = [];
+
+  const bgLabels = { yellow: 'yellow (#f9d924)', ink: 'deep ink (#281a39)', white: 'white', sky: 'light-blue (#B7E7F0)' };
+  parts.push(`Redesign the about-cta as a compact floating card with a ${bgLabels[state.bg]} background`);
+
+  parts.push(`${state.radius}px border-radius`);
+  parts.push(`${state.padding}px padding`);
+  parts.push(`max-width ${state.width}px`);
+
+  if (state.overlap > 0) {
+    parts.push(`overlapping ${state.overlap}px into the partners strip below`);
+  }
+
+  const shadowLabels = { none: 'no shadow', soft: 'a soft lift shadow', elevated: 'a clear elevated shadow', floating: 'a dramatic floating shadow' };
+  if (state.shadow !== 'none') parts.push(shadowLabels[state.shadow]);
+
+  const layoutLabels = { centered: 'centered text and buttons stacked vertically', split: 'split layout with text on the left and buttons stacked on the right' };
+  parts.push(layoutLabels[state.layout]);
+
+  const secLabels = { ghost: 'a ghost outline secondary button', ink: 'a solid ink-filled secondary button', textlink: 'a text-link secondary action' };
+  parts.push(secLabels[state.secBtn]);
+
+  if (!state.showSub) parts.push('no sub-heading — title and buttons only');
+  if (state.titleSize !== DEFAULTS.titleSize) parts.push(`title at ${state.titleSize}px`);
+
+  document.getElementById('prompt-text').textContent =
+    parts.join(', ') + '.';
+}
+
+// ── Copy ───────────────────────────────────────────────────────────────
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('copied'); }, 1600);
+  });
+}
+
+// ── Presets ────────────────────────────────────────────────────────────
+const PRESETS = {
+  floatingYellow: { bg:'yellow', radius:32, padding:36, width:520, overlap:44, shadow:'elevated', layout:'centered', secBtn:'ink', titleSize:28, subWidth:32, showSub:true },
+  nightShift:     { bg:'ink',    radius:20, padding:32, width:580, overlap:32, shadow:'floating', layout:'split',    secBtn:'ink', titleSize:26, subWidth:36, showSub:true },
+  compactPill:    { bg:'yellow', radius:72, padding:28, width:440, overlap:56, shadow:'floating', layout:'centered', secBtn:'ghost', titleSize:24, subWidth:28, showSub:false },
+  cloudWhite:     { bg:'white',  radius:20, padding:40, width:520, overlap:48, shadow:'elevated', layout:'centered', secBtn:'ink',   titleSize:30, subWidth:32, showSub:true },
+  skyDrift:       { bg:'sky',    radius:24, padding:32, width:560, overlap:36, shadow:'soft',    layout:'split',    secBtn:'ink',   titleSize:26, subWidth:38, showSub:true },
+};
+
+function applyPreset(name) {
+  const p = PRESETS[name];
+  Object.assign(state, p);
+
+  // Sync all controls
+  document.getElementById('ctrl-radius').value = p.radius;
+  document.getElementById('val-radius').textContent = p.radius + 'px';
+  document.getElementById('ctrl-padding').value = p.padding;
+  document.getElementById('val-padding').textContent = p.padding + 'px';
+  document.getElementById('ctrl-width').value = p.width;
+  document.getElementById('val-width').textContent = p.width + 'px';
+  document.getElementById('ctrl-overlap').value = p.overlap;
+  document.getElementById('val-overlap').textContent = p.overlap + 'px';
+  document.getElementById('ctrl-shadow').value = p.shadow;
+  document.getElementById('ctrl-layout').value = p.layout;
+  document.getElementById('ctrl-sec-btn').value = p.secBtn;
+  document.getElementById('ctrl-titleSize').value = p.titleSize;
+  document.getElementById('val-titleSize').textContent = p.titleSize + 'px';
+  document.getElementById('ctrl-subWidth').value = p.subWidth;
+  document.getElementById('val-subWidth').textContent = p.subWidth + 'ch';
+  document.getElementById('ctrl-showSub').checked = p.showSub;
+
+  // Sync swatches
+  document.querySelectorAll('[data-bg]').forEach(s => {
+    s.classList.toggle('active', s.dataset.bg === p.bg);
+  });
+
+  renderAll();
+}
+
+// ── Init ───────────────────────────────────────────────────────────────
+renderAll();
+</script>
+</body>
+</html>

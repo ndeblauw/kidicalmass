@@ -1,0 +1,1813 @@
+{
+  "version": "2.13",
+  "children": [
+    {
+      "type": "frame",
+      "id": "UnpJT",
+      "x": 0,
+      "y": 0,
+      "name": "Getting Started — Desktop",
+      "clip": true,
+      "width": 1440,
+      "fill": "$kidical-blue",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "l8hpL8",
+          "name": "Nav Bar",
+          "width": 1440,
+          "height": 72,
+          "fill": "#ffffffff",
+          "cornerRadius": 20,
+          "layout": "none",
+          "children": [
+            {
+              "type": "group",
+              "id": "lnSgq",
+              "x": 168,
+              "y": 13,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "eBmHD",
+                  "x": 1187.9366626065773,
+                  "y": 0,
+                  "name": "Support Button",
+                  "width": 156.06333739342267,
+                  "height": 46,
+                  "fill": "$kidical-yellow",
+                  "cornerRadius": 999,
+                  "gap": 6,
+                  "padding": [
+                    8,
+                    18,
+                    8,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "t8HF7",
+                      "name": "Heart Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "heart",
+                      "library": "lucide",
+                      "fill": "$kidical-red"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fGX0s",
+                      "name": "Support Label",
+                      "fill": "$kidical-ink",
+                      "content": "Support",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "F9fY4",
+                  "x": 430.5383678440926,
+                  "y": 18,
+                  "name": "Nav Links",
+                  "gap": 36,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "P7d3i",
+                      "name": "Nav: Activiteiten",
+                      "fill": "$kidical-ink",
+                      "content": "Activiteiten",
+                      "lineHeight": 1.27,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "$font-body",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CtfCO",
+                      "name": "Nav: Afdelingen",
+                      "fill": "$kidical-ink",
+                      "content": "Afdelingen",
+                      "lineHeight": 1.27,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "$font-body",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wdY6e",
+                      "name": "Nav: Voor het eerst",
+                      "fill": "$kidical-ink",
+                      "content": "Voor het eerst",
+                      "lineHeight": 1.27,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "$font-body",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Mh6N5",
+                      "name": "Nav: Meedoen",
+                      "fill": "$kidical-ink",
+                      "content": "Meedoen",
+                      "lineHeight": 1.27,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "$font-body",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "arsJT",
+                      "name": "Nav: Over ons",
+                      "fill": "$kidical-ink",
+                      "content": "Over ons",
+                      "lineHeight": 1.27,
+                      "textAlignVertical": "middle",
+                      "fontFamily": "$font-body",
+                      "fontSize": 17,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "bvund",
+                  "x": 0,
+                  "y": 14.5,
+                  "name": "Logo",
+                  "fill": "$kidical-red",
+                  "content": "Kidical Mass",
+                  "fontFamily": "Fredoka",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "piznv",
+          "name": "Hero Section",
+          "clip": true,
+          "width": "fill_container",
+          "height": 680,
+          "fill": "$kidical-blue",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "Vgqal",
+              "x": 581,
+              "y": 121,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "images/image.png",
+                "mode": "fill"
+              },
+              "width": 752,
+              "height": 720
+            },
+            {
+              "type": "group",
+              "id": "WGyqi",
+              "x": 115,
+              "y": 214,
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eXomb",
+                  "name": "Eyebrow",
+                  "fill": "$kidical-yellow",
+                  "content": "Voor het eerst",
+                  "fontFamily": "Nunito Sans",
+                  "fontSize": 26,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "TEqHq",
+                  "name": "Headline",
+                  "rotation": -360,
+                  "fill": "$white",
+                  "textGrowth": "fixed-width",
+                  "width": 560,
+                  "content": "Wat je mag\nverwachten\nop een rit",
+                  "lineHeight": 1,
+                  "fontFamily": "Caprasimo",
+                  "fontSize": 72,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sePk0",
+          "name": "Expectations Section",
+          "clip": true,
+          "width": "fill_container",
+          "height": 1940,
+          "fill": "$kidical-light-blue",
+          "gap": 40,
+          "padding": [
+            80,
+            80,
+            80,
+            100
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "s1toMD",
+              "name": "Left Column",
+              "width": 616,
+              "height": 758,
+              "layout": "vertical",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pacPn",
+                  "name": "Lead Text",
+                  "fill": "$kidical-ink",
+                  "textGrowth": "fixed-width",
+                  "width": 469,
+                  "content": "Elke fietsparade is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.",
+                  "lineHeight": 1.6,
+                  "textAlignVertical": "middle",
+                  "fontFamily": "$font-body",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d2sbpy",
+              "name": "Right Column",
+              "width": 597,
+              "height": 1866,
+              "layout": "vertical",
+              "gap": 46,
+              "children": [
+                {
+                  "id": "t0bmS",
+                  "type": "ref",
+                  "ref": "hBqAk",
+                  "name": "Kort en rustig",
+                  "width": "fill_container",
+                  "rotation": -1.5000000000000002,
+                  "descendants": {
+                    "aW9lw": {
+                      "fill": "$kidical-red"
+                    },
+                    "mPDi1": {
+                      "icon": "clock",
+                      "library": "phosphor"
+                    },
+                    "ocHoe": {
+                      "content": "Kort en rustig",
+                      "fontFamily": "Caprasimo"
+                    },
+                    "ZBpaR": {
+                      "content": "5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.",
+                      "fontSize": 21
+                    }
+                  }
+                },
+                {
+                  "id": "oIYrG",
+                  "type": "ref",
+                  "ref": "hBqAk",
+                  "name": "Muziek onderweg",
+                  "width": "fill_container",
+                  "rotation": 1,
+                  "descendants": {
+                    "aW9lw": {
+                      "fill": "$kidical-blue"
+                    },
+                    "mPDi1": {
+                      "icon": "music-note",
+                      "library": "phosphor"
+                    },
+                    "ocHoe": {
+                      "content": "Muziek onderweg",
+                      "fontFamily": "Caprasimo"
+                    },
+                    "ZBpaR": {
+                      "content": "Er is altijd een geluidssysteem. Een vrolijke, luidruchtige fietsparade door de buurt.",
+                      "fontSize": 21
+                    }
+                  }
+                },
+                {
+                  "id": "Bt1Ei",
+                  "type": "ref",
+                  "ref": "hBqAk",
+                  "name": "Vaste startplaats",
+                  "width": "fill_container",
+                  "rotation": -1.5000000000000002,
+                  "descendants": {
+                    "aW9lw": {
+                      "fill": "$kidical-orange"
+                    },
+                    "mPDi1": {
+                      "icon": "map-pin",
+                      "library": "phosphor"
+                    },
+                    "ocHoe": {
+                      "content": "Vaste startplaats",
+                      "fontFamily": "Caprasimo"
+                    },
+                    "ZBpaR": {
+                      "content": "Elke rit vertrekt op een vaste plek, vermeld op de eventpagina. Gewoon daar opdagen.",
+                      "fontSize": 21
+                    }
+                  }
+                },
+                {
+                  "id": "OVqit",
+                  "type": "ref",
+                  "ref": "hBqAk",
+                  "name": "Gratis, geen inschrijving",
+                  "width": "fill_container",
+                  "rotation": 1,
+                  "descendants": {
+                    "aW9lw": {
+                      "fill": "$kidical-green"
+                    },
+                    "mPDi1": {
+                      "icon": "ticket",
+                      "library": "phosphor"
+                    },
+                    "ocHoe": {
+                      "content": "Gratis, geen inschrijving",
+                      "fontFamily": "Caprasimo"
+                    },
+                    "ZBpaR": {
+                      "content": "Geen ticket, geen registratie, geen kosten. Kom gewoon naar de start.",
+                      "fontSize": 21
+                    }
+                  }
+                },
+                {
+                  "id": "Q1ole",
+                  "type": "ref",
+                  "ref": "hBqAk",
+                  "name": "Alle leeftijden welkom",
+                  "width": "fill_container",
+                  "rotation": -1.5000000000000002,
+                  "descendants": {
+                    "aW9lw": {
+                      "fill": "#8B4FB5"
+                    },
+                    "mPDi1": {
+                      "icon": "users",
+                      "library": "phosphor"
+                    },
+                    "ocHoe": {
+                      "content": "Alle leeftijden welkom",
+                      "fontFamily": "Caprasimo"
+                    },
+                    "ZBpaR": {
+                      "content": "Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.",
+                      "fontSize": 21
+                    }
+                  }
+                },
+                {
+                  "id": "j81d4C",
+                  "type": "ref",
+                  "ref": "hBqAk",
+                  "name": "Minstens vier roze hesjes",
+                  "width": "fill_container",
+                  "rotation": 1,
+                  "descendants": {
+                    "aW9lw": {
+                      "fill": "#E65C3C"
+                    },
+                    "mPDi1": {
+                      "icon": "shield-check",
+                      "library": "phosphor"
+                    },
+                    "ocHoe": {
+                      "content": "Minstens vier roze hesjes",
+                      "fontFamily": "Caprasimo"
+                    },
+                    "ZBpaR": {
+                      "content": "Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij, zodat geen kind achterblijft.",
+                      "fontSize": 21
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Tz5gU",
+          "name": "FAQ Section",
+          "width": "fill_container",
+          "fill": "$white",
+          "layout": "vertical",
+          "gap": 66,
+          "padding": [
+            1,
+            0
+          ],
+          "children": [
+            {
+              "type": "group",
+              "id": "cY0my",
+              "layout": "horizontal",
+              "padding": [
+                0,
+                21
+              ],
+              "alignItems": "center",
+              "width": "fill_container",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "nXUGl",
+                  "flipX": true,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "images/image-1.png",
+                    "mode": "fill"
+                  },
+                  "width": 1439.000693962526,
+                  "height": 771.2931395908846
+                },
+                {
+                  "type": "frame",
+                  "id": "f22cO6",
+                  "name": "FAQ List",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "BDurC",
+                      "name": "FAQ Title Row",
+                      "width": 740,
+                      "gap": 16,
+                      "padding": [
+                        17,
+                        0
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "CtDvz",
+                          "name": "FAQ Title",
+                          "fill": "$kidical-red",
+                          "content": "Veelgestelde vragen",
+                          "lineHeight": 1.1,
+                          "fontFamily": "Caprasimo",
+                          "fontSize": 48,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "B8aaOZ",
+                      "name": "FAQ: Moet ik me inschrijven?",
+                      "width": "fill_container",
+                      "fill": "$kidical-light-yellow",
+                      "cornerRadius": 20,
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        30
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "v6o8o6",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "EfzQz",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Moet ik me inschrijven?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Z83cW",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 3.5,
+                                  "id": "LmRcH",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 5
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "IOrxB",
+                          "name": "Answer Wrap",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "padding": [
+                            0,
+                            0,
+                            20,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cMULn",
+                              "name": "Answer",
+                              "fill": "$text-body",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Nee. Gewoon opdagen op het vertrekpunt op het aangegeven tijdstip. Geen ticket, geen lijst. Je hoeft niets op voorhand te regelen.",
+                              "lineHeight": 1.65,
+                              "fontFamily": "$font-body",
+                              "fontSize": 21,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Mlzoe",
+                      "name": "FAQ: Vanaf welke leeftijd?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "utdZz",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "m8XPS0",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Vanaf welke leeftijd?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "wm5ov",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "dwndv",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "W5bZwe",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "gk3G8",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wQ5wh",
+                      "name": "FAQ: Moet ik goed kunnen fietsen?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "D1Vjwz",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "K0dRs",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Moet ik goed kunnen fietsen?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "VrqpJ",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "q8hL0",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "TR4hv",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "GhBXp",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WbthI",
+                      "name": "FAQ: Is het veilig in het verkeer?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VAWRR",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kP0Oe",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Is het veilig in het verkeer?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "LhPUR",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "WDJy1",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "k44Wi",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "cZSxW",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Lv9UZ",
+                      "name": "FAQ: Wat als het regent?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "G19SWl",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "DgjLZ",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Wat als het regent?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "w9RWD",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "Y7QWz8",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "mrn2W",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "eXolW",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fQ9BE",
+                      "name": "FAQ: Wat moeten we meebrengen?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "yL49Q",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qQrU7",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Wat moeten we meebrengen?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "i4eCHK",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "R4pwWg",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "C6edy9",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "i1YTwY",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oJ0VV",
+                      "name": "FAQ: Wat als we geen fiets hebben?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "G353q",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wfL2e",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Wat als we geen fiets hebben?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "SRxeE",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "uta2M",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "cbLiS",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "M0ULKZ",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FI64B",
+                      "name": "FAQ: Is het echt gratis?",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 1,
+                      "padding": [
+                        0,
+                        26
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "s5r5sD",
+                          "name": "Question Row",
+                          "width": "fill_container",
+                          "gap": 24,
+                          "padding": [
+                            20,
+                            0
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Y77IU",
+                              "name": "Question",
+                              "fill": "$kidical-ink",
+                              "content": "Is het echt gratis?",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Caprasimo",
+                              "fontSize": 26,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Mmfsq",
+                              "name": "Plus Icon",
+                              "width": 22,
+                              "height": 22,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "D0HTw",
+                                  "x": 0,
+                                  "y": 9.5,
+                                  "name": "H Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 22,
+                                  "height": 3
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 1.5,
+                                  "id": "yErro",
+                                  "x": 9.5,
+                                  "y": 0,
+                                  "name": "V Bar",
+                                  "fill": "$kidical-red",
+                                  "width": 3,
+                                  "height": 22
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "wwBcY",
+                          "name": "Divider",
+                          "fill": "#E8E0F0",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ntjCo",
+          "name": "CTA Section",
+          "width": "fill_container",
+          "height": 434,
+          "fill": "$kidical-yellow",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            80,
+            60
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "jOXJR",
+              "name": "CTA Heading",
+              "fill": "$kidical-ink",
+              "content": "Klaar voor je eerste rit?",
+              "lineHeight": 1.1,
+              "textAlign": "center",
+              "fontFamily": "$font-heading",
+              "fontSize": 48,
+              "fontWeight": "800"
+            },
+            {
+              "type": "text",
+              "id": "Y5xD8",
+              "name": "CTA Subtitle",
+              "fill": "#3D2850",
+              "content": "Zoek een rit bij jou in de buurt en kom gewoon langs.",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "$font-body",
+              "fontSize": 20,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "TxvbF",
+              "name": "CTA Button",
+              "fill": "$kidical-blue",
+              "cornerRadius": 14,
+              "gap": 8,
+              "padding": [
+                18,
+                36
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "zQ690",
+                  "name": "CTA Button Label",
+                  "fill": "$white",
+                  "content": "Vind een rit bij jou in de buurt ",
+                  "lineHeight": 1.4,
+                  "fontFamily": "$font-heading",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "group",
+                  "id": "mXVeE",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "EdWCw",
+                      "x": 0,
+                      "y": 0,
+                      "fill": "$kidical-red",
+                      "width": 29,
+                      "height": 29
+                    },
+                    {
+                      "type": "text",
+                      "id": "w0o9L",
+                      "x": 6,
+                      "y": 2,
+                      "name": "CTA Button Label",
+                      "fill": "$white",
+                      "content": "→",
+                      "lineHeight": 1.4,
+                      "fontFamily": "$font-heading",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "uwlLI",
+              "name": "CTA Secondary Link",
+              "fill": "$kidical-ink",
+              "content": "Vind je lokale afdeling →",
+              "lineHeight": 1.5,
+              "fontFamily": "$font-body",
+              "fontSize": 16,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "k9Q9O9",
+          "name": "Footer Section",
+          "width": "fill_container",
+          "height": 380,
+          "fill": "$kidical-ink",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "EJr8W",
+              "name": "Footer Main",
+              "width": "fill_container",
+              "gap": 60,
+              "padding": [
+                60,
+                80
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vkMQu",
+                  "name": "Brand Column",
+                  "width": 320,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lPUyj",
+                      "name": "Footer Logo",
+                      "fill": "$white",
+                      "content": "Kidical Mass",
+                      "fontFamily": "Fredoka",
+                      "fontSize": 24,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "L90DrN",
+                      "name": "Footer Tagline",
+                      "fill": "#9B8AAE",
+                      "content": "Veilige straten voor kinderen",
+                      "lineHeight": 1.5,
+                      "fontFamily": "$font-body",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "r9d4fk",
+                      "name": "Footer CTA",
+                      "fill": "$kidical-yellow",
+                      "cornerRadius": 10,
+                      "gap": 6,
+                      "padding": [
+                        10,
+                        20
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Nkhha",
+                          "name": "Footer CTA Label",
+                          "fill": "$kidical-ink",
+                          "content": "Word supporter →",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 14,
+                          "fontWeight": "800"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cwbjx",
+                  "name": "Discover Column",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VZws3",
+                      "name": "Discover Title",
+                      "fill": "#9B8AAE",
+                      "content": "ONTDEK",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 12,
+                      "fontWeight": "800",
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BBSHf",
+                      "name": "Discover Links",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tE2dr",
+                          "name": "Link: Activiteiten",
+                          "fill": "#C4B5D4",
+                          "content": "Activiteiten",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BdlaV",
+                          "name": "Link: Afdelingen",
+                          "fill": "#C4B5D4",
+                          "content": "Afdelingen",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lIU8m",
+                          "name": "Link: Voor het eerst",
+                          "fill": "#C4B5D4",
+                          "content": "Voor het eerst",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "FwVVH",
+                          "name": "Link: Meedoen",
+                          "fill": "#C4B5D4",
+                          "content": "Meedoen",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "MB2yA",
+                  "name": "About Column",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pGISK",
+                      "name": "About Title",
+                      "fill": "#9B8AAE",
+                      "content": "OVER ONS",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 12,
+                      "fontWeight": "800",
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "frame",
+                      "id": "e4iBzd",
+                      "name": "About Links",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "pnCzP",
+                          "name": "Link: Missie",
+                          "fill": "#C4B5D4",
+                          "content": "Missie",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LPnho",
+                          "name": "Link: Visie",
+                          "fill": "#C4B5D4",
+                          "content": "Visie",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "D5HzVU",
+                          "name": "Link: Organisatie",
+                          "fill": "#C4B5D4",
+                          "content": "Organisatie",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "DZ9xC",
+                          "name": "Link: Nieuws",
+                          "fill": "#C4B5D4",
+                          "content": "Nieuws",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "VDBih",
+                          "name": "Link: Pers",
+                          "fill": "#C4B5D4",
+                          "content": "Pers",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "T0sj4",
+                          "name": "Link: Partners",
+                          "fill": "#C4B5D4",
+                          "content": "Partners",
+                          "lineHeight": 1.8,
+                          "fontFamily": "$font-body",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "p3PKr",
+                  "name": "Social Column",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "A2oxV5",
+                      "name": "Social Title",
+                      "fill": "#9B8AAE",
+                      "content": "VOLG ONS",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 12,
+                      "fontWeight": "800",
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CFs24",
+                      "name": "Social Links",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "YZ9en",
+                          "name": "Instagram",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FntX7",
+                              "name": "Instagram Circle",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$kidical-red",
+                              "cornerRadius": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "gZN1J",
+                                  "name": "Instagram Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "instagram",
+                                  "library": "lucide",
+                                  "fill": "$white"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "qEqC5",
+                              "name": "Instagram Label",
+                              "fill": "#C4B5D4",
+                              "content": "Instagram",
+                              "lineHeight": 1.8,
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "u3UURJ",
+                          "name": "Facebook",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "aTIN7",
+                              "name": "Facebook Circle",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$kidical-red",
+                              "cornerRadius": 18,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "I2TN94",
+                                  "name": "Facebook Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "facebook",
+                                  "library": "lucide",
+                                  "fill": "$white"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "nOpVV",
+                              "name": "Facebook Label",
+                              "fill": "#C4B5D4",
+                              "content": "Facebook",
+                              "lineHeight": 1.8,
+                              "fontFamily": "$font-body",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "cGMNK",
+              "name": "Footer Divider",
+              "fill": "#3D2850",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "pZi5b",
+              "name": "Bottom Bar",
+              "width": "fill_container",
+              "padding": [
+                16,
+                80
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RKjM0",
+                  "name": "Copyright",
+                  "fill": "#6b5a80",
+                  "content": "© 2026 Kidical Mass Belgium",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "Qe9Oy",
+                  "name": "Bottom Links",
+                  "fill": "#6b5a80",
+                  "content": "Contact · Privacy & Cookies · Inloggen",
+                  "fontFamily": "$font-body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "hBqAk",
+      "x": 0,
+      "y": -600,
+      "name": "Expectation Card",
+      "reusable": true,
+      "width": 400,
+      "fill": "$white",
+      "cornerRadius": 32,
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#00000015",
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "blur": 20
+      },
+      "layout": "vertical",
+      "gap": 18,
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "aW9lw",
+          "name": "Icon Chip",
+          "rotation": -3.0000000000000004,
+          "width": 68,
+          "height": 68,
+          "fill": "$kidical-red",
+          "cornerRadius": 19,
+          "layout": "none",
+          "children": [
+            {
+              "type": "icon",
+              "id": "mPDi1",
+              "x": 14,
+              "y": 14,
+              "name": "Card Icon",
+              "width": 40,
+              "height": 40,
+              "icon": "clock",
+              "library": "phosphor",
+              "fill": "$white"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "ocHoe",
+          "name": "Card Title",
+          "fill": "$kidical-ink",
+          "content": "Card Title",
+          "fontFamily": "$font-heading",
+          "fontSize": 26,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "ZBpaR",
+          "name": "Card Description",
+          "fill": "$text-body",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Card description text goes here.",
+          "lineHeight": 1.6,
+          "fontFamily": "$font-body",
+          "fontSize": 18,
+          "fontWeight": "normal"
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "kidical-ink": {
+      "type": "color",
+      "value": "#281a39"
+    },
+    "kidical-yellow": {
+      "type": "color",
+      "value": "#f9d924"
+    },
+    "kidical-blue": {
+      "type": "color",
+      "value": "#1d67cd"
+    },
+    "kidical-red": {
+      "type": "color",
+      "value": "#E63A7B"
+    },
+    "kidical-green": {
+      "type": "color",
+      "value": "#5CB85C"
+    },
+    "kidical-orange": {
+      "type": "color",
+      "value": "#F0803C"
+    },
+    "kidical-sky": {
+      "type": "color",
+      "value": "#40c0f2"
+    },
+    "kidical-light-blue": {
+      "type": "color",
+      "value": "#B7E7F0"
+    },
+    "kidical-light-yellow": {
+      "type": "color",
+      "value": "#FEF3D5"
+    },
+    "white": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "text-body": {
+      "type": "color",
+      "value": "#4a3960"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#6b5a80"
+    },
+    "font-heading": {
+      "type": "string",
+      "value": "Caprasimo"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Nunito Sans"
+    }
+  }
+}
