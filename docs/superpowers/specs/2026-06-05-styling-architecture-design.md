@@ -76,12 +76,10 @@ background, white Flux icon); then `<strong>` (Caprasimo heading face) + `<p>` b
 - *Placement / behaviour* → owned by the page: the per-card tilt (`:nth-child` rotation),
   grid-vs-deck, and the scroll-stacking JS. The card never knows which context it's in.
 - *Scale* → **unified.** getting-started used a larger treatment (radius 2rem, padding
-  2.5rem, bigger chip + type); mission used the default (radius 1.5rem, padding 1.75rem).
-  Decision: **one canonical scale, no `size` prop.** The default/mission scale is canonical
-  (it is the more-reused value, and getting-started is the lone outlier). getting-started's
-  visual presence comes from *placement* — the full-viewport deck and scroll choreography —
-  not from larger cards. This means getting-started's cards shrink to the canonical scale; an
-  accepted visual change, with exact token values confirmed visually during the pilot.
+  2.5rem, bigger chip + type); mission used a smaller one (radius 1.5rem, padding 1.75rem).
+  Decision: **one canonical scale, no `size` prop. The getting-started (larger) scale is the
+  canonical truth.** mission and the other reused cards grow *up* to it. Exact token values
+  are lifted from the getting-started card and confirmed visually during the pilot.
 
 Resulting shape:
 
@@ -95,7 +93,15 @@ Resulting shape:
 - `color` — maps to a brand token for the chip background (`red|blue|orange|green|…` →
   `--color-kidical-*`). The page passes the rotation; the card does not own it.
 - `title` — rendered as the card's `<strong>`.
-- default slot — the body copy.
+- default slot — the body copy. **May contain an inline link** (e.g. `… echt verwelkomen.
+  <a href="…">Lees onze visie →</a>`). The link sits inside the body paragraph; no separate
+  prop needed. The card gives body links its own treatment — **blue, bold (700), no
+  yellow underline-fill, plain underline on hover** — overriding the base `a` rule. Today
+  that treatment is a composition-scoped override (`.about-card-grid .activity-promises__item
+  a`, app.css:2368); it moves *into* the component so it travels with the card on any page.
+  Mechanism: descendant-targeting utilities on the card wrapper
+  (`[&_a]:text-kidical-blue [&_a]:font-bold [&_a]:bg-none hover:[&_a]:underline`), keeping the
+  appearance inside the component markup rather than in `app.css`.
 - All appearance lives as token-backed utilities inside `feature-card.blade.php`; no
   `app.css` entry. Tilt, grid/deck and scroll JS stay in the page template.
 
@@ -122,8 +128,8 @@ Add semantic tokens to `@theme`:
 - `--shadow-card`  → usable as `shadow-card`
 
 Because the feature card unifies to a single scale, one canonical value each is enough (no
-`-lg` shadow variant). Set the values from the default/mission card styling during the pilot;
-they become the one source of truth for every feature card.
+`-lg` shadow variant). Set the values from the **getting-started** card styling (the canonical
+scale) during the pilot; they become the one source of truth for every feature card.
 
 ## CLAUDE.md rule change (the carve-out)
 
@@ -174,8 +180,9 @@ No big-bang refactor of the existing 4,480 lines. Order:
 - No `size` prop on `<x-feature-card>` — scale is unified to one canonical value.
 - Not converting the nav-card / event-card / one-off card families in the pilot.
 
-One intentional visual change is accepted: getting-started's feature cards adopt the canonical
-(smaller) scale. Otherwise the rendered output should be unchanged — this is a structural move.
+One intentional visual change is accepted: mission and the other reused feature cards grow *up*
+to the canonical (getting-started, larger) scale. getting-started itself is visually unchanged.
+Otherwise the rendered output should be unchanged — this is a structural move.
 
 ## Risks / watch-items
 
