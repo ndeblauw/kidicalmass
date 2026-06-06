@@ -1656,29 +1656,47 @@ header [data-flux-navbar-items][data-current]::after {
         margin-bottom: 1.5rem;
     }
 
+    .gs-faq {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        /* Allow height to transition to/from `auto` (Chromium). */
+        interpolate-size: allow-keywords;
+    }
+
     .gs-faq__item {
-        border-bottom: 1px solid #E8E0F0;
+        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-light-yellow), black 6%);
+        padding-bottom: 0.75rem;
 
         &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* No divider directly above an open item. */
+        &:has(+ .gs-faq__item[open]) {
             border-bottom: none;
         }
 
         &[open] {
-            background: #FEF3D5;
+            background: var(--color-kidical-light-yellow);
             border-radius: 1.25rem;
             border-bottom: none;
-            margin-block: 0.375rem;
+            padding-bottom: 0;
         }
     }
 
     .gs-faq__q {
+        position: relative;
         cursor: pointer;
         list-style: none;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1.5rem;
-        padding: 1.25rem 1.625rem;
+        padding: 1.25rem 1.875rem;
+        padding-right: 4.625rem;
         font-family: var(--font-heading);
         font-weight: 800;
         font-size: 1.625rem;
@@ -1688,23 +1706,26 @@ header [data-flux-navbar-items][data-current]::after {
 
     .gs-faq__q::-webkit-details-marker { display: none; }
 
-    .gs-faq__item[open] .gs-faq__q {
-        padding-inline: 1.875rem;
-    }
-
+    /* Plus icon = two bars; the vertical bar rotates into the horizontal
+       one on open, morphing + into − smoothly. */
+    .gs-faq__q::before,
     .gs-faq__q::after {
         content: "";
-        flex-shrink: 0;
+        position: absolute;
+        top: 50%;
+        right: 1.875rem;
         width: 1.375rem;
-        height: 1.375rem;
+        height: 0.1875rem;
+        border-radius: 1.5px;
         background-color: var(--color-kidical-red);
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3Crect x='9.5' y='0' width='3' height='22' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3Crect x='9.5' y='0' width='3' height='22' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .gs-faq__item[open] .gs-faq__q::after {
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='0' y='9.5' width='22' height='3' rx='1.5' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+    .gs-faq__q::before { transform: translateY(-50%) rotate(90deg); }
+    .gs-faq__q::after  { transform: translateY(-50%); }
+
+    .gs-faq__item[open] .gs-faq__q::before {
+        transform: translateY(-50%) rotate(0deg);
     }
 
     .gs-faq__a {
@@ -1717,8 +1738,23 @@ header [data-flux-navbar-items][data-current]::after {
         a { color: var(--color-kidical-blue); }
     }
 
-    .gs-faq__item[open] .gs-faq__a {
-        animation: fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    /* Smooth height + fade for the revealed answer. ::details-content wraps
+       everything inside <details> except <summary>. Chromium animates the
+       height to/from auto (via interpolate-size on .gs-faq); other browsers
+       open instantly — progressive enhancement. */
+    .gs-faq__item::details-content {
+        block-size: 0;
+        overflow: clip;
+        opacity: 0;
+        transition:
+            block-size 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.26s ease,
+            content-visibility 0.34s allow-discrete;
+    }
+
+    .gs-faq__item[open]::details-content {
+        block-size: auto;
+        opacity: 1;
     }
 
     /* ─── Closing CTA — full-bleed yellow band ─── */
@@ -2020,11 +2056,16 @@ header [data-flux-navbar-items][data-current]::after {
     .volunteer-signup__success h3,
     .volunteer-signup__success p,
     .gs-hero__lead,
-    .gs-faq__item[open] .gs-faq__a,
     .ho-hero__copy h1,
     .ho-hero__lead,
     .ho-hero__visual img {
         animation: none;
+    }
+
+    .gs-faq__item::details-content,
+    .gs-faq__q::before,
+    .gs-faq__q::after {
+        transition: none;
     }
 }
 
