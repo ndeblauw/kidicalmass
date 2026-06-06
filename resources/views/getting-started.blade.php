@@ -123,15 +123,6 @@
         </div>{{-- /gs-faq-layout --}}
     </section>
 
-    {{-- PRIMARY CTA — full-bleed yellow band --}}
-    <section class="gs-cta">
-        <div class="container mx-auto px-4 gs-cta__inner">
-            <h2>Klaar voor je eerste rit?</h2>
-            <p class="gs-cta__sub">Zoek een rit bij jou in de buurt en kom gewoon langs.</p>
-            <x-cta-button :href="route('activities.index')" variant="blue" class="link-plain">Vind een rit bij jou in de buurt</x-cta-button>
-        </div>
-    </section>
-
     {{-- Scroll-stacking animation for the expectations cards (lg+ only) --}}
     @push('scripts')
     <script>

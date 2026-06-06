@@ -114,7 +114,7 @@ it('renders the Getting Started page with its key NL sections', function () {
         ->assertDontSee('Stub', escape: false)
         ->assertSee('Wat je mag verwachten op een rit')
         ->assertSee('Veelgestelde vragen')
-        ->assertSee('Klaar voor je eerste rit?', escape: false)
+        ->assertSee('Klaar om mee te rijden?', escape: false)
         // Distilled 2026-06-02: "other ways to cycle" relocated off this page.
         ->assertDontSee('Andere manieren')
         // Safety reassurance sourced from the volunteer ROI + Jorge interview.

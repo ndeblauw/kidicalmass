@@ -304,6 +304,13 @@
     .cta-button__label {
         order: 1;
     }
+
+    /* ─── Closing CTA band (x-closing-cta) ─── */
+    .closing-cta h2 {
+        color: var(--color-kidical-ink);
+        font-size: clamp(var(--text-4xl), 3.5vw, var(--text-5xl));
+        line-height: 1.1;
+    }
 }
 
 @layer components {
@@ -1755,31 +1762,6 @@ header [data-flux-navbar-items][data-current]::after {
     .gs-faq__item[open]::details-content {
         block-size: auto;
         opacity: 1;
-    }
-
-    /* ─── Closing CTA — full-bleed yellow band ─── */
-    .gs-cta {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-bottom: calc(var(--spacing) * -8);
-        background: var(--color-kidical-yellow);
-        overflow: hidden;
-    }
-
-    .gs-cta__inner {
-        padding-block: clamp(3rem, 6vw, 5rem);
-        text-align: center;
-    }
-
-    .gs-cta h2 {
-        color: var(--color-kidical-ink);
-        margin-bottom: 1rem;
-    }
-
-    .gs-cta__sub {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-        font-weight: 700;
-        margin-bottom: 1.75rem;
     }
 
     /* ═══ Help out (P-13) — surface pass (built on the ride/show kit) ═══
@@ -3438,26 +3420,42 @@ select:focus[data-flux-control] {
         flex-direction: column;
     }
 
-    /* Proximity group headings (location search): "In de buurt van X" / "Verderaf". */
+    /* Proximity zone labels (location search): "In de buurt van X" / "Verderaf".
+       Styled as section separators — small caps + border — so they read as
+       geographic zone labels, not page headings. */
     .kal-bandtitle {
         margin: 2.75rem 0 0;
+        padding-top: 2.25rem;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-ink);
+        font-size: var(--text-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+    }
+
+    .kal-bandtitle__icon {
+        width: 0.9rem;
+        height: 0.9rem;
+        flex-shrink: 0;
+        color: var(--color-kidical-red);
     }
 
     .kal-bandtitle--far {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
     }
 
     .kal-bandtitle + .kal-days {
         margin-top: 1rem;
     }
 
-    /* ─── Event row (PAT-1) — a flat agenda line: time first (the eye scans the day's
-           schedule straight down), then the municipality as the anchor, then the meeting
-           point as a quiet detail. No card chrome; day headings + dividers carry structure. ─── */
+    /* ─── Event row (PAT-1) — a flat agenda line: municipality first (the anchor a parent
+           scans for), then the meeting point, then the time at the right edge. No card chrome;
+           day headings + dividers carry structure. ─── */
     .event-card {
         display: flex;
         align-items: center;
@@ -3476,13 +3474,14 @@ select:focus[data-flux-control] {
         color: var(--color-kidical-red);
     }
 
-    /* Time-first column — aligns down the page so the day's schedule scans cleanly. */
+    /* Time — pushed to the right edge, aligns down so the day's schedule scans cleanly. */
     .event-card__when {
         flex: 0 0 auto;
-        min-width: 3.5rem;
+        margin-left: auto;
         display: flex;
         flex-direction: column;
         gap: 0.05rem;
+        text-align: right;
     }
 
     .event-card__date {
@@ -3560,14 +3559,6 @@ select:focus[data-flux-control] {
         white-space: nowrap;
     }
 
-    /* Proximity badge (location search) — small, pushed to the right edge. */
-    .event-card__distance {
-        flex-shrink: 0;
-        margin-left: auto;
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: var(--color-kidical-blue);
-    }
 
     /* A plain vertical list of rides (home "upcoming", chapter signup) reuses the row. */
     .event-list {
@@ -3583,13 +3574,11 @@ select:focus[data-flux-control] {
         max-width: 46rem;
     }
 
-    /* ─── Kalender closing opt-in — light-blue full-bleed band (honest: "binnenkort") ─── */
+    /* ─── Kalender closing opt-in — yellow full-bleed band (honest: "binnenkort") ─── */
     .kal-optin {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        margin-top: 3.5rem;
-        margin-bottom: calc(var(--spacing) * -8);
-        background: var(--color-kidical-light-blue);
+        background: var(--color-kidical-yellow);
         overflow: hidden;
     }
 
@@ -3685,32 +3674,6 @@ select:focus[data-flux-control] {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
     }
 
-    /* ─── Lokale groepen closing CTA — contained, calm light-yellow card
-           (recruiting is the QUIET closing beat, not a primary full-bleed CTA) ─── */
-    .grp-cta {
-        margin-top: 3rem;
-        border-radius: 1.5rem;
-        background: var(--color-kidical-light-yellow);
-        overflow: hidden;
-    }
-
-    .grp-cta__inner {
-        padding: clamp(2rem, 4vw, 3rem);
-        text-align: center;
-    }
-
-    .grp-cta h2 {
-        color: var(--color-kidical-ink);
-        margin-bottom: 1rem;
-    }
-
-    .grp-cta__sub {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-        font-weight: 700;
-        margin-inline: auto;
-        margin-bottom: 1.75rem;
-        max-width: 48ch;
-    }
 
 }
 
@@ -3849,8 +3812,7 @@ select:focus[data-flux-control] {
 
     /* Cancel page-panel pb when last element is a full-bleed closing band — those
        use negative margin-bottom to eat <main>'s pb-8 themselves. */
-    .page-panel:has(.about-cta),
-    .page-panel:has(.gs-cta) {
+    .page-panel:has(.about-cta) {
         padding-bottom: 0;
     }
 

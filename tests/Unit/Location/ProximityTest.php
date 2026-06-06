@@ -10,7 +10,7 @@ it('computes haversine distance between two points', function () {
     expect($km)->toBeGreaterThan(42)->toBeLessThan(48);
 });
 
-it('partitions items into nearby and far, annotated and sorted by distance', function () {
+it('partitions items into nearby and far, preserving input order', function () {
     $origin = ['lat' => 50.8782, 'lng' => 4.3265]; // Jette
     $coords = [
         'jette' => ['lat' => 50.8782, 'lng' => 4.3265],

@@ -9,20 +9,14 @@
 
     <livewire:ride-calendar />
 
-    {{-- CLOSING — "Mis geen fietstocht" opt-in, honestly flagged "binnenkort" (no backend yet).
-         relative z-10 lifts it above the fixed page-hero (z-0): it renders outside .page-panel,
-         so as a static sibling the hero would otherwise paint over it on scroll. --}}
-    <section class="kal-optin relative z-10">
-        <div class="container mx-auto px-4 kal-optin__inner">
-            <span class="kal-optin__badge">Binnenkort</span>
-            <h2>Mis geen fietstocht</h2>
-            <p class="kal-optin__sub">Straks kan je je inschrijven voor één seintje per maand met de fietstochten bij jou in de buurt. Geen spam, altijd uitschrijfbaar.</p>
-        </div>
-    </section>
-
     <x-slot:closing>
-        <x-closing-cta heading="Zelf een rit in je buurt?"
-            :href="route('getting-started')" label="Zo begin je" />
+        <section class="kal-optin relative z-10">
+            <div class="container mx-auto px-4 kal-optin__inner">
+                <span class="kal-optin__badge">Binnenkort</span>
+                <h2>Mis geen fietstocht</h2>
+                <p class="kal-optin__sub">Straks kan je je inschrijven voor één seintje per maand met de fietstochten bij jou in de buurt. Geen spam, altijd uitschrijfbaar.</p>
+            </div>
+        </section>
     </x-slot:closing>
 
 </x-layouts::site>
