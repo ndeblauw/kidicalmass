@@ -58,11 +58,27 @@
                 <h2>Componenten</h2>
 
                 {{-- Knoppen & CTA's --}}
-                <x-styleguide.entry name="cta-button" props="href, variant=yellow|blue, icon=arrow|heart, size=md|sm">
-                    <div class="flex flex-wrap items-center gap-4">
-                        <x-cta-button href="#" variant="blue">Doe mee</x-cta-button>
-                        <x-cta-button href="#" variant="blue" icon="heart">Word lid</x-cta-button>
-                        <x-cta-button href="#" variant="blue" size="sm">Klein</x-cta-button>
+                <x-styleguide.entry name="cta-button"
+                    props="href, variant=yellow|blue|secondary|ghost, icon=arrow|heart, size=md|sm, disabled, loading, block"
+                    note="yellow staat op donkere/blauwe grond — daarom hier blue als primair getoond.">
+                    <div class="flex flex-col gap-6">
+                        {{-- Hiërarchie: primair → secundair → ghost --}}
+                        <div class="flex flex-wrap items-center gap-4">
+                            <x-cta-button href="#" variant="blue">Primair</x-cta-button>
+                            <x-cta-button href="#" variant="secondary">Secundair</x-cta-button>
+                            <x-cta-button href="#" variant="ghost">Ghost</x-cta-button>
+                        </div>
+                        {{-- Iconen, maat, states --}}
+                        <div class="flex flex-wrap items-center gap-4">
+                            <x-cta-button href="#" variant="blue" icon="heart">Word lid</x-cta-button>
+                            <x-cta-button href="#" variant="blue" size="sm">Klein</x-cta-button>
+                            <x-cta-button href="#" variant="blue" :disabled="true">Uitgeschakeld</x-cta-button>
+                            <x-cta-button href="#" variant="blue" :loading="true">Bezig…</x-cta-button>
+                        </div>
+                        {{-- Volle breedte --}}
+                        <div class="max-w-md">
+                            <x-cta-button href="#" variant="secondary" :block="true">Volle breedte (block)</x-cta-button>
+                        </div>
                     </div>
                 </x-styleguide.entry>
 

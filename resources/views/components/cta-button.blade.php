@@ -1,18 +1,28 @@
 @props([
-    'href',
-    'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow CTA bands)
+    'href' => null,
+    'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | secondary (outlined, quiet) | ghost (text-only)
     'icon' => 'arrow',     // arrow (a "go" action) | heart (support / membership)
     'size' => 'md',        // md | sm (nav + footer)
+    'disabled' => false,   // inert, dimmed — no navigation, no hover animation
+    'loading' => false,    // inert, shows a spinner (state set server-side)
+    'block' => false,      // full-width
 ])
 
-{{-- The site's signature primary action: a pill with an animated disc that
-     slides from right to left on hover. Pure CSS, no JS (the public layout
-     ships no Alpine). Styling lives in .cta-button* in app.css. --}}
+{{-- The site's signature action: a pill with an animated disc that slides from
+     right to left on hover. Pure CSS, no JS (the public layout ships no Alpine).
+     Styling lives in .cta-button* in resources/css/components/cta-button.css.
+     `disabled`/`loading` render an inert <a> (no href) since there is no JS to
+     intercept clicks. --}}
 @php
+    $isInert = $disabled || $loading;
+
     $classes = collect([
         'cta-button',
         'cta-button--'.$variant,
         $size === 'sm' ? 'cta-button--sm' : null,
+        $block ? 'cta-button--block' : null,
+        $disabled ? 'cta-button--disabled' : null,
+        $loading ? 'cta-button--loading' : null,
     ])->filter()->implode(' ');
 
     $iconSvg = match ($icon) {
@@ -21,7 +31,15 @@
     };
 @endphp
 
-<a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
+<a
+    @unless ($isInert) href="{{ $href }}" @endunless
+    @if ($isInert) aria-disabled="true" tabindex="-1" @endif
+    @if ($loading) aria-busy="true" @endif
+    {{ $attributes->merge(['class' => $classes]) }}
+>
+    @if ($loading)
+        <span class="cta-button__spinner" aria-hidden="true"></span>
+    @endif
     <span class="cta-button__slot cta-button__slot--left" aria-hidden="true">
         <span class="cta-button__disc">{!! $iconSvg !!}</span>
     </span>

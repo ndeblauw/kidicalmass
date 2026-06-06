@@ -33,6 +33,47 @@
         width: 100%;
         justify-content: center;
     }
+    /* Secondary — outlined, quiet. For actions that should not shout. */
+    .cta-button--secondary {
+        background: transparent;
+        color: var(--color-kidical-ink);
+        box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
+    }
+    .cta-button--secondary:hover {
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+    }
+    /* Ghost — text-only, lowest emphasis. */
+    .cta-button--ghost {
+        background: transparent;
+        color: var(--color-kidical-ink);
+        box-shadow: none;
+    }
+    .cta-button--ghost:hover {
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
+    }
+    /* Inert states — no JS, so the markup drops href + sets aria-disabled. */
+    .cta-button--disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+        box-shadow: none;
+    }
+    .cta-button--loading {
+        pointer-events: none;
+    }
+    .cta-button--loading .cta-button__slot {
+        display: none;
+    }
+    .cta-button__spinner {
+        flex-shrink: 0;
+        width: 1.05em;
+        height: 1.05em;
+        margin-right: 0.6rem;
+        border-radius: 50%;
+        border: 2px solid currentColor;
+        border-top-color: transparent;
+        animation: spin 0.7s linear infinite;
+    }
     .cta-button__disc svg {
         width: 42%;
         height: 42%;

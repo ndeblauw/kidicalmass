@@ -28,6 +28,16 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* The loading spinner conveys state, so it keeps turning under reduced-motion —
+   just slower and gentler. */
+@media (prefers-reduced-motion: reduce) {
+    .cta-button__spinner { animation-duration: 1.5s; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .activity-hero__copy h1,
     .activity-hero__date,
