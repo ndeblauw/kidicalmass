@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BackstageController;
 use App\Http\Controllers\BuildDashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\SetLocale;
+use App\Mail\VolunteerInvite;
+use App\Models\Group;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -65,6 +68,30 @@ Route::prefix('{locale}')
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+// ── Pink-vest onboarding PROTOTYPE (Mon 8 June demo, example chapter: Oudergem) ──
+// Backstage: the logged-in volunteer surface for a chapter (D-1). Separate branded
+// shell, not Filament. Spec: docs/superpowers/specs/2026-06-06-pink-vest-onboarding-prototype-design.md
+
+// Account activation (stands in for the invite-token set-password step).
+Route::get('activeer/{group:shortname}', [BackstageController::class, 'showActivate'])->name('backstage.activate');
+Route::post('activeer/{group:shortname}', [BackstageController::class, 'activate']);
+
+Route::middleware(['auth'])->prefix('backstage')->name('backstage.')->group(function (): void {
+    Route::get('{group:shortname}', [BackstageController::class, 'home'])->name('home');
+    Route::get('{group:shortname}/welkom', [BackstageController::class, 'welcome'])->name('welcome');
+    Route::get('{group:shortname}/team', [BackstageController::class, 'team'])->name('team');
+});
+
+// Invite-email preview (non-production only).
+if (! app()->isProduction()) {
+    Route::get('prototype/mail/uitnodiging', function () {
+        $group = Group::where('shortname', 'oudergem')->firstOrFail();
+        $volunteer = $group->users()->where('email', 'morgane@example.test')->firstOrFail();
+
+        return new VolunteerInvite($volunteer, $group);
+    })->name('prototype.mail.invite');
+}
 
 Route::middleware(['auth'])->prefix('admin')->group(function (): void {
     Route::post('impersonate/{user}', [ImpersonateController::class, 'start'])
