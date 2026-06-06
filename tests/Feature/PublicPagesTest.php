@@ -157,6 +157,8 @@ it('renders Lokale groepen with NL chrome, no count badges and no em-dashes', fu
         ->assertSee('Lokale groepen')
         ->assertSee('Jouw buurt fietst al, rij mee.')
         ->assertSee('Vind je groep')
+        // Movement counter moved out of the hero into the foot of the white panel.
+        ->assertSee('activiteiten dit jaar')
         ->assertSee('Staat jouw stad er nog niet bij?')
         ->assertSee(route('volunteer'), escape: false)
         // The card-grid count badges from the drifted build are gone.

@@ -13,16 +13,6 @@
         illustration="img/illustrations/person-with-boombox.png">
 
         <x-slot:controls>
-            <dl class="grp-hero__stats">
-                <div class="grp-hero__stat">
-                    <dt class="grp-hero__stat-label">lokale {{ $groups->count() === 1 ? 'groep' : 'groepen' }}</dt>
-                    <dd class="grp-hero__stat-num">{{ $groups->count() }}</dd>
-                </div>
-                <div class="grp-hero__stat">
-                    <dt class="grp-hero__stat-label">activiteiten dit jaar</dt>
-                    <dd class="grp-hero__stat-num">{{ $activityCount }}</dd>
-                </div>
-            </dl>
             <div class="grp-hero__locate">
                 <livewire:location-picker />
             </div>
@@ -103,6 +93,18 @@
     @else
         <p class="kal-empty mt-10">Er zijn nog geen lokale groepen om te tonen.</p>
     @endif
+
+    {{-- Movement counter — moved out of the hero; the scale that sets up the recruiting CTA. --}}
+    <dl class="grp-stats">
+        <div class="grp-stats__item">
+            <dd class="grp-stats__num">{{ $groups->count() }}</dd>
+            <dt class="grp-stats__label">lokale {{ $groups->count() === 1 ? 'groep' : 'groepen' }}</dt>
+        </div>
+        <div class="grp-stats__item">
+            <dd class="grp-stats__num">{{ $activityCount }}</dd>
+            <dt class="grp-stats__label">activiteiten dit jaar</dt>
+        </div>
+    </dl>
 
     {{-- CLOSING CTA — calm contained card (recruiting is the quiet last beat) --}}
     <section class="grp-cta">
