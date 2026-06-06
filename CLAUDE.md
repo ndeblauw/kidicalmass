@@ -406,6 +406,14 @@ The guide defines 4 voice qualities: joyful (not frivolous), warm and inclusive 
   - **Composition** (page Blade templates): how units are *placed* — section gaps, margins, grid/flex, alignment, widths, order. Keep: `grid`, `flex`, `gap-*`, `p-*`, `m-*`, `max-w-*`, `overflow-*`, `aspect-*`, `object-*`. Still strip appearance utilities (`bg-*`, `text-{color}`, `font-*`, `shadow-*`, `rounded-*`, …) and BEM layout scaffolding from page templates.
   Why: reusable appearance lives in the component (collision-proof, self-contained); page layout stays freely editable in the template. `app.css` stops growing per-page — new entries only for genuinely global styles (footer, nav, prose) or complex effects no single component owns. Worked example: `<x-feature-card>` (used on getting-started + about/mission). See `docs/superpowers/specs/2026-06-05-styling-architecture-design.md`.
 
+- When CSS *does* live in a stylesheet (not yet absorbed into a component's `.blade.php`), it goes in a **role-based partial under `resources/css/`**, never piled into `app.css`:
+  - **Reusable across pages** → `resources/css/components/<role>.css` (e.g. `cta-button.css`, `event-card.css`, `location-picker.css`).
+  - **Appears on one page only** → `resources/css/pages/<page>.css` (e.g. `about.css`, `calendar.css`).
+  - **Global shell** (footer/nav/page frame) → `resources/css/chrome.css`; **cross-cutting effects** (keyframes/reduced-motion) → `resources/css/effects.css` (imported last).
+  - `app.css` holds ONLY `@theme` tokens, `@layer base`, and the `@import` block. Each partial keeps its rules in the same `@layer` they belong to.
+  - Classification rule when unsure: default to `components/`.
+  - Enforced by `tests/Feature/CssArchitectureTest.php` (partials must be registered; no raw hex/px in `.blade.php` components). Run `php artisan test --filter=CssArchitectureTest`. Design: `docs/superpowers/specs/2026-06-06-css-partials-architecture-design.md`.
+
 - Typographic scale (size, weight, line-height) is defined once in `@layer base` in `app.css`. Never set these inline on headings.
 
 - Metadata key-value pairs → `<dl><dt><dd>`.
