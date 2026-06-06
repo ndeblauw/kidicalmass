@@ -9,8 +9,10 @@
 
     <livewire:ride-calendar />
 
-    {{-- CLOSING — "Mis geen fietstocht" opt-in, honestly flagged "binnenkort" (no backend yet) --}}
-    <section class="kal-optin">
+    {{-- CLOSING — "Mis geen fietstocht" opt-in, honestly flagged "binnenkort" (no backend yet).
+         relative z-10 lifts it above the fixed page-hero (z-0): it renders outside .page-panel,
+         so as a static sibling the hero would otherwise paint over it on scroll. --}}
+    <section class="kal-optin relative z-10">
         <div class="container mx-auto px-4 kal-optin__inner">
             <span class="kal-optin__badge">Binnenkort</span>
             <h2>Mis geen fietstocht</h2>
