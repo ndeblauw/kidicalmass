@@ -169,7 +169,10 @@ it('renders the Steun support page with its key NL sections', function () {
         ->assertOk()
         ->assertDontSee('Stub', escape: false)
         ->assertSee('Steun Kidical Mass')
-        ->assertSee('Help de beweging groeien.')
+        // Mission-led hero: the cause leads the ask.
+        ->assertSee('Samen maken we straten veilig voor kinderen.')
+        // Proof of impact backs the ask with real, sourced numbers.
+        ->assertSee('Van één rit naar heel België')
         ->assertSee('Steun vanaf €3 per maand')
         // The riding-stays-free reassurance is non-negotiable (and not phrased as a threat).
         ->assertSee('Meefietsen blijft altijd gratis')
