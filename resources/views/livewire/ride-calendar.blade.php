@@ -34,21 +34,11 @@
                     @endforeach
                 </div>
             @elseif ($location)
-                @if ($nearbyByPeriod->isNotEmpty())
-                    <h2 class="kal-bandtitle kal-bandtitle--near">In de buurt van {{ $location['name'] }}</h2>
+                @if ($isEmpty)
+                    <p class="kal-empty">Geen fietstochten gevonden in dit gebied. Probeer een groter zoekgebied.</p>
+                @elseif ($byPeriod->isNotEmpty())
                     <div class="kal-days">
-                        @foreach ($nearbyByPeriod as $periodKey => $rows)
-                            <x-kal-day-band :period-key="$periodKey" :rows="$rows" />
-                        @endforeach
-                    </div>
-                @else
-                    <p class="kal-empty">Nog geen fietstochten vlak bij {{ $location['name'] }}. Verderop is er wel wat te beleven.</p>
-                @endif
-
-                @if ($farByPeriod->isNotEmpty())
-                    <h2 class="kal-bandtitle kal-bandtitle--far">Verderaf</h2>
-                    <div class="kal-days">
-                        @foreach ($farByPeriod as $periodKey => $rows)
+                        @foreach ($byPeriod as $periodKey => $rows)
                             <x-kal-day-band :period-key="$periodKey" :rows="$rows" />
                         @endforeach
                     </div>
@@ -56,7 +46,7 @@
             @else
                 <div class="kal-days">
                     @foreach ($byPeriod as $periodKey => $rides)
-                        <x-kal-day-band :period-key="$periodKey" :rows="$rides" :plain="true" />
+                        <x-kal-day-band :period-key="$periodKey" :rows="$rides" />
                     @endforeach
                 </div>
             @endif
