@@ -12,36 +12,71 @@ beforeEach(function () {
         ['zip' => '9000', 'name' => 'Gent', 'latitude' => 51.0543, 'longitude' => 3.7174, 'created_at' => now(), 'updated_at' => now()],
     ]);
 
+    // ~0 km from Jette (same zip)
     $this->near = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
-        'title_nl' => 'Kidical Mass Jette',
-        'postal_code' => '1090',
-        'begin_date' => now()->addDays(3),
+        'title_nl'      => 'Kidical Mass Jette',
+        'postal_code'   => '1090',
+        'begin_date'    => now()->addDays(3),
     ]);
+
+    // ~54 km from Jette
     $this->far = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
-        'title_nl' => 'Kidical Mass Gent',
-        'postal_code' => '9000',
-        'begin_date' => now()->addDays(5),
+        'title_nl'      => 'Kidical Mass Gent',
+        'postal_code'   => '9000',
+        'begin_date'    => now()->addDays(5),
     ]);
 });
 
-it('shows one undivided list when no location is set', function () {
+it('shows all rides unfiltered when no location is set', function () {
     Livewire::test(RideCalendar::class)
         ->assertSee('Jette')
         ->assertSee('Gent')
-        ->assertDontSee('In de buurt');
+        ->assertDontSee('In de buurt')
+        ->assertDontSee('Verderaf');
 });
 
-it('splits upcoming rides into nearby and far when a location is set', function () {
+it('shows only nearby rides when location set and radius is dichtbij', function () {
     Livewire::withCookie('kcm_location', json_encode([
         'zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette',
     ]));
 
-    Livewire::test(RideCalendar::class)
-        ->assertSee('In de buurt')
-        ->assertSee('Verderaf')
+    Livewire::test(RideCalendar::class, ['radius' => 'dichtbij'])
         ->assertSee('Jette')
-        ->assertSee('Gent')
-        ->assertSee('in jouw buurt'); // 0 km ride shows the buurt label, not a km value
+        ->assertDontSee('Gent')
+        ->assertDontSee('In de buurt')
+        ->assertDontSee('Verderaf');
+});
+
+it('shows rides within 30km when radius is regio', function () {
+    // Brussel is ~4 km from Jette — within 30km regio but check Gent (~54km) is excluded
+    PostalCode::insert([
+        ['zip' => '1000', 'name' => 'Brussel', 'latitude' => 50.8503, 'longitude' => 4.3517, 'created_at' => now(), 'updated_at' => now()],
+    ]);
+    Activity::factory()->create([
+        'activity_type' => ActivityType::KIDICALMASS,
+        'title_nl'      => 'Kidical Mass Brussel',
+        'postal_code'   => '1000',
+        'begin_date'    => now()->addDays(4),
+    ]);
+
+    Livewire::withCookie('kcm_location', json_encode([
+        'zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette',
+    ]));
+
+    Livewire::test(RideCalendar::class, ['radius' => 'regio'])
+        ->assertSee('Jette')
+        ->assertSee('Brussel')
+        ->assertDontSee('Gent');
+});
+
+it('shows all rides when radius is belgie', function () {
+    Livewire::withCookie('kcm_location', json_encode([
+        'zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette',
+    ]));
+
+    Livewire::test(RideCalendar::class, ['radius' => 'belgie'])
+        ->assertSee('Jette')
+        ->assertSee('Gent');
 });
