@@ -84,7 +84,6 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
     }
     .steun-proof {
-        max-width: 62rem;
         margin-top: clamp(3rem, 6vw, 5rem);
     }
     .steun-proof__title {
@@ -101,39 +100,74 @@
         line-height: 1.6;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
     }
-    .steun-proof__stats {
-        list-style: none;
-        padding: 0;
-        margin: 2.25rem 0 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: clamp(1.75rem, 5vw, 3.5rem);
-    }
-    .steun-proof__stat {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        max-width: 14rem;
-    }
-    .steun-proof__stat-value {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
-        line-height: 1;
-        color: var(--color-kidical-blue);
-    }
-    .steun-proof__stat-label {
-        font-size: var(--text-sm);
-        font-weight: 600;
-        line-height: 1.4;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 28%);
-    }
+
     .steun-proof__credit {
         margin-top: 2.25rem;
         font-size: var(--text-sm);
         line-height: 1.6;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 32%);
     }
+
+    /* Stat-card deck — mobile: a slightly tilted vertical list. */
+    .steun-proof__deck {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 2.25rem;
+    }
+
+    @media (max-width: 63.99rem) {
+        .steun-proof__card:nth-child(1) { transform: rotate(-2deg); }
+        .steun-proof__card:nth-child(2) { transform: rotate(1.5deg); }
+        .steun-proof__card:nth-child(3) { transform: rotate(-1deg); }
+    }
+
+    /* lg+: two columns; the cards become an overlapping, fanned deck on the right. */
+    @media (min-width: 64rem) {
+        .steun-proof {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: clamp(2.5rem, 5vw, 4.5rem);
+            align-items: center;
+        }
+
+        .steun-proof__deck {
+            position: relative;
+            display: block;
+            height: 40.5rem;
+            margin-top: 0;
+        }
+
+        .steun-proof__card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: min(100%, 27.5rem);
+            transform: translate(var(--cx), var(--cy)) rotate(var(--cr));
+        }
+
+        .steun-proof__card:nth-child(1) { --cx: 1rem; --cy: 0;       --cr: -2deg;  z-index: 1; }
+        .steun-proof__card:nth-child(2) { --cx: 2rem; --cy: 8.25rem; --cr: 1.5deg; z-index: 2; }
+        .steun-proof__card:nth-child(3) { --cx: 0;    --cy: 16.5rem; --cr: -1deg;  z-index: 3; }
+
+        /* One-shot reveal: start a touch lower + faded, settle into the deck on scroll-in. */
+        .steun-proof__deck--anim .steun-proof__card {
+            opacity: 0;
+            transform: translate(var(--cx), calc(var(--cy) + 2.75rem)) rotate(var(--cr));
+            transition:
+                opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .steun-proof__deck--anim .steun-proof__card:nth-child(2) { transition-delay: 0.11s; }
+        .steun-proof__deck--anim .steun-proof__card:nth-child(3) { transition-delay: 0.22s; }
+
+        .steun-proof__deck--anim.is-in .steun-proof__card {
+            opacity: 1;
+            transform: translate(var(--cx), var(--cy)) rotate(var(--cr));
+        }
+    }
+
     .steun-hero__lead {
         color: var(--color-kidical-yellow);
         font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));

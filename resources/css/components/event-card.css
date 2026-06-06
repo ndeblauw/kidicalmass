@@ -9,14 +9,51 @@
     .event-card:hover .event-card__place {
         color: var(--color-kidical-red);
     }
-    .event-card__when {
+    /* Municipality — the anchor. Blue; orange when it's the featured flagship. */
+    .event-card__place {
         flex: 0 0 auto;
-        margin-left: auto;
+        min-width: 10rem;
         display: flex;
-        flex-direction: column;
-        gap: 0.05rem;
-        text-align: right;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        color: var(--color-kidical-blue);
+        transition: color 0.18s;
     }
+
+    /* Inline meta: "14u @ Ossegempark" — follows the commune, grows to fill. */
+    .event-card__meta {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+    }
+
+    .event-card__time {
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 22%);
+        flex-shrink: 0;
+    }
+
+    .event-card__meta-at {
+        font-weight: 600;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 58%);
+        flex-shrink: 0;
+    }
+
+    .event-card__meta-venue {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .event-card__date {
         font-family: var(--font-heading);
         font-weight: 800;
@@ -24,34 +61,14 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--color-kidical-red);
-    }
-    .event-card__time {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-base);
-        color: var(--color-kidical-ink);
-    }
-    .event-card__place {
-        flex: 0 0 auto;
-        min-width: 9rem;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        line-height: 1.2;
-        color: var(--color-kidical-blue);
-        transition: color 0.18s;
-    }
-    .event-card__place-pin {
-        width: 0.9rem;
-        height: 0.9rem;
         flex-shrink: 0;
-        color: var(--color-kidical-red);
-        position: relative;
-        top: -1px;
     }
+
+    /* Pin icon before the municipality name — hidden in calendar list view. */
+    .event-card__place-pin {
+        display: none;
+    }
+
     .event-card--featured .event-card__place {
         color: var(--color-kidical-orange);
     }
@@ -70,20 +87,6 @@
         background: color-mix(in oklab, var(--color-kidical-orange), transparent 86%);
         padding: 0.15rem 0.55rem;
         border-radius: 999px;
-    }
-    .event-card__loc {
-        flex: 1 1 12rem;
-        min-width: 0;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-size: var(--text-base);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
-    }
-    .event-card__loc-text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
     .event-list {
         display: flex;

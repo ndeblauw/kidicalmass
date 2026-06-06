@@ -26,6 +26,7 @@
 .location-picker__main {
     flex: 1 1 auto;
     min-width: 0;
+    position: relative;
 }
 
 .location-picker__label {
@@ -118,13 +119,18 @@
 }
 
 .location-picker__suggestions {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    z-index: 50;
     list-style: none;
-    margin: 0.75rem 0 0;
+    margin: 0;
     padding: 0.4rem;
     background: white;
     border-radius: 16px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-    max-width: 22rem;
+    min-width: 20rem;
+    max-width: 28rem;
 }
 
 .location-picker__suggestion {
@@ -193,8 +199,9 @@
 }
 
 .location-picker__current strong {
+    font-family: var(--font-sans);
     color: var(--color-kidical-blue);
-    font-weight: 900;
+    font-weight: 800;
 }
 
 .location-picker__change {
@@ -203,8 +210,8 @@
     border: none;
     border-radius: 999px;
     padding: 0.4rem 0.95rem;
-    font-family: var(--font-heading);
-    font-weight: 800;
+    font-family: var(--font-sans);
+    font-weight: 700;
     font-size: var(--text-sm);
     cursor: pointer;
     transition: background-color 0.16s, transform 0.16s;
@@ -213,6 +220,105 @@
 .location-picker__change:hover {
     background: color-mix(in oklab, var(--color-kidical-yellow), white 12%);
     transform: translateY(-1px);
+}
+
+/* Filter-row context: flatten pill to plain inline text, demote wijzig to text link. */
+.kal-filterrow .location-picker__current {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    font-size: var(--text-base);
+    gap: 0.5rem;
+}
+
+.kal-filterrow .location-picker__current-pin {
+    width: 1rem;
+}
+
+.kal-filterrow .location-picker__change {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 68%);
+    text-underline-offset: 2px;
+}
+
+.kal-filterrow .location-picker__change:hover {
+    background: transparent;
+    transform: none;
+    color: var(--color-kidical-blue);
+    text-decoration-color: var(--color-kidical-blue);
+}
+
+.kal-filterrow .location-picker__current-pin {
+    width: 1rem;
+}
+
+.kal-filterrow__sep {
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
+    font-size: var(--text-base);
+}
+
+/* Filter-row — compact location picker overrides. Must be unlayered because the
+   base .location-picker__* rules are also unlayered; @layer never beats unlayered.
+   Compound selectors here have higher specificity → win via normal cascade. */
+.kal-filterrow .location-picker {
+    align-items: flex-start;
+    gap: 0.75rem;
+    max-width: none;
+}
+
+.kal-filterrow .location-picker__pin {
+    display: none;
+}
+
+.kal-filterrow .location-picker__main {
+    flex: 1;
+}
+
+.kal-filterrow .location-picker__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+    margin-bottom: 0.3rem;
+}
+
+.kal-filterrow .location-picker__field {
+    flex-wrap: nowrap;
+}
+
+.kal-filterrow .location-picker__input {
+    flex: 1 1 14rem;
+    min-height: 2.25rem;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    box-shadow: none;
+    background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 95%);
+    border: 1.5px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
+    border-radius: 10px;
+    padding-inline: 0.9rem;
+}
+
+.kal-filterrow .location-picker__input:focus {
+    background-color: white;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-blue), transparent 70%);
+    transform: none;
+}
+
+.kal-filterrow .location-picker__geo {
+    font-size: var(--text-sm);
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+}
+
+.kal-filterrow .location-picker__geo:hover {
+    color: var(--color-kidical-blue);
 }
 
 @media (max-width: 767px) {

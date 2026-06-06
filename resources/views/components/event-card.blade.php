@@ -1,8 +1,6 @@
 @props(['activity', 'showDate' => true, 'featured' => null])
 
-{{-- PAT-1 · Event row. PIN + CITY | VENUE | TIME.
-     Pin moves to immediately before the municipality (the anchor a parent scans for).
-     Venue strips trailing ", <municipality>" when it matches the display name. --}}
+{{-- PAT-1 · Event row. CITY | TIJDu @ LOCATIE --}}
 @php
     $headline = preg_replace('/^\s*kidical\s+mass\s+/i', '', $activity->title_nl);
     $headline = trim((string) $headline) !== '' ? $headline : $activity->title_nl;
@@ -20,13 +18,16 @@
             $venueDisplay,
         ));
     }
+
+    // Belgian Dutch time: "14u" or "14u30"
+    $minutes = $activity->begin_date->format('i');
+    $timeDisplay = $activity->begin_date->format('G') . 'u' . ($minutes === '00' ? '' : $minutes);
 @endphp
 <a
     href="{{ route('activities.show', $activity) }}"
     {{ $attributes->merge(['class' => 'event-card link-plain'.($isFeatured ? ' event-card--featured' : '')]) }}
 >
     <span class="event-card__place">
-        <flux:icon.map-pin variant="solid" class="event-card__place-pin" aria-hidden="true" />
         @if ($isFeatured)<span class="event-card__star" aria-hidden="true">★</span>@endif{{ $headline }}
     </span>
 
@@ -34,16 +35,13 @@
         <span class="event-card__featured-badge">Uitgelicht</span>
     @endif
 
-    @if ($venueDisplay)
-        <span class="event-card__loc">
-            <span class="event-card__loc-text">{{ $venueDisplay }}</span>
-        </span>
-    @endif
-
-    <span class="event-card__when">
+    <span class="event-card__meta">
         @if ($showDate)
-            <span class="event-card__date">{{ $activity->begin_date->locale('nl')->isoFormat('dd D MMM') }}</span>
+            <span class="event-card__date">{{ $activity->begin_date->locale('nl')->isoFormat('dd D MMM') }} ·</span>
         @endif
-        <time class="event-card__time" datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $activity->begin_date->format('H:i') }}</time>
+        <time class="event-card__time" datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $timeDisplay }}</time>
+        @if ($venueDisplay)
+            <span class="event-card__meta-at" aria-hidden="true">@</span><span class="event-card__meta-venue">{{ $venueDisplay }}</span>
+        @endif
     </span>
 </a>

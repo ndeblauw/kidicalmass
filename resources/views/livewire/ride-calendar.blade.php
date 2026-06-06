@@ -11,36 +11,29 @@
                     <livewire:location-picker />
                 </div>
 
-                <div class="kal-filterrow__sep" aria-hidden="true"></div>
-
-                <div class="kal-filterrow__radius">
-                    @if ($location)
+                @if ($location)
+                    <div class="kal-filterrow__radius">
+                        <span class="kal-filterrow__sep" aria-hidden="true">·</span>
+                        <span class="kal-filterrow__radius-label">Straal</span>
                         <div class="kal-filterrow__tabs">
                             <button
                                 type="button"
                                 wire:click="setRadius('dichtbij')"
                                 class="kal-filterrow__tab{{ $radius === 'dichtbij' ? ' kal-filterrow__tab--active' : '' }}"
-                            >Dicht bij</button>
+                            >5 km</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('regio')"
                                 class="kal-filterrow__tab{{ $radius === 'regio' ? ' kal-filterrow__tab--active' : '' }}"
-                            >Ruimere regio</button>
+                            >30 km</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('belgie')"
                                 class="kal-filterrow__tab{{ $radius === 'belgie' ? ' kal-filterrow__tab--active' : '' }}"
                             >Heel België</button>
                         </div>
-                    @else
-                        <p class="kal-filterrow__radius-hint">Hoe ver wil je kijken?</p>
-                        <div class="kal-filterrow__tabs kal-filterrow__tabs--disabled" aria-hidden="true">
-                            <span class="kal-filterrow__tab">Dicht bij</span>
-                            <span class="kal-filterrow__tab">Ruimere regio</span>
-                            <span class="kal-filterrow__tab">Heel België</span>
-                        </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
             </div>
         @endif
 
@@ -88,9 +81,9 @@
                 {{-- Past-rides link at bottom of agenda --}}
                 <div class="kal-pastbar">
                     @if ($when === 'aankomend')
-                        <button type="button" wire:click="showPast" class="kal-pastlink">Bekijk voorbije ritten →</button>
+                        <button type="button" wire:click="showPast" class="link-muted">Bekijk voorbije ritten →</button>
                     @else
-                        <button type="button" wire:click="showUpcoming" class="kal-pastlink">← Terug naar aankomende ritten</button>
+                        <button type="button" wire:click="showUpcoming" class="link-muted">← Terug naar aankomende ritten</button>
                     @endif
                 </div>
 
@@ -99,25 +92,11 @@
             {{-- Sticky sidebar (desktop only; hidden on mobile via CSS) --}}
             @if ($when !== 'voorbije')
                 <aside class="kal-sidebar">
-                    @if ($location)
-                        {{-- Newsletter CTA --}}
-                        <div class="kal-sidebar__panel kal-sidebar__panel--newsletter">
-                            <h3 class="kal-sidebar__heading">Mis geen rit</h3>
-                            <p class="kal-sidebar__body">Één seintje per maand met ritten bij jou in de buurt. Geen spam, altijd uitschrijfbaar.</p>
-                            <button type="button" class="kal-sidebar__btn">Schrijf je in</button>
-                        </div>
-                    @else
-                        {{-- Location nudge --}}
-                        <div class="kal-sidebar__panel kal-sidebar__panel--nudge">
-                            <flux:icon.map-pin variant="solid" class="kal-sidebar__nudge-icon" aria-hidden="true" />
-                            <p class="kal-sidebar__body">Stel je buurt in en zie alleen de ritten bij jou in de buurt.</p>
-                            <button
-                                type="button"
-                                class="kal-sidebar__btn"
-                                @click="$dispatch('focus-picker')"
-                            >Stel locatie in</button>
-                        </div>
-                    @endif
+                    <div class="kal-sidebar__panel kal-sidebar__panel--newsletter">
+                        <h3 class="kal-sidebar__heading">Mis geen rit</h3>
+                        <p class="kal-sidebar__body">Één seintje per maand met ritten bij jou in de buurt. Geen spam, altijd uitschrijfbaar.</p>
+                        <button type="button" class="kal-sidebar__btn">Schrijf je in</button>
+                    </div>
                 </aside>
             @endif
 

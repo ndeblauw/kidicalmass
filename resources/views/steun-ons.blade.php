@@ -14,6 +14,16 @@
 
     @php
         $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
+
+        // Proof stats rendered as a colour-coded card deck (text-left / deck-right).
+        // Order here is the deck's top-to-bottom order; the last card (5.500) rests
+        // on top, fully legible. Copy stays in lang; colour + icon are presentation.
+        $stats = __('support.proof_stats');
+        $proofCards = [
+            ['stat' => $stats[2], 'color' => 'red', 'icon' => 'map-pin'],         // 16/19 gemeenten
+            ['stat' => $stats[1], 'color' => 'green', 'icon' => 'calendar-days'], // 60+ ritten per jaar
+            ['stat' => $stats[0], 'color' => 'blue', 'icon' => 'users'],          // 5.500 kinderen en ouders
+        ];
     @endphp
 
     <x-page-hero :eyebrow="__('support.hero_eyebrow')" :title="__('support.hero_title')" illustration="img/illustrations/crocodile-on-tricycle.png">
@@ -24,19 +34,26 @@
         <p class="steun-mission__body">{{ __('support.mission_body') }}</p>
     </section>
 
-    {{-- PROOF — real, sourced impact (docs/raw/website/*). Numbers stay honest. --}}
+    {{-- PROOF — real, sourced impact (docs/raw/website/*). Numbers stay honest.
+         Text left, stat cards as an overlapping deck right (static list on mobile). --}}
     <section class="steun-proof">
-        <h2 class="steun-proof__title">{{ __('support.proof_title') }}</h2>
-        <p class="steun-proof__body">{{ __('support.proof_body') }}</p>
-        <ul class="steun-proof__stats" role="list">
-            @foreach (__('support.proof_stats') as $stat)
-                <li class="steun-proof__stat">
-                    <span class="steun-proof__stat-value">{{ $stat['value'] }}</span>
-                    <span class="steun-proof__stat-label">{{ $stat['label'] }}</span>
-                </li>
+        <div class="steun-proof__intro">
+            <h2 class="steun-proof__title">{{ __('support.proof_title') }}</h2>
+            <p class="steun-proof__body">{{ __('support.proof_body') }}</p>
+            <p class="steun-proof__credit">{{ __('support.proof_press') }} {{ __('support.proof_backers') }}</p>
+        </div>
+
+        <div class="steun-proof__deck" role="list">
+            @foreach ($proofCards as $card)
+                <x-stat-card
+                    class="steun-proof__card"
+                    role="listitem"
+                    :value="$card['stat']['value']"
+                    :label="$card['stat']['label']"
+                    :icon="$card['icon']"
+                    :color="$card['color']" />
             @endforeach
-        </ul>
-        <p class="steun-proof__credit">{{ __('support.proof_press') }} {{ __('support.proof_backers') }}</p>
+        </div>
     </section>
 
     {{-- WAT JE STEUN MOGELIJK MAAKT — reuses the promises band --}}
@@ -114,6 +131,33 @@
         }, { threshold: 0.12 });
 
         cards.forEach(card => observer.observe(card));
+    });
+    </script>
+    @endpush
+
+    {{-- Proof deck — one-shot reveal: the cards fly up into the stacked deck the
+         first time the section scrolls into view (lg+ only, mirrors getting-started). --}}
+    @push('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (!window.matchMedia('(min-width: 1024px)').matches) return;
+
+        const deck = document.querySelector('.steun-proof__deck');
+        if (!deck) return;
+
+        deck.classList.add('steun-proof__deck--anim');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    deck.classList.add('is-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        observer.observe(deck);
     });
     </script>
     @endpush

@@ -195,6 +195,25 @@ select:focus[data-flux-control] {
     transition: none;
 }
 
+/* Secondary / quiet text links — for nav footers, pagination, contextual back/next. */
+.link-muted {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 50%);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 75%);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    background-image: none;
+    transition: color 0.18s;
+}
+
+.link-muted:hover {
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 20%);
+    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 50%);
+}
+
 @layer components {
     .site-header {
         position: fixed;
