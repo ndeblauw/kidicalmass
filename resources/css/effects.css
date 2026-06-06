@@ -1,0 +1,95 @@
+@keyframes hero-h1-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-chapter-in {
+    from { opacity: 0; transform: translateY(calc(3.5rem + 18px)) rotate(-3deg); }
+    to   { opacity: 1; transform: translateY(3.5rem) rotate(-3deg); }
+}
+
+@keyframes hero-photo-in {
+    from { opacity: 0; transform: scale(0.88); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes panel-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes check-pop {
+    from { opacity: 0; transform: scale(0.4); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .activity-hero__copy h1,
+    .activity-hero__date,
+    .activity-hero__photo,
+    .activity-hero__chapter,
+    .activity-organizers__content,
+    .volunteer-signup__success-icon,
+    .volunteer-signup__success h3,
+    .volunteer-signup__success p,
+    .gs-hero__lead,
+    .ho-hero__copy h1,
+    .ho-hero__lead,
+    .ho-hero__visual img {
+        animation: none;
+    }
+
+    .gs-faq__item::details-content,
+    .gs-faq__q::before,
+    .gs-faq__q::after {
+        transition: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-hero__lead {
+        animation: none;
+    }
+}
+
+@layer components {
+    :root {
+        --page-hero-h: 40rem;          
+    }
+    @media (max-width: 767px) {
+        :root { --page-hero-h: 30rem; }
+        .page-hero__inner { padding-top: 9.5rem; }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .index-hero h1,
+    .chapter-head h1,
+    .kal-hero__lead,
+    .grp-hero__lead,
+    .grp-hero__body {
+        animation: none;
+    }
+
+    .page-hero__eyebrow,
+    .page-hero__title,
+    .page-hero__controls,
+    .page-hero__illustration {
+        animation: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .location-picker__input,
+    .location-picker__geo,
+    .location-picker__change {
+        transition: none;
+    }
+}
+
+[x-cloak] { display: none !important; }

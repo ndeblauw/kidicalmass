@@ -1,0 +1,264 @@
+@layer components {
+    .gs-hero__lead {
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+        font-weight: 700;
+        line-height: 1.4;
+        max-width: 32ch;
+        margin-bottom: 0.5rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+    }
+    .gs-hero__circle {
+        background-color: var(--color-kidical-light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .gs-hero__circle img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+    .gs-expect-scroll {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: var(--color-kidical-light-blue);
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+    .gs-expect-pin {
+        padding-inline: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+
+        @media (min-width: 768px) {
+            padding-inline: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
+        }
+    }
+    .gs-expect-left {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        
+        > p {
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 5%);
+            font-size: clamp(var(--text-xl), 1.8vw, var(--text-3xl));
+            line-height: 1.55;
+            max-width: 24ch;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        img {
+            width: 200px;
+            object-fit: contain;
+
+            @media (min-width: 768px) {
+                width: 280px;
+            }
+        }
+    }
+    .gs-expect-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 2.875rem;
+    }
+    .gs-expect-card {
+        &:nth-child(1) { transform: rotate(-1.5deg); }
+        &:nth-child(2) { transform: rotate(1deg);    }
+        &:nth-child(3) { transform: rotate(-1.5deg); }
+        &:nth-child(4) { transform: rotate(1deg);    }
+        &:nth-child(5) { transform: rotate(-1.5deg); }
+        &:nth-child(6) { transform: rotate(1deg);    }
+    }
+    .gs-expect-scroll--ready {
+        position: relative;
+        padding: 0;
+    }
+    .gs-expect-scroll--ready .gs-expect-pin {
+        position: sticky;
+        top: 0;
+        height: 100dvh;
+        min-height: 600px;
+        overflow: hidden;
+        background: var(--color-kidical-light-blue); 
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 0;
+        gap: 0;
+    }
+    .gs-expect-scroll--ready .gs-expect-left {
+        padding: 5rem 2rem 4rem max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+        gap: 2rem;
+
+        img {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            max-height: 55vh;
+            object-fit: contain;
+            object-position: bottom left;
+        }
+    }
+    .gs-expect-scroll--ready .gs-expect-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 3rem 2rem;
+    }
+    .gs-expect-scroll--ready .gs-expect-cards {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        
+    }
+    .gs-expect-scroll--ready .gs-expect-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+    .gs-faq-section {
+        background: white;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+    .gs-faq-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        max-width: 80rem;
+        margin-inline: auto;
+        padding-inline: 1rem;
+        align-items: start;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 280px 1fr;
+            gap: 4rem;
+        }
+    }
+    .gs-faq-illustration {
+        display: none;
+
+        @media (min-width: 768px) {
+            display: block;
+
+            img {
+                width: 100%;
+                object-fit: contain;
+                object-position: top;
+                position: sticky;
+                top: 3rem;
+                max-height: 80vh;
+            }
+        }
+    }
+    .gs-faq-content {
+        min-width: 0;
+    }
+    .gs-faq-section .gs-section__title {
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--color-kidical-red);
+        margin-bottom: 1.5rem;
+    }
+    .gs-faq {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        
+        interpolate-size: allow-keywords;
+    }
+    .gs-faq__item {
+        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-light-yellow), black 6%);
+        padding-bottom: 0.75rem;
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        
+        &:has(+ .gs-faq__item[open]) {
+            border-bottom: none;
+        }
+
+        &[open] {
+            background: var(--color-kidical-light-yellow);
+            border-radius: 1.25rem;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+    }
+    .gs-faq__q {
+        position: relative;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: 1.25rem 1.875rem;
+        padding-right: 4.625rem;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.625rem;
+        color: var(--color-kidical-ink);
+        line-height: 1.4;
+    }
+    .gs-faq__q::-webkit-details-marker { display: none; }
+    .gs-faq__q::before,
+    .gs-faq__q::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 1.875rem;
+        width: 1.375rem;
+        height: 0.1875rem;
+        border-radius: 1.5px;
+        background-color: var(--color-kidical-red);
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .gs-faq__q::before { transform: translateY(-50%) rotate(90deg); }
+    .gs-faq__q::after  { transform: translateY(-50%); }
+    .gs-faq__item[open] .gs-faq__q::before {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    .gs-faq__a {
+        padding: 0 1.875rem 1.25rem;
+        font-size: 1.3125rem;
+        line-height: 1.65;
+        color: #4a3960;
+
+        p { margin: 0; }
+        a { color: var(--color-kidical-blue); }
+    }
+    .gs-faq__item::details-content {
+        block-size: 0;
+        overflow: clip;
+        opacity: 0;
+        transition:
+            block-size 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.26s ease,
+            content-visibility 0.34s allow-discrete;
+    }
+    .gs-faq__item[open]::details-content {
+        block-size: auto;
+        opacity: 1;
+    }
+    .gs-hero__lead,
+    .ho-hero__lead,
+    .steun-hero__lead,
+    .about-hero__lead,
+    .grp-hero__lead,
+    .chapter-head__intro,
+    .activity-organizers__lead {
+        font-family: var(--font-sans);
+        font-weight: 400;
+    }
+}

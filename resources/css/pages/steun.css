@@ -1,0 +1,302 @@
+@layer components {
+    .volunteer-signup__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    .volunteer-signup__field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+    .volunteer-signup__label {
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+    .volunteer-signup__input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 82%);
+        border-radius: 0.75rem;
+        font-size: var(--text-lg);
+        color: var(--color-kidical-ink);
+        background: white;
+        outline: none;
+        transition: border-color 0.15s;
+
+        &:focus {
+            border-color: var(--color-kidical-red);
+        }
+
+        &::placeholder {
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
+        }
+    }
+    .volunteer-signup__error {
+        font-size: var(--text-sm);
+        color: var(--color-kidical-red);
+        font-weight: 600;
+    }
+    .volunteer-signup__success {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        h3 {
+            color: var(--color-kidical-ink);
+            font-size: var(--text-2xl);
+            margin: 0;
+            animation: fade-up 0.35s cubic-bezier(0.25, 1, 0.5, 1) 0.15s both;
+        }
+
+        p {
+            font-size: var(--text-lg);
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+            margin: 0;
+            animation: fade-up 0.35s cubic-bezier(0.25, 1, 0.5, 1) 0.25s both;
+        }
+    }
+    .volunteer-signup__success-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: var(--color-kidical-green);
+        margin-bottom: 0.5rem;
+        animation: check-pop 0.45s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+    .steun-mission {
+        max-width: 48rem;
+        margin-top: clamp(2.5rem, 5vw, 4rem);
+    }
+    .steun-mission__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
+        line-height: 1.1;
+        color: var(--color-kidical-ink);
+    }
+    .steun-mission__body {
+        margin-top: 1rem;
+        font-size: var(--text-lg);
+        line-height: 1.6;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+    }
+    .steun-proof {
+        max-width: 62rem;
+        margin-top: clamp(3rem, 6vw, 5rem);
+    }
+    .steun-proof__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
+        line-height: 1.1;
+        color: var(--color-kidical-ink);
+    }
+    .steun-proof__body {
+        margin-top: 1rem;
+        max-width: 46rem;
+        font-size: var(--text-lg);
+        line-height: 1.6;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+    }
+    .steun-proof__stats {
+        list-style: none;
+        padding: 0;
+        margin: 2.25rem 0 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: clamp(1.75rem, 5vw, 3.5rem);
+    }
+    .steun-proof__stat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        max-width: 14rem;
+    }
+    .steun-proof__stat-value {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+        line-height: 1;
+        color: var(--color-kidical-blue);
+    }
+    .steun-proof__stat-label {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        line-height: 1.4;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 28%);
+    }
+    .steun-proof__credit {
+        margin-top: 2.25rem;
+        font-size: var(--text-sm);
+        line-height: 1.6;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 32%);
+    }
+    .steun-hero__lead {
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+        font-weight: 700;
+        line-height: 1.4;
+        max-width: 34ch;
+        margin-top: 0.5rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+    }
+    .steun-hero__circle {
+        background-color: var(--color-kidical-light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .steun-hero__circle img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+    .steun-funds__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
+        color: var(--color-kidical-ink);
+        margin-bottom: 2rem;
+    }
+    .steun-funds__grid {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    .steun-funds__grid .activity-promises__item:nth-child(3) {
+        transform: rotate(-1deg);
+    }
+    .steun-ask {
+        margin-top: clamp(3rem, 6vw, 5rem);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            align-items: stretch;
+        }
+    }
+    .steun-ask__card {
+        padding: 2.25rem;
+        border-radius: 1.5rem;
+        background-color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transform: rotate(-1deg);
+    }
+    .steun-ask__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-2xl);
+        color: var(--color-kidical-ink);
+    }
+    .steun-ask__body {
+        margin-top: 0.5rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
+    }
+    .steun-ask__cta {
+        margin-top: 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.95rem 1.75rem;
+        border-radius: 9999px;
+        background-color: var(--color-kidical-yellow);
+        background-image: none;
+        color: var(--color-kidical-ink);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-lg);
+        transition: transform 0.2s, filter 0.2s;
+
+        &:hover {
+            background-image: none;
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+    }
+    .steun-ask__cta-icon {
+        width: 1.2rem;
+        height: 1.2rem;
+        color: var(--color-kidical-red);
+    }
+    .steun-ask__cta-ext {
+        width: 1rem;
+        height: 1rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+    .steun-ask__where {
+        margin-top: 1.25rem;
+        font-size: var(--text-sm);
+        line-height: 1.55;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
+    }
+    .steun-ask__note {
+        margin-top: 0.75rem;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+    }
+    .steun-ask__tiers {
+        display: inline-block;
+        margin-top: 1rem;
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+        background-image: none;
+
+        &:hover {
+            background-image: none;
+            text-decoration: underline;
+        }
+    }
+    .steun-ask__free {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2.25rem;
+        border-radius: 1.5rem;
+        background-color: var(--color-kidical-light-blue);
+        transform: rotate(1deg);
+    }
+    .steun-ask__free-title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        color: var(--color-kidical-ink);
+    }
+    .steun-ask__free-body {
+        margin-top: 0.5rem;
+        color: var(--color-kidical-ink);
+    }
+    .steun-cta {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: clamp(3rem, 6vw, 5rem);
+        margin-bottom: calc(var(--spacing) * -8);
+        background: var(--color-kidical-yellow);
+        overflow: hidden;
+    }
+    .steun-cta__inner {
+        padding-block: clamp(3rem, 6vw, 5rem);
+        text-align: center;
+    }
+    .steun-cta h2 {
+        color: var(--color-kidical-ink);
+        margin-bottom: 1rem;
+    }
+    .steun-cta__sub {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
+        font-weight: 700;
+        margin-bottom: 1.75rem;
+    }
+}

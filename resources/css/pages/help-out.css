@@ -1,0 +1,181 @@
+@layer components {
+    .ho-hero__lead {
+        color: var(--color-kidical-yellow);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+        font-weight: 700;
+        line-height: 1.3;
+        max-width: 32ch;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+    .ho-intro {
+        max-width: 60ch;
+        margin-block: calc(var(--spacing) * 12);
+        font-size: clamp(var(--text-lg), 1.6vw, var(--text-2xl));
+        line-height: 1.5;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+    }
+    .ho-roles { background: var(--color-kidical-yellow); }
+    .ho-roles .activity-promises__item:nth-child(3) { transform: rotate(-1deg); }
+    .ho-deal {
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+    .ho-deal__layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+
+        @media (min-width: 1024px) {
+            grid-template-columns: 1fr 1fr;
+            gap: 4.5rem;
+        }
+    }
+    .ho-deal__block + .ho-deal__block { margin-top: 3rem; }
+    @media (min-width: 1024px) {
+        .ho-deal__block {
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .ho-deal__block + .ho-deal__block { margin-top: 0; }
+    }
+    .ho-deal__subtitle {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+        line-height: 1.05;
+        color: var(--color-kidical-ink);
+        margin-bottom: 2rem;
+    }
+    .ho-deal__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; }
+    .ho-deal__list li {
+        position: relative;
+        padding-left: 2.9rem;
+        font-size: clamp(var(--text-xl), 1.7vw, var(--text-2xl));
+        font-weight: 600;
+        line-height: 1.45;
+        color: var(--color-kidical-ink);
+    }
+    .ho-deal__list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.05em;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 32%;
+        transform: rotate(-4deg);
+        background-color: var(--color-kidical-green);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-size: 64%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .ho-deal__list--ask li::before {
+        background-color: var(--color-kidical-red);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+    .ho-deal__frame {
+        position: relative;
+        margin: 0;
+        display: grid;
+        gap: 1rem;
+    }
+    .ho-deal__img {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: center 30%;
+        display: block;
+        border-radius: 1.5rem;
+        box-shadow: 0 18px 44px -18px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+    @media (min-width: 1024px) {
+        .ho-deal__media-sticky {
+            position: sticky;
+            top: 5.5rem;
+        }
+
+        .ho-deal__frame {
+            display: block;
+            height: calc(100vh - 7.5rem);
+            border-radius: 1.75rem;
+            overflow: hidden;
+            box-shadow: 0 28px 64px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+        }
+
+        .ho-deal__img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            border-radius: 0;
+            box-shadow: none;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 0.8s ease, transform 1.3s ease;
+        }
+        .ho-deal__img.is-active { opacity: 1; transform: scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .ho-deal__img { transition: none; transform: none; }
+        .ho-deal__img.is-active { transform: none; }
+    }
+    .ho-find {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: var(--color-kidical-light-blue);
+        padding-block: clamp(2.75rem, 6vw, 4.5rem);
+    }
+    .ho-find__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
+    .ho-find__lead {
+        max-width: 54ch;
+        font-size: clamp(var(--text-lg), 1.5vw, var(--text-2xl));
+        line-height: 1.5;
+        margin-bottom: 2rem;
+        color: var(--color-kidical-ink);
+    }
+    .ho-groups {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+
+        @media (min-width: 480px) { grid-template-columns: repeat(2, 1fr); }
+        @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); }
+        @media (min-width: 1024px) { grid-template-columns: repeat(4, 1fr); }
+    }
+    .ho-group {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+        height: 100%;
+        padding: 0.95rem 1.15rem;
+        border-radius: 0.85rem;
+        background: white;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s;
+    }
+    .ho-group:hover {
+        transform: translateY(-2px) rotate(-1deg);
+        box-shadow: 0 10px 24px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+    }
+    .ho-group__name { font-family: var(--font-heading); font-weight: 800; color: var(--color-kidical-ink); }
+    .ho-group__zip {
+        flex-shrink: 0;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+    .ho-start {
+        max-width: 60ch;
+        margin-block: calc(var(--spacing) * 14);
+        padding-top: 2rem;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+    .ho-start__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
+    .ho-start p { margin-bottom: 0.75rem; }
+}

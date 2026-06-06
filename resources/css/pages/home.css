@@ -1,0 +1,25 @@
+@layer components {
+    .logo-brand-text {
+        font-family: 'Fredoka One', 'Arial Rounded MT Bold', Arial, sans-serif;
+        color: var(--color-kidical-red);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1;
+    }
+    .hero-section {
+        background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
+    }
+    .home-hero {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: calc(var(--spacing) * -28);
+        background-color: var(--color-kidical-blue);
+        color: white;
+        overflow: hidden;
+    }
+    .home-hero h1 {
+        color: white;
+        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
+        line-height: 1.0;
+    }
+}

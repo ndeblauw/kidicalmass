@@ -1,0 +1,95 @@
+@layer components {
+    .partner-formules {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+    }
+    .partner-formule-track h3 {
+        font-size: var(--text-xl);
+        color: var(--color-kidical-ink);
+        margin-bottom: 0.75rem;
+    }
+    .partner-formule-track ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.6rem;
+    }
+    .partner-formule-track li {
+        line-height: 1.45;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
+    }
+    .partner-formule-track strong {
+        font-weight: 800;
+        color: var(--color-kidical-ink);
+    }
+    .partner-enquiry {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: start;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1.1fr;
+            gap: 3rem;
+        }
+    }
+    .partner-enquiry__intro p {
+        color: var(--color-kidical-ink);
+        max-width: 42ch;
+    }
+    .partner-enquiry__fallback {
+        margin-top: 1.5rem;
+        font-weight: 700;
+        line-height: 1.7;
+
+        a { color: var(--color-kidical-blue); background-image: none; }
+        a:hover { text-decoration: underline; background-image: none; }
+    }
+    .partner-enquiry__form {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 1.75rem;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+    .partner-logo-wall {
+        margin: 0;
+        text-align: center;
+        
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+    }
+    .partner-logo-wall img {
+        width: 100%;
+        min-width: 34rem;
+        max-width: 60rem;
+        height: auto;
+        display: block;
+        margin-inline: auto;
+    }
+    .partner-logo-wall figcaption {
+        margin-top: 1.25rem;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+    }
+    .partners-page .about-section {
+        margin-block: 0;
+        padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+    }
+    .partners-page .about-section + .about-section {
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+    .partners-page .about-band {
+        margin-block: 0;
+    }
+    .partners-page .partner-logo-wall {
+        margin-top: 1.5rem;
+    }
+}

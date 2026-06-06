@@ -1,0 +1,7 @@
+@layer components {
+    .closing-cta h2 {
+        color: var(--color-kidical-ink);
+        font-size: clamp(var(--text-4xl), 3.5vw, var(--text-5xl));
+        line-height: 1.1;
+    }
+}

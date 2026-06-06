@@ -1,0 +1,111 @@
+@layer components {
+    .cta-button {
+        --disc-size: 34px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+        text-decoration: none;
+        box-shadow: 0 1px 3px oklch(0% 0 0 / 0.1);
+        transition: background 0.25s ease-out, filter 0.2s, transform 0.2s;
+    }
+    .cta-button--yellow {
+        background: var(--color-kidical-yellow);
+        color: var(--color-kidical-ink);
+    }
+    .cta-button--yellow:hover { background: oklch(97% 0.005 95); }
+    .cta-button--blue {
+        background: var(--color-kidical-blue);
+        color: white;
+    }
+    .cta-button--blue:hover {
+        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
+    }
+    .cta-button--sm {
+        --disc-size: 26px;
+        padding: 0.55rem 1.1rem;
+        font-size: var(--text-sm);
+    }
+    .cta-button--block {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+    .cta-button__disc svg {
+        width: 42%;
+        height: 42%;
+    }
+    .cta-button__slot {
+        flex-shrink: 0;
+        height: var(--disc-size);
+        overflow: visible;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cta-button__disc {
+        flex-shrink: 0;
+        width: var(--disc-size);
+        height: var(--disc-size);
+        border-radius: 50%;
+        background: var(--color-kidical-red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cta-button__slot--left {
+        order: -1;
+        width: 0;
+        margin-right: 0;
+        transition:
+            width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            margin-right 0.3s ease-out;
+    }
+    .cta-button__slot--left .cta-button__disc {
+        opacity: 0;
+        transform: scale(0.001);
+        transition:
+            transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+            opacity 0.2s ease-in;
+    }
+    .cta-button__slot--right {
+        order: 2;
+        width: var(--disc-size);
+        margin-left: 10px;
+        transition:
+            width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.175s,
+            margin-left 0.3s ease-out 0.175s;
+    }
+    .cta-button__slot--right .cta-button__disc {
+        opacity: 1;
+        transform: scale(1);
+        transition:
+            transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.175s,
+            opacity 0.2s ease-in 0.175s;
+    }
+    .cta-button:hover .cta-button__slot--right {
+        width: 0;
+        margin-left: 0;
+        transition-delay: 0s;
+    }
+    .cta-button:hover .cta-button__slot--right .cta-button__disc {
+        opacity: 0;
+        transform: scale(0.001);
+        transition-delay: 0s;
+    }
+    .cta-button:hover .cta-button__slot--left {
+        width: var(--disc-size);
+        margin-right: 10px;
+        transition-delay: 0.175s;
+    }
+    .cta-button:hover .cta-button__slot--left .cta-button__disc {
+        opacity: 1;
+        transform: scale(1);
+        transition-delay: 0.175s;
+    }
+    .cta-button__label {
+        order: 1;
+    }
+}
