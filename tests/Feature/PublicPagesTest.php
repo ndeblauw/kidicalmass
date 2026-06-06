@@ -4,8 +4,10 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
+use App\Models\PostalCode;
 
 use function Pest\Laravel\get;
+use function Pest\Laravel\withCookie;
 
 /**
  * Covers the public content pages after the Surface pass: each renders its real
@@ -25,13 +27,19 @@ beforeEach(function () {
     $this->article->groups()->attach($this->group);
 });
 
-it('renders the home page with real data', function () {
-    get('/nl')
+it('renders the home page with the next ride when a location is set', function () {
+    PostalCode::insert([
+        ['zip' => '1030', 'name' => 'Schaarbeek', 'latitude' => 50.8669, 'longitude' => 4.3733, 'created_at' => now(), 'updated_at' => now()],
+    ]);
+    $this->activity->update(['postal_code' => '1030']);
+
+    withCookie('kcm_location', json_encode(['zip' => '1030', 'lat' => 50.8669, 'lng' => 4.3733, 'name' => 'Schaarbeek']))
+        ->get('/nl')
         ->assertOk()
+        ->assertSee('De volgende rit bij jou')
         ->assertSee('Surface Test Ride')
-        ->assertSee('Kidical Mass Testville')
-        ->assertSee('Surface Test Article')
-        ->assertSee('Find a ride', escape: false);
+        ->assertSee('Je fietst rond')
+        ->assertDontSee('Find a ride', escape: false);
 });
 
 it('renders the activities index with the event listed', function () {

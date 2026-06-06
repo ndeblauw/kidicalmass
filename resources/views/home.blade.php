@@ -1,92 +1,78 @@
 <x-layouts::site title="Kidical Mass Belgium">
-    <div class="space-y-20">
-        {{-- Hero · dual CTA --}}
-        <section class="home-hero px-4 pb-16 pt-28 text-center md:pb-24 md:pt-32">
-            <div class="mx-auto max-w-3xl space-y-6">
-                <h1>Kids on bikes. Together.</h1>
-                <p class="mx-auto max-w-2xl text-xl text-white/90">
-                    Every month, hundreds of children ride through Belgian streets — safely, together, with music. Free for everyone.
-                </p>
-                <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 pt-2">
-                    <x-cta-button :href="route('activities.index')" class="link-plain">Find a ride</x-cta-button>
-                    <a href="{{ route('getting-started') }}" class="font-bold text-white hover:underline">New here? Start here →</a>
-                </div>
-            </div>
-        </section>
+    {{-- ① HERO — video-led emotional pitch. Joy is the argument ("is het de moeite waard?"). --}}
+    <section class="home-hero">
+        <div class="home-hero__video" aria-hidden="true">
+            <iframe
+                src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&loop=1&playlist=VXiIgU9vI-4&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
+                title="" tabindex="-1" frameborder="0"
+                allow="autoplay; encrypted-media; picture-in-picture"
+            ></iframe>
+        </div>
 
-        {{-- Upcoming rides (next 3) --}}
-        <section id="upcoming" class="space-y-6 scroll-mt-24">
-            <div class="flex items-baseline justify-between gap-4">
-                <h2 class="text-kidical-ink">Upcoming rides</h2>
-                <a href="{{ route('activities.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">See all →</a>
-            </div>
-            @if ($upcomingActivities->isNotEmpty())
-                <div class="event-list">
-                    @foreach ($upcomingActivities->take(3) as $activity)
-                        <x-event-card :activity="$activity" />
-                    @endforeach
-                </div>
-            @else
-                <p class="text-kidical-ink/70">No rides right now — the season runs from March to November.</p>
-            @endif
-        </section>
-
-        {{-- Chapter reach --}}
-        <section class="space-y-6">
-            <div class="flex items-baseline justify-between gap-4">
-                <h2 class="text-kidical-ink">Active across Belgium</h2>
-                <a href="{{ route('groups.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">See all groups →</a>
-            </div>
-            <x-wire.placeholder label="Chapter map" note="National reach — map wiring comes later" class="min-h-64" />
-            @if ($groups->isNotEmpty())
-                <ul class="flex flex-wrap gap-2">
-                    @foreach ($groups as $group)
-                        <li>
-                            <a href="{{ route('groups.show', $group) }}" class="link-plain inline-block rounded-full border border-kidical-ink/15 bg-white px-4 py-1.5 text-sm font-semibold text-kidical-blue transition-colors hover:border-kidical-blue">
-                                {{ $group->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
-        </section>
-
-        {{-- Stats bar (PAT-4 · dynamic) --}}
-        <section class="grid gap-5 sm:grid-cols-2">
-            <div class="rounded-xl bg-kidical-light-blue/50 p-8 text-center">
-                <div class="font-heading text-5xl font-extrabold text-kidical-blue">{{ $groups->count() }}</div>
-                <div class="mt-1 font-semibold text-kidical-ink/70">active {{ Str::plural('group', $groups->count()) }}</div>
-            </div>
-            <div class="rounded-xl bg-kidical-light-yellow p-8 text-center">
-                <div class="font-heading text-5xl font-extrabold text-kidical-orange">{{ $upcomingActivities->count() }}</div>
-                <div class="mt-1 font-semibold text-kidical-ink/70">upcoming {{ Str::plural('ride', $upcomingActivities->count()) }}</div>
-            </div>
-        </section>
-
-        {{-- Volunteer nudge --}}
-        <section class="rounded-xl border border-kidical-ink/10 bg-white p-6 text-center shadow-sm">
-            <p class="text-lg">
-                Want to help make rides happen?
-                <a href="{{ route('volunteer') }}" class="font-bold text-kidical-blue hover:underline">Help out →</a>
+        <div class="home-hero__inner">
+            <h1 class="home-hero__title">Het leukste uur op de fiets, door autovrije straten.</h1>
+            <p class="home-hero__lead">
+                Een vrolijke gezinsfietstocht door autovrije straten, bij jou in de buurt.
+                Samen laten we zien dat de straat ook van kinderen is.
             </p>
+            <div class="home-hero__actions">
+                <x-cta-button :href="route('activities.index')" class="link-plain">Vind een rit in de buurt</x-cta-button>
+                <a href="{{ route('getting-started') }}" class="home-hero__secondary link-plain">Nieuw hier? Zo werkt het →</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="space-y-20">
+        {{-- ② DE VOLGENDE RIT BIJ JOU — one location-aware ride (proof + utility). --}}
+        <section class="home-nextride space-y-6 scroll-mt-24" id="volgende-rit">
+            <div class="flex items-baseline justify-between gap-4">
+                <h2 class="text-kidical-ink">De volgende rit bij jou</h2>
+                <a href="{{ route('activities.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">Bekijk alle ritten →</a>
+            </div>
+
+            @if (! $hasUpcoming)
+                <p class="text-kidical-ink/70">
+                    Het fietsseizoen loopt van maart tot november.
+                    <a href="{{ route('getting-started') }}" class="font-bold text-kidical-blue hover:underline">Ontdek hoe een rit werkt →</a>
+                </p>
+            @elseif (! $hasLocation)
+                <livewire:location-picker />
+            @else
+                @if ($nextRideIsFar)
+                    <p class="text-kidical-ink/70">Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:</p>
+                @endif
+
+                <div class="event-list">
+                    <x-event-card :activity="$nextRide" />
+                </div>
+
+                @if ($nextRideDistanceKm !== null)
+                    <p class="home-nextride__distance text-sm font-semibold text-kidical-ink/60">
+                        {{ str_replace('.', ',', (string) $nextRideDistanceKm) }} km van jou
+                    </p>
+                @endif
+
+                <livewire:location-picker />
+            @endif
         </section>
 
-        {{-- News preview (latest 2) · hidden when empty --}}
-        @if ($latestArticles->isNotEmpty())
-            <section class="space-y-6">
-                <div class="flex items-baseline justify-between gap-4">
-                    <h2 class="text-kidical-ink">News</h2>
-                    <a href="{{ route('articles.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">See all →</a>
-                </div>
-                <div class="grid gap-5 md:grid-cols-2">
-                    @foreach ($latestArticles->take(2) as $article)
-                        <x-article-card :article="$article" />
-                    @endforeach
-                </div>
-            </section>
-        @endif
+        {{-- ③ DISPATCHER — three equal routes. Home is a crossroads, not a content dump. --}}
+        <section class="home-routes grid gap-5 sm:grid-cols-3">
+            <a href="{{ route('getting-started') }}" class="home-route link-plain">
+                <span class="home-route__title">Nieuw hier?</span>
+                <span class="home-route__desc">Zo werkt een Kidical Mass rit.</span>
+            </a>
+            <a href="{{ route('volunteer') }}" class="home-route link-plain">
+                <span class="home-route__title">Help mee</span>
+                <span class="home-route__desc">Word vrijwilliger bij een rit.</span>
+            </a>
+            <a href="{{ route('groups.index') }}" class="home-route link-plain">
+                <span class="home-route__title">Vind je lokale groep</span>
+                <span class="home-route__desc">Ontdek de groep bij jou in de buurt.</span>
+            </a>
+        </section>
 
-        {{-- Support (PAT-10 contextual block) --}}
+        {{-- ④ Quiet support beat (reuses the tested home callout). --}}
         <x-support-callout variant="home" />
     </div>
 

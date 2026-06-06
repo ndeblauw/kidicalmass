@@ -161,7 +161,7 @@ it('routes the home "New here?" entry link to Getting Started', function () {
     get('/nl')
         ->assertOk()
         ->assertSee(route('getting-started'), escape: false)
-        ->assertSee('New here? Start here', escape: false);
+        ->assertSee('Nieuw hier? Zo werkt het', escape: false);
 });
 
 it('renders the Steun support page with its key NL sections', function () {

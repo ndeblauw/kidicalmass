@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Activity;
-use App\Models\Article;
-use App\Models\Group;
+use App\Support\Location\CurrentLocation;
+use App\Support\Location\NextRideFinder;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -12,21 +11,15 @@ class HomeController extends Controller
     /** @param string $locale Supplied by the {locale} route prefix (set via SetLocale middleware); kept first for route-model binding order. */
     public function __invoke(string $locale): View
     {
-        $latestArticles = Article::with(['author', 'groups'])
-            ->latest()
-            ->take(6)
-            ->get();
+        $location = CurrentLocation::resolve();
+        $next = NextRideFinder::find($location);
 
-        $upcomingActivities = Activity::with(['author', 'groups'])
-            ->where('begin_date', '>=', now())
-            ->orderBy('begin_date')
-            ->take(6)
-            ->get();
-
-        $groups = Group::withCount(['articles', 'activities'])
-            ->whereNull('parent_id')
-            ->get();
-
-        return view('home', compact('latestArticles', 'upcomingActivities', 'groups'));
+        return view('home', [
+            'hasLocation' => $location !== null,
+            'nextRide' => $next['ride'],
+            'nextRideDistanceKm' => $next['distance_km'],
+            'nextRideIsFar' => $next['is_far'],
+            'hasUpcoming' => $next['has_upcoming'],
+        ]);
     }
 }

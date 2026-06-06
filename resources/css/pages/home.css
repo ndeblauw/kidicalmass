@@ -9,17 +9,115 @@
     .hero-section {
         background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
     }
+    /* ─── Home — video hero (cover the section, overlay the pitch) ─── */
     .home-hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        min-height: 70vh;
+        display: flex;
+        align-items: flex-end;
+        padding: 2.5rem 1rem 3rem;
+        background: var(--color-kidical-blue);
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-top: calc(var(--spacing) * -28);
-        background-color: var(--color-kidical-blue);
-        color: white;
-        overflow: hidden;
     }
-    .home-hero h1 {
-        color: white;
-        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
-        line-height: 1.0;
+
+    .home-hero__video {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+    }
+
+    .home-hero__video iframe {
+        /* Cover: a 16:9 iframe scaled to fill any viewport, centred. */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 177.78vh; /* 16/9 of viewport height */
+        height: 56.25vw; /* 9/16 of viewport width */
+        min-width: 100%;
+        min-height: 100%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    .home-hero::after {
+        /* Legibility scrim so white copy holds over any frame. */
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(to top, rgb(0 0 0 / 0.65), rgb(0 0 0 / 0.45) 50%, rgb(0 0 0 / 0.55));
+    }
+
+    .home-hero__inner {
+        max-width: 48rem;
+        margin-inline: auto;
+        color: #fff;
+        text-align: center;
+    }
+
+    /* The base layer colours h1; override to white for the hero over the video. */
+    .home-hero__title {
+        color: #fff;
+        text-shadow: 0 2px 14px rgb(0 0 0 / 0.45);
+    }
+
+    .home-hero__lead {
+        margin-top: 1rem;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        color: rgb(255 255 255 / 0.95);
+        text-shadow: 0 1px 10px rgb(0 0 0 / 0.4);
+    }
+
+    .home-hero__actions {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem 1.5rem;
+    }
+
+    .home-hero__secondary {
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .home-hero__secondary:hover {
+        text-decoration: underline;
+    }
+
+    /* ─── Home — dispatcher route cards ─── */
+    .home-route {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        background: #fff;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink) 12%, transparent);
+        box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .home-route:hover {
+        transform: translateY(-2px);
+        border-color: var(--color-kidical-blue);
+        box-shadow: 0 10px 24px rgb(0 0 0 / 0.1);
+    }
+
+    .home-route__title {
+        font-weight: 800;
+        color: var(--color-kidical-blue);
+    }
+
+    .home-route__desc {
+        font-size: 0.9rem;
+        color: var(--color-kidical-ink);
+        opacity: 0.7;
     }
 }

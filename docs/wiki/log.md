@@ -1,5 +1,13 @@
 # Wiki Log
 
+## [2026-06-06] build | Home (P-01) rebuilt on the UX spec
+NL video hero (YouTube VXiIgU9vI-4), location-aware "De volgende rit bij jou"
+(new NextRideFinder over Proximity/CurrentLocation; reuses location-picker +
+event-card), three dispatcher routes, quiet support beat, closing CTA. Duplicated
+news/stats/map/upcoming-list cut; English gone. UX brief gap closed (UX 🟢);
+Wire/UI/Assets/Back 🟠 (Frederik critique pending). Full suite green (201).
+Spec: docs/superpowers/specs/2026-06-06-home-ux-design.md. Built in worktree.
+
 ## [2026-06-05] build | P-02 Kalender + P-10 Lokale groepen — location-search (proximity bands) shipped
 
 Designed in a brainstorm with Frederik, built TDD via subagents, merged to `main`. "One shared location, two journeys, sort-not-filter": a reusable `<livewire:location-picker>` ("Waar woon je?" — postcode autocomplete + "gebruik mijn locatie") stores the visitor's location in a long-lived `kcm_location` cookie, read server-side by both pages. **P-02 Kalender:** the single-gemeente filter is **replaced** — upcoming rides now split into **In de buurt** (≤7 km) and **Verderaf** bands, sorted by date, with a distance label on the card; nothing is hidden. **P-10 Lokale groepen:** added an **In de buurt van {plaats}** band (groups within 7 km) + a logged-in-only **Jouw groep** pin (membership, not woonplaats); the **map placeholder is cut** (the "binnenkort" note removed). Engine: haversine `Proximity` service over a seeded **`postal_codes`** table (1146 GeoNames Belgian codes; `database/data/be-postcodes.csv`), radius in `config/location.php`. Migrated + seeded + built on the dev DB, **verified live 200** with the picker present on both pages; suite **174 green**. Spec/plan in `docs/superpowers/`. No stage-emoji bumps: the new BEM classes are mostly **unstyled** (Surface/UI pass pending — though the concurrent event-card flatten already styled `.kal-bandtitle`), Wire/UI 🟢 still gated on Frederik's critique; P-02 Back keeps 🔴 (the "mis geen fietstocht" email opt-in is still a placeholder), P-10's map Back-gap is resolved by cutting the map.
