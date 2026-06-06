@@ -1,5 +1,13 @@
 # Wiki Log
 
+## [2026-06-06] build | CSS partials landed + steun-ons surface deck
+`app.css` (4,728 lines) split into role-based partials (`components/` + `pages/` +
+`chrome.css`/`effects.css`) with a `CssArchitectureTest` enforcing partial registration
+and no raw hex/px in blade components; merged to main. Steun-ons (P-04) proof section
+ported onto the partials structure as a colour-coded `<x-stat-card>` deck (text left /
+overlapping cards right + scroll-reveal); `event-card` reformatted to "CITY · TIJDu @
+LOCATIE" (Calendar + Home). Suite 204 green. Frederik visual critique pending.
+
 ## [2026-06-06] build | Home (P-01) rebuilt on the UX spec
 NL video hero (YouTube VXiIgU9vI-4), location-aware "De volgende rit bij jou"
 (new NextRideFinder over Proximity/CurrentLocation; reuses location-picker +
