@@ -3662,7 +3662,7 @@ select:focus[data-flux-control] {
         color: var(--color-kidical-blue);
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        margin-bottom: 0.9rem;
+        margin-bottom: 1.1rem;
     }
 
     .grp-pill {
