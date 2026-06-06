@@ -1,0 +1,16 @@
+/* Styleguide (internal, non-prod). Layout-only helpers; appearance uses tokens. */
+@layer components {
+    .sg-section {
+        scroll-margin-top: 7rem; /* clears the fixed nav pill on anchor jump */
+    }
+
+    .sg-demo {
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        border-radius: var(--radius-card);
+        background: white;
+    }
+
+    .sg-toc a {
+        background-image: none;
+    }
+}

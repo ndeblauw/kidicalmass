@@ -6,6 +6,7 @@ use App\Http\Controllers\BuildDashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
+use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
@@ -78,4 +79,8 @@ require __DIR__.'/settings.php';
 if (! app()->isProduction()) {
     Route::get('/build', BuildDashboardController::class)
         ->name('build.dashboard');
+
+    // Internal styleguide — live component overview + extraction audit.
+    Route::get('/styleguide', StyleguideController::class)
+        ->name('styleguide');
 }
