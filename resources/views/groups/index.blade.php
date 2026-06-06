@@ -49,7 +49,7 @@
         @if ($myGroups->isNotEmpty())
             <section class="mt-8">
                 <h3 class="grp-region__title">Jouw groep{{ $myGroups->count() > 1 ? 'en' : '' }}</h3>
-                <ul class="flex flex-wrap gap-2.5">
+                <ul class="flex flex-wrap gap-x-3 gap-y-3">
                     @foreach ($myGroups as $group)
                         <li><a href="{{ route('groups.show', $group) }}" class="grp-pill grp-pill--mine link-plain">{{ $group->name }}</a></li>
                     @endforeach
@@ -61,7 +61,7 @@
             <section class="mt-8">
                 <h3 class="grp-region__title">In de buurt van {{ $location['name'] }}</h3>
                 @if ($nearby->isNotEmpty())
-                    <ul class="flex flex-wrap gap-2.5">
+                    <ul class="flex flex-wrap gap-x-3 gap-y-3">
                         @foreach ($nearby as $row)
                             <li>
                                 <a href="{{ route('groups.show', $row['item']) }}" class="grp-pill link-plain">
@@ -76,11 +76,11 @@
             </section>
         @endif
 
-        <div class="mt-6 space-y-8">
+        <div class="mt-12 space-y-12">
             @foreach ($byRegion as $region => $regionGroups)
                 <section>
                     <h3 class="grp-region__title">{{ $regionLabels[$region] ?? $region }}</h3>
-                    <ul class="flex flex-wrap gap-2.5">
+                    <ul class="flex flex-wrap gap-x-3 gap-y-3">
                         @foreach ($regionGroups->sortBy('name') as $group)
                             <li>
                                 <a href="{{ route('groups.show', $group) }}" class="grp-pill link-plain">{{ $group->name }}</a>
@@ -106,15 +106,11 @@
         </div>
     </dl>
 
-    {{-- CLOSING CTA — calm contained card (recruiting is the quiet last beat) --}}
-    <section class="grp-cta">
-        <div class="grp-cta__inner">
-            <h2>Staat jouw stad er nog niet bij?</h2>
-            <p class="grp-cta__sub">Er komen steeds nieuwe groepen bij. Je hoeft geen fietsexpert te zijn. Gewoon iemand die zijn buurt graag ziet. Wij helpen je op weg.</p>
-            <x-cta-button :href="route('volunteer')" variant="blue" class="link-plain">Zo begin je</x-cta-button>
-        </div>
-    </section>
-
     </x-page-hero>
+
+    <x-slot:closing>
+        <x-closing-cta heading="Staat jouw stad er nog niet bij?"
+            :href="route('volunteer')" label="Zo begin je" />
+    </x-slot:closing>
 
 </x-layouts::site>

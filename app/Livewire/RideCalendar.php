@@ -7,19 +7,17 @@ use App\Models\Activity;
 use App\Models\PostalCode;
 use App\Support\Location\CurrentLocation;
 use App\Support\Location\Proximity;
-use Illuminate\Support\Collection;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
-/**
- * The Kalender's ride list. Location-first: when the visitor has set "waar woon je?",
- * upcoming rides split into "In de buurt" (<= radius, by date) and "Verderaf" (by date).
- * Without a location it is one undivided list by date. Rides-only (D-2/J1); no pagination.
- */
 class RideCalendar extends Component
 {
     #[Url(as: 'when')]
     public string $when = 'aankomend';
+
+    /** URL-bound radius tab: dichtbij | regio | belgie */
+    #[Url(as: 'radius')]
+    public string $radius = 'dichtbij';
 
     public function showPast(): void
     {
@@ -29,6 +27,13 @@ class RideCalendar extends Component
     public function showUpcoming(): void
     {
         $this->when = 'aankomend';
+    }
+
+    public function setRadius(string $value): void
+    {
+        if (in_array($value, ['dichtbij', 'regio', 'belgie'], true)) {
+            $this->radius = $value;
+        }
     }
 
     public function render()
@@ -46,10 +51,10 @@ class RideCalendar extends Component
             return view('livewire.ride-calendar', [
                 'when' => $when,
                 'location' => null,
-                'nearbyByPeriod' => collect(),
-                'farByPeriod' => collect(),
+                'radius' => $this->radius,
                 'byPeriod' => $activities->groupBy(fn ($a) => $a->begin_date->format('Y-m')),
                 'hasActivities' => $activities->isNotEmpty(),
+                'isEmpty' => $activities->isEmpty(),
             ]);
         }
 
@@ -58,50 +63,57 @@ class RideCalendar extends Component
 
         $location = CurrentLocation::resolve();
 
+        // When no location is set, show all rides unfiltered (annotated with null distance).
         if (! $location) {
+            $rows = $activities->map(fn ($a) => ['item' => $a, 'distance_km' => null]);
+
             return view('livewire.ride-calendar', [
                 'when' => $when,
                 'location' => null,
-                'nearbyByPeriod' => collect(),
-                'farByPeriod' => collect(),
-                'byPeriod' => $activities->groupBy(fn ($a) => $a->begin_date->format('Y-m-d')),
+                'radius' => $this->radius,
+                'byPeriod' => $rows->groupBy(fn ($r) => $r['item']->begin_date->format('Y-m-d')),
                 'hasActivities' => $activities->isNotEmpty(),
+                'isEmpty' => false,
             ]);
         }
 
+        // Resolve postal-code coordinates for every unique zip in the result set.
         $coordsByZip = PostalCode::whereIn('zip', $activities->pluck('postal_code')->filter()->unique())
             ->get()->keyBy('zip');
 
-        $partition = Proximity::partitionByRadius(
-            $activities,
-            ['lat' => $location['lat'], 'lng' => $location['lng']],
-            (float) config('location.nearby_radius_km'),
-            function (Activity $a) use ($coordsByZip) {
-                $pc = $a->postal_code ? $coordsByZip->get($a->postal_code) : null;
+        $origin = ['lat' => $location['lat'], 'lng' => $location['lng']];
 
-                return $pc ? ['lat' => $pc->latitude, 'lng' => $pc->longitude] : null;
-            },
-        );
+        // Annotate every activity with its distance from the user's location.
+        $annotated = $activities->map(function ($activity) use ($origin, $coordsByZip) {
+            $pc = $activity->postal_code ? $coordsByZip->get($activity->postal_code) : null;
+            $coords = $pc ? ['lat' => $pc->latitude, 'lng' => $pc->longitude] : null;
+
+            return [
+                'item' => $activity,
+                'distance_km' => $coords ? round(Proximity::distanceKm($origin, $coords), 1) : null,
+            ];
+        });
+
+        // Filter by active radius. 'belgie' shows everything.
+        if ($this->radius !== 'belgie') {
+            $radiusKm = $this->radius === 'regio'
+                ? (float) config('location.regio_radius_km')
+                : (float) config('location.nearby_radius_km');
+
+            $annotated = $annotated->filter(
+                fn ($row) => $row['distance_km'] === null || $row['distance_km'] <= $radiusKm
+            );
+        }
+
+        $byPeriod = $annotated->values()->groupBy(fn ($r) => $r['item']->begin_date->format('Y-m-d'));
 
         return view('livewire.ride-calendar', [
             'when' => $when,
             'location' => $location,
-            'nearbyByPeriod' => $this->groupAnnotated($partition['nearby']),
-            'farByPeriod' => $this->groupAnnotated($partition['far']),
-            'byPeriod' => collect(),
+            'radius' => $this->radius,
+            'byPeriod' => $byPeriod,
             'hasActivities' => $activities->isNotEmpty(),
+            'isEmpty' => $byPeriod->isEmpty() && $activities->isNotEmpty(),
         ]);
-    }
-
-    /**
-     * Group annotated `['item' => Activity, 'distance_km' => ?float]` rows by day,
-     * preserving the distance so the card can show a label.
-     *
-     * @param  Collection<int, array{item: Activity, distance_km: float|null}>  $rows
-     * @return Collection<string, Collection<int, array{item: Activity, distance_km: float|null}>>
-     */
-    protected function groupAnnotated(Collection $rows): Collection
-    {
-        return $rows->groupBy(fn ($row) => $row['item']->begin_date->format('Y-m-d'));
     }
 }

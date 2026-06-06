@@ -25,7 +25,8 @@ class Proximity
 
     /**
      * Split a collection into nearby (<= radius) and far, each annotated with
-     * `['item' => $original, 'distance_km' => float|null]` and sorted ascending.
+     * `['item' => $original, 'distance_km' => float|null]`. Input order is preserved
+     * in both groups — callers are responsible for sorting before passing items in.
      * Items whose coordinates resolve to null are always "far" (never hidden).
      *
      * @template T
@@ -48,12 +49,10 @@ class Proximity
 
         $nearby = $annotated
             ->filter(fn ($row) => $row['distance_km'] !== null && $row['distance_km'] <= $radiusKm)
-            ->sortBy('distance_km')
             ->values();
 
         $far = $annotated
             ->reject(fn ($row) => $row['distance_km'] !== null && $row['distance_km'] <= $radiusKm)
-            ->sortBy(fn ($row) => $row['distance_km'] ?? INF)
             ->values();
 
         return ['nearby' => $nearby, 'far' => $far];
