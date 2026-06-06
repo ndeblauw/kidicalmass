@@ -13,6 +13,7 @@
             );
         }
     }"
+    @focus-picker.window="$wire.set('editing', true); $nextTick(() => $el.querySelector('input')?.focus())"
 >
     @if ($current && ! $editing)
         <p class="location-picker__current">
