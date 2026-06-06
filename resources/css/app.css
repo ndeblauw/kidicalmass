@@ -3962,7 +3962,6 @@ select:focus[data-flux-control] {
     .index-hero h1,
     .chapter-head h1,
     .kal-hero__lead,
-    .kal-herofilter,
     .grp-hero__lead,
     .grp-hero__body {
         animation: none;
