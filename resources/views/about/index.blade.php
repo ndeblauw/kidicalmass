@@ -14,9 +14,9 @@
         illustration="img/illustrations/tree-round.png">
 
     {{-- Lead, relocated onto the panel (the hub has no separate intro section). --}}
-    <section class="about-intro">
+    <x-intro-text>
         <p>Kidical Mass organiseert fietsparades voor gezinnen in heel België en pleit voor kindvriendelijke straten. Een vrijwilligersnetwerk, lokaal geworteld en samen gecoördineerd.</p>
-    </section>
+    </x-intro-text>
 
     {{-- WAAR BEN JE NAAR OP ZOEK — intention triage. Routes to the EXITS deciders
          actually came for (act), above the browse menu (read). --}}
