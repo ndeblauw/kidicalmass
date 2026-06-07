@@ -116,3 +116,15 @@ it('agenda-item renders optional location', function () {
         ->toContain('agenda-item__loc')
         ->toContain('Café De Fiets');
 });
+
+it('info-card renders label and slot content', function () {
+    $html = Blade::render(
+        '<x-info-card label="Perscontact">bike@kidicalmass.be</x-info-card>'
+    );
+
+    expect($html)
+        ->toContain('info-card')
+        ->toContain('info-card__label')
+        ->toContain('Perscontact')
+        ->toContain('bike@kidicalmass.be');
+});

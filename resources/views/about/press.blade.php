@@ -25,11 +25,10 @@
                     <li>Een fotomoment bij een aankomende rit</li>
                 </ul>
             </div>
-            <aside class="about-contact-card">
-                <span class="about-contact-card__label">Perscontact</span>
-                <a href="mailto:bike@kidicalmass.be" class="about-contact-card__email">bike@kidicalmass.be</a>
-                <p class="about-contact-card__note">We antwoorden zo snel als vrijwilligers dat kunnen.</p>
-            </aside>
+            <x-info-card label="Perscontact">
+                <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
+                <p class="info-card__note">We antwoorden zo snel als vrijwilligers dat kunnen.</p>
+            </x-info-card>
         </div>
 
         {{-- Eerder in de media — alleen waarheidsgetrouwe titelnamen, geen verzonnen
