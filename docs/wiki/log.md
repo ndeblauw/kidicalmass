@@ -1,5 +1,12 @@
 # Wiki Log
 
+## [2026-06-06] build | Wire 🟢 — Home, Events overview, Event detail (Frederik-approved)
+Frederik signed off the wireframes (content + hierarchy) for P-01 Home, P-02 Events
+overview, and P-03 Event detail → Wire 🟠 → 🟢 on all three. UI stays 🟠 (surface
+critique still pending); these are now three of the six model-backed views through the
+wire gate, leaving Chapters + News still Wire 🟠. Page registry rows, Top gaps, and
+roll-up reconciled.
+
 ## [2026-06-06] build | CSS partials landed + steun-ons surface deck
 `app.css` (4,728 lines) split into role-based partials (`components/` + `pages/` +
 `chrome.css`/`effects.css`) with a `CssArchitectureTest` enforcing partial registration
