@@ -137,6 +137,7 @@
 @import './components/intro-text.css';
 @import './components/section-heading.css';
 @import './components/pull-quote.css';
+@import './components/numbered-item.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';

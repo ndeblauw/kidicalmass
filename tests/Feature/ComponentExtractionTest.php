@@ -51,3 +51,16 @@ it('pull-quote card variant adds the card modifier class', function () {
 
     expect($html)->toContain('pull-quote--card');
 });
+
+it('numbered-item renders number chip, title and body slot', function () {
+    $html = Blade::render(
+        '<x-numbered-item number="1" title="Veilige infrastructuur">Body text.</x-numbered-item>'
+    );
+
+    expect($html)
+        ->toContain('numbered-item')
+        ->toContain('numbered-item__num')
+        ->toContain('1')
+        ->toContain('Veilige infrastructuur')
+        ->toContain('Body text.');
+});

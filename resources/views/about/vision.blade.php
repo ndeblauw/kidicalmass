@@ -27,26 +27,18 @@
         <div class="container mx-auto px-4">
             <h2 class="about-band__title">Wat we vragen</h2>
             <ol class="about-demand-grid">
-                <li class="about-demand">
-                    <span class="about-demand__num" aria-hidden="true">1</span>
-                    <strong>Veilige fietsinfrastructuur voor kinderen en gezinnen</strong>
-                    <p>Aparte fietspaden die kinderen echt kunnen gebruiken: gescheiden van het verkeer, goed onderhouden en aaneengesloten. Gebouwd voor de kleinste fietsers, niet alleen voor de snelste.</p>
-                </li>
-                <li class="about-demand">
-                    <span class="about-demand__num" aria-hidden="true">2</span>
-                    <strong>Tragere, rustigere woonstraten</strong>
-                    <p>Minder snel en minder druk verkeer in de straten waar kinderen wonen en spelen. Twintig is genoeg, en handhaving telt evenveel als borden.</p>
-                </li>
-                <li class="about-demand">
-                    <span class="about-demand__num" aria-hidden="true">3</span>
-                    <strong>Openbare ruimte die kinderen en gezinnen echt verwelkomt</strong>
-                    <p>Parken, pleinen en straten waar kinderen kind kunnen zijn: luidruchtig, nieuwsgierig, in beweging. Ruimte die werkt voor kinderwagens en bakfietsen, niet alleen voor auto's en gehaaste volwassenen.</p>
-                </li>
-                <li class="about-demand">
-                    <span class="about-demand__num" aria-hidden="true">4</span>
-                    <strong>De stem van kinderen in beslissingen over hun omgeving</strong>
-                    <p>Kinderen zijn experts van hun eigen buurt. Ze verdienen echte inspraak, geen symbolisch gebaar, wanneer steden straten, parken en openbare ruimte plannen.</p>
-                </li>
+                <x-numbered-item number="1" title="Veilige fietsinfrastructuur voor kinderen en gezinnen">
+                    Aparte fietspaden die kinderen echt kunnen gebruiken: gescheiden van het verkeer, goed onderhouden en aaneengesloten. Gebouwd voor de kleinste fietsers, niet alleen voor de snelste.
+                </x-numbered-item>
+                <x-numbered-item number="2" title="Tragere, rustigere woonstraten">
+                    Minder snel en minder druk verkeer in de straten waar kinderen wonen en spelen. Twintig is genoeg, en handhaving telt evenveel als borden.
+                </x-numbered-item>
+                <x-numbered-item number="3" title="Openbare ruimte die kinderen en gezinnen echt verwelkomt">
+                    Parken, pleinen en straten waar kinderen kind kunnen zijn: luidruchtig, nieuwsgierig, in beweging. Ruimte die werkt voor kinderwagens en bakfietsen, niet alleen voor auto's en gehaaste volwassenen.
+                </x-numbered-item>
+                <x-numbered-item number="4" title="De stem van kinderen in beslissingen over hun omgeving">
+                    Kinderen zijn experts van hun eigen buurt. Ze verdienen echte inspraak, geen symbolisch gebaar, wanneer steden straten, parken en openbare ruimte plannen.
+                </x-numbered-item>
             </ol>
         </div>
     </section>
