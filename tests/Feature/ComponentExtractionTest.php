@@ -73,3 +73,46 @@ it('person-card renders name and role', function () {
         ->toContain('Leticia')
         ->toContain('Coördinatie');
 });
+
+it('agenda-item renders badge, datetime, title and cta link', function () {
+    $html = Blade::render(<<<'BLADE'
+        <x-agenda-item
+            badge="Rit"
+            badge-variant="ride"
+            datetime="2026-06-14T14:00"
+            when="za 14 jun · 14:00"
+            title="Kidical Mass Gent"
+            cta-href="/activities/1"
+            cta-label="Meer info"
+        />
+    BLADE);
+
+    expect($html)
+        ->toContain('agenda-item')
+        ->toContain('agenda-item__badge--ride')
+        ->toContain('Rit')
+        ->toContain('2026-06-14T14:00')
+        ->toContain('za 14 jun · 14:00')
+        ->toContain('Kidical Mass Gent')
+        ->toContain('href="/activities/1"')
+        ->toContain('Meer info');
+});
+
+it('agenda-item renders optional location', function () {
+    $html = Blade::render(<<<'BLADE'
+        <x-agenda-item
+            badge="Vergadering"
+            badge-variant="meeting"
+            datetime="2026-06-14T19:00"
+            when="za 14 jun · 19:00"
+            title="Teamvergadering"
+            location="Café De Fiets"
+            cta-href="/activities/2"
+            cta-label="Meer info"
+        />
+    BLADE);
+
+    expect($html)
+        ->toContain('agenda-item__loc')
+        ->toContain('Café De Fiets');
+});

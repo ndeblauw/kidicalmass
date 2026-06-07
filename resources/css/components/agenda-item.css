@@ -1,0 +1,28 @@
+@layer components {
+    .agenda-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.4rem 0.85rem;
+        padding: 0.75rem 0;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+    .agenda-item__badge {
+        font-size: var(--text-xs);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0.15rem 0.6rem;
+        border-radius: 9999px;
+        flex-shrink: 0;
+    }
+    .agenda-item__badge--ride     { background: var(--color-kidical-green); color: white; }
+    .agenda-item__badge--workshop { background: var(--color-kidical-yellow); color: var(--color-kidical-ink); }
+    .agenda-item__badge--meeting  { background: color-mix(in oklab, var(--color-kidical-blue), white 78%); color: var(--color-kidical-blue); }
+    .agenda-item__badge--other    { background: color-mix(in oklab, var(--color-kidical-ink), transparent 88%); color: var(--color-kidical-ink); }
+    .agenda-item__when  { font-weight: 700; color: var(--color-kidical-ink); }
+    .agenda-item__what  { color: var(--color-text-body); }
+    .agenda-item__loc   { color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%); }
+    .agenda-item__cta   { margin-left: auto; font-weight: 700; color: var(--color-kidical-blue); white-space: nowrap; }
+    .agenda-item__cta--quiet { color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); }
+}

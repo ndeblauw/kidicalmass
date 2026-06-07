@@ -130,14 +130,17 @@
                 <ul class="chapter-agenda__list">
                     @foreach ($rest as $activity)
                         @php $m = $typeMeta($activity->activity_type); @endphp
-                        <li class="chapter-agenda__item">
-                            <span class="chapter-agenda__badge chapter-agenda__badge--{{ $m['mod'] }}">{{ $m['label'] }}</span>
-                            <span class="chapter-agenda__when">
-                                <time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $activity->begin_date->locale('nl')->isoFormat('dd D MMM · HH:mm') }}</time>
-                            </span>
-                            <span class="chapter-agenda__what">{{ $activity->title_nl }}@if ($activity->location) <span class="chapter-agenda__loc">· {{ $activity->location }}</span>@endif</span>
-                            <a href="{{ route('activities.show', $activity) }}" class="chapter-agenda__cta @if ($m['quiet']) chapter-agenda__cta--quiet @endif link-plain">{{ $m['cta'] }}</a>
-                        </li>
+                        <x-agenda-item
+                            :badge="$m['label']"
+                            :badge-variant="$m['mod']"
+                            :datetime="$activity->begin_date->format('Y-m-d\TH:i')"
+                            :when="$activity->begin_date->locale('nl')->isoFormat('dd D MMM · HH:mm')"
+                            :title="$activity->title_nl"
+                            :location="$activity->location"
+                            :cta-href="route('activities.show', $activity)"
+                            :cta-label="$m['cta']"
+                            :quiet="$m['quiet']"
+                        />
                     @endforeach
                 </ul>
             @endif
