@@ -37,13 +37,14 @@
                         <x-styleguide.swatch token="kidical-light-yellow" name="Light yellow" />
                         <x-styleguide.swatch token="kidical-violet" name="Violet" />
                         <x-styleguide.swatch token="kidical-coral" name="Coral" />
+                        <x-styleguide.swatch token="text-body" name="Tekst" />
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-4">
                     <h3>Typografie</h3>
                     <div class="sg-demo p-8 flex flex-col gap-3">
-                        <h1>H1 — Caprasimo, blauw</h1>
+                        <h1>H1 — Caprasimo, ink</h1>
                         <h2>H2 — sectiekop</h2>
                         <h3>H3 — subkop</h3>
                         <h4>H4 — kleine kop</h4>
@@ -95,11 +96,90 @@
                     </div>
                 </x-styleguide.entry>
 
-                <x-styleguide.entry name="event-card" props="activity, showDate=true, featured=auto">
-                    <div class="flex flex-col gap-3 max-w-xl">
-                        <x-event-card :activity="$activity" />
-                        <x-event-card :activity="$activityB" />
+                {{-- Tekst & typografie --}}
+                <x-styleguide.entry name="intro-text" props="size=base|lead">
+                    <x-intro-text>
+                        <p>Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten.</p>
+                    </x-intro-text>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="section-heading" props="as=h2">
+                    <x-section-heading>Iedereen is welkom</x-section-heading>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="pull-quote" props="attribution, variant=large|card">
+                    <div class="flex flex-col gap-8">
+                        <x-pull-quote attribution="Julienne, mama van twee kinderen">
+                            "Wat hij zo leuk vindt aan fietsen is die vrijheid om buiten te zijn."
+                        </x-pull-quote>
+                        <div class="about-voices">
+                            <x-pull-quote variant="card" attribution="Camille, Sint-Gillis">
+                                "Ik heb het gevoel dat ik de hele tijd de levenslust van mijn kinderen afrem."
+                            </x-pull-quote>
+                            <x-pull-quote variant="card" attribution="Fatima, Jette">
+                                "Ik ben constant bang voor de auto's, de trams."
+                            </x-pull-quote>
+                        </div>
                     </div>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="numbered-item" props="number, title">
+                    <ol class="about-demand-grid">
+                        <x-numbered-item number="1" title="Veilige fietsinfrastructuur">Aparte fietspaden die kinderen echt kunnen gebruiken.</x-numbered-item>
+                        <x-numbered-item number="2" title="Tragere woonstraten">Minder snel en minder druk verkeer.</x-numbered-item>
+                    </ol>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="person-card" props="name, role, photo?">
+                    <div class="flex flex-wrap gap-3">
+                        <x-person-card name="Leticia" role="Coördinatie" />
+                        <x-person-card name="Cecilia" role="Coördinatie" />
+                    </div>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="agenda-item" props="badge, badgeVariant=ride|workshop|meeting|other, datetime, when, title, location?, ctaHref, ctaLabel, quiet?">
+                    <ul class="chapter-agenda__list" style="max-width: 44rem">
+                        <x-agenda-item badge="Rit" badge-variant="ride" datetime="2026-06-14T14:00" when="za 14 jun · 14:00" title="Kidical Mass Gent" location="Sint-Pietersplein" cta-href="#" cta-label="Meer info" />
+                        <x-agenda-item badge="Vergadering" badge-variant="meeting" datetime="2026-06-18T19:30" when="wo 18 jun · 19:30" title="Teamvergadering" cta-href="#" cta-label="Meer info" :quiet="true" />
+                        <x-agenda-item badge="Workshop" badge-variant="workshop" datetime="2026-06-21T10:00" when="za 21 jun · 10:00" title="Routeplanning voor beginners" cta-href="#" cta-label="Meer info" />
+                    </ul>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="info-card" props="label">
+                    <x-info-card label="Perscontact">
+                        <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
+                        <p class="info-card__note">We antwoorden zo snel als vrijwilligers dat kunnen.</p>
+                    </x-info-card>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="titled-list-block" props="title">
+                    <div class="max-w-lg">
+                        <x-titled-list-block title="Wat je krijgt">
+                            <li>Kidical Mass-materiaal en steun vanaf dag één</li>
+                            <li>Opleiding rond veiligheid</li>
+                            <li>Een warme bende ouders en fietsers</li>
+                        </x-titled-list-block>
+                    </div>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="event-card" props="activity, showDate=true, featured=auto">
+                    <section class="kal-day max-w-2xl">
+                        <div class="kal-day__date-col">
+                            <time class="kal-day__date" datetime="{{ $activity->begin_date->toDateString() }}">
+                                <span class="kal-day__date-dow">{{ \Illuminate\Support\Str::upper($activity->begin_date->locale('nl')->isoFormat('dd')) }}</span>
+                                <span class="kal-day__date-num">{{ $activity->begin_date->locale('nl')->isoFormat('D MMM') }}</span>
+                            </time>
+                        </div>
+                        <div class="kal-day__rides">
+                            <x-event-card :activity="$activity" :show-date="false" />
+                            <x-event-card :activity="$activityB" :show-date="false" />
+                        </div>
+                    </section>
+                </x-styleguide.entry>
+
+                {{-- Kalender --}}
+                <x-styleguide.entry name="kal-day-band" props="periodKey, rows=[['item'=>Activity]]">
+                    <x-kal-day-band :period-key="$dayPeriodKey" :rows="$dayRows" />
                 </x-styleguide.entry>
 
                 <x-styleguide.entry name="article-card" props="article">
@@ -121,20 +201,11 @@
                     <x-group-statistics :statistics="$statistics" />
                 </x-styleguide.entry>
 
-                {{-- Kalender --}}
-                <x-styleguide.entry name="kal-day-band" props="periodKey, rows=[['item'=>Activity]]">
-                    <x-kal-day-band :period-key="$dayPeriodKey" :rows="$dayRows" />
-                </x-styleguide.entry>
-
                 <x-styleguide.entry name="kal-month-band" props="periodKey, rides=[Activity]">
                     <x-kal-month-band :period-key="$monthPeriodKey" :rides="$monthRides" />
                 </x-styleguide.entry>
 
                 {{-- Primitieven --}}
-                <x-styleguide.entry name="bike-icon" props="(attributes)">
-                    <x-bike-icon class="w-10 h-10 text-kidical-blue" />
-                </x-styleguide.entry>
-
                 <x-styleguide.entry name="placeholder-pattern" props="id">
                     <x-placeholder-pattern class="w-40 h-24 text-kidical-ink/20" />
                 </x-styleguide.entry>

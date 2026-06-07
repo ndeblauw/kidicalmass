@@ -61,11 +61,6 @@ class StyleguideController extends Controller
     {
         return [
             [
-                'name' => 'section-heading',
-                'where' => 'home, find-a-bike, volunteer, steun-ons, about/* — eyebrow/lead + kop + optionele link (8+)',
-                'props' => 'title, eyebrow?, lead?, link? {href,label}, align?',
-            ],
-            [
                 'name' => 'meta-row',
                 'where' => 'activities/show — icoon + label + waarde als dt/dd (5×: start, locatie, afstand, duur, deelname)',
                 'props' => 'icon, label, value (html), :if?',
@@ -74,16 +69,6 @@ class StyleguideController extends Controller
                 'name' => 'icon-text-item',
                 'where' => 'activities/show (promises, 4×) + about value-bladeren — icoon + titel + body in <li>; bijna-tweeling van feature-card (overweeg een variant i.p.v. nieuw component)',
                 'props' => 'icon, title, slot',
-            ],
-            [
-                'name' => 'numbered-item',
-                'where' => 'about/vision — genummerd item: nummer + titel + beschrijving (4×)',
-                'props' => 'number, title, description',
-            ],
-            [
-                'name' => 'pull-quote',
-                'where' => 'about/mission + about/vision — figure > blockquote + figcaption (2 varianten samen te voegen)',
-                'props' => 'quote, attribution',
             ],
             [
                 'name' => 'email-opt-in',
@@ -99,26 +84,6 @@ class StyleguideController extends Controller
                 'name' => 'empty-state',
                 'where' => 'groups/show ("nog geen rit") + articles/index — gecentreerde kop + tekst + optionele acties',
                 'props' => 'title, message, actions?',
-            ],
-            [
-                'name' => 'person-card',
-                'where' => 'about/organisation (duo, 2×) + groups/show (teamroster) — naam + rol (+ foto/initialen)',
-                'props' => 'name, role, photo?, initials?',
-            ],
-            [
-                'name' => 'agenda-item',
-                'where' => 'groups/show — badge + datum + titel + locatie + CTA; rijkere variant van event-card',
-                'props' => 'badge, badgeVariant=ride|workshop|meeting, datetime, title, location?, ctaHref, ctaLabel, quiet?',
-            ],
-            [
-                'name' => 'info-card',
-                'where' => 'about/partners (4×) + about/index (intent, 4×) + about/press (contact) — label/naam + beschrijving (+ optionele link)',
-                'props' => 'title, body, link? {href,label}',
-            ],
-            [
-                'name' => 'titled-list-block',
-                'where' => 'volunteer ("wat je krijgt"/"wat we vragen", 2×) + about/partners (formules, 2×) — h3 + ul',
-                'props' => 'title, items[]',
             ],
             [
                 'name' => 'media-gallery',
