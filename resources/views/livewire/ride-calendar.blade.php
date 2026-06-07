@@ -14,18 +14,18 @@
                 @if ($location)
                     <div class="kal-filterrow__radius">
                         <span class="kal-filterrow__sep" aria-hidden="true">·</span>
-                        <span class="kal-filterrow__radius-label">Straal</span>
+                        <span class="kal-filterrow__radius-label">Hoe ver</span>
                         <div class="kal-filterrow__tabs">
                             <button
                                 type="button"
                                 wire:click="setRadius('dichtbij')"
                                 class="kal-filterrow__tab{{ $radius === 'dichtbij' ? ' kal-filterrow__tab--active' : '' }}"
-                            >5 km</button>
+                            >Dichtbij</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('regio')"
                                 class="kal-filterrow__tab{{ $radius === 'regio' ? ' kal-filterrow__tab--active' : '' }}"
-                            >30 km</button>
+                            >In de regio</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('belgie')"
@@ -60,9 +60,9 @@
                 @elseif ($isEmpty)
                     @php
                         $radiusLabel = match($radius) {
-                            'regio'  => 'Ruimere regio',
+                            'regio'  => 'In de regio',
                             'belgie' => 'Heel België',
-                            default  => 'Dicht bij',
+                            default  => 'Dichtbij',
                         };
                     @endphp
                     <p class="kal-empty">

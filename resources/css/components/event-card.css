@@ -1,10 +1,10 @@
 @layer components {
     .event-card {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         flex-wrap: wrap;
         gap: 0.5rem 1.1rem;
-        padding-block: 0.8rem;
+        padding-block: 0.9rem;
     }
     .event-card:hover .event-card__place {
         color: var(--color-kidical-red);
@@ -32,7 +32,7 @@
         align-items: baseline;
         gap: 0.35rem;
         font-family: var(--font-sans);
-        font-size: var(--text-sm);
+        font-size: var(--text-lg);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
     }
 

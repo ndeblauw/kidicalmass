@@ -15,17 +15,17 @@ beforeEach(function () {
     // ~0 km from Jette (same zip)
     $this->near = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
-        'title_nl'      => 'Kidical Mass Jette',
-        'postal_code'   => '1090',
-        'begin_date'    => now()->addDays(3),
+        'title_nl' => 'Kidical Mass Jette',
+        'postal_code' => '1090',
+        'begin_date' => now()->addDays(3),
     ]);
 
     // ~54 km from Jette
     $this->far = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
-        'title_nl'      => 'Kidical Mass Gent',
-        'postal_code'   => '9000',
-        'begin_date'    => now()->addDays(5),
+        'title_nl' => 'Kidical Mass Gent',
+        'postal_code' => '9000',
+        'begin_date' => now()->addDays(5),
     ]);
 });
 
@@ -56,9 +56,9 @@ it('shows rides within 30km when radius is regio', function () {
     ]);
     Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
-        'title_nl'      => 'Kidical Mass Brussel',
-        'postal_code'   => '1000',
-        'begin_date'    => now()->addDays(4),
+        'title_nl' => 'Kidical Mass Brussel',
+        'postal_code' => '1000',
+        'begin_date' => now()->addDays(4),
     ]);
 
     Livewire::withCookie('kcm_location', json_encode([
@@ -69,6 +69,19 @@ it('shows rides within 30km when radius is regio', function () {
         ->assertSee('Jette')
         ->assertSee('Brussel')
         ->assertDontSee('Gent');
+});
+
+it('labels the radius tabs with abstract bands, not raw distances', function () {
+    Livewire::withCookie('kcm_location', json_encode([
+        'zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette',
+    ]));
+
+    Livewire::test(RideCalendar::class, ['radius' => 'dichtbij'])
+        ->assertSee('Dichtbij')
+        ->assertSee('In de regio')
+        ->assertSee('Heel België')
+        ->assertDontSee('5 km')
+        ->assertDontSee('30 km');
 });
 
 it('shows all rides when radius is belgie', function () {
