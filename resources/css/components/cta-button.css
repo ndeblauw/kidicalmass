@@ -51,6 +51,33 @@
     .cta-button--ghost:hover {
         background: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
     }
+    /* Non-primary buttons skip the signature disc-slide: the disc sits static on
+       the right, and it is a quiet ink chip rather than the loud red one. */
+    .cta-button--secondary .cta-button__slot--left,
+    .cta-button--ghost .cta-button__slot--left {
+        display: none;
+    }
+    .cta-button--secondary .cta-button__slot--right,
+    .cta-button--ghost .cta-button__slot--right,
+    .cta-button--secondary:hover .cta-button__slot--right,
+    .cta-button--ghost:hover .cta-button__slot--right {
+        width: var(--disc-size);
+        margin-left: 10px;
+        transition: none;
+    }
+    .cta-button--secondary .cta-button__slot--right .cta-button__disc,
+    .cta-button--ghost .cta-button__slot--right .cta-button__disc,
+    .cta-button--secondary:hover .cta-button__slot--right .cta-button__disc,
+    .cta-button--ghost:hover .cta-button__slot--right .cta-button__disc {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .cta-button--secondary .cta-button__disc,
+    .cta-button--ghost .cta-button__disc {
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+    }
     /* Inert states — no JS, so the markup drops href + sets aria-disabled. */
     .cta-button--disabled {
         opacity: 0.45;
@@ -92,6 +119,7 @@
         height: var(--disc-size);
         border-radius: 50%;
         background: var(--color-kidical-red);
+        color: white; /* the icon inherits this via currentColor */
         display: flex;
         align-items: center;
         justify-content: center;
