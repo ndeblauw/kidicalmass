@@ -58,20 +58,27 @@
         display: none;
     }
     .cta-button--secondary .cta-button__slot--right,
-    .cta-button--ghost .cta-button__slot--right,
-    .cta-button--secondary:hover .cta-button__slot--right,
-    .cta-button--ghost:hover .cta-button__slot--right {
+    .cta-button--ghost .cta-button__slot--right {
         width: var(--disc-size);
         margin-left: 10px;
         transition: none;
     }
     .cta-button--secondary .cta-button__slot--right .cta-button__disc,
-    .cta-button--ghost .cta-button__slot--right .cta-button__disc,
-    .cta-button--secondary:hover .cta-button__slot--right .cta-button__disc,
-    .cta-button--ghost:hover .cta-button__slot--right .cta-button__disc {
+    .cta-button--ghost .cta-button__slot--right .cta-button__disc {
         opacity: 1;
         transform: none;
         transition: none;
+    }
+    /* Keep disc visible on hover — override the primary slide-out animation. */
+    .cta-button--secondary:hover .cta-button__slot--right,
+    .cta-button--ghost:hover .cta-button__slot--right {
+        width: var(--disc-size) !important;
+        margin-left: 10px !important;
+    }
+    .cta-button--secondary:hover .cta-button__slot--right .cta-button__disc,
+    .cta-button--ghost:hover .cta-button__slot--right .cta-button__disc {
+        opacity: 1 !important;
+        transform: none !important;
     }
     .cta-button--secondary .cta-button__disc,
     .cta-button--ghost .cta-button__disc {
