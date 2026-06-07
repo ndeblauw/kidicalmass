@@ -104,7 +104,7 @@
         gap: 1rem;
     }
     .about-section--wide { max-width: 72rem; }
-.about-section__link a {
+    .about-section__link a {
         font-weight: 700;
         color: var(--color-kidical-blue);
         background-image: none;
