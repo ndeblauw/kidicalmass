@@ -86,8 +86,8 @@
         <p>Leticia en Cecilia vormen samen het coördinatieduo. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze organiseren vorming voor veilige begeleiding, lossen dagelijkse vragen op en bewaken de basiskwaliteit en veiligheid van elke rit. Een dienende rol, geen hiërarchie.</p>
         {{-- Foto's + persoonlijke bio's nog aan te leveren door het duo (zie about-journey.md). --}}
         <ul class="about-duo" role="list">
-            <li class="about-duo__person"><span class="about-duo__name">Leticia</span><span class="about-duo__role">Coördinatie</span></li>
-            <li class="about-duo__person"><span class="about-duo__name">Cecilia</span><span class="about-duo__role">Coördinatie</span></li>
+            <li><x-person-card name="Leticia" role="Coördinatie" /></li>
+            <li><x-person-card name="Cecilia" role="Coördinatie" /></li>
         </ul>
     </section>
 

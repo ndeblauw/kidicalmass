@@ -64,3 +64,12 @@ it('numbered-item renders number chip, title and body slot', function () {
         ->toContain('Veilige infrastructuur')
         ->toContain('Body text.');
 });
+
+it('person-card renders name and role', function () {
+    $html = Blade::render('<x-person-card name="Leticia" role="Coördinatie" />');
+
+    expect($html)
+        ->toContain('person-card')
+        ->toContain('Leticia')
+        ->toContain('Coördinatie');
+});

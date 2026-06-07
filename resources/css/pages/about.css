@@ -176,25 +176,6 @@
         flex-wrap: wrap;
         gap: 1rem;
     }
-    .about-duo__person {
-        display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
-        padding: 0.85rem 1.5rem;
-        border-radius: 0.85rem;
-        background: var(--color-kidical-light-yellow);
-    }
-    .about-duo__name {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-ink);
-    }
-    .about-duo__role {
-        font-size: var(--text-sm);
-        font-weight: 600;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-    }
     .about-nav {
         list-style: none;
         padding: 0;
