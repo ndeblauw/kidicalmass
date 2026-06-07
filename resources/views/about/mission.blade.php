@@ -64,7 +64,7 @@
 
     {{-- IEDEREEN IS WELKOM — contained --}}
     <section class="about-section">
-        <h2 class="about-section__title">Iedereen is welkom</h2>
+        <x-section-heading>Iedereen is welkom</x-section-heading>
         <p>Je hoeft geen ervaren fietser te zijn. Nog nooit in het verkeer gefietst? Dat geeft niets. Voor veel ouders is een rit de eerste keer op de baan, en onze begeleiders zorgen dat niemand er alleen voor staat. Je hoeft geen fiets te hebben. Je hoeft niet uit de buurt te komen. Kidical Mass is gemaakt om de volledige diversiteit van elke gemeente te weerspiegelen, en om elke drempel weg te nemen die een gezin kan tegenhouden.</p>
         <p class="about-section__link"><a href="{{ route('getting-started') }}">Geen fiets of nog nooit meegereden? Voor het eerst mee →</a></p>
     </section>

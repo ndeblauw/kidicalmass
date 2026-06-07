@@ -21,7 +21,7 @@
          Bikes) live in the wall + a one-line find-a-bike pointer — no dedicated cards: that
          is a family/resource story, not sponsor credibility. (arrange 2026-06-03, Frederik) --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Onze partners en bondgenoten</h2>
+        <x-section-heading>Onze partners en bondgenoten</x-section-heading>
         <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op nationaal of regionaal niveau, via financiering, infrastructuur of een gedeeld pleidooi.</p>
         <ul class="about-partner-grid" role="list">
             <li class="about-partner-card">
@@ -50,7 +50,7 @@
 
     {{-- WAAROM PARTNER WORDEN — benefit hook (from the Sponsorformules "waarom steunen") --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Waarom partner of sponsor worden?</h2>
+        <x-section-heading>Waarom partner of sponsor worden?</x-section-heading>
         <p class="about-partners__intro">Als partner steun je een beweging die elke maand honderden gezinnen veilig op de fiets krijgt. En je bouwt mee aan een stad op maat van kinderen.</p>
         <ul class="about-press__offer" role="list">
             <li>Je draagt bij aan kindvriendelijke, veilige straten in elke buurt.</li>
@@ -62,7 +62,7 @@
     {{-- ONZE FORMULES — on-page summary of the two tracks; prices live in the
          downloadable PDF (provisional, pending Leticia's national-scope OK). --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Onze formules</h2>
+        <x-section-heading>Onze formules</x-section-heading>
         <p class="about-partners__intro">We werken met formules op maat, in twee sporen. Je kiest zelf hoe zichtbaar je wil zijn: van een vermelding op sociale media tot je logo op onze website, flyers en banners.</p>
         <div class="partner-formules">
             <div class="partner-formule-track">
@@ -89,7 +89,7 @@
 
     {{-- WAT WE VRAGEN — charter essence + download (the charter doubles as a values filter) --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Wat we van partners vragen</h2>
+        <x-section-heading>Wat we van partners vragen</x-section-heading>
         <p class="about-partners__intro">Kidical Mass is een burgerbeweging, geen reclamebord. We werken samen met partners die onze waarden delen: kindvriendelijkheid, veiligheid, duurzaamheid en inclusie. Je steun komt zonder voorwaarden die onze werking of onze boodschap sturen, en we blijven onafhankelijk en niet-commercieel.</p>
         <p class="about-partners__note">
             <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer">Lees ons volledige sponsor- en partnercharter (pdf) →</a>

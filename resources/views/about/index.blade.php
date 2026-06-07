@@ -21,7 +21,7 @@
     {{-- WAAR BEN JE NAAR OP ZOEK — intention triage. Routes to the EXITS deciders
          actually came for (act), above the browse menu (read). --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Waar ben je naar op zoek?</h2>
+        <x-section-heading>Waar ben je naar op zoek?</x-section-heading>
         <ul class="about-intent" role="list">
             <li>
                 <a href="{{ route('volunteer') }}" class="about-intent-card link-plain">
@@ -52,7 +52,7 @@
 
     {{-- SUBPAGINA'S — the browse path (6 nav cards) --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Of lees meer over de beweging</h2>
+        <x-section-heading>Of lees meer over de beweging</x-section-heading>
         <ul class="about-nav" role="list">
             <li>
                 <a href="{{ route('about.mission') }}" class="about-nav-card link-plain">

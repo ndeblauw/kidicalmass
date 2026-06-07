@@ -17,7 +17,7 @@
     <section class="about-section about-section--wide">
         <div class="about-press">
             <div class="about-press__intro">
-                <h2 class="about-section__title">Journalisten, we praten graag</h2>
+                <x-section-heading>Journalisten, we praten graag</x-section-heading>
                 <p>We brengen je in contact met lokale trekkers, delen cijfers, regelen een fotomoment bij een volgende fietsparade of geven achtergrond bij de beweging.</p>
                 <ul class="about-press__offer" role="list">
                     <li>Contact met lokale afdelingen en gezinnen</li>

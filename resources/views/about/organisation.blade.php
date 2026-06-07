@@ -24,7 +24,7 @@
 
     {{-- ORGANIGRAM — lightweight semantic 3-tier flow --}}
     <section class="about-section about-section--wide">
-        <h2 class="about-section__title">Hoe het in elkaar zit</h2>
+        <x-section-heading>Hoe het in elkaar zit</x-section-heading>
         <ol class="about-organigram" aria-label="Structuur van Kidical Mass Belgium, van lokaal naar nationaal">
             <li class="about-organigram__node about-organigram__node--lead">
                 <span class="about-organigram__role">Nationaal</span>
@@ -82,7 +82,7 @@
 
     {{-- COÖRDINATIEDUO — named --}}
     <section class="about-section">
-        <h2 class="about-section__title">Het coördinatieduo</h2>
+        <x-section-heading>Het coördinatieduo</x-section-heading>
         <p>Leticia en Cecilia vormen samen het coördinatieduo. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze organiseren vorming voor veilige begeleiding, lossen dagelijkse vragen op en bewaken de basiskwaliteit en veiligheid van elke rit. Een dienende rol, geen hiërarchie.</p>
         {{-- Foto's + persoonlijke bio's nog aan te leveren door het duo (zie about-journey.md). --}}
         <ul class="about-duo" role="list">
@@ -93,7 +93,7 @@
 
     {{-- VEILIGHEID EN ROUTES --}}
     <section class="about-section">
-        <h2 class="about-section__title">Veiligheid en routes</h2>
+        <x-section-heading>Veiligheid en routes</x-section-heading>
         <p>Alle afdelingen werken met dezelfde veiligheidsafspraken en routerichtlijnen. Elke route loopt langs parken, speelpleinen en veilige infrastructuur. Begeleiders krijgen bij de start van elk seizoen vorming, en waar nodig stemmen organisatoren de route vooraf af met de lokale politie.</p>
         <p class="about-section__link"><a href="{{ route('getting-started') }}">Hoe een rit praktisch verloopt: Voor het eerst mee →</a></p>
     </section>

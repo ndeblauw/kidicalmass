@@ -1,0 +1,6 @@
+@layer components {
+    .section-heading {
+        color: var(--color-kidical-ink);
+        margin-bottom: 0.25rem;
+    }
+}

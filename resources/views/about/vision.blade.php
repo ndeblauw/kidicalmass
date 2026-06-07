@@ -53,7 +53,7 @@
 
     {{-- MANIFEST + OUDERS AAN HET WOORD — contained white --}}
     <section class="about-section">
-        <h2 class="about-section__title">Lees het manifest</h2>
+        <x-section-heading>Lees het manifest</x-section-heading>
         <p>We zetten onze volledige visie op papier. Lees het manifest, mee ondertekend door een coalitie van Belgische verenigingen, en deel het.</p>
         {{-- NB: legacy Wix-gehoste PDF, moet herhost worden (zie D-7 / about-journey.md). --}}
         <p class="about-section__link"><a href="https://www.kidicalmass.be/_files/ugd/cf0153_2b074cb919ea46698c1732a2f55b26eb.pdf" target="_blank" rel="noopener noreferrer">Download het manifest (PDF) →</a></p>
