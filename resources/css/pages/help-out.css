@@ -7,13 +7,6 @@
         max-width: 32ch;
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
     }
-    .ho-intro {
-        max-width: 60ch;
-        margin-block: calc(var(--spacing) * 12);
-        font-size: clamp(var(--text-lg), 1.6vw, var(--text-2xl));
-        line-height: 1.5;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
-    }
     .ho-roles { background: var(--color-kidical-yellow); }
     .ho-roles .activity-promises__item:nth-child(3) { transform: rotate(-1deg); }
     .ho-deal {

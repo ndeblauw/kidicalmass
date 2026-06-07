@@ -16,11 +16,11 @@
         illustration="img/illustrations/bird-with-helmet.png">
 
     {{-- POSITIESTATEMENT — contained intro --}}
-    <section class="about-intro about-intro--lead">
+    <x-intro-text size="lead">
         <p>Kidical Mass begon als een fietsparade. Het werd een beweging. En bewegingen vieren niet alleen wat mogelijk is, ze vragen erom.</p>
         <p>We geloven dat elk kind in België zich veilig en met vertrouwen door zijn stad moet kunnen bewegen. Dat straten ontworpen horen te zijn voor de mensen die er wonen, niet alleen voor de auto's die er passeren. Dat kinderen mee mogen beslissen over hoe hun buurt eruitziet.</p>
         <p>Dat is niet radicaal. Het is wat de meeste ouders willen. Het is wat onderzoek bevestigt. En het is waar we naartoe werken: één rit, één gemeenteraad, één beleidsgesprek tegelijk.</p>
-    </section>
+    </x-intro-text>
 
     {{-- VIER EISEN — numbered demand grid on a light-blue band --}}
     <section class="about-band about-band--light-blue">

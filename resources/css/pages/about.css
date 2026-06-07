@@ -24,22 +24,6 @@
         height: 100%;
         object-fit: cover;
     }
-    .about-intro {
-        max-width: 60ch;
-        margin-block: calc(var(--spacing) * 12);
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        font-size: clamp(var(--text-lg), 1.5vw, var(--text-2xl));
-        line-height: 1.55;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
-    }
-    .about-intro--lead {
-        font-size: clamp(var(--text-xl), 1.8vw, var(--text-3xl));
-        font-weight: 600;
-        line-height: 1.4;
-        color: var(--color-kidical-ink);
-    }
     .about-band {
         width: 100vw;
         margin-left: calc(50% - 50vw);

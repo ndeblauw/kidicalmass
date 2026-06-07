@@ -16,11 +16,11 @@
         illustration="img/illustrations/kid-on-bike-teal.png">
 
     {{-- HOE WE GEORGANISEERD ZIJN — contained intro --}}
-    <section class="about-intro">
+    <x-intro-text>
         <p>Kidical Mass Belgium is zo opgebouwd dat het overal echt lokaal blijft. Geen nationale campagne met lokale filialen, maar een netwerk van groepen die elk hun eigen buurt kennen.</p>
         <p>Op nationaal niveau doet een klein coördinatieteam wat alleen op dat niveau kan: het merk bewaken, vorming ontwikkelen, communicatie en partnerschappen coördineren en subsidies aanvragen voor het hele netwerk. Het team schept de voorwaarden waarin lokale groepen kunnen groeien. Het stuurt ze niet aan.</p>
         <p>Op lokaal niveau is elke afdeling autonoom. Lokale trekkers kiezen hun eigen routes, verzamelpunten en partners. Zij kennen hun buurt beter dan wie ook. Die autonomie is bewust, en niet onderhandelbaar.</p>
-    </section>
+    </x-intro-text>
 
     {{-- ORGANIGRAM — lightweight semantic 3-tier flow --}}
     <section class="about-section about-section--wide">

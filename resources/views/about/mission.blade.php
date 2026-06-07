@@ -16,10 +16,10 @@
         illustration="img/illustrations/tree-tall.png">
 
     {{-- WAT KIDICAL MASS IS — contained intro --}}
-    <section class="about-intro">
+    <x-intro-text>
         <p>Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en zijn ondertussen actief in meer dan zestien gemeenten in Brussel, Wallonië en Vlaanderen. En we blijven groeien.</p>
         <p>Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen, en vaak ook voor de ouders.</p>
-    </section>
+    </x-intro-text>
 
     {{-- DRIE DINGEN DIE WE DOEN — reuses the promises card idiom on a sky band --}}
     <section class="about-band about-band--sky">

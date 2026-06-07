@@ -16,11 +16,11 @@
     <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/kid-waving.png">
 
     {{-- PITCH (contained) --}}
-    <p class="ho-intro">
-        Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die
+    <x-intro-text>
+        <p>Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die
         meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten, en het
-        goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.
-    </p>
+        goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.</p>
+    </x-intro-text>
 
     {{-- HOE JE KAN HELPEN — reuses the promises band (yellow) --}}
     <section class="activity-promises ho-roles">

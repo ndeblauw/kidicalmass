@@ -107,9 +107,10 @@
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-heading);
         font-weight: 800;
+        color: var(--color-kidical-ink);
     }
 
-    h1 { font-size: var(--text-6xl); line-height: 1.05; color: var(--color-kidical-blue); }
+    h1 { font-size: var(--text-6xl); line-height: 1.05; }
     h2 { font-size: var(--text-4xl); line-height: 1.15; }
     h3 { font-size: var(--text-3xl); line-height: 1.25; }
     h4 { font-size: var(--text-2xl); line-height: 1.35; }
@@ -133,6 +134,7 @@
 @import './components/page-hero.css';
 @import './components/partners.css';
 @import './components/support-callout.css';
+@import './components/intro-text.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';
