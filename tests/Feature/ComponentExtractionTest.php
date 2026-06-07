@@ -128,3 +128,19 @@ it('info-card renders label and slot content', function () {
         ->toContain('Perscontact')
         ->toContain('bike@kidicalmass.be');
 });
+
+it('titled-list-block renders the title and list items from slot', function () {
+    $html = Blade::render(<<<'BLADE'
+        <x-titled-list-block title="Wat je krijgt">
+            <li>Materiaal en steun</li>
+            <li>Opleiding</li>
+        </x-titled-list-block>
+    BLADE);
+
+    expect($html)
+        ->toContain('titled-list-block')
+        ->toContain('titled-list-block__title')
+        ->toContain('Wat je krijgt')
+        ->toContain('<li>Materiaal en steun</li>')
+        ->toContain('<li>Opleiding</li>');
+});

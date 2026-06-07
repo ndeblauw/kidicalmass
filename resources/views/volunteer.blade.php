@@ -85,22 +85,20 @@
 
                 <div class="ho-deal__text">
                     <div class="ho-deal__block" data-ho-photo="0">
-                        <h3 class="ho-deal__subtitle">Wat je krijgt</h3>
-                        <ul role="list" class="ho-deal__list ho-deal__list--get">
+                        <x-titled-list-block title="Wat je krijgt">
                             <li>Kidical Mass-materiaal en steun vanaf dag één</li>
                             <li>Opleiding rond veiligheid en routeplanning, als je dat wil</li>
                             <li>Vier gezellige vrijwilligersmomenten per jaar, met lekker eten</li>
                             <li>Een warme bende ouders en fietsers die echte vrienden worden</li>
-                        </ul>
+                        </x-titled-list-block>
                     </div>
 
                     <div class="ho-deal__block" data-ho-photo="1">
-                        <h3 class="ho-deal__subtitle">Wat we vragen</h3>
-                        <ul role="list" class="ho-deal__list ho-deal__list--ask">
+                        <x-titled-list-block title="Wat we vragen">
                             <li>Kom met goesting en een vrolijke, respectvolle houding</li>
                             <li>Onderschrijf onze afspraken rond vriendelijkheid en veiligheid</li>
                             <li>Maak je deel uit van een lokaal team? Stuur één afgevaardigde naar het jaarlijkse meetup-moment</li>
-                        </ul>
+                        </x-titled-list-block>
                     </div>
                 </div>
 

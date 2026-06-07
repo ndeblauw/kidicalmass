@@ -141,6 +141,7 @@
 @import './components/person-card.css';
 @import './components/agenda-item.css';
 @import './components/info-card.css';
+@import './components/titled-list-block.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';

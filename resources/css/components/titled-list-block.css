@@ -1,0 +1,39 @@
+@layer components {
+    .titled-list-block__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+        line-height: 1.05;
+        color: var(--color-kidical-ink);
+        margin-bottom: 2rem;
+    }
+
+    .titled-list-block__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .titled-list-block__list li {
+        position: relative;
+        padding-left: 2.9rem;
+        font-size: clamp(var(--text-xl), 1.7vw, var(--text-2xl));
+        font-weight: 600;
+        color: var(--color-kidical-ink);
+        line-height: 1.35;
+    }
+
+    .titled-list-block__list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.35em;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: var(--color-kidical-red);
+        border-radius: 50%;
+        opacity: 0.18;
+    }
+}
