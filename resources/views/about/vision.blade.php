@@ -60,15 +60,13 @@
 
         {{-- Oudergetuigenissen, RIEPP-studie 2021, met toestemming. NL-vertaling
              ter bevestiging bij het coördinatieduo (zie about-journey.md). --}}
-        <div class="about-voices">
-            <figure class="about-voice">
-                <blockquote><p>“Ik heb het gevoel dat ik de hele tijd de levenslust van mijn kinderen afrem.”</p></blockquote>
-                <figcaption>Camille, mama van twee kinderen, Sint-Gillis</figcaption>
-            </figure>
-            <figure class="about-voice">
-                <blockquote><p>“Ik ben constant bang voor de auto's, de trams. Tegen dat we thuis zijn van school, ben ik uitgeput.”</p></blockquote>
-                <figcaption>Fatima, mama van drie kinderen, Jette</figcaption>
-            </figure>
+        <div class=”about-voices”>
+            <x-pull-quote variant=”card” attribution=”Camille, mama van twee kinderen, Sint-Gillis”>
+                “Ik heb het gevoel dat ik de hele tijd de levenslust van mijn kinderen afrem.”
+            </x-pull-quote>
+            <x-pull-quote variant=”card” attribution=”Fatima, mama van drie kinderen, Jette”>
+                “Ik ben constant bang voor de auto's, de trams. Tegen dat we thuis zijn van school, ben ik uitgeput.”
+            </x-pull-quote>
         </div>
     </section>
 

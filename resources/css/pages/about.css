@@ -111,27 +111,6 @@
 
         &:hover { background-image: none; text-decoration: underline; }
     }
-    .about-quote {
-        max-width: 54rem;
-        margin-block: calc(var(--spacing) * 14);
-        margin-inline: auto;
-        text-align: center;
-    }
-    .about-quote blockquote { margin: 0; }
-    .about-quote blockquote p {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
-        line-height: 1.25;
-        color: var(--color-kidical-ink);
-        margin: 0;
-    }
-    .about-quote figcaption {
-        margin-top: 1.25rem;
-        font-size: var(--text-base);
-        font-weight: 700;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
-    }
     .about-voices {
         display: grid;
         grid-template-columns: 1fr;
@@ -139,29 +118,6 @@
         margin-top: 2.5rem;
 
         @media (min-width: 768px) { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    }
-    .about-voice {
-        margin: 0;
-        padding: 1.75rem;
-        border-radius: 1.25rem;
-        background: var(--color-kidical-light-yellow);
-
-        &:nth-child(odd) { transform: rotate(-1deg); }
-        &:nth-child(even) { transform: rotate(1deg); }
-    }
-    .about-voice blockquote { margin: 0; }
-    .about-voice blockquote p {
-        font-size: var(--text-lg);
-        font-weight: 600;
-        line-height: 1.45;
-        color: var(--color-kidical-ink);
-        margin: 0;
-    }
-    .about-voice figcaption {
-        margin-top: 1rem;
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
     }
     .about-organigram {
         list-style: none;

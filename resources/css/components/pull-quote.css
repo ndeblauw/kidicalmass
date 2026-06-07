@@ -1,0 +1,48 @@
+@layer components {
+    /* Large: centred, prominent heading-font quote */
+    .pull-quote--large {
+        max-width: 54rem;
+        margin-block: calc(var(--spacing) * 14);
+        margin-inline: auto;
+        text-align: center;
+    }
+    .pull-quote--large blockquote { margin: 0; }
+    .pull-quote--large blockquote p {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
+        line-height: 1.25;
+        color: var(--color-kidical-ink);
+        margin: 0;
+    }
+    .pull-quote--large figcaption {
+        margin-top: 1.25rem;
+        font-size: var(--text-base);
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    }
+
+    /* Card: tilted light-yellow tile, used in grids */
+    .pull-quote--card {
+        margin: 0;
+        padding: 1.75rem;
+        border-radius: 1.25rem;
+        background: var(--color-kidical-light-yellow);
+    }
+    .pull-quote--card:nth-child(odd)  { transform: rotate(-1deg); }
+    .pull-quote--card:nth-child(even) { transform: rotate(1deg); }
+    .pull-quote--card blockquote { margin: 0; }
+    .pull-quote--card blockquote p {
+        font-size: var(--text-lg);
+        font-weight: 600;
+        line-height: 1.45;
+        color: var(--color-kidical-ink);
+        margin: 0;
+    }
+    .pull-quote--card figcaption {
+        margin-top: 1rem;
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+    }
+}

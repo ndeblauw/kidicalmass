@@ -31,3 +31,23 @@ it('section-heading respects the as prop to render a different heading level', f
 
     expect($html)->toContain('<h3')->toContain('</h3>');
 });
+
+it('pull-quote large renders blockquote with attribution', function () {
+    $html = Blade::render(
+        '<x-pull-quote attribution="Julienne, mama">"Vrijheid om buiten te zijn."</x-pull-quote>'
+    );
+
+    expect($html)
+        ->toContain('pull-quote')
+        ->toContain('<blockquote')
+        ->toContain('<figcaption')
+        ->toContain('Julienne, mama');
+});
+
+it('pull-quote card variant adds the card modifier class', function () {
+    $html = Blade::render(
+        '<x-pull-quote variant="card" attribution="Camille, mama">Quote.</x-pull-quote>'
+    );
+
+    expect($html)->toContain('pull-quote--card');
+});

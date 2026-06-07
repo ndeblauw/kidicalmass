@@ -70,12 +70,9 @@
     </section>
 
     {{-- OUDER AAN HET WOORD — pull-quote --}}
-    <figure class="about-quote">
-        <blockquote>
-            <p>“Wat hij zo leuk vindt aan fietsen, denk ik, is die vrijheid om buiten te zijn, lucht te hebben, er alleen op uit te trekken. Hij wil altijd ver gaan, iets nieuws ontdekken.”</p>
-        </blockquote>
-        <figcaption>Julienne, mama van twee kinderen (2 en 5 jaar)</figcaption>
-    </figure>
+    <x-pull-quote attribution=”Julienne, mama van twee kinderen (2 en 5 jaar)”>
+        “Wat hij zo leuk vindt aan fietsen, denk ik, is die vrijheid om buiten te zijn, lucht te hebben, er alleen op uit te trekken. Hij wil altijd ver gaan, iets nieuws ontdekken.”
+    </x-pull-quote>
 
     @push('scripts')
     <x-about-reveal selector=".about-band .about-card-grid > li" />
