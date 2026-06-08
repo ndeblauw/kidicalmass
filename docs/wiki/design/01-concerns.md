@@ -14,11 +14,11 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 | State | Count | IDs |
 |---|---|---|
-| Open | 3 | `D-10`, `D-11`, `D-12` |
+| Open | 4 | `D-10`, `D-11`, `D-12`, `D-13` |
 | Partly | 4 | `D-1`, `D-3`, `D-7`, `D-9` |
 | Closed | 2 | `D-2`, `D-4` |
 
-**Conclusion gate:** **three fully-Open design concerns: `D-10` (page metadata / SEO / social share previews — never addressed), `D-11` (About credibility leaves have no real data — Partners + Press), and `D-12` (volunteer-enquiry follow-up / ownership — new, Alexandre/J3 2026-06-05).** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (**evidence gate closed by Alexandre/J3 2026-06-05** — back-office content brief now concrete, per-event attendance cut, replaced by the volunteer roster), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
+**Conclusion gate:** **four fully-Open design concerns: `D-10` (page metadata / SEO / social share previews — never addressed), `D-11` (About credibility leaves have no real data — Partners + Press), `D-12` (volunteer-enquiry follow-up / ownership — new, Alexandre/J3 2026-06-05), and `D-13` (About stats are hardcoded — 2026-06-08).** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (**evidence gate closed by Alexandre/J3 2026-06-05** — back-office content brief now concrete, per-event attendance cut, replaced by the volunteer roster), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
 
 ---
 
@@ -41,6 +41,12 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 - **Couples to:** the all-Brussels partner list (national-scope pass with Leticia) and the `bike@kidicalmass.be` vs dedicated `pers@`/`partners@` question — both in [`about-journey.md` § Open questions](30-skeleton/about-journey.md).
 - **Safe to:** ship the pages now; do **not** call them Back/OK until the data lands.
 - **Next step:** confirm the real partner + press lists with the coordination duo; size the Press model for Build.
+
+### `D-13` — About stats are hardcoded — **Open** (flagged 2026-06-08)
+- **Problem:** the three impact stats on `/about` (gemeenten, fietsparades, vrijwilligers) are static strings in the Blade template ([`about/index.blade.php`](../../../resources/views/about/index.blade.php), line ~112). They were updated to 20 / 200+ / 300+ on 2026-06-08 but will drift as the network grows.
+- **Desired end state:** gemeenten = `Group::active()->count()` (or a scope), fietsparades = `Activity::past()->count()`, vrijwilligers = a configurable/CMS value (no reliable DB source yet — volunteers aren't modelled as a count).
+- **Safe to:** leave static for now; update manually when the numbers shift.
+- **Next step:** wire gemeenten + fietsparades to real counts once the data model stabilises (Build phase); decide how to source the vrijwilligers figure (config key, or a new `Volunteer` count model).
 
 ### `D-12` — Volunteer-enquiry follow-up / ownership — **Open** (flagged 2026-06-05, Alexandre/J3)
 - **Problem:** the docs already route a per-chapter contact form to the local lead and let leads respond in-platform, but the **follow-up / ownership / tracking mechanism is unresolved.** When a routed enquiry arrives, who owns it — one responsible mailbox per chapter, or all leads with a **status/tracking** system so nothing falls through? This is the original `bike@` "email black hole" reframed at chapter level: routing to the right place does not by itself guarantee anyone answers.

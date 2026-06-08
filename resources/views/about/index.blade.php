@@ -109,9 +109,10 @@
     <section class="about-stats" aria-label="Kidical Mass in cijfers">
         <div class="container mx-auto px-4">
             <ul class="about-stats__grid about-stats__grid--three" role="list">
-                <li class="about-stat"><span class="about-stat__num">16+</span><span class="about-stat__label">gemeenten in heel België</span></li>
-                <li class="about-stat"><span class="about-stat__num">150+</span><span class="about-stat__label">fietsparades sinds 2020</span></li>
-                <li class="about-stat"><span class="about-stat__num">120</span><span class="about-stat__label">actieve vrijwilligers</span></li>
+                {{-- TODO [concern]: Stats are hardcoded. Make dynamic: gemeenten = count(active groups), fietsparades = count(past activities), vrijwilligers = from a config/CMS field. See concerns register. --}}
+                <li class="about-stat"><span class="about-stat__num">20</span><span class="about-stat__label">gemeenten in heel België</span></li>
+                <li class="about-stat"><span class="about-stat__num">200+</span><span class="about-stat__label">fietsparades sinds 2020</span></li>
+                <li class="about-stat"><span class="about-stat__num">300+</span><span class="about-stat__label">actieve vrijwilligers</span></li>
             </ul>
         </div>
     </section>
