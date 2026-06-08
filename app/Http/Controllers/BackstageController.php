@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\User;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
@@ -77,15 +76,12 @@ class BackstageController extends Controller
     }
 
     /**
-     * Shallow activation for the demo: log the new pink vest in and drop them on the
-     * welcome screen. Real invite-token provisioning is out of scope (D-12 hand-off).
+     * One-click activation for the demo: log the new pink vest in and drop them on the
+     * welcome screen. No password — the prototype is about showing the surfaces, not
+     * real auth. Real invite-token provisioning is out of scope (D-12 hand-off).
      */
-    public function activate(Request $request, Group $group, StatefulGuard $guard): RedirectResponse
+    public function activate(Group $group, StatefulGuard $guard): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
         $volunteer = $group->users()->where('email', 'morgane@example.test')->firstOrFail();
         $guard->login($volunteer);
 

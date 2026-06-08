@@ -26,22 +26,19 @@ it('renders the invite email preview', function () {
 it('renders the activation screen', function () {
     $this->get(route('backstage.activate', $this->group))
         ->assertOk()
-        ->assertSee('Stel je wachtwoord in');
+        ->assertSee('Account activeren');
 });
 
-it('activates the account and logs the volunteer in', function () {
-    $this->post(route('backstage.activate', $this->group), [
-        'password' => 'fietsfietsfiets',
-        'password_confirmation' => 'fietsfietsfiets',
-    ])->assertRedirect(route('backstage.welcome', $this->group));
+it('activates the account in one click and logs the volunteer in', function () {
+    $this->post(route('backstage.activate', $this->group))
+        ->assertRedirect(route('backstage.welcome', $this->group));
 
     $this->assertAuthenticatedAs($this->morgane);
 });
 
-it('gates the backstage behind auth', function () {
-    $this->get(route('backstage.home', $this->group))->assertRedirect();
-    $this->get(route('backstage.welcome', $this->group))->assertRedirect();
-    $this->get(route('backstage.team', $this->group))->assertRedirect();
+it('opens the backstage for a guest by signing them in as the demo volunteer', function () {
+    $this->get(route('backstage.home', $this->group))->assertOk();
+    $this->assertAuthenticatedAs($this->morgane);
 });
 
 it('renders the welcome, home and roster for a logged-in volunteer', function () {

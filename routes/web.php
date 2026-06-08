@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
+use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
@@ -77,7 +78,7 @@ Route::view('dashboard', 'dashboard')
 Route::get('activeer/{group:shortname}', [BackstageController::class, 'showActivate'])->name('backstage.activate');
 Route::post('activeer/{group:shortname}', [BackstageController::class, 'activate']);
 
-Route::middleware(['auth'])->prefix('backstage')->name('backstage.')->group(function (): void {
+Route::middleware([BackstageDemoAccess::class])->prefix('backstage')->name('backstage.')->group(function (): void {
     Route::get('{group:shortname}', [BackstageController::class, 'home'])->name('home');
     Route::get('{group:shortname}/welkom', [BackstageController::class, 'welcome'])->name('welcome');
     Route::get('{group:shortname}/team', [BackstageController::class, 'team'])->name('team');
