@@ -700,4 +700,36 @@
         h2 { margin-bottom: 0.5rem; }
         p { margin: 0 0 0.5rem; }
     }
+
+    @media (max-width: 767px) {
+        /* Hero: the decorative daisy (position:absolute; right:-8%; transform:rotate(15deg))
+           extends its transformed bounding box ~52px past the viewport edge, inflating
+           scrollWidth. Clip horizontally without creating a scroll container. */
+        .activity-hero {
+            overflow-x: clip;
+        }
+
+        /* Hero: grid item has min-width:auto by default, which lets the unbreakable
+           Dutch compound word (e.g. "Vrijwilligersmeetup" at 48px) inflate the 1fr
+           track beyond the viewport. Collapse to 0 and allow word breaks. */
+        .activity-hero__copy {
+            min-width: 0;
+        }
+        .activity-hero__copy h1 {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* Promises section: same min-width:auto issue on grid items at large font sizes
+           ("Wat kun je verwachten?" at ~56px pushes the 1fr track to ~384px).
+           Collapse all grid items to 0 min-width and reduce the oversized heading. */
+        .activity-promises__illustration,
+        .activity-promises__col {
+            min-width: 0;
+        }
+        .activity-promises__illustration h2 {
+            font-size: clamp(var(--text-2xl), 8vw, var(--text-4xl));
+            overflow-wrap: break-word;
+        }
+    }
 }

@@ -285,3 +285,39 @@
         max-width: 38ch;
     }
 }
+
+@layer components {
+    @media (max-width: 767px) {
+        /* Single column: agenda stacks, sidebar drops below it. */
+        .kal-body {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .kal-sidebar {
+            position: static;
+            top: auto;
+        }
+        /* Filter row wraps; trim the negative margin/padding so it never pushes width. */
+        .kal-filterrow {
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            padding: 0.75rem 1rem;
+            margin: 0 -1rem;
+        }
+        .kal-filterrow__sep {
+            display: none;
+        }
+        .kal-filterrow__radius {
+            flex-wrap: wrap;
+        }
+        .kal-filterrow__tabs {
+            flex-wrap: wrap;
+        }
+        /* Day grid: narrower date column so the rides column has room. */
+        .kal-day {
+            grid-template-columns: 56px 1fr;
+            gap: 0 0.75rem;
+        }
+    }
+}

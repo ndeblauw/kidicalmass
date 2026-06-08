@@ -126,6 +126,14 @@
     }
 }
 
+/*
+ * Shared breakpoints:  sm = 480px   md = 768px   lg = 1024px
+ * New partials should be authored mobile-first (base = mobile, layer up with
+ * @media (min-width: …)). The existing partials are desktop-first, so mobile
+ * fixes here layer down with @media (max-width: 767px) overrides at the md
+ * edge — do not rewrite untouched legacy queries just to flip the direction.
+ */
+
 /* Role-based partials — see docs/superpowers/specs/2026-06-06-css-partials-architecture-design.md */
 @import './components/closing-cta.css';
 @import './components/cta-button.css';

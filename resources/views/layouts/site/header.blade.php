@@ -17,10 +17,6 @@
                     <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')" class="font-bold text-lg">{{ __('nav.chapters') }}</flux:navbar.item>
                     <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')" class="font-bold text-lg">{{ __('nav.getting_started') }}</flux:navbar.item>
                     <flux:navbar.item href="{{ route('volunteer') }}" :current="request()->routeIs('volunteer')" class="font-bold text-lg">{{ __('nav.help_out') }}</flux:navbar.item>
-                    {{-- "Over ons" links straight to the /about hub (the hub page IS the
-                         sub-page menu, with all six leaves as cards). A JS dropdown was inert
-                         here: the public layout loads no Flux/Alpine scripts. This keeps
-                         desktop consistent with mobile and works with zero JS. --}}
                     <flux:navbar.item href="{{ route('about') }}" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
                 </flux:navbar>
 

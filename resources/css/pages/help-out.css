@@ -135,4 +135,25 @@
     }
     .ho-start__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
     .ho-start p { margin-bottom: 0.75rem; }
+
+    @media (max-width: 767px) {
+        /* Trim intro paragraph font: 24px (text-2xl) on a 390px phone is too
+           large — 335px for one paragraph. Drop to text-xl for tighter pitch. */
+        .page-panel .intro-text {
+            font-size: var(--text-xl);
+        }
+
+        /* Roles band: the activity-promises padding is calc(spacing * 14) = 56px
+           top/bottom. Reduce to clamp so the yellow band doesn't dwarf its cards. */
+        .ho-roles {
+            padding-top: clamp(2rem, 8vw, 3.5rem);
+            padding-bottom: clamp(2rem, 8vw, 3.5rem);
+        }
+
+        /* "Start je groep" coda: 56px margins on both sides is generous for
+           a short closing paragraph — halve to breathing room, not dead space. */
+        .ho-start {
+            margin-block: clamp(2rem, 6vw, 3.5rem);
+        }
+    }
 }

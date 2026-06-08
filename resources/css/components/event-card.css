@@ -93,3 +93,20 @@
         flex-direction: column;
     }
 }
+
+@layer components {
+    @media (max-width: 767px) {
+        .event-card {
+            gap: 0.25rem 0.75rem;
+        }
+        .event-card__place {
+            min-width: 0;
+            flex: 1 1 100%;
+            font-size: var(--text-xl);
+        }
+        .event-card__meta {
+            flex: 1 1 100%;
+            font-size: var(--text-base);
+        }
+    }
+}

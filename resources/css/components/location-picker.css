@@ -94,6 +94,17 @@
     color: var(--color-kidical-yellow);
 }
 
+@media (max-width: 767px) {
+    /* The geo button and suggestion rows are inline text on desktop; give them
+       a comfortable tap height on phones (the input is already >=52px). */
+    .location-picker__geo {
+        min-height: 44px;
+    }
+    .location-picker__suggestion {
+        min-height: 44px;
+    }
+}
+
 .location-picker__geo[disabled] {
     opacity: 0.8;
     cursor: default;
