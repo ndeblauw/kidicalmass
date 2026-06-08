@@ -31,14 +31,6 @@
 
         $leadNames = $group->users->pluck('name')->map(fn ($n) => explode(' ', trim($n))[0])->filter()->values();
 
-        // Per-type NL framing (family-facing) — label, CTA, colour modifier.
-        $typeMeta = fn (\App\Enums\ActivityType $t) => match ($t) {
-            \App\Enums\ActivityType::KIDICALMASS => ['label' => 'Fietstocht', 'cta' => 'Naar de fietstocht →', 'mod' => 'ride', 'quiet' => false],
-            \App\Enums\ActivityType::WORKSHOP => ['label' => 'Workshop', 'cta' => 'Meer info →', 'mod' => 'workshop', 'quiet' => false],
-            \App\Enums\ActivityType::MEETING => ['label' => 'Voor vrijwilligers', 'cta' => 'Meer info →', 'mod' => 'meeting', 'quiet' => true],
-            default => ['label' => 'Activiteit', 'cta' => 'Meer info →', 'mod' => 'other', 'quiet' => false],
-        };
-
         $initialsOf = fn (string $name) => \Illuminate\Support\Str::of($name)->explode(' ')
             ->filter()->map(fn ($p) => mb_strtoupper(mb_substr($p, 0, 1)))->take(2)->implode('');
 
@@ -97,22 +89,7 @@
             <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
 
             @if ($nextRide)
-                <article class="chapter-next__card">
-                    <p class="chapter-next__date">
-                        <time datetime="{{ $nextRide->begin_date->format('Y-m-d\TH:i') }}">
-                            {{ ucfirst($nextRide->begin_date->locale('nl')->isoFormat('dddd D MMMM · HH:mm')) }}
-                        </time>
-                    </p>
-                    <h3 class="chapter-next__title">{{ $nextRide->title_nl }}</h3>
-                    @if ($nextRide->location)
-                        <p class="chapter-next__loc">
-                            <flux:icon.map-pin variant="solid" aria-hidden="true" />
-                            Verzamelen: {{ $nextRide->location }}
-                        </p>
-                    @endif
-                    <p class="chapter-next__reassure">Rustig tempo · kinderen voorop · iedereen welkom</p>
-                    <a href="{{ route('activities.show', $nextRide) }}" class="chapter-next__cta link-plain">Naar de fietstocht →</a>
-                </article>
+                <x-ride-spotlight :activity="$nextRide" :cta="true" />
             @else
                 {{-- Designed empty state: no upcoming RIDE. Warm, not a dead end. Workshops /
                      meetings (if any) still list below — honest, never mislabelled as a ride. --}}
@@ -130,22 +107,12 @@
 
             {{-- The rest of the agenda: later rides, workshops, meetings — each type-labelled --}}
             @if ($rest->isNotEmpty())
-                <ul class="chapter-agenda__list">
+                {{-- Agenda rows are <a>-rooted ride-row components, so we use a div (not ul/li), consistent with the calendar's row groups. --}}
+                <div class="chapter-agenda__list">
                     @foreach ($rest as $activity)
-                        @php $m = $typeMeta($activity->activity_type); @endphp
-                        <x-agenda-item
-                            :badge="$m['label']"
-                            :badge-variant="$m['mod']"
-                            :datetime="$activity->begin_date->format('Y-m-d\TH:i')"
-                            :when="$activity->begin_date->locale('nl')->isoFormat('dd D MMM · HH:mm')"
-                            :title="$activity->title_nl"
-                            :location="$activity->location"
-                            :cta-href="route('activities.show', $activity)"
-                            :cta-label="$m['cta']"
-                            :quiet="$m['quiet']"
-                        />
+                        <x-ride-row :activity="$activity" :show-date="true" />
                     @endforeach
-                </ul>
+                </div>
             @endif
 
             <div class="chapter-agenda__foot">

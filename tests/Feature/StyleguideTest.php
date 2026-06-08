@@ -15,6 +15,6 @@ it('renders the live component demos', function () {
         ->assertOk()
         ->assertSee('cta-button')
         ->assertSee('feature-card')
-        ->assertSee('event-card')
+        ->assertSee('ride-row')
         ->assertSee('stat-card');
 });

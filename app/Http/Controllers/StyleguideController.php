@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\User;
@@ -14,6 +15,8 @@ class StyleguideController extends Controller
     {
         $activity = $this->sampleActivity('Kidical Mass Gent', 'Sint-Pietersplein, Gent', 1);
         $activityB = $this->sampleActivity('Grande Kidical Mass Brussel', 'Jubelpark, Brussel', 2, days: 9);
+        $workshop = $this->sampleActivity('Fietsherstel workshop', 'Wijkcentrum, Gent', 3, days: 5, type: ActivityType::WORKSHOP);
+        $meeting = $this->sampleActivity('Teamvergadering', 'Online', 4, days: 7, type: ActivityType::MEETING);
 
         $article = new Article([
             'title_nl' => 'Eerste rit van het seizoen was een groot succes',
@@ -30,6 +33,8 @@ class StyleguideController extends Controller
         return view('styleguide', [
             'activity' => $activity,
             'activityB' => $activityB,
+            'workshop' => $workshop,
+            'meeting' => $meeting,
             'article' => $article,
             'statistics' => $statistics,
             'dayPeriodKey' => $activity->begin_date->toDateString(),
@@ -40,12 +45,13 @@ class StyleguideController extends Controller
         ]);
     }
 
-    private function sampleActivity(string $title, string $location, int $id, int $days = 2): Activity
+    private function sampleActivity(string $title, string $location, int $id, int $days = 2, ActivityType $type = ActivityType::KIDICALMASS): Activity
     {
         $activity = new Activity([
             'title_nl' => $title,
             'location' => $location,
             'begin_date' => Carbon::parse('2026-06-06 14:00')->addDays($days),
+            'activity_type' => $type,
         ]);
         $activity->id = $id;
 

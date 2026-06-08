@@ -53,7 +53,7 @@
                 @elseif ($when === 'voorbije')
                     <div class="kal-days">
                         @foreach ($byPeriod as $periodKey => $rides)
-                            <x-kal-month-band :period-key="$periodKey" :rides="$rides" />
+                            <x-ride-month :period-key="$periodKey" :rides="$rides" />
                         @endforeach
                     </div>
 
@@ -73,7 +73,7 @@
                 @else
                     <div class="kal-days">
                         @foreach ($byPeriod as $periodKey => $rows)
-                            <x-kal-day-band :period-key="$periodKey" :rows="$rows" />
+                            <x-ride-day :period-key="$periodKey" :rows="$rows" />
                         @endforeach
                     </div>
                 @endif

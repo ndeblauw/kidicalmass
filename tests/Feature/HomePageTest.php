@@ -55,7 +55,7 @@ it('shows the location picker in the next-ride section when no location is set',
         ->assertDontSee('km van jou');
 });
 
-it('shows the nearest upcoming ride with a distance label when a location is set', function () {
+it('shows the nearest upcoming ride using the date-rail lockup when a location is set', function () {
     Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
         'title_nl' => 'Kidical Mass Jette',
@@ -68,7 +68,7 @@ it('shows the nearest upcoming ride with a distance label when a location is set
         ->get('/nl')
         ->assertOk()
         ->assertSee('Jette')
-        ->assertSee('km van jou')
+        ->assertDontSee('km van jou')
         ->assertSee('Je fietst rond');
 });
 

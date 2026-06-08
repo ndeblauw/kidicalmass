@@ -42,15 +42,7 @@
                     <p class="text-kidical-ink/70">Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:</p>
                 @endif
 
-                <div class="event-list">
-                    <x-event-card :activity="$nextRide" />
-                </div>
-
-                @if ($nextRideDistanceKm !== null)
-                    <p class="home-nextride__distance text-sm font-semibold text-kidical-ink/60">
-                        {{ str_replace('.', ',', (string) $nextRideDistanceKm) }} km van jou
-                    </p>
-                @endif
+                <x-ride-day :period-key="$nextRide->begin_date->toDateString()" :rows="[['item' => $nextRide]]" />
 
                 <livewire:location-picker />
             @endif

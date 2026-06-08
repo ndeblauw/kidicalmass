@@ -137,12 +137,12 @@
                     </div>
                 </x-styleguide.entry>
 
-                <x-styleguide.entry name="agenda-item" props="badge, badgeVariant=ride|workshop|meeting|other, datetime, when, title, location?, ctaHref, ctaLabel, quiet?">
-                    <ul class="chapter-agenda__list" style="max-width: 44rem">
-                        <x-agenda-item badge="Rit" badge-variant="ride" datetime="2026-06-14T14:00" when="za 14 jun · 14:00" title="Kidical Mass Gent" location="Sint-Pietersplein" cta-href="#" cta-label="Meer info" />
-                        <x-agenda-item badge="Vergadering" badge-variant="meeting" datetime="2026-06-18T19:30" when="wo 18 jun · 19:30" title="Teamvergadering" cta-href="#" cta-label="Meer info" :quiet="true" />
-                        <x-agenda-item badge="Workshop" badge-variant="workshop" datetime="2026-06-21T10:00" when="za 21 jun · 10:00" title="Routeplanning voor beginners" cta-href="#" cta-label="Meer info" />
-                    </ul>
+                <x-styleguide.entry name="ride-row" props="activity, showDate=false|true">
+                    <div class="flex flex-col" style="max-width: 44rem">
+                        <x-ride-row :activity="$activity" :show-date="true" />
+                        <x-ride-row :activity="$workshop" :show-date="true" />
+                        <x-ride-row :activity="$meeting" :show-date="true" />
+                    </div>
                 </x-styleguide.entry>
 
                 <x-styleguide.entry name="info-card" props="label">
@@ -162,24 +162,17 @@
                     </div>
                 </x-styleguide.entry>
 
-                <x-styleguide.entry name="event-card" props="activity, showDate=true, featured=auto">
-                    <section class="kal-day max-w-2xl">
-                        <div class="kal-day__date-col">
-                            <time class="kal-day__date" datetime="{{ $activity->begin_date->toDateString() }}">
-                                <span class="kal-day__date-dow">{{ \Illuminate\Support\Str::upper($activity->begin_date->locale('nl')->isoFormat('dd')) }}</span>
-                                <span class="kal-day__date-num">{{ $activity->begin_date->locale('nl')->isoFormat('D MMM') }}</span>
-                            </time>
-                        </div>
-                        <div class="kal-day__rides">
-                            <x-event-card :activity="$activity" :show-date="false" />
-                            <x-event-card :activity="$activityB" :show-date="false" />
-                        </div>
-                    </section>
+                <x-styleguide.entry name="ride-spotlight" props="activity, cta=false, heading=h3, showTime=true, showLocation=true">
+                    <x-ride-spotlight :activity="$activity" :cta="true" />
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="ride-day" props="periodKey, rows=[['item'=>Activity]]">
+                    <x-ride-day :period-key="$activity->begin_date->toDateString()" :rows="[['item' => $activity]]" />
                 </x-styleguide.entry>
 
                 {{-- Kalender --}}
-                <x-styleguide.entry name="kal-day-band" props="periodKey, rows=[['item'=>Activity]]">
-                    <x-kal-day-band :period-key="$dayPeriodKey" :rows="$dayRows" />
+                <x-styleguide.entry name="ride-month" props="periodKey, rides=[Activity]">
+                    <x-ride-month :period-key="$monthPeriodKey" :rides="$monthRides" />
                 </x-styleguide.entry>
 
                 <x-styleguide.entry name="article-card" props="article">
@@ -199,10 +192,6 @@
                 <x-styleguide.entry name="group-statistics" props=":statistics (year => count)"
                     note="Bevat nog Engelse hardcoded copy ('We are growing!', 'groups') — zie kandidaten.">
                     <x-group-statistics :statistics="$statistics" />
-                </x-styleguide.entry>
-
-                <x-styleguide.entry name="kal-month-band" props="periodKey, rides=[Activity]">
-                    <x-kal-month-band :period-key="$monthPeriodKey" :rides="$monthRides" />
                 </x-styleguide.entry>
 
                 {{-- Primitieven --}}

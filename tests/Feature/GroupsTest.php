@@ -260,7 +260,7 @@ test('chapter home leads with the next ride in NL, not metadata', function () {
         ->assertOk()
         ->assertSee('Op de agenda')           // unified typed agenda; the ride is the weighted hero
         ->assertSee('Place Colignon')
-        ->assertSee('Naar de fietstocht')
+        ->assertSee('Naar de rit')            // ride-spotlight CTA (was "Naar de fietstocht" in old bespoke card)
         ->assertDontSee('Part of:')
         ->assertDontSee('Organised by')
         ->assertDontSee('Subgroups');
@@ -312,7 +312,7 @@ test('chapter agenda labels a workshop as a workshop, never as a ride', function
         ->assertDontSee('Naar de fietstocht');
 });
 
-test('chapter agenda labels a volunteer meeting as voor vrijwilligers', function () {
+test('chapter agenda labels a meeting with a Vergadering chip', function () {
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'bxl', 'name' => 'Kidical Mass Brussel Stad', 'zip' => '1000', 'invisible' => false, 'started_at' => now()]);
 
@@ -327,7 +327,7 @@ test('chapter agenda labels a volunteer meeting as voor vrijwilligers', function
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Voor vrijwilligers')
+        ->assertSee('Vergadering')             // ride-row chip for meetings (was "Voor vrijwilligers" in old agenda-item)
         ->assertSee('Vrijwilligersmeeting')
         ->assertDontSee('Naar de fietstocht');
 });

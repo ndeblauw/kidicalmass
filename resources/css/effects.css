@@ -3,10 +3,6 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes hero-chapter-in {
-    from { opacity: 0; transform: translateY(calc(3.5rem + 18px)) rotate(-3deg); }
-    to   { opacity: 1; transform: translateY(3.5rem) rotate(-3deg); }
-}
 
 @keyframes hero-photo-in {
     from { opacity: 0; transform: scale(0.88); }
@@ -39,10 +35,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .activity-hero__copy h1,
-    .activity-hero__date,
-    .activity-hero__photo,
-    .activity-hero__chapter,
     .activity-organizers__content,
     .volunteer-signup__success-icon,
     .volunteer-signup__success h3,

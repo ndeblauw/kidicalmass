@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityType;
+use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -137,5 +138,32 @@ class Activity extends Model implements HasMedia
         }
 
         return "{$hours} u {$minutes} min";
+    }
+
+    public function getTitleAttribute(): string
+    {
+        return app()->getLocale() === 'fr' && filled($this->title_fr)
+            ? (string) $this->title_fr
+            : (string) $this->title_nl;
+    }
+
+    public function getTimeLabelAttribute(): string
+    {
+        return RideDate::time($this->begin_date);
+    }
+
+    public function getDateShortAttribute(): string
+    {
+        return RideDate::short($this->begin_date);
+    }
+
+    public function getDateFullAttribute(): string
+    {
+        return RideDate::full($this->begin_date);
+    }
+
+    public function getDateMonthYearAttribute(): string
+    {
+        return RideDate::monthYear($this->begin_date);
     }
 }

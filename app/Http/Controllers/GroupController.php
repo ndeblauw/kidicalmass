@@ -65,7 +65,7 @@ class GroupController extends Controller
             ->get();
 
         $activities = Activity::query()
-            ->with('author')
+            ->with(['author', 'groups'])
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')

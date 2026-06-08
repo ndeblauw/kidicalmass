@@ -137,7 +137,9 @@
 /* Role-based partials — see docs/superpowers/specs/2026-06-06-css-partials-architecture-design.md */
 @import './components/closing-cta.css';
 @import './components/cta-button.css';
-@import './components/event-card.css';
+@import './components/ride-row.css';
+@import './components/ride-day.css';
+@import './components/ride-spotlight.css';
 @import './components/location-picker.css';
 @import './components/page-hero.css';
 @import './components/partners.css';
@@ -147,7 +149,6 @@
 @import './components/pull-quote.css';
 @import './components/numbered-item.css';
 @import './components/person-card.css';
-@import './components/agenda-item.css';
 @import './components/info-card.css';
 @import './components/titled-list-block.css';
 @import './pages/about.css';
