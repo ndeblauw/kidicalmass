@@ -80,9 +80,7 @@
 @media (prefers-reduced-motion: reduce) {
     .index-hero h1,
     .chapter-head h1,
-    .kal-hero__lead,
-    .grp-hero__lead,
-    .grp-hero__body {
+    .kal-hero__lead {
         animation: none;
     }
 

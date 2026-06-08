@@ -44,12 +44,18 @@
     }
 
     .home-hero::after {
-        /* Legibility scrim so white copy holds over any frame. */
+        /* Legibility scrim so white copy holds over any frame. Blue-tinted overlay
+           ties the hero into the brand instead of generic cinema-black. */
         content: "";
         position: absolute;
         inset: 0;
         z-index: -1;
-        background: linear-gradient(to top, rgb(0 0 0 / 0.65), rgb(0 0 0 / 0.45) 50%, rgb(0 0 0 / 0.55));
+        background: linear-gradient(
+            to top,
+            color-mix(in oklab, var(--color-kidical-blue), transparent 22%),
+            color-mix(in oklab, var(--color-kidical-blue), transparent 48%) 50%,
+            color-mix(in oklab, var(--color-kidical-blue), transparent 35%)
+        );
     }
 
     .home-hero__inner {

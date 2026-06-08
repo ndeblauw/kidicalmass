@@ -248,9 +248,6 @@ select:focus[data-flux-control] {
     .page-panel:has(.about-cta) {
         padding-bottom: 0;
     }
-    .page-panel .grp-hero__body {
-        color: var(--color-text-body);
-    }
 }
 
 @media (max-width: 767px) {

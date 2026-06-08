@@ -35,8 +35,7 @@
         z-index: 1;
         pointer-events: none;
     }
-    .kal-hero__lead,
-    .grp-hero__lead {
+    .kal-hero__lead {
         color: var(--color-kidical-yellow);
         font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
         font-weight: 700;

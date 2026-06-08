@@ -1,38 +1,53 @@
 @layer components {
-    .grp-hero__body {
-        margin-top: 0.9rem;
-        max-width: 54ch;
-        font-size: clamp(var(--text-base), 1.4vw, var(--text-lg));
-        font-weight: 600;
-        line-height: 1.5;
-        color: color-mix(in oklab, white, transparent 8%);
-        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    /* Directory — two columns on lg: the find-tool leads (left, wider); the
+       movement-scale cards ride along as a sticky rail on the right. */
+    .grp-directory {
+        margin-top: 0;
     }
-    .grp-stats {
-        display: flex;
-        flex-wrap: wrap;
-        gap: clamp(2rem, 5vw, 3.5rem);
-        margin-top: clamp(2.5rem, 5vw, 3.5rem);
-        padding-top: clamp(1.75rem, 3vw, 2.25rem);
+    .grp-directory__aside {
+        margin-top: clamp(3rem, 6vw, 4rem);
+        padding-top: clamp(2rem, 4vw, 2.5rem);
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
     }
-    .grp-stats__item {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
+    @media (min-width: 64rem) {
+        .grp-directory {
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.85fr);
+            gap: clamp(2.5rem, 5vw, 4.5rem);
+            align-items: start;
+        }
+        .grp-directory__aside {
+            position: sticky;
+            top: 6rem;
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 0;
+        }
     }
-    .grp-stats__num {
-        margin: 0;
+
+    .grp-scale__title {
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
-        line-height: 1;
-        color: var(--color-kidical-blue);
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-2xl));
+        line-height: 1.1;
+        color: var(--color-kidical-ink);
     }
-    .grp-stats__label {
-        font-weight: 700;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    .grp-scale__cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+    }
+    /* Tiny screens: stack. lg rail: stack (the column is narrow). */
+    @media (max-width: 30rem) {
+        .grp-scale__cards {
+            grid-template-columns: 1fr;
+        }
+    }
+    @media (min-width: 64rem) {
+        .grp-scale__cards {
+            grid-template-columns: 1fr;
+        }
     }
     .grp-map-note {
         display: inline-flex;
@@ -58,14 +73,14 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
         font-weight: 600;
     }
+    /* Quiet grouping label — deliberately lighter than the pills so the
+       (blue, tappable) communes lead and the regions read as calm dividers. */
     .grp-region__title {
         font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        color: var(--color-kidical-blue);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 1.1rem;
+        font-weight: 700;
+        font-size: var(--text-base);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        margin-bottom: 0.9rem;
     }
     .grp-pill {
         display: inline-block;

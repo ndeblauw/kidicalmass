@@ -11,10 +11,18 @@
     .page-hero__inner {
         display: grid;
         grid-template-columns: 1fr;
-        align-items: start;            
+        align-items: start;
         height: 100%;
-        padding-top: 11rem;            
+        padding-top: 11rem;
         padding-bottom: 5rem;
+    }
+    /* From md up the illustration occupies the right 52% of the band. Cap the
+       copy to the remaining width so the heading never runs under the artwork
+       (the heading wraps a line earlier instead of overlapping). */
+    @media (min-width: 768px) {
+        .page-hero__copy {
+            max-width: 46%;
+        }
     }
     .page-hero__eyebrow {
         font-family: var(--font-sans);

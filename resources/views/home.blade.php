@@ -22,7 +22,7 @@
         </div>
     </section>
 
-    <div class="space-y-20">
+    <div class="pt-12 md:pt-16 space-y-16 md:space-y-20">
         {{-- ② DE VOLGENDE RIT BIJ JOU — one location-aware ride (proof + utility). --}}
         <section class="home-nextride space-y-6 scroll-mt-24" id="volgende-rit">
             <div class="flex items-baseline justify-between gap-4">

@@ -11,6 +11,9 @@
         <div class="page-hero__copy">
             <p class="page-hero__eyebrow">{{ $eyebrow }}</p>
             <h1 class="page-hero__title">{{ $title }}</h1>
+            @isset($lead)
+                <div class="page-hero__lead">{{ $lead }}</div>
+            @endisset
             @isset($controls)
                 <div class="page-hero__controls">{{ $controls }}</div>
             @endisset
