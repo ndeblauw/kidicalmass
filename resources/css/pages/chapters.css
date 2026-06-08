@@ -1,4 +1,5 @@
 @layer components {
+    /* 1 · IDENTITY HERO — blue band (mirrors .index-hero on the directory) */
     .chapter-head {
         position: relative;
         z-index: 1;
@@ -53,30 +54,36 @@
         line-height: 1.45;
         color: color-mix(in oklab, white, transparent 8%);
     }
+
+    /* 2 · WARM PEOPLE PHOTO — full-bleed, faces first */
     .chapter-photo {
         position: relative;
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-top: 2rem;
-        margin-bottom: 0.5rem;
-        max-height: 26rem;
+        margin-bottom: 0;
+        max-height: 28rem;
         overflow: hidden;
     }
     .chapter-photo__img {
         width: 100%;
         height: 100%;
-        max-height: 26rem;
+        max-height: 28rem;
         object-fit: cover;
-        object-position: center 38%;
+        object-position: center 42%;
         display: block;
     }
+
+    /* Shared contained reading column. Generous top/bottom air so sections breathe. */
     .chapter-body {
-        max-width: 46rem;
+        max-width: 48rem;
+        padding-top: clamp(3rem, 6vw, 4.5rem);
+        padding-bottom: clamp(3rem, 6vw, 4.5rem);
+    }
+    .chapter-body--tail {
         display: flex;
         flex-direction: column;
-        gap: 3.25rem;
-        padding-top: 2.5rem;
-        padding-bottom: 1rem;
+        gap: clamp(2.5rem, 5vw, 3.5rem);
     }
     .chapter-section__title {
         font-family: var(--font-heading);
@@ -85,6 +92,8 @@
         color: var(--color-kidical-ink);
         margin-bottom: 1rem;
     }
+
+    /* 3 · AGENDA — the next ride is the single, unmistakable hero card */
     .chapter-next__card {
         background-color: var(--color-kidical-blue);
         color: white;
@@ -146,26 +155,40 @@
         color: var(--color-kidical-ink);
     }
     .chapter-next__empty-body { margin-top: 0.5rem; color: var(--color-kidical-ink); }
-    .chapter-next__more { margin-top: 1.5rem; }
-    .chapter-next__more-label {
+    .chapter-next__all { display: inline-block; font-weight: 700; color: var(--color-kidical-blue); }
+
+    .chapter-agenda__list {
+        list-style: none;
+        margin: 1.5rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Agenda foot: the "alle activiteiten" link + a slim, calm opt-in (no competing box) */
+    .chapter-agenda__foot {
+        margin-top: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .chapter-agenda__notify {
+        padding-top: 1.5rem;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+    .chapter-agenda__notify-title {
         font-family: var(--font-heading);
         font-weight: 700;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
-        margin-bottom: 0.5rem;
+        font-size: var(--text-base);
+        color: var(--color-kidical-ink);
+        margin-bottom: 0.7rem;
     }
-    .chapter-next__more-list { display: flex; flex-direction: column; gap: 0.35rem; }
-    .chapter-next__more-list a { font-weight: 600; color: var(--color-kidical-ink); }
-    .chapter-next__more-loc { color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%); }
-    .chapter-next__all { display: inline-block; margin-top: 0.85rem; font-weight: 700; color: var(--color-kidical-blue); }
     .chapter-notify {
         display: flex;
         flex-wrap: wrap;
         gap: 0.6rem;
-        margin-top: 1.1rem;
     }
+    .chapter-next__card--empty .chapter-notify { margin-top: 1.1rem; }
     .chapter-notify__input {
         flex: 1 1 14rem;
         background-color: white;
@@ -189,11 +212,56 @@
     }
     .chapter-notify__btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
     .chapter-notify__done { margin-top: 1rem; font-weight: 700; color: var(--color-kidical-blue); }
+
+    /* 4 · TEAM BAND — the one mid colour band (light-blue): warmth + "join us" climax */
+    .chapter-team-band {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background-color: var(--color-kidical-light-blue);
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+    .chapter-team-band__top {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+    }
+    @media (min-width: 768px) {
+        .chapter-team-band__top {
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 3rem;
+        }
+    }
+    .chapter-team-band__media {
+        margin: 0;
+    }
+    .chapter-team-band__media img {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: center 30%;
+        border-radius: 1.5rem;
+        box-shadow: 0 22px 50px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        display: block;
+    }
+    @media (min-width: 768px) {
+        .chapter-team-band__media img { aspect-ratio: 1 / 1; }
+    }
+    .chapter-team__lead {
+        max-width: 42ch;
+        font-size: var(--text-lg);
+        font-weight: 600;
+        line-height: 1.5;
+        color: var(--color-kidical-ink);
+        margin-bottom: 1.5rem;
+    }
     .chapter-team__faces {
         display: flex;
         flex-wrap: wrap;
         gap: 1.5rem;
-        margin-bottom: 1.75rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
     }
     .chapter-team__face {
         display: flex;
@@ -201,22 +269,25 @@
         align-items: center;
         gap: 0.5rem;
         text-align: center;
-        width: 5.5rem;
+        width: 5rem;
     }
     .chapter-team__avatar {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 4rem;
-        height: 4rem;
+        width: 3.75rem;
+        height: 3.75rem;
         border-radius: 9999px;
-        background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%);
+        background-color: white;
         color: var(--color-kidical-blue);
         font-family: var(--font-heading);
         font-weight: 800;
         font-size: var(--text-lg);
+        box-shadow: 0 6px 16px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
     }
     .chapter-team__name { font-weight: 700; font-size: var(--text-sm); color: var(--color-kidical-ink); line-height: 1.2; }
+    .chapter-team__role { font-size: var(--text-xs); font-weight: 600; color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%); }
+
     .chapter-team__pitch-title {
         font-family: var(--font-heading);
         font-weight: 800;
@@ -224,9 +295,8 @@
         color: var(--color-kidical-ink);
     }
     .chapter-team__pitch { margin-top: 0.5rem; max-width: 50ch; color: var(--color-text-body); line-height: 1.55; }
-    .chapter-team__form { margin-top: 1.5rem; }
     .chapter-team__welcome {
-        background-color: var(--color-kidical-light-yellow);
+        background-color: white;
         color: var(--color-kidical-ink);
         border-radius: 0.85rem;
         padding: 0.85rem 1.1rem;
@@ -235,28 +305,14 @@
     }
     .chapter-team__more { margin-top: 1rem; font-weight: 700; }
     .chapter-team__more a { color: var(--color-kidical-blue); }
-    .chapter-team__role { font-size: var(--text-xs); font-weight: 600; color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%); }
-    .chapter-agenda__list {
-        list-style: none;
-        margin: 1.5rem 0 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
+
+    /* On-demand meehelpen reveal, sitting on the band below the team intro */
+    .chapter-join {
+        margin-top: clamp(2rem, 4vw, 2.75rem);
+        padding-top: clamp(1.75rem, 3vw, 2.25rem);
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
     }
-    .chapter-agenda__notify {
-        margin-top: 1.85rem;
-        background-color: var(--color-kidical-light-yellow);
-        border-radius: 1.25rem;
-        padding: 1.4rem 1.5rem 1.55rem;
-    }
-    .chapter-agenda__notify-title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        color: var(--color-kidical-ink);
-        margin-bottom: 0.85rem;
-    }
-    .chapter-join { margin-top: 1.5rem; }
+    .chapter-join--open { border-top: 0; padding-top: 0; }
     .chapter-join__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1rem; }
     .chapter-join__btn {
         display: inline-flex;
@@ -286,14 +342,8 @@
         padding: 0;
         margin-bottom: 1rem;
     }
-    .chapter-news__grid {
-        display: grid;
-        gap: 1.25rem;
-        grid-template-columns: 1fr;
-    }
-    @media (min-width: 640px) {
-        .chapter-news__grid { grid-template-columns: repeat(2, 1fr); }
-    }
+
+    /* 5 · LOCAL EXTRAS — quiet white */
     .chapter-extras {
         display: grid;
         gap: 2rem;
@@ -311,8 +361,10 @@
         font-weight: 600;
     }
     .chapter-extras__downloads a { color: var(--color-kidical-blue); }
+
+    /* 6 · CLOSING BEAT */
     .chapter-close {
-        margin-top: 2.5rem;
+        margin-top: 0;
     }
     .chapter-close__inner {
         padding-top: 1.75rem;
@@ -321,5 +373,5 @@
     }
     .chapter-close__back { font-weight: 700; }
     .chapter-close__back a { color: var(--color-kidical-blue); }
-    .chapter-children { margin-top: 1rem; }
+    .chapter-children { margin-top: 0; }
 }
