@@ -22,6 +22,14 @@ it('exposes ride display accessors that delegate to RideDate', function () {
     expect($ride->title)->toBe('Kidical Mass Etterbeek');
 });
 
+it('flags a Grande / Grote Kidical Mass as grande', function () {
+    $make = fn (string $nl) => Activity::factory()->make(['title_nl' => $nl, 'author_id' => 1]);
+
+    expect($make('Grande Kidical Mass: najaarseditie')->isGrande())->toBeTrue();
+    expect($make('Grote Kidical Mass Brussel')->isGrande())->toBeTrue();
+    expect($make('Kidical Mass Etterbeek')->isGrande())->toBeFalse();
+});
+
 it('picks the French title when the locale is fr', function () {
     app()->setLocale('fr');
     // Override author_id with a raw value to prevent User::factory() DB writes under make().

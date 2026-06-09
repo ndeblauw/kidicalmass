@@ -37,10 +37,20 @@ it('returns lowercase output so casing stays a CSS concern', function () {
     expect($full)->toBe(mb_strtolower($full));
 });
 
-it('builds the date-rail parts', function () {
+it('builds the calendar-lockup parts with the full day name', function () {
     app()->setLocale('nl');
-    expect(RideDate::rail('2026-06-14'))->toBe(['num' => '14', 'month' => 'juni', 'dow' => 'zo']);
+    $rail = RideDate::rail('2026-06-14');
+    expect($rail['num'])->toBe('14');
+    expect($rail['month'])->toBe('juni');
+    expect($rail['day'])->toBe('zondag');
+    expect($rail['rotation'])->toBeFloat();
 
     app()->setLocale('fr');
-    expect(RideDate::rail('2026-06-14'))->toBe(['num' => '14', 'month' => 'juin', 'dow' => 'di']);
+    expect(RideDate::rail('2026-06-14')['day'])->toBe('dimanche');
+});
+
+it('seeds a stable, readable rotation per date', function () {
+    expect(RideDate::railRotation('2026-06-14'))->toBe(RideDate::railRotation('2026-06-14')); // stable
+    expect(abs(RideDate::railRotation('2026-06-14')))->toBeLessThanOrEqual(5.0);               // readable bounds
+    expect(RideDate::railRotation('2026-06-15'))->not->toBe(RideDate::railRotation('2026-06-14')); // varies by date
 });

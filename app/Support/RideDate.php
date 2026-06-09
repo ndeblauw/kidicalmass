@@ -39,9 +39,10 @@ class RideDate
     }
 
     /**
-     * Parts for the slim date-rail lockup.
+     * Parts for the calendar-page lockup: full day name, date number, month, plus a
+     * stable readable tilt. Rendered in the order day -> num -> month.
      *
-     * @return array{num: string, month: string, dow: string}
+     * @return array{num: string, month: string, day: string, rotation: float}
      */
     public static function rail(Carbon|string $date): array
     {
@@ -50,8 +51,20 @@ class RideDate
         return [
             'num' => $carbon->isoFormat('D'),
             'month' => $carbon->isoFormat('MMMM'),
-            'dow' => $carbon->isoFormat('dd'),
+            'day' => $carbon->isoFormat('dddd'),
+            'rotation' => self::railRotation($date),
         ];
+    }
+
+    /**
+     * Deterministic readable tilt for the calendar lockup: stable per calendar date
+     * (seeded from the date string, locale-independent), in the range [-5, 5] degrees.
+     */
+    public static function railRotation(Carbon|string $date): float
+    {
+        $seed = crc32(self::resolve($date)->toDateString());
+
+        return round(($seed % 1001) / 1000 * 10 - 5, 2);
     }
 
     private static function resolve(Carbon|string $date): Carbon

@@ -1,7 +1,7 @@
 @layer components {
     .ride-day {
         display: grid;
-        grid-template-columns: 60px 1fr;
+        grid-template-columns: 100px 1fr;
         gap: 0 1.6rem;
         align-items: start;
     }
@@ -11,38 +11,93 @@
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
     }
 
-    /* Slim typographic rail — no box, type only. */
+    /* Calendar-page lockup — a flat illustrated tear-off: red header bar with ring
+       binding, navy outline, flat coloured shadow, a stable readable tilt per date.
+       Order: full day name -> big date -> month. */
+    /* Wrapper holds the tilt + the star, so the star rotates with the card but is not
+       clipped by the card's overflow. */
+    .ride-day__cal {
+        position: relative;
+        width: 88px;
+        margin-top: 0.3rem;
+        transform: rotate(var(--ride-day-rot, 0deg));
+    }
     .ride-day__rail {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background: white;
+        border: 2px solid var(--color-kidical-ink);
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 2px 3px 0 color-mix(in oklab, var(--color-kidical-red), transparent 25%);
+    }
+    /* Grande marker — orange star with the navy illustration outline, poking past the
+       card's right edge next to the date. */
+    .ride-day__star {
+        position: absolute;
+        top: 46%;
+        right: -11px;
+        width: 26px;
+        height: 26px;
+        transform: translateY(-50%) rotate(-8deg);
+        fill: var(--color-kidical-orange);
+        stroke: var(--color-kidical-ink);
+        stroke-width: 1.5;
+        stroke-linejoin: round;
+    }
+    .ride-day__bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        height: 13px;
+        background: var(--color-kidical-red);
+    }
+    .ride-day__ring {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: white;
+        border: 1.5px solid var(--color-kidical-ink);
+    }
+    .ride-day__body {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         line-height: 1;
-        padding-top: 0.9rem;
+        padding: 7px 7px 9px;
     }
-    .ride-day__num {
+    .ride-day__day {
         font-family: var(--font-sans);
-        font-size: 2rem;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        color: var(--color-kidical-ink);
-    }
-    .ride-day__mon {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 700;
-        text-transform: lowercase;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-        margin-top: 0.2rem;
-    }
-    .ride-day__dow {
-        font-family: var(--font-sans);
-        font-size: var(--text-xs);
+        font-size: 0.55rem;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
-        margin-top: 0.4rem;
+        letter-spacing: 0.06em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    }
+    .ride-day__date {
+        font-family: var(--font-sans);
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        color: var(--color-kidical-red);
+        margin: 0.1em 0 0.05em;
+    }
+    .ride-day__month {
+        font-family: var(--font-sans);
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: lowercase;
+        color: var(--color-kidical-ink);
+    }
+
+    @media (max-width: 560px) {
+        .ride-day { grid-template-columns: 84px 1fr; gap: 0 1rem; }
+        .ride-day__rail { width: 74px; }
+        .ride-day__date { font-size: 1.45rem; }
     }
 
     .ride-day__rides {

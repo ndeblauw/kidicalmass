@@ -147,6 +147,16 @@ class Activity extends Model implements HasMedia
             : (string) $this->title_nl;
     }
 
+    /**
+     * A "Grande" / "Grote Kidical Mass" — the special flagship edition that earns the
+     * star marker on its calendar lockup. Matched on the Dutch title so it stays stable
+     * regardless of the active locale.
+     */
+    public function isGrande(): bool
+    {
+        return str((string) $this->title_nl)->lower()->contains(['grande', 'grote kidical']);
+    }
+
     public function getTimeLabelAttribute(): string
     {
         return RideDate::time($this->begin_date);

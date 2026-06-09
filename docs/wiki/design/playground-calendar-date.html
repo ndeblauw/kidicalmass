@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalenderblad — date component playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#16151c; --panel:#1f1e27; --panel2:#272630; --line:#34323f;
+    --txt:#e7e6ee; --mut:#9b99a8; --accent:#f9d924;
+    /* brand */
+    --ink:#281a39; --yellow:#f9d924; --red:#E63A7B; --green:#5CB85C;
+    --orange:#F0803C; --blue:#1d67cd; --sky:#40c0f2;
+    --heading:'Caprasimo',system-ui,sans-serif; --sans:'Nunito Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--txt);
+    display:grid;grid-template-columns:340px 1fr;height:100vh;overflow:hidden}
+  /* controls */
+  .controls{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;padding:18px 18px 60px}
+  .controls h1{font-size:15px;margin:0 0 2px}
+  .controls .sub{font-size:12px;color:var(--mut);margin:0 0 16px;line-height:1.4}
+  .group{margin-bottom:18px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:12px}
+  .group h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:0 0 10px}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0}
+  .row label{font-size:12.5px;color:var(--txt)}
+  .row .val{font-size:11px;color:var(--mut);font-family:ui-monospace,monospace;min-width:42px;text-align:right}
+  input[type=range]{width:140px;accent-color:var(--accent)}
+  select,input[type=number]{background:#15141b;color:var(--txt);border:1px solid var(--line);border-radius:6px;padding:4px 6px;font-size:12px}
+  .swatches{display:flex;gap:6px;flex-wrap:wrap}
+  .sw{width:22px;height:22px;border-radius:6px;border:2px solid transparent;cursor:pointer}
+  .sw.on{border-color:#fff}
+  .toggle{position:relative;width:38px;height:22px;background:#15141b;border:1px solid var(--line);border-radius:99px;cursor:pointer;transition:.15s}
+  .toggle.on{background:var(--accent)}
+  .toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+  .toggle.on::after{left:18px}
+  .presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+  .preset{font-size:12px;padding:5px 10px;border-radius:99px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer}
+  .preset:hover{border-color:var(--accent)}
+  .btn{font-size:12px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer}
+  .btn:hover{border-color:var(--accent)}
+
+  /* stage */
+  .stage{display:flex;flex-direction:column;overflow:hidden}
+  .canvas{flex:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:34px;
+    padding:40px;overflow:auto;transition:background .2s}
+  .toolbar{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .toolbar .spacer{flex:1}
+  .promptbar{border-top:1px solid var(--line);background:var(--panel);padding:12px 16px;max-height:34vh;overflow:auto}
+  .promptbar pre{margin:0 0 8px;white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:12px;color:#cfcde0;line-height:1.5}
+
+  /* ===== the calendar component (preview) ===== */
+  .cal{background:#fff;overflow:hidden;text-align:center}
+  .cal__head{display:flex;align-items:center;justify-content:center;gap:6px}
+  .cal__ring{width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid var(--ink)}
+  .cal__perf{border-bottom:2px dashed color-mix(in oklab,var(--ink),transparent 55%)}
+  .cal__body{display:flex;flex-direction:column;align-items:center}
+  .cal__day{font-family:var(--sans);font-weight:800;text-transform:uppercase;color:color-mix(in oklab,var(--ink),transparent 35%);line-height:1}
+  .cal__date{font-weight:900;line-height:.95;letter-spacing:-.02em}
+  .cal__month{font-family:var(--sans);font-weight:700;text-transform:lowercase;color:var(--ink);line-height:1}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h1>Kalenderblad</h1>
+  <p class="sub">Date/day component in onze illustratiestijl. Volgorde: dagnaam → datum → maand. Elke instantie krijgt een willekeurige rotatie.</p>
+
+  <div class="presets" id="presets"></div>
+
+  <div class="group">
+    <h2>Kop-balk</h2>
+    <div class="row"><label>Kop tonen</label><div class="toggle" data-toggle="header"></div></div>
+    <div class="row"><label>Kop-kleur</label><div class="swatches" data-swatch="headerColor"></div></div>
+    <div class="row"><label>Kop-hoogte</label><input type="range" data-range="headerH" min="0" max="26" step="1"><span class="val" data-val="headerH"></span></div>
+    <div class="row"><label>Top-detail</label>
+      <select data-select="topDetail">
+        <option value="none">geen</option>
+        <option value="rings">ringbinding</option>
+        <option value="perf">perforatie</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="group">
+    <h2>Kaart</h2>
+    <div class="row"><label>Outline</label><input type="range" data-range="border" min="0" max="4" step="0.5"><span class="val" data-val="border"></span></div>
+    <div class="row"><label>Hoekradius</label><input type="range" data-range="radius" min="0" max="20" step="1"><span class="val" data-val="radius"></span></div>
+    <div class="row"><label>Breedte</label><input type="range" data-range="width" min="120" max="220" step="2"><span class="val" data-val="width"></span></div>
+    <div class="row"><label>Padding</label><input type="range" data-range="pad" min="8" max="28" step="1"><span class="val" data-val="pad"></span></div>
+  </div>
+
+  <div class="group">
+    <h2>Schaduw (flat)</h2>
+    <div class="row"><label>Stijl</label>
+      <select data-select="shadow">
+        <option value="none">geen</option>
+        <option value="ink">vlakke inkt</option>
+        <option value="color">vlakke kleur</option>
+        <option value="soft">zachte (skeuo)</option>
+      </select>
+    </div>
+    <div class="row"><label>Offset</label><input type="range" data-range="shadowOff" min="0" max="10" step="1"><span class="val" data-val="shadowOff"></span></div>
+  </div>
+
+  <div class="group">
+    <h2>Typografie</h2>
+    <div class="row"><label>Datum-kleur</label>
+      <select data-select="dateColor">
+        <option value="header">kop-kleur</option>
+        <option value="ink">navy inkt</option>
+      </select>
+    </div>
+    <div class="row"><label>Datum-font</label>
+      <select data-select="dateFont">
+        <option value="sans">Nunito (bold)</option>
+        <option value="heading">Caprasimo</option>
+      </select>
+    </div>
+    <div class="row"><label>Datum-grootte</label><input type="range" data-range="dateSize" min="34" max="72" step="1"><span class="val" data-val="dateSize"></span></div>
+    <div class="row"><label>Dagnaam-grootte</label><input type="range" data-range="daySize" min="9" max="16" step="0.5"><span class="val" data-val="daySize"></span></div>
+    <div class="row"><label>Maand-grootte</label><input type="range" data-range="monthSize" min="12" max="24" step="1"><span class="val" data-val="monthSize"></span></div>
+  </div>
+
+  <div class="group">
+    <h2>Rotatie</h2>
+    <div class="row"><label>Max graden (±)</label><input type="range" data-range="rot" min="0" max="8" step="0.5"><span class="val" data-val="rot"></span></div>
+    <div class="row"><label>Instanties</label><input type="range" data-range="count" min="1" max="6" step="1"><span class="val" data-val="count"></span></div>
+    <button class="btn" id="reshuffle">↻ Herschud rotaties</button>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="toolbar">
+    <span style="font-size:12px;color:var(--mut)">Achtergrond:</span>
+    <button class="btn" data-bg="#f9d924">geel band</button>
+    <button class="btn" data-bg="#ffffff">wit</button>
+    <button class="btn" data-bg="#FEF3D5">crème</button>
+    <span class="spacer"></span>
+    <button class="btn" id="reshuffle2">↻ Herschud</button>
+  </div>
+  <div class="canvas" id="canvas" style="background:#f9d924"></div>
+  <div class="promptbar">
+    <pre id="prompt"></pre>
+    <button class="btn" id="copy">📋 Copy prompt</button>
+  </div>
+</div>
+
+<script>
+  const BRAND = {orange:'#F0803C', red:'#E63A7B', blue:'#1d67cd', green:'#5CB85C', sky:'#40c0f2', yellow:'#f9d924', ink:'#281a39'};
+  const DEFAULTS = {
+    header:true, headerColor:'#F0803C', headerH:12, topDetail:'none',
+    border:2, radius:8, width:150, pad:16,
+    shadow:'ink', shadowOff:5,
+    dateColor:'header', dateFont:'sans', dateSize:50, daySize:11, monthSize:17,
+    rot:3, count:4
+  };
+  const PRESETS = {
+    'Kalenderblad':{...DEFAULTS, header:true, headerColor:'#F0803C', dateColor:'header', shadow:'soft', radius:10, rot:0},
+    'Illustratie-sticker':{...DEFAULTS, header:true, headerColor:'#F0803C', dateColor:'header', shadow:'ink', border:2, radius:8, rot:3},
+    'Geen kop':{...DEFAULTS, header:false, dateColor:'ink', shadow:'ink', topDetail:'perf', rot:3},
+    'Speels':{...DEFAULTS, header:true, headerColor:'#E63A7B', dateColor:'header', shadow:'color', border:2.5, rot:6, dateFont:'heading'},
+    'Minimal':{...DEFAULTS, header:false, border:1, radius:4, shadow:'none', dateColor:'ink', rot:2}
+  };
+  const SAMPLES = [
+    {day:'zondag', date:'14', month:'juni'},
+    {day:'zaterdag', date:'5', month:'juli'},
+    {day:'woensdag', date:'23', month:'september'},
+    {day:'dinsdag', date:'1', month:'maart'},
+    {day:'vrijdag', date:'9', month:'mei'},
+    {day:'donderdag', date:'30', month:'oktober'},
+  ];
+
+  let state = {...DEFAULTS};
+  let rotations = [];
+
+  function reshuffle(){ rotations = SAMPLES.map(() => (Math.random()*2-1)); updateAll(); }
+
+  function render(){
+    const c = document.getElementById('canvas');
+    c.innerHTML='';
+    const head = state.headerColor;
+    const dateCol = state.dateColor==='header' ? head : BRAND.ink;
+    for(let i=0;i<state.count;i++){
+      const s = SAMPLES[i%SAMPLES.length];
+      const rot = (rotations[i] ?? 0) * state.rot;
+      let shadow='none';
+      if(state.shadow==='ink')   shadow=`${state.shadowOff}px ${state.shadowOff+1}px 0 color-mix(in oklab, ${BRAND.ink}, transparent 12%)`;
+      if(state.shadow==='color') shadow=`${state.shadowOff}px ${state.shadowOff+1}px 0 color-mix(in oklab, ${head}, transparent 25%)`;
+      if(state.shadow==='soft')  shadow=`0 ${state.shadowOff+4}px ${state.shadowOff*3}px -4px color-mix(in oklab, ${BRAND.ink}, transparent 55%)`;
+
+      const cal = document.createElement('div');
+      cal.className='cal';
+      cal.style.width = state.width+'px';
+      cal.style.borderRadius = state.radius+'px';
+      cal.style.border = state.border>0 ? `${state.border}px solid ${BRAND.ink}` : 'none';
+      cal.style.boxShadow = shadow;
+      cal.style.transform = `rotate(${rot.toFixed(2)}deg)`;
+
+      // header
+      let headerHTML='';
+      if(state.header){
+        let inner='';
+        if(state.topDetail==='rings') inner='<span class="cal__ring"></span><span class="cal__ring"></span>';
+        headerHTML = `<div class="cal__head" style="background:${head};height:${state.headerH}px"></div>`;
+        if(state.topDetail==='rings'){
+          headerHTML = `<div class="cal__head" style="background:${head};height:${Math.max(state.headerH,14)}px">${inner}</div>`;
+        }
+      } else if(state.topDetail==='rings'){
+        headerHTML = `<div class="cal__head" style="height:16px;margin-top:4px"><span class="cal__ring"></span><span class="cal__ring"></span></div>`;
+      }
+
+      const perf = (state.topDetail==='perf') ? 'cal__perf' : '';
+      cal.innerHTML = `
+        ${headerHTML}
+        <div class="cal__body ${perf}" style="padding:${state.pad}px ${state.pad}px ${state.pad+2}px">
+          <div class="cal__day" style="font-size:${state.daySize}px;letter-spacing:.08em">${s.day}</div>
+          <div class="cal__date" style="font-size:${state.dateSize}px;color:${dateCol};font-family:${state.dateFont==='heading'?'var(--heading)':'var(--sans)'};margin:.12em 0 .06em">${s.date}</div>
+          <div class="cal__month" style="font-size:${state.monthSize}px">${s.month}</div>
+        </div>`;
+      c.appendChild(cal);
+    }
+  }
+
+  function updatePrompt(){
+    const d=DEFAULTS, p=[];
+    const colName = Object.keys(BRAND).find(k=>BRAND[k]===state.headerColor)||state.headerColor;
+    p.push(`Herontwerp het date/day-component (ride-day rail) als een **kalenderblad-kaart** in onze illustratiestijl.`);
+    p.push(`Volgorde van boven naar onder: volledige **dagnaam** (uppercase, klein, gedempt), dan de grote **datum**, dan de **maand** (lowercase).`);
+    let card = `Kaart: witte achtergrond, ${state.border>0?`${state.border}px navy outline (--color-kidical-ink)`:'geen outline'}, hoekradius ${state.radius}px, breedte ~${state.width}px, padding ${state.pad}px.`;
+    p.push(card);
+    if(state.header){
+      let h = `Bovenaan een gekleurde kop-balk (${colName}, ${state.headerH}px hoog)`;
+      if(state.topDetail==='rings') h+=' met twee ringbinding-cirkels';
+      p.push(h+'.');
+    } else if(state.topDetail==='perf'){
+      p.push('Geen kop-balk; een geperforeerde (dashed) scheidingslijn onder de dagnaam.');
+    } else if(state.topDetail==='rings'){
+      p.push('Geen kop-balk; twee ringbinding-cirkels bovenaan.');
+    } else {
+      p.push('Geen kop-balk.');
+    }
+    const shTxt={none:'geen schaduw',ink:`vlakke harde inkt-schaduw (offset ${state.shadowOff}px)`,color:`vlakke gekleurde schaduw (offset ${state.shadowOff}px)`,soft:`zachte wazige schaduw (offset ${state.shadowOff}px)`};
+    p.push(`Schaduw: ${shTxt[state.shadow]}.`);
+    p.push(`Datum in ${state.dateColor==='header'?'de kop-kleur':'navy inkt'}, ${state.dateFont==='heading'?'Caprasimo':'Nunito Sans (extra-bold)'}, ~${state.dateSize}px. Dagnaam ~${state.daySize}px, maand ~${state.monthSize}px.`);
+    p.push(`Elke instantie krijgt een willekeurige rotatie tussen −${state.rot}° en +${state.rot}° (leesbaar, server-side per datum gezaaid zodat hij stabiel blijft).`);
+    document.getElementById('prompt').textContent = p.join('\n');
+  }
+
+  function updateAll(){ render(); updatePrompt(); syncControls(); }
+
+  // ---- wire controls ----
+  function syncControls(){
+    document.querySelectorAll('[data-val]').forEach(e=>{
+      const k=e.dataset.val; let v=state[k];
+      e.textContent = (k==='rot') ? '±'+v+'°' : (typeof v==='number'? v+(['headerH','radius','width','pad','dateSize','daySize','monthSize','shadowOff'].includes(k)?'px':(k==='border'?'px':'')) : v);
+    });
+    document.querySelectorAll('[data-range]').forEach(e=> e.value=state[e.dataset.range]);
+    document.querySelectorAll('[data-select]').forEach(e=> e.value=state[e.dataset.select]);
+    document.querySelectorAll('[data-toggle]').forEach(e=> e.classList.toggle('on', !!state[e.dataset.toggle]));
+    document.querySelectorAll('[data-swatch]').forEach(box=>{
+      box.querySelectorAll('.sw').forEach(s=> s.classList.toggle('on', s.dataset.c===state[box.dataset.swatch]));
+    });
+  }
+  document.querySelectorAll('[data-range]').forEach(e=> e.addEventListener('input',()=>{ state[e.dataset.range]= parseFloat(e.value); updateAll(); }));
+  document.querySelectorAll('[data-select]').forEach(e=> e.addEventListener('change',()=>{ state[e.dataset.select]= e.value; updateAll(); }));
+  document.querySelectorAll('[data-toggle]').forEach(e=> e.addEventListener('click',()=>{ state[e.dataset.toggle]=!state[e.dataset.toggle]; updateAll(); }));
+  // swatches
+  document.querySelectorAll('[data-swatch]').forEach(box=>{
+    Object.entries(BRAND).filter(([k])=>k!=='ink').forEach(([k,v])=>{
+      const s=document.createElement('div'); s.className='sw'; s.style.background=v; s.dataset.c=v; s.title=k;
+      s.addEventListener('click',()=>{ state[box.dataset.swatch]=v; updateAll(); });
+      box.appendChild(s);
+    });
+  });
+  // presets
+  const pc=document.getElementById('presets');
+  Object.keys(PRESETS).forEach(name=>{
+    const b=document.createElement('button'); b.className='preset'; b.textContent=name;
+    b.addEventListener('click',()=>{ state={...PRESETS[name]}; if(!rotations.length) reshuffle(); else updateAll(); }); pc.appendChild(b);
+  });
+  // bg + reshuffle + copy
+  document.querySelectorAll('[data-bg]').forEach(b=> b.addEventListener('click',()=> document.getElementById('canvas').style.background=b.dataset.bg));
+  document.getElementById('reshuffle').addEventListener('click',reshuffle);
+  document.getElementById('reshuffle2').addEventListener('click',reshuffle);
+  document.getElementById('copy').addEventListener('click',()=>{
+    navigator.clipboard.writeText(document.getElementById('prompt').textContent);
+    const b=document.getElementById('copy'); const t=b.textContent; b.textContent='✓ Copied!'; setTimeout(()=>b.textContent=t,1200);
+  });
+
+  reshuffle();
+</script>
+</body>
+</html>

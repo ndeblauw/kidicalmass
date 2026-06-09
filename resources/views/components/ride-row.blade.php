@@ -5,9 +5,9 @@
     $headline = preg_replace('/^\s*kidical\s+mass\s+/i', '', $activity->title);
     $headline = trim((string) $headline) !== '' ? $headline : $activity->title;
 
-    $isFeatured = \Illuminate\Support\Str::contains(
-        \Illuminate\Support\Str::lower((string) $activity->title_nl), ['grande', 'grote kidical']
-    );
+    // The Grande's star marker lives on the calendar lockup (<x-ride-day>), not in the
+    // title. Here it only drives the (optional) featured row class.
+    $isFeatured = $activity->isGrande();
 
     // Strip a trailing ", <commune>" from the venue when it duplicates the headline.
     $venueDisplay = $activity->location;
@@ -29,7 +29,7 @@
     {{ $attributes->merge(['class' => 'ride-row link-plain'.($isFeatured ? ' ride-row--featured' : '')]) }}
 >
     <span class="ride-row__place">
-        @if ($chip)<span class="ride-row__chip ride-row__chip--{{ $chip['variant'] }}">{{ $chip['label'] }}</span>@endif@if ($isFeatured)<span class="ride-row__star" aria-hidden="true">★</span>@endif{{ $headline }}
+        @if ($chip)<span class="ride-row__chip ride-row__chip--{{ $chip['variant'] }}">{{ $chip['label'] }}</span>@endif{{ $headline }}
     </span>
 
     <span class="ride-row__meta">

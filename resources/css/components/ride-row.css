@@ -13,7 +13,8 @@
         color: var(--color-kidical-red);
     }
 
-    /* Commune — the one bold, coloured anchor. Chip + star sit inline before it. */
+    /* Commune — the one bold, coloured anchor. The type chip sits inline before it;
+       the Grande's star marker lives on the calendar lockup, not here. */
     .ride-row__place {
         font-family: var(--font-heading);
         font-weight: 800;
@@ -23,10 +24,6 @@
         color: var(--color-kidical-blue);
         transition: color 0.18s;
         text-wrap: balance;
-    }
-    .ride-row__star {
-        margin-right: 0.2rem;
-        color: var(--color-kidical-orange);
     }
 
     /* Quiet meta line: one muted colour; only the time keeps weight. */

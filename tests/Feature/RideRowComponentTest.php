@@ -48,7 +48,7 @@ it('shows the inline date only when showDate is set', function () {
     expect($without)->not->toContain('ride-row__date');
 });
 
-it('marks a flagship ride as featured', function () {
+it('marks a flagship ride as featured without putting the star in the title', function () {
     $ride = Activity::factory()->create([
         'title_nl' => 'Grote Kidical Mass Gent',
         'begin_date' => '2026-06-14 14:00',
@@ -56,8 +56,22 @@ it('marks a flagship ride as featured', function () {
 
     $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
 
-    // Featured rides are marked by the orange star only — no recolour, no badge.
-    expect($html)->toContain('ride-row--featured')->toContain('ride-row__star')->not->toContain('Uitgelicht');
+    // The row keeps the featured hook, but the star now lives on the calendar lockup.
+    expect($html)->toContain('ride-row--featured')
+        ->not->toContain('ride-row__star')
+        ->not->toContain('★')
+        ->not->toContain('Uitgelicht');
+});
+
+it('shows the Grande star on the calendar lockup, not on a normal day', function () {
+    $grande = Activity::factory()->create(['title_nl' => 'Grote Kidical Mass Gent', 'begin_date' => '2026-06-14 14:00']);
+    $normal = Activity::factory()->create(['title_nl' => 'Kidical Mass Etterbeek', 'begin_date' => '2026-06-21 14:00']);
+
+    $withStar = Blade::render('<x-ride-day :period-key="$key" :rows="$rows" />', ['key' => '2026-06-14', 'rows' => [['item' => $grande]]]);
+    $withoutStar = Blade::render('<x-ride-day :period-key="$key" :rows="$rows" />', ['key' => '2026-06-21', 'rows' => [['item' => $normal]]]);
+
+    expect($withStar)->toContain('ride-day__star');
+    expect($withoutStar)->not->toContain('ride-day__star');
 });
 
 it('strips a trailing commune from the venue when it duplicates the headline', function () {
