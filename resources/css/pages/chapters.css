@@ -36,31 +36,12 @@
         margin-block: 0.75rem 0.5rem;
         animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
     }
-    .chapter-head__crumb {
-        font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, white, transparent 18%);
-    }
-    .chapter-head__region {
-        margin-left: 0.35rem;
-        color: color-mix(in oklab, white, transparent 38%);
-    }
-    .chapter-head__intro {
-        margin-top: 0.35rem;
-        max-width: 46ch;
-        font-size: clamp(var(--text-lg), 1.5vw, var(--text-xl));
-        font-weight: 600;
-        line-height: 1.45;
-        color: color-mix(in oklab, white, transparent 8%);
-    }
-
-    /* 2 · WARM PEOPLE PHOTO — full-bleed, faces first */
+    /* 2 · GROUP PHOTO — full-bleed, flush under the blue hero (no white band between) */
     .chapter-photo {
         position: relative;
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        margin-top: 2rem;
+        margin-top: 0;
         margin-bottom: 0;
         max-height: 28rem;
         overflow: hidden;
@@ -74,9 +55,9 @@
         display: block;
     }
 
-    /* Shared contained reading column. Generous top/bottom air so sections breathe. */
+    /* Full container-width content column (aligns with every band's container edge).
+       Generous top/bottom air so sections breathe; horizontal padding comes from <main>. */
     .chapter-body {
-        max-width: 48rem;
         padding-top: clamp(3rem, 6vw, 4.5rem);
         padding-bottom: clamp(3rem, 6vw, 4.5rem);
     }
@@ -170,17 +151,6 @@
         flex-direction: column;
         gap: 1.5rem;
     }
-    .chapter-agenda__notify {
-        padding-top: 1.5rem;
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-    }
-    .chapter-agenda__notify-title {
-        font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: var(--text-base);
-        color: var(--color-kidical-ink);
-        margin-bottom: 0.7rem;
-    }
     .chapter-notify {
         display: flex;
         flex-wrap: wrap;
@@ -211,11 +181,13 @@
     .chapter-notify__btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
     .chapter-notify__done { margin-top: 1rem; font-weight: 700; color: var(--color-kidical-blue); }
 
-    /* 4 · TEAM BAND — the one mid colour band (light-blue): warmth + "join us" climax */
+    /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
+       recruitment CTA. Yellow so it fuses with the footer (lives in the layout's closing
+       slot). */
     .chapter-team-band {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        background-color: var(--color-kidical-light-blue);
+        background-color: var(--color-kidical-yellow);
         padding-block: clamp(3rem, 6vw, 5rem);
     }
     .chapter-team-band__top {
@@ -245,53 +217,115 @@
     @media (min-width: 768px) {
         .chapter-team-band__media img { aspect-ratio: 1 / 1; }
     }
-    .chapter-team__lead {
-        max-width: 42ch;
-        font-size: var(--text-lg);
-        font-weight: 600;
-        line-height: 1.5;
-        color: var(--color-kidical-ink);
-        margin-bottom: 1.5rem;
+    /* Crew photo placed full container width BELOW the team carousel (vs the empty-team
+       two-column layout that still uses the square __media above). Wide, calm landscape. */
+    .chapter-team-band__media--below { margin-top: 0.5rem; }
+    .chapter-team-band__media--below img { aspect-ratio: 16 / 7; }
+    @media (min-width: 768px) {
+        .chapter-team-band__media--below img { aspect-ratio: 16 / 6; }
     }
-    .chapter-team__faces {
+
+    /* Single big headline for the team block — the attention-grabber, no lead copy. */
+    .chapter-team__headline {
+        max-width: 18ch;
+        text-wrap: balance;
+        margin-bottom: 1.75rem;
+    }
+
+    /* Full-width team carousel of flat illustrated polaroids. */
+    .chapter-team__carousel { margin-bottom: 2.5rem; }
+    .chapter-team__head {
         display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    .chapter-team__head .chapter-team__headline { margin-bottom: 0; }
+    .chapter-team__nav { display: flex; gap: 0.6rem; flex-shrink: 0; }
+    .chapter-team__btn {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        border: 3px solid var(--color-kidical-ink);
+        background: var(--color-kidical-blue);
+        color: white;
+        font-size: 1.2rem;
+        line-height: 1;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--color-kidical-ink);
+        transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .chapter-team__btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--color-kidical-ink);
+    }
+
+    .chapter-team__track {
+        display: flex;
+        column-gap: 1.9rem;
         list-style: none;
         margin: 0;
-        padding: 0;
+        /* Break out of the centered container so the row fills the full viewport width
+           (cards bleed to the edge instead of being clipped). The first card still lines
+           up under the headline via the gutter padding; same gutter snaps the paging. */
+        margin-inline: calc(50% - 50vw);
+        padding-block: 1.4rem 1.7rem;
+        padding-inline: max(1rem, calc(50vw - 50%));
+        scroll-padding-inline: max(1rem, calc(50vw - 50%));
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
     }
-    .chapter-team__face {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
+    .chapter-team__track::-webkit-scrollbar { display: none; }
+    .chapter-team__card {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        width: 13.5rem;
+        background: white;
+        padding: 0.7rem 0.7rem 1.05rem;
+        border-radius: 0.55rem;
+        border: 2px solid var(--color-kidical-ink);
+        box-shadow: 4px 5px 0 color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
         text-align: center;
-        width: 5rem;
     }
-    .chapter-team__avatar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 3.75rem;
-        height: 3.75rem;
-        border-radius: 9999px;
-        background-color: white;
-        color: var(--color-kidical-blue);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        box-shadow: 0 6px 16px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
+    .chapter-team__card:nth-child(odd)  { transform: rotate(-3deg); }
+    .chapter-team__card:nth-child(even) { transform: rotate(2.5deg); }
+    .chapter-team__photo {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 0.25rem;
+        overflow: hidden;
+        margin-bottom: 0.7rem;
+        background: var(--color-kidical-light-yellow);
     }
-    .chapter-team__name { font-weight: 700; font-size: var(--text-sm); color: var(--color-kidical-ink); line-height: 1.2; }
-    .chapter-team__role { font-size: var(--text-xs); font-weight: 600; color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%); }
+    .chapter-team__card:nth-child(5n+2) .chapter-team__photo { background: var(--color-kidical-light-blue); }
+    .chapter-team__card:nth-child(5n+3) .chapter-team__photo { background: color-mix(in oklab, var(--color-kidical-red), white 80%); }
+    .chapter-team__card:nth-child(5n+4) .chapter-team__photo { background: color-mix(in oklab, var(--color-kidical-green), white 78%); }
+    .chapter-team__card:nth-child(5n)   .chapter-team__photo { background: color-mix(in oklab, var(--color-kidical-orange), white 80%); }
+    .chapter-team__photo img { max-width: 88%; max-height: 88%; object-fit: contain; }
 
-    .chapter-team__pitch-title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-ink);
+    .chapter-team__name { display: block; font-weight: 800; font-size: var(--text-base); color: var(--color-kidical-ink); line-height: 1.1; }
+    .chapter-team__role {
+        display: block;
+        margin-top: 0.3rem;
+        font-size: var(--text-xs);
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 48%);
     }
+
+    @media (max-width: 640px) {
+        .chapter-team__head { align-items: center; }
+        .chapter-team__card { width: 11.5rem; }
+    }
+
+    /* Lead copy for the empty-team state only (the "no team yet" invitation). */
     .chapter-team__pitch { margin-top: 0.5rem; max-width: 50ch; color: var(--color-text-body); line-height: 1.55; }
     .chapter-team__welcome {
         background-color: white;
@@ -304,30 +338,29 @@
     .chapter-team__more { margin-top: 1rem; font-weight: 700; }
     .chapter-team__more a { color: var(--color-kidical-blue); }
 
-    /* On-demand meehelpen reveal, sitting on the band below the team intro */
+    /* On-demand meehelpen reveal — the standard centered closing-CTA pattern on yellow:
+       one big title + the shared <x-cta-button>s, no lead copy. Sits below the team intro. */
     .chapter-join {
-        margin-top: clamp(2rem, 4vw, 2.75rem);
-        padding-top: clamp(1.75rem, 3vw, 2.25rem);
+        margin-top: clamp(2.5rem, 5vw, 3.5rem);
+        padding-top: clamp(2rem, 4vw, 3rem);
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
     }
     .chapter-join--open { border-top: 0; padding-top: 0; }
-    .chapter-join__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1rem; }
-    .chapter-join__btn {
-        display: inline-flex;
+    .chapter-join__cta {
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
-        background: var(--color-kidical-blue);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-base);
-        padding: 0.8rem 1.5rem;
-        border-radius: 0.875rem;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.15s, filter 0.15s;
+        gap: 1.75rem;
+        text-align: center;
     }
-    .chapter-join__btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .chapter-join__cta h2 { max-width: 20ch; text-wrap: balance; }
+    .chapter-join__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem 1.25rem;
+    }
     .chapter-join__back {
         display: inline-flex;
         align-items: center;
@@ -341,7 +374,7 @@
         margin-bottom: 1rem;
     }
 
-    /* 5 · LOCAL EXTRAS — quiet white */
+    /* 4 · LOCAL EXTRAS — quiet white, above the yellow closing band */
     .chapter-extras {
         display: grid;
         gap: 2rem;
@@ -360,16 +393,5 @@
     }
     .chapter-extras__downloads a { color: var(--color-kidical-blue); }
 
-    /* 6 · CLOSING BEAT */
-    .chapter-close {
-        margin-top: 0;
-    }
-    .chapter-close__inner {
-        padding-top: 1.75rem;
-        padding-bottom: 0.5rem;
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-    }
-    .chapter-close__back { font-weight: 700; }
-    .chapter-close__back a { color: var(--color-kidical-blue); }
     .chapter-children { margin-top: 0; }
 }

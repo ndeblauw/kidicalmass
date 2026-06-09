@@ -275,17 +275,20 @@ test('chapter home shows a designed empty state when no upcoming ride', function
         ->assertSee('Hou me op de hoogte');
 });
 
-test('chapter home shows team faces with first names and roles (lead + crew)', function () {
+test('chapter team carousel shows member cards with first names and roles', function () {
     $group = Group::create(['shortname' => 'sb2', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
     $sofie = User::factory()->create(['name' => 'Sofie Maes']);
     $group->users()->attach($sofie);
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Wie dit trekt')
-        ->assertSee('Sofie')          // first name on the face
-        ->assertSee('trekker')        // lead role label (v3: lead + active volunteers, with roles)
-        ->assertDontSee('Organiser'); // never the cold "Organiser" chip
+        ->assertSee('Wij zwaaien je welkom aan de start') // headline stays
+        ->assertSee('chapter-team__card')                 // polaroid card rendered
+        ->assertSee('Sofie')                              // first name on the card
+        ->assertSee('trekker')                            // role as plain text
+        ->assertSee('img/illustrations/')                 // illustration placeholder in the photo slot
+        ->assertDontSee('Organiser')                      // never the cold chip
+        ->assertDontSee('chapter-team__avatar');          // old initials avatar is gone
 });
 
 test('chapter agenda labels a workshop as a workshop, never as a ride', function () {
