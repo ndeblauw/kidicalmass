@@ -38,6 +38,10 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 | [Concerns register](design/01-concerns.md) | Open design decisions (D-1…D-12); incl. items graduated from Strategy | design |
 | [Scope (plane 2)](design/10-scope.md) | MVP in / won't-have, functional specs, content requirements | design |
 | [Structure (plane 3)](design/20-structure.md) | Navigation, sitemap, content-model table | design |
+| [Journey Palette](design/journey-palette.md) | Shared colour language (4 persona/journey colours + tokens) reused by the sitemaps and A5 cards | design |
+| [Sitemap — AS-IS](design/21-sitemap-as-is.md) | Visual sitemap of the current Wix site; 4 journeys drawn in signature colour, each breaking — client presentation | design |
+| [Sitemap — TO-BE · Public](design/22-sitemap-to-be-public.md) | Visual sitemap of the new public site; nav-ordered, family + volunteer routes in signature colour — client presentation | design |
+| [Sitemap — TO-BE · Private](design/23-sitemap-to-be-private.md) | Visual sitemap of the login-gated zone (logged-in volunteers + organiser back-office) — client presentation | design |
 | [Content Migration Plan](design/25-content-migration.md) | Every Wix page → its new home (Rewrite/Migrate/Merge/Absorb/Drop/Seed) | design |
 | [Redirect Map](design/26-redirect-map.md) | Old Wix URLs → new routes (301); locale-middleware language rule; launch-critical (closes D-7) | design |
 | [Skeleton — page registry](design/30-skeleton/00-page-registry.md) | Every route + spec/content/build/lifecycle status | design |

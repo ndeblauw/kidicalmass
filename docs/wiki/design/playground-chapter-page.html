@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokale groep-pagina · verkenning</title>
+<style>
+  :root{
+    /* brand tokens (from app.css) */
+    --ink:#281a39;
+    --yellow:#f9d924;
+    --red:#E63A7B;
+    --green:#5CB85C;
+    --orange:#F0803C;
+    --blue:#1d67cd;
+    --light-blue:#B7E7F0;
+    --sky:#40c0f2;
+    --light-yellow:#FEF3D5;
+    --pink:#E63A7B;
+    --pink-soft:#fde7f0;
+    --pink-tint:#fdf1f6;
+    --body: color-mix(in oklab, var(--ink), white 45%);
+    --card-shadow: 0 6px 30px rgb(0 0 0 / 0.10);
+    --card-shadow-sm: 0 3px 14px rgb(0 0 0 / 0.07);
+    --r-card:18px;
+    --r-pill:999px;
+    /* playground chrome */
+    --pg-bg:#15131c;
+    --pg-panel:#1e1b27;
+    --pg-line:#322d40;
+    --pg-text:#e7e3f0;
+    --pg-dim:#9a93ad;
+    --pg-accent:#f9d924;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:'Nunito Sans',system-ui,-apple-system,sans-serif;
+    background:var(--pg-bg); color:var(--pg-text);
+    display:grid; grid-template-columns:320px 1fr; height:100vh; overflow:hidden;
+  }
+
+  /* ---------- controls ---------- */
+  .controls{
+    border-right:1px solid var(--pg-line); padding:18px 16px 40px; overflow-y:auto;
+    background:var(--pg-panel);
+  }
+  .controls h1{font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--pg-dim);margin:2px 0 2px}
+  .controls .sub{font-size:12px;color:var(--pg-dim);margin:0 0 18px;line-height:1.45}
+  .group{margin-bottom:22px}
+  .group > label{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--pg-dim);margin-bottom:8px}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg button{
+    flex:1 1 auto;min-width:0;cursor:pointer;border:1px solid var(--pg-line);background:#15131c;color:var(--pg-text);
+    padding:8px 10px;border-radius:10px;font-size:12.5px;font-weight:600;transition:.12s;line-height:1.2;
+  }
+  .seg button:hover{border-color:#4a4360}
+  .seg button.on{background:var(--pg-accent);color:#15131c;border-color:var(--pg-accent)}
+  .seg button:disabled{opacity:.35;cursor:not-allowed}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cards button{
+    cursor:pointer;text-align:left;border:1px solid var(--pg-line);background:#15131c;color:var(--pg-text);
+    padding:10px;border-radius:12px;transition:.12s;
+  }
+  .cards button.on{border-color:var(--pg-accent);background:#211d12}
+  .cards .t{font-weight:800;font-size:13px;margin-bottom:3px}
+  .cards .d{font-size:11px;color:var(--pg-dim);line-height:1.35}
+  .presets{display:flex;flex-direction:column;gap:6px}
+  .presets button{
+    cursor:pointer;text-align:left;border:1px dashed var(--pg-line);background:transparent;color:var(--pg-text);
+    padding:8px 10px;border-radius:10px;font-size:12px;transition:.12s;
+  }
+  .presets button:hover{border-color:var(--pg-accent);color:#fff}
+  .presets b{color:var(--pg-accent);font-weight:800}
+  .hint{font-size:11px;color:var(--pg-dim);line-height:1.4;margin-top:6px}
+  .switchrow{display:flex;align-items:center;gap:8px;font-size:12.5px;margin-top:8px}
+  .switchrow input{accent-color:var(--pg-accent);width:16px;height:16px}
+
+  /* ---------- stage ---------- */
+  .stage{display:flex;flex-direction:column;min-width:0;height:100vh}
+  .stagebar{
+    display:flex;align-items:center;gap:14px;padding:9px 16px;border-bottom:1px solid var(--pg-line);
+    background:var(--pg-panel);font-size:12px;color:var(--pg-dim);flex:none;
+  }
+  .stagebar .pill{padding:3px 9px;border-radius:999px;background:#15131c;border:1px solid var(--pg-line);color:var(--pg-text);font-weight:600}
+  .canvas{flex:1;overflow-y:auto;background:#e9e6ef;padding:26px 0 60px;display:flex;justify-content:center}
+  .page{
+    width:min(820px,92%);background:#fff;border-radius:20px;overflow:hidden;
+    box-shadow:0 18px 60px rgb(0 0 0 / .18); color:var(--ink);
+  }
+
+  /* ---------- prompt ---------- */
+  .promptbar{flex:none;border-top:1px solid var(--pg-line);background:var(--pg-panel);padding:12px 16px;display:flex;gap:12px;align-items:flex-start}
+  .promptbar .txt{flex:1;font-size:12.5px;line-height:1.5;color:var(--pg-text);max-height:120px;overflow-y:auto;white-space:pre-wrap}
+  .promptbar button{
+    cursor:pointer;border:none;background:var(--pg-accent);color:#15131c;font-weight:800;font-size:12.5px;
+    padding:9px 14px;border-radius:10px;flex:none;
+  }
+  .promptbar button:active{transform:translateY(1px)}
+
+  /* =================== PAGE STYLES (the mock) =================== */
+  .page h1,.page h2,.page h3{font-family:'Caprasimo','Poppins',system-ui,sans-serif;font-weight:400;line-height:1.05;margin:0}
+  .page h1{font-size:clamp(30px,5vw,46px)}
+  .page h2{font-size:clamp(21px,3vw,27px);font-weight:800;font-family:'Nunito Sans',sans-serif}
+  .page p{margin:0;line-height:1.6;color:var(--body)}
+  .page a{color:var(--ink)}
+  .sec{padding:36px clamp(22px,5vw,52px)}
+  .sec--tight{padding-top:24px;padding-bottom:24px}
+  .band{padding:40px clamp(22px,5vw,52px)}
+  .eyebrow{font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:800;color:var(--blue);margin-bottom:8px}
+  .muted{color:color-mix(in oklab,var(--ink),white 55%)}
+  .crumb{font-size:13px;font-weight:700}
+  .stat-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.85);color:var(--ink);font-weight:800;font-size:13px;padding:6px 13px;border-radius:999px}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:999px;text-decoration:none;border:none;cursor:pointer}
+  .btn--yellow{background:var(--yellow);color:var(--ink)}
+  .btn--blue{background:var(--blue);color:#fff}
+  .btn--ghost{background:transparent;border:2px solid currentColor}
+  .btn--pink{background:#fff;color:var(--pink)}
+
+  /* authbar */
+  .authbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px clamp(22px,5vw,52px);font-size:12.5px;font-weight:700}
+  .authbar--pub{background:var(--ink);color:#fff}
+  .authbar--roze{background:var(--pink);color:#fff}
+  .authbar .who{display:flex;align-items:center;gap:9px}
+  .authbar .dot{width:9px;height:9px;border-radius:50%}
+  .authbar .link{color:#fff;opacity:.85;text-decoration:underline;cursor:pointer}
+
+  /* hero */
+  .hero{position:relative;color:#fff;overflow:hidden}
+  .hero--blue{background:linear-gradient(135deg,var(--blue),#1450a8)}
+  .hero--pink{background:linear-gradient(135deg,var(--pink),#b81f5e)}
+  .hero__in{padding:34px clamp(22px,5vw,52px) 38px;position:relative;z-index:2}
+  .hero .crumb{color:rgba(255,255,255,.85);margin-bottom:14px}
+  .hero h1{color:#fff;margin-bottom:12px}
+  .hero .lead{color:rgba(255,255,255,.92);max-width:46ch;font-size:16px;margin-bottom:18px}
+  .hero .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .hero__daisy{position:absolute;right:-30px;top:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.18),transparent 62%);z-index:1}
+  .hero__greet{font-family:'Caprasimo',serif;font-size:15px;color:rgba(255,255,255,.9);margin-bottom:6px}
+
+  /* hero big sfeerbeeld (direction B) */
+  .hero--withimg .hero__in{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center}
+  .hero__img{border-radius:16px;aspect-ratio:4/3;box-shadow:0 10px 30px rgb(0 0 0 /.25)}
+  @media(max-width:680px){.hero--withimg .hero__in{grid-template-columns:1fr}.hero__img{display:none}}
+
+  /* next ride card */
+  .nextride{background:#fff;border-radius:var(--r-card);box-shadow:var(--card-shadow);padding:22px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .nextride .when{font-family:'Caprasimo',serif;font-size:26px;color:var(--ink)}
+  .nextride .meta{font-size:14px;color:var(--body);margin-top:4px}
+  .nextride .tag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--green);margin-bottom:6px}
+
+  /* agenda list */
+  .agenda{display:flex;flex-direction:column;gap:10px}
+  .agenda__row{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid #ececf2;border-radius:14px}
+  .agenda__date{font-family:'Caprasimo',serif;font-size:18px;color:var(--blue);min-width:92px}
+  .agenda__row.meet{background:var(--light-yellow);border-color:#f3e6bf}
+  .agenda__row .ty{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--orange)}
+
+  /* gallery */
+  .gal{display:grid;gap:10px}
+  .gal--big{grid-template-columns:repeat(3,1fr)}
+  .gal--band{grid-template-columns:repeat(4,1fr)}
+  .gal .tile{border-radius:14px;aspect-ratio:1/1;position:relative;overflow:hidden}
+  .gal--big .tile:nth-child(1){grid-column:span 2;grid-row:span 2}
+  @media(max-width:680px){.gal--big,.gal--band{grid-template-columns:repeat(2,1fr)}.gal--big .tile:nth-child(1){grid-column:span 2}}
+
+  /* team faces */
+  .faces{display:flex;flex-wrap:wrap;gap:18px}
+  .face{display:flex;flex-direction:column;align-items:center;gap:8px;width:96px;text-align:center}
+  .face .av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Caprasimo',serif;font-size:24px;color:#fff}
+  .face .nm{font-weight:800;font-size:14px}
+  .face .ro{font-size:11.5px;color:var(--body)}
+  .face .pubdot{font-size:10px;color:var(--green);font-weight:800}
+
+  /* historiek */
+  .story{display:grid;grid-template-columns:1fr;gap:14px;max-width:62ch}
+  .story p{font-size:16px}
+
+  /* partners / downloads / press columns */
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:680px){.cols{grid-template-columns:1fr}}
+  .col h3{font-size:15px;font-family:'Nunito Sans',sans-serif;font-weight:800;margin-bottom:12px}
+  .logos{display:flex;flex-wrap:wrap;gap:10px}
+  .logo{display:flex;align-items:center;gap:8px;background:#f6f5fa;border:1px solid #ececf2;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:700}
+  .logo .mk{width:26px;height:26px;border-radius:7px;flex:none}
+  .dllist,.preslist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .dllist a,.preslist a{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:700;text-decoration:none}
+  .dllist .ic{width:30px;height:30px;border-radius:9px;background:var(--light-blue);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+
+  /* join (J2) */
+  .join{background:var(--light-blue);border-radius:var(--r-card);padding:26px;display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+  .join h2{margin-bottom:6px}
+
+  /* roze zone */
+  .rozezone{background:var(--pink-tint);border-top:3px dashed var(--pink)}
+  .rozezone .rozelabel{display:inline-flex;align-items:center;gap:8px;background:var(--pink);color:#fff;font-weight:800;font-size:12px;padding:5px 13px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+  .matgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:680px){.matgrid{grid-template-columns:1fr 1fr}}
+  .mat{background:#fff;border:1px solid #f3d6e3;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+  .mat .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .mat .t{font-weight:800;font-size:14px}
+  .mat .d{font-size:12px;color:var(--body);line-height:1.4}
+  .mat .tg{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--pink);margin-top:auto}
+  .roster{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(max-width:680px){.roster{grid-template-columns:1fr}}
+  .rmember{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #f3d6e3;border-radius:12px;padding:9px 12px}
+  .rmember .av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Caprasimo',serif;color:#fff;font-size:15px;flex:none}
+  .rmember .nm{font-weight:700;font-size:13.5px}
+  .rmember .ro{font-size:11px;color:var(--body)}
+
+  /* empty states */
+  .empty{background:var(--light-yellow);border:1px dashed #e9d28a;border-radius:14px;padding:22px;text-align:center}
+  .empty .em{font-size:26px}
+  .empty p{margin-top:6px;color:color-mix(in oklab,var(--ink),white 30%);font-weight:600}
+
+  /* closing */
+  .closing{text-align:center;padding:34px;background:var(--blue);color:#fff}
+  .closing.roze{background:var(--pink)}
+  .closing h2{color:#fff;margin-bottom:8px}
+  .closing a{color:#fff;font-weight:800}
+
+  .sec-title{margin-bottom:18px}
+  .section-note{font-size:12px;color:#b9b2c8;font-style:italic;margin-top:6px}
+  hr.soft{border:none;border-top:1px solid #ececf2;margin:0}
+</style>
+</head>
+<body>
+
+<aside class="controls">
+  <h1>Lokale groep-pagina</h1>
+  <p class="sub">Verken vorm, vulling en de roze-hesje-staat. Speel, en kopieer onderaan de richting terug naar Claude.</p>
+
+  <div class="group">
+    <label>Presets</label>
+    <div class="presets" id="presets"></div>
+  </div>
+
+  <div class="group">
+    <label>1 · Layout-richting</label>
+    <div class="cards" id="dir">
+      <button data-v="A"><div class="t">A · Levend logboek</div><div class="d">Foto-gedreven, scrolt als een feed. Galerij domineert.</div></button>
+      <button data-v="B"><div class="t">B · Buurtportret</div><div class="d">Editorial, rustig. Verhaal eerst, foto's als band.</div></button>
+    </div>
+  </div>
+
+  <div class="group">
+    <label>2 · Vulling (test-conditie)</label>
+    <div class="seg" id="tier">
+      <button data-v="thin">Net gestart</button>
+      <button data-v="rich">Rijp (Mons)</button>
+    </div>
+    <p class="hint">Beide vullingsgraden moeten in dezelfde mal werken (hide-if-empty, PAT-11).</p>
+  </div>
+
+  <div class="group">
+    <label>3 · Auth-staat</label>
+    <div class="seg" id="auth">
+      <button data-v="public">Publiek</button>
+      <button data-v="roze">Roze hesje</button>
+    </div>
+  </div>
+
+  <div class="group">
+    <label>Merge-model (bij roze hesje)</label>
+    <div class="seg" id="merge">
+      <button data-v="inline">Inline groeien</button>
+      <button data-v="separate">Aparte pagina</button>
+    </div>
+    <div class="switchrow"><input type="checkbox" id="pinkhero" checked><label for="pinkhero" style="margin:0;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--pg-text)">Roze hero + naam prominent</label></div>
+    <p class="hint">Inline = zelfde pagina groeit. Aparte pagina = eigen roze route, zelfde componenten.</p>
+  </div>
+</aside>
+
+<main class="stage">
+  <div class="stagebar">
+    <span class="pill" id="sb-dir">A</span>
+    <span class="pill" id="sb-tier">Net gestart</span>
+    <span class="pill" id="sb-auth">Publiek</span>
+    <span id="sb-extra"></span>
+  </div>
+  <div class="canvas"><div class="page" id="page"></div></div>
+  <div class="promptbar">
+    <div class="txt" id="prompt"></div>
+    <button id="copy">Kopieer richting</button>
+  </div>
+</main>
+
+<script>
+const DEFAULTS = { dir:'A', tier:'thin', auth:'public', merge:'inline', pinkhero:true };
+const state = {...DEFAULTS};
+
+/* ---------------- content model ---------------- */
+const C = {
+  thin:{
+    gem:'Schaarbeek', region:'Brussel', accent:'blue',
+    identity:'De buurtfietstocht voor en door Schaarbeekse gezinnen. Rustig tempo, afgezette straten, iedereen welkom — van kinderfiets tot bakfiets.',
+    rides:[{d:'zo 15 jun',t:'14:00',p:'Parc Josaphat',ty:'rit'}],
+    ritcount:2,
+    photos:0,
+    teamPublic:[],
+    roster:[{n:'Lien',r:'Trekker',i:'L',c:'red'},{n:'Sam',r:'Roze hesje',i:'S',c:'blue'},{n:'Nadia',r:'Roze hesje',i:'N',c:'green'}],
+    historiek:null,
+    partners:[{n:'Helmet & Transition',c:'orange'},{n:'Avello 1030',c:'green'}],
+    downloads:[],
+    press:[],
+    aftermovie:false,
+  },
+  rich:{
+    gem:'Mons', region:'Wallonië', accent:'blue',
+    identity:'De feestelijke fietsparade voor de kinderen van Mons. We rijden op kindertempo en ontdekken samen de stad — iedereen welkom.',
+    rides:[
+      {d:'zo 15 mrt',t:'13:30',p:'Théâtre le Manège',ty:'rit'},
+      {d:'zo 17 mei',t:'13:30',p:'Théâtre le Manège',ty:'rit'},
+      {d:'di 27 mei',t:'19:30',p:'Avello Mons',ty:'meet'},
+    ],
+    ritcount:12,
+    photos:12,
+    teamPublic:[
+      {n:'Violette',r:'Coördinator',i:'V',c:'red'},
+      {n:'Babas',r:'Kapitein',i:'B',c:'orange'},
+      {n:'Sébastien',r:'Sluiter',i:'S',c:'blue'},
+      {n:'Thibault',r:'Foto & promo',i:'T',c:'green'},
+    ],
+    roster:[
+      {n:'Violette',r:'Coördinator',i:'V',c:'red'},
+      {n:'Babas',r:'Kapitein',i:'B',c:'orange'},
+      {n:'Sébastien',r:'Sluiter',i:'S',c:'blue'},
+      {n:'Thibault',r:'Foto & promo',i:'T',c:'green'},
+      {n:'Manon',r:'Roze hesje',i:'M',c:'violet'},
+      {n:'Karim',r:'Roze hesje',i:'K',c:'sky'},
+      {n:'Élise',r:'DJ / muziek',i:'É',c:'coral'},
+      {n:'Tom',r:'Roze hesje',i:'T',c:'green'},
+    ],
+    historiek:'Kidical Mass Mons begon in 2025 met drie edities. Dankzij fijne partners en de coördinatie van Kidical Mass Belgium zette het team — Violette, Babas, Sébastien en Thibault — prachtige fietsparades op poten. De eerste editie bracht bijna 120 deelnemers samen, met de schepen van Mobiliteit als gast. Bij vertrek krijgt elk kind een tombolaticket dat altijd wint; bij aankomst wacht een warm onthaal in het Théâtre le Manège: drank en versnaperingen, cocoon- en knutselhoekjes, kleine cadeaus van partners, en een voorstelling in het kader van de Dimanches en Famille.',
+    partners:[
+      {n:'Avello Mons',c:'green'},{n:'Tata Bicyclette',c:'orange'},
+      {n:'Bike Repair Social Club',c:'blue'},{n:'MARS',c:'violet'},{n:'Ville de Mons',c:'red'},
+    ],
+    downloads:[{n:'Flyer A5 — 2026',ic:'📄'},{n:'Affiche A4',ic:'🖼️'}],
+    press:[{n:'DH — “Une première Kidical Mass à Mons”'},{n:'RTBF — reportage editie #2'}],
+    aftermovie:true,
+  }
+};
+
+const COL = {red:'var(--red)',blue:'var(--blue)',green:'var(--green)',orange:'var(--orange)',violet:'var(--violet,#8a3fa0)',sky:'var(--sky)',coral:'var(--coral,#ec5a52)'};
+const HUES = ['#f3b3cd','#bfe3ef','#fbe6a6','#f6c39a','#cdbdee','#a8dcc0','#f4a9a0','#c9d8f2','#f7d0e2','#bce8e0','#f9e3b0','#d6c3ee'];
+
+function tile(i){const h=HUES[i%HUES.length],h2=HUES[(i+4)%HUES.length];return `<div class="tile" style="background:linear-gradient(135deg,${h},${h2})"></div>`;}
+function gallery(n,kind){let t='';for(let i=0;i<n;i++)t+=tile(i);return `<div class="gal ${kind}">${t}</div>`;}
+function matIcon(emoji,bg){return `<div class="ic" style="background:${bg}">${emoji}</div>`;}
+
+/* materials (roze-only) */
+const MATERIALS = [
+  {t:'Afsprakencharter',d:'Onze afspraken voor organisatoren en hesjes.',tg:'PDF',ic:'📋',bg:'#fde2e9'},
+  {t:'Zo organiseer je een rit',d:'Route, gemeentecontact en promo, stap voor stap.',tg:'Gids',ic:'🗺️',bg:'#e3eefb'},
+  {t:'Veilig begeleiden',d:'Korte video over meefietsen als roze hesje.',tg:'Video',ic:'▶️',bg:'#fdeede'},
+  {t:'Posters & promo',d:'Affiches en flyers om in je buurt op te hangen.',tg:'Download',ic:'⬇️',bg:'#e3f5e8'},
+  {t:'De startspeech',d:'Het woordje voor de start, klaar om voor te lezen.',tg:'Tekst',ic:'📣',bg:'#efe6f8'},
+];
+
+/* ---------------- section builders ---------------- */
+function authbar(d){
+  if(state.auth==='public'){
+    return `<div class="authbar authbar--pub"><span class="who"><span class="dot" style="background:var(--green)"></span> Publieke groepspagina</span><span class="link">Roze hesje? Log in →</span></div>`;
+  }
+  return `<div class="authbar authbar--roze"><span class="who"><span class="dot" style="background:#fff"></span> Je bent ingelogd als roze hesje · ${d.gem}</span><span class="link">${state.merge==='separate'?'← Naar publieke pagina':'Afmelden'}</span></div>`;
+}
+
+function heroCompact(d){
+  const roze = state.auth==='roze' && state.pinkhero;
+  const greet = state.auth==='roze' ? `<div class="hero__greet">Welkom terug, Violette 👋</div>` : '';
+  return `<header class="hero ${roze?'hero--pink':'hero--blue'}">
+    <div class="hero__daisy"></div>
+    <div class="hero__in">
+      ${greet}
+      <div class="crumb">← Lokale groepen · ${d.region}</div>
+      <h1>${state.auth==='roze'&&roze?'Kidical Mass '+d.gem:d.gem}</h1>
+      <p class="lead">${d.identity}</p>
+      <div class="row">
+        ${d.rides.length?`<span class="stat-chip">📅 Volgende rit: ${d.rides[0].d}</span>`:''}
+        ${d.ritcount?`<span class="stat-chip">🚲 ${d.ritcount} ritten hier gereden</span>`:''}
+      </div>
+    </div>
+  </header>`;
+}
+
+function heroBig(d){
+  const roze = state.auth==='roze' && state.pinkhero;
+  const greet = state.auth==='roze' ? `<div class="hero__greet">Welkom terug, Violette 👋</div>` : '';
+  const next = d.rides.length?`<div class="stat-chip">📅 Volgende rit: ${d.rides[0].d} · ${d.rides[0].t} · ${d.rides[0].p}</div>`:`<div class="stat-chip">Nog geen rit gepland</div>`;
+  return `<header class="hero hero--withimg ${roze?'hero--pink':'hero--blue'}">
+    <div class="hero__in">
+      <div>
+        ${greet}
+        <div class="crumb">← Lokale groepen · ${d.region}</div>
+        <h1>${roze?'Kidical Mass '+d.gem:d.gem}</h1>
+        <p class="lead">${d.identity}</p>
+        <div class="row">${next} ${d.ritcount?`<span class="stat-chip">🚲 ${d.ritcount} ritten gereden</span>`:''}</div>
+      </div>
+      <div class="hero__img" style="background:linear-gradient(135deg,${HUES[0]},${HUES[3]})"></div>
+    </div>
+  </header>`;
+}
+
+function nextRide(d){
+  if(!d.rides.length){
+    return `<section class="sec"><div class="empty"><div class="em">📅</div><p>Nog geen fietstocht gepland in ${d.gem}.<br>Laat je e-mail achter en je bent de eerste die het hoort.</p><div style="margin-top:12px"><a class="btn btn--yellow" href="#">Hou me op de hoogte</a></div></div></section>`;
+  }
+  const r=d.rides[0];
+  return `<section class="sec"><div class="nextride">
+    <div><span class="tag">Volgende fietstocht</span><div class="when">${r.d} · ${r.t}</div><div class="meta">📍 ${r.p}</div></div>
+    <a class="btn btn--yellow" href="#">Kom mee fietsen</a>
+  </div></section>`;
+}
+
+function agenda(d){
+  if(d.rides.length<=1) return '';
+  let rows='';
+  d.rides.forEach(r=>{
+    rows+=`<div class="agenda__row ${r.ty==='meet'?'meet':''}">
+      <div class="agenda__date">${r.d}</div>
+      <div style="flex:1"><div class="ty">${r.ty==='meet'?'Vrijwilligersmeeting':'Fietstocht'} · ${r.t}</div><div class="muted" style="font-size:13px">📍 ${r.p}</div></div>
+      <a class="btn btn--blue" style="padding:7px 14px;font-size:13px" href="#">${r.ty==='meet'?'Meer info':'Kom mee'}</a>
+    </div>`;
+  });
+  return `<section class="sec"><h2 class="sec-title">Op de agenda in ${d.gem}</h2><div class="agenda">${rows}</div>
+    <p class="section-note">Meetups tonen publiek (D-2). Soonste fietstocht is de hero.</p></section>`;
+}
+
+function galleryBig(d){
+  if(!d.photos) return `<section class="sec"><h2 class="sec-title">Foto's</h2><div class="empty"><div class="em">📷</div><p>Nog geen foto's. Na de eerste rit verschijnen ze hier.</p></div></section>`;
+  return `<section class="sec"><h2 class="sec-title">Voorbije rides in ${d.gem}</h2>${gallery(Math.max(d.photos,7),'gal--big')}
+    ${d.aftermovie?`<p style="margin-top:14px"><a class="btn btn--ghost" style="color:var(--ink)" href="#">▶ Bekijk de aftermovie</a></p>`:''}</section>`;
+}
+function galleryBand(d){
+  if(!d.photos) return '';
+  return `<section class="band" style="background:var(--light-yellow)"><h2 class="sec-title">Voorbije rides</h2>${gallery(Math.max(d.photos,8),'gal--band')}
+    ${d.aftermovie?`<p style="margin-top:14px"><a class="btn btn--ghost" style="color:var(--ink)" href="#">▶ Bekijk de aftermovie</a></p>`:''}</section>`;
+}
+
+function teamFaces(d){
+  const team = d.teamPublic;
+  if(!team.length){
+    return `<section class="band" style="background:var(--light-blue)"><h2 class="sec-title">Wie dit trekt</h2>
+      <div class="empty"><div class="em">👋</div><p>Er is nog geen team in ${d.gem}. Iemand moet de eerste zijn — en dat hoef je niet alleen te doen.</p>
+      <div style="margin-top:12px"><a class="btn btn--blue" href="#">Ik wil dit trekken</a></div></div></section>`;
+  }
+  let f='';
+  team.forEach(m=>{f+=`<div class="face"><div class="av" style="background:${COL[m.c]}">${m.i}</div><div class="nm">${m.n}</div><div class="ro">${m.r}</div></div>`;});
+  return `<section class="band" style="background:var(--light-blue)"><h2 class="sec-title">Wie dit trekt</h2>
+    <p class="muted" style="max-width:52ch;margin-bottom:20px">Een handvol buren houdt ${d.gem} op de fiets. Zij zwaaien je welkom aan de start.</p>
+    <div class="faces">${f}</div></section>`;
+}
+
+function historiek(d){
+  if(!d.historiek) return '';
+  return `<section class="sec"><h2 class="sec-title">Hoe het hier begon</h2><div class="story"><p>${d.historiek}</p></div></section>`;
+}
+
+function netwerk(d,asColumns){
+  const hasP=d.partners.length,hasD=d.downloads.length,hasPr=d.press.length;
+  if(!hasP&&!hasD&&!hasPr) return '';
+  const partners = hasP?`<div class="col"><h3>Vrienden van de groep</h3><div class="logos">${d.partners.map(p=>`<span class="logo"><span class="mk" style="background:${COL[p.c]}"></span>${p.n}</span>`).join('')}</div></div>`:'';
+  const downloads = hasD?`<div class="col"><h3>Downloads</h3><ul class="dllist">${d.downloads.map(x=>`<li><a href="#"><span class="ic">${x.ic}</span>${x.n}</a></li>`).join('')}</ul></div>`:'';
+  const press = hasPr?`<div class="col"><h3>In de pers</h3><ul class="preslist">${d.press.map(x=>`<li><a href="#">📰 ${x.n}</a></li>`).join('')}</ul></div>`:'';
+  return `<section class="sec"><div class="cols">${partners}${downloads}${press}</div></section>`;
+}
+
+function joinCTA(d){
+  if(state.auth==='roze') return '';
+  return `<section class="sec"><div class="join">
+    <div><h2>Word roze hesje in ${d.gem}</h2><p style="max-width:46ch">Een paar uur per maand, samen met het team. Je hoeft geen fietsexpert te zijn — gewoon iemand die zijn buurt graag ziet.</p></div>
+    <a class="btn btn--blue" href="#">Ja, ik wil meehelpen</a>
+  </div></section>`;
+}
+
+function closing(d){
+  const roze=state.auth==='roze'&&state.pinkhero;
+  return `<section class="closing ${roze?'roze':''}"><h2>Deze groep is van jou.</h2><p style="color:rgba(255,255,255,.9)"><a href="#">← Alle lokale groepen</a></p></section>`;
+}
+
+/* roze-only zone (inline) or body (separate) */
+function rozeContent(d,inline){
+  const roster = `<div>
+      <h2 class="sec-title">De roze hesjes van ${d.gem} (${d.roster.length})</h2>
+      <div class="roster">${d.roster.map(m=>`<div class="rmember"><div class="av" style="background:${COL[m.c]}">${m.i}</div><div><div class="nm">${m.n}</div><div class="ro">${m.r}</div></div></div>`).join('')}</div>
+      <p class="section-note">Alleen ingelogde vrijwilligers zien de volledige lijst met namen.</p>
+    </div>`;
+  const materials = `<div style="margin-top:30px">
+      <h2 class="sec-title">Jouw materiaal</h2>
+      <div class="matgrid">${MATERIALS.map(m=>`<div class="mat">${matIcon(m.ic,m.bg)}<div class="t">${m.t}</div><div class="d">${m.d}</div><div class="tg">${m.tg}</div></div>`).join('')}</div>
+    </div>`;
+  const onboard = `<div style="margin-top:30px"><div class="join" style="background:#fff;border:1px solid #f3d6e3">
+      <div><h2>Net begonnen?</h2><p style="max-width:46ch">Lees je welkomstgids: wat doet een roze hesje, je eerste rit stap voor stap, en de startspeech.</p></div>
+      <a class="btn btn--pink" style="border:2px solid var(--pink)" href="#">Open de welkomstgids →</a>
+    </div></div>`;
+  const meetups = d.rides.some(r=>r.ty==='meet')?`<div style="margin-top:30px"><h2 class="sec-title">Volgende meetups</h2>${d.rides.filter(r=>r.ty==='meet').map(r=>`<div class="agenda__row meet"><div class="agenda__date">${r.d}</div><div style="flex:1"><div class="ty">Vrijwilligersmeeting · ${r.t}</div><div class="muted" style="font-size:13px">📍 ${r.p}</div></div></div>`).join('')}</div>`:'';
+
+  if(inline){
+    return `<section class="sec rozezone"><span class="rozelabel">🎀 Voor de roze hesjes</span>
+      <div style="margin-top:20px">${roster}${materials}${onboard}${meetups}</div></section>`;
+  }
+  return `<section class="sec">${roster}${materials}${onboard}${meetups}</section>`;
+}
+
+/* ---------------- page assembly ---------------- */
+function render(){
+  const d=C[state.tier];
+  let html='';
+
+  // SEPARATE roze page = its own composition (shared components, pink frame)
+  if(state.auth==='roze' && state.merge==='separate'){
+    html += authbar(d);
+    html += state.dir==='B'?heroBig(d):heroCompact(d);
+    html += nextRide(d);
+    html += rozeContent(d,false);
+    html += `<hr class="soft">`;
+    html += closing(d);
+    document.getElementById('page').innerHTML=html;
+    return;
+  }
+
+  html += authbar(d);
+
+  if(state.dir==='A'){
+    // Levend logboek — photo-forward feed
+    html += heroCompact(d);
+    html += nextRide(d);
+    html += galleryBig(d);
+    html += teamFaces(d);
+    html += historiek(d);
+    html += netwerk(d);
+    html += joinCTA(d);
+    if(state.auth==='roze') html += rozeContent(d,true);
+    html += closing(d);
+  } else {
+    // Buurtportret — editorial
+    html += heroBig(d);
+    html += historiek(d);
+    html += teamFaces(d);
+    html += agenda(d);
+    if(d.rides.length<=1) html += nextRide(d);
+    html += galleryBand(d);
+    html += netwerk(d,true);
+    html += joinCTA(d);
+    if(state.auth==='roze') html += rozeContent(d,true);
+    html += closing(d);
+  }
+
+  document.getElementById('page').innerHTML=html;
+}
+
+/* ---------------- prompt ---------------- */
+function updatePrompt(){
+  const dirName = state.dir==='A'?'“Levend logboek” (foto-gedreven feed, galerij domineert)':'“Buurtportret” (editorial, verhaal eerst, foto’s als aparte band)';
+  let p = `Bouw de lokale groep-pagina in richting ${state.dir} — ${dirName}.\n\n`;
+  p += `Hart van de pagina: foto’s van voorbije rides, de mensen/kapiteins, en de volgende rit. Omlijst door historiek (verhaal) + lokaal partnernetwerk. ~75% is geërfde netwerk-chrome (intro, praktische bullets, J2-oproep) die centraal leeft; lokale identiteit = historiek, galerij, partners-met-logo’s, startlocatie, auto-teller “ritten gereden”.\n\n`;
+  if(state.auth==='roze'){
+    p += `Roze-hesje-staat: ${state.merge==='inline'?'dezelfde pagina groeit inline — een duidelijk gemarkeerde roze zone “voor de roze hesjes” onderaan met volledige roster + namen, materiaalbibliotheek, welkomstgids en meetups.':'een aparte roze route die dezelfde componenten/layout deelt; body = roster + materiaal + welkomstgids, met link terug naar de publieke pagina.'}\n`;
+    p += `Zichtbare staat: ${state.pinkhero?'roze hero i.p.v. blauw + groepsnaam prominenter (“Kidical Mass <gemeente>”) + persoonlijke begroeting.':'zelfde blauwe hero, alleen extra blokken signaleren de ingelogde staat.'}\n`;
+  } else {
+    p += `Publieke staat: blauwe hero, J2-meehelpen-oproep aanwezig, team toont alleen wie publiek opt-in koos.\n`;
+  }
+  p += `\nHide-if-empty (PAT-11): getest op beide vullingsgraden — een net-gestarte groep (Schaarbeek) valt terug op warme empty states; een rijpe groep (Mons) toont alles. Foto’s = vrije groepsgalerij (nieuw Group media-model, Nico).\n`;
+  p += `Roze-hesje-only: volledige roster + namen, interne materialen (charter/video/startspeech), welkomstgids. Posters/downloads mogen publiek.`;
+  document.getElementById('prompt').textContent=p;
+}
+
+/* ---------------- controls wiring ---------------- */
+function setSeg(id,val){
+  document.querySelectorAll(`#${id} button`).forEach(b=>b.classList.toggle('on',b.dataset.v===val));
+}
+function syncUI(){
+  setSeg('tier',state.tier); setSeg('auth',state.auth); setSeg('merge',state.merge);
+  document.querySelectorAll('#dir button').forEach(b=>b.classList.toggle('on',b.dataset.v===state.dir));
+  document.getElementById('pinkhero').checked=state.pinkhero;
+  const mergeDisabled = state.auth!=='roze';
+  document.querySelectorAll('#merge button').forEach(b=>b.disabled=mergeDisabled);
+  document.getElementById('pinkhero').disabled=mergeDisabled;
+  // stagebar
+  document.getElementById('sb-dir').textContent='Richting '+state.dir;
+  document.getElementById('sb-tier').textContent=state.tier==='thin'?'Net gestart':'Rijp (Mons)';
+  document.getElementById('sb-auth').textContent=state.auth==='roze'?'Roze hesje':'Publiek';
+  document.getElementById('sb-extra').textContent=state.auth==='roze'?(state.merge==='inline'?'· inline groeien':'· aparte pagina'):'';
+}
+function updateAll(){ syncUI(); render(); updatePrompt(); }
+
+document.querySelectorAll('#dir button').forEach(b=>b.onclick=()=>{state.dir=b.dataset.v;updateAll();});
+document.querySelectorAll('#tier button').forEach(b=>b.onclick=()=>{state.tier=b.dataset.v;updateAll();});
+document.querySelectorAll('#auth button').forEach(b=>b.onclick=()=>{state.auth=b.dataset.v;updateAll();});
+document.querySelectorAll('#merge button').forEach(b=>b.onclick=()=>{if(state.auth==='roze'){state.merge=b.dataset.v;updateAll();}});
+document.getElementById('pinkhero').onchange=e=>{state.pinkhero=e.target.checked;updateAll();};
+
+/* presets */
+const PRESETS=[
+  {label:'<b>Schaarbeek</b> · net gestart, publiek (A)',s:{dir:'A',tier:'thin',auth:'public',merge:'inline',pinkhero:true}},
+  {label:'<b>Mons</b> · rijp, publiek — Levend logboek (A)',s:{dir:'A',tier:'rich',auth:'public',merge:'inline',pinkhero:true}},
+  {label:'<b>Mons</b> · rijp, publiek — Buurtportret (B)',s:{dir:'B',tier:'rich',auth:'public',merge:'inline',pinkhero:true}},
+  {label:'<b>Mons</b> · roze hesje, inline groeien (B)',s:{dir:'B',tier:'rich',auth:'roze',merge:'inline',pinkhero:true}},
+  {label:'<b>Mons</b> · roze hesje, aparte pagina (A)',s:{dir:'A',tier:'rich',auth:'roze',merge:'separate',pinkhero:true}},
+];
+const pc=document.getElementById('presets');
+PRESETS.forEach(p=>{const b=document.createElement('button');b.innerHTML=p.label;b.onclick=()=>{Object.assign(state,p.s);updateAll();};pc.appendChild(b);});
+
+document.getElementById('copy').onclick=()=>{
+  navigator.clipboard.writeText(document.getElementById('prompt').textContent).then(()=>{
+    const btn=document.getElementById('copy');const t=btn.textContent;btn.textContent='Gekopieerd!';setTimeout(()=>btn.textContent=t,1200);
+  });
+};
+
+/* missing token fallbacks for violet/coral/sky used inline */
+document.documentElement.style.setProperty('--violet','#8a3fa0');
+document.documentElement.style.setProperty('--coral','#ec5a52');
+
+updateAll();
+</script>
+</body>
+</html>

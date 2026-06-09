@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ride-row pencil — tweak &amp; copy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,700;0,6..12,800&display=swap" rel="stylesheet">
+<style>
+  /* ---- brand tokens (mirrors app.css @theme) ---- */
+  :root {
+    --color-kidical-ink: #281a39;
+    --color-kidical-yellow: #f9d924;
+    --color-kidical-red: #E63A7B;
+    --color-kidical-green: #5CB85C;
+    --color-kidical-orange: #F0803C;
+    --color-kidical-blue: #1d67cd;
+    --color-kidical-light-blue: #B7E7F0;
+    --font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Caprasimo', ui-sans-serif, system-ui, sans-serif;
+    --text-xs: 0.75rem;  --text-sm: 0.875rem; --text-base: 1rem;
+    --text-lg: 1.125rem; --text-xl: 1.25rem;
+  }
+
+  /* ---- playground chrome (dark) ---- */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; height: 100vh; overflow: hidden;
+    display: grid; grid-template-columns: 340px 1fr;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background: #15101c; color: #e8e2f0;
+  }
+  .panel { overflow-y: auto; padding: 22px; border-right: 1px solid #2c2438; }
+  .panel h1 { font-size: 15px; font-weight: 700; margin: 0 0 4px; letter-spacing: .02em; }
+  .panel .sub { font-size: 12px; color: #8a809c; margin: 0 0 18px; line-height: 1.5; }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .presets button {
+    font: inherit; font-size: 12px; cursor: pointer;
+    background: #241c33; color: #d8d0e8; border: 1px solid #382e4d;
+    border-radius: 7px; padding: 5px 10px;
+  }
+  .presets button:hover { background: #2f2545; border-color: #4a3d63; }
+
+  .group { margin-bottom: 18px; }
+  .group > .legend {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .09em;
+    color: #6f6486; margin-bottom: 10px; font-weight: 700;
+  }
+  .ctrl { margin-bottom: 12px; }
+  .ctrl label { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; margin-bottom: 5px; }
+  .ctrl label .val { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; color: #b39cff; }
+  .ctrl input[type=range] { width: 100%; accent-color: #b39cff; }
+  .ctrl select {
+    width: 100%; font: inherit; font-size: 13px; padding: 5px 7px;
+    background: #241c33; color: #e8e2f0; border: 1px solid #382e4d; border-radius: 7px;
+  }
+  .ctrl.row { display: flex; align-items: center; justify-content: space-between; }
+  .ctrl.row label { margin: 0; }
+  .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+  .swatches button { width: 26px; height: 26px; border-radius: 7px; border: 2px solid transparent; cursor: pointer; padding: 0; }
+  .swatches button[aria-pressed=true] { border-color: #fff; box-shadow: 0 0 0 2px #15101c, 0 0 0 4px #b39cff; }
+  input[type=checkbox] { width: 16px; height: 16px; accent-color: #b39cff; }
+
+  /* ---- preview side ---- */
+  .stage { display: flex; flex-direction: column; min-width: 0; }
+  .canvas { flex: 1; overflow: auto; display: grid; place-items: start center; padding: 40px 32px; }
+  .canvas.dark { background: var(--color-kidical-ink); }
+  .canvas:not(.dark) { background: #fcfaf7; }
+  .toolbar { display: flex; gap: 14px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #2c2438; font-size: 12px; color: #8a809c; }
+  .toolbar label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  .sheet { width: 100%; max-width: 680px; }
+
+  .out { border-top: 1px solid #2c2438; background: #100b18; padding: 14px 18px; }
+  .out .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .out .head span { font-size: 11px; text-transform: uppercase; letter-spacing: .09em; color: #6f6486; font-weight: 700; }
+  .out .head button { font: inherit; font-size: 12px; cursor: pointer; background: #b39cff; color: #15101c; border: 0; border-radius: 7px; padding: 6px 14px; font-weight: 700; }
+  #prompt { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.6; color: #cfc6e0; white-space: pre-wrap; max-height: 150px; overflow: auto; margin: 0; }
+
+  /* ============================================================= */
+  /* ride-row + ride-day — mirrors the real components, driven by   */
+  /* --pg-* custom properties so every control updates live.        */
+  /* ============================================================= */
+  .preview { font-family: var(--font-sans); }
+  .ride-day { display: grid; grid-template-columns: 60px 1fr; gap: 0 1.6rem; align-items: start; }
+  .ride-day + .ride-day { margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%); }
+  .canvas.dark .ride-day + .ride-day { border-top-color: color-mix(in oklab, white, transparent 88%); }
+  .ride-day__rail { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1; padding-top: 0.9rem; }
+  .ride-day__num { font-family: var(--font-sans); font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; color: var(--color-kidical-ink); }
+  .ride-day__mon { font-family: var(--font-sans); font-size: var(--text-sm); font-weight: 700; text-transform: lowercase; color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); margin-top: 0.2rem; }
+  .ride-day__dow { font-family: var(--font-sans); font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: color-mix(in oklab, var(--color-kidical-ink), transparent 60%); margin-top: 0.4rem; }
+  .canvas.dark .ride-day__num { color: #fff; }
+  .canvas.dark .ride-day__mon { color: color-mix(in oklab, white, transparent 45%); }
+  .canvas.dark .ride-day__dow { color: color-mix(in oklab, white, transparent 55%); }
+  .ride-day__rides { display: flex; flex-direction: column; min-width: 0; }
+  .ride-day__rides .ride-row + .ride-row { border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 92%); }
+  .canvas.dark .ride-day__rides .ride-row + .ride-row { border-top-color: color-mix(in oklab, white, transparent 90%); }
+
+  .ride-row {
+    display: grid;
+    grid-template-columns: minmax(0, var(--pg-place-w)) 1fr;
+    align-items: var(--pg-align);
+    column-gap: var(--pg-col-gap);
+    row-gap: 0.3rem;
+    padding-block: var(--pg-row-pad);
+    text-decoration: none; color: inherit; cursor: pointer;
+  }
+  .ride-row:hover .ride-row__place { color: var(--color-kidical-red); }
+  .ride-row__place {
+    font-family: var(--font-heading);
+    font-weight: var(--pg-place-weight);
+    font-size: var(--pg-place-size);
+    line-height: 1.2;
+    letter-spacing: var(--pg-place-track);
+    color: var(--pg-place-color);
+    transition: color 0.18s; text-wrap: balance;
+  }
+  .ride-row__star { margin-right: 0.2rem; color: var(--pg-star-color); }
+  .ride-row__meta {
+    min-width: 0; display: flex; align-items: baseline; gap: 0.4rem;
+    font-family: var(--font-sans); font-size: var(--pg-meta-size);
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent var(--pg-meta-mute));
+  }
+  .canvas.dark .ride-row__meta { color: color-mix(in oklab, white, transparent var(--pg-meta-mute)); }
+  .ride-row__time { font-weight: var(--pg-time-weight); }
+  .ride-row__venue { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ride-row__at { opacity: .65; }
+  .ride-row__chip {
+    display: inline-block; vertical-align: 0.15em; margin-right: 0.45rem;
+    font-family: var(--font-heading); font-size: var(--text-xs); font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.04em; padding: 0.15rem 0.6rem; border-radius: 9999px;
+  }
+  .ride-row__chip--workshop { background: var(--color-kidical-yellow); color: var(--color-kidical-ink); }
+  .ride-row__chip--meeting { background: color-mix(in oklab, var(--color-kidical-blue), white 78%); color: var(--color-kidical-blue); }
+
+  @media (max-width: 767px) {
+    .ride-row { grid-template-columns: 1fr; row-gap: 0.15rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>Ride-row pencil ✏️</h1>
+  <p class="sub">Tweak the calendar row live, then copy the prompt back to Claude to apply it to <code>ride-row.css</code>.</p>
+
+  <div class="presets" id="presets"></div>
+
+  <div class="group">
+    <div class="legend">Layout</div>
+    <div class="ctrl"><label>Place column width <span class="val" data-v="placeW"></span></label><input type="range" id="placeW" min="8" max="20" step="0.5"></div>
+    <div class="ctrl"><label>Column gap <span class="val" data-v="colGap"></span></label><input type="range" id="colGap" min="0.4" max="3" step="0.1"></div>
+    <div class="ctrl"><label>Row padding <span class="val" data-v="rowPad"></span></label><input type="range" id="rowPad" min="0.4" max="1.8" step="0.1"></div>
+    <div class="ctrl"><label>Vertical align</label>
+      <select id="align"><option value="baseline">baseline</option><option value="center">center</option><option value="start">start</option></select>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="legend">Place (commune anchor)</div>
+    <div class="ctrl"><label>Size <span class="val" data-v="placeSize"></span></label><input type="range" id="placeSize" min="1" max="2" step="0.05"></div>
+    <div class="ctrl"><label>Weight <span class="val" data-v="placeWeight"></span></label><input type="range" id="placeWeight" min="400" max="900" step="100"></div>
+    <div class="ctrl"><label>Letter-spacing <span class="val" data-v="placeTrack"></span></label><input type="range" id="placeTrack" min="-0.04" max="0.02" step="0.005"></div>
+    <div class="ctrl"><label>Colour</label><div class="swatches" id="placeColor"></div></div>
+  </div>
+
+  <div class="group">
+    <div class="legend">Meta line</div>
+    <div class="ctrl"><label>Size <span class="val" data-v="metaSize"></span></label><input type="range" id="metaSize" min="0.875" max="1.375" step="0.0625"></div>
+    <div class="ctrl"><label>Muted amount <span class="val" data-v="metaMute"></span></label><input type="range" id="metaMute" min="0" max="70" step="5"></div>
+    <div class="ctrl"><label>Time weight <span class="val" data-v="timeWeight"></span></label><input type="range" id="timeWeight" min="400" max="900" step="100"></div>
+  </div>
+
+  <div class="group">
+    <div class="legend">Featured &amp; chips</div>
+    <div class="ctrl"><label>Star colour</label><div class="swatches" id="starColor"></div></div>
+    <div class="ctrl row"><label for="showChips">Show type chips</label><input type="checkbox" id="showChips"></div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="toolbar">
+    <label><input type="checkbox" id="bgDark"> dark surface</label>
+    <label><input type="checkbox" id="narrow"> mobile width</label>
+  </div>
+  <div class="canvas" id="canvas">
+    <div class="sheet"><div class="preview" id="preview"></div></div>
+  </div>
+  <div class="out">
+    <div class="head"><span>Prompt for Claude</span><button id="copy">Copy Prompt</button></div>
+    <pre id="prompt"></pre>
+  </div>
+</div>
+
+<script>
+const COLORS = {
+  blue:   { token: '--color-kidical-blue',   hex: '#1d67cd', name: 'blue' },
+  red:    { token: '--color-kidical-red',    hex: '#E63A7B', name: 'red' },
+  ink:    { token: '--color-kidical-ink',    hex: '#281a39', name: 'ink' },
+  orange: { token: '--color-kidical-orange', hex: '#F0803C', name: 'orange' },
+  green:  { token: '--color-kidical-green',  hex: '#5CB85C', name: 'green' },
+};
+
+const DEFAULTS = {
+  placeW: 13, colGap: 1.4, rowPad: 0.9, align: 'baseline',
+  placeSize: 1.35, placeWeight: 800, placeTrack: -0.01, placeColor: 'blue',
+  metaSize: 1.125, metaMute: 45, timeWeight: 700,
+  starColor: 'orange', showChips: true,
+};
+
+const PRESETS = {
+  'Current': { ...DEFAULTS },
+  'Calmer':  { ...DEFAULTS, placeSize: 1.2, placeWeight: 700, placeColor: 'ink', metaMute: 55, colGap: 1.8, rowPad: 1.1 },
+  'Bolder':  { ...DEFAULTS, placeSize: 1.6, placeWeight: 900, placeColor: 'red', placeTrack: -0.02, timeWeight: 800, starColor: 'yellow' },
+  'Airy':    { ...DEFAULTS, rowPad: 1.5, colGap: 2.4, placeW: 15, metaSize: 1.1875, metaMute: 50 },
+  'Dense':   { ...DEFAULTS, rowPad: 0.55, colGap: 1, placeSize: 1.2, metaSize: 1, placeW: 11 },
+};
+
+// star can also be yellow
+COLORS.yellow = { token: '--color-kidical-yellow', hex: '#f9d924', name: 'yellow' };
+
+let state = { ...DEFAULTS };
+
+const SAMPLE = [
+  { key: '2026-05-17', num: '17', mon: 'mei', dow: 'zo', rides: [
+    { place: 'Gent', time: '14:00', venue: 'Sint-Pietersplein', featured: true },
+    { place: 'Leuven', time: '10:30', venue: 'Martelarenplein' },
+  ]},
+  { key: '2026-05-24', num: '24', mon: 'mei', dow: 'za', rides: [
+    { place: 'Fietsversiering', time: '13:00', venue: 'Stadshal, Brugge', chip: 'workshop', chipLabel: 'Workshop' },
+    { place: 'Brugge', time: '15:00', venue: "'t Zand" },
+    { place: 'Antwerpen', time: '11:00', venue: 'Steenplein' },
+  ]},
+];
+
+function renderPreview() {
+  const p = document.getElementById('preview');
+  p.style.setProperty('--pg-place-w', state.placeW + 'rem');
+  p.style.setProperty('--pg-col-gap', state.colGap + 'rem');
+  p.style.setProperty('--pg-row-pad', state.rowPad + 'rem');
+  p.style.setProperty('--pg-align', state.align);
+  p.style.setProperty('--pg-place-size', state.placeSize + 'rem');
+  p.style.setProperty('--pg-place-weight', state.placeWeight);
+  p.style.setProperty('--pg-place-track', state.placeTrack + 'em');
+  p.style.setProperty('--pg-place-color', `var(${COLORS[state.placeColor].token})`);
+  p.style.setProperty('--pg-meta-size', state.metaSize + 'rem');
+  p.style.setProperty('--pg-meta-mute', state.metaMute + '%');
+  p.style.setProperty('--pg-time-weight', state.timeWeight);
+  p.style.setProperty('--pg-star-color', `var(${COLORS[state.starColor].token})`);
+
+  p.innerHTML = SAMPLE.map(d => `
+    <section class="ride-day">
+      <time class="ride-day__rail"><span class="ride-day__num">${d.num}</span><span class="ride-day__mon">${d.mon}</span><span class="ride-day__dow">${d.dow}</span></time>
+      <div class="ride-day__rides">
+        ${d.rides.map(r => `
+          <a class="ride-row" href="#">
+            <span class="ride-row__place">${r.chip && state.showChips ? `<span class="ride-row__chip ride-row__chip--${r.chip}">${r.chipLabel}</span>` : ''}${r.featured ? '<span class="ride-row__star" aria-hidden="true">★</span>' : ''}${r.place}</span>
+            <span class="ride-row__meta"><time class="ride-row__time">${r.time}</time><span class="ride-row__at" aria-hidden="true">@</span><span class="ride-row__venue">${r.venue}</span></span>
+          </a>`).join('')}
+      </div>
+    </section>`).join('');
+}
+
+function updatePrompt() {
+  const parts = [];
+  const d = DEFAULTS;
+  if (state.placeW !== d.placeW) parts.push(`place column width ${state.placeW}rem (currently 13rem)`);
+  if (state.colGap !== d.colGap) parts.push(`column gap ${state.colGap}rem`);
+  if (state.rowPad !== d.rowPad) {
+    const q = state.rowPad > 1.2 ? ' (airier rows)' : state.rowPad < 0.7 ? ' (tighter rows)' : '';
+    parts.push(`row padding-block ${state.rowPad}rem${q}`);
+  }
+  if (state.align !== d.align) parts.push(`align-items: ${state.align}`);
+  if (state.placeSize !== d.placeSize) parts.push(`commune font-size ${state.placeSize}rem`);
+  if (state.placeWeight !== d.placeWeight) parts.push(`commune font-weight ${state.placeWeight}`);
+  if (state.placeTrack !== d.placeTrack) parts.push(`commune letter-spacing ${state.placeTrack}em`);
+  if (state.placeColor !== d.placeColor) parts.push(`commune colour var(${COLORS[state.placeColor].token})`);
+  if (state.metaSize !== d.metaSize) parts.push(`meta line font-size ${state.metaSize}rem`);
+  if (state.metaMute !== d.metaMute) {
+    const q = state.metaMute > 55 ? ' (quieter)' : state.metaMute < 35 ? ' (more present)' : '';
+    parts.push(`meta muted to "transparent ${state.metaMute}%"${q}`);
+  }
+  if (state.timeWeight !== d.timeWeight) parts.push(`time font-weight ${state.timeWeight}`);
+  if (state.starColor !== d.starColor) parts.push(`featured star colour var(${COLORS[state.starColor].token})`);
+  if (state.showChips !== d.showChips) parts.push(`type chips ${state.showChips ? 'shown' : 'hidden'}`);
+
+  const out = document.getElementById('prompt');
+  if (!parts.length) {
+    out.textContent = 'No changes yet — these match the current ride-row.css. Tweak the controls to build a prompt.';
+    return;
+  }
+  out.textContent =
+`In resources/css/components/ride-row.css, update the ride-row component:
+- ` + parts.join('\n- ') + `
+
+Keep everything else as-is and keep using the design tokens. Then run the build and show me the calendar.`;
+}
+
+function updateAll() { renderPreview(); updatePrompt(); refreshControls(); }
+
+// ---- wire controls ----
+const sliders = ['placeW','colGap','rowPad','placeSize','placeWeight','placeTrack','metaSize','metaMute','timeWeight'];
+const units = { placeW:'rem', colGap:'rem', rowPad:'rem', placeSize:'rem', placeTrack:'em', metaSize:'rem', metaMute:'%' };
+sliders.forEach(id => {
+  document.getElementById(id).addEventListener('input', e => { state[id] = parseFloat(e.target.value); updateAll(); });
+});
+document.getElementById('align').addEventListener('change', e => { state.align = e.target.value; updateAll(); });
+document.getElementById('showChips').addEventListener('change', e => { state.showChips = e.target.checked; updateAll(); });
+document.getElementById('bgDark').addEventListener('change', e => { document.getElementById('canvas').classList.toggle('dark', e.target.checked); });
+document.getElementById('narrow').addEventListener('change', e => { document.querySelector('.sheet').style.maxWidth = e.target.checked ? '380px' : '680px'; });
+
+function buildSwatches(elId, keys, prop) {
+  const el = document.getElementById(elId);
+  el.innerHTML = keys.map(k => `<button data-k="${k}" title="${COLORS[k].name}" style="background:${COLORS[k].hex}"></button>`).join('');
+  el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { state[prop] = b.dataset.k; updateAll(); }));
+}
+buildSwatches('placeColor', ['blue','red','ink','green','orange'], 'placeColor');
+buildSwatches('starColor', ['orange','red','yellow','green'], 'starColor');
+
+const presetEl = document.getElementById('presets');
+presetEl.innerHTML = Object.keys(PRESETS).map(n => `<button data-p="${n}">${n}</button>`).join('');
+presetEl.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { state = { ...PRESETS[b.dataset.p] }; syncInputs(); updateAll(); }));
+
+function syncInputs() {
+  sliders.forEach(id => document.getElementById(id).value = state[id]);
+  document.getElementById('align').value = state.align;
+  document.getElementById('showChips').checked = state.showChips;
+}
+
+function refreshControls() {
+  document.querySelectorAll('[data-v]').forEach(el => {
+    const k = el.dataset.v; const u = units[k] || '';
+    el.textContent = state[k] + u;
+  });
+  document.querySelectorAll('#placeColor button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === state.placeColor));
+  document.querySelectorAll('#starColor button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === state.starColor));
+}
+
+document.getElementById('copy').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('prompt').textContent).then(() => {
+    const btn = document.getElementById('copy'); const t = btn.textContent;
+    btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = t, 1200);
+  });
+});
+
+syncInputs();
+updateAll();
+</script>
+</body>
+</html>

@@ -40,6 +40,41 @@ per-group materials + visibility, `group_user.role`, per-group photo, historiek 
 a per-user (vs per-browser) welcome flag. Old `/backstage/*` + `/activeer/*` routes left
 intact (redirect/cleanup deferred).
 
+## [2026-06-09] design | Lokale groep-pagina — as-is research + contentmodel
+Added `design/30-skeleton/chapters-research.md` (next to `chapters.md`/`chapters-content.md`,
+mirroring the `getting-started-research.md` precedent). Captures how local groups use their
+current Wix page today — pulled live 2026-06-09 across ~14 `kidicalmass.be/<postcode>` pages
+(only `/5000` Namur + `/7000` Mons were in the scrape). **Findings:** pages live in three
+places (Brussels postcode pages · Walloon postcode pages · Liège on its own domain); coverage
+is partial (Ukkel/Woluwe/Evere/Koekelberg/Ganshoren 404 → shared FB event only); ~75% of each
+page is duplicated boilerplate; only **partners, dates, startlocation** carry local signal;
+outliers are Mons (full Historique, own subdomain), Namur (press section + gallery), Liège
+(own site), Anderlecht (empty stub). **Synthesis (Frederik):** split content into static/
+inherited template items vs per-group dynamic items (upcoming rides, startlocation, partners,
+photos+gallery, history, press, downloads, **auto "rides held" counter**); press + downloads
+are **national-managed but localizable** (national level TBD); **captains edit their group in
+Filament** (downloads/history/photos/partners). Extends the P-11 backend spec for Nico.
+
+## [2026-06-08] design | Presentation sitemaps (AS-IS vs TO-BE) + shared journey palette
+Added `design/21-sitemap-as-is.md`, the to-be pair `design/22-sitemap-to-be-public.md`
++ `design/23-sitemap-to-be-private.md` (split public vs login-gated for the client deck;
+footer/utility pages dropped from the diagrams for clarity), and
+`design/journey-palette.md` — standalone, client-facing visual sitemaps (mermaid
+`flowchart`, ELK layout, boxes + connectors) to show the before/after for Leticia.
+**Shared visual language:** `journey-palette.md` is the SSOT for one signature colour
+per journey persona (🟢 P1 first-timer family · 🔵 P2 regular family · 🟠 P3→P4
+volunteer · 🟣 P5 chapter lead) — the same four colours reused across both sitemaps
+*and* the upcoming A5 journey cards; each persona's route is drawn through the pages in
+its colour with numbered steps. Decisions locked with Frederik: 4 routes mirroring the
+A5 cards (two families kept distinct), no coordination/member route, real wiki nav order
+(`Events · Chapters · Getting Started · Help out · About` + Steun CTA, login footer).
+AS-IS (site audit + redirect-map inventory) shows every route bending out to Facebook /
+the email black hole, chapter lead with no on-site path; TO-BE (locked IA from
+`20-structure.md`) shows the national hub, three zones stacked below public, footer
+de-emphasised, NEW pages tagged 🆕. The brief's fourth "membership/financial autonomy"
+journey is represented as a D5/D9 flow, not a J4 (wiki locks three journeys; P6
+coordination duo + members deliberately uncoloured). Indexed; no app code touched.
+
 ## [2026-06-06] build | Wire 🟢 — Home, Events overview, Event detail (Frederik-approved)
 Frederik signed off the wireframes (content + hierarchy) for P-01 Home, P-02 Events
 overview, and P-03 Event detail → Wire 🟠 → 🟢 on all three. UI stays 🟠 (surface

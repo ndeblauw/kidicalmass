@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokale groep · publiek vs roze hesje</title>
+<style>
+  :root{
+    --ink:#281a39; --yellow:#f9d924; --red:#E63A7B; --green:#5CB85C; --orange:#F0803C;
+    --blue:#1d67cd; --blue-deep:#1450a8; --light-blue:#B7E7F0; --sky:#40c0f2;
+    --light-yellow:#FEF3D5; --pink:#E63A7B; --pink-deep:#b81f5e; --pink-soft:#fde7f0;
+    --body:color-mix(in oklab,var(--ink),white 45%);
+    --shadow:0 6px 30px rgb(0 0 0 /.10); --shadow-sm:0 3px 14px rgb(0 0 0 /.07);
+    --violet:#8a3fa0; --coral:#ec5a52;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito Sans',system-ui,-apple-system,sans-serif;background:#e7e4ee;color:var(--ink)}
+  .topnote{padding:18px 28px;background:#15131c;color:#cfc9db;font-size:13px;line-height:1.5}
+  .topnote b{color:#f9d924}
+  .board{display:flex;gap:26px;padding:26px;align-items:flex-start;overflow-x:auto}
+  .col{flex:1 1 0;min-width:520px;max-width:640px}
+  .col > .label{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;margin:0 4px 10px;color:#3a2f50}
+  .col > .label .swatch{width:14px;height:14px;border-radius:4px}
+
+  /* browser frame */
+  .frame{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgb(0 0 0 /.16);border:1px solid #d9d4e4}
+  .chrome{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#f4f2f8;border-bottom:1px solid #e6e2ee}
+  .chrome .dots{display:flex;gap:5px}.chrome .dots i{width:10px;height:10px;border-radius:50%;display:block}
+  .url{flex:1;background:#fff;border:1px solid #e0dbeb;border-radius:7px;padding:5px 11px;font-size:12px;color:#6b6480;font-family:ui-monospace,monospace}
+
+  /* page */
+  .page h1,.page h2,.page h3{font-family:'Caprasimo','Poppins',system-ui,sans-serif;font-weight:400;line-height:1.05;margin:0}
+  .page h2{font-family:'Caprasimo','Poppins',serif;font-weight:400;font-size:clamp(24px,3.4vw,32px);line-height:1.08}
+
+  /* standard cta button (replicates .cta-button: Caprasimo pill + disc) */
+  .ctab{display:inline-flex;align-items:center;gap:10px;border-radius:999px;font-family:'Caprasimo',serif;font-weight:400;padding:.7rem 1.3rem;text-decoration:none;box-shadow:0 1px 3px rgb(0 0 0 /.1);font-size:15px;cursor:pointer}
+  .ctab--blue{background:var(--blue);color:#fff}
+  .ctab--white{background:#fff;color:var(--ink)}
+  .ctab--secondary{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
+  .ctab .disc{width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+  .ctab .disc svg{width:14px;height:14px}
+  .ctab--secondary .disc{background:rgba(255,255,255,.22);color:#fff}
+  .ctab--white .disc{background:var(--red);color:#fff}
+  .page p{margin:0;line-height:1.6;color:var(--body)}
+  .sec{padding:30px clamp(20px,4vw,40px)}
+  .sec--tight{padding-top:20px;padding-bottom:20px}
+
+  /* nav */
+  .nav{display:flex;align-items:center;gap:14px;padding:12px clamp(20px,4vw,40px);border-bottom:1px solid #eee}
+  .nav .brand{display:flex;align-items:center;gap:7px;font-family:'Caprasimo',serif;font-size:16px;color:var(--ink)}
+  .nav .links{display:flex;gap:14px;font-size:13px;font-weight:700;color:var(--ink);opacity:.8;margin-left:6px}
+  .nav .spacer{flex:1}
+  .nav .steun{display:inline-flex;align-items:center;gap:5px;background:var(--yellow);color:var(--ink);font-weight:800;font-size:12.5px;padding:7px 13px;border-radius:999px}
+  .nav .pinkbtn{display:inline-flex;align-items:center;gap:6px;background:var(--pink);color:#fff;font-weight:800;font-size:12.5px;padding:7px 14px;border-radius:999px}
+  .nav .pinkbtn.active{box-shadow:0 0 0 3px var(--pink-soft)}
+
+  /* hero (ride-page language: band, angled title left, circular photo right) */
+  .hero{position:relative;overflow:hidden;color:#fff}
+  .hero--blue{background:linear-gradient(135deg,var(--blue),var(--blue-deep))}
+  .hero--pink{background:linear-gradient(135deg,var(--pink),var(--pink-deep))}
+  .hero__in{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:30px clamp(20px,4vw,40px) 34px;position:relative;z-index:2}
+  .hero__daisy{position:absolute;left:-40px;bottom:-40px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 62%);z-index:1}
+  .hero h1{color:#fff;font-size:clamp(28px,4.4vw,42px);transform:rotate(-2deg);transform-origin:left}
+  .hero .kicker{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:6px}
+  .hero__photo{aspect-ratio:1;border-radius:50%;overflow:hidden;width:100%;max-width:240px;justify-self:end;box-shadow:0 12px 34px rgb(0 0 0 /.28);border:5px solid rgba(255,255,255,.25)}
+  .hero__photo .ph{width:100%;height:100%}
+  @media(max-width:560px){.hero__in{grid-template-columns:1fr}.hero__photo{display:none}}
+
+  /* intro */
+  .intro{text-align:center;max-width:54ch;margin:0 auto}
+  .intro p{font-size:17px;color:var(--body)}
+
+  /* agenda */
+  .agenda{display:flex;flex-direction:column;gap:10px}
+  .arow{display:flex;gap:13px;align-items:center;padding:13px 15px;border:1px solid #ececf2;border-radius:13px}
+  .arow.meet{background:var(--light-yellow);border-color:#f3e6bf}
+  .arow .date{font-family:'Caprasimo',serif;font-size:17px;color:var(--blue);min-width:86px}
+  .arow .ty{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--orange)}
+  .arow .meta{font-size:13px;color:var(--body)}
+  .arow .go{margin-left:auto;background:var(--blue);color:#fff;font-weight:800;font-size:12.5px;padding:7px 13px;border-radius:999px;text-decoration:none}
+
+  /* faces / kapiteins */
+  .band{padding:34px clamp(20px,4vw,40px)}
+  .band--blue{background:var(--light-blue)}
+  .faces{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px}
+  .face{display:flex;flex-direction:column;align-items:center;gap:7px;width:84px;text-align:center}
+  .face .av{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Caprasimo',serif;font-size:22px;color:#fff}
+  .face .nm{font-weight:800;font-size:13px}.face .ro{font-size:11px;color:var(--body)}
+
+  /* CTA — standard pattern: orange block, big centered title, two buttons */
+  .cta-orange{background:var(--orange);border-radius:18px;padding:46px 28px;display:flex;flex-direction:column;align-items:center;gap:24px;text-align:center}
+  .cta-orange h2{color:#fff;font-size:clamp(26px,3.6vw,34px)}
+  .cta-orange .btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+  /* roster (roze) */
+  .roster{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .rm{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #f3d6e3;border-radius:12px;padding:9px 12px}
+  .rm .av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Caprasimo',serif;color:#fff;font-size:15px;flex:none}
+  .rm .nm{font-weight:700;font-size:13px}.rm .ro{font-size:11px;color:var(--body)}
+
+  /* materiaal (roze) */
+  .mats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
+  .mat{background:#fff;border:1px solid #f3d6e3;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:7px}
+  .mat .ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .mat .t{font-weight:800;font-size:13.5px}.mat .d{font-size:12px;color:var(--body);line-height:1.4}
+  .mat .tg{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--pink);margin-top:2px}
+
+  /* low-key foot blocks */
+  .foot{padding:30px clamp(20px,4vw,40px);background:#faf9fc;border-top:1px solid #eee}
+  .footgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .foot h3{font-family:'Nunito Sans',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:#7a7390;margin:0 0 10px}
+  .foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+  .foot a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);display:flex;gap:8px;align-items:center}
+  .histo{max-width:60ch}.histo p{font-size:14px}
+
+  .closing{text-align:center;padding:28px;background:var(--blue);color:#fff}
+  .closing.pink{background:var(--pink)}
+  .closing a{color:#fff;font-weight:800;text-decoration:none}
+  .note{font-size:11px;color:#9b94ad;font-style:italic;margin-top:8px}
+  h2.st{margin-bottom:2px}
+</style>
+</head>
+<body>
+
+<div class="topnote">
+  <b>Lokale groep — publiek vs. roze hesje, naast elkaar.</b> Zelfde framework/layout-componenten; de roze-hesje-versie is een <b>aparte route</b> met roze hero. Verschil: géén kapiteins + géén CTA, in de plaats <b>de roze hesjes</b> + <b>jouw materiaal</b>. Ingelogd? Dan staat in de topnav de roze <b>Mons</b>-knop die je ertussen schakelt. (Foto's = ronde placeholder, zoals op de rit-pagina.)
+</div>
+
+<div class="board" id="board"></div>
+
+<script>
+const HUES=['#f3b3cd','#bfe3ef','#fbe6a6','#f6c39a','#cdbdee','#a8dcc0'];
+const COL={red:'var(--red)',blue:'var(--blue)',green:'var(--green)',orange:'var(--orange)',violet:'var(--violet)',sky:'var(--sky)',coral:'var(--coral)'};
+const ph=(a,b)=>`<div class="ph" style="background:linear-gradient(135deg,${a},${b})"></div>`;
+const ARROW='<svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const btn=(label,variant)=>`<a class="ctab ctab--${variant}" href="#"><span>${label}</span><span class="disc">${ARROW}</span></a>`;
+
+const rides=[
+  {d:'zo 15 mrt',t:'13:30',p:'Théâtre le Manège',ty:'rit'},
+  {d:'zo 17 mei',t:'13:30',p:'Théâtre le Manège',ty:'rit'},
+  {d:'di 27 mei',t:'19:30',p:'Avello Mons',ty:'meet'},
+];
+const captains=[
+  {n:'Violette',r:'Coördinator',i:'V',c:'red'},
+  {n:'Babas',r:'Kapitein',i:'B',c:'orange'},
+  {n:'Sébastien',r:'Sluiter',i:'S',c:'blue'},
+  {n:'Thibault',r:'Foto & promo',i:'T',c:'green'},
+];
+const roster=[...captains,
+  {n:'Manon',r:'Roze hesje',i:'M',c:'violet'},
+  {n:'Karim',r:'Roze hesje',i:'K',c:'sky'},
+  {n:'Élise',r:'DJ / muziek',i:'É',c:'coral'},
+  {n:'Tom',r:'Roze hesje',i:'T',c:'green'},
+];
+const materials=[
+  {t:'Afsprakencharter',d:'Onze afspraken voor hesjes.',tg:'PDF',ic:'📋',bg:'#fde2e9'},
+  {t:'Zo organiseer je een rit',d:'Route, contact, promo.',tg:'Gids',ic:'🗺️',bg:'#e3eefb'},
+  {t:'Veilig begeleiden',d:'Korte video.',tg:'Video',ic:'▶️',bg:'#fdeede'},
+  {t:'Posters & promo',d:'Affiches en flyers.',tg:'Download',ic:'⬇️',bg:'#e3f5e8'},
+  {t:'De startspeech',d:'Het woordje voor de start.',tg:'Tekst',ic:'📣',bg:'#efe6f8'},
+  {t:'Je welkomstgids',d:'Net begonnen? Start hier.',tg:'Onboarding',ic:'🎀',bg:'#fde7f0'},
+];
+const HISTO='Kidical Mass Mons begon in 2025 met drie edities. Dankzij fijne partners en de coördinatie van Kidical Mass Belgium zette het team prachtige fietsparades op poten. De eerste editie bracht bijna 120 deelnemers samen. Bij vertrek krijgt elk kind een tombolaticket dat altijd wint; bij aankomst wacht een warm onthaal in het Théâtre le Manège.';
+
+function nav(roze){
+  return `<nav class="nav">
+    <span class="brand">🌼 Kidical Mass</span>
+    <span class="links"><span>Kalender</span><span>Lokale groepen</span><span>Over ons</span></span>
+    <span class="spacer"></span>
+    <span class="steun">❤ Steun</span>
+    <span class="pinkbtn ${roze?'active':''}">🎀 Mons</span>
+  </nav>`;
+}
+function hero(roze){
+  return `<header class="hero ${roze?'hero--pink':'hero--blue'}">
+    <div class="hero__daisy"></div>
+    <div class="hero__in">
+      <div>
+        <div class="kicker">${roze?'Roze hesjes · besloten':'Lokale groep'}</div>
+        <h1>Kidical Mass Mons</h1>
+      </div>
+      <div class="hero__photo">${ph(HUES[0],HUES[3])}</div>
+    </div>
+  </header>`;
+}
+function intro(){
+  return `<section class="sec sec--tight"><div class="intro"><p>De feestelijke fietsparade voor de kinderen van Mons. We rijden op kindertempo en ontdekken samen de stad — iedereen welkom, van kinderfiets tot bakfiets.</p></div></section>`;
+}
+function agenda(){
+  return `<section class="sec"><h2 class="st">Op de agenda in Mons</h2>
+    <div class="agenda" style="margin-top:16px">${rides.map(r=>`<div class="arow ${r.ty==='meet'?'meet':''}">
+      <div class="date">${r.d}</div>
+      <div><div class="ty">${r.ty==='meet'?'Vrijwilligersmeeting':'Fietstocht'} · ${r.t}</div><div class="meta">📍 ${r.p}</div></div>
+      <a class="go" href="#">${r.ty==='meet'?'Info':'Kom mee'}</a></div>`).join('')}</div></section>`;
+}
+function kapiteins(){
+  return `<section class="band band--blue" style="text-align:center"><h2 class="st">Wij zwaaien je welkom aan de start</h2>
+    <div class="faces" style="justify-content:center">${captains.map(m=>`<div class="face"><div class="av" style="background:${COL[m.c]}">${m.i}</div><div class="nm">${m.n}</div><div class="ro">${m.r}</div></div>`).join('')}</div></section>`;
+}
+function cta(){
+  return `<section class="sec"><div class="cta-orange">
+    <h2>Help mee in Mons</h2>
+    <div class="btns">${btn('Ja, ik wil meehelpen','white')}${btn('Meer over meehelpen','secondary')}</div>
+  </div></section>`;
+}
+function rozeHesjes(){
+  return `<section class="band" style="background:var(--pink-soft);text-align:center"><h2 class="st">De roze hesjes van Mons</h2>
+    <div class="roster" style="text-align:left;max-width:560px;margin:18px auto 0">${roster.map(m=>`<div class="rm"><div class="av" style="background:${COL[m.c]}">${m.i}</div><div><div class="nm">${m.n}</div><div class="ro">${m.r}</div></div></div>`).join('')}</div></section>`;
+}
+function materiaal(){
+  return `<section class="sec"><h2 class="st">Jouw materiaal</h2>
+    <div class="mats" style="margin-top:16px">${materials.map(m=>`<div class="mat"><div class="ic" style="background:${m.bg}">${m.ic}</div><div class="t">${m.t}</div><div class="d">${m.d}</div><div class="tg">${m.tg}</div></div>`).join('')}</div></section>`;
+}
+function foot(){
+  return `<section class="foot"><div class="footgrid">
+    <div><h3>In de pers</h3><ul><li><a href="#">📰 DH — “Une première Kidical Mass à Mons”</a></li><li><a href="#">📰 RTBF — reportage editie #2</a></li></ul></div>
+    <div><h3>Downloads</h3><ul><li><a href="#">📄 Flyer A5 — 2026</a></li><li><a href="#">🖼️ Affiche A4</a></li></ul></div>
+  </div>
+  <div style="margin-top:26px"><h3>Hoe het hier begon</h3><div class="histo"><p>${HISTO}</p></div></div></section>`;
+}
+
+function publicPage(){
+  return `<div class="frame"><div class="chrome"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><div class="url">kidicalmass.be/lokale-groepen/mons</div></div>
+    <div class="page">${nav(false)}${hero(false)}${intro()}${agenda()}${kapiteins()}${cta()}${foot()}
+    <div class="closing"><h2 style="color:#fff">Deze groep is van jou.</h2><a href="#">← Alle lokale groepen</a></div></div></div>`;
+}
+function rozePage(){
+  return `<div class="frame"><div class="chrome"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><div class="url">kidicalmass.be/lokale-groepen/mons/roze-hesjes</div></div>
+    <div class="page">${nav(true)}${hero(true)}${intro()}${agenda()}${rozeHesjes()}${materiaal()}
+    <section class="foot"><h3>Hoe het hier begon</h3><div class="histo"><p>${HISTO}</p></div></section>
+    <div class="closing pink"><h2 style="color:#fff">Bedankt dat je mee rijdt. 🎀</h2><a href="#">← Naar de publieke pagina</a></div></div></div>`;
+}
+
+document.getElementById('board').innerHTML=`
+  <div class="col"><div class="label"><span class="swatch" style="background:var(--blue)"></span>Publieke pagina</div>${publicPage()}</div>
+  <div class="col"><div class="label"><span class="swatch" style="background:var(--pink)"></span>Roze-hesje pagina (aparte route)</div>${rozePage()}</div>
+`;
+</script>
+</body>
+</html>
