@@ -111,9 +111,125 @@
         color: var(--color-kidical-ink);
         line-height: 1.65;
     }
-    .activity-hero-wrap {
-        margin-top: 2rem;
-        margin-bottom: 2.5rem;
+    .activity-hero {
+        position: relative;
+        z-index: 1;
+        background-color: var(--color-kidical-blue);
+        margin-bottom: 0;
+        margin-top: calc(var(--spacing) * -28);
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+    }
+    .activity-hero__inner {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+        padding-top: calc(var(--spacing) * 24);
+        padding-bottom: calc(var(--spacing) * 8);
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+    }
+    .activity-hero__copy {
+        h1 {
+            color: white;
+            font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
+            line-height: 1.0;
+            margin-block: 0.75rem 2rem;
+            animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+        }
+    }
+    .activity-hero__date {
+        color: var(--color-kidical-yellow);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
+        margin-top: -1.25rem;
+        margin-bottom: 1.25rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+    .activity-hero__visual {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+    }
+    .activity-hero__daisy {
+        position: absolute;
+        right: -8%;
+        top: 40%;
+        transform: translateY(-40%) rotate(15deg);
+        width: 47.25%;
+        max-width: 546px;
+        z-index: 1;
+        pointer-events: none;
+    }
+    .activity-hero__photo {
+        border-radius: 50%;
+        overflow: hidden;
+        aspect-ratio: 1;
+        width: 100%;
+        max-width: 460px;
+        position: relative;
+        z-index: 1;
+        animation: hero-photo-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+    }
+    .activity-hero__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .activity-hero__illustration {
+        position: absolute;
+        width: 45%;
+        bottom: -30%;
+        left: -10%;
+        transform: scaleX(-1);
+        pointer-events: none;
+        z-index: 3;
+    }
+    .activity-hero__chapter {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 1.75rem;
+        transform: translateY(3.5rem) rotate(-3deg);
+        transform-origin: left center;
+        position: relative;
+        z-index: 10;
+        animation: hero-chapter-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+    .activity-hero__chapter-pin {
+        width: 5.75rem;
+        height: auto;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+        margin-right: -1.1rem;
+        margin-left: -15px;
+    }
+    .activity-hero__chapter-label {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--color-kidical-sky);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: 1.56rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        line-height: 1.2;
+        padding: 0.78rem 1.56rem 0.78rem 1.95rem;
+        border-radius: 0.96rem;
+    }
+    .activity-hero__actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        align-items: center;
     }
     .activity-actions-bar__copied {
         font-size: var(--text-sm);
@@ -586,6 +702,24 @@
     }
 
     @media (max-width: 767px) {
+        /* Hero: the decorative daisy (position:absolute; right:-8%; transform:rotate(15deg))
+           extends its transformed bounding box ~52px past the viewport edge, inflating
+           scrollWidth. Clip horizontally without creating a scroll container. */
+        .activity-hero {
+            overflow-x: clip;
+        }
+
+        /* Hero: grid item has min-width:auto by default, which lets the unbreakable
+           Dutch compound word (e.g. "Vrijwilligersmeetup" at 48px) inflate the 1fr
+           track beyond the viewport. Collapse to 0 and allow word breaks. */
+        .activity-hero__copy {
+            min-width: 0;
+        }
+        .activity-hero__copy h1 {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
         /* Promises section: same min-width:auto issue on grid items at large font sizes
            ("Wat kun je verwachten?" at ~56px pushes the 1fr track to ~384px).
            Collapse all grid items to 0 min-width and reduce the oversized heading. */

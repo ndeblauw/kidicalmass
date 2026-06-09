@@ -137,12 +137,27 @@
                     </div>
                 </x-styleguide.entry>
 
-                <x-styleguide.entry name="ride-row" props="activity, showDate=false|true">
+                {{-- Ride-familie: één rij-atoom (ride-row) → dag-/maandgroepering (ride-day / ride-month).
+                     Allemaal gevoed door dezelfde RideDate-woordenschat; hier samen zodat de
+                     onderlinge samenhang in één oogopslag te zien is. --}}
+                <x-styleguide.entry name="ride-row" props="activity, showDate=false|true"
+                    note="Atoom van de ride-familie. Eén rit per rij; type-chip alleen voor niet-ritten; oranje ster markeert een uitgelichte rit.">
                     <div class="flex flex-col" style="max-width: 44rem">
-                        <x-ride-row :activity="$activity" :show-date="true" />
-                        <x-ride-row :activity="$workshop" :show-date="true" />
-                        <x-ride-row :activity="$meeting" :show-date="true" />
+                        <x-ride-row :activity="$activityB" />
+                        <x-ride-row :activity="$activity" />
+                        <x-ride-row :activity="$workshop" />
+                        <x-ride-row :activity="$meeting" />
                     </div>
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="ride-day" props="periodKey, rows=[['item'=>Activity]]"
+                    note="Ride-rows onder één dag, met typografische datum-rail. Agenda van aankomende ritten op de kalender.">
+                    <x-ride-day :period-key="$activity->begin_date->toDateString()" :rows="[['item' => $activity]]" />
+                </x-styleguide.entry>
+
+                <x-styleguide.entry name="ride-month" props="periodKey, rides=[Activity]"
+                    note="Ride-rows onder één maandkop. Groepering voor voorbije ritten op de kalender.">
+                    <x-ride-month :period-key="$monthPeriodKey" :rides="$monthRides" />
                 </x-styleguide.entry>
 
                 <x-styleguide.entry name="info-card" props="label">
@@ -160,19 +175,6 @@
                             <li>Een warme bende ouders en fietsers</li>
                         </x-titled-list-block>
                     </div>
-                </x-styleguide.entry>
-
-                <x-styleguide.entry name="ride-spotlight" props="activity, cta=false, heading=h3, showTime=true, showLocation=true">
-                    <x-ride-spotlight :activity="$activity" :cta="true" />
-                </x-styleguide.entry>
-
-                <x-styleguide.entry name="ride-day" props="periodKey, rows=[['item'=>Activity]]">
-                    <x-ride-day :period-key="$activity->begin_date->toDateString()" :rows="[['item' => $activity]]" />
-                </x-styleguide.entry>
-
-                {{-- Kalender --}}
-                <x-styleguide.entry name="ride-month" props="periodKey, rides=[Activity]">
-                    <x-ride-month :period-key="$monthPeriodKey" :rides="$monthRides" />
                 </x-styleguide.entry>
 
                 <x-styleguide.entry name="article-card" props="article">

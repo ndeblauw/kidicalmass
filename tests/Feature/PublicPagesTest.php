@@ -206,7 +206,7 @@ it('keeps the activity detail page branded', function () {
     get(route('activities.show', $this->activity))
         ->assertOk()
         ->assertSee('Surface Test Ride')
-        ->assertSee('activity-hero-wrap', escape: false);
+        ->assertSee('activity-hero', escape: false);
 });
 
 it('shows the support callout at the end of an event detail page', function () {

@@ -258,9 +258,9 @@ test('chapter home leads with the next ride in NL, not metadata', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Op de agenda')           // unified typed agenda; the ride is the weighted hero
-        ->assertSee('Place Colignon')
-        ->assertSee('Naar de rit')            // ride-spotlight CTA (was "Naar de fietstocht" in old bespoke card)
+        ->assertSee('Op de agenda')           // unified typed agenda; the ride lists as a normal day-grouped row
+        ->assertSee('Place Colignon')         // the ride's venue shows in its ride-row meta
+        ->assertDontSee('Naar de rit')        // no featured spotlight hero on the chapter page anymore
         ->assertDontSee('Part of:')
         ->assertDontSee('Organised by')
         ->assertDontSee('Subgroups');

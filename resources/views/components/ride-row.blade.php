@@ -28,17 +28,9 @@
     href="{{ route('activities.show', $activity) }}"
     {{ $attributes->merge(['class' => 'ride-row link-plain'.($isFeatured ? ' ride-row--featured' : '')]) }}
 >
-    @if ($chip)
-        <span class="ride-row__chip ride-row__chip--{{ $chip['variant'] }}">{{ $chip['label'] }}</span>
-    @endif
-
     <span class="ride-row__place">
-        @if ($isFeatured)<span class="ride-row__star" aria-hidden="true">★</span>@endif{{ $headline }}
+        @if ($chip)<span class="ride-row__chip ride-row__chip--{{ $chip['variant'] }}">{{ $chip['label'] }}</span>@endif@if ($isFeatured)<span class="ride-row__star" aria-hidden="true">★</span>@endif{{ $headline }}
     </span>
-
-    @if ($isFeatured)
-        <span class="ride-row__featured-badge">Uitgelicht</span>
-    @endif
 
     <span class="ride-row__meta">
         @if ($showDate)

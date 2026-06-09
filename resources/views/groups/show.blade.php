@@ -2,7 +2,7 @@
     Chapter page (P-11) — the local group's HOME. Family-first arc (Critique v3,
     Frederik 2026-06-03), re-arranged onto the shared band rhythm (Critique+normalize+
     arrange 2026-06-08): blue identity hero -> warm people photo -> ONE white agenda
-    (typed; next ride is the weighted hero) -> ONE light-blue TEAM band (the warmth +
+    (typed; every activity day-grouped on the shared ride kit) -> ONE light-blue TEAM band (the warmth +
     "join us" climax: real crew photo + faces + on-demand meehelpen) -> quiet extras
     -> yellow closing CTA. Colour story blue -> white -> light-blue -> yellow, like the
     sibling pages. Minimal colour bands on purpose.
@@ -24,10 +24,14 @@
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
 
-        // The agenda is type-aware: the next ride (kidicalmass) is the weighted hero;
-        // everything else (later rides, workshops, meetings) lists below, type-labelled.
-        $nextRide = $activities->firstWhere('activity_type', \App\Enums\ActivityType::KIDICALMASS);
-        $rest = $nextRide ? $activities->reject(fn ($a) => $a->id === $nextRide->id)->values() : $activities;
+        // One typed agenda, grouped by day under a typographic date rail (<x-ride-day>),
+        // exactly like the calendar's upcoming view. No featured hero — every activity
+        // (rides, workshops, meetings) lists the same calm way.
+        $agendaByDay = $activities->groupBy(fn ($a) => $a->begin_date->format('Y-m-d'));
+
+        // Whether an actual ride is on the agenda — drives the "no ride yet" note, kept
+        // honest even when only workshops/meetings are scheduled.
+        $hasRide = $activities->contains(fn ($a) => $a->activity_type === \App\Enums\ActivityType::KIDICALMASS);
 
         $leadNames = $group->users->pluck('name')->map(fn ($n) => explode(' ', trim($n))[0])->filter()->values();
 
@@ -83,16 +87,14 @@
         >
     </figure>
 
-    {{-- 3 · OP DE AGENDA — white, one typed agenda; the next ride is the weighted hero --}}
+    {{-- 3 · OP DE AGENDA — white, one typed agenda; every activity lists the same calm way --}}
     <div class="mx-auto px-4 chapter-body">
         <section class="chapter-agenda">
             <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
 
-            @if ($nextRide)
-                <x-ride-spotlight :activity="$nextRide" :cta="true" />
-            @else
-                {{-- Designed empty state: no upcoming RIDE. Warm, not a dead end. Workshops /
-                     meetings (if any) still list below — honest, never mislabelled as a ride. --}}
+            {{-- No ride on the agenda yet (there may still be workshops/meetings below):
+                 a warm note, not a dead end. Honest — never a workshop dressed as a ride. --}}
+            @unless ($hasRide)
                 <div class="chapter-next__card chapter-next__card--empty" x-data="{ sent: false }">
                     <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
                     <p class="chapter-next__empty-body">Laat je e-mail achter en je bent de eerste die het hoort als {{ $gemeente }} vertrekt.</p>
@@ -103,14 +105,14 @@
                     </form>
                     <p class="chapter-notify__done" x-show="sent" x-cloak>Bedankt! We laten het je weten zodra er een rit is.</p>
                 </div>
-            @endif
+            @endunless
 
-            {{-- The rest of the agenda: later rides, workshops, meetings — each type-labelled --}}
-            @if ($rest->isNotEmpty())
-                {{-- Agenda rows are <a>-rooted ride-row components, so we use a div (not ul/li), consistent with the calendar's row groups. --}}
+            {{-- Rides, workshops and meetings, grouped by day with the date-rail lockup,
+                 exactly like the calendar's upcoming agenda. --}}
+            @if ($activities->isNotEmpty())
                 <div class="chapter-agenda__list">
-                    @foreach ($rest as $activity)
-                        <x-ride-row :activity="$activity" :show-date="true" />
+                    @foreach ($agendaByDay as $periodKey => $dayActivities)
+                        <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
                     @endforeach
                 </div>
             @endif
@@ -121,9 +123,9 @@
                 @endif
 
                 {{-- Slim "mis geen rit" opt-in — one calm line, not a competing box.
-                     Faked: client-side only. Only when there IS a ride; the empty state
-                     already carries its own opt-in above. --}}
-                @if ($nextRide)
+                     Faked: client-side only. Only when there IS a ride; the "no ride yet"
+                     note already carries its own opt-in above. --}}
+                @if ($hasRide)
                     <div class="chapter-agenda__notify" x-data="{ sent: false }">
                         <p class="chapter-agenda__notify-title">Mis geen enkele rit in {{ $gemeente }}.</p>
                         <form @submit.prevent="sent = true" class="chapter-notify" x-show="!sent">

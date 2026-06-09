@@ -2,13 +2,55 @@
 
 @php($routeCoords = $activity->route_coordinates)
 @php($hasMap = count($routeCoords) > 0)
+@php($mainImage = $activity->getFirstMedia('main'))
 
-    {{-- HERO — unified ride spotlight (page subject → h1, no self-CTA). Date only;
-         the info panel below owns the start time + departure point. --}}
-    <section class="activity-hero-wrap">
-        <div class="container mx-auto px-4">
-            <x-ride-spotlight :activity="$activity" heading="h1" :show-time="false" :show-location="false" />
+    {{-- HERO — poster layout: dark blue bg, circular photo, angled title --}}
+    <section class="activity-hero">
+
+        {{-- Daisy: full bleed, right side, slightly cropped --}}
+        <img src="{{ asset('img/logos/logo-icon.png') }}"
+             alt=""
+             aria-hidden="true"
+             class="activity-hero__daisy">
+
+        {{-- Content aligned to container --}}
+        <div class="container mx-auto px-4 activity-hero__inner">
+
+            <div class="activity-hero__copy">
+                <h1>{{ $activity->title_nl }}</h1>
+
+                <p class="activity-hero__date">
+                    <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ \Illuminate\Support\Str::ucfirst($activity->begin_date->translatedFormat('l j F')) }}</time>
+                </p>
+
+                @if($activity->groups->isNotEmpty())
+                    <div class="activity-hero__chapter">
+                        <svg class="activity-hero__chapter-pin" viewBox="0 0 40 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M20 2C10.059 2 2 10.059 2 20C2 32 20 52 20 52C20 52 38 32 38 20C38 10.059 29.941 2 20 2Z" fill="var(--color-kidical-red)"/>
+                            <circle cx="20" cy="20" r="7.5" fill="rgba(0,0,0,0.25)"/>
+                            <circle cx="20" cy="20" r="4.5" fill="white"/>
+                        </svg>
+                        <div class="activity-hero__chapter-label">
+                            @foreach($activity->groups as $group)
+                                <span>{{ $group->name }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <div class="activity-hero__visual">
+                @if($mainImage)
+                    <div class="activity-hero__photo">
+                        <img src="{{ $mainImage->getUrl() }}"
+                             alt="{{ $activity->title_nl }}"
+                             class="activity-hero__img">
+                    </div>
+                @endif
+            </div>
+
         </div>
+
     </section>
 
     {{-- META + MAP — full-bleed two-column --}}
@@ -122,7 +164,7 @@
         <div class="activity-promises__layout">
             <div class="activity-promises__illustration">
                 <h2>Wat kun je verwachten?</h2>
-                <img src="{{ asset('img/illustrations/person-with-boombox.png') }}" alt="" aria-hidden="true" loading="lazy">
+                <img src="{{ asset('img/illustrations/caterpillar-bike.svg') }}" alt="" aria-hidden="true" loading="lazy">
             </div>
             <ul class="activity-promises__col" role="list">
                 <li class="activity-promises__item">

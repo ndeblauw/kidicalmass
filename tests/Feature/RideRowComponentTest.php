@@ -56,7 +56,8 @@ it('marks a flagship ride as featured', function () {
 
     $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
 
-    expect($html)->toContain('ride-row--featured')->toContain('ride-row__star')->toContain('Uitgelicht');
+    // Featured rides are marked by the orange star only — no recolour, no badge.
+    expect($html)->toContain('ride-row--featured')->toContain('ride-row__star')->not->toContain('Uitgelicht');
 });
 
 it('strips a trailing commune from the venue when it duplicates the headline', function () {
