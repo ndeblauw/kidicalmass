@@ -33,6 +33,13 @@ Route::prefix('{locale}')
         Route::get('chapters', [GroupController::class, 'index'])->name('groups.index');
         Route::get('chapters/{group}', [GroupController::class, 'show'])->name('groups.show');
 
+        // Roze-hesje page — the logged-in-only chapter surface (replaces the old backstage).
+        // Lives in the public framework with a roze hero; gated on chapter membership.
+        // BackstageDemoAccess keeps the demo frictionless (auto-login outside production).
+        Route::get('chapters/{group}/roze-hesjes', [GroupController::class, 'rozeHesjes'])
+            ->middleware(BackstageDemoAccess::class)
+            ->name('groups.roze-hesjes');
+
         // Help out (J2 orientation page — lists groups so a volunteer can route to a chapter).
         Route::get('help-out', VolunteerController::class)->name('volunteer');
 

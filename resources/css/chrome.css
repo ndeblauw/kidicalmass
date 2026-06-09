@@ -248,6 +248,42 @@ select:focus[data-flux-control] {
     .page-panel:has(.about-cta) {
         padding-bottom: 0;
     }
+    .roze-nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background-color: var(--color-kidical-red);
+        color: white;
+        font-weight: 800;
+        font-size: var(--text-sm);
+        padding: 0.45rem 0.9rem;
+        border-radius: 9999px;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: filter 0.15s ease;
+    }
+    .roze-nav-btn:hover { filter: brightness(1.05); }
+    .roze-nav-btn--active { box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-red), transparent 78%); }
+    .roze-nav-btn--block { display: flex; justify-content: center; }
+
+    /* Steun pill — same shape + body font/weight as the roze button (not the Caprasimo
+       cta-button), just the yellow accent. Keeps the nav buttons visually consistent. */
+    .steun-nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background-color: var(--color-kidical-yellow);
+        color: var(--color-kidical-ink);
+        font-weight: 800;
+        font-size: var(--text-sm);
+        padding: 0.45rem 0.95rem;
+        border-radius: 9999px;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: filter 0.15s ease;
+    }
+    .steun-nav-btn:hover { filter: brightness(1.03); }
+    .steun-nav-btn--block { display: flex; justify-content: center; }
 }
 
 @media (max-width: 767px) {

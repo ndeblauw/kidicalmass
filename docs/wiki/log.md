@@ -1,5 +1,45 @@
 # Wiki Log
 
+## [2026-06-09] build | Roze-hesje page — backstage replaced (P-09)
+Built the **roze-hesje page**: a logged-in-only per-chapter surface that replaces the old
+standalone backstage and lives **inside the public framework** (route `groups.roze-hesjes`
+at `/{locale}/chapters/{group}/roze-hesjes`, reusing `x-layouts::site` + the ride/show
+kit). Plan: [`superpowers/plans/2026-06-09-roze-hesje-page.md`](../superpowers/plans/2026-06-09-roze-hesje-page.md);
+briefing: [`design/30-skeleton/chapters-roze-hesjes.md`](design/30-skeleton/chapters-roze-hesjes.md).
+
+Arc: **roze hero** (round photo + group name, kicker "Roze hesjes · besloten") → time-boxed
+**welkom** block (per-group cookie, ~first 2 weeks, then auto-hides) → typed **agenda**
+(`<x-ride-day>`) → **full roster** "De roze hesjes van {gemeente}" (replaces the public
+kapiteins; everyone visible to fellow hesjes, not just public opt-ins) → permanent **"Voor
+je eerste rit"** onboarding (reuses `<x-feature-card>` + an embedded begeleidingsvideo +
+a numbered stepper) → **"Jouw materiaal"** with a **publiek/besloten** visibility split
+(replaces the public CTA). The hero reads "Kidical Mass {gemeente}"; the page ends on the
+materiaal (no historiek/thank-you tail — Frederik 2026-06-09). Nav refinement: a roze
+`{gemeente}` pill (no emoji), the Steun pill restyled to match it (body font/weight), the
+logged-in name replaced by an account icon; heading sizes set to a clean H1>H2>H3 tier.
+
+Decisions (Frederik, this thread): no intro before the agenda; no separate press/downloads
+foot; nav label is just `🎀 {gemeente}`; everything folded inline (no separate welcome
+page); the **startspeech is kapitein material** → a besloten *"voor kapiteins"* material
+tile, **not** in the onboarding; the welcome is split into a compact time-boxed cookie
+block + a permanent onboarding section so its info stays findable after expiry.
+
+Mechanics: membership-gated (`abort_unless` 403 for non-members); `BackstageDemoAccess`
+keeps the demo frictionless (auto-login outside production, guests → activate). The roze
+`🎀 {gemeente}` nav button is the **only** change to shared chrome (header), shown to
+logged-in members. "roze" = the existing `--color-kidical-red` token; appearance in a new
+`resources/css/pages/chapters-roze-hesjes.css` partial. A narrow `EncryptCookies`
+exclusion keeps the `roze_welcome_*` timestamp cookie readable (non-sensitive).
+
+Verified: +10 `RozeHesjesTest` (gating, full roster, typed agenda, publiek/besloten,
+cookie welcome show/hide, nav button), full suite green bar one **pre-existing** foundation
+failure (`EventCardFeaturedTest`, unrelated — fails identically on `main`), Pint + `npm run
+build` clean, screenshots desktop + mobile + nav button. **Wire 🟠 → 🟢 gated on Frederik's
+own critique.** Faux until Nico's backend ([#37](https://github.com/ndeblauw/kidicalmass/issues/37)):
+per-group materials + visibility, `group_user.role`, per-group photo, historiek text, and
+a per-user (vs per-browser) welcome flag. Old `/backstage/*` + `/activeer/*` routes left
+intact (redirect/cleanup deferred).
+
 ## [2026-06-06] build | Wire 🟢 — Home, Events overview, Event detail (Frederik-approved)
 Frederik signed off the wireframes (content + hierarchy) for P-01 Home, P-02 Events
 overview, and P-03 Event detail → Wire 🟠 → 🟢 on all three. UI stays 🟠 (surface

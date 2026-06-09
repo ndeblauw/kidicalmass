@@ -1,0 +1,217 @@
+@layer components {
+    /* 1 · ROZE HERO — roze band (mirrors .chapter-head, roze instead of blue) */
+    .roze-head {
+        position: relative;
+        z-index: 1;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: calc(var(--spacing) * -28);
+        background-color: var(--color-kidical-red);
+        overflow: hidden;
+    }
+    .roze-head__daisy {
+        position: absolute;
+        right: -2.5rem;
+        top: 50%;
+        transform: translateY(-50%) rotate(15deg);
+        width: 11rem;
+        opacity: 0.85;
+        z-index: 1;
+        pointer-events: none;
+    }
+    .roze-head__inner {
+        position: relative;
+        z-index: 2;
+        padding-top: calc(var(--spacing) * 24);
+        padding-bottom: calc(var(--spacing) * 9);
+    }
+    .roze-head__layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    @media (min-width: 768px) {
+        .roze-head__layout { grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; }
+    }
+    .roze-head__kicker {
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, white, transparent 15%);
+        margin-bottom: 0.5rem;
+    }
+    .roze-head h1 {
+        color: white;
+        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
+        line-height: 1.0;
+        transform: rotate(-2deg);
+        transform-origin: left;
+        animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+    }
+    .roze-head__photo {
+        margin: 0;
+        aspect-ratio: 1;
+        width: 100%;
+        max-width: 15rem;
+        justify-self: start;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid color-mix(in oklab, white, transparent 70%);
+        box-shadow: 0 12px 34px -10px color-mix(in oklab, var(--color-kidical-ink), transparent 50%);
+    }
+    @media (min-width: 768px) { .roze-head__photo { justify-self: end; } }
+    .roze-head__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* 2 · WELKOM — compact, time-boxed contained notice (soft-roze card) */
+    .roze-welcome-section { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
+    .roze-welcome {
+        background-color: color-mix(in oklab, var(--color-kidical-red), white 90%);
+        border: 1px solid color-mix(in oklab, var(--color-kidical-red), white 72%);
+        border-radius: var(--radius-card, 1rem);
+        padding: 1.5rem 1.75rem;
+    }
+    .roze-welcome__kicker { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; font-size: var(--text-sm); color: var(--color-kidical-red); }
+    .roze-welcome__title { display: block; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl); color: var(--color-kidical-ink); line-height: 1.15; margin: 0.25rem 0 0.5rem; }
+    .roze-welcome__body { color: var(--color-text-body); }
+    .roze-welcome__list { margin: 0.5rem 0 0; padding-left: 1.1rem; list-style: disc; display: flex; flex-direction: column; gap: 0.3rem; color: var(--color-text-body); }
+    .roze-welcome__list a { color: var(--color-kidical-red); font-weight: 700; }
+    .roze-welcome__foot { margin-top: 0.85rem; font-size: var(--text-sm); font-style: italic; color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); }
+
+    /* 3 · AGENDA note (reuses .chapter-agenda / .chapter-agenda__list / .chapter-next__all) */
+    .roze-agenda__note {
+        margin-top: 0.5rem;
+        color: var(--color-text-body);
+        background-color: var(--color-kidical-light-yellow);
+        border-radius: 0.85rem;
+        padding: 0.85rem 1.1rem;
+        font-weight: 600;
+    }
+
+    /* 4 · ROZE ROSTER — soft-roze band, the full team */
+    .roze-roster-band {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background-color: color-mix(in oklab, var(--color-kidical-red), white 90%);
+        padding-block: clamp(3rem, 6vw, 4.5rem);
+    }
+    .roze-roster {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    @media (min-width: 640px) { .roze-roster { grid-template-columns: repeat(2, 1fr); } }
+    .roze-roster__member {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        background-color: white;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-red), white 75%);
+        border-radius: 0.85rem;
+        padding: 0.7rem 0.9rem;
+    }
+    .roze-roster__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 9999px;
+        background-color: var(--color-kidical-red);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 800;
+    }
+    .roze-roster__name { display: block; font-weight: 700; color: var(--color-kidical-ink); line-height: 1.2; }
+    .roze-roster__role { font-size: var(--text-sm); color: var(--color-text-body); }
+
+    /* 5 · VOOR JE EERSTE RIT — permanent onboarding band (light-blue). "wat doet een hesje"
+       reuses the shared <x-feature-card>; the stepper is local. */
+    .roze-onboarding {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background-color: var(--color-kidical-light-blue);
+        padding-block: clamp(3rem, 6vw, 4.5rem);
+    }
+    /* Sub-headings sit one clean tier below the section titles (text-2xl): text-xl, same
+       weight + heading font, so the hierarchy reads H1 hero > H2 section > H3 sub. */
+    .roze-onboarding__sub {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+        margin: 2rem 0 1rem;
+    }
+    .roze-onboarding__sub:first-of-type { margin-top: 0; }
+    .roze-onboarding__cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    @media (min-width: 768px) { .roze-onboarding__cards { grid-template-columns: repeat(2, 1fr); } }
+    .roze-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; max-width: 48rem; }
+    .roze-step { display: flex; gap: 1rem; align-items: flex-start; background-color: white; border-radius: var(--radius-card, 1rem); box-shadow: var(--shadow-card, 0 3px 14px rgb(0 0 0 / 0.07)); padding: 1.25rem; }
+    .roze-step__num { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2.75rem; height: 2.75rem; border-radius: 9999px; background-color: var(--color-kidical-blue); color: white; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); }
+    .roze-step__title { display: block; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); color: var(--color-kidical-ink); line-height: 1.2; margin-bottom: 0.25rem; }
+    .roze-step__body { color: var(--color-text-body); line-height: 1.5; }
+
+    /* Begeleidingsvideo — responsive 16:9 embed, aligned to the steps column width. */
+    .roze-video {
+        margin: 0 0 0.5rem;
+        max-width: 48rem;
+        aspect-ratio: 16 / 9;
+        border-radius: var(--radius-card, 1rem);
+        overflow: hidden;
+        box-shadow: var(--shadow-card, 0 3px 14px rgb(0 0 0 / 0.07));
+        background-color: var(--color-kidical-ink);
+    }
+    .roze-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    /* 6 · MATERIAAL — token-backed tiles with a visibility badge */
+    .roze-materials__lead { margin-bottom: 1.5rem; color: var(--color-text-body); }
+    .roze-materials {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    @media (min-width: 640px) { .roze-materials { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .roze-materials { grid-template-columns: repeat(3, 1fr); } }
+    .roze-material {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background-color: white;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        border-radius: var(--radius-card, 1rem);
+        padding: 1.25rem;
+        box-shadow: var(--shadow-card, 0 3px 14px rgb(0 0 0 / 0.07));
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .roze-material:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 55%); }
+    .roze-material__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.85rem;
+        transform: rotate(-3deg);
+        color: white;
+    }
+    .roze-material__icon--besloten { background-color: var(--color-kidical-red); }
+    .roze-material__icon--publiek { background-color: var(--color-kidical-blue); }
+    .roze-material__title { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-lg); color: var(--color-kidical-ink); line-height: 1.2; }
+    .roze-material__desc { color: var(--color-text-body); font-size: var(--text-sm); line-height: 1.4; }
+    .roze-material__tags { display: flex; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+    .roze-material__tag { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in oklab, var(--color-kidical-ink), transparent 50%); }
+    .roze-material__badge {
+        font-size: var(--text-xs);
+        font-weight: 800;
+        padding: 0.15rem 0.55rem;
+        border-radius: 9999px;
+    }
+    .roze-material__badge--besloten { background-color: color-mix(in oklab, var(--color-kidical-red), white 82%); color: var(--color-kidical-red); }
+    .roze-material__badge--publiek { background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%); color: var(--color-kidical-blue); }
+}
