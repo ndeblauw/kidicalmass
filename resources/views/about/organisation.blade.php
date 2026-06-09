@@ -13,7 +13,7 @@
     <x-page-hero
         eyebrow="Organisatie"
         title="Buren die de straat op trekken."
-        illustration="img/illustrations/kid-on-bike-teal.png">
+        illustration="img/illustrations/heart-30-sign.svg">
 
     {{-- HOE WE GEORGANISEERD ZIJN — contained intro --}}
     <x-intro-text>

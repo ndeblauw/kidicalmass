@@ -13,7 +13,7 @@
 --}}
 <x-layouts::site title="Meehelpen">
 
-    <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/kid-waving.png">
+    <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/volunteer-with-wrench.svg">
 
     {{-- PITCH (contained) --}}
     <x-intro-text>
@@ -28,7 +28,7 @@
 
             <div class="activity-promises__illustration">
                 <h2>Hoe je kan helpen</h2>
-                <img src="{{ asset('img/illustrations/kid-waving.png') }}" alt="" aria-hidden="true" loading="lazy">
+                <img src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" loading="lazy">
             </div>
 
             <ul class="activity-promises__col" role="list">

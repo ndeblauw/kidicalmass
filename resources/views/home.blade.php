@@ -48,17 +48,27 @@
             @endif
         </section>
 
-        {{-- ③ DISPATCHER — three equal routes. Home is a crossroads, not a content dump. --}}
-        <section class="home-routes grid gap-5 sm:grid-cols-3">
+        {{-- ③ DISPATCHER — three equal routes. Home is a crossroads, not a content dump.
+             Each card previews the character you'll meet on the destination page. --}}
+        <section class="home-routes relative grid gap-5 sm:grid-cols-3">
+            {{-- Signposts at the crossroads (decorative, desktop only). --}}
+            <img src="{{ asset('img/illustrations/zone-30-sign.svg') }}" alt="" aria-hidden="true" loading="lazy"
+                class="pointer-events-none absolute right-2 bottom-full mb-2 w-16 rotate-6 hidden sm:block">
+            <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" aria-hidden="true" loading="lazy"
+                class="pointer-events-none absolute left-2 top-full mt-2 w-14 -rotate-6 hidden sm:block">
+
             <a href="{{ route('getting-started') }}" class="home-route link-plain">
+                <span class="home-route__art"><img src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true" loading="lazy"></span>
                 <span class="home-route__title">Nieuw hier?</span>
                 <span class="home-route__desc">Zo werkt een Kidical Mass rit.</span>
             </a>
             <a href="{{ route('volunteer') }}" class="home-route link-plain">
+                <span class="home-route__art"><img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" loading="lazy"></span>
                 <span class="home-route__title">Help mee</span>
                 <span class="home-route__desc">Word vrijwilliger bij een rit.</span>
             </a>
             <a href="{{ route('groups.index') }}" class="home-route link-plain">
+                <span class="home-route__art"><img src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" aria-hidden="true" loading="lazy"></span>
                 <span class="home-route__title">Vind je lokale groep</span>
                 <span class="home-route__desc">Ontdek de groep bij jou in de buurt.</span>
             </a>

@@ -116,6 +116,42 @@
         box-shadow: 0 10px 24px rgb(0 0 0 / 0.1);
     }
 
+    /* Route-card art — a soft brand-tinted panel so the three differently
+       proportioned illustrations read at an even visual weight. */
+    .home-route__art {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 6rem;
+        height: 6rem;
+        margin-bottom: 0.6rem;
+        border-radius: 1.25rem;
+        overflow: hidden;
+    }
+
+    .home-route__art img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.15s ease;
+    }
+
+    .home-route:hover .home-route__art img {
+        transform: scale(1.06) rotate(-2deg);
+    }
+
+    .home-routes a:nth-of-type(1) .home-route__art {
+        background: color-mix(in oklab, var(--color-kidical-sky) 24%, #fff);
+    }
+
+    .home-routes a:nth-of-type(2) .home-route__art {
+        background: color-mix(in oklab, var(--color-kidical-yellow) 34%, #fff);
+    }
+
+    .home-routes a:nth-of-type(3) .home-route__art {
+        background: color-mix(in oklab, var(--color-kidical-red) 16%, #fff);
+    }
+
     .home-route__title {
         font-weight: 800;
         color: var(--color-kidical-blue);
@@ -125,5 +161,15 @@
         font-size: 0.9rem;
         color: var(--color-kidical-ink);
         opacity: 0.7;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-route__art img {
+        transition: none;
+    }
+
+    .home-route:hover .home-route__art img {
+        transform: none;
     }
 }

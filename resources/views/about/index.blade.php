@@ -11,7 +11,7 @@
     <x-page-hero
         eyebrow="Over ons"
         title="Samen maken we straten voor kinderen."
-        illustration="img/illustrations/tree-round.png">
+        illustration="img/illustrations/cyclist-peace-sign.svg">
 
     {{-- Lead, relocated onto the panel (the hub has no separate intro section). --}}
     <x-intro-text>

@@ -10,7 +10,7 @@
     <x-page-hero
         eyebrow="Lokale groepen"
         title="Jouw buurt fietst al, rij mee."
-        illustration="img/illustrations/person-with-boombox.png">
+        illustration="img/illustrations/longtail-with-kid.svg">
 
         <x-slot:controls>
             <div class="grp-hero__locate">

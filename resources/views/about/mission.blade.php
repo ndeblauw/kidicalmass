@@ -13,7 +13,7 @@
     <x-page-hero
         eyebrow="Missie"
         title="Veilige straten, voor elk kind."
-        illustration="img/illustrations/tree-tall.png">
+        illustration="img/illustrations/rider-with-flag.svg">
 
     {{-- WAT KIDICAL MASS IS — contained intro --}}
     <x-intro-text>

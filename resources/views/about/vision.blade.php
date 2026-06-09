@@ -13,7 +13,7 @@
     <x-page-hero
         eyebrow="Visie"
         title="Een stad op kindermaat."
-        illustration="img/illustrations/bird-with-helmet.png">
+        illustration="img/illustrations/zone-30-sign.svg">
 
     {{-- POSITIESTATEMENT — contained intro --}}
     <x-intro-text size="lead">

@@ -1,7 +1,7 @@
 {{--
     Getting Started — "Voor het eerst mee"
     Surface pass 2026-06-04 (Frederik-guided): scroll-stacking card experience.
-    - HERO reuses x-page-hero (fixed blue, kid-on-bike illustration).
+    - HERO reuses x-page-hero (fixed blue, waving-rider illustration).
     - "Wat je mag verwachten" is a sticky-left + scroll-driven stacking deck on desktop;
       tilted static column on mobile. Section has lead text + 6 big cards with colour-varied
       icon chips. The panel background is light-blue so the rounded seam flows into the sky.
@@ -14,7 +14,7 @@
     <x-page-hero
         eyebrow="Voor het eerst"
         title="Wat je mag verwachten op een rit"
-        illustration="img/illustrations/kid-on-bike.png">
+        illustration="img/illustrations/waving-rider.svg">
 
     {{-- WAT JE MAG VERWACHTEN — scroll-stacking cards (desktop); static list (mobile) --}}
     <section class="gs-expect-scroll">
@@ -62,7 +62,7 @@
         <div class="gs-faq-layout">
 
         <div class="gs-faq-illustration">
-            <img src="{{ asset('img/illustrations/kid-on-scooter.png') }}" alt="" aria-hidden="true" loading="lazy">
+            <img src="{{ asset('img/illustrations/relaxed-rider.svg') }}" alt="" aria-hidden="true" loading="lazy">
         </div>
 
         <div class="gs-faq-content">

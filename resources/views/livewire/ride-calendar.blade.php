@@ -2,7 +2,7 @@
     <x-page-hero
         eyebrow="Kalender"
         title="Spring op de fiets, wij rijden samen."
-        illustration="img/illustrations/kid-on-bike.png">
+        illustration="img/illustrations/cargo-bike-family.svg">
 
         {{-- Filter row: location picker + radius tabs. Hidden on past-rides view. --}}
         @if ($when !== 'voorbije')

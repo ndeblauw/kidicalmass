@@ -26,7 +26,7 @@
         ];
     @endphp
 
-    <x-page-hero :eyebrow="__('support.hero_eyebrow')" :title="__('support.hero_title')" illustration="img/illustrations/crocodile-on-tricycle.png">
+    <x-page-hero :eyebrow="__('support.hero_eyebrow')" :title="__('support.hero_title')" illustration="img/illustrations/heart-sign-holder.svg">
 
     {{-- WAAROM — the mission (the driver to give), contained white --}}
     <section class="steun-mission">
