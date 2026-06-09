@@ -1,0 +1,47 @@
+{
+  "slug": "7000-mons",
+  "source": "https://www.kidicalmass.be/7000",
+  "status": "ok",
+  "count": 18,
+  "photos": [
+    {
+      "file": "photos/02-cf0153_a20532a966e04ef1b1bed052c23cf8c8.jpg",
+      "bytes": 4331086
+    },
+    {
+      "file": "photos/03-cf0153_27cffacf0c524ed588696a426271ab4a.jpg",
+      "bytes": 3483762
+    },
+    {
+      "file": "photos/04-cf0153_217e57c3046e40ff93c29dfeae988893.jpg",
+      "bytes": 3781982
+    },
+    {
+      "file": "photos/05-cf0153_2c39bd9d2ee94f6ebcd013c472174c73.jpg",
+      "bytes": 4511278
+    },
+    {
+      "file": "photos/06-cf0153_f6255283ce744263a99f4ee0cfd293bb.jpg",
+      "bytes": 4764516
+    },
+    {
+      "file": "photos/07-cf0153_e479f200fd734b16abb40a81bc59ab64.jpg",
+      "bytes": 4353889
+    },
+    {
+      "file": "photos/08-cf0153_08a2983a1a084f45acbfed0b01b9d70f.jpg",
+      "bytes": 3847017
+    },
+    {
+      "file": "photos/09-cf0153_cebf88d2f1c84b65abe56358051f2ee4.jpg",
+      "bytes": 2624210
+    },
+    {
+      "file": "photos/10-cf0153_dcea42b6356d44d79f325e70af57ef6c.jpg",
+      "bytes": 1617193
+    }
+  ],
+  "graphics": [],
+  "photo_count": 9,
+  "graphic_count": 0
+}

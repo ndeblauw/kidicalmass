@@ -1,0 +1,64 @@
+{
+  "slug": "5000-namur",
+  "source": "https://www.kidicalmass.be/5000",
+  "status": "ok",
+  "count": 22,
+  "photos": [
+    {
+      "file": "photos/03-cf0153_1fdbf0c7d8fe4fcb90c487cca74611e6.jpg",
+      "bytes": 472290
+    },
+    {
+      "file": "photos/04-cf0153_d382146cbf05417e987cdd52135fbb74.jpg",
+      "bytes": 313395
+    },
+    {
+      "file": "photos/05-cf0153_1781912692324c5da274b20c021e8cff.jpg",
+      "bytes": 1332856
+    },
+    {
+      "file": "photos/06-cf0153_ee9cad6703414090b5d757ac3186b322.jpg",
+      "bytes": 616329
+    },
+    {
+      "file": "photos/08-cf0153_cb078208d0db4e469b48e2dcd98b8516.jpg",
+      "bytes": 513319
+    },
+    {
+      "file": "photos/09-cf0153_6f0e0e6d905448939657119954309f5f.jpg",
+      "bytes": 369471
+    },
+    {
+      "file": "photos/10-cf0153_f8d6e2a4403b44b3866e410b84427cae.jpg",
+      "bytes": 579734
+    },
+    {
+      "file": "photos/11-cf0153_a05630b212cb4cc082c259f61c721291.jpg",
+      "bytes": 5557587
+    },
+    {
+      "file": "photos/12-cf0153_6afb858cc4044f2ebfeafc85809fa8d1.jpg",
+      "bytes": 469594
+    },
+    {
+      "file": "photos/13-cf0153_e1f01ec6f5374d478211e80fb289ac1b.jpg",
+      "bytes": 622806
+    },
+    {
+      "file": "photos/14-cf0153_8ca2b173fec047a9bd8bbf4a8932cece.jpg",
+      "bytes": 497252
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/02-cf0153_42ae51fe6f444a888b59f94ef8a7556b.jpg",
+      "bytes": 3573701
+    },
+    {
+      "file": "graphics/07-cf0153_7f309a2060f644d48b077efce8a84faf.png",
+      "bytes": 95021
+    }
+  ],
+  "photo_count": 11,
+  "graphic_count": 2
+}

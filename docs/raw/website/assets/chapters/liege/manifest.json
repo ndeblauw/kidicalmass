@@ -1,0 +1,39 @@
+{
+  "slug": "liege",
+  "source": "https://www.kidicalmassliege.org/",
+  "platform": "google-sites",
+  "photos": [
+    {
+      "file": "photos/03-liege.jpg",
+      "bytes": 677073
+    },
+    {
+      "file": "photos/04-liege.jpg",
+      "bytes": 24946
+    },
+    {
+      "file": "photos/05-liege.png",
+      "bytes": 558059
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/01-liege.png",
+      "bytes": 48061
+    },
+    {
+      "file": "graphics/02-liege.png",
+      "bytes": 44349
+    },
+    {
+      "file": "graphics/06-liege.jpg",
+      "bytes": 32112
+    },
+    {
+      "file": "graphics/07-liege.png",
+      "bytes": 15194
+    }
+  ],
+  "photo_count": 3,
+  "graphic_count": 4
+}

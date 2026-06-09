@@ -1,0 +1,40 @@
+{
+  "slug": "1120-noh",
+  "source": "https://www.kidicalmass.be/1120",
+  "status": "ok",
+  "count": 17,
+  "photos": [
+    {
+      "file": "photos/05-cf0153_ac62c1918a534ceda9587360c22fc98f.jpg",
+      "bytes": 937944
+    },
+    {
+      "file": "photos/06-cf0153_b7156b14d1e94f8189ad8b6ec9f62840.jpg",
+      "bytes": 690165
+    },
+    {
+      "file": "photos/07-cf0153_ab76d216d5cd46eebbd0af9f745de651.jpg",
+      "bytes": 756878
+    },
+    {
+      "file": "photos/08-cf0153_5a8f724d96204bf5aed8f94973f2a123.jpg",
+      "bytes": 708205
+    },
+    {
+      "file": "photos/09-cf0153_b300ac226af5405db49e9a10b5863086.jpg",
+      "bytes": 599574
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/02-cf0153_f17a70c11bb747d6936691fb0ed67689.png",
+      "bytes": 72110
+    },
+    {
+      "file": "graphics/04-cf0153_cb8b20db06d24442b9ace9b71d6f8ce9.png",
+      "bytes": 580489
+    }
+  ],
+  "photo_count": 5,
+  "graphic_count": 2
+}

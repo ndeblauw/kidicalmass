@@ -1,0 +1,40 @@
+{
+  "slug": "1000-bxl",
+  "source": "https://www.kidicalmass.be/1000",
+  "status": "ok",
+  "count": 17,
+  "photos": [
+    {
+      "file": "photos/05-cf0153_c7c20c0ad6bf4639997d64dee82685c8.jpg",
+      "bytes": 1221065
+    },
+    {
+      "file": "photos/06-cf0153_81b9ddac5923449fa3f674781c4f9034.jpg",
+      "bytes": 1505866
+    },
+    {
+      "file": "photos/07-cf0153_ccc24e4a615b4e5bbbd31ce7df335780.jpg",
+      "bytes": 5697581
+    },
+    {
+      "file": "photos/08-cf0153_2e5b0a6827c643098813d6b003b5800d.jpg",
+      "bytes": 4112097
+    },
+    {
+      "file": "photos/09-cf0153_bb01ddc7dc8a4d388b7c7262a838ef20.jpg",
+      "bytes": 1705626
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/02-cf0153_cbc572718efd46338d21e9f6fc78b87d.png",
+      "bytes": 72856
+    },
+    {
+      "file": "graphics/04-cf0153_9eac58fa2ff1451e9bf974ea0651b7e8.png",
+      "bytes": 631147
+    }
+  ],
+  "photo_count": 5,
+  "graphic_count": 2
+}

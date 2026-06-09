@@ -1,0 +1,20 @@
+{
+  "slug": "1070-anderlecht",
+  "source": "https://www.kidicalmass.be/1070",
+  "status": "ok",
+  "count": 11,
+  "photos": [
+    {
+      "file": "photos/03-cf0153_4cc695ac8237412eabe4c3b7bb1aebe4.jpg",
+      "bytes": 719744
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/02-cf0153_1c18e37f398d40709d776d0f1b684ea8.jpg",
+      "bytes": 216634
+    }
+  ],
+  "photo_count": 1,
+  "graphic_count": 1
+}

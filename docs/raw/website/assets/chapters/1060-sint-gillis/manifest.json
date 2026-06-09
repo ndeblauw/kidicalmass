@@ -1,0 +1,20 @@
+{
+  "slug": "1060-sint-gillis",
+  "source": "https://www.kidicalmass.be/1060",
+  "status": "ok",
+  "count": 11,
+  "photos": [
+    {
+      "file": "photos/03-cf0153_3fc3232545644bd9ab095b8c981cd0e4.jpg",
+      "bytes": 242233
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/02-cf0153_4948137427c6465db6535b2440308561.png",
+      "bytes": 77044
+    }
+  ],
+  "photo_count": 1,
+  "graphic_count": 1
+}

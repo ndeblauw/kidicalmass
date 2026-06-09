@@ -1,0 +1,20 @@
+{
+  "slug": "1040-etterbeek",
+  "source": "https://www.kidicalmass.be/1040",
+  "status": "ok",
+  "count": 11,
+  "photos": [
+    {
+      "file": "photos/03-cf0153_61b38572cd91494d92e9e684f482942e.png",
+      "bytes": 1286692
+    }
+  ],
+  "graphics": [
+    {
+      "file": "graphics/02-cf0153_d4600b99fdde444c96158258bf305eae.png",
+      "bytes": 70939
+    }
+  ],
+  "photo_count": 1,
+  "graphic_count": 1
+}
