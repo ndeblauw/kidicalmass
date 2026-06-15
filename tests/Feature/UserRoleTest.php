@@ -140,10 +140,11 @@ it('login as pinkvest creates group connection with pinkvest role', function () 
         ->assertRedirect('/dashboard');
 
     $user = auth()->user();
-    $group = Group::where('shortname', 'demo-chapter')->first();
+    expect($user)->not->toBeNull();
+
+    $group = Group::where('shortname', 'demo-chapter')->firstOrFail();
 
     expect($user->isPinkVestOf($group))->toBeTrue();
-});
 
 it('login as captain creates group connection with captain role', function () {
     get(route('login.as', 'captain'))
