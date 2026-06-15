@@ -162,21 +162,24 @@
                 mailbox.
             </p>
 
-            @if ($groups->isNotEmpty())
+            <div class="ho-find__picker">
+                <livewire:location-picker :compact="true" />
+            </div>
+
+            @if ($location && $nearestGroups->isNotEmpty())
+                <h3 class="ho-find__nearest-title">Het dichtst bij {{ $location['name'] }}</h3>
                 <ul role="list" class="ho-groups">
-                    @foreach ($groups as $group)
+                    @foreach ($nearestGroups as $row)
                         <li>
-                            <a class="ho-group link-plain" href="{{ route('groups.show', ['group' => $group, 'intent' => 'volunteer']) }}#aanmelden">
-                                <span class="ho-group__name">{{ $group->name }}</span>
-                                @if ($group->zip)
-                                    <span class="ho-group__zip">{{ $group->zip }}</span>
+                            <a class="ho-group link-plain" href="{{ route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">
+                                <span class="ho-group__name">{{ $row['item']->name }}</span>
+                                @if ($row['item']->zip)
+                                    <span class="ho-group__zip">{{ $row['item']->zip }}</span>
                                 @endif
                             </a>
                         </li>
                     @endforeach
                 </ul>
-            @else
-                <p>Binnenkort vind je hier alle lokale groepen.</p>
             @endif
         </div>
     </section>

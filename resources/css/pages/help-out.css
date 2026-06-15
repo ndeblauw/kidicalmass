@@ -272,6 +272,12 @@
         padding-block: clamp(2.75rem, 6vw, 4.5rem);
     }
     .ho-find__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
+    .ho-find__picker { margin-bottom: 2rem; }
+    .ho-find__nearest-title {
+        color: var(--color-kidical-ink);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
     .ho-find__lead {
         max-width: 54ch;
         font-size: clamp(var(--text-lg), 1.5vw, var(--text-2xl));
