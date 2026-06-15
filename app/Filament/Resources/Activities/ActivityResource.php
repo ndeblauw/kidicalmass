@@ -97,7 +97,7 @@ class ActivityResource extends Resource
                     ->disk('media')
                     ->collection('gpx')
                     ->acceptedFileTypes(['application/gpx+xml', 'application/xml', 'text/xml'])
-                    ->maxSize(5120)
+                    ->maxSize(15360)
                     ->helperText('Export GPX from Komoot (or any route planner) and upload here.'),
                 Select::make('author_id')
                     ->label('Author')
@@ -125,7 +125,7 @@ class ActivityResource extends Resource
                         '4:3',
                         '16:9',
                     ])
-                    ->maxSize(5120)
+                    ->maxSize(15360)
                     ->disk('media')
                     ->collection('main')
                     ->helperText('This image will be used in the card preview on the activities index page.'),
@@ -133,7 +133,7 @@ class ActivityResource extends Resource
                     ->label('Additional Images')
                     ->image()
                     ->multiple()
-                    ->maxSize(5120)
+                    ->maxSize(15360)
                     ->disk('media')
                     ->collection('gallery')
                     ->helperText('These images will only appear on the activity detail page.'),

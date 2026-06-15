@@ -66,7 +66,7 @@ class ArticleResource extends Resource
                         '4:3',
                         '16:9',
                     ])
-                    ->maxSize(5120)
+                    ->maxSize(15360)
                     ->disk('media')
                     ->collection('main')
                     ->helperText('This image will be used in the card preview on the articles index page.'),
@@ -74,7 +74,7 @@ class ArticleResource extends Resource
                     ->label('Additional Images')
                     ->image()
                     ->multiple()
-                    ->maxSize(5120)
+                    ->maxSize(15360)
                     ->disk('media')
                     ->collection('gallery')
                     ->helperText('These images will only appear on the article detail page.'),

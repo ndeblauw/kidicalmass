@@ -18,12 +18,12 @@ class PostalCodeSeeder extends Seeder
         }
 
         $handle = fopen($path, 'r');
-        fgetcsv($handle); // header
+        fgetcsv($handle, 0, ',', '"', ''); // header
 
         $rows = [];
         $now = now();
 
-        while (($row = fgetcsv($handle)) !== false) {
+        while (($row = fgetcsv($handle, 0, ',', '"', '')) !== false) {
             if (count($row) < 4 || $row[0] === '') {
                 continue;
             }

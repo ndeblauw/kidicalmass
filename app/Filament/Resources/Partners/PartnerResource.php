@@ -68,7 +68,7 @@ class PartnerResource extends Resource
                     ->label('Logo')
                     ->image()
                     ->imageEditor()
-                    ->maxSize(5120)
+                    ->maxSize(15360)
                     ->disk('media')
                     ->collection('logo')
                     ->helperText('Upload the partner/sponsor logo. Recommended size: 400x200px.')

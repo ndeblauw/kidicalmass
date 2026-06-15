@@ -12,6 +12,7 @@ use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
+use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
 use Illuminate\Support\Facades\Route;
@@ -90,6 +91,9 @@ Route::middleware([BackstageDemoAccess::class])->prefix('backstage')->name('back
     Route::get('{group:shortname}', [BackstageController::class, 'home'])->name('home');
     Route::get('{group:shortname}/welkom', [BackstageController::class, 'welcome'])->name('welcome');
     Route::get('{group:shortname}/team', [BackstageController::class, 'team'])->name('team');
+
+    Route::get('{group:shortname}/activiteit/{activity}/fotos-upload', ActivityPhotoUpload::class)
+        ->name('activity.photo-upload');
 });
 
 // Invite-email preview (non-production only).

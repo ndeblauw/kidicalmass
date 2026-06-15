@@ -82,12 +82,17 @@
                             <span class="flex items-center justify-center shrink-0 size-12 rounded-full {{ $activity->activity_type->value === 'kidicalmass' ? 'bg-kidical-green/15' : 'bg-kidical-blue/15' }}">
                                 <flux:icon name="{{ $activity->activity_type->value === 'kidicalmass' ? 'flag' : 'calendar-days' }}" variant="solid" class="size-6 {{ $activity->activity_type->value === 'kidicalmass' ? 'text-kidical-green' : 'text-kidical-blue' }}" aria-hidden="true" />
                             </span>
-                            <div>
-                                <strong class="block text-lg text-kidical-ink leading-tight">{{ $activity->title_nl }}</strong>
+                            <div class="min-w-0">
+                                <strong class="block text-lg text-kidical-ink leading-tight truncate">{{ $activity->title_nl }}</strong>
                                 <span class="text-kidical-ink/65">
                                     <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ ucfirst($activity->begin_date->translatedFormat('l j F')) }} · {{ $activity->begin_date->format('H\u i') }}</time>
                                 </span>
                             </div>
+                            <a href="{{ route('backstage.activity.photo-upload', [$group, $activity]) }}"
+                               class="shrink-0 ml-auto flex items-center justify-center size-10 rounded-full bg-kidical-blue/10 text-kidical-blue hover:bg-kidical-blue/20 transition no-underline bg-none"
+                               title="Foto's uploaden">
+                                <flux:icon name="camera" variant="solid" class="size-5" aria-hidden="true" />
+                            </a>
                         </li>
                     @empty
                         <li class="text-kidical-ink/60">Binnenkort plannen we de volgende rit.</li>
