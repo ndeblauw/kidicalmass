@@ -82,9 +82,10 @@ class User extends Authenticatable
             return true;
         }
 
-        $pivot = $this->groups()->where('group_id', $group->id)->first()?->pivot;
-
-        return $pivot && $pivot->role === 'captain';
+        return $this->groups()
+            ->whereKey($group)
+            ->wherePivot('role', 'captain')
+            ->exists();
     }
 
     public function isPinkVestOf(Group $group): bool
