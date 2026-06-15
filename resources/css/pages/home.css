@@ -9,19 +9,33 @@
     .hero-section {
         background: linear-gradient(135deg, var(--color-kidical-yellow) 0%, var(--color-kidical-orange) 100%);
     }
-    /* ─── Home — video hero (cover the section, overlay the pitch) ─── */
-    .home-hero {
+    /* ─── Home — hero backdrop (video hero + blue lead band) ───
+       Mobile: the backdrop sits in normal flow, stacked. From md up it pins to the
+       viewport at full height and the white .page-panel scrolls up over it (the same
+       mechanic .page-hero uses on inner pages). The band sizes to its content; the
+       video hero flexes to fill whatever height is left. */
+    .home-backdrop {
         position: relative;
-        isolation: isolate;
-        overflow: hidden;
-        min-height: 70vh;
+        z-index: 0;
         display: flex;
-        align-items: flex-end;
-        padding: 2.5rem 1rem 3rem;
+        flex-direction: column;
+        overflow: hidden;
         background: var(--color-kidical-blue);
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-top: calc(var(--spacing) * -28);
+    }
+
+    .home-hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        flex: 1 1 auto;
+        min-height: 60svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8rem 1rem 2.5rem;
     }
 
     .home-hero__video {
@@ -44,7 +58,7 @@
     }
 
     .home-hero::after {
-        /* Legibility scrim so white copy holds over any frame. Blue-tinted overlay
+        /* Legibility scrim so the white title holds over any frame. Blue-tinted overlay
            ties the hero into the brand instead of generic cinema-black. */
         content: "";
         position: absolute;
@@ -58,28 +72,31 @@
         );
     }
 
-    .home-hero__inner {
-        max-width: 48rem;
-        margin-inline: auto;
-        color: #fff;
-        text-align: center;
-    }
-
-    /* The base layer colours h1; override to white for the hero over the video. */
+    /* Sole focal point over the video; sized like the inner-page heroes. */
     .home-hero__title {
+        max-width: 18ch;
+        text-align: center;
         color: #fff;
+        font-size: clamp(3.375rem, 6.75vw, 6.75rem);
+        line-height: 1.0;
         text-shadow: 0 2px 14px rgb(0 0 0 / 0.45);
     }
 
-    .home-hero__lead {
-        margin-top: 1rem;
-        font-size: 1.25rem;
-        line-height: 1.5;
-        color: rgb(255 255 255 / 0.95);
-        text-shadow: 0 1px 10px rgb(0 0 0 / 0.4);
+    /* Brand-blue band beneath the video: the lead + the two entry links. */
+    .home-intro {
+        flex: 0 0 auto;
+        background: var(--color-kidical-blue);
+        color: #fff;
+        padding-block: clamp(1.75rem, 3vw, 2.75rem);
     }
 
-    .home-hero__actions {
+    .home-intro .intro-text {
+        margin-block: 0;
+        max-width: 42ch;
+        color: #fff;
+    }
+
+    .home-intro__actions {
         margin-top: 1.5rem;
         display: flex;
         flex-wrap: wrap;
@@ -88,13 +105,62 @@
         gap: 0.75rem 1.5rem;
     }
 
-    .home-hero__secondary {
+    .home-intro__link {
         font-weight: 700;
         color: #fff;
     }
 
-    .home-hero__secondary:hover {
+    .home-intro__link:hover {
         text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+    /* Scroll cue: the ghost cta-button reskinned white + outlined for the blue band,
+       its arrow rotated to point down to the panel below. */
+    .home-intro__scroll.cta-button--ghost {
+        color: #fff;
+        box-shadow: inset 0 0 0 2px color-mix(in oklab, #fff, transparent 55%);
+    }
+
+    .home-intro__scroll.cta-button--ghost:hover {
+        background: color-mix(in oklab, #fff, transparent 88%);
+    }
+
+    .home-intro__scroll .cta-button__disc {
+        background: color-mix(in oklab, #fff, transparent 78%);
+        color: #fff;
+    }
+
+    .home-intro__scroll .cta-button__disc svg {
+        transform: rotate(90deg);
+    }
+
+    /* Reserves the backdrop's place in flow once it becomes fixed (md+). */
+    .home-backdrop__spacer {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .home-backdrop {
+            position: fixed;
+            inset: 0 0 auto 0;
+            width: 100vw;
+            margin-left: 0;
+            margin-top: 0;
+            height: 100svh;
+        }
+
+        .home-hero {
+            min-height: 0;
+        }
+
+        .home-backdrop__spacer {
+            display: block;
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+            margin-top: calc(var(--spacing) * -28);
+            height: 100svh;
+        }
     }
 
     /* ─── Home — dispatcher route cards ─── */

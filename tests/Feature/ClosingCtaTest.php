@@ -17,7 +17,7 @@ it('renders a closing CTA heading and button on a yellow band', function () {
 });
 
 dataset('pages with a closing CTA', [
-    ['home', 'Klaar voor je eerste rit?'],
+    ['home', 'Wil je vaker meerijden?'],
     ['activities.index', 'Mis geen fietstocht'],
     ['getting-started', 'Klaar om mee te rijden?'],
     ['find-a-bike', 'Toch nog een vraag?'],

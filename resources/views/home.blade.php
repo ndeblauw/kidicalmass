@@ -1,28 +1,40 @@
 <x-layouts::site title="Kidical Mass Belgium">
-    {{-- ① HERO — video-led emotional pitch. Joy is the argument ("is het de moeite waard?"). --}}
-    <section class="home-hero">
-        <div class="home-hero__video" aria-hidden="true">
-            <iframe
-                src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&loop=1&playlist=VXiIgU9vI-4&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
-                title="" tabindex="-1" frameborder="0"
-                allow="autoplay; encrypted-media; picture-in-picture"
-            ></iframe>
-        </div>
-
-        <div class="home-hero__inner">
-            <h1 class="home-hero__title">Het leukste uur op de fiets, door autovrije straten.</h1>
-            <p class="home-hero__lead">
-                Een vrolijke gezinsfietstocht door autovrije straten, bij jou in de buurt.
-                Samen laten we zien dat de straat ook van kinderen is.
-            </p>
-            <div class="home-hero__actions">
-                <x-cta-button :href="route('activities.index')" class="link-plain">Vind een rit in de buurt</x-cta-button>
-                <a href="{{ route('getting-started') }}" class="home-hero__secondary link-plain">Nieuw hier? Zo werkt het →</a>
+    {{-- ① HERO BACKDROP — fixed and one viewport tall from md up; the white panel
+         scrolls up over it. The video + title fill the top, a brand-blue band
+         carries the lead and the two entry links. --}}
+    <div class="home-backdrop">
+        <section class="home-hero">
+            <div class="home-hero__video" aria-hidden="true">
+                <iframe
+                    src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&loop=1&playlist=VXiIgU9vI-4&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
+                    title="" tabindex="-1" frameborder="0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                ></iframe>
             </div>
-        </div>
-    </section>
 
-    <div class="pt-12 md:pt-16 space-y-16 md:space-y-20">
+            <h1 class="home-hero__title">Het leukste uur op de fiets</h1>
+        </section>
+
+        <section class="home-intro">
+            <div class="home-intro__inner container mx-auto px-4 text-center">
+                <x-intro-text size="lead" class="home-intro__lead">
+                    <p>Een vrolijke fietsparade bij jou in de buurt. <br>
+                    Samen tonen we dat de straat ook van kinderen is.</p>
+                </x-intro-text>
+
+                <div class="home-intro__actions mb-8">
+                    <x-cta-button href="#volgende-rit" variant="ghost" class="home-intro__scroll">De volgende rit bij jou</x-cta-button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    {{-- Holds the fixed backdrop's place in normal flow (md+). --}}
+    <div class="home-backdrop__spacer" aria-hidden="true"></div>
+
+    {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
+    <div class="page-panel">
+        <div class="page-panel__inner container mx-auto px-4 space-y-16 md:space-y-20">
         {{-- ② DE VOLGENDE RIT BIJ JOU — one location-aware ride (proof + utility). --}}
         <section class="home-nextride space-y-6 scroll-mt-24" id="volgende-rit">
             <div class="flex items-baseline justify-between gap-4">
@@ -76,10 +88,11 @@
 
         {{-- ④ Quiet support beat (reuses the tested home callout). --}}
         <x-support-callout variant="home" />
+        </div>
     </div>
 
     <x-slot:closing>
-        <x-closing-cta heading="Klaar voor je eerste rit?"
-            :href="route('activities.index')" label="Vind een rit" />
+        <x-closing-cta heading="Wil je vaker meerijden?"
+            :href="route('groups.index')" label="Vind je lokale groep" />
     </x-slot:closing>
 </x-layouts::site>
