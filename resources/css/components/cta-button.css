@@ -33,14 +33,14 @@
         width: 100%;
         justify-content: center;
     }
-    /* Secondary — outlined, quiet. For actions that should not shout. */
+    /* Secondary — light gray fill, quiet. For actions that should not shout. */
     .cta-button--secondary {
-        background: transparent;
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 93%);
         color: var(--color-kidical-ink);
-        box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
+        box-shadow: none;
     }
     .cta-button--secondary:hover {
-        background: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
     }
     /* Ghost — text-only, lowest emphasis. */
     .cta-button--ghost {

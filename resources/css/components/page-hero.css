@@ -1,27 +1,42 @@
 @layer components {
+    /* In-flow, content-sized band: min-height is a floor for short titles and
+       grows to fit long ones, so the heading can never clip. Full-bleed + the
+       negative margin cancel <main>'s pt-28 so the band starts under the nav
+       pill (the role the old .page-hero__spacer used to play). */
     .page-hero {
-        position: fixed;
-        inset: 0 0 auto 0;             
-        z-index: 0;                    
-        height: var(--page-hero-h);
+        position: relative;
+        z-index: 0;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: calc(var(--spacing) * -28);
+        min-height: var(--page-hero-h);
         background-color: var(--color-kidical-blue);
         color: white;
         overflow: hidden;
     }
     .page-hero__inner {
+        position: relative;
+        z-index: 1;                    /* keep copy above the artwork where they overlap */
         display: grid;
         grid-template-columns: 1fr;
         align-items: start;
-        height: 100%;
         padding-top: 11rem;
         padding-bottom: 5rem;
     }
-    /* From md up the illustration occupies the right 52% of the band. Cap the
-       copy to the remaining width so the heading never runs under the artwork
-       (the heading wraps a line earlier instead of overlapping). */
+    /* From md up the illustration sits in the right portion of the band, but its
+       art is right-anchored with empty space on the left. Let the copy run into
+       that empty zone (it paints above via z-index) so the heading uses more
+       width, wraps to fewer lines, and the blue gap to the artwork shrinks. */
     @media (min-width: 768px) {
         .page-hero__copy {
-            max-width: 46%;
+            max-width: 50%;
+        }
+    }
+    /* On wide screens the artwork is proportionally smaller, opening a blue gap;
+       let the copy reclaim that width. */
+    @media (min-width: 1280px) {
+        .page-hero__copy {
+            max-width: 56%;
         }
     }
     .page-hero__eyebrow {
@@ -35,9 +50,9 @@
     }
     .page-hero__title {
         color: white;
-        font-size: clamp(3.375rem, 6.75vw, 6.75rem);
-        line-height: 1.0;
-        max-width: 18ch;
+        font-size: clamp(2.7rem, 5.4vw, 5.4rem);
+        line-height: 1.05;
+        max-width: 24ch;
         margin: 0;
         animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
@@ -60,19 +75,18 @@
     }
     .page-hero__illustration {
         position: absolute;
-        top: 6.5rem;                   
+        top: 6.5rem;
         right: 0;
-        height: 118%;                  
+        /* Span from 6.5rem below the top to ~1.5rem past the band's bottom, so the
+           artwork only ever bleeds ~1.5rem (not the ~13rem it did when tied to the
+           fixed floor height). max-height caps growth on tall long-title bands so
+           the artwork can't balloon and crowd the copy. */
+        height: calc(100% - 5rem);
+        max-height: calc(var(--page-hero-h) - 5rem);
         width: auto;
         max-width: 100%;
         object-fit: contain;
         object-position: right top;
         animation: hero-photo-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-    }
-    .page-hero__spacer {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-top: calc(var(--spacing) * -28);   
-        height: var(--page-hero-h);
     }
 }

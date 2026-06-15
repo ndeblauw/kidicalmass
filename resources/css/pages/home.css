@@ -186,6 +186,17 @@
         display: none;
     }
 
+    /* More breathing room above the first panel content on home only
+       (.page-panel is shared chrome, so we scope the larger top padding here). */
+    .page-panel.page-panel--home {
+        padding-top: 4.375rem;
+    }
+
+    /* Extra air beneath the location line before the rides start. */
+    .home-nextride__body > .location-picker--compact {
+        padding-bottom: 2rem;
+    }
+
     @media (min-width: 768px) {
         .home-nextride {
             display: grid;
@@ -198,7 +209,7 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            margin-top: -8.5rem;
+            margin-top: -5.5rem;
             pointer-events: none;
         }
 

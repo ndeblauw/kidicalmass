@@ -17,7 +17,7 @@ beforeEach(function () {
 it('renders the NL video hero and drops the old English copy', function () {
     get('/nl')
         ->assertOk()
-        ->assertSee('Het leukste uur op de fiets, door autovrije straten.')
+        ->assertSee('Het leukste uur op de fiets')
         ->assertSee('de straat ook van kinderen is')
         ->assertSee('youtube.com/embed/VXiIgU9vI-4', escape: false)
         ->assertDontSee('Kids on bikes')

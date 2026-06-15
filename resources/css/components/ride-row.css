@@ -73,11 +73,25 @@
 }
 
 @layer components {
-    @media (max-width: 767px) {
+    /* When the rides column itself is too narrow for place | meta side by side,
+       drop the time/venue onto its own row under the commune rather than
+       truncating it. Keyed to the column width, not the viewport, because the
+       column can be narrow even on wide screens (home's 2-col section grid). */
+    @container ride-rows (max-width: 34rem) {
         .ride-row {
             grid-template-columns: 1fr;
             row-gap: 0.15rem;
         }
+        .ride-row__meta {
+            flex-wrap: wrap;
+        }
+        .ride-row__venue {
+            white-space: normal;
+            overflow: visible;
+        }
+    }
+
+    @media (max-width: 767px) {
         .ride-row__place {
             font-size: var(--text-xl);
         }

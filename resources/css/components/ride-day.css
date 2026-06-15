@@ -101,6 +101,7 @@
     }
 
     .ride-day__rides {
+        container: ride-rows / inline-size;
         display: flex;
         flex-direction: column;
         min-width: 0;

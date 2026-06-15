@@ -20,7 +20,7 @@ it('shows the eyebrow, title, illustration, controls and body content', function
         ->toContain('aria-hidden="true"')
         ->toContain('probe-control')
         ->toContain('probe-body')
-        ->toContain('page-hero__spacer')
+        ->toContain('class="page-hero"')
         ->toContain('class="page-panel"');
 });
 

@@ -33,7 +33,7 @@
     <div class="home-backdrop__spacer" aria-hidden="true"></div>
 
     {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
-    <div class="page-panel">
+    <div class="page-panel page-panel--home">
         <div class="page-panel__inner container mx-auto px-4 space-y-16 md:space-y-20">
         {{-- ② DE VOLGENDE RIT BIJ JOU — location-aware rides (proof + utility).
              A right-facing rider (flag up, matching the "fietsparade" lead) anchors the
@@ -83,7 +83,7 @@
                     @endforeach
 
                     <div>
-                        <x-cta-button :href="route('activities.index')" variant="ghost">Alle ritten</x-cta-button>
+                        <x-cta-button :href="route('activities.index')" variant="secondary">Alle ritten</x-cta-button>
                     </div>
                 @endif
             </div>
