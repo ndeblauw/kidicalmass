@@ -42,19 +42,19 @@
                         <flux:dropdown>
                             <flux:button variant="ghost" icon="user-circle" aria-label="Account" />
                             <flux:menu>
-                                <flux:menu.item href="{{ route('profile.edit') }}" wire:navigate>Profile</flux:menu.item>
-                                <flux:menu.item href="{{ route('user-password.edit') }}" wire:navigate>Password</flux:menu.item>
+                                <flux:menu.item href="{{ route('profile.edit') }}" wire:navigate>{{ __('Profiel') }}</flux:menu.item>
+                                <flux:menu.item href="{{ route('user-password.edit') }}" wire:navigate>{{ __('Wachtwoord') }}</flux:menu.item>
                                 @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-                                    <flux:menu.item href="{{ route('two-factor.show') }}" wire:navigate>Two-Factor Auth</flux:menu.item>
+                                    <flux:menu.item href="{{ route('two-factor.show') }}" wire:navigate>{{ __('Tweestapsverificatie') }}</flux:menu.item>
                                 @endif
                                 @if(Auth::user()->canAccessFilament())
                                     <flux:menu.separator />
-                                    <flux:menu.item href="{{ url('/admin') }}">Admin</flux:menu.item>
+                                    <flux:menu.item href="{{ url('/admin') }}">{{ __('Admin') }}</flux:menu.item>
                                 @endif
                                 <flux:menu.separator />
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <flux:menu.item type="submit">Logout</flux:menu.item>
+                                    <flux:menu.item type="submit">{{ __('Uitloggen') }}</flux:menu.item>
                                 </form>
                             </flux:menu>
                         </flux:dropdown>

@@ -12,7 +12,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('layouts.site')]
-#[Title('Profile')]
+#[Title('Profiel')]
 
 class Profile extends Component
 {
