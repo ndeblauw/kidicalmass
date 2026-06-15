@@ -16,6 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
@@ -37,6 +38,10 @@ class ActivityResource extends Resource
     {
         return $schema
             ->components([
+                Toggle::make('is_published')
+                    ->label('Published')
+                    ->helperText('Only published activities are visible on the public site.')
+                    ->columnSpanFull(),
                 TextInput::make('title_nl')
                     ->required()
                     ->maxLength(255)
@@ -46,11 +51,9 @@ class ActivityResource extends Resource
                     ->maxLength(255)
                     ->label('Title (FR)'),
                 Textarea::make('content_nl')
-                    ->required()
                     ->rows(5)
                     ->label('Content (NL)'),
                 Textarea::make('content_fr')
-                    ->required()
                     ->rows(5)
                     ->label('Content (FR)'),
                 Select::make('activity_type')
@@ -62,7 +65,6 @@ class ActivityResource extends Resource
                     ->required()
                     ->label('Begin Date'),
                 TextInput::make('location')
-                    ->required()
                     ->maxLength(255)
                     ->label('Location')
                     ->helperText('For Critical Mass: enter the starting address'),
@@ -167,6 +169,11 @@ class ActivityResource extends Resource
                     ->collection('main')
                     ->conversion('thumb')
                     ->size(60),
+                TextColumn::make('is_published')
+                    ->label('Status')
+                    ->badge()
+                    ->formatStateUsing(fn (bool $state): string => $state ? 'Published' : 'Draft')
+                    ->color(fn (bool $state): string => $state ? 'success' : 'warning'),
                 TextColumn::make('title_nl')
                     ->searchable()
                     ->sortable()
@@ -222,6 +229,12 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Filter::make('is_published')
+                    ->label('Published Only')
+                    ->query(fn (Builder $query): Builder => $query->where('is_published', true)),
+                Filter::make('is_draft')
+                    ->label('Drafts Only')
+                    ->query(fn (Builder $query): Builder => $query->where('is_published', false)),
                 SelectFilter::make('activity_type')
                     ->options(ActivityType::getOptionsArray())
                     ->label('Activity Type'),

@@ -49,6 +49,7 @@ class ActivityFactory extends Factory
             'duration_minutes' => $durationMinutes,
             'author_id' => User::factory(),
             'komoot_url' => null,
+            'is_published' => true,
         ];
     }
 

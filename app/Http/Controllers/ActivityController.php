@@ -17,6 +17,8 @@ class ActivityController extends Controller
 
     public function show(string $locale, Activity $activity): View
     {
+        abort_if(! $activity->is_published, 404);
+
         $activity->load(['author', 'groups']);
 
         return view('activities.show', compact('activity'));
@@ -24,6 +26,7 @@ class ActivityController extends Controller
 
     public function ical(string $locale, Activity $activity): Response
     {
+        abort_if(! $activity->is_published, 404);
         $summary = e($activity->title_nl);
         $location = e($activity->location);
         $start = $activity->begin_date->utc()->format('Ymd\THis\Z');

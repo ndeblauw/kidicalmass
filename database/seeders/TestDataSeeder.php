@@ -81,6 +81,7 @@ class TestDataSeeder extends Seeder
             'duration_minutes' => 180,
             'location' => 'Brussels',
             'author_id' => $user1->id,
+            'is_published' => true,
         ]);
         $activity1->groups()->attach([$groupA->id]);
 
@@ -93,6 +94,7 @@ class TestDataSeeder extends Seeder
             'duration_minutes' => 120,
             'location' => 'Antwerp',
             'author_id' => $user2->id,
+            'is_published' => true,
         ]);
         $activity2->groups()->attach([$groupB->id, $groupC->id]);
 
@@ -105,6 +107,7 @@ class TestDataSeeder extends Seeder
             'duration_minutes' => 120,
             'location' => 'Ghent',
             'author_id' => $user1->id,
+            'is_published' => true,
         ]);
         $activity3->groups()->attach([$groupA->id, $groupC->id]);
 

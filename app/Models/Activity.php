@@ -6,6 +6,7 @@ use App\Enums\ActivityType;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,12 +23,27 @@ class Activity extends Model implements HasMedia
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'is_published' => false,
+    ];
+
     protected function casts(): array
     {
         return [
             'begin_date' => 'datetime',
             'activity_type' => ActivityType::class,
+            'is_published' => 'boolean',
         ];
+    }
+
+    public function scopeDrafts(Builder $query): void
+    {
+        $query->where('is_published', false);
+    }
+
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('is_published', true);
     }
 
     public function registerMediaConversions(?Media $media = null): void
