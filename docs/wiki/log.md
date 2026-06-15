@@ -1,5 +1,25 @@
 # Wiki Log
 
+## [2026-06-15] build | "Een lokale groep starten" page + intent form
+
+New canonical **start-a-group page** (`/chapters/start-een-groep`, route `groups.start`,
+out of nav). Replaces the `mailto:bike@` "black hole" coda on Help out + the Chapters CTA
+([01-concerns.md](design/01-concerns.md) **D-12**). UX planned through the five planes:
+one primary user (no group yet, daunted), three barriers (te groot een klus / wie steunt
+mij / is er animo) each mapped to a page section, honest-about-the-commitment to get
+**fewer, higher-intent leads**, and a two-path comfort ladder (praat met een trekker /
+klaar voor contact) brokered so no trekker contact is exposed.
+
+Built: `groups/start.blade.php`, `StartGroupEnquiry` Livewire component (→ `ContactForm`,
+mails comms inbox tagged "Aanvraag nieuwe lokale groep"), `pages/start-een-groep.css`,
+`GroupController@start`, `StartGroupEnquiryTest` (7 assertions of the page + form green).
+Help out coda repointed to the page. Plan: [start-een-groep.md](design/30-skeleton/start-een-groep.md).
+
+Open for Leticia (in the plan): peer-path trekker consent `[BLOKKEREND]`, the honest
+response-time promise, a recent-trekker quote + current 2026 proof stats, and sign-off on
+promoting start-a-group from "static MVP" to a real page. Backend (Nico #37): a dedicated
+enquiry model + per-region routing once D-12 ownership is decided.
+
 ## [2026-06-15] build | Roze-hesje living hub (P-09)
 
 Iterated the roze-hesje page (`groups/roze-hesjes.blade.php`) from a static brief to a

@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>User journeys — frontstage / backstage</title>
+<style>
+  :root {
+    /* status markers */
+    --done: #16a34a;
+    --build: #ea580c;
+    --decide: #64748b;
+    /* journey 1 — volunteer (P3→P4) */
+    --vol-line: #ea580c; --vol-tint: #ffedd5; --vol-text: #7c2d12;
+    /* journey 2 — chapter lead (P5) */
+    --lead-line: #7c3aed; --lead-tint: #ede9fe; --lead-text: #4c1d95;
+    --ink: #0f172a;
+    --muted: #475569;
+    --hair: #e2e8f0;
+    --paper: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #f1f5f9;
+    line-height: 1.4;
+  }
+
+  /* ---- one A4 page per journey ---- */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 12px auto;
+    padding: 12mm 12mm 10mm;
+    background: var(--paper);
+    box-shadow: 0 2px 12px rgba(15,23,42,.12);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @page { size: A4 portrait; margin: 0; }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  /* ---- header ---- */
+  header { border-bottom: 3px solid var(--accent-line); padding-bottom: 10px; margin-bottom: 14px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    color: #fff; background: var(--accent-line);
+    padding: 4px 10px; border-radius: 999px;
+  }
+  h1 { font-size: 24px; margin: 10px 0 2px; letter-spacing: -.01em; }
+  .lede { font-size: 13px; color: var(--muted); margin: 0; max-width: 62ch; }
+
+  /* ---- column headers ---- */
+  .colhead {
+    display: grid; grid-template-columns: 40px 1fr 1fr; gap: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--muted); padding: 0 0 6px; border-bottom: 1px solid var(--hair); margin-bottom: 4px;
+  }
+  .colhead .fs { color: var(--ink); }
+  .colhead .bs { color: var(--ink); }
+
+  /* ---- steps ---- */
+  .steps { flex: 1; }
+  .step {
+    display: grid; grid-template-columns: 40px 1fr 1fr; gap: 10px;
+    padding: 9px 0; border-bottom: 1px solid var(--hair);
+    page-break-inside: avoid;
+  }
+  .step:last-child { border-bottom: 0; }
+
+  .num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent-tint); color: var(--accent-text);
+    border: 1.5px solid var(--accent-line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+  }
+  .num.trigger { background: #fff; border-style: dashed; }
+
+  .cell .title { font-size: 13px; font-weight: 700; margin: 2px 0 4px; }
+  .cell.frontstage .title { color: var(--ink); }
+  .cell.backstage .title { color: var(--ink); }
+
+  ul.lines { list-style: none; margin: 0; padding: 0; }
+  ul.lines li {
+    font-size: 11.5px; color: #334155; line-height: 1.5;
+    display: flex; align-items: baseline; gap: 7px;
+    padding: 4.5px 0 4.5px 8px; border-left: 3px solid var(--hair);
+  }
+  /* uitgangsstatus = kleur van de balk links */
+  li.done   { border-left-color: var(--done); }
+  li.build  { border-left-color: var(--build); }
+  li.decide { border-left-color: var(--decide); }
+  /* aankruisvakje om met de hand af te vinken */
+  ul.lines li::before {
+    content: ""; flex: 0 0 auto; width: 12px; height: 12px;
+    border: 1.3px solid #64748b; border-radius: 3px; transform: translateY(2px);
+  }
+  /* stippellijn = notitieruimte */
+  ul.lines li::after {
+    content: ""; flex: 1 1 45px; min-width: 30px; margin-left: 2px;
+    border-bottom: 1px dotted #94a3b8; transform: translateY(-3px);
+  }
+
+  .stagelabel {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; padding: 1px 6px; border-radius: 4px; margin-bottom: 3px;
+  }
+  .stagelabel.fs { background: #f1f5f9; color: #475569; }
+  .stagelabel.bs { background: #fef3c7; color: #92400e; }
+
+  /* ---- legend ---- */
+  footer { margin-top: 14px; padding-top: 8px; border-top: 1px solid var(--hair);
+           display: flex; gap: 18px; flex-wrap: wrap; align-items: center; font-size: 10.5px; color: var(--muted); }
+  .legend-item { display: inline-flex; align-items: center; gap: 5px; }
+  .legend-item b { color: var(--ink); font-weight: 700; }
+  .legend-note { margin-left: auto; font-style: italic; }
+  .bar { display: inline-block; width: 4px; height: 13px; border-radius: 2px; }
+  .bar.done { background: var(--done); }
+  .bar.build { background: var(--build); }
+  .bar.decide { background: var(--decide); }
+  .box { display: inline-block; width: 12px; height: 12px; border: 1.3px solid #64748b; border-radius: 3px; }
+  .dots { letter-spacing: 1px; color: #94a3b8; }
+
+  /* journey theming */
+  .j1 { --accent-line: var(--vol-line); --accent-tint: var(--vol-tint); --accent-text: var(--vol-text); }
+  .j2 { --accent-line: var(--lead-line); --accent-tint: var(--lead-tint); --accent-text: var(--lead-text); }
+</style>
+</head>
+<body>
+
+<!-- ============================= JOURNEY 1 ============================= -->
+<section class="page j1">
+  <header>
+    <span class="kicker">🟠 P3 → P4 · Journey 1</span>
+    <h1>De vrijwilliger die start</h1>
+    <p class="lede">Van bezoeker die geïnteresseerd raakt, naar aangemeld, naar ingelogd met onboarding. Per stap: wat de bezoeker op de site ziet (frontstage) en wat het systeem / Filament nodig heeft (backstage).</p>
+  </header>
+
+  <div class="colhead">
+    <span></span>
+    <span class="fs">Frontstage — wat de bezoeker ziet</span>
+    <span class="bs">Backstage — Filament / systeem</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="cell frontstage">
+        <div class="title">Ontdekken &amp; interesse</div>
+        <ul class="lines">
+          <li class="done">Home → <b>"Meehelpen"</b> oriëntatiepagina</li>
+          <li class="done">Lijst van zichtbare lokale groepen + motivatie</li>
+          <li class="done">Doorklik naar een groep met <code>?intent=volunteer</code></li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Groepen tonen</div>
+        <ul class="lines">
+          <li class="done">Groepen komen uit <code>Group::visible()</code></li>
+          <li class="done">Zichtbaarheid via <code>invisible</code>-vlag in Groups-resource</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="cell frontstage">
+        <div class="title">Verdiepen op de chapter-pagina</div>
+        <ul class="lines">
+          <li class="done">Wie trekt dit, agenda, "word vrijwilliger"-band</li>
+          <li class="build">Vrienden / portretten zijn nu nog FAUX-data</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Groep + team</div>
+        <ul class="lines">
+          <li class="done">Group + leden beheerd in Filament</li>
+          <li class="done">Trekkers = gekoppelde users (<code>group_user</code>)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="cell frontstage">
+        <div class="title">Aanmelden als vrijwilliger</div>
+        <ul class="lines">
+          <li class="done">Aanmeldformulier op de groepspagina</li>
+          <li class="done">Rol-checkboxes: roze-hesje, mede-org, communicator, fotograaf, dj</li>
+          <li class="done">Bevestiging + honeypot-bescherming</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Aanmelding ontvangen</div>
+        <ul class="lines">
+          <li class="done"><code>ContactForm</code> + mail naar centrale inbox</li>
+          <li class="build">Routing naar de <b>groep-lead</b> i.p.v. centraal</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div class="cell frontstage">
+        <div class="title">Opvolging &amp; uitnodiging</div>
+        <ul class="lines">
+          <li class="build">Vrijwilliger krijgt een <b>activatiemail</b> (nu prototype)</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Coördinator verwerkt</div>
+        <ul class="lines">
+          <li class="done">Aanmelding zichtbaar in de inbox (read-only)</li>
+          <li class="build">Maakt <code>User</code> + koppelt aan groep (<code>is_public</code> opt-in)</li>
+          <li class="build">Verstuurt <code>VolunteerInvite</code></li>
+          <li class="build">Gestructureerd vrijwilligersbeheer ontbreekt nog</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">5</div>
+      <div class="cell frontstage">
+        <div class="title">Account activeren &amp; inloggen</div>
+        <ul class="lines">
+          <li class="build">Activatielink → wachtwoord instellen</li>
+          <li class="done">Login via Fortify (2FA beschikbaar)</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Auth &amp; redirect</div>
+        <ul class="lines">
+          <li class="done">Fortify-stack (registratie, reset, verificatie, 2FA)</li>
+          <li class="build">Redirect na login: nu <code>/dashboard</code> → moet naar onboarding</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">6</div>
+      <div class="cell frontstage">
+        <div class="title">Onboarding (roze-hesjes-pagina)</div>
+        <ul class="lines">
+          <li class="done">Welkomstblok (tijdelijk, ~2 weken)</li>
+          <li class="done">Agenda incl. regio · volledige ledenlijst</li>
+          <li class="done">"Voor je eerste rit" + trainingsvideo</li>
+          <li class="build">Materiaalbibliotheek (nu FAUX)</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Toegang &amp; inhoud</div>
+        <ul class="lines">
+          <li class="done">Gating op groepslidmaatschap (403 indien geen lid)</li>
+          <li class="build">Materials-model voor downloads/materiaal</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="legend-item"><span class="bar done"></span><b>bestaat al</b></span>
+    <span class="legend-item"><span class="bar build"></span><b>nog te bouwen</b></span>
+    <span class="legend-item"><span class="bar decide"></span><b>beslissing bouwdag</b></span>
+    <span class="legend-item"><span class="box"></span>afvinken tijdens de dag</span>
+    <span class="legend-item"><span class="dots">······</span> ruimte voor notities</span>
+    <span class="legend-note">Kidical Mass · bouwdag-blauwdruk</span>
+  </footer>
+</section>
+
+<!-- ============================= JOURNEY 2 ============================= -->
+<section class="page j2">
+  <header>
+    <span class="kicker">🟣 P5 · Journey 2</span>
+    <h1>De kapitein van een lokale groep</h1>
+    <p class="lede">Vanaf het moment dat Leticia &amp; Cecilia bij de jaarplanning concept-rides klaarzetten. De kapitein beheert eerst zijn eigen pagina, verfijnt en publiceert dan de rides, en doet de nazorg na de rit.</p>
+  </header>
+
+  <div class="colhead">
+    <span></span>
+    <span class="fs">Frontstage — wat de kapitein ziet</span>
+    <span class="bs">Backstage — Filament / systeem</span>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="num trigger">0</div>
+      <div class="cell frontstage">
+        <div class="title">Trigger: jaarplanning staat klaar</div>
+        <ul class="lines">
+          <li class="build">Kapitein krijgt mail "concept-rides klaar" of een badge in zijn dashboard</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Concept-rides aangemaakt</div>
+        <ul class="lines">
+          <li class="build">Leticia/Cecilia maken rides aan met status <b>concept</b></li>
+          <li class="build">Vereist nieuw status-veld op <code>Activity</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="cell frontstage">
+        <div class="title">Inloggen &amp; landen op overzicht</div>
+        <ul class="lines">
+          <li class="build">Login → overzicht van enkel de eigen groep</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Rol &amp; scoping</div>
+        <ul class="lines">
+          <li class="build">Kapitein-rol / vlag</li>
+          <li class="build">Filament gescopet op eigen groep(en)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="cell frontstage">
+        <div class="title">Eigen pagina beheren <span style="font-weight:400;color:var(--muted)">(startpunt)</span></div>
+        <ul class="lines">
+          <li class="done">Publieke chapter- + roze-hesjes-pagina zijn de etalage</li>
+          <li class="build">Perssectie wordt nog niet gerenderd op de pagina</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Inhoud bewerken in Filament (gescopet)</div>
+        <ul class="lines">
+          <li class="done">Perslijst = <code>Article</code> (pers hangt aan de groep)</li>
+          <li class="done">Fotogalerie = media op artikel / ride</li>
+          <li class="build">Groeptekst &amp; materialen bewerkbaar maken</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="cell frontstage">
+        <div class="title">Draft rides verfijnen</div>
+        <ul class="lines">
+          <li class="decide">Backstage-werk — geen publieke weergave</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Concept-ride invullen</div>
+        <ul class="lines">
+          <li class="done">Titel, inhoud, locatie, afstand, komoot, GPX</li>
+          <li class="done">Organisator + foto's koppelen</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div class="cell frontstage">
+        <div class="title">Ride publiceren</div>
+        <ul class="lines">
+          <li class="done">Ride verschijnt in de kalender + chapter-agenda</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Publiceer-actie</div>
+        <ul class="lines">
+          <li class="build">"Publiceren"-actie → status <b>gepubliceerd</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">5</div>
+      <div class="cell frontstage">
+        <div class="title">Na de rit: nazorg</div>
+        <ul class="lines">
+          <li class="done">Foto's op de ride-detailpagina</li>
+          <li class="done">Persartikel op de chapter-pagina / nieuws</li>
+        </ul>
+      </div>
+      <div class="cell backstage">
+        <div class="title">Foto's &amp; pers toevoegen</div>
+        <ul class="lines">
+          <li class="done">Foto's aan de ride (gallery)</li>
+          <li class="done">Persartikel (<code>Article</code> aan de groep) met foto's</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="legend-item"><span class="bar done"></span><b>bestaat al</b></span>
+    <span class="legend-item"><span class="bar build"></span><b>nog te bouwen</b></span>
+    <span class="legend-item"><span class="bar decide"></span><b>beslissing bouwdag</b></span>
+    <span class="legend-item"><span class="box"></span>afvinken tijdens de dag</span>
+    <span class="legend-item"><span class="dots">······</span> ruimte voor notities</span>
+    <span class="legend-note">Kidical Mass · bouwdag-blauwdruk</span>
+  </footer>
+</section>
+
+</body>
+</html>
