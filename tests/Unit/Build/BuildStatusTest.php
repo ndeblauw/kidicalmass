@@ -10,9 +10,9 @@ beforeEach(function () {
     $this->report = app(BuildStatus::class)->report();
 });
 
-it('parses all 22 pages with stages and confidence', function () {
+it('parses all 23 pages with stages and confidence', function () {
     $pages = collect($this->report['pages']);
-    expect($pages)->toHaveCount(22);
+    expect($pages)->toHaveCount(23);
 
     $home = $pages->firstWhere('id', 'P-01');
     expect($home['name'])->toContain('Home')
@@ -29,7 +29,7 @@ it('parses patterns and concerns and builds an id map', function () {
 });
 
 it('computes overview counts', function () {
-    expect($this->report['overview']['pagesTotal'])->toBe(22)
+    expect($this->report['overview']['pagesTotal'])->toBe(23)
         ->and($this->report['overview']['avgConfidence'])->toBeGreaterThan(0);
 });
 

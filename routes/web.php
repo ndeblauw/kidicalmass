@@ -42,6 +42,12 @@ Route::prefix('{locale}')
             ->middleware(BackstageDemoAccess::class)
             ->name('groups.roze-hesjes');
 
+        // Read-only preview of a chapter ride that is still in preparation (draft). Membership-gated,
+        // like the roze page. FAUX exemplar until Activity gains a draft/lifecycle state (Nico #37).
+        Route::get('chapters/{group}/rit-in-voorbereiding', [GroupController::class, 'ridePreview'])
+            ->middleware(BackstageDemoAccess::class)
+            ->name('groups.ride-preview');
+
         // Help out (J2 orientation page — lists groups so a volunteer can route to a chapter).
         Route::get('help-out', VolunteerController::class)->name('volunteer');
 

@@ -3,16 +3,56 @@ title: Roze-hesje-pagina — build-briefing
 tags: [build, chapters, backstage, roze-hesjes]
 sources: [design/30-skeleton/chapters.md, design/30-skeleton/chapters-research.md, design/playground-chapter-page.html, design/prototype-chapter-pages.html]
 phase: design
-updated: 2026-06-09
+updated: 2026-06-15
 ---
 
 # Roze-hesje-pagina — build-briefing
 
 *Compacte briefing om in een verse thread de **roze-hesje-pagina** te bouwen. Visuele referentie: [`prototype-chapter-pages.html`](../prototype-chapter-pages.html) (rechterkolom). Achtergrond: [`chapters.md`](chapters.md) (P-11) + [`chapters-research.md`](chapters-research.md).*
 
+> **Status:** de eerste versie (hieronder, "Beslist in deze thread") is **gebouwd en op `main`** — route, hero, agenda, roster, materiaal, welkomblok + onboarding, roze nav-knop. De **[tweede iteratie](#tweede-iteratie-2026-06-15--de-levende-hub)** herstructureert die pagina rond *levende staat*. Implementatieplan: [`2026-06-15-roze-hesje-living-hub.md`](../../../superpowers/plans/2026-06-15-roze-hesje-living-hub.md).
+
 ## Doel
 
 Vervang de aparte **backstage** door een **roze-hesje-pagina** die in hetzelfde publieke framework leeft als de gewone lokale groep-pagina (`groups/show.blade.php`). Het is een **aparte route per chapter** met een **roze hero** die de ingelogde staat signaleert. Geen aparte branded shell meer; dezelfde layout-componenten, ander accent + andere inhoud.
+
+## Tweede iteratie (2026-06-15) — de levende hub
+
+De eerste versie zette alles op één lange pagina: hero, agenda, roster, onboarding, materiaal. Dat werkt als naslag, maar geeft een hesje geen reden om **terug te komen**. Deze iteratie herdenkt de pagina rond dat ene principe.
+
+**Principe: toon wat beweegt, niet wat vastligt.** De terugkeerredenen zijn telkens dingen die *veranderd zijn sinds het vorige bezoek*: nieuwe foto's, een rit die vorm krijgt, iemand die net is bijgekomen. De statische inhoud (eerste rit, materiaal, roster) trekt niemand terug. Tweede laag: de pagina moet doen **wat de WhatsApp-groep slecht kan**. WhatsApp is het vluchtige gesprek; deze pagina is het **geheugen en de stand van zaken** — foto's die opstapelen, een statusvraag die blijft staan in plaats van weg te scrollen.
+
+Daarmee keert de hiërarchie om: het levende komt bovenaan, het statische zakt naar naslag eronder.
+
+**Onboardingpad door zichtbaarheid (de strategische winst).** Als een hesje het werk-in-uitvoering van de kapiteins kan *zien* (een draft-rit en waar die staat), begrijpt het dat werk en stapt het na verloop van tijd zelf in. Je rekruteert geen kapiteins met een knop; je laat ze de machine zien tot ze een hendel vastpakken. De ladder is **kijken → meedoen → kapitein**, en transparantie bouwt de eerste sport.
+
+**Nieuwe / herziene structuur van de hub (boven → onder):**
+
+1. Roze hero — ongewijzigd (state-signaal).
+2. Welkomblok — ongewijzigd (tijdgebonden, ~2 weken).
+3. **Wat is nieuw sinds vorige keer** — *nieuw.* Een rustige strook met de veranderingen sinds het laatste bezoek: nieuwe foto's, een nieuw hesje uitgelicht, een rit die een stap opschoof.
+4. **Op de agenda** — uitgebreid: toont nu ook **draft-ritten**, duidelijk gemarkeerd als "nog niet vast", elk te openen als preview.
+5. **Foto's** — *nieuw.* Gedeelde galerij + upload. De terugkeerreden bij uitstek (en het collectieve geheugen van het chapter).
+6. **De roze hesjes** (roster) — naar naslag; met een zachte **"nieuw"-markering** op leden van de eerste ~2 weken.
+7. **Voor je eerste rit** (onboarding) — naar naslag, ongewijzigd.
+8. **Jouw materiaal** — naar naslag, ongewijzigd.
+9. Historiek + roze closing — ongewijzigd.
+10. **WhatsApp-doorgang** — *nieuw.* Een aparte link naar de chaptergroep. Bewust los van de pagina: gesprek en stand-van-zaken mogen elkaar niet proberen te zijn.
+
+**Draft-preview (aparte sub-pagina per rit).** Een hesje kan een draft-rit openen en ziet de rit zoals ze nu is (datum/route voor zover bekend, duidelijk "nog niet vast"). Eén **lichtgewicht statusregel** zegt waar ze staat — *"wat moet er nu nog gebeuren"* (bv. "de communicatiekaart is nog niet ingevuld"), géén volledige checklist. Voor een hesje is dat puur een **venster** (read-only), nooit een opdracht; dezelfde regel is voor de kapitein wél de werkregel.
+
+**Beslist in deze iteratie:**
+- **Status verhuist van de hub naar de rit.** Geen voorbereidings-checklist op het overzicht; wel één vooruitkijkende statusregel op de draft-preview.
+- **Hesjes zien, ze claimen niet.** Read-only op draftstatus; geen taken opnemen op de pagina (de ladder loopt via zien + later kapitein worden, niet via claim-knoppen).
+- **Nieuwe mensen worden uitgelicht** — nadruk op nieuwe hesjes — zowel als gebeurtenis in "wat is nieuw" als met een zachte "nieuw"-markering in het roster gedurende de eerste ~2 weken (hergebruik het bestaande welkom-venster `ROZE_WELCOME_WEEKS`).
+- **Toon moet warm blijven, niet als werk.** Statuszichtbaarheid leest als verwachting en erbij horen, niet als een takenbord. Bij ~12 mensen per chapter is dit een warme gedeelde kamer, geen applicatie — één levende hub, geen tab-app.
+
+**Backend-afhankelijk (Nico / [#37](https://github.com/ndeblauw/kidicalmass/issues/37)), gefaket voor de build zoals de bestaande materiaal-tegels:**
+- **Group media library** — foto-galerij + upload (bestaat nog niet op `Group`).
+- **Activity draft-state** + een licht **status/volgende-stap-veld** ("wat moet er nog gebeuren").
+- **`group_user` lid-sinds-timestamp** voor de "nieuw"-markering (of een expliciet veld).
+- **Per-groep WhatsApp-URL.**
+- **"Wat is nieuw"-feed** — vergt echte change-events (foto toegevoegd, lid bijgekomen, rit-status gewijzigd); voorlopig gefaket.
 
 ## Beslist in deze thread
 

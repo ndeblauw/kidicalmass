@@ -112,6 +112,10 @@ class GroupController extends Controller
         $roster = $group->users->sortBy('name')->values();
         $lead = $activities->first()?->author ?? $roster->first();
 
+        // A member is "nieuw" for the same window the welcome block uses (their first weeks).
+        // Real data: group_user.created_at exists via withTimestamps().
+        $newMemberCutoff = now()->subWeeks(self::ROZE_WELCOME_WEEKS);
+
         // Time-boxed welcome: show the compact welcome block only during a hesje's first weeks.
         // A per-group cookie records the first visit; after the window the block auto-hides, but
         // the permanent onboarding section keeps the same info findable. Per-browser for now;
@@ -128,6 +132,19 @@ class GroupController extends Controller
                 ->greaterThan(now()->subWeeks(self::ROZE_WELCOME_WEEKS));
         }
 
-        return view('groups.roze-hesjes', compact('group', 'activities', 'roster', 'lead', 'showWelcome'));
+        return view('groups.roze-hesjes', compact('group', 'activities', 'roster', 'lead', 'showWelcome', 'newMemberCutoff'));
+    }
+
+    /**
+     * Read-only preview of a ride still in preparation. A hesje may look over the captains'
+     * shoulder (this is the onboarding ladder: kijken → meedoen → kapitein) but cannot act.
+     * FAUX exemplar — no Activity lifecycle state exists yet (Nico #37).
+     */
+    public function ridePreview(string $locale, Group $group): View
+    {
+        $user = request()->user();
+        abort_unless($user !== null && $group->users->contains('id', $user->id), 403);
+
+        return view('groups.ride-preview', compact('group'));
     }
 }

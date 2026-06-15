@@ -54,9 +54,33 @@
         </section>
     @endif
 
+    {{-- LIVING SLOT A · WAT IS NIEUW — the reason to come back: what changed since last visit.
+         FAUX feed until a real change-event stream exists (photos added / member joined /
+         ride status moved). Backend dep: Nico #37. --}}
+    @php
+        $feed = [
+            ['icon' => 'photo', 'text' => "Drie nieuwe foto's van de rit van vorige zondag.", 'href' => '#fotos'],
+            ['icon' => 'user-plus', 'text' => 'Saar rijdt nu mee als roze hesje. Zeg eens hallo.', 'href' => '#de-roze-hesjes'],
+            ['icon' => 'map', 'text' => 'De rit van 12 juli krijgt vorm: de route is gekozen.', 'href' => '#op-de-agenda'],
+        ];
+    @endphp
+    <section class="chapter-body roze-whatsup">
+        <h2 class="chapter-section__title">Sinds je laatste bezoek</h2>
+        <ul role="list" class="roze-whatsup__list">
+            @foreach ($feed as $item)
+                <li class="roze-whatsup__item">
+                    <span class="roze-whatsup__icon" aria-hidden="true">
+                        <flux:icon name="{{ $item['icon'] }}" variant="solid" class="size-5" />
+                    </span>
+                    <a href="{{ $item['href'] }}" class="roze-whatsup__text link-plain">{{ $item['text'] }}</a>
+                </li>
+            @endforeach
+        </ul>
+    </section>
+
     {{-- 3 · OP DE AGENDA — straight to the agenda (no intro). Typed, day-grouped on the
          shared ride kit, exactly like the public page. --}}
-    <section class="chapter-body chapter-agenda">
+    <section id="op-de-agenda" class="chapter-body chapter-agenda">
         <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
 
         @unless ($hasRide)
@@ -73,11 +97,39 @@
                 <a href="{{ $allActivitiesUrl }}" class="chapter-next__all link-plain">Alle activiteiten in {{ $gemeente }} (ook voorbije) →</a>
             </div>
         @endif
+
+        {{-- IN VOORBEREIDING — drafts a hesje may peek at (read-only). FAUX single exemplar
+             until Activity has lifecycle state (Nico #37). Onboarding-by-visibility. --}}
+        <div class="roze-drafts">
+            <p class="roze-drafts__label">In voorbereiding</p>
+            <a href="{{ route('groups.ride-preview', $group) }}" class="roze-draft link-plain">
+                <span class="roze-draft__flag" aria-hidden="true">Nog niet vast</span>
+                <span class="roze-draft__title">Een rit door {{ $gemeente }} — mogelijk 12 juli</span>
+                <span class="roze-draft__hint">Bekijk hoe deze rit vorm krijgt →</span>
+            </a>
+        </div>
+    </section>
+
+    {{-- LIVING SLOT B · FOTO'S — shared chapter album + upload. FAUX shell: Group is not yet
+         HasMedia, there is no group gallery. Backend dep: Nico #37 (Group media library). --}}
+    <section id="fotos" class="chapter-body roze-gallery scroll-mt-24">
+        <div class="roze-gallery__head">
+            <h2 class="chapter-section__title">Foto's van het chapter</h2>
+            <button type="button" class="roze-gallery__upload" disabled aria-disabled="true">
+                <flux:icon name="arrow-up-tray" variant="micro" class="size-4" /> Foto's toevoegen (binnenkort)
+            </button>
+        </div>
+        <p class="roze-gallery__lead">Het gedeelde album van {{ $gemeente }}. Hier komen de foto's van onze ritten samen.</p>
+        <ul role="list" class="roze-gallery__grid">
+            @for ($i = 0; $i < 6; $i++)
+                <li class="roze-gallery__cell" aria-hidden="true"></li>
+            @endfor
+        </ul>
     </section>
 
     {{-- 4 · DE ROZE HESJES — the full roster (replaces the public kapiteins section).
          Everyone is visible to fellow hesjes, regardless of their public opt-in. --}}
-    <section class="roze-roster-band">
+    <section id="de-roze-hesjes" class="roze-roster-band">
         <div class="container mx-auto px-4">
             <h2 class="chapter-section__title">De roze hesjes van {{ $gemeente }}</h2>
             <ul role="list" class="roze-roster">
@@ -86,8 +138,11 @@
                         <span class="roze-roster__avatar" aria-hidden="true">{{ $member->initials() }}</span>
                         <div class="min-w-0">
                             <strong class="roze-roster__name">{{ $member->name }}</strong>
-                            <span class="roze-roster__role">{{ $lead && $member->id === $lead->id ? 'Coördinator' : 'Roze hesje' }}</span>
+                            <span class="roze-roster__role">{{ $member->pivot->role === 'captain' ? 'Kapitein' : 'Roze hesje' }}</span>
                         </div>
+                        @if ($member->pivot->created_at && $member->pivot->created_at->greaterThan($newMemberCutoff))
+                            <span class="roze-roster__new">Nieuw</span>
+                        @endif
                     </li>
                 @endforeach
             </ul>
@@ -168,6 +223,19 @@
                     </span>
                 </a>
             @endforeach
+        </div>
+    </section>
+
+    {{-- WHATSAPP-DOORGANG — deliberate hand-off to the chatter, kept apart from the page so
+         "stand van zaken" and "gesprek" don't try to be each other. FAUX href until a per-group
+         whatsapp URL exists (Nico #37). --}}
+    <section class="chapter-body roze-whatsapp">
+        <div class="roze-whatsapp__inner">
+            <div>
+                <strong class="roze-whatsapp__title">De WhatsApp-groep van {{ $gemeente }}</strong>
+                <p class="roze-whatsapp__body">Voor het dagelijkse gepraat, snelle vragen en "wie kan er zondag mee".</p>
+            </div>
+            <a href="#" class="roze-whatsapp__btn" aria-disabled="true">Naar WhatsApp →</a>
         </div>
     </section>
 

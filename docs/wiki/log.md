@@ -1,5 +1,34 @@
 # Wiki Log
 
+## [2026-06-15] build | Roze-hesje living hub (P-09)
+
+Iterated the roze-hesje page (`groups/roze-hesjes.blade.php`) from a static brief to a
+**living hub** — living content now leads, with new slots surfacing the activity of the
+local group.
+
+**What shipped:**
+- **Reordered** so living content (agenda, change feed, photos) leads the page.
+- **Wat-is-nieuw strook** — a faux change feed (recent activity summary; real feed awaits Nico).
+- **Draft-rit preview in the agenda** — faux draft Activity state, links to a new read-only
+  ride-preview page (route `groups.ride-preview`, exemplar only; real draft/lifecycle state
+  awaits Nico).
+- **Foto-galerij shell** — placeholder gallery section (faux; no Group media library yet).
+- **WhatsApp-doorgang** — a WhatsApp link CTA (faux `href`; per-group URL awaits Nico).
+- **"Nieuw" marker on roster members** — time-boxed badge using real `group_user.created_at`
+  (real data, not faux).
+- **Real pivot role label** — "Kapitein" / "Roze hesje" rendered from the real `group_user`
+  pivot role column (real data).
+
+**Faux shells + backend dependencies ([#37](https://github.com/ndeblauw/kidicalmass/issues/37)):**
+Group media library (photos), Activity draft/lifecycle state (real draft status line),
+per-group WhatsApp URL, real change feed. New-member marker and role label already run on
+real data.
+
+**Tests:** 18 tests across the two roze suites pass; CssArchitectureTest green; build clean.
+
+**Wire stays 🟠** — Frederik's own critique/refine pass still pending (Wire 🟢 gated on his
+pass). **Back stays 🟠** — new living slots are faux pending Nico's backend ([#37](https://github.com/ndeblauw/kidicalmass/issues/37)).
+
 ## [2026-06-09] build | Roze-hesje page — backstage replaced (P-09)
 Built the **roze-hesje page**: a logged-in-only per-chapter surface that replaces the old
 standalone backstage and lives **inside the public framework** (route `groups.roze-hesjes`
