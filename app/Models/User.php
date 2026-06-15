@@ -94,12 +94,9 @@ class User extends Authenticatable
             return true;
         }
 
-        $pivot = $this->groups()->where('group_id', $group->id)->first()?->pivot;
-
-        if (! $pivot || ! $pivot->role) {
-            return false;
-        }
-
-        return in_array($pivot->role, ['pinkvest', 'captain'], true);
+        return $this->groups()
+            ->whereKey($group)
+            ->wherePivotIn('role', ['pinkvest', 'captain'])
+            ->exists();
     }
 }
