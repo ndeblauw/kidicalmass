@@ -5,12 +5,7 @@ namespace App\Livewire\Settings;
 use App\Concerns\PasswordValidationRules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
-
-#[Layout('layouts.site')]
-#[Title('Wachtwoord')]
 
 class Password extends Component
 {

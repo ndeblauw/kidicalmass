@@ -42,11 +42,7 @@
                         <flux:dropdown>
                             <flux:button variant="ghost" icon="user-circle" aria-label="Account" />
                             <flux:menu>
-                                <flux:menu.item href="{{ route('profile.edit') }}" wire:navigate>{{ __('Profiel') }}</flux:menu.item>
-                                <flux:menu.item href="{{ route('user-password.edit') }}" wire:navigate>{{ __('Wachtwoord') }}</flux:menu.item>
-                                @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-                                    <flux:menu.item href="{{ route('two-factor.show') }}" wire:navigate>{{ __('Tweestapsverificatie') }}</flux:menu.item>
-                                @endif
+                                <flux:menu.item href="{{ route('settings') }}" wire:navigate>{{ __('Instellingen') }}</flux:menu.item>
                                 @if(Auth::user()->canAccessFilament())
                                     <flux:menu.separator />
                                     <flux:menu.item href="{{ url('/admin') }}">{{ __('Admin') }}</flux:menu.item>
