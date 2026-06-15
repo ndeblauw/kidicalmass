@@ -1,80 +1,244 @@
 @layer components {
-    /* Directory — two columns on lg: the find-tool leads (left, wider); the
-       movement-scale cards ride along as a sticky rail on the right. */
-    .grp-directory {
-        margin-top: 0;
-    }
-    .grp-directory__aside {
-        margin-top: clamp(3rem, 6vw, 4rem);
-        padding-top: clamp(2rem, 4vw, 2.5rem);
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-    }
-    @media (min-width: 64rem) {
-        .grp-directory {
-            display: grid;
-            grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.85fr);
-            gap: clamp(2.5rem, 5vw, 4.5rem);
-            align-items: start;
-        }
-        .grp-directory__aside {
-            position: sticky;
-            top: 6rem;
-            margin-top: 0;
-            padding-top: 0;
-            border-top: 0;
-        }
+    /* ---------- Lokale groepen — list + map finder (P-10) ---------- */
+    .grp-finder {
+        margin-top: clamp(1.5rem, 3vw, 2.25rem);
     }
 
-    .grp-scale__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-xl), 2.2vw, var(--text-2xl));
-        line-height: 1.1;
-        color: var(--color-kidical-ink);
+    .grp-finder__controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.9rem 1.5rem;
+        margin-bottom: 1.1rem;
     }
-    .grp-scale__cards {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.25rem;
-        margin-top: 1.5rem;
+    .grp-regions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
     }
-    /* Tiny screens: stack. lg rail: stack (the column is narrow). */
-    @media (max-width: 30rem) {
-        .grp-scale__cards {
-            grid-template-columns: 1fr;
-        }
-    }
-    @media (min-width: 64rem) {
-        .grp-scale__cards {
-            grid-template-columns: 1fr;
-        }
-    }
-    .grp-map-note {
+    .grp-region-btn {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        margin-top: 0.75rem;
+        cursor: pointer;
+        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
+        background: white;
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-family: var(--font-sans);
+        font-weight: 800;
         font-size: var(--text-sm);
-        font-weight: 600;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        color: var(--color-kidical-ink);
+        transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
     }
-    .grp-map-note svg {
-        width: 1.15rem;
-        height: 1.15rem;
-        color: var(--color-kidical-red);
-        flex-shrink: 0;
+    .grp-region-btn:hover {
+        transform: translateY(-1px);
+        border-color: var(--color-kidical-ink);
     }
-    .grp-find__title {
+    .grp-region-btn.is-active {
+        background: var(--color-kidical-ink);
+        color: white;
+        border-color: var(--color-kidical-ink);
+    }
+    .grp-region-btn__count {
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+    }
+    .grp-region-btn.is-active .grp-region-btn__count {
+        color: rgb(255 255 255 / 0.7);
+    }
+    .grp-region-btn__dot {
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 999px;
+        flex: none;
+    }
+
+    /* Region colours — shared by selector dots and list-card dots. */
+    .grp-region-btn[data-region="Brussels Capital Region"] .grp-region-btn__dot,
+    .grp-card[data-region="Brussels Capital Region"] .grp-card__dot {
+        background: var(--color-kidical-blue);
+    }
+    .grp-region-btn[data-region="Wallonia"] .grp-region-btn__dot,
+    .grp-card[data-region="Wallonia"] .grp-card__dot {
+        background: var(--color-kidical-orange);
+    }
+    .grp-region-btn[data-region="Flanders"] .grp-region-btn__dot,
+    .grp-card[data-region="Flanders"] .grp-card__dot {
+        background: var(--color-kidical-green);
+    }
+
+    .grp-finder__picker {
+        flex: 1 1 20rem;
+        max-width: 28rem;
+        min-width: 15rem;
+    }
+
+    /* Split: list left, map right (Booking-style). Single column on small screens. */
+    .grp-finder__split {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    @media (min-width: 48rem) {
+        .grp-finder__split {
+            grid-template-columns: minmax(18rem, 0.82fr) 1fr;
+            height: clamp(34rem, 74vh, 48rem);
+        }
+    }
+
+    .grp-results {
+        overflow-y: auto;
+        padding-right: 0.4rem;
+        scrollbar-width: thin;
+    }
+    @media (max-width: 47.99rem) {
+        .grp-results { overflow: visible; }
+    }
+    .grp-results__count {
+        font-weight: 800;
+        font-size: var(--text-sm);
+        margin: 0.1rem 0 0.8rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+    }
+    .grp-results__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .grp-card {
+        margin-bottom: 0.6rem;
+    }
+    .grp-card.is-hidden {
+        display: none;
+    }
+    .grp-card__link {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        width: 100%;
+        background: white;
+        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        border-radius: 14px;
+        padding: 0.85rem 1rem;
+        transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s;
+    }
+    .grp-card__link:hover {
+        border-color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+        box-shadow: 0 8px 22px -12px rgb(40 26 57 / 0.4);
+        transform: translateY(-1px);
+    }
+    .grp-card.is-active .grp-card__link {
+        border-color: var(--color-kidical-blue);
+        box-shadow: 0 10px 26px -12px color-mix(in oklab, var(--color-kidical-blue), transparent 40%);
+    }
+    .grp-card--mine .grp-card__link {
+        border-color: color-mix(in oklab, var(--color-kidical-blue), transparent 55%);
+    }
+    .grp-card__dot {
+        width: 1.65rem;
+        height: 1.65rem;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        border: 2px solid white;
+        box-shadow: 0 2px 6px rgb(40 26 57 / 0.3);
+        flex: none;
+    }
+    .grp-card__main {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+    .grp-card__name {
+        display: block;
         font-family: var(--font-heading);
         font-weight: 800;
+        font-size: var(--text-lg);
+        line-height: 1.1;
         color: var(--color-kidical-ink);
     }
-    .grp-find__sub {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
-        font-weight: 600;
+    .grp-card__tag {
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+        margin-left: 0.4rem;
     }
-    /* Quiet grouping label — deliberately lighter than the pills so the
-       (blue, tappable) communes lead and the regions read as calm dividers. */
+    .grp-card__zip {
+        display: block;
+        font-size: var(--text-xs);
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+        margin-top: 0.15rem;
+    }
+    .grp-card__dist {
+        font-weight: 800;
+        color: var(--color-kidical-blue);
+        font-size: var(--text-xs);
+        white-space: nowrap;
+    }
+    .grp-card__go {
+        font-weight: 800;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        font-size: var(--text-lg);
+    }
+
+    /* Map */
+    .grp-map-shell {
+        position: relative;
+        border-radius: 1.25rem;
+        overflow: hidden;
+        box-shadow: 0 24px 60px -28px rgb(40 26 57 / 0.45);
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+    @media (max-width: 47.99rem) {
+        .grp-map-shell { height: 22.5rem; }
+    }
+    .grp-map {
+        width: 100%;
+        height: 100%;
+        min-height: 22.5rem;
+        background: var(--color-kidical-light-blue);
+    }
+    .grp-map__status {
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        z-index: 500;
+        margin: 0;
+        background: rgb(255 255 255 / 0.94);
+        border-radius: 999px;
+        padding: 0.45rem 0.95rem;
+        font-weight: 800;
+        font-size: var(--text-sm);
+        box-shadow: 0 6px 18px rgb(40 26 57 / 0.18);
+    }
+
+    /* Leaflet divIcon pins */
+    .grp-pin {
+        display: block;
+        width: 26px;
+        height: 26px;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        border: 2.5px solid white;
+        box-shadow: 0 3px 8px rgb(40 26 57 / 0.4);
+        transition: opacity 0.25s, transform 0.15s;
+    }
+    .grp-pin--me {
+        background: var(--color-kidical-ink) !important;
+        width: 20px;
+        height: 20px;
+    }
+    .grp-pin.is-dim { opacity: 0.22; }
+    .grp-pin.is-hot { transform: rotate(-45deg) scale(1.4); z-index: 1000 !important; }
+    .grp-popup__region {
+        font-weight: 600;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    }
+
+    /* ---------- Kept: region pill (used by groups/show.blade.php) ---------- */
     .grp-region__title {
         font-family: var(--font-heading);
         font-weight: 700;
@@ -92,12 +256,12 @@
         font-weight: 700;
         font-size: var(--text-base);
         color: var(--color-kidical-blue);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 10px rgb(0 0 0 / 0.05);
         transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.18s, color 0.18s;
     }
     .grp-pill:hover {
         transform: translateY(-2px);
         border-color: var(--color-kidical-red);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 4px 16px rgb(0 0 0 / 0.09);
     }
 }
