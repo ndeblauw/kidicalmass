@@ -7,7 +7,6 @@ use App\Models\Article;
 use App\Models\Group;
 use App\Models\PostalCode;
 use App\Support\Location\CurrentLocation;
-use App\Support\Location\Proximity;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
@@ -22,26 +21,10 @@ class GroupController extends Controller
             ->withCount(['articles', 'activities'])
             ->get();
 
-        $activityCount = Activity::whereYear('begin_date', now()->year)->count();
-
         $coordsByZip = PostalCode::whereIn('zip', $groups->pluck('zip')->filter()->unique())
             ->get()->keyBy('zip');
 
         $location = CurrentLocation::resolve();
-        $nearby = collect();
-
-        if ($location) {
-            $partition = Proximity::partitionByRadius(
-                $groups,
-                ['lat' => $location['lat'], 'lng' => $location['lng']],
-                (float) config('location.nearby_radius_km'),
-                fn ($group) => $group->zip && $coordsByZip->has($group->zip)
-                    ? ['lat' => $coordsByZip[$group->zip]->latitude, 'lng' => $coordsByZip[$group->zip]->longitude]
-                    : null,
-            );
-
-            $nearby = $partition['nearby'];
-        }
 
         $myGroups = auth()->check()
             ? auth()->user()->groups()->where('invisible', false)->get()
@@ -60,7 +43,7 @@ class GroupController extends Controller
             ->map->count();
 
         return view('groups.index', compact(
-            'groups', 'activityCount', 'location', 'nearby', 'myGroups',
+            'groups', 'location', 'myGroups',
             'markers', 'regionCounts', 'regionLabels',
         ));
     }

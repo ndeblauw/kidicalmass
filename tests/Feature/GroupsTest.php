@@ -87,33 +87,17 @@ test('groups index only shows visible groups', function () {
         ->assertDontSee('Invisible Group 1');
 });
 
-test('groups index header explains the movement and shows live scale stats', function () {
-    $author = User::factory()->create();
-
+test('groups index leads with the finder: region selector and the visible gemeente list', function () {
     $brussel = Group::create(['shortname' => 'bxl', 'name' => 'Brussel', 'invisible' => true, 'started_at' => now()]);
     Group::create(['shortname' => 'sb', 'name' => 'Schaarbeek', 'parent_id' => $brussel->id, 'invisible' => false, 'started_at' => now()]);
     Group::create(['shortname' => 'and', 'name' => 'Anderlecht', 'parent_id' => $brussel->id, 'invisible' => false, 'started_at' => now()]);
 
-    $thisYear = Activity::create([
-        'title_nl' => 'Rit dit jaar', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x',
-        'activity_type' => 'kidicalmass', 'begin_date' => now(), 'duration_minutes' => 60,
-        'location' => 'Place', 'author_id' => $author->id,
-    ]);
-    $thisYear->groups()->attach($brussel);
-
-    $lastYear = Activity::create([
-        'title_nl' => 'Rit vorig jaar', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x',
-        'activity_type' => 'kidicalmass', 'begin_date' => now()->subYear(), 'duration_minutes' => 60,
-        'location' => 'Place', 'author_id' => $author->id,
-    ]);
-    $lastYear->groups()->attach($brussel);
-
     get(route('groups.index'))
         ->assertOk()
         ->assertSee('Jouw buurt fietst al, rij mee.')
-        ->assertSee('lokale groepen')          // 2 visible gemeente groups
-        ->assertSee('activiteiten dit jaar')
-        ->assertViewHas('activityCount', 1)     // only the current-year activity counts
+        ->assertSee('Heel België')              // default region selector button
+        ->assertSee('Schaarbeek')               // visible gemeente listed as a card
+        ->assertSee('Anderlecht')
         ->assertViewHas('groups', fn ($groups) => $groups->count() === 2);
 });
 

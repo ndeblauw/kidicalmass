@@ -19,22 +19,25 @@ beforeEach(function () {
     $this->gent = Group::factory()->create(['name' => 'Kidical Mass Gent', 'zip' => '9000', 'parent_id' => $region->id]);
 });
 
-it('shows a nearby band when a location cookie is set', function () {
+it('hands the resolved location to the finder map when a cookie is set', function () {
     withCookie('kcm_location', json_encode(['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette']))
         ->get('/nl/chapters')
         ->assertOk()
-        ->assertSee('In de buurt van Jette')
-        ->assertSee('Kidical Mass Jette');
+        ->assertSee('data-location', false)   // location handed to the client map island
+        ->assertSee('Jette')                  // surfaced (picker + island JSON)
+        ->assertSee('Kidical Mass Jette');    // the group is listed
 });
 
-it('pins the logged-in users group above everything', function () {
+it('pins the logged-in users group above the rest of the list', function () {
     $user = User::factory()->create();
-    $user->groups()->attach($this->gent->id);
+    // "Jette" sorts after "Gent" alphabetically — pinning must override that order.
+    $user->groups()->attach($this->jette->id);
 
     actingAs($user)
         ->get('/nl/chapters')
         ->assertOk()
-        ->assertSeeInOrder(['Jouw groep', 'Kidical Mass Gent']);
+        ->assertSee('jouw groep')                                        // pinned card tag
+        ->assertSeeInOrder(['Kidical Mass Jette', 'Kidical Mass Gent']); // mine pinned first
 });
 
 it('drops the coming-soon map note', function () {
