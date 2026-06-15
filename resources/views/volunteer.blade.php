@@ -15,64 +15,78 @@
 
     <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/volunteer-with-wrench.svg">
 
-    {{-- PITCH (contained) --}}
-    <x-intro-text>
-        <p>Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die
-        meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten, en het
-        goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.</p>
-    </x-intro-text>
+    {{-- PITCH (contained) — vertically centred in its white zone so it clears the
+         mascotte that pokes up from the band below --}}
+    <div class="ho-intro">
+        <x-intro-text>
+            <p>Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die
+            meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten, en het
+            goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.</p>
+        </x-intro-text>
+    </div>
 
-    {{-- HOE JE KAN HELPEN — reuses the promises band (yellow) --}}
-    <section class="activity-promises ho-roles">
-        <div class="activity-promises__layout">
+    {{-- HOE JE KAN HELPEN — carousel (zelfde aanpak als de teamband op de groep-pagina).
+         De illustratie + titel blijven als vaste voorgrond links; de kaarten scrollen
+         eronder door en vervagen links in het geel (spiegelt de bleed rechts buiten beeld). --}}
+    @php
+        $helpRoles = [
+            ['icon' => 'shield-check', 'name' => 'Roze hesje', 'text' => 'Hou je van de actie? Als roze hesje fiets je mee naast de groep, houd je de kinderen samen en zorg je dat iedereen veilig en vrolijk aankomt.'],
+            ['icon' => 'calendar-days', 'name' => 'Mede-organisator', 'text' => 'Elke rit begint met iemand die hem plant. Jij kiest de route, het tijdstip en het vertrekpunt, en stemt af met het lokale team. Dankbaar werk.'],
+            ['icon' => 'megaphone', 'name' => 'Communicator', 'text' => 'Jij zorgt dat de buurt komt opdagen. Sociale media, flyers, schoolgroepen, mond-tot-mond. Elke nieuwe familie aan de start is een beetje jouw verdienste.'],
+            ['icon' => 'camera', 'name' => 'Fotograaf', 'text' => 'Een foto van veertig kinderen op de fiets zegt meer dan duizend woorden. Jij vangt de mooiste momenten en deelt ze met het team.'],
+            ['icon' => 'musical-note', 'name' => 'DJ', 'text' => 'Muziek maakt het feest. Jij zet de toon voor de rit, houdt de energie hoog onderweg en stuurt iedereen met een glimlach naar huis.'],
+        ];
+    @endphp
+    <section class="ho-roles" aria-labelledby="ho-roles-title"
+        x-data="{
+            start: true,
+            end: false,
+            page(dir) { const t = $refs.track; const card = t.querySelector('.ho-roles__card'); if (!card) return; const step = card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0); t.scrollBy({ left: dir * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); },
+            update() {
+                const t = $refs.track, fg = $refs.fg;
+                if (fg) {
+                    const mobile = window.matchMedia('(max-width: 47.99rem)').matches;
+                    const edge = fg.getBoundingClientRect().right;
+                    t.querySelectorAll('.ho-roles__card').forEach(c => {
+                        if (mobile) { c.style.opacity = ''; return; }
+                        const r = c.getBoundingClientRect();
+                        // share of the card still clear of the foreground (1 = fully clear, 0 = fully under)
+                        const clear = (r.right - edge) / r.width;
+                        // dissolve fully before the card reaches the biker: opaque until 90% clear, gone by 40%
+                        c.style.opacity = Math.max(0, Math.min(1, (clear - 0.4) / 0.5));
+                    });
+                }
+                const max = t.scrollWidth - t.clientWidth;
+                this.start = t.scrollLeft <= 1;
+                this.end = t.scrollLeft >= max - 1;
+            }
+        }"
+        x-init="$nextTick(() => update())"
+        x-on:resize.window="update()">
 
-            <div class="activity-promises__illustration">
-                <h2>Hoe je kan helpen</h2>
-                <img src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" loading="lazy">
-            </div>
-
-            <ul class="activity-promises__col" role="list">
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.shield-check variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Roze hesje</strong>
-                    <p>Hou je van de actie? Als roze hesje fiets je mee naast de groep, houd je de kinderen samen en zorg je dat iedereen veilig en vrolijk aankomt.</p>
-                </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.calendar-days variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Mede-organisator</strong>
-                    <p>Elke rit begint met iemand die hem plant. Jij kiest de route, het tijdstip en het vertrekpunt, en stemt af met het lokale team. Dankbaar werk.</p>
-                </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.megaphone variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Communicator</strong>
-                    <p>Jij zorgt dat de buurt komt opdagen. Sociale media, flyers, schoolgroepen, mond-tot-mond. Elke nieuwe familie aan de start is een beetje jouw verdienste.</p>
-                </li>
-            </ul>
-
-            <ul class="activity-promises__col" role="list">
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.camera variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Fotograaf</strong>
-                    <p>Een foto van veertig kinderen op de fiets zegt meer dan duizend woorden. Jij vangt de mooiste momenten en deelt ze met het team.</p>
-                </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.musical-note variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>DJ</strong>
-                    <p>Muziek maakt het feest. Jij zet de toon voor de rit, houdt de energie hoog onderweg en stuurt iedereen met een glimlach naar huis.</p>
-                </li>
-            </ul>
-
+        {{-- foreground anchor: mascotte pokes over the top seam, title sits under it.
+             Cards scroll behind it and fade out (opacity) as they pass under. --}}
+        <div class="ho-roles__fg" x-ref="fg">
+            <img class="ho-roles__mascot" src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" loading="lazy">
+            <h2 id="ho-roles-title" class="ho-roles__title">Hoe je kan helpen</h2>
         </div>
+
+        <div class="ho-roles__nav">
+            <button type="button" class="ho-roles__btn" aria-label="Vorige rollen" x-on:click="page(-1)" :disabled="start">‹</button>
+            <button type="button" class="ho-roles__btn" aria-label="Volgende rollen" x-on:click="page(1)" :disabled="end">›</button>
+        </div>
+
+        <ul class="ho-roles__track" x-ref="track" role="list" aria-label="Manieren om te helpen" x-on:scroll.passive="update()">
+            @foreach ($helpRoles as $role)
+                <li class="ho-roles__card">
+                    <span class="ho-roles__chip">
+                        <flux:icon :name="$role['icon']" variant="solid" class="ho-roles__icon" aria-hidden="true" />
+                    </span>
+                    <strong>{{ $role['name'] }}</strong>
+                    <p>{{ $role['text'] }}</p>
+                </li>
+            @endforeach
+        </ul>
     </section>
 
     {{-- WAT MEEDOEN INHOUDT — scrollytelling (Frederik 2026-06-03). Each block holds ~the
@@ -167,16 +181,17 @@
         </div>
     </section>
 
-    {{-- NOG GEEN LOKALE GROEP? quiet coda --}}
+    {{-- NOG GEEN LOKALE GROEP? quiet coda — funnels to the start-a-group page
+         (replaces the old mailto:bike@ black hole, D-12). --}}
     <section class="ho-start">
         <h2 class="ho-start__title">Nog geen lokale groep in je buurt?</h2>
         <p>
-            Een lokale groep starten vraagt een kernteam van twee of drie mensen, een vertrekpunt en
-            een route-idee. Wij zorgen voor het merk, de opleiding en de nationale zichtbaarheid. Jij
-            brengt de energie en de lokale kennis. Zin om eraan te beginnen? Laat van je horen.
+            Misschien start jij er een. Een kernteam van twee of drie mensen en wat goesting volstaan
+            om te beginnen, de rest doen we samen. We tonen je precies wat het inhoudt, en je kan eerst
+            praten met iemand die het al deed.
         </p>
         <p>
-            <a href="mailto:bike@kidicalmass.be">Mail het coördinatieteam →</a>
+            <a href="{{ route('groups.start') }}">Zo start je een groep →</a>
         </p>
         <p>
             <small>

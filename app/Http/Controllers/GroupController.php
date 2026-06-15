@@ -9,6 +9,7 @@ use App\Models\PostalCode;
 use App\Support\Location\CurrentLocation;
 use App\Support\Location\Proximity;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
 
@@ -23,13 +24,13 @@ class GroupController extends Controller
 
         $activityCount = Activity::whereYear('begin_date', now()->year)->count();
 
+        $coordsByZip = PostalCode::whereIn('zip', $groups->pluck('zip')->filter()->unique())
+            ->get()->keyBy('zip');
+
         $location = CurrentLocation::resolve();
         $nearby = collect();
 
         if ($location) {
-            $coordsByZip = PostalCode::whereIn('zip', $groups->pluck('zip')->filter()->unique())
-                ->get()->keyBy('zip');
-
             $partition = Proximity::partitionByRadius(
                 $groups,
                 ['lat' => $location['lat'], 'lng' => $location['lng']],
@@ -46,7 +47,62 @@ class GroupController extends Controller
             ? auth()->user()->groups()->where('invisible', false)->get()
             : collect();
 
-        return view('groups.index', compact('groups', 'activityCount', 'location', 'nearby', 'myGroups'));
+        $regionLabels = [
+            'Brussels Capital Region' => 'Brussel',
+            'Wallonia' => 'Wallonië',
+            'Flanders' => 'Vlaanderen',
+        ];
+
+        $markers = $this->mapMarkers($groups, $coordsByZip, $regionLabels);
+
+        $regionCounts = $groups
+            ->groupBy(fn (Group $group) => $group->parent?->name)
+            ->map->count();
+
+        return view('groups.index', compact(
+            'groups', 'activityCount', 'location', 'nearby', 'myGroups',
+            'markers', 'regionCounts', 'regionLabels',
+        ));
+    }
+
+    /**
+     * @param  Collection<int, Group>  $groups
+     * @param  Collection<string, PostalCode>  $coordsByZip
+     * @param  array<string, string>  $regionLabels
+     * @return list<array{name: string, slug: string, url: string, region: ?string, regionLabel: ?string, zip: ?string, lat: ?float, lng: ?float}>
+     */
+    private function mapMarkers(
+        Collection $groups,
+        Collection $coordsByZip,
+        array $regionLabels,
+    ): array {
+        return $groups->map(function (Group $group) use ($coordsByZip, $regionLabels): array {
+            $postalCode = $group->zip ? $coordsByZip->get($group->zip) : null;
+            $region = $group->parent?->name;
+
+            return [
+                'name' => $group->name,
+                'slug' => $group->shortname,
+                'url' => route('groups.show', $group),
+                'region' => $region,
+                'regionLabel' => $region ? ($regionLabels[$region] ?? $region) : null,
+                'zip' => $group->zip,
+                'lat' => $postalCode?->latitude,
+                'lng' => $postalCode?->longitude,
+            ];
+        })->values()->all();
+    }
+
+    /**
+     * The "start a local group" page — the canonical entry for would-be local
+     * organisers (replaces the mailto:bike@ coda on Help out + the Chapters CTA).
+     * Holds the StartGroupEnquiry intent form. Out of nav, reached contextually.
+     */
+    public function start(string $locale): View
+    {
+        $groupCount = Group::visible()->count();
+
+        return view('groups.start', compact('groupCount'));
     }
 
     public function show(string $locale, Group $group): View

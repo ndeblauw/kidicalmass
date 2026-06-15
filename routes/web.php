@@ -33,6 +33,9 @@ Route::prefix('{locale}')
 
         // Chapters (Group model).
         Route::get('chapters', [GroupController::class, 'index'])->name('groups.index');
+        // Start-a-group — must precede chapters/{group} so the wildcard binding
+        // doesn't try to resolve "start-een-groep" as a chapter shortname.
+        Route::get('chapters/start-een-groep', [GroupController::class, 'start'])->name('groups.start');
         Route::get('chapters/{group}', [GroupController::class, 'show'])->name('groups.show');
 
         // Roze-hesje page — the logged-in-only chapter surface (replaces the old backstage).

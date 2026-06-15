@@ -7,8 +7,194 @@
         max-width: 32ch;
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
     }
-    .ho-roles { background: var(--color-kidical-yellow); }
-    .ho-roles .activity-promises__item:nth-child(3) { transform: rotate(-1deg); }
+    /* "Hoe je kan helpen" — carousel band (same approach as the chapter teamband).
+       The illustration + title are a fixed foreground anchor on the left; the cards
+       scroll underneath them and fade into the yellow (mirrors the off-screen bleed
+       on the right). Nav buttons sit on the white -> yellow seam, top-right. */
+    /* intro pitch sits vertically centred in its white zone, with room below for
+       the mascotte that pokes up from the band */
+    .ho-intro {
+        min-height: 46vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;   /* centre the pitch block in the page (text stays left-aligned) */
+        padding-bottom: 3rem;
+    }
+    .ho-intro .intro-text { margin-block: 0; }
+
+    .ho-roles {
+        --ho-gutter: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
+        --ho-fg-width: 21rem;        /* foreground zone: mascotte + 2-line title, the fade edge */
+        --ho-start-gap: 2.5rem;      /* breathing room before the first card */
+        position: relative;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        min-height: 26rem;           /* contains the foreground (mascotte + title) */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;     /* vertically centre the card row in the band */
+        background: var(--color-kidical-yellow);
+        padding-block: clamp(2.5rem, 5vw, 3.25rem) clamp(2.5rem, 5vw, 3.5rem);
+        overflow: visible;
+
+        @media (min-width: 96rem) {
+            --ho-gutter: max(1rem, calc((100vw - 96rem) / 2 + 1rem));
+        }
+    }
+    .ho-roles__track {
+        display: flex;
+        column-gap: 1.6rem;
+        list-style: none;
+        margin: 0;
+        /* left pad starts the first card just past the mascotte */
+        padding: 1.6rem 1.5rem 0.8rem calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
+        scroll-padding-left: calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        position: relative;
+        z-index: 1;
+    }
+    .ho-roles__track::-webkit-scrollbar { display: none; }
+    /* foreground anchor: mascotte pokes over the top seam, title sits under it.
+       JS (see x-data update()) fades each card's opacity by how much of it is still
+       clear of this zone, so cards dissolve smoothly as they pass under it. */
+    .ho-roles__fg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 3;
+        width: calc(var(--ho-gutter) + var(--ho-fg-width));
+        padding-left: var(--ho-gutter);
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+    .ho-roles__mascot {
+        width: 20rem;
+        max-width: 52vw;
+        margin-top: -6rem;
+        transform: scaleX(-1);   /* face into the page, toward the cards */
+        object-fit: contain;
+    }
+    .ho-roles__title {
+        color: var(--color-kidical-ink);
+        margin: 0;
+        max-width: var(--ho-fg-width);   /* never wider than the fade edge */
+        font-size: var(--text-6xl);
+        line-height: 1.05;
+        pointer-events: auto;
+    }
+    .ho-roles__nav {
+        position: absolute;
+        top: 0;
+        right: var(--ho-gutter);
+        transform: translateY(-50%);
+        z-index: 4;
+        display: flex;
+        gap: 0.6rem;
+    }
+    .ho-roles__btn {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        border: 3px solid var(--color-kidical-ink);
+        background: var(--color-kidical-blue);
+        color: white;
+        font-size: 1.3rem;
+        line-height: 1;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--color-kidical-ink);
+        transition: transform 0.1s, box-shadow 0.1s;
+        padding: 0;
+    }
+    .ho-roles__btn:not(:disabled):hover {
+        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
+    }
+    .ho-roles__btn:not(:disabled):active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--color-kidical-ink);
+    }
+    /* at the ends, hide the unusable button rather than greying it — a semi-transparent
+       button reads oddly where it floats over the white -> yellow seam */
+    .ho-roles__btn:disabled {
+        visibility: hidden;
+    }
+    /* cards — neo-brutalist polaroid look from the teamband */
+    .ho-roles__card {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        width: 18rem;
+        background: white;
+        border: 2px solid var(--color-kidical-ink);
+        border-radius: 0.9rem;
+        box-shadow: 5px 6px 0 color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+        padding: 1.5rem 1.4rem 1.6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+    .ho-roles__card:nth-child(odd)  { transform: rotate(-1.6deg); }
+    .ho-roles__card:nth-child(even) { transform: rotate(1.4deg); }
+    .ho-roles__chip {
+        width: 3.4rem;
+        height: 3.4rem;
+        border-radius: 9999px;
+        border: 2px solid var(--color-kidical-ink);
+        box-shadow: 3px 3px 0 var(--color-kidical-ink);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        margin-bottom: 0.3rem;
+        background: var(--color-kidical-red);
+    }
+    .ho-roles__card:nth-child(5n+2) .ho-roles__chip { background: var(--color-kidical-blue); }
+    .ho-roles__card:nth-child(5n+3) .ho-roles__chip { background: var(--color-kidical-green); }
+    .ho-roles__card:nth-child(5n+4) .ho-roles__chip { background: var(--color-kidical-orange); }
+    .ho-roles__card:nth-child(5n+5) .ho-roles__chip { background: var(--color-kidical-violet); }
+    .ho-roles__icon { width: 1.7rem; height: 1.7rem; color: white; }
+    .ho-roles__card strong {
+        display: block;
+        font-family: var(--font-heading);
+        font-size: var(--text-xl);
+        font-weight: 800;
+        color: var(--color-kidical-ink);
+        line-height: 1.2;
+    }
+    .ho-roles__card p {
+        margin: 0;
+        font-size: var(--text-base);
+        line-height: 1.55;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
+    }
+    /* phones: foreground becomes a stacked header, arrows drop to their own row,
+       no scroll-behind fade (cards just bleed right and are swipeable) */
+    @media (max-width: 47.99rem) {
+        .ho-intro { min-height: 0; padding-bottom: 0; }
+        .ho-roles { min-height: 0; justify-content: flex-start; }
+        .ho-roles__fg {
+            position: static;
+            width: auto;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+            padding: 0 1rem;
+        }
+        .ho-roles__mascot { width: 9rem; margin-top: 0; }
+        .ho-roles__title { max-width: none; font-size: var(--text-4xl); }
+        .ho-roles__nav {
+            position: static;
+            justify-content: flex-end;
+            margin: 1rem 1rem 0;
+            transform: none;
+        }
+        .ho-roles__track { padding-left: 1rem; scroll-padding-left: 1rem; padding-top: 1rem; }
+    }
     .ho-deal {
         padding-block: clamp(3rem, 6vw, 5rem);
     }
