@@ -57,4 +57,31 @@ class Proximity
 
         return ['nearby' => $nearby, 'far' => $far];
     }
+
+    /**
+     * The $count items closest to $origin, annotated with distance and sorted ascending.
+     * Items whose coordinates resolve to null are dropped (they cannot be ranked).
+     *
+     * @template T
+     *
+     * @param  Collection<int, T>  $items
+     * @param  array{lat: float, lng: float}  $origin
+     * @param  callable(T): (array{lat: float, lng: float}|null)  $coordsOf
+     * @return Collection<int, array{item: T, distance_km: float}>
+     */
+    public static function nearest(Collection $items, array $origin, int $count, callable $coordsOf): Collection
+    {
+        return $items
+            ->map(function ($item) use ($origin, $coordsOf) {
+                $coords = $coordsOf($item);
+
+                return $coords === null
+                    ? null
+                    : ['item' => $item, 'distance_km' => round(static::distanceKm($origin, $coords), 1)];
+            })
+            ->filter()
+            ->sortBy('distance_km')
+            ->take($count)
+            ->values();
+    }
 }
