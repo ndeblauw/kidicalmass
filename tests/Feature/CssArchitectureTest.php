@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
 /**
  * Enforces the role-based CSS partials architecture.
  * See docs/superpowers/specs/2026-06-06-css-partials-architecture-design.md
  */
-function cssPartials(): \Illuminate\Support\Collection
+function cssPartials(): Collection
 {
     return collect(File::allFiles(resource_path('css')))
         ->filter(fn ($f) => $f->getExtension() === 'css')

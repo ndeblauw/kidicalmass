@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
@@ -45,7 +46,7 @@ class MediaSeeder extends Seeder
             if (! File::exists($path)) {
                 try {
                     $url = $urlResolver($index);
-                    /** @var \Illuminate\Http\Client\Response $response */
+                    /** @var Response $response */
                     $response = Http::timeout(15)->get($url);
 
                     if ($response->successful() && strlen($response->body()) > 1000) {

@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Group;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -25,6 +28,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->registerBladeDirectives();
+    }
+
+    protected function registerBladeDirectives(): void
+    {
+        Blade::if('admin', fn (): bool => Auth::check() && Auth::user()->isSuperAdmin());
+
+        Blade::if('pinkvest', fn (Group $group): bool => Auth::check() && Auth::user()->isPinkVestOf($group));
+
+        Blade::if('captain', fn (Group $group): bool => Auth::check() && Auth::user()->isCaptainOf($group));
     }
 
     protected function configureDefaults(): void
