@@ -7,10 +7,6 @@ use Illuminate\Support\Facades\Blade;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-beforeEach(function () {
-    User::query()->delete();
-    Group::query()->delete();
-});
 
 // ── Role helpers ──
 
