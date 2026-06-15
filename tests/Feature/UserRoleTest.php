@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Blade;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-beforeEach(function () {
-    User::query()->delete();
-    Group::query()->delete();
-});
 
 // ── Role helpers ──
 
@@ -140,7 +136,7 @@ it('login as admin shortcut works and sets superadmin', function () {
         ->and(auth()->user()->isSuperAdmin())->toBeTrue();
 });
 
-it('login as pinkvest creates group connection with pinkvest role', function () {
+it('login as pinkvest logs in to schaarbeek with pinkvest role', function () {
     $this->seed(DemoUserSeeder::class);
 
     get(route('login.as', 'pinkvest'))
@@ -150,9 +146,8 @@ it('login as pinkvest creates group connection with pinkvest role', function () 
     $group = Group::where('shortname', 'schaarbeek')->first();
 
     expect($user->isPinkVestOf($group))->toBeTrue();
-});
 
-it('login as captain creates group connection with captain role', function () {
+it('login as captain logs in to schaarbeek with captain role', function () {
     $this->seed(DemoUserSeeder::class);
 
     get(route('login.as', 'captain'))
@@ -162,7 +157,6 @@ it('login as captain creates group connection with captain role', function () {
     $group = Group::where('shortname', 'schaarbeek')->first();
 
     expect($user->isCaptainOf($group))->toBeTrue();
-});
 
 it('login as invalid role returns 404', function () {
     $this->seed(DemoUserSeeder::class);
