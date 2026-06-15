@@ -44,78 +44,6 @@
         margin-bottom: 0;
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
-    .kal-filterrow {
-        display: flex;
-        align-items: center;
-        background: white;
-        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
-        padding: 0.75rem 2rem;
-        margin: 0 -2rem;
-        gap: 1.5rem;
-    }
-    .kal-filterrow__loc {
-        flex: 0 1 auto;
-        min-width: 0;
-    }
-    .kal-filterrow__sep {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        width: auto;
-        height: auto;
-        background: none;
-        margin: 0;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
-        font-size: var(--text-base);
-    }
-    .kal-filterrow__radius {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 0.35rem;
-        flex-shrink: 0;
-    }
-    .kal-filterrow__radius-hint {
-        display: none;
-    }
-    .kal-filterrow__radius-label {
-        font-family: var(--font-sans);
-        font-size: var(--text-xs);
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
-        flex-shrink: 0;
-    }
-    .kal-filterrow__tabs {
-        display: flex;
-        gap: 4px;
-    }
-    .kal-filterrow__tabs--disabled {
-        opacity: 0.3;
-        pointer-events: none;
-        user-select: none;
-    }
-    .kal-filterrow__tab {
-        padding: 0.35rem 0.85rem;
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 700;
-        border-radius: 6px;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
-        background: color-mix(in oklab, var(--color-kidical-ink), transparent 93%);
-        cursor: pointer;
-        transition: background 0.15s, color 0.15s;
-        border: none;
-    }
-    .kal-filterrow__tab:hover {
-        background: color-mix(in oklab, var(--color-kidical-blue), transparent 88%);
-        color: var(--color-kidical-blue);
-    }
-    .kal-filterrow__tab--active {
-        background: var(--color-kidical-blue);
-        color: white;
-    }
     .kal-body {
         display: grid;
         grid-template-columns: 1fr 300px;
@@ -257,22 +185,6 @@
         .kal-sidebar {
             position: static;
             top: auto;
-        }
-        /* Filter row wraps; trim the negative margin/padding so it never pushes width. */
-        .kal-filterrow {
-            flex-wrap: wrap;
-            gap: 0.75rem 1rem;
-            padding: 0.75rem 1rem;
-            margin: 0 -1rem;
-        }
-        .kal-filterrow__sep {
-            display: none;
-        }
-        .kal-filterrow__radius {
-            flex-wrap: wrap;
-        }
-        .kal-filterrow__tabs {
-            flex-wrap: wrap;
         }
         /* Day grid: narrower date column so the rides column has room. */
         .kal-day {

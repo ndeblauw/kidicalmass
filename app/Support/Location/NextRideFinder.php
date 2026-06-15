@@ -15,7 +15,7 @@ class NextRideFinder
      * or when there are no upcoming rides at all (off-season).
      *
      * @param  array{zip: string, lat: float, lng: float, name: string}|null  $location
-     * @return array{ride: Activity|null, distance_km: float|null, is_far: bool, has_upcoming: bool}
+     * @return array{ride: Activity|null, distance_km: float|null, is_far: bool, has_upcoming: bool, upcoming_preview: array<string, array<int, array{item: Activity}>>}
      */
     public static function find(?array $location): array
     {
@@ -26,11 +26,16 @@ class NextRideFinder
             ->get();
 
         if ($upcoming->isEmpty()) {
-            return ['ride' => null, 'distance_km' => null, 'is_far' => false, 'has_upcoming' => false];
+            return ['ride' => null, 'distance_km' => null, 'is_far' => false, 'has_upcoming' => false, 'upcoming_preview' => []];
         }
 
+        $preview = $upcoming->take(3)
+            ->groupBy(fn (Activity $activity): string => $activity->begin_date->toDateString())
+            ->map(fn ($group): array => $group->map(fn (Activity $activity): array => ['item' => $activity])->all())
+            ->all();
+
         if (! $location) {
-            return ['ride' => null, 'distance_km' => null, 'is_far' => false, 'has_upcoming' => true];
+            return ['ride' => null, 'distance_km' => null, 'is_far' => false, 'has_upcoming' => true, 'upcoming_preview' => $preview];
         }
 
         $coordsByZip = PostalCode::whereIn('zip', $upcoming->pluck('postal_code')->filter()->unique())
@@ -56,6 +61,7 @@ class NextRideFinder
             // "far" bucket (distance_km null), so it is reported as far rather than hidden.
             'is_far' => $partition['nearby']->isEmpty(),
             'has_upcoming' => true,
+            'upcoming_preview' => $preview,
         ];
     }
 }

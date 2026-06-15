@@ -14,6 +14,8 @@ class LocationPicker extends Component
 
     public bool $editing = false;
 
+    public bool $compact = false;
+
     /**
      * @return Collection<int, PostalCode>
      */

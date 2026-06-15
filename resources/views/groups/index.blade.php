@@ -12,11 +12,7 @@
         title="Jouw buurt fietst al, rij mee."
         illustration="img/illustrations/longtail-with-kid.svg">
 
-        <x-slot:controls>
-            <div class="grp-hero__locate">
-                <livewire:location-picker />
-            </div>
-        </x-slot:controls>
+        <x-filter-bar />
 
     {{-- Intro lead — full width, first thing in the white panel (matches the
          about-page intro treatment via the shared component). --}}

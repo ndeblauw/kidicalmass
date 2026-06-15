@@ -239,3 +239,26 @@
         transform: none;
     }
 }
+
+@layer components {
+    .home-nextride__eyebrow {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        margin-bottom: 0.6rem;
+    }
+    .home-nextride__sub {
+        font-size: var(--text-base);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        margin-top: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+        .home-nextride__divide {
+            border-left: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+        }
+    }
+}

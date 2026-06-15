@@ -20,6 +20,7 @@ class HomeController extends Controller
             'nextRideDistanceKm' => $next['distance_km'],
             'nextRideIsFar' => $next['is_far'],
             'hasUpcoming' => $next['has_upcoming'],
+            'upcomingRides' => $next['upcoming_preview'],
         ]);
     }
 }

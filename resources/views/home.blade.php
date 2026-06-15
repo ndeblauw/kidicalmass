@@ -23,7 +23,7 @@
                 </x-intro-text>
 
                 <div class="home-intro__actions mb-8">
-                    <x-cta-button href="#volgende-rit" variant="ghost" class="home-intro__scroll">De volgende rit bij jou</x-cta-button>
+                    <x-cta-button href="#volgende-rit" variant="ghost" class="home-intro__scroll">{{ $hasLocation ? 'De volgende rit bij jou' : 'Volgende ritten' }}</x-cta-button>
                 </div>
             </div>
         </section>
@@ -35,11 +35,13 @@
     {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
     <div class="page-panel">
         <div class="page-panel__inner container mx-auto px-4 space-y-16 md:space-y-20">
-        {{-- ② DE VOLGENDE RIT BIJ JOU — one location-aware ride (proof + utility). --}}
+        {{-- ② DE VOLGENDE RIT BIJ JOU — location-aware rides (proof + utility). --}}
         <section class="home-nextride space-y-6 scroll-mt-24" id="volgende-rit">
             <div class="flex items-baseline justify-between gap-4">
-                <h2 class="text-kidical-ink">De volgende rit bij jou</h2>
-                <a href="{{ route('activities.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">Bekijk alle ritten →</a>
+                <h2 class="text-kidical-ink">{{ $hasLocation ? 'De volgende rit bij jou' : 'Volgende ritten' }}</h2>
+                @if ($hasUpcoming && $hasLocation)
+                    <a href="{{ route('activities.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">Bekijk alle ritten →</a>
+                @endif
             </div>
 
             @if (! $hasUpcoming)
@@ -47,16 +49,33 @@
                     Het fietsseizoen loopt van maart tot november.
                     <a href="{{ route('getting-started') }}" class="font-bold text-kidical-blue hover:underline">Ontdek hoe een rit werkt →</a>
                 </p>
+
             @elseif (! $hasLocation)
-                <livewire:location-picker />
+                @foreach ($upcomingRides as $periodKey => $rows)
+                    <x-ride-day :period-key="$periodKey" :rows="$rows" />
+                @endforeach
+
+                <div class="home-nextride__pair grid gap-8 sm:grid-cols-2 sm:gap-0">
+                    <div class="sm:pr-10">
+                        <p class="home-nextride__eyebrow">Ritten bij jou</p>
+                        <livewire:location-picker :compact="true" />
+                        <p class="home-nextride__sub">Vul je gemeente in en we zetten de ritten dichtbij bovenaan.</p>
+                    </div>
+                    <div class="home-nextride__divide flex flex-col items-start justify-center sm:pl-10">
+                        <p class="home-nextride__eyebrow">Of bekijk alles</p>
+                        <a href="{{ route('activities.index') }}" class="font-bold text-kidical-blue hover:underline">Alle ritten in de agenda →</a>
+                        <p class="home-nextride__sub">De volledige kalender, van maart tot november.</p>
+                    </div>
+                </div>
+
             @else
+                <livewire:location-picker :compact="true" />
+
                 @if ($nextRideIsFar)
                     <p class="text-kidical-ink/70">Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:</p>
                 @endif
 
                 <x-ride-day :period-key="$nextRide->begin_date->toDateString()" :rows="[['item' => $nextRide]]" />
-
-                <livewire:location-picker />
             @endif
         </section>
 

@@ -1,5 +1,5 @@
 <div
-    class="location-picker"
+    class="location-picker {{ $compact ? 'location-picker--compact' : '' }}"
     x-data="{
         locating: false,
         geoError: false,

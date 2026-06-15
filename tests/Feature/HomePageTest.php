@@ -50,7 +50,9 @@ it('shows the location picker in the next-ride section when no location is set',
 
     get('/nl')
         ->assertOk()
-        ->assertSee('De volgende rit bij jou')
+        // No location set → the generic heading, and the picker invites you to set one.
+        ->assertSee('Volgende ritten')
+        ->assertDontSee('De volgende rit bij jou')
         ->assertSee('Waar wil je fietsen?')
         ->assertDontSee('km van jou');
 });

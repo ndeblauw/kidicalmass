@@ -233,8 +233,8 @@
     transform: translateY(-1px);
 }
 
-/* Filter-row context: flatten pill to plain inline text, demote wijzig to text link. */
-.kal-filterrow .location-picker__current {
+/* Compact context: flatten pill to plain inline text, demote wijzig to text link. */
+.location-picker--compact .location-picker__current {
     box-shadow: none;
     border: none;
     background: transparent;
@@ -244,11 +244,11 @@
     gap: 0.5rem;
 }
 
-.kal-filterrow .location-picker__current-pin {
+.location-picker--compact .location-picker__current-pin {
     width: 1rem;
 }
 
-.kal-filterrow .location-picker__change {
+.location-picker--compact .location-picker__change {
     background: transparent;
     border-radius: 0;
     padding: 0;
@@ -260,40 +260,31 @@
     text-underline-offset: 2px;
 }
 
-.kal-filterrow .location-picker__change:hover {
+.location-picker--compact .location-picker__change:hover {
     background: transparent;
     transform: none;
     color: var(--color-kidical-blue);
     text-decoration-color: var(--color-kidical-blue);
 }
 
-.kal-filterrow .location-picker__current-pin {
-    width: 1rem;
-}
-
-.kal-filterrow__sep {
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
-    font-size: var(--text-base);
-}
-
-/* Filter-row — compact location picker overrides. Must be unlayered because the
+/* Compact — compact location picker overrides. Must be unlayered because the
    base .location-picker__* rules are also unlayered; @layer never beats unlayered.
    Compound selectors here have higher specificity → win via normal cascade. */
-.kal-filterrow .location-picker {
+.location-picker--compact {
     align-items: flex-start;
     gap: 0.75rem;
     max-width: none;
 }
 
-.kal-filterrow .location-picker__pin {
+.location-picker--compact .location-picker__pin {
     display: none;
 }
 
-.kal-filterrow .location-picker__main {
+.location-picker--compact .location-picker__main {
     flex: 1;
 }
 
-.kal-filterrow .location-picker__label {
+.location-picker--compact .location-picker__label {
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     font-weight: 700;
@@ -301,11 +292,11 @@
     margin-bottom: 0.3rem;
 }
 
-.kal-filterrow .location-picker__field {
+.location-picker--compact .location-picker__field {
     flex-wrap: nowrap;
 }
 
-.kal-filterrow .location-picker__input {
+.location-picker--compact .location-picker__input {
     flex: 1 1 14rem;
     min-height: 2.25rem;
     font-size: var(--text-sm);
@@ -317,18 +308,18 @@
     padding-inline: 0.9rem;
 }
 
-.kal-filterrow .location-picker__input:focus {
+.location-picker--compact .location-picker__input:focus {
     background-color: white;
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-blue), transparent 70%);
     transform: none;
 }
 
-.kal-filterrow .location-picker__geo {
+.location-picker--compact .location-picker__geo {
     font-size: var(--text-sm);
     color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
 }
 
-.kal-filterrow .location-picker__geo:hover {
+.location-picker--compact .location-picker__geo:hover {
     color: var(--color-kidical-blue);
 }
 

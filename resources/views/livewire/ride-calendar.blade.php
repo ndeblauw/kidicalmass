@@ -4,37 +4,33 @@
         title="Spring op de fiets, wij rijden samen."
         illustration="img/illustrations/cargo-bike-family.svg">
 
-        {{-- Filter row: location picker + radius tabs. Hidden on past-rides view. --}}
+        {{-- Filter row: shared bar + agenda-only radius tabs. Hidden on past-rides view. --}}
         @if ($when !== 'voorbije')
-            <div class="kal-filterrow">
-                <div class="kal-filterrow__loc">
-                    <livewire:location-picker />
-                </div>
-
+            <x-filter-bar>
                 @if ($location)
-                    <div class="kal-filterrow__radius">
-                        <span class="kal-filterrow__sep" aria-hidden="true">·</span>
-                        <span class="kal-filterrow__radius-label">Hoe ver</span>
-                        <div class="kal-filterrow__tabs">
+                    <div class="filter-bar__radius">
+                        <span class="filter-bar__sep" aria-hidden="true">·</span>
+                        <span class="filter-bar__radius-label">Hoe ver</span>
+                        <div class="filter-bar__tabs">
                             <button
                                 type="button"
                                 wire:click="setRadius('dichtbij')"
-                                class="kal-filterrow__tab{{ $radius === 'dichtbij' ? ' kal-filterrow__tab--active' : '' }}"
+                                class="filter-bar__tab{{ $radius === 'dichtbij' ? ' filter-bar__tab--active' : '' }}"
                             >Dichtbij</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('regio')"
-                                class="kal-filterrow__tab{{ $radius === 'regio' ? ' kal-filterrow__tab--active' : '' }}"
+                                class="filter-bar__tab{{ $radius === 'regio' ? ' filter-bar__tab--active' : '' }}"
                             >In de regio</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('belgie')"
-                                class="kal-filterrow__tab{{ $radius === 'belgie' ? ' kal-filterrow__tab--active' : '' }}"
+                                class="filter-bar__tab{{ $radius === 'belgie' ? ' filter-bar__tab--active' : '' }}"
                             >Heel België</button>
                         </div>
                     </div>
                 @endif
-            </div>
+            </x-filter-bar>
         @endif
 
         {{-- Two-column body: agenda left, sticky sidebar right. --}}
