@@ -13,7 +13,7 @@ class ImpersonateController extends Controller
     {
         // Basic authorization - in production, add a proper admin check
         // For example: if (!Auth::user()->is_admin) { abort(403); }
-        
+
         // Prevent impersonating yourself
         if (Auth::id() === $user->id) {
             return redirect()->back()->with('error', 'You cannot impersonate yourself.');
@@ -34,7 +34,7 @@ class ImpersonateController extends Controller
         // Get the original user ID
         $originalUserId = $request->session()->get('impersonate_from');
 
-        if (!$originalUserId) {
+        if (! $originalUserId) {
             return redirect()->route('dashboard')->with('error', 'No impersonation session found.');
         }
 
@@ -43,8 +43,8 @@ class ImpersonateController extends Controller
 
         // Log back in as the original user
         $originalUser = User::find($originalUserId);
-        
-        if (!$originalUser) {
+
+        if (! $originalUser) {
             Auth::logout();
 
             return redirect()->route('filament.admin.auth.login')->with('error', 'Original user account not found.');

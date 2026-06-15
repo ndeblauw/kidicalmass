@@ -25,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'superadmin',
     ];
 
     /**
@@ -49,6 +50,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'superadmin' => 'boolean',
         ];
     }
 
@@ -66,6 +68,35 @@ class User extends Authenticatable
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class)->withPivot('is_public')->withTimestamps();
+        return $this->belongsToMany(Group::class)->withPivot('is_public', 'role')->withTimestamps();
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->superadmin;
+    }
+
+    public function isCaptainOf(Group $group): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        return $this->groups()
+            ->whereKey($group)
+            ->wherePivot('role', 'captain')
+            ->exists();
+    }
+
+    public function isPinkVestOf(Group $group): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        return $this->groups()
+            ->whereKey($group)
+            ->wherePivotIn('role', ['pinkvest', 'captain'])
+            ->exists();
     }
 }

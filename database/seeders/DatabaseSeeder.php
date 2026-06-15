@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
         $this->seedPartners();
         $this->seedContactForms();
 
+        $this->call(DemoUserSeeder::class);
+
         $this->command->newLine();
         $this->task('Cleanup temporary media (if requested)', function () {
             MediaSeeder::cleanup();

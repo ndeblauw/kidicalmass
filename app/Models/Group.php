@@ -43,7 +43,7 @@ class Group extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('is_public')->withTimestamps();
+        return $this->belongsToMany(User::class)->withPivot('is_public', 'role')->withTimestamps();
     }
 
     public function scopeVisible(Builder $query): void

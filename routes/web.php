@@ -13,6 +13,8 @@ use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -118,4 +120,22 @@ if (! app()->isProduction()) {
     // Internal styleguide — live component overview + extraction audit.
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
+
+    // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
+    Route::get('login/as/{role}', function (string $role) {
+        $emails = [
+            'user' => 'user@kidi.be',
+            'pinkvest' => 'pinkvest@kidi.be',
+            'captain' => 'captain@kidi.be',
+            'admin' => 'admin@kidi.be',
+        ];
+
+        if (! isset($emails[$role])) {
+            abort(404);
+        }
+
+        Auth::login(User::where('email', $emails[$role])->firstOrFail());
+
+        return redirect()->intended('/dashboard');
+    })->name('login.as');
 }
