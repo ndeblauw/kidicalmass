@@ -2,6 +2,7 @@
 
 use App\Models\Group;
 use App\Models\User;
+use Database\Seeders\DemoUserSeeder;
 use Illuminate\Support\Facades\Blade;
 
 use function Pest\Laravel\actingAs;
@@ -118,6 +119,8 @@ it('@admin directive returns false for regular user', function () {
 // ── Login-as shortcuts (non-production) ──
 
 it('login as user shortcut works', function () {
+    $this->seed(DemoUserSeeder::class);
+
     get(route('login.as', 'user'))
         ->assertRedirect('/dashboard');
 
@@ -127,6 +130,8 @@ it('login as user shortcut works', function () {
 });
 
 it('login as admin shortcut works and sets superadmin', function () {
+    $this->seed(DemoUserSeeder::class);
+
     get(route('login.as', 'admin'))
         ->assertRedirect('/dashboard');
 
@@ -136,25 +141,31 @@ it('login as admin shortcut works and sets superadmin', function () {
 });
 
 it('login as pinkvest creates group connection with pinkvest role', function () {
+    $this->seed(DemoUserSeeder::class);
+
     get(route('login.as', 'pinkvest'))
         ->assertRedirect('/dashboard');
 
     $user = auth()->user();
-    $group = Group::where('shortname', 'demo-chapter')->first();
+    $group = Group::where('shortname', 'schaarbeek')->first();
 
     expect($user->isPinkVestOf($group))->toBeTrue();
 });
 
 it('login as captain creates group connection with captain role', function () {
+    $this->seed(DemoUserSeeder::class);
+
     get(route('login.as', 'captain'))
         ->assertRedirect('/dashboard');
 
     $user = auth()->user();
-    $group = Group::where('shortname', 'demo-chapter')->first();
+    $group = Group::where('shortname', 'schaarbeek')->first();
 
     expect($user->isCaptainOf($group))->toBeTrue();
 });
 
 it('login as invalid role returns 404', function () {
+    $this->seed(DemoUserSeeder::class);
+
     get('/login/as/nonexistent')->assertNotFound();
 });

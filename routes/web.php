@@ -121,44 +121,20 @@ if (! app()->isProduction()) {
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
 
-    // Demo login-as shortcuts — auto-login as specific role presets.
+    // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', function (string $role) {
-        $roles = [
-            'user' => ['email' => 'user@kidi.be', 'name' => 'Standard User', 'group_role' => null, 'superadmin' => false],
-            'pinkvest' => ['email' => 'pinkvest@kidi.be', 'name' => 'Pink Vest User', 'group_role' => 'pinkvest', 'superadmin' => false],
-            'captain' => ['email' => 'captain@kidi.be', 'name' => 'Captain User', 'group_role' => 'captain', 'superadmin' => false],
-            'admin' => ['email' => 'admin@kidi.be', 'name' => 'Admin User', 'group_role' => null, 'superadmin' => true],
+        $emails = [
+            'user' => 'user@kidi.be',
+            'pinkvest' => 'pinkvest@kidi.be',
+            'captain' => 'captain@kidi.be',
+            'admin' => 'admin@kidi.be',
         ];
 
-        if (! isset($roles[$role])) {
+        if (! isset($emails[$role])) {
             abort(404);
         }
 
-        $config = $roles[$role];
-
-        $user = User::firstOrCreate(
-            ['email' => $config['email']],
-            [
-                'name' => $config['name'],
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-                'superadmin' => $config['superadmin'],
-            ],
-        );
-
-        // Attach to a demo group for non-admin roles.
-        if ($role !== 'admin') {
-            $group = Group::firstOrCreate(
-                ['shortname' => 'demo-chapter'],
-                ['name' => 'Demo Chapter', 'started_at' => now()],
-            );
-
-            $user->groups()->syncWithoutDetaching([
-                $group->id => ['role' => $config['group_role']],
-            ]);
-        }
-
-        Auth::login($user);
+        Auth::login(User::where('email', $emails[$role])->firstOrFail());
 
         return redirect()->intended('/dashboard');
     })->name('login.as');
