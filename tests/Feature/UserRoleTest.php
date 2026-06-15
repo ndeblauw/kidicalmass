@@ -147,10 +147,11 @@ it('login as captain creates group connection with captain role', function () {
         ->assertRedirect('/dashboard');
 
     $user = auth()->user();
-    $group = Group::where('shortname', 'demo-chapter')->first();
+    expect($user)->not->toBeNull();
+
+    $group = Group::where('shortname', 'demo-chapter')->firstOrFail();
 
     expect($user->isCaptainOf($group))->toBeTrue();
-});
 
 it('login as invalid role returns 404', function () {
     get('/login/as/nonexistent')->assertNotFound();
