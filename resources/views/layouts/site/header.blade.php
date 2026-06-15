@@ -44,7 +44,10 @@
                             <flux:menu>
                                 <flux:menu.item href="{{ route('profile.edit') }}">Profile</flux:menu.item>
                                 <flux:menu.separator />
-                                <flux:menu.item href="{{ route('logout') }}" method="POST">Logout</flux:menu.item>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <flux:menu.item type="submit">Logout</flux:menu.item>
+                                </form>
                             </flux:menu>
                         </flux:dropdown>
                     @endauth
