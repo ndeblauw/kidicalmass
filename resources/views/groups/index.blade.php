@@ -1,9 +1,9 @@
 {{--
-    Lokale groepen (P-10) — national directory.
-    Surface pass (distilled): slim .index-hero; list-FIRST region directory (the working
-    find-tool) with a slim "map coming soon" note; calm contained "begin een groep" CTA.
-    Structure only; appearance in app.css.
-    Plan: docs/wiki/design/30-skeleton/chapters.md
+    Lokale groepen (P-10) — list + map finder.
+    Server-rendered link list (works without JS) + a markers island that the
+    @push('scripts') block turns into a synced Leaflet map. The shared Livewire
+    location-picker owns postcode search + geolocation; the map reacts to the
+    resolved location on load. Spec: docs/superpowers/specs/2026-06-15-lokale-groepen-list-map-finder-design.md
 --}}
 <x-layouts::site title="Lokale groepen">
 
@@ -12,105 +12,73 @@
         title="Jouw buurt fietst al, rij mee."
         illustration="img/illustrations/longtail-with-kid.svg">
 
-        <x-filter-bar />
+        <x-intro-text>
+            <p>In elke gemeente trekken buren samen de straat op voor veilig fietsen met kinderen. Eén beweging, lokaal geworteld en het hele jaar door actief in jouw buurt.</p>
+        </x-intro-text>
 
-    {{-- Intro lead — full width, first thing in the white panel (matches the
-         about-page intro treatment via the shared component). --}}
-    <x-intro-text>
-        <p>In elke gemeente trekken buren samen de straat op voor veilig fietsen met kinderen. Eén beweging, lokaal geworteld en het hele jaar door actief in jouw buurt.</p>
-    </x-intro-text>
+        @if ($groups->isNotEmpty())
+            @php
+                $regionOrder = ['Brussels Capital Region', 'Wallonia', 'Flanders'];
+                $mineIds = $myGroups->pluck('id');
+                $orderedGroups = $groups
+                    ->sortBy('name')
+                    ->sortByDesc(fn ($group) => $mineIds->contains($group->id) ? 1 : 0)
+                    ->values();
+            @endphp
 
-    @if ($groups->isNotEmpty())
-        @php
-            // Region = the invisible parent group. Order: Brussel → Wallonië → Vlaanderen.
-            $regionOrder = ['Brussels Capital Region', 'Wallonia', 'Flanders'];
-            $regionLabels = [
-                'Brussels Capital Region' => 'Brussel',
-                'Wallonia' => 'Wallonië',
-                'Flanders' => 'Vlaanderen',
-            ];
-            $byRegion = $groups
-                ->groupBy(fn ($group) => $group->parent?->name ?? 'Overige groepen')
-                ->sortBy(function ($groupsInRegion, $region) use ($regionOrder) {
-                    $position = array_search($region, $regionOrder, true);
+            <div class="grp-finder" data-group-finder data-location='@json($location)'>
+                <div class="grp-finder__controls">
+                    <div class="grp-regions">
+                        <button type="button" class="grp-region-btn is-active" data-region="all">
+                            Heel België <span class="grp-region-btn__count">{{ $groups->count() }}</span>
+                        </button>
+                        @foreach ($regionOrder as $regionKey)
+                            @php $count = $regionCounts[$regionKey] ?? 0; @endphp
+                            @if ($count > 0)
+                                <button type="button" class="grp-region-btn" data-region="{{ $regionKey }}">
+                                    <span class="grp-region-btn__dot" aria-hidden="true"></span>
+                                    {{ $regionLabels[$regionKey] ?? $regionKey }}
+                                    <span class="grp-region-btn__count">{{ $count }}</span>
+                                </button>
+                            @endif
+                        @endforeach
+                    </div>
+                    <div class="grp-finder__picker">
+                        <livewire:location-picker :compact="true" />
+                    </div>
+                </div>
 
-                    return $position === false ? 99 : $position;
-                });
-        @endphp
-
-        {{-- Two columns on lg: the find-tool leads on the left, the movement-scale
-             cards ride along as a sticky rail on the right. --}}
-        <div class="grp-directory">
-            <div class="grp-directory__main">
-                <header class="space-y-1">
-                    <h2 class="grp-find__title">Vind je groep</h2>
-                    <p class="grp-find__sub">Tik je gemeente aan voor de volgende fietstocht en het lokale team.</p>
-                </header>
-
-                @if ($myGroups->isNotEmpty())
-                    <section class="mt-8">
-                        <h3 class="grp-region__title">Jouw groep{{ $myGroups->count() > 1 ? 'en' : '' }}</h3>
-                        <ul class="flex flex-wrap gap-x-3 gap-y-3">
-                            @foreach ($myGroups as $group)
-                                <li><a href="{{ route('groups.show', $group) }}" class="grp-pill grp-pill--mine link-plain">{{ $group->name }}</a></li>
+                <div class="grp-finder__split">
+                    <div class="grp-results">
+                        <p class="grp-results__count" data-count>{{ $groups->count() }} {{ $groups->count() === 1 ? 'groep' : 'groepen' }}</p>
+                        <ul class="grp-results__list" data-list>
+                            @foreach ($orderedGroups as $group)
+                                <li class="grp-card {{ $mineIds->contains($group->id) ? 'grp-card--mine' : '' }}"
+                                    data-slug="{{ $group->shortname }}"
+                                    data-region="{{ $group->parent?->name }}">
+                                    <a href="{{ route('groups.show', $group) }}" class="grp-card__link link-plain">
+                                        <span class="grp-card__dot" aria-hidden="true"></span>
+                                        <span class="grp-card__main">
+                                            <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">· jouw groep</span>@endif</span>
+                                            <span class="grp-card__zip">{{ $group->zip }}</span>
+                                        </span>
+                                        <span class="grp-card__dist" data-dist></span>
+                                        <span class="grp-card__go" aria-hidden="true">→</span>
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
-                    </section>
-                @endif
+                    </div>
 
-                @if ($location)
-                    <section class="mt-8">
-                        <h3 class="grp-region__title">In de buurt van {{ $location['name'] }}</h3>
-                        @if ($nearby->isNotEmpty())
-                            <ul class="flex flex-wrap gap-x-3 gap-y-3">
-                                @foreach ($nearby as $row)
-                                    <li>
-                                        <a href="{{ route('groups.show', $row['item']) }}" class="grp-pill link-plain">{{ $row['item']->name }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <p class="grp-find__sub">Nog geen groep vlak bij jou. Misschien start jij er een?</p>
-                        @endif
-                    </section>
-                @endif
-
-                <div class="mt-10 space-y-10">
-                    @foreach ($byRegion as $region => $regionGroups)
-                        <section>
-                            <h3 class="grp-region__title">{{ $regionLabels[$region] ?? $region }}</h3>
-                            <ul class="flex flex-wrap gap-x-3 gap-y-3">
-                                @foreach ($regionGroups->sortBy('name') as $group)
-                                    <li>
-                                        <a href="{{ route('groups.show', $group) }}" class="grp-pill link-plain">{{ $group->name }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </section>
-                    @endforeach
+                    <div class="grp-map-shell">
+                        <p class="grp-map__status" data-status>Heel België</p>
+                        <div id="grp-map" class="grp-map" data-markers='@json($markers)'></div>
+                    </div>
                 </div>
             </div>
-
-            {{-- Movement scale — the numbers that set up the recruiting CTA. --}}
-            <aside class="grp-directory__aside">
-                <h2 class="grp-scale__title">Samen zijn we al groot</h2>
-                <div class="grp-scale__cards">
-                    <x-stat-card
-                        :value="$groups->count()"
-                        :label="'lokale '.($groups->count() === 1 ? 'groep' : 'groepen')"
-                        icon="users"
-                        color="blue" />
-                    <x-stat-card
-                        :value="$activityCount"
-                        label="activiteiten dit jaar"
-                        icon="calendar-days"
-                        color="green" />
-                </div>
-            </aside>
-        </div>
-    @else
-        <p class="kal-empty mt-10">Er zijn nog geen lokale groepen om te tonen.</p>
-    @endif
+        @else
+            <p class="kal-empty mt-10">Er zijn nog geen lokale groepen om te tonen.</p>
+        @endif
 
     </x-page-hero>
 
@@ -118,5 +86,11 @@
         <x-closing-cta heading="Staat jouw stad er nog niet bij?"
             :href="route('volunteer')" label="Zo begin je" />
     </x-slot:closing>
+
+    @push('scripts')
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9/dist/leaflet.js"></script>
+        {{-- Sync logic (region filter + list/map) is added in a later task, right here. --}}
+    @endpush
 
 </x-layouts::site>
