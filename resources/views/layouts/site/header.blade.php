@@ -42,15 +42,15 @@
                         <flux:dropdown>
                             <flux:button variant="ghost" icon="user-circle" aria-label="Account" />
                             <flux:menu>
-                                <flux:menu.item href="{{ route('profile.edit') }}">Profile</flux:menu.item>
+                                <flux:menu.item href="{{ route('settings') }}" wire:navigate>{{ __('Instellingen') }}</flux:menu.item>
                                 @if(Auth::user()->canAccessFilament())
                                     <flux:menu.separator />
-                                    <flux:menu.item href="{{ url('/admin') }}">Admin</flux:menu.item>
+                                    <flux:menu.item href="{{ url('/admin') }}">{{ __('Admin') }}</flux:menu.item>
                                 @endif
                                 <flux:menu.separator />
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <flux:menu.item type="submit">Logout</flux:menu.item>
+                                    <flux:menu.item type="submit">{{ __('Uitloggen') }}</flux:menu.item>
                                 </form>
                             </flux:menu>
                         </flux:dropdown>

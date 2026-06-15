@@ -15,24 +15,14 @@ beforeEach(function () {
     ]);
 });
 
-test('two factor settings page can be rendered', function () {
+test('settings page shows two-factor section', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->withSession(['auth.password_confirmed_at' => time()])
-        ->get(route('two-factor.show'))
+        ->get(route('settings'))
         ->assertOk()
-        ->assertSee('Two Factor Authentication')
-        ->assertSee('Disabled');
-});
-
-test('two factor settings page requires password confirmation when enabled', function () {
-    $user = User::factory()->create();
-
-    $response = $this->actingAs($user)
-        ->get(route('two-factor.show'));
-
-    $response->assertRedirect(route('password.confirm'));
+        ->assertSee('Tweestapsverificatie')
+        ->assertSee('Uitgeschakeld');
 });
 
 test('two factor settings page returns forbidden response when two factor is disabled', function () {
@@ -40,11 +30,10 @@ test('two factor settings page returns forbidden response when two factor is dis
 
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)
-        ->withSession(['auth.password_confirmed_at' => time()])
-        ->get(route('two-factor.show'));
-
-    $response->assertForbidden();
+    $this->actingAs($user)
+        ->get(route('settings'))
+        ->assertOk()
+        ->assertDontSee('Tweestapsverificatie');
 });
 
 test('two factor authentication disabled when confirmation abandoned between requests', function () {
