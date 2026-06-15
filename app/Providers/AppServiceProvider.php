@@ -33,11 +33,11 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerBladeDirectives(): void
     {
-        Blade::if('admin', fn (): bool => Auth::check() && Auth::user()->isSuperAdmin());
+        Blade::if('admin', fn (): bool => Auth::user()?->isSuperAdmin() ?? false);
 
-        Blade::if('pinkvest', fn (Group $group): bool => Auth::check() && Auth::user()->isPinkVestOf($group));
+        Blade::if('pinkvest', fn (Group $group): bool => Auth::user()?->isPinkVestOf($group) ?? false);
 
-        Blade::if('captain', fn (Group $group): bool => Auth::check() && Auth::user()->isCaptainOf($group));
+        Blade::if('captain', fn (Group $group): bool => Auth::user()?->isCaptainOf($group) ?? false);
     }
 
     protected function configureDefaults(): void
