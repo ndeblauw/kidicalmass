@@ -1,5 +1,29 @@
 # Wiki Log
 
+## [2026-06-15] build | Lokale groepen list + map finder (P-10)
+
+Replaced the region-pill directory on `/chapters` with a Booking-style **list + map
+finder**: a server-rendered group **link list** (works without JS) synced to a full
+**Leaflet + CartoDB** map. A **region selector** (Heel België / Brussel / Wallonië /
+Vlaanderen, with live counts) filters the list and zooms the map; the shared
+`<livewire:location-picker>` drives distance-sort + zoom-to-nearest; pins are
+region-coloured. Reuses the `activities/show` Leaflet pattern (CDN, no new deps); real
+coords via the seeded `postal_codes` table. Card click navigates to the group (real
+link); hover highlights its pin; pin-click scrolls/highlights the card.
+
+Built: `GroupController@index` markers view-model (group → zip → lat/lng + region) +
+region counts (dead `$activityCount` / `$nearby` / Proximity partition dropped);
+`groups/index.blade.php` (control bar + split + `@json` markers island + inline sync
+script); finder styles in `pages/local-groups.css` (old directory rules dropped,
+`.grp-pill` kept for the show page). Tests: `GroupsFinderTest` (new) +
+`GroupsFilterBar` / `GroupsTest` / `GroupsProximityTest` / `PublicPagesTest` realigned —
+finder suite green; browser-verified desktop + mobile, 27 real pins, 0 JS console errors.
+
+Pipeline P-10: **Assets 🔴→🟢** (map placeholder resolved), **Back 🟠→🟢** (data path
+wired & verified live), **Wire 🟢→🟠** (new build — Wire/UI 🟢 gated on Frederik's own
+critique). Spec + plan: [design](superpowers/specs/2026-06-15-lokale-groepen-list-map-finder-design.md),
+[plan](superpowers/plans/2026-06-15-lokale-groepen-list-map-finder.md).
+
 ## [2026-06-15] build | "Een lokale groep starten" page + intent form
 
 New canonical **start-a-group page** (`/chapters/start-een-groep`, route `groups.start`,
