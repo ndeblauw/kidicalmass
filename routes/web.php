@@ -13,6 +13,8 @@ use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -118,4 +120,46 @@ if (! app()->isProduction()) {
     // Internal styleguide — live component overview + extraction audit.
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
+
+    // Demo login-as shortcuts — auto-login as specific role presets.
+    Route::get('login/as/{role}', function (string $role) {
+        $roles = [
+            'user' => ['email' => 'user@kidi.be', 'name' => 'Standard User', 'group_role' => null, 'superadmin' => false],
+            'pinkvest' => ['email' => 'pinkvest@kidi.be', 'name' => 'Pink Vest User', 'group_role' => 'pinkvest', 'superadmin' => false],
+            'captain' => ['email' => 'captain@kidi.be', 'name' => 'Captain User', 'group_role' => 'captain', 'superadmin' => false],
+            'admin' => ['email' => 'admin@kidi.be', 'name' => 'Admin User', 'group_role' => null, 'superadmin' => true],
+        ];
+
+        if (! isset($roles[$role])) {
+            abort(404);
+        }
+
+        $config = $roles[$role];
+
+        $user = User::firstOrCreate(
+            ['email' => $config['email']],
+            [
+                'name' => $config['name'],
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'superadmin' => $config['superadmin'],
+            ],
+        );
+
+        // Attach to a demo group for non-admin roles.
+        if ($role !== 'admin') {
+            $group = Group::firstOrCreate(
+                ['shortname' => 'demo-chapter'],
+                ['name' => 'Demo Chapter', 'started_at' => now()],
+            );
+
+            $user->groups()->syncWithoutDetaching([
+                $group->id => ['role' => $config['group_role']],
+            ]);
+        }
+
+        Auth::login($user);
+
+        return redirect()->intended('/dashboard');
+    })->name('login.as');
 }

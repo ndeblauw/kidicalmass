@@ -55,5 +55,25 @@
                 <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
             </div>
         @endif
+
+        @unless (app()->isProduction())
+            <div class="border-t border-zinc-200 pt-4 dark:border-zinc-700">
+                <p class="mb-2 text-xs font-medium text-center text-zinc-500">{{ __('Quick login (dev only)') }}</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <flux:button :href="route('login.as', 'user')" variant="ghost" size="sm" class="w-full" data-test="login-as-user">
+                        {{ __('User') }}
+                    </flux:button>
+                    <flux:button :href="route('login.as', 'pinkvest')" variant="ghost" size="sm" class="w-full" data-test="login-as-pinkvest">
+                        {{ __('Pink Vest') }}
+                    </flux:button>
+                    <flux:button :href="route('login.as', 'captain')" variant="ghost" size="sm" class="w-full" data-test="login-as-captain">
+                        {{ __('Captain') }}
+                    </flux:button>
+                    <flux:button :href="route('login.as', 'admin')" variant="ghost" size="sm" class="w-full" data-test="login-as-admin">
+                        {{ __('Admin') }}
+                    </flux:button>
+                </div>
+            </div>
+        @endunless
     </div>
 </x-layouts::auth>
