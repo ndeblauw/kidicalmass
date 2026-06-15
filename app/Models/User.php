@@ -76,6 +76,29 @@ class User extends Authenticatable
         return $this->superadmin;
     }
 
+    public function canAccessFilament(): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($this->isCaptain()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isCaptain(): bool
+    {
+        return $this->groups()->wherePivot('role', 'captain')->exists();
+    }
+
+    public function isPinkVest(): bool
+    {
+        return $this->groups()->wherePivotIn('role', ['pinkvest', 'captain'])->exists();
+    }
+
     public function isCaptainOf(Group $group): bool
     {
         if ($this->isSuperAdmin()) {

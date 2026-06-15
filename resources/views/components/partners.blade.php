@@ -15,6 +15,7 @@
         ->whereNull('group_id')
         ->where('visible', true)
         ->where('show_logo', true)
+        ->with('media')
         ->get()
         ->reject(fn ($p) => \Illuminate\Support\Str::slug($p->name) === 'brussel-mobiliteit');
 @endphp

@@ -43,6 +43,10 @@
                             <flux:button variant="ghost" icon="user-circle" aria-label="Account" />
                             <flux:menu>
                                 <flux:menu.item href="{{ route('profile.edit') }}">Profile</flux:menu.item>
+                                @if(Auth::user()->canAccessFilament())
+                                    <flux:menu.separator />
+                                    <flux:menu.item href="{{ url('/admin') }}">Admin</flux:menu.item>
+                                @endif
                                 <flux:menu.separator />
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf

@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
 use App\Http\Controllers\BuildDashboardController;
+use App\Http\Controllers\DemoLoginController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
@@ -13,8 +14,6 @@ use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -122,20 +121,6 @@ if (! app()->isProduction()) {
         ->name('styleguide');
 
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
-    Route::get('login/as/{role}', function (string $role) {
-        $emails = [
-            'user' => 'user@kidi.be',
-            'pinkvest' => 'pinkvest@kidi.be',
-            'captain' => 'captain@kidi.be',
-            'admin' => 'admin@kidi.be',
-        ];
-
-        if (! isset($emails[$role])) {
-            abort(404);
-        }
-
-        Auth::login(User::where('email', $emails[$role])->firstOrFail());
-
-        return redirect()->intended('/dashboard');
-    })->name('login.as');
+    Route::get('login/as/{role}', DemoLoginController::class)
+        ->name('login.as');
 }

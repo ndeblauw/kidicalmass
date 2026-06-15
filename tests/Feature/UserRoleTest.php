@@ -128,7 +128,7 @@ it('login as admin shortcut works and sets superadmin', function () {
     $this->seed(DemoUserSeeder::class);
 
     get(route('login.as', 'admin'))
-        ->assertRedirect('/dashboard');
+        ->assertRedirect('/admin');
 
     expect(auth()->check())->toBeTrue()
         ->and(auth()->user()->email)->toBe('admin@kidi.be')
@@ -139,7 +139,7 @@ it('login as pinkvest logs in to schaarbeek with pinkvest role', function () {
     $this->seed(DemoUserSeeder::class);
 
     get(route('login.as', 'pinkvest'))
-        ->assertRedirect('/dashboard');
+        ->assertRedirect(route('groups.show', ['locale' => 'nl', 'group' => Group::where('shortname', 'schaarbeek')->first()]));
 
     $user = auth()->user();
     $group = Group::where('shortname', 'schaarbeek')->first();
@@ -151,7 +151,7 @@ it('login as captain logs in to schaarbeek with captain role', function () {
     $this->seed(DemoUserSeeder::class);
 
     get(route('login.as', 'captain'))
-        ->assertRedirect('/dashboard');
+        ->assertRedirect(route('groups.show', ['locale' => 'nl', 'group' => Group::where('shortname', 'schaarbeek')->first()]));
 
     $user = auth()->user();
     $group = Group::where('shortname', 'schaarbeek')->first();
