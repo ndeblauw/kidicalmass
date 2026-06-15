@@ -36,7 +36,7 @@ it('renders the home page with the next ride when a location is set', function (
     withCookie('kcm_location', json_encode(['zip' => '1030', 'lat' => 50.8669, 'lng' => 4.3733, 'name' => 'Schaarbeek']))
         ->get('/nl')
         ->assertOk()
-        ->assertSee('De volgende rit bij jou')
+        ->assertSee('De volgende ritten bij jou')
         ->assertSee('Surface Test Ride')
         ->assertSee('Je fietst rond')
         ->assertDontSee('Find a ride', escape: false);

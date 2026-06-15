@@ -28,6 +28,9 @@ test('located state shows the personal heading and the compact picker', function
     $response = $this->withCookies($cookie)->get(route('home'));
 
     $response->assertOk();
-    $response->assertSee('De volgende rit bij jou');
+    $response->assertSee('De volgende ritten bij jou');
     $response->assertSee('location-picker--compact', false);
+    // The "Alle ritten" ghost button sits under the rides (no more top-right link).
+    $response->assertSee('Alle ritten');
+    $response->assertDontSee('Bekijk alle ritten');
 });

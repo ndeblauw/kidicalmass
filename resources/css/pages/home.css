@@ -82,6 +82,19 @@
         text-shadow: 0 2px 14px rgb(0 0 0 / 0.45);
     }
 
+    /* Fade (and gently lift) the title away as the white panel scrolls up over the
+       fixed hero. Scroll-driven, so it needs no JS (the public layout ships none);
+       browsers without scroll-timeline support simply keep the title visible. */
+    @supports (animation-timeline: scroll()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .home-hero__title {
+                animation: home-hero-fade linear both;
+                animation-timeline: scroll(root block);
+                animation-range: 0 45svh;
+            }
+        }
+    }
+
     /* Brand-blue band beneath the video: the lead + the two entry links. */
     .home-intro {
         flex: 0 0 auto;
@@ -92,6 +105,7 @@
 
     .home-intro .intro-text {
         margin-block: 0;
+        margin-inline: auto;
         max-width: 42ch;
         color: #fff;
     }
@@ -163,80 +177,36 @@
         }
     }
 
-    /* ─── Home — dispatcher route cards ─── */
-    .home-route {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        padding: 1.5rem;
-        border-radius: 0.75rem;
-        background: #fff;
-        border: 1px solid color-mix(in oklab, var(--color-kidical-ink) 12%, transparent);
-        box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
-        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    /* ─── Home — "Volgende ritten" with a bleed-rider in the left fifth ───
+       From md up the section becomes a 2-col grid: a narrow art lane + the content.
+       The rider is top-anchored and pulled up with a negative margin so its top clears
+       the white .page-panel's rounded edge and peeks into the fixed blue hero before
+       you scroll. Below md the lane is hidden and the rides stay full-width. */
+    .home-nextride__art {
+        display: none;
     }
 
-    .home-route:hover {
-        transform: translateY(-2px);
-        border-color: var(--color-kidical-blue);
-        box-shadow: 0 10px 24px rgb(0 0 0 / 0.1);
-    }
+    @media (min-width: 768px) {
+        .home-nextride {
+            display: grid;
+            grid-template-columns: minmax(0, 1.75fr) minmax(0, 4fr);
+            column-gap: clamp(1.5rem, 3vw, 3rem);
+            align-items: start;
+        }
 
-    /* Route-card art — a soft brand-tinted panel so the three differently
-       proportioned illustrations read at an even visual weight. */
-    .home-route__art {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 6rem;
-        height: 6rem;
-        margin-bottom: 0.6rem;
-        border-radius: 1.25rem;
-        overflow: hidden;
-    }
+        .home-nextride__art {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: -8.5rem;
+            pointer-events: none;
+        }
 
-    .home-route__art img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transition: transform 0.15s ease;
-    }
-
-    .home-route:hover .home-route__art img {
-        transform: scale(1.06) rotate(-2deg);
-    }
-
-    .home-routes a:nth-of-type(1) .home-route__art {
-        background: color-mix(in oklab, var(--color-kidical-sky) 24%, #fff);
-    }
-
-    .home-routes a:nth-of-type(2) .home-route__art {
-        background: color-mix(in oklab, var(--color-kidical-yellow) 34%, #fff);
-    }
-
-    .home-routes a:nth-of-type(3) .home-route__art {
-        background: color-mix(in oklab, var(--color-kidical-red) 16%, #fff);
-    }
-
-    .home-route__title {
-        font-weight: 800;
-        color: var(--color-kidical-blue);
-    }
-
-    .home-route__desc {
-        font-size: 0.9rem;
-        color: var(--color-kidical-ink);
-        opacity: 0.7;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .home-route__art img {
-        transition: none;
-    }
-
-    .home-route:hover .home-route__art img {
-        transform: none;
+        .home-nextride__art img {
+            width: 100%;
+            max-width: 24rem;
+            height: auto;
+        }
     }
 }
 
@@ -260,5 +230,12 @@
         .home-nextride__divide {
             border-left: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
         }
+    }
+}
+
+@keyframes home-hero-fade {
+    to {
+        opacity: 0;
+        transform: translateY(-1rem);
     }
 }

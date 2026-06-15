@@ -9,10 +9,11 @@ use App\Models\PostalCode;
 class NextRideFinder
 {
     /**
-     * Resolve the single ride to feature on the homepage's "De volgende rit bij jou".
-     * Prefers the soonest ride within the nearby radius; otherwise the soonest ride
-     * anywhere (flagged far). Returns ride=null when no location is set (picker state)
-     * or when there are no upcoming rides at all (off-season).
+     * Resolve the rides for the homepage's "De volgende ritten bij jou": up to the 3
+     * soonest within the nearby radius, otherwise the soonest anywhere (flagged far).
+     * `ride` is the single nearest, kept for the distance/far messaging. Returns
+     * ride=null when no location is set (picker state) or when there are no upcoming
+     * rides at all (off-season); `upcoming_preview` holds the (up to 3) rides to list.
      *
      * @param  array{zip: string, lat: float, lng: float, name: string}|null  $location
      * @return array{ride: Activity|null, distance_km: float|null, is_far: bool, has_upcoming: bool, upcoming_preview: array<string, array<int, array{item: Activity}>>}
@@ -52,16 +53,27 @@ class NextRideFinder
             },
         );
 
-        $chosen = $partition['nearby']->first() ?? $partition['far']->first();
+        $nearby = $partition['nearby'];
+
+        // Show the 3 soonest rides near you (nearby first, date-ordered — partition
+        // preserves input order). When nothing is in range, fall back to the soonest
+        // rides anywhere, flagged far rather than hidden.
+        $source = $nearby->isNotEmpty() ? $nearby : $partition['far'];
+        $chosen = $source->first();
+
+        $nearbyPreview = $source->take(3)
+            ->groupBy(fn (array $row): string => $row['item']->begin_date->toDateString())
+            ->map(fn ($group): array => $group->map(fn (array $row): array => ['item' => $row['item']])->all())
+            ->all();
 
         return [
             'ride' => $chosen['item'],
             'distance_km' => $chosen['distance_km'],
             // A ride whose postal_code can't be resolved to coordinates falls into the
             // "far" bucket (distance_km null), so it is reported as far rather than hidden.
-            'is_far' => $partition['nearby']->isEmpty(),
+            'is_far' => $nearby->isEmpty(),
             'has_upcoming' => true,
-            'upcoming_preview' => $preview,
+            'upcoming_preview' => $nearbyPreview,
         ];
     }
 }

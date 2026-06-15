@@ -23,7 +23,7 @@
                 </x-intro-text>
 
                 <div class="home-intro__actions mb-8">
-                    <x-cta-button href="#volgende-rit" variant="ghost" class="home-intro__scroll">{{ $hasLocation ? 'De volgende rit bij jou' : 'Volgende ritten' }}</x-cta-button>
+                    <x-cta-button href="#volgende-rit" variant="ghost" class="home-intro__scroll">{{ $hasLocation ? 'De volgende ritten bij jou' : 'Volgende ritten' }}</x-cta-button>
                 </div>
             </div>
         </section>
@@ -35,48 +35,58 @@
     {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
     <div class="page-panel">
         <div class="page-panel__inner container mx-auto px-4 space-y-16 md:space-y-20">
-        {{-- ② DE VOLGENDE RIT BIJ JOU — location-aware rides (proof + utility). --}}
-        <section class="home-nextride space-y-6 scroll-mt-24" id="volgende-rit">
-            <div class="flex items-baseline justify-between gap-4">
-                <h2 class="text-kidical-ink">{{ $hasLocation ? 'De volgende rit bij jou' : 'Volgende ritten' }}</h2>
-                @if ($hasUpcoming && $hasLocation)
-                    <a href="{{ route('activities.index') }}" class="shrink-0 font-bold text-kidical-blue hover:underline">Bekijk alle ritten →</a>
-                @endif
+        {{-- ② DE VOLGENDE RIT BIJ JOU — location-aware rides (proof + utility).
+             A right-facing rider (flag up, matching the "fietsparade" lead) anchors the
+             left fifth from md up and is pulled up over the panel's rounded top edge, so
+             a sliver shows in the blue hero view before you scroll. See .home-nextride. --}}
+        <section class="home-nextride scroll-mt-24" id="volgende-rit">
+            <div class="home-nextride__art" aria-hidden="true">
+                <img src="{{ asset('img/illustrations/rider-with-flag.svg') }}" alt="" loading="lazy">
             </div>
 
-            @if (! $hasUpcoming)
-                <p class="text-kidical-ink/70">
-                    Het fietsseizoen loopt van maart tot november.
-                    <a href="{{ route('getting-started') }}" class="font-bold text-kidical-blue hover:underline">Ontdek hoe een rit werkt →</a>
-                </p>
+            <div class="home-nextride__body space-y-6">
+                <h2 class="text-kidical-ink">{{ $hasLocation ? 'De volgende ritten bij jou' : 'Volgende ritten' }}</h2>
 
-            @elseif (! $hasLocation)
-                @foreach ($upcomingRides as $periodKey => $rows)
-                    <x-ride-day :period-key="$periodKey" :rows="$rows" />
-                @endforeach
+                @if (! $hasUpcoming)
+                    <p class="text-kidical-ink/70">
+                        Het fietsseizoen loopt van maart tot november.
+                        <a href="{{ route('getting-started') }}" class="font-bold text-kidical-blue hover:underline">Ontdek hoe een rit werkt →</a>
+                    </p>
 
-                <div class="home-nextride__pair grid gap-8 sm:grid-cols-2 sm:gap-0">
-                    <div class="sm:pr-10">
-                        <p class="home-nextride__eyebrow">Ritten bij jou</p>
-                        <livewire:location-picker :compact="true" />
-                        <p class="home-nextride__sub">Vul je gemeente in en we zetten de ritten dichtbij bovenaan.</p>
+                @elseif (! $hasLocation)
+                    @foreach ($upcomingRides as $periodKey => $rows)
+                        <x-ride-day :period-key="$periodKey" :rows="$rows" />
+                    @endforeach
+
+                    <div class="home-nextride__pair grid gap-8 sm:grid-cols-2 sm:gap-0">
+                        <div class="sm:pr-10">
+                            <p class="home-nextride__eyebrow">Ritten bij jou</p>
+                            <livewire:location-picker :compact="true" />
+                            <p class="home-nextride__sub">Vul je gemeente in en we zetten de ritten dichtbij bovenaan.</p>
+                        </div>
+                        <div class="home-nextride__divide flex flex-col items-start justify-center sm:pl-10">
+                            <p class="home-nextride__eyebrow">Of bekijk alles</p>
+                            <a href="{{ route('activities.index') }}" class="font-bold text-kidical-blue hover:underline">Alle ritten in de agenda →</a>
+                            <p class="home-nextride__sub">De volledige kalender, van maart tot november.</p>
+                        </div>
                     </div>
-                    <div class="home-nextride__divide flex flex-col items-start justify-center sm:pl-10">
-                        <p class="home-nextride__eyebrow">Of bekijk alles</p>
-                        <a href="{{ route('activities.index') }}" class="font-bold text-kidical-blue hover:underline">Alle ritten in de agenda →</a>
-                        <p class="home-nextride__sub">De volledige kalender, van maart tot november.</p>
+
+                @else
+                    <livewire:location-picker :compact="true" />
+
+                    @if ($nextRideIsFar)
+                        <p class="text-kidical-ink/70">Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:</p>
+                    @endif
+
+                    @foreach ($upcomingRides as $periodKey => $rows)
+                        <x-ride-day :period-key="$periodKey" :rows="$rows" />
+                    @endforeach
+
+                    <div>
+                        <x-cta-button :href="route('activities.index')" variant="ghost">Alle ritten</x-cta-button>
                     </div>
-                </div>
-
-            @else
-                <livewire:location-picker :compact="true" />
-
-                @if ($nextRideIsFar)
-                    <p class="text-kidical-ink/70">Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:</p>
                 @endif
-
-                <x-ride-day :period-key="$nextRide->begin_date->toDateString()" :rows="[['item' => $nextRide]]" />
-            @endif
+            </div>
         </section>
 
         {{-- ③ DISPATCHER — three equal routes. Home is a crossroads, not a content dump.
@@ -88,25 +98,11 @@
             <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" aria-hidden="true" loading="lazy"
                 class="pointer-events-none absolute left-2 top-full mt-2 w-14 -rotate-6 hidden sm:block">
 
-            <a href="{{ route('getting-started') }}" class="home-route link-plain">
-                <span class="home-route__art"><img src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true" loading="lazy"></span>
-                <span class="home-route__title">Nieuw hier?</span>
-                <span class="home-route__desc">Zo werkt een Kidical Mass rit.</span>
-            </a>
-            <a href="{{ route('volunteer') }}" class="home-route link-plain">
-                <span class="home-route__art"><img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" loading="lazy"></span>
-                <span class="home-route__title">Help mee</span>
-                <span class="home-route__desc">Word vrijwilliger bij een rit.</span>
-            </a>
-            <a href="{{ route('groups.index') }}" class="home-route link-plain">
-                <span class="home-route__art"><img src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" aria-hidden="true" loading="lazy"></span>
-                <span class="home-route__title">Vind je lokale groep</span>
-                <span class="home-route__desc">Ontdek de groep bij jou in de buurt.</span>
-            </a>
+            <x-route-card :href="route('getting-started')" illustration="waving-rider.svg" tint="sky" title="Nieuw hier?">Zo werkt een Kidical Mass rit.</x-route-card>
+            <x-route-card :href="route('volunteer')" illustration="volunteer-with-wrench.svg" tint="yellow" title="Help mee">Word vrijwilliger bij een rit.</x-route-card>
+            <x-route-card :href="route('groups.index')" illustration="longtail-with-kid.svg" tint="red" title="Vind je lokale groep">Ontdek de groep bij jou in de buurt.</x-route-card>
         </section>
 
-        {{-- ④ Quiet support beat (reuses the tested home callout). --}}
-        <x-support-callout variant="home" />
         </div>
     </div>
 

@@ -190,11 +190,14 @@ it('renders the Steun support page with its key NL sections', function () {
         ->assertDontSee('—');
 });
 
-it('shows the support callout on the home page', function () {
+it('keeps the support callout off the home page', function () {
+    // Steun is already front-and-centre (persistent nav "Steun ons" + the closing CTA),
+    // so the mid-flow support band is intentionally absent here. The callout component
+    // still lives on other pages; it just doesn't interrupt the home dispatcher →
+    // closing-CTA flow.
     get('/nl')
         ->assertOk()
-        ->assertSee('Kidical Mass blijft gratis')
-        ->assertSee(route('membership'), escape: false);
+        ->assertDontSee('Kidical Mass blijft gratis');
 });
 
 it('shows the slim partner recognition strip site-wide, linking to the Partners page', function () {

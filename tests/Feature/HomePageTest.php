@@ -24,6 +24,13 @@ it('renders the NL video hero and drops the old English copy', function () {
         ->assertDontSee('—');
 });
 
+it('anchors the next-ride section with the bleed-rider illustration', function () {
+    get('/nl')
+        ->assertOk()
+        ->assertSee('home-nextride__art')
+        ->assertSee('rider-with-flag.svg', escape: false);
+});
+
 it('shows the three dispatcher routes pointing at the right pages', function () {
     get('/nl')
         ->assertOk()
@@ -72,6 +79,28 @@ it('shows the nearest upcoming ride using the date-rail lockup when a location i
         ->assertSee('Jette')
         ->assertDontSee('km van jou')
         ->assertSee('Je fietst rond');
+});
+
+it('lists the three soonest nearby rides when a location is set', function () {
+    foreach (['Rit een', 'Rit twee', 'Rit drie', 'Rit vier'] as $i => $title) {
+        Activity::factory()->create([
+            'activity_type' => ActivityType::KIDICALMASS,
+            'title_nl' => $title,
+            'postal_code' => '1090',
+            'begin_date' => now()->addDays(2 + $i),
+        ]);
+    }
+
+    withCookie('kcm_location', json_encode(['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette']))
+        ->get('/nl')
+        ->assertOk()
+        ->assertSee('De volgende ritten bij jou')
+        // The 3 soonest show; the 4th is held back for the agenda.
+        ->assertSee('Rit een')
+        ->assertSee('Rit twee')
+        ->assertSee('Rit drie')
+        ->assertDontSee('Rit vier')
+        ->assertSee('Alle ritten');
 });
 
 it('flags a far fallback ride when nothing is in range', function () {
