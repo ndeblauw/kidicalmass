@@ -1,5 +1,14 @@
 <x-layouts::site :title="__('Instellingen')">
 
+    {{-- Pink hero header --}}
+    <header class="chapter-head bg-kidical-red/40 mb-12">
+
+        <div class="max-w-7xl mx-auto px-4 chapter-head__inner">
+            <h1 class="text-5xl font-heading font-bold text-white">{{ __('Instellingen') }}</h1>
+        </div>
+
+    </header>
+
     <div class="mx-auto max-w-2xl space-y-16 py-4">
         {{-- Profile --}}
         <section>
@@ -9,6 +18,8 @@
                 <livewire:settings.profile />
             </div>
         </section>
+
+        <hr class="border-kidical-ink">
 
         {{-- Password --}}
         <section>
