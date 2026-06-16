@@ -267,8 +267,6 @@
     .ho-find__nearest a:hover { color: var(--color-kidical-blue); }
     .ho-start {
         margin-top: calc(var(--spacing) * 14);
-        padding-top: 2rem;
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
         overflow: visible;
     }
     /* body left, sign-holder right; align-items:end lets the illustration sit on the
@@ -279,7 +277,7 @@
         align-items: end;
 
         @media (min-width: 64rem) {
-            grid-template-columns: minmax(0, 1fr) minmax(0, 16rem);
+            grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
         }
     }
     .ho-start__body { max-width: 60ch; }
@@ -293,7 +291,7 @@
     }
     .ho-start__art img {
         width: 100%;
-        max-width: 14rem;
+        max-width: 19rem;
         height: auto;
         margin-bottom: calc(-1 * clamp(2rem, 6vw, 4rem));
     }
