@@ -43,3 +43,28 @@ it('pins the logged-in users group above the rest of the list', function () {
 it('drops the coming-soon map note', function () {
     get('/nl/chapters')->assertDontSee('kaart');
 });
+
+it('sorts the list by postal code ascending when no location is set', function () {
+    // Jette is zip 1090, Gent is zip 9000 — zip order puts Jette first, the
+    // reverse of the old alphabetical order (Gent before Jette).
+    get('/nl/chapters')
+        ->assertOk()
+        ->assertSeeInOrder(['Kidical Mass Jette', 'Kidical Mass Gent']);
+});
+
+it('shows the Dichtbij pill first and active once a location is set', function () {
+    withCookie('kcm_location', json_encode(['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette']))
+        ->get('/nl/chapters')
+        ->assertOk()
+        ->assertSee('grp-region-btn grp-region-btn--nearby is-active', false) // first pill, active
+        ->assertSee('Dichtbij')
+        ->assertSeeInOrder(['data-region="nearby"', 'data-region="all"'], false) // before "Heel België"
+        ->assertSee('class="grp-region-btn " data-region="all"', false);         // "Heel België" no longer active
+});
+
+it('omits the Dichtbij pill when no location is set', function () {
+    get('/nl/chapters')
+        ->assertOk()
+        ->assertDontSee('data-region="nearby"', false)
+        ->assertSee('class="grp-region-btn is-active" data-region="all"', false); // "Heel België" is the default
+});

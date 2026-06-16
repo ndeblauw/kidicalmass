@@ -7,7 +7,7 @@
         gap: 1.25rem;
         font-size: clamp(var(--text-xl), 2.25vw, var(--text-3xl));
         line-height: 1.55;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+        color: var(--color-text-body);
     }
     .intro-text--lead {
         font-size: clamp(var(--text-3xl), 2.7vw, var(--text-5xl));

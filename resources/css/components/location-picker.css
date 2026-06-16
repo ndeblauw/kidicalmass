@@ -29,6 +29,11 @@
     position: relative;
 }
 
+/* The inline label pin only appears in the compact view (where the big pin is hidden). */
+.location-picker__label-pin {
+    display: none;
+}
+
 .location-picker__label {
     display: block;
     font-family: var(--font-heading);
@@ -147,27 +152,33 @@
 .location-picker__suggestion {
     display: flex;
     align-items: baseline;
-    gap: 0.5rem;
+    gap: 0.6rem;
     width: 100%;
     text-align: left;
-    padding: 0.6rem 0.8rem;
-    border-radius: 12px;
-    font-family: var(--font-heading);
-    font-weight: 800;
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
+    font-family: var(--font-sans);
     font-size: var(--text-base);
-    color: var(--color-kidical-blue);
+    color: var(--color-kidical-ink);
     cursor: pointer;
     transition: background-color 0.14s;
 }
 
-.location-picker__suggestion span {
-    font-family: var(--font-sans);
+/* Postcode set in monospace so the digit columns line up across rows. */
+.location-picker__suggestion strong {
+    font-family: var(--font-mono);
     font-weight: 600;
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
 }
 
-.location-picker__suggestion:hover {
-    background-color: color-mix(in oklab, var(--color-kidical-blue), white 90%);
+.location-picker__suggestion span {
+    font-weight: 500;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+}
+
+.location-picker__suggestion:hover,
+.location-picker__suggestion:focus {
+    background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
+    outline: none;
 }
 
 .location-picker__error {
@@ -233,15 +244,22 @@
     transform: translateY(-1px);
 }
 
-/* Compact context: flatten pill to plain inline text, demote wijzig to text link. */
+/* Compact context: "Je fietst rond" is normal weight, the city name is bold, wijzig is a blue link. */
+.location-picker--compact .location-picker__current strong {
+    color: var(--color-text-body);
+    font-weight: 800;
+}
+
 .location-picker--compact .location-picker__current {
     box-shadow: none;
     border: none;
     background: transparent;
     border-radius: 0;
     padding: 0;
-    font-size: var(--text-base);
+    font-size: var(--text-xl);
+    font-weight: 400;
     gap: 0.5rem;
+    color: var(--color-text-body);
 }
 
 .location-picker--compact .location-picker__current-pin {
@@ -253,10 +271,10 @@
     border-radius: 0;
     padding: 0;
     font-size: var(--text-sm);
-    font-weight: 600;
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
+    font-weight: 400;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
     text-decoration: underline;
-    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 68%);
+    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
     text-underline-offset: 2px;
 }
 
@@ -285,11 +303,27 @@
 }
 
 .location-picker--compact .location-picker__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     font-family: var(--font-sans);
-    font-size: var(--text-sm);
+    font-size: var(--text-xl);
     font-weight: 700;
     color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
     margin-bottom: 0.3rem;
+}
+
+.location-picker--compact .location-picker__label-pin {
+    display: inline-block;
+    flex: none;
+    width: 1.05rem;
+    transform: rotate(-8deg);
+}
+
+.location-picker--compact .location-picker__label-pin svg {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 .location-picker--compact .location-picker__field {
@@ -298,8 +332,8 @@
 
 .location-picker--compact .location-picker__input {
     flex: 1 1 14rem;
-    min-height: 2.25rem;
-    font-size: var(--text-sm);
+    min-height: 2.75rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     box-shadow: none;
     background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 95%);
@@ -315,8 +349,16 @@
 }
 
 .location-picker--compact .location-picker__geo {
-    font-size: var(--text-sm);
+    font-size: var(--text-xl);
     color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+}
+
+/* Underline lives on the inner span: .location-picker__geo-inner is inline-flex
+   (atomic), so a text-decoration on the button itself wouldn't reach the label. */
+.location-picker--compact .location-picker__geo-inner {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, currentColor, transparent 55%);
+    text-underline-offset: 3px;
 }
 
 .location-picker--compact .location-picker__geo:hover {
@@ -330,5 +372,10 @@
 
     .location-picker__field {
         gap: 0.6rem 1rem;
+    }
+
+    /* Let the geo link drop below the input on phones instead of squeezing it. */
+    .location-picker--compact .location-picker__field {
+        flex-wrap: wrap;
     }
 }

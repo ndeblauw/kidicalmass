@@ -21,7 +21,9 @@
         <div class="gs-expect-pin">
 
             <div class="gs-expect-left">
-                <p class="mb-12">Elke rit is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.</p>
+                <x-intro-text size="lead">
+                    <p>Elke rit is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.</p>
+                </x-intro-text>
             </div>
 
             <div class="gs-expect-right">
@@ -148,7 +150,7 @@
             { y:  0, r:  1.0 },
         ];
 
-        const scrollPerCard = window.innerHeight * 0.35;
+        const scrollPerCard = window.innerHeight * 0.1;
         const totalExtra    = N * scrollPerCard;
 
         section.style.height = `calc(100dvh + ${totalExtra}px)`;

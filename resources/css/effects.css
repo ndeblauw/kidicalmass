@@ -33,6 +33,15 @@
     to { transform: rotate(360deg); }
 }
 
+@keyframes scroll-cue-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(0.3rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-intro__scroll svg { animation: none; }
+}
+
 /* The loading spinner conveys state, so it keeps turning under reduced-motion —
    just slower and gentler. */
 @media (prefers-reduced-motion: reduce) {

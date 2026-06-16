@@ -28,9 +28,9 @@ it('shows the location picker and no chapter pills when no location is set', fun
     $response = get('/nl/help-out');
 
     $response->assertOk()
-        ->assertSee('location-picker', escape: false)    // the picker is present
-        ->assertDontSee('ho-group__name', escape: false) // no chapter pills yet
-        ->assertDontSee('Het dichtst bij');              // and no nearest-chapters heading
+        ->assertSee('location-picker', escape: false)      // the picker is present
+        ->assertDontSee('ho-find__nearest', escape: false) // no chapter links yet
+        ->assertDontSee('Het dichtst bij');                // and no nearest-chapters heading
 });
 
 it('shows the four nearest chapters, in distance order, when a location is set', function () {

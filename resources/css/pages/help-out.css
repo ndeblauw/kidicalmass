@@ -125,53 +125,18 @@
     .ho-roles__btn:disabled {
         visibility: hidden;
     }
-    /* cards — neo-brutalist polaroid look from the teamband */
+    /* cards — the <x-feature-card> owns the box (white bg, radius, shadow, padding
+       and its own coloured icon chip). The <li> is just a sized, tilted slot in the
+       carousel; it carries no appearance of its own. */
     .ho-roles__card {
         flex: 0 0 auto;
         scroll-snap-align: start;
-        width: 18rem;
-        background: white;
-        border: 2px solid var(--color-kidical-ink);
-        border-radius: 0.9rem;
-        box-shadow: 5px 6px 0 color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
-        padding: 1.5rem 1.4rem 1.6rem;
+        width: 20rem;
         display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
     }
+    .ho-roles__card > .feature-card { width: 100%; }
     .ho-roles__card:nth-child(odd)  { transform: rotate(-1.6deg); }
     .ho-roles__card:nth-child(even) { transform: rotate(1.4deg); }
-    .ho-roles__chip {
-        width: 3.4rem;
-        height: 3.4rem;
-        border-radius: 9999px;
-        border: 2px solid var(--color-kidical-ink);
-        box-shadow: 3px 3px 0 var(--color-kidical-ink);
-        display: grid;
-        place-items: center;
-        flex-shrink: 0;
-        margin-bottom: 0.3rem;
-        background: var(--color-kidical-red);
-    }
-    .ho-roles__card:nth-child(5n+2) .ho-roles__chip { background: var(--color-kidical-blue); }
-    .ho-roles__card:nth-child(5n+3) .ho-roles__chip { background: var(--color-kidical-green); }
-    .ho-roles__card:nth-child(5n+4) .ho-roles__chip { background: var(--color-kidical-orange); }
-    .ho-roles__card:nth-child(5n+5) .ho-roles__chip { background: var(--color-kidical-violet); }
-    .ho-roles__icon { width: 1.7rem; height: 1.7rem; color: white; }
-    .ho-roles__card strong {
-        display: block;
-        font-family: var(--font-heading);
-        font-size: var(--text-xl);
-        font-weight: 800;
-        color: var(--color-kidical-ink);
-        line-height: 1.2;
-    }
-    .ho-roles__card p {
-        margin: 0;
-        font-size: var(--text-base);
-        line-height: 1.55;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
-    }
     /* phones: foreground becomes a stacked header, arrows drop to their own row,
        no scroll-behind fade (cards just bleed right and are swipeable) */
     @media (max-width: 47.99rem) {
@@ -196,35 +161,12 @@
         .ho-roles__track { padding-left: 1rem; scroll-padding-left: 1rem; padding-top: 1rem; }
     }
     .ho-deal {
-        padding-block: clamp(3rem, 6vw, 5rem);
+        padding-block: clamp(4.5rem, 9vw, 7.5rem);
     }
-    .ho-deal__layout {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
 
-        @media (min-width: 1024px) {
-            grid-template-columns: 1fr 1fr;
-            gap: 4.5rem;
-        }
-    }
-    .ho-deal__block + .ho-deal__block { margin-top: 3rem; }
-    @media (min-width: 1024px) {
-        .ho-deal__block {
-            min-height: 78vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .ho-deal__block + .ho-deal__block { margin-top: 0; }
-    }
-    .ho-deal__frame {
-        position: relative;
-        margin: 0;
-        display: grid;
-        gap: 1rem;
-    }
-    .ho-deal__img {
+    /* Help-out media: real photos in a rounded frame. Mobile = 4:5 card with shadow;
+       lg+ = fill the sticky frame edge-to-edge (the shared component stacks + crossfades). */
+    .ho-deal__photo {
         width: 100%;
         aspect-ratio: 4 / 5;
         object-fit: cover;
@@ -233,37 +175,40 @@
         border-radius: 1.5rem;
         box-shadow: 0 18px 44px -18px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
-    @media (min-width: 1024px) {
-        .ho-deal__media-sticky {
-            position: sticky;
-            top: 5.5rem;
-        }
 
-        .ho-deal__frame {
-            display: block;
-            height: calc(100vh - 7.5rem);
+    .ho-deal .scroll-sequence {
+        --scroll-sequence-top: 10.5rem;
+        --scroll-sequence-gutter: 10.5rem;
+    }
+
+    @media (min-width: 1024px) {
+        .ho-deal .scroll-sequence__media-sticky {
             border-radius: 1.75rem;
             overflow: hidden;
             box-shadow: 0 28px 64px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
         }
 
-        .ho-deal__img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+        .ho-deal__photo {
             aspect-ratio: auto;
             border-radius: 0;
             box-shadow: none;
-            opacity: 0;
             transform: scale(1.05);
             transition: opacity 0.8s ease, transform 1.3s ease;
         }
-        .ho-deal__img.is-active { opacity: 1; transform: scale(1); }
+
+        .ho-deal__photo.is-active {
+            transform: scale(1);
+        }
     }
+
     @media (prefers-reduced-motion: reduce) {
-        .ho-deal__img { transition: none; transform: none; }
-        .ho-deal__img.is-active { transform: none; }
+        .ho-deal__photo {
+            transform: none;
+            transition: none;
+        }
+        .ho-deal__photo.is-active {
+            transform: none;
+        }
     }
     .ho-find {
         width: 100vw;
@@ -271,12 +216,33 @@
         background: var(--color-kidical-light-blue);
         padding-block: clamp(2.75rem, 6vw, 4.5rem);
     }
+    /* two columns: the zone-30 sign anchors the left, the pitch + picker the right.
+       Stacks to a single column below lg (the sign rides above the body). */
+    .ho-find__layout {
+        display: grid;
+        gap: clamp(1.5rem, 4vw, 3.5rem);
+        align-items: center;
+
+        @media (min-width: 64rem) {
+            grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+        }
+    }
+    .ho-find__art {
+        display: flex;
+        justify-content: center;
+    }
+    .ho-find__art img {
+        width: 100%;
+        max-width: 13rem;
+        height: auto;
+    }
+    .ho-find__body { min-width: 0; }
     .ho-find__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
     .ho-find__picker { margin-bottom: 2rem; }
     .ho-find__nearest-title {
         color: var(--color-kidical-ink);
         margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
     .ho-find__lead {
         max-width: 54ch;
@@ -285,48 +251,52 @@
         margin-bottom: 2rem;
         color: var(--color-kidical-ink);
     }
-    .ho-groups {
-        list-style: none;
+    /* nearest groups read as an inline, comma-separated run of links */
+    .ho-find__nearest {
         margin: 0;
-        padding: 0;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.85rem;
-
-        @media (min-width: 480px) { grid-template-columns: repeat(2, 1fr); }
-        @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); }
-        @media (min-width: 1024px) { grid-template-columns: repeat(4, 1fr); }
+        font-size: var(--text-lg);
+        line-height: 1.7;
+        color: var(--color-kidical-ink);
     }
-    .ho-group {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 0.5rem;
-        height: 100%;
-        padding: 0.95rem 1.15rem;
-        border-radius: 0.85rem;
-        background: white;
-        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s;
+    .ho-find__nearest a {
+        color: var(--color-kidical-ink);
+        font-weight: 700;
+        text-decoration: underline;
+        text-underline-offset: 3px;
     }
-    .ho-group:hover {
-        transform: translateY(-2px) rotate(-1deg);
-        box-shadow: 0 10px 24px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
-    }
-    .ho-group__name { font-family: var(--font-heading); font-weight: 800; color: var(--color-kidical-ink); }
-    .ho-group__zip {
-        flex-shrink: 0;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-    }
+    .ho-find__nearest a:hover { color: var(--color-kidical-blue); }
     .ho-start {
-        max-width: 60ch;
-        margin-block: calc(var(--spacing) * 14);
+        margin-top: calc(var(--spacing) * 14);
         padding-top: 2rem;
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+        overflow: visible;
     }
+    /* body left, sign-holder right; align-items:end lets the illustration sit on the
+       baseline and bleed past the bottom edge into the yellow closing band below. */
+    .ho-start__layout {
+        display: grid;
+        gap: clamp(1.5rem, 4vw, 3rem);
+        align-items: end;
+
+        @media (min-width: 64rem) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 16rem);
+        }
+    }
+    .ho-start__body { max-width: 60ch; }
     .ho-start__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
     .ho-start p { margin-bottom: 0.75rem; }
+    .ho-start__cta { margin-top: 1.25rem; margin-bottom: 0; }
+    .ho-start__art {
+        display: flex;
+        justify-content: center;
+        align-self: end;
+    }
+    .ho-start__art img {
+        width: 100%;
+        max-width: 14rem;
+        height: auto;
+        margin-bottom: calc(-1 * clamp(2rem, 6vw, 4rem));
+    }
 
     @media (max-width: 767px) {
         /* Trim intro paragraph font: 24px (text-2xl) on a 390px phone is too
@@ -342,10 +312,15 @@
             padding-bottom: clamp(2rem, 8vw, 3.5rem);
         }
 
-        /* "Start je groep" coda: 56px margins on both sides is generous for
-           a short closing paragraph — halve to breathing room, not dead space. */
+        /* "Start je groep" coda: 56px top margin is generous before a short closing
+           section — halve to breathing room, not dead space. The sign-holder bleeds
+           less on phones, where it stacks below the body. */
         .ho-start {
-            margin-block: clamp(2rem, 6vw, 3.5rem);
+            margin-top: clamp(2rem, 6vw, 3.5rem);
+        }
+        .ho-start__art img {
+            max-width: 11rem;
+            margin-bottom: calc(-1 * clamp(1rem, 4vw, 2rem));
         }
     }
 }

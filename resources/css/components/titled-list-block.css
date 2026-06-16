@@ -19,21 +19,46 @@
     .titled-list-block__list li {
         position: relative;
         padding-left: 2.9rem;
-        font-size: clamp(var(--text-xl), 1.7vw, var(--text-2xl));
-        font-weight: 600;
-        color: var(--color-kidical-ink);
-        line-height: 1.35;
+        font-weight: 400;
+        color: var(--color-text-body);
+        line-height: 1.4;
     }
 
+    /* Quiet default: a soft dot, optically centred on the first text line. */
     .titled-list-block__list li::before {
         content: '';
         position: absolute;
         left: 0;
-        top: 0.35em;
+        top: 0.22em;
         width: 1.5rem;
         height: 1.5rem;
         background: var(--color-kidical-red);
         border-radius: 50%;
         opacity: 0.18;
+    }
+
+    /* Icon variants — a rounded chip with a glyph, level with the first line.
+       get = green check ("Wat je krijgt"), ask = red chevron ("Wat we vragen"). */
+    .titled-list-block--get .titled-list-block__list li::before,
+    .titled-list-block--ask .titled-list-block__list li::before {
+        top: 0.1em;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 32%;
+        opacity: 1;
+        transform: rotate(-4deg);
+        background-size: 64%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .titled-list-block--get .titled-list-block__list li::before {
+        background-color: var(--color-kidical-green);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .titled-list-block--ask .titled-list-block__list li::before {
+        background-color: var(--color-kidical-red);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
 }

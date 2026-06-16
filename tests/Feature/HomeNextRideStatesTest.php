@@ -10,14 +10,16 @@ beforeEach(function () {
     ]);
 });
 
-test('no-location state shows generic heading, rides, picker and the agenda link', function () {
+test('no-location state shows generic heading, rides and the standalone picker', function () {
     $response = $this->get(route('home'));
 
     $response->assertOk();
     $response->assertSee('Volgende ritten');
     $response->assertDontSee('De volgende rit bij jou');
     $response->assertSee('location-picker', false);
-    $response->assertSee('Alle ritten in de agenda');
+    $response->assertSee('Waar wil je fietsen?');
+    // The "Of bekijk alles" sidebar is gone; the picker stands alone.
+    $response->assertDontSee('Of bekijk alles');
 });
 
 test('located state shows the personal heading and the compact picker', function () {

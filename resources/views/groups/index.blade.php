@@ -21,15 +21,24 @@
                 $regionOrder = ['Brussels Capital Region', 'Wallonia', 'Flanders'];
                 $mineIds = $myGroups->pluck('id');
                 $orderedGroups = $groups
-                    ->sortBy('name')
+                    ->sortBy('zip')
                     ->sortByDesc(fn ($group) => $mineIds->contains($group->id) ? 1 : 0)
                     ->values();
             @endphp
 
             <div class="grp-finder" data-group-finder data-location='@json($location)'>
                 <div class="grp-finder__controls">
+                    <div class="grp-finder__picker">
+                        <livewire:location-picker :compact="true" />
+                    </div>
                     <div class="grp-regions">
-                        <button type="button" class="grp-region-btn is-active" data-region="all">
+                        @if ($location)
+                            <button type="button" class="grp-region-btn grp-region-btn--nearby is-active" data-region="nearby">
+                                <span class="grp-region-btn__pin" aria-hidden="true"></span>
+                                Dichtbij
+                            </button>
+                        @endif
+                        <button type="button" class="grp-region-btn {{ $location ? '' : 'is-active' }}" data-region="all">
                             Heel België <span class="grp-region-btn__count">{{ $groups->count() }}</span>
                         </button>
                         @foreach ($regionOrder as $regionKey)
@@ -42,9 +51,6 @@
                                 </button>
                             @endif
                         @endforeach
-                    </div>
-                    <div class="grp-finder__picker">
-                        <livewire:location-picker :compact="true" />
                     </div>
                 </div>
 
@@ -62,7 +68,6 @@
                                             <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">· jouw groep</span>@endif</span>
                                             <span class="grp-card__zip">{{ $group->zip }}</span>
                                         </span>
-                                        <span class="grp-card__dist" data-dist></span>
                                         <span class="grp-card__go" aria-hidden="true">→</span>
                                     </a>
                                 </li>
@@ -144,10 +149,14 @@
                         popupAnchor: [0, -24],
                     });
                     const marker = L.marker([m.lat, m.lng], { icon }).addTo(map);
-                    marker.bindPopup(
-                        `<strong>${m.name}</strong><br><span class="grp-popup__region">${m.regionLabel ?? ''}</span><br><a href="${m.url}">Bekijk groep →</a>`,
-                    );
-                    marker.on('click', () => focusCard(m.slug));
+                    marker.bindTooltip(m.name, {
+                        permanent: true,
+                        interactive: true,
+                        direction: 'top',
+                        offset: [0, -22],
+                        className: 'grp-marker-label',
+                    });
+                    marker.on('click', () => { window.location = m.url; });
                     bySlug[m.slug] = { marker, data: m };
                 });
 
@@ -161,22 +170,62 @@
                 const statusEl = root.querySelector('[data-status]');
                 const pinEl = (slug) => mapEl.querySelector(`.grp-pin[data-slug="${slug}"]`);
 
-                function focusCard(slug) {
-                    const card = cards.find((c) => c.dataset.slug === slug);
-                    if (!card) return;
-                    cards.forEach((c) => c.classList.toggle('is-active', c === card));
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-
                 cards.forEach((card) => {
                     const slug = card.dataset.slug;
                     card.addEventListener('mouseenter', () => pinEl(slug)?.classList.add('is-hot'));
                     card.addEventListener('mouseleave', () => pinEl(slug)?.classList.remove('is-hot'));
                 });
 
+                // Proximity is only available once a location is set: compute per-group
+                // distances, label the cards, and drop a "you are here" marker.
+                let dist = null;
+                if (location && location.lat != null && location.lng != null && markers.length) {
+                    const meIcon = L.divIcon({
+                        className: '',
+                        html: '<span class="grp-pin grp-pin--me"></span>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 20],
+                    });
+                    L.marker([location.lat, location.lng], { icon: meIcon }).addTo(map).bindPopup('<strong>Jij bent hier</strong>');
+
+                    dist = {};
+                    markers.forEach((m) => {
+                        dist[m.slug] = haversineKm(location.lat, location.lng, m.lat, m.lng);
+                    });
+                }
+
+                function sortByDistance() {
+                    cards
+                        .slice()
+                        .sort((a, b) => (dist[a.dataset.slug] ?? 1e9) - (dist[b.dataset.slug] ?? 1e9))
+                        .forEach((c) => listEl.appendChild(c));
+                }
+                function fitNearest() {
+                    const nearest = markers
+                        .slice()
+                        .sort((a, b) => dist[a.slug] - dist[b.slug])
+                        .slice(0, 5);
+                    map.fitBounds(L.latLngBounds([[location.lat, location.lng], ...nearest.map((m) => [m.lat, m.lng])]), {
+                        padding: [55, 55],
+                    });
+                }
+
                 const regionButtons = Array.from(root.querySelectorAll('.grp-region-btn'));
                 function setRegion(region) {
                     regionButtons.forEach((b) => b.classList.toggle('is-active', b.dataset.region === region));
+
+                    if (region === 'nearby') {
+                        cards.forEach((card) => {
+                            card.classList.remove('is-hidden');
+                            pinEl(card.dataset.slug)?.classList.remove('is-dim');
+                        });
+                        countEl.textContent = `${cards.length} ${cards.length === 1 ? 'groep' : 'groepen'}`;
+                        sortByDistance();
+                        fitNearest();
+                        statusEl.textContent = 'Dichtst bij jou';
+                        return;
+                    }
+
                     let shown = 0;
                     cards.forEach((card) => {
                         const inRegion = region === 'all' || card.dataset.region === region;
@@ -197,37 +246,8 @@
                 }
                 regionButtons.forEach((b) => b.addEventListener('click', () => setRegion(b.dataset.region)));
 
-                if (location && location.lat != null && location.lng != null && markers.length) {
-                    const meIcon = L.divIcon({
-                        className: '',
-                        html: '<span class="grp-pin grp-pin--me"></span>',
-                        iconSize: [20, 20],
-                        iconAnchor: [10, 20],
-                    });
-                    L.marker([location.lat, location.lng], { icon: meIcon }).addTo(map).bindPopup('<strong>Jij bent hier</strong>');
-
-                    const dist = {};
-                    markers.forEach((m) => {
-                        dist[m.slug] = haversineKm(location.lat, location.lng, m.lat, m.lng);
-                    });
-                    cards.forEach((card) => {
-                        const d = dist[card.dataset.slug];
-                        const el = card.querySelector('[data-dist]');
-                        if (el && d != null) el.textContent = `~${Math.round(d)} km`;
-                    });
-                    cards
-                        .slice()
-                        .sort((a, b) => (dist[a.dataset.slug] ?? 1e9) - (dist[b.dataset.slug] ?? 1e9))
-                        .forEach((c) => listEl.appendChild(c));
-
-                    const nearest = markers
-                        .slice()
-                        .sort((a, b) => dist[a.slug] - dist[b.slug])
-                        .slice(0, 5);
-                    map.fitBounds(L.latLngBounds([[location.lat, location.lng], ...nearest.map((m) => [m.lat, m.lng])]), {
-                        padding: [55, 55],
-                    });
-                    statusEl.textContent = 'Dichtst bij jou';
+                if (dist) {
+                    setRegion('nearby');
                 } else {
                     fitAll();
                 }

@@ -40,14 +40,10 @@
         flex-direction: column;
         gap: 1.25rem;
 
-        
-        > p {
-            color: color-mix(in oklab, var(--color-kidical-ink), transparent 5%);
-            font-size: clamp(var(--text-xl), 1.8vw, var(--text-3xl));
-            line-height: 1.55;
+        .intro-text {
+            margin-block: 0;
             max-width: 24ch;
-            font-weight: 500;
-            margin: 0;
+            font-weight: 400;
         }
 
         img {
@@ -90,7 +86,7 @@
         gap: 0;
     }
     .gs-expect-scroll--ready .gs-expect-left {
-        padding: 5rem 2rem 4rem max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+        padding: 15rem 2rem 4rem max(2rem, calc((100vw - 80rem) / 2 + 2rem));
         gap: 2rem;
 
         img {
@@ -104,9 +100,9 @@
     }
     .gs-expect-scroll--ready .gs-expect-right {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
-        padding: 3rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 3rem 2rem;
+        padding: 15rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 3rem 2rem;
     }
     .gs-expect-scroll--ready .gs-expect-cards {
         position: relative;

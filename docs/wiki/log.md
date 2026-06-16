@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-06-15] build | Pipeline cleanup + status reconcile (all rows)
+
+Collapsed every `P-nn` Top-gaps cell in [`00-page-registry.md`](design/30-skeleton/00-page-registry.md) from dated history walls to terse current-state notes (history now lives here + in git), trimmed the seed blockquote, and tightened the roll-up. Status corrections from today's commits: **P-07 Login** Back 🟠→🟢 (role-based auth + redirects + dev login — superadmin/pinkvest/captain roles, `LocalGroupScope`, `LoginResponse`; `UserRoleTest`/`FilamentAdminTest` green); **P-21 Admin** note corrected — Filament role scoping (chapter lead = own) now genuinely live & tested. **P-09 Roze-hesje page** verified Back stays 🟠 — the new standalone pinkvest photo-upload tool (`activiteit/{activity}/fotos-upload`) is **not** wired into the living hub (foto-galerij upload still disabled, WhatsApp still `#`); only the pivot role label + "Nieuw" marker are real. **P-13 Help out** stays Wire/UI 🟢 (roles carousel + location-picker gate, Frederik-approved, no regression). **Home (P-01)** UI stays 🟠 — surface pass in code, Frederik critique pending. Dashboard parse verified: 23 rows, no warnings, no drift.
+
 ## [2026-06-15] build | Lokale groepen list + map finder (P-10)
 
 Replaced the region-pill directory on `/chapters` with a Booking-style **list + map

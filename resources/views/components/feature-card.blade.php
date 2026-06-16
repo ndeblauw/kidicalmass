@@ -26,6 +26,6 @@
     <div class="flex items-center justify-center shrink-0 size-[4.25rem] -rotate-3 rounded-chip {{ $chipBg }}">
         <flux:icon name="{{ $icon }}" variant="solid" class="size-[2.4rem] text-white" aria-hidden="true" />
     </div>
-    <strong class="font-heading text-[1.625rem] font-normal leading-[1.2] text-kidical-ink">{{ $title }}</strong>
+    <h3 class="text-kidical-ink">{{ $title }}</h3>
     <p class="text-[1.3125rem] leading-[1.6] text-kidical-ink/75">{{ $slot }}</p>
 </div>

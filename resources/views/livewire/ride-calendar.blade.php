@@ -77,9 +77,9 @@
                 {{-- Past-rides link at bottom of agenda --}}
                 <div class="kal-pastbar">
                     @if ($when === 'aankomend')
-                        <button type="button" wire:click="showPast" class="link-muted">Bekijk voorbije ritten →</button>
+                        <x-cta-button wire:click="showPast" x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })" variant="secondary">Bekijk voorbije ritten</x-cta-button>
                     @else
-                        <button type="button" wire:click="showUpcoming" class="link-muted">← Terug naar aankomende ritten</button>
+                        <x-cta-button wire:click="showUpcoming" x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })" variant="secondary" icon="back">Terug naar aankomende ritten</x-cta-button>
                     @endif
                 </div>
 

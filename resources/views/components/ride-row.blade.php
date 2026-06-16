@@ -32,6 +32,8 @@
         @if ($chip)<span class="ride-row__chip ride-row__chip--{{ $chip['variant'] }}">{{ $chip['label'] }}</span>@endif{{ $headline }}
     </span>
 
+    <span class="ride-row__dots" aria-hidden="true"></span>
+
     <span class="ride-row__meta">
         @if ($showDate)
             <span class="ride-row__date">{{ $activity->dateShort }} ·</span>
