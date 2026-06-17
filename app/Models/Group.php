@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Actions\GetGroupChangesAction;
+use App\Actions\GroupChangesResult;
 use App\Models\Scopes\LocalGroupScope;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,6 +54,11 @@ class Group extends Model implements HasMedia
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withPivot('is_public', 'role')->withTimestamps();
+    }
+
+    public function changes(?CarbonInterface $startDate = null, ?CarbonInterface $endDate = null): GroupChangesResult
+    {
+        return (new GetGroupChangesAction($this, $startDate, $endDate))->execute();
     }
 
     public function registerMediaConversions(?Media $media = null): void

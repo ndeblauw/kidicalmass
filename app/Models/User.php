@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'superadmin',
+        'last_active_on',
     ];
 
     /**
@@ -51,6 +52,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'superadmin' => 'boolean',
+            'last_active_on' => 'date',
         ];
     }
 
