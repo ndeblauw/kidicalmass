@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Article extends Model implements HasMedia
 {
     use HasFactory;
+    use HasMainImage;
     use InteractsWithMedia;
 
     protected $guarded = [];

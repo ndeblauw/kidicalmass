@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityType;
+use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -18,6 +19,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Activity extends Model implements HasMedia
 {
     use HasFactory;
+    use HasMainImage;
     use InteractsWithMedia;
 
     protected $guarded = [];

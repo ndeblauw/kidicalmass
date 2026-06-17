@@ -12,11 +12,13 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -59,6 +61,32 @@ class GroupResource extends Resource
                 DatePicker::make('ended_at')
                     ->label('Ended At')
                     ->after('started_at'),
+                SpatieMediaLibraryFileUpload::make('main')
+                    ->label('Main Image')
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        '4:3',
+                        '16:9',
+                    ])
+                    ->maxSize(15360)
+                    ->disk('media')
+                    ->collection('main')
+                    ->columnSpanFull(),
+                SpatieMediaLibraryFileUpload::make('gallery')
+                    ->label('Images')
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        '4:3',
+                        '16:9',
+                    ])
+                    ->multiple()
+                    ->reorderable()
+                    ->maxSize(15360)
+                    ->disk('media')
+                    ->collection('gallery')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -67,6 +95,12 @@ class GroupResource extends Resource
         return $table
             ->recordTitleAttribute('name')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('main')
+                    ->label('Image')
+                    ->disk('media')
+                    ->collection('main')
+                    ->conversion('thumb')
+                    ->size(60),
                 TextColumn::make('shortname')
                     ->searchable()
                     ->sortable()

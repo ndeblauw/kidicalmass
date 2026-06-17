@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Actions\GetGroupChangesAction;
 use App\Actions\GroupChangesResult;
+use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -21,6 +22,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Group extends Model implements HasMedia
 {
     use HasFactory;
+    use HasMainImage;
     use InteractsWithMedia;
 
     protected $guarded = [];
