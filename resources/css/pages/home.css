@@ -251,6 +251,12 @@
        (.page-panel is shared chrome, so we scope the larger top padding here). */
     .page-panel.page-panel--home {
         padding-top: 4.375rem;
+        /* Horizontal clip lives here (the full-bleed 100vw panel) rather than on
+           .home-routes (inside the centered container), so a bike riding off
+           clips at the real viewport edge, not the container edge. `clip` not
+           `hidden`: hidden would create a scroll container and break the sticky
+           media's pinning. */
+        overflow-x: clip;
     }
 
     /* Extra air beneath the location line before the rides start. */
@@ -289,11 +295,9 @@
        the left. Mobile: hide the sticky media column; each section shows its own
        inline illustration above the copy. */
 
-    /* Clip horizontally at the section so a bike riding off-screen never adds a
-       scrollbar. overflow-x: clip leaves the inner sticky frame working. */
-    .home-routes {
-        overflow-x: clip;
-    }
+    /* The horizontal clip that lets a bike ride off-screen now lives on
+       .page-panel--home (the full-bleed 100vw wrapper) so it clips at the
+       viewport edge, not this centered container's edge. */
 
     /* Lockup: give title, body and CTA room to breathe (both breakpoints). */
     .home-routes .scroll-sequence__block {
@@ -331,6 +335,17 @@
         object-fit: contain;
     }
 
+    /* Photo behind each section: fills the sticky cell, crossfades via the base
+       [data-seq-media] opacity rule. Rounded + shadowed on the photo itself (not
+       the frame) so the illustration's edge overlap is never clipped. */
+    .home-routes__photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 1.75rem;
+        box-shadow: 0 28px 64px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+    }
+
     /* Mobile-only inline illustration per section. */
     .home-routes__block-illu {
         display: block;
@@ -344,21 +359,37 @@
             display: none;
         }
 
-        /* Bikes spill horizontally to ride across the screen (the section clips
-           overflow-x so no scrollbar); vertically the frame clips, which hides the
-           block-3 helper below until it rises into view. */
+        /* Bikes spill horizontally to ride across the screen (the page panel
+           .page-panel--home clips overflow-x at the viewport edge so no scrollbar);
+           vertically the frame clips, which hides the block-3 helper below until it
+           rises into view. */
         .home-routes .scroll-sequence__media-sticky {
             overflow: visible clip;
         }
 
-        /* Nothing fades: every illustration appears and leaves purely by moving. The
-           next bike waits off to the right tilted downhill and rolls in; the active
-           one parks level; the one you leave bolts off to the left, across the screen
-           and fully out, faster. The roll-in is delayed a touch so the outgoing bike
-           clears first and the two never overlap. */
+        /* Subtle ken-burns settle as a photo becomes active (mirrors /help-out). */
+        .home-routes__photo {
+            transform: scale(1.04);
+            transition: opacity 0.8s ease, transform 1.3s ease;
+        }
+
+        .home-routes__photo.is-active {
+            transform: scale(1);
+        }
+
+        /* Half-size illustration parked over the photo's bottom-left, breaking a
+           touch past its left edge. Rides in from beyond the right screen edge and
+           (when left) bolts past the left screen edge; the panel clips at 100vw so
+           it reads as on/off the real screen. Sits above the photo (later in DOM). */
         .home-routes .home-routes__illu {
+            /* object-fit: contain is inherited from the base .home-routes__illu
+               rule above (same specificity, earlier in source); don't redeclare it. */
+            inset: auto auto 1rem -1.5rem;   /* bottom-left, slight left overlap */
+            width: 52%;
+            height: 52%;
+            z-index: 1;
             opacity: 1;
-            transform: translateX(120%) rotate(-2deg);
+            transform: translateX(70vw) rotate(-2deg);
             transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform;
         }
@@ -369,14 +400,14 @@
         }
 
         .home-routes .home-routes__illu.is-past {
-            transform: translateX(-220%) rotate(-2deg);
-            transition: transform 0.45s cubic-bezier(0.4, 0, 1, 1);
+            transform: translateX(-120vw) rotate(-2deg);
+            transition: transform 0.55s cubic-bezier(0.4, 0, 1, 1);
         }
 
-        /* Block 3's helper is a standing figure, not a bike: it never rides off, so
-           it rises up from below the frame (clipped until it does) instead. No fade. */
+        /* Block 3's helper is a standing figure, not a bike: it rises from below the
+           frame (vertically clipped by the sticky frame's `overflow: visible clip`)
+           instead of riding. */
         .home-routes .home-routes__illu[data-seq-media="2"] {
-            opacity: 1;
             transform: translateY(120%);
             transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -414,6 +445,15 @@
         .home-routes .home-routes__illu.is-active,
         .home-routes .home-routes__illu[data-seq-media="2"].is-active {
             opacity: 1;
+            transform: none;
+        }
+
+        .home-routes__photo {
+            transform: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .home-routes__photo.is-active {
             transform: none;
         }
     }
