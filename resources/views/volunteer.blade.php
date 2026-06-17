@@ -145,6 +145,10 @@
                             @endforeach
                         </p>
                     @endif
+
+                    <p class="ho-find__all">
+                        <a href="{{ route('groups.index') }}">Bekijk alle lokale groepen</a>
+                    </p>
                 </div>
             </div>
         </div>

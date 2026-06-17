@@ -251,20 +251,14 @@
         margin-bottom: 2rem;
         color: var(--color-kidical-ink);
     }
-    /* nearest groups read as an inline, comma-separated run of links */
+    /* nearest groups read as an inline, comma-separated run of standard body links */
     .ho-find__nearest {
         margin: 0;
-        font-size: var(--text-lg);
-        line-height: 1.7;
-        color: var(--color-kidical-ink);
     }
-    .ho-find__nearest a {
-        color: var(--color-kidical-ink);
-        font-weight: 700;
-        text-decoration: underline;
-        text-underline-offset: 3px;
+    /* plain fallback link to the full chapter list, sits under the nearest run */
+    .ho-find__all {
+        margin-top: 1rem;
     }
-    .ho-find__nearest a:hover { color: var(--color-kidical-blue); }
     .ho-start {
         margin-top: calc(var(--spacing) * 14);
         overflow: visible;
