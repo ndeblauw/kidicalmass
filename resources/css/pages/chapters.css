@@ -94,42 +94,13 @@
         flex-direction: column;
     }
 
-    /* Agenda foot: the "alle activiteiten" link + a slim, calm opt-in (no competing box) */
+    /* Agenda foot: the "alle activiteiten" link */
     .chapter-agenda__foot {
         margin-top: 1.75rem;
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
     }
-    .chapter-notify {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-    }
-    .chapter-next__card--empty .chapter-notify { margin-top: 1.1rem; }
-    .chapter-notify__input {
-        flex: 1 1 14rem;
-        background-color: white;
-        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
-        border-radius: 0.75rem;
-        padding: 0.65rem 0.9rem;
-        color: var(--color-kidical-ink);
-        font-weight: 400;
-    }
-    .chapter-notify__input:focus { outline: 2px solid var(--color-kidical-blue); outline-offset: 1px; }
-    .chapter-notify__btn {
-        background-color: var(--color-kidical-yellow);
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        padding: 0.65rem 1.3rem;
-        border-radius: 0.75rem;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.15s ease, filter 0.15s ease;
-    }
-    .chapter-notify__btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
-    .chapter-notify__done { margin-top: 1rem; font-weight: 700; color: var(--color-kidical-blue); }
 
     /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
        recruitment CTA. Yellow so it fuses with the footer (lives in the layout's closing

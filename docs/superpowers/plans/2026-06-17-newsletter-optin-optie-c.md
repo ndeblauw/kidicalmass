@@ -113,7 +113,7 @@ Create `resources/views/components/newsletter-optin.blade.php`:
     <div {{ $attributes->class('bg-kidical-light-blue rounded-card p-8 flex flex-col gap-3 items-start') }}>
         <h3 class="text-kidical-ink">Je bent al mee</h3>
         <p class="text-kidical-ink/75">Je staat op de hoogte. Je nieuwsvoorkeuren beheer je in je profiel.</p>
-        <a href="{{ route('settings') }}" class="bg-kidical-blue text-white rounded-full px-5 py-2.5 font-bold no-underline">Beheer voorkeuren</a>
+        <x-cta-button variant="blue" :href="route('settings')">Beheer voorkeuren</x-cta-button>
     </div>
 @else
     <div {{ $attributes->class('@container') }} x-data="{ sent: false }">
@@ -139,8 +139,8 @@ Create `resources/views/components/newsletter-optin.blade.php`:
                         required
                         placeholder="jouw@email.be"
                         class="rounded-full border-2 border-kidical-ink/15 px-4 py-2.5 text-kidical-ink focus:border-kidical-blue focus:outline-none">
-                    <button type="submit" class="bg-kidical-blue text-white rounded-full px-5 py-2.5 font-bold">Ja, hou me op de hoogte</button>
-                    <p class="text-kidical-ink/60 text-sm">Eén mail per maand. Uitschrijven kan altijd.</p>
+                    <x-cta-button variant="blue" x-on:click="sent = true">Ja, hou me op de hoogte</x-cta-button>
+                    <p class="text-kidical-ink/60 text-sm">Geen spam, beloofd. Uitschrijven met één klik.</p>
                 </form>
                 <p x-show="sent" x-cloak class="text-kidical-blue font-bold">Bedankt! Je staat op de lijst.</p>
             </div>

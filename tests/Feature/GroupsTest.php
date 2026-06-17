@@ -256,7 +256,7 @@ test('chapter home shows a designed empty state when no upcoming ride', function
     get(route('groups.show', $group))
         ->assertOk()
         ->assertSee('Nog geen fietstocht gepland')
-        ->assertSee('Hou me op de hoogte');
+        ->assertSee('Blijf op de hoogte');
 });
 
 test('chapter team carousel shows member cards with first names and roles', function () {

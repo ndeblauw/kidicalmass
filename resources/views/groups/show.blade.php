@@ -87,17 +87,12 @@
         <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
 
         {{-- No ride on the agenda yet (there may still be workshops/meetings below):
-             a warm note, not a dead end. Honest — never a workshop dressed as a ride. --}}
+             a warm, honest note — never a workshop dressed as a ride. The opt-in below
+             handles "leave your email". --}}
         @unless ($hasRide)
-            <div class="chapter-next__card chapter-next__card--empty" x-data="{ sent: false }">
+            <div class="chapter-next__card chapter-next__card--empty">
                 <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
-                <p class="chapter-next__empty-body">Laat je e-mail achter en je bent de eerste die het hoort als {{ $gemeente }} vertrekt.</p>
-                <form @submit.prevent="sent = true" class="chapter-notify" x-show="!sent">
-                    <label class="sr-only" for="notify-empty">E-mail</label>
-                    <input type="email" id="notify-empty" required placeholder="jouw@email.be" class="chapter-notify__input">
-                    <button type="submit" class="chapter-notify__btn">Hou me op de hoogte</button>
-                </form>
-                <p class="chapter-notify__done" x-show="sent" x-cloak>Bedankt! We laten het je weten zodra er een rit is.</p>
+                <p class="chapter-next__empty-body">We laten het je weten zodra {{ $gemeente }} vertrekt. Schrijf je hieronder in.</p>
             </div>
         @endunless
 
@@ -114,6 +109,10 @@
                 <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten in {{ $gemeente }} (ook voorbije)</x-cta-button>
             </div>
         @endif
+
+        <div class="mt-12">
+            <x-newsletter-optin :group="$group" />
+        </div>
     </section>
 
     {{-- 4 · LOCAL EXTRAS — quiet white, moved above the closing band. Faux vrienden +
