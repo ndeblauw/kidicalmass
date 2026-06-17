@@ -30,6 +30,19 @@ class ChapterVolunteerSignup extends Component
         'niet-zeker' => 'Nog niet zeker',
     ];
 
+    /**
+     * Short, concrete description per role so people can pick what fits without guessing.
+     * Keyed by the same value as ROLE_OPTIONS.
+     */
+    public const ROLE_DESCRIPTIONS = [
+        'roze-hesje' => 'Je rijdt mee als wegkapitein en houdt de groep veilig bij elk kruispunt.',
+        'mede-organisator' => 'Je denkt mee over de route en helpt een rit op poten zetten.',
+        'communicator' => 'Je houdt de buurt op de hoogte via socials, affiches en mond-tot-mond.',
+        'fotograaf' => 'Je legt de leukste momenten van de rit vast.',
+        'dj' => 'Je zorgt voor muziek en sfeer onderweg.',
+        'niet-zeker' => 'Nog geen idee? Geen probleem, we zoeken samen iets dat bij je past.',
+    ];
+
     public Group $group;
 
     #[Validate('required|string|max:255')]
@@ -124,6 +137,7 @@ class ChapterVolunteerSignup extends Component
     {
         return view('livewire.chapter-volunteer-signup', [
             'roleOptions' => self::ROLE_OPTIONS,
+            'roleDescriptions' => self::ROLE_DESCRIPTIONS,
         ]);
     }
 }

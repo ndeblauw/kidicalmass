@@ -43,14 +43,19 @@
                 @enderror
             </div>
 
-            {{-- Role interest — optional; "Nog niet zeker" removes the need-to-know-your-role barrier --}}
+            {{-- Role interest — optional; each role carries a one-line description so
+                 people can pick what fits. "Nog niet zeker" removes the need-to-know
+                 barrier. --}}
             <fieldset class="volunteer-signup__field">
                 <legend class="volunteer-signup__label">Waarmee wil je helpen? <small>(optioneel)</small></legend>
-                <div class="grid gap-1 sm:grid-cols-2">
+                <div class="volunteer-roles">
                     @foreach ($roleOptions as $value => $label)
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" wire:model="roles" value="{{ $value }}">
-                            <span>{{ $label }}</span>
+                        <label class="volunteer-role">
+                            <input type="checkbox" class="volunteer-role__check" wire:model="roles" value="{{ $value }}">
+                            <span class="volunteer-role__text">
+                                <span class="volunteer-role__name">{{ $label }}</span>
+                                <span class="volunteer-role__desc">{{ $roleDescriptions[$value] ?? '' }}</span>
+                            </span>
                         </label>
                     @endforeach
                 </div>
@@ -68,9 +73,12 @@
                 @enderror
             </div>
 
-            <flux:button type="submit" variant="primary" icon-trailing="arrow-right" wire:loading.attr="disabled" wire:target="submit">
+            <x-cta-button variant="blue" icon="arrow" block
+                          wire:click="submit"
+                          wire:loading.attr="disabled"
+                          wire:target="submit">
                 Ik doe mee
-            </flux:button>
+            </x-cta-button>
         </form>
     @endif
 </div>
