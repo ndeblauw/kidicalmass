@@ -90,15 +90,19 @@
              bike rides in to match the section you're reading (see <x-scroll-sequence>).
              No is-active on the first item, so it rolls in like the rest on first view.
              Mobile: each section shows its own illustration inline (home.css), no ride. --}}
-        <x-scroll-sequence media-side="right" class="home-routes">
+        <x-scroll-sequence media-side="right" class="home-routes" active-margin="-12% 0px -61% 0px">
             <x-slot:media>
-                <img class="home-routes__photo is-active" data-seq-media="0" src="{{ asset('img/photography/kids-thumbsup-at-ride.jpg') }}" alt="Twee kinderen met fietshelm steken vrolijk hun duim op tijdens een Kidical Mass" loading="lazy">
-                <img class="home-routes__photo" data-seq-media="1" src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="Een grote groep gezinnen fietst samen weg onder de triomfboog van het Jubelpark" loading="lazy">
-                <img class="home-routes__photo" data-seq-media="2" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
+                {{-- A centred square stage holds the crossfading photos and the
+                     illustration that hangs off the photo's bottom edge. --}}
+                <div class="home-routes__stage">
+                    <img class="home-routes__photo is-active" data-seq-media="0" src="{{ asset('img/photography/kids-thumbsup-at-ride.jpg') }}" alt="Twee kinderen met fietshelm steken vrolijk hun duim op tijdens een Kidical Mass" loading="lazy">
+                    <img class="home-routes__photo" data-seq-media="1" src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="Een grote groep gezinnen fietst samen weg onder de triomfboog van het Jubelpark" loading="lazy">
+                    <img class="home-routes__photo" data-seq-media="2" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
 
-                <img class="home-routes__illu" data-seq-media="0" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" loading="lazy">
-                <img class="home-routes__illu" data-seq-media="1" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" loading="lazy">
-                <img class="home-routes__illu" data-seq-media="2" src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" loading="lazy">
+                    <img class="home-routes__illu" data-seq-media="0" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" loading="lazy">
+                    <img class="home-routes__illu" data-seq-media="1" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" loading="lazy">
+                    <img class="home-routes__illu" data-seq-media="2" src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" loading="lazy">
+                </div>
             </x-slot:media>
 
             <div class="scroll-sequence__block" data-seq-block="0">

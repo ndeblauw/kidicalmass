@@ -1,5 +1,10 @@
 @props([
     'mediaSide' => 'right', // right | left — which side the sticky media column sits on (lg+)
+    // IntersectionObserver rootMargin for the active-swap band. The bottom inset
+    // sets how far a block must rise before it takes over the media: the default
+    // swaps near the viewport centre; pass a larger bottom inset to swap later,
+    // once the new block fills the view and the previous one has scrolled off.
+    'activeMargin' => '-50% 0px -40% 0px',
 ])
 
 {{-- Reusable scrollytelling unit. The text column (default slot) scrolls; the media
@@ -27,7 +32,7 @@
                     entries.forEach(e => {
                         if (e.isIntersecting) this.setActive(Number(e.target.dataset.seqBlock) || 0);
                     });
-                }, { rootMargin: '-50% 0px -40% 0px', threshold: 0 }); // band a touch below centre: the active swap (and the ride-away) fires a bit earlier
+                }, { rootMargin: '{{ $activeMargin }}', threshold: 0 }); // page-tunable band; controls when the active swap (and the ride-away) fires
                 this.$el.querySelectorAll('[data-seq-block]').forEach(b => center.observe(b));
             }
 

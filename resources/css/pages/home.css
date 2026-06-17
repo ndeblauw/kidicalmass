@@ -335,9 +335,9 @@
         object-fit: contain;
     }
 
-    /* Photo behind each section: fills the sticky cell, crossfades via the base
-       [data-seq-media] opacity rule. Rounded + shadowed on the photo itself (not
-       the frame) so the illustration's edge overlap is never clipped. */
+    /* Photo behind each section: fills the square stage and crossfades by opacity
+       (lg rules below). Rounded + shadowed on the photo itself (not a frame) so the
+       illustration's edge overlap and the drop-shadow are never clipped. */
     .home-routes__photo {
         width: 100%;
         height: 100%;
@@ -359,32 +359,64 @@
             display: none;
         }
 
-        /* Bikes spill horizontally to ride across the screen (the page panel
-           .page-panel--home clips overflow-x at the viewport edge so no scrollbar);
-           vertically the frame clips, which hides the block-3 helper below until it
-           rises into view. */
+        /* Full-height sticky cell that vertically centres the square stage, so the
+           photo lines up with the centred text column. overflow stays visible so the
+           photo's drop-shadow and the illustration hanging off the bottom are never
+           clipped. Bikes still spill horizontally to ride across the screen —
+           .page-panel--home clips overflow-x at the viewport edge, so no scrollbar. */
         .home-routes .scroll-sequence__media-sticky {
-            overflow: visible clip;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
         }
 
-        /* Subtle ken-burns settle as a photo becomes active (mirrors /help-out). */
+        /* Stop the sticky travel short of the section's bottom so the last block's
+           illustration, which hangs below the photo, still lands on white instead of
+           being painted over by the next (newsletter) section. */
+        .home-routes .scroll-sequence__media {
+            padding-bottom: 8rem;
+        }
+
+        /* The square photo card: centred, breathing room on each side, never taller
+           than the cell. It's the positioning context for the photos (which fill it)
+           and the illustration (which hangs off its bottom edge). */
+        .home-routes__stage {
+            position: relative;
+            width: calc(100% - 4rem);
+            max-height: 100%;
+            aspect-ratio: 1;
+            /* The sticky cell clears the nav (top: 8rem) but only leaves a 4rem
+               gutter below, so its centre sits half that difference (2rem) low.
+               Pull the stage up by 2rem so the photo's centre lines up with the
+               vertically-centred text lockup. */
+            transform: translateY(-2rem);
+        }
+
+        /* Photos fill the stage and crossfade by opacity as each block activates,
+           with a subtle ken-burns settle (mirrors /help-out). */
         .home-routes__photo {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
             transform: scale(1.04);
             transition: opacity 0.8s ease, transform 1.3s ease;
         }
 
         .home-routes__photo.is-active {
+            opacity: 1;
             transform: scale(1);
         }
 
-        /* Half-size illustration parked over the photo's bottom-left, breaking a
-           touch past its left edge. Rides in from beyond the right screen edge and
-           (when left) bolts past the left screen edge; the panel clips at 100vw so
-           it reads as on/off the real screen. Sits above the photo (later in DOM). */
+        /* Half-size illustration hanging off the photo's bottom edge so only its
+           top overlaps the photo. Rides in from beyond the right screen edge and
+           bolts past the left on exit; the panel clips at 100vw so it reads as
+           on/off the real screen. Sits above the photo (later in DOM). */
         .home-routes .home-routes__illu {
             /* object-fit: contain is inherited from the base .home-routes__illu
                rule above (same specificity, earlier in source); don't redeclare it. */
-            inset: auto auto 1rem -1.5rem;   /* bottom-left, slight left overlap */
+            position: absolute;
+            inset: auto auto -30% 6%;   /* hang below; only the top overlaps */
             width: 52%;
             height: 52%;
             z-index: 1;
@@ -402,19 +434,6 @@
         .home-routes .home-routes__illu.is-past {
             transform: translateX(-120vw) rotate(-2deg);
             transition: transform 0.55s cubic-bezier(0.4, 0, 1, 1);
-        }
-
-        /* Block 3's helper is a standing figure, not a bike: it rises from below the
-           frame (vertically clipped by the sticky frame's `overflow: visible clip`)
-           instead of riding. */
-        .home-routes .home-routes__illu[data-seq-media="2"] {
-            transform: translateY(120%);
-            transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .home-routes .home-routes__illu[data-seq-media="2"].is-active {
-            transform: translateY(0);
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s;
         }
     }
 
@@ -435,15 +454,13 @@
             transition: none;
         }
 
-        .home-routes .home-routes__illu,
-        .home-routes .home-routes__illu[data-seq-media="2"] {
+        .home-routes .home-routes__illu {
             opacity: 0;
             transform: none;
             transition: opacity 0.2s ease;
         }
 
-        .home-routes .home-routes__illu.is-active,
-        .home-routes .home-routes__illu[data-seq-media="2"].is-active {
+        .home-routes .home-routes__illu.is-active {
             opacity: 1;
             transform: none;
         }
