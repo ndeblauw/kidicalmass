@@ -59,13 +59,29 @@
     .kal-agenda {
         min-width: 0;
     }
+    /* Right-column lockup: opt-in card + decorative sign, stacked. Bottom-aligned
+       in its grid cell (align-self: end) so the lockup sits at the foot of the
+       agenda, then dips past the panel into the yellow footer band via the
+       negative bottom margin (--kal-dip). */
     .kal-sidebar {
-        position: sticky;
-        top: 1.5rem;
+        --kal-dip: 12rem;
+        align-self: end;
+        margin-bottom: calc(var(--kal-dip) * -1);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
     }
-    /* Middle-lane sign: hidden until the large breakpoint opens a 3rd column. */
+    /* Decorative sign, tucked beneath the card and overlapping its bottom edge. */
     .kal-illu {
-        display: none;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -1.5rem;
+        margin-right: 2.5rem;
+    }
+    .kal-illu__img {
+        width: 11.25rem;
+        max-width: 100%;
+        height: auto;
     }
     .kal-sidebar__panel {
         border-radius: 16px;
@@ -86,6 +102,20 @@
         display: flex;
         justify-content: flex-start;
         margin-top: 3rem;
+        position: relative;
+        /* Pull the button down so it straddles the seam between the white panel
+           and the yellow footer band. The panel is lifted (z-index: 20) so the
+           button paints over the yellow. */
+        transform: translateY(6.5rem);
+    }
+    /* The quiet secondary fill is translucent ink, so the yellow bled through
+       where the button crosses the seam. Repaint it as the same gray mixed into
+       an opaque white base so nothing shows through. */
+    .kal-pastbar .cta-button--secondary {
+        background: color-mix(in oklab, var(--color-kidical-ink) 7%, white);
+    }
+    .kal-pastbar .cta-button--secondary:hover {
+        background: color-mix(in oklab, var(--color-kidical-ink) 12%, white);
     }
     .kal-empty {
         font-size: var(--text-lg);
@@ -125,39 +155,40 @@
         }
     }
 
-    /* 2xl+ is where the Tailwind container reaches its widest (1536px) and can
-       afford a third, slim middle lane for the decorative sign between the agenda
-       and the opt-in card. Below this it stays a 2-column grid (the sign is
-       display:none, so two children fill two tracks). */
-    @media (min-width: 1536px) {
-        .kal-body {
-            grid-template-columns: minmax(0, 1fr) clamp(7rem, 9vw, 10rem) clamp(21rem, 24vw, 26rem);
-        }
-        .kal-illu {
-            display: flex;
-            justify-content: center;
-            position: sticky;
-            top: 2.5rem;
-            align-self: start;
-        }
-        .kal-illu__img {
-            width: 100%;
-            max-width: 9rem;
-            height: auto;
-        }
+    /* The lockup dips below the white panel into the yellow footer zone; lift the
+       panel above that zone (both default to z-index 10, sibling order would hide
+       the dip) so the sign paints over the yellow. Scoped to the calendar. */
+    .page-panel:has(.kal-body) {
+        z-index: 20;
     }
 
-    @media (max-width: 767px) {
-        /* Single column: agenda stacks, sidebar drops below it. */
+    /* Below the desktop two-column threshold the agenda + card are too cramped
+       side by side, so stack to a single column. The lockup is then the last
+       thing before the footer, so it doesn't need the desktop bottom-alignment,
+       the seam-straddling pull-down, or the deep dip. */
+    @media (max-width: 1023px) {
         .kal-body {
             grid-template-columns: 1fr;
             gap: 2rem;
             margin-top: 1.5rem;
         }
-        .kal-sidebar {
-            position: static;
-            top: auto;
+        /* The decorative sign is a desktop-only flourish; drop it in the single
+           column and give the opt-in card room to breathe above it instead. */
+        .kal-illu {
+            display: none;
         }
+        .kal-sidebar {
+            --kal-dip: 0rem;
+            margin-top: 3rem;
+        }
+        /* The button sits at the foot of the agenda mid-page, not on the
+           white/yellow seam, so don't pull it down. */
+        .kal-pastbar {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 767px) {
         /* Day grid: narrower date column so the rides column has room. */
         .kal-day {
             grid-template-columns: 56px 1fr;

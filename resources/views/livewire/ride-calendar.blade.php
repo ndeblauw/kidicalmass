@@ -84,18 +84,16 @@
 
             </div>{{-- /.kal-agenda --}}
 
-            {{-- Decorative sign in the gap between agenda and opt-in — only shown on
-                 large screens, where the 3-column grid opens a middle lane (CSS-gated). --}}
-            @if ($when !== 'voorbije')
-                <div class="kal-illu" aria-hidden="true">
-                    <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" class="kal-illu__img">
-                </div>
-            @endif
-
-            {{-- Sticky sidebar (desktop only; hidden on mobile via CSS) --}}
+            {{-- Right-column lockup: opt-in card with the decorative sign tucked
+                 beneath it, overlapping the card's bottom edge. The lockup is
+                 bottom-aligned in its grid cell and dips into the yellow footer
+                 band below (see .kal-sidebar in calendar.css). --}}
             @if ($when !== 'voorbije')
                 <aside class="kal-sidebar">
                     <x-newsletter-optin />
+                    <div class="kal-illu" aria-hidden="true">
+                        <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" class="kal-illu__img">
+                    </div>
                 </aside>
             @endif
 

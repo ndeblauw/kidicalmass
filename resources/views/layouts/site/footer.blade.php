@@ -1,7 +1,7 @@
 {{-- Yellow footer zone: one continuous kidical-yellow field holding the partner
      card, the footerbunch illustration, and the inset dark footer card. The page's
      closing CTA (rendered by the layout just above this) shares the same yellow. --}}
-<div class="site-footer-zone relative z-10 bg-kidical-yellow">
+<div class="site-footer-zone relative z-10 bg-kidical-yellow pt-12">
 
     {{-- Partner recognition — a white card floating on the yellow (showcase routes only) --}}
     <x-partners />
