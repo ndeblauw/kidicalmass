@@ -44,6 +44,8 @@ test('blade components do not hardcode raw colors or px in styling contexts', fu
         ->filter(fn ($f) => str_ends_with($f->getFilename(), '.blade.php'))
         // settings/ is the auth/profile UI, outside the public-site design system.
         ->reject(fn ($f) => str_starts_with(str_replace(DIRECTORY_SEPARATOR, '/', $f->getRelativePathname()), 'settings/'))
+        // emails/ components use inline styles with raw values — required by email clients.
+        ->reject(fn ($f) => str_starts_with(str_replace(DIRECTORY_SEPARATOR, '/', $f->getRelativePathname()), 'emails/'))
         ->reject(fn ($f) => in_array(str_replace('.blade.php', '', $f->getFilename()), $allowlist, true));
 
     $raw = '#[0-9a-fA-F]{3,8}\b|\b\d+px\b';

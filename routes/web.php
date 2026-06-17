@@ -15,6 +15,7 @@ use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
+use App\Notifications\PinkVest\WelcomeNotification;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -109,10 +110,20 @@ Route::middleware([BackstageDemoAccess::class])->prefix('backstage')->name('back
 if (! app()->isProduction()) {
     Route::get('prototype/mail/uitnodiging', function () {
         $group = Group::where('shortname', 'oudergem')->firstOrFail();
-        $volunteer = $group->users()->where('email', 'morgane@example.test')->firstOrFail();
+        $volunteer = $group->users()->firstOrFail();
 
         return new VolunteerInvite($volunteer, $group);
     })->name('prototype.mail.invite');
+
+    Route::get('prototype/mail/welkom-roze-hesje', function () {
+        //$group = Group::where('shortname', 'oudergem')->firstOrFail();
+        $volunteer = \App\Models\User::where('email', 'pinkvest@kidi.be')->firstOrFail();
+        $group = $volunteer->groups()->firstOrFail();
+
+        $volunteer->notify(new WelcomeNotification($group));
+
+        return (new WelcomeNotification($group))->toMail($volunteer);
+    })->name('prototype.mail.welcome');
 }
 
 Route::middleware(['auth'])->prefix('admin')->group(function (): void {
