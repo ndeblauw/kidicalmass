@@ -51,9 +51,12 @@
         vertical-align: -0.25em;
     }
 
-    /* Quiet meta line: one muted colour; only the time keeps weight. */
+    /* Quiet meta line: one muted colour; only the time keeps weight.
+       Never shrinks — the title wraps to absorb a tight row, so the venue stays
+       whole instead of truncating. The container query below stacks the meta
+       under the title once the row is genuinely too narrow for both. */
     .ride-row__meta {
-        min-width: 0;
+        flex: 0 0 auto;
         display: flex;
         align-items: baseline;
         gap: 0.4rem;
