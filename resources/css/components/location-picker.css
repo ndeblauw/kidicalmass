@@ -223,7 +223,7 @@
 .location-picker__current strong {
     font-family: var(--font-sans);
     color: var(--color-kidical-blue);
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .location-picker__change {
@@ -247,7 +247,7 @@
 /* Compact context: "Je fietst rond" is normal weight, the city name is bold, wijzig is a blue link. */
 .location-picker--compact .location-picker__current strong {
     color: var(--color-text-body);
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .location-picker--compact .location-picker__current {

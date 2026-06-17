@@ -9,8 +9,7 @@
             <x-filter-bar>
                 @if ($location)
                     <div class="filter-bar__radius">
-                        <span class="filter-bar__sep" aria-hidden="true">·</span>
-                        <span class="filter-bar__radius-label">Hoe ver</span>
+                        <span class="filter-bar__radius-label">Toon ritten</span>
                         <div class="filter-bar__tabs">
                             <button
                                 type="button"
