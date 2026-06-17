@@ -8,9 +8,9 @@
 
 @php
     $theme = match ($color) {
-        'yellow' => ['bg' => '#FEF3D5', 'btn' => '#f9d924', 'btnText' => '#281a39', 'headerText' => '#281a39'],
-        'pink'   => ['bg' => '#fce4ec', 'btn' => '#E63A7B', 'btnText' => '#ffffff', 'headerText' => '#ffffff'],
-        default  => ['bg' => '#B7E7F0', 'btn' => '#1d67cd', 'btnText' => '#ffffff', 'headerText' => '#ffffff'],
+        'yellow' => ['bg' => '#FEF3D5', 'btn' => '#f9d924', 'btnText' => '#281a39'],
+        'pink'   => ['bg' => '#fce4ec', 'btn' => '#E63A7B', 'btnText' => '#ffffff'],
+        default  => ['bg' => '#B7E7F0', 'btn' => '#1d67cd', 'btnText' => '#ffffff'],
     };
 @endphp
 <!DOCTYPE html>
@@ -31,10 +31,10 @@
             <td align="center">
                 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background-color:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 6px 30px rgba(0,0,0,0.08);">
 
-                    {{-- Header band --}}
+                    {{-- Logo --}}
                     <tr>
-                        <td style="background-color:{{ $theme['btn'] }}; padding:24px 40px;">
-                            <p style="margin:0; color:{{ $theme['headerText'] }}; font-size:20px; font-weight:700; letter-spacing:0.5px;">Kidical Mass</p>
+                        <td style="padding:36px 40px 0; text-align:center;">
+                            <img src="{{ asset('img/logos/logo-color.png') }}" alt="Kidical Mass" style="width:200px; height:auto; border:0; display:block; margin:0 auto;">
                         </td>
                     </tr>
 

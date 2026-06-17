@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Blade;
 
-it('renders a pastel blue background and blue button by default (no color)', function () {
+it('renders a pastel blue background and logo by default (no color)', function () {
     $html = Blade::render('<x-emails.notification subject="Test">Body</x-emails.notification>');
 
     expect($html)
         ->toContain('#B7E7F0')   // pastel blue outer background
-        ->toContain('#1d67cd')   // blue header band and button (default theme)
+        ->toContain('img/logos/logo-color.png')
         ->toContain('Test')
         ->toContain('Body');
 });
@@ -17,24 +17,24 @@ it('renders a pastel blue background when color is explicitly blue', function ()
 
     expect($html)
         ->toContain('#B7E7F0')
-        ->toContain('#1d67cd');
+        ->toContain('img/logos/logo-color.png');
 });
 
-it('renders a pastel yellow background and yellow button when color is yellow', function () {
+it('renders a pastel yellow background and logo when color is yellow', function () {
     $html = Blade::render('<x-emails.notification color="yellow" subject="Test">Body</x-emails.notification>');
 
     expect($html)
         ->toContain('#FEF3D5')   // pastel yellow background
-        ->toContain('#f9d924')   // yellow button
+        ->toContain('img/logos/logo-color.png')
         ->not->toContain('#B7E7F0');
 });
 
-it('renders a pastel pink background and pink button when color is pink', function () {
+it('renders a pastel pink background and logo when color is pink', function () {
     $html = Blade::render('<x-emails.notification color="pink" subject="Test">Body</x-emails.notification>');
 
     expect($html)
         ->toContain('#fce4ec')   // pastel pink background
-        ->toContain('#E63A7B')   // pink button
+        ->toContain('img/logos/logo-color.png')
         ->not->toContain('#B7E7F0');
 });
 
@@ -46,7 +46,7 @@ it('renders the preheader as a hidden element when provided', function () {
         ->toContain('display:none');
 });
 
-it('renders the CTA button and fallback footer link when ctaUrl and ctaLabel are set', function () {
+it('renders the CTA button with theme color and fallback footer link when ctaUrl and ctaLabel are set', function () {
     $html = Blade::render(
         '<x-emails.notification cta-url="https://example.com/activate" cta-label="Activeer" subject="Test">Body</x-emails.notification>',
     );
@@ -54,6 +54,7 @@ it('renders the CTA button and fallback footer link when ctaUrl and ctaLabel are
     expect($html)
         ->toContain('https://example.com/activate')
         ->toContain('Activeer')
+        ->toContain('#1d67cd')   // default blue button
         ->toContain('Werkt de knop niet');
 });
 

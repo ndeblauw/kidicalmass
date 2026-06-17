@@ -120,6 +120,8 @@ if (! app()->isProduction()) {
         $volunteer = \App\Models\User::where('email', 'pinkvest@kidi.be')->firstOrFail();
         $group = $volunteer->groups()->firstOrFail();
 
+        $volunteer->notify(new WelcomeNotification($group));
+
         return (new WelcomeNotification($group))->toMail($volunteer);
     })->name('prototype.mail.welcome');
 }
