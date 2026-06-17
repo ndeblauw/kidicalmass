@@ -15,9 +15,11 @@ beforeEach(function () {
 });
 
 it('renders the NL video hero and drops the old English copy', function () {
+    // The title is split into per-word <span>s for the entrance animation, so match
+    // on the tag-stripped text rather than a contiguous string.
     get('/nl')
         ->assertOk()
-        ->assertSee('Het leukste uur op de fiets')
+        ->assertSeeText('Het leukste uur op de fiets')
         ->assertSee('de straat ook van kinderen is')
         ->assertSee('youtube.com/embed/VXiIgU9vI-4', escape: false)
         ->assertDontSee('Kids on bikes')

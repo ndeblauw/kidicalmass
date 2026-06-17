@@ -71,9 +71,10 @@
         }
     }
 
-    .home-hero::after {
-        /* Legibility scrim so the white title holds over any frame. Blue-tinted overlay
-           ties the hero into the brand instead of generic cinema-black. */
+    .home-backdrop::after {
+        /* Legibility scrim so the white title holds over any frame. Covers the whole
+           backdrop (the video now fills it), so there's no untinted seam below the
+           hero. Blue-tinted to tie into the brand instead of generic cinema-black. */
         content: "";
         position: absolute;
         inset: 0;
@@ -151,16 +152,23 @@
         color: #fff;
     }
 
-    /* Beat 3 — the lead and scroll-cue fade up last, after a couple of seconds
-       on the video, inviting the scroll. The arrow's own bounce lives on its
-       svg, so this entrance on the link doesn't collide with it. */
+    /* Beat 3 — the lead and scroll-cue fade up last, now after the header has
+       revealed (logo then menu). Shifted +0.5s so the blue band lands ~0.5s behind
+       the menu. The arrow's own bounce lives on its svg, so this entrance on the
+       link doesn't collide with it. */
     @media (prefers-reduced-motion: no-preference) {
+        /* The band itself is transparent during the hold (video shows through where it
+           sits), then fades to brand blue in step with its copy rising. */
+        .home-intro {
+            animation: home-hero-band-in 600ms cubic-bezier(0.16, 1, 0.3, 1) 2900ms both;
+        }
+
         .home-intro .intro-text {
-            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2400ms both;
+            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2900ms both;
         }
 
         .home-intro__scroll {
-            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2600ms both;
+            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 3100ms both;
         }
     }
 
@@ -459,5 +467,16 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Fades the lead band from clear (video showing through) to brand blue. The `from`
+   is blue at zero alpha so it interpolates within the same hue, no grey midpoint. */
+@keyframes home-hero-band-in {
+    from {
+        background-color: color-mix(in oklab, var(--color-kidical-blue), transparent 100%);
+    }
+    to {
+        background-color: var(--color-kidical-blue);
     }
 }

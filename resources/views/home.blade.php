@@ -3,15 +3,17 @@
          scrolls up over it. The video + title fill the top, a brand-blue band
          carries the lead and the two entry links. --}}
     <div class="home-backdrop">
-        <section class="home-hero">
-            <div class="home-hero__video" aria-hidden="true">
-                <iframe
-                    src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&loop=1&playlist=VXiIgU9vI-4&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
-                    title="" tabindex="-1" frameborder="0"
-                    allow="autoplay; encrypted-media; picture-in-picture"
-                ></iframe>
-            </div>
+        {{-- Video covers the whole backdrop (hero + lead band), so it reads as one
+             continuous frame; the blue band fades in over it with its copy. --}}
+        <div class="home-hero__video" aria-hidden="true">
+            <iframe
+                src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&loop=1&playlist=VXiIgU9vI-4&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
+                title="" tabindex="-1" frameborder="0"
+                allow="autoplay; encrypted-media; picture-in-picture"
+            ></iframe>
+        </div>
 
+        <section class="home-hero">
             <h1 class="home-hero__title"><span class="home-hero__title-line"><span class="home-hero__word">Het</span> <span class="home-hero__word">leukste</span> <span class="home-hero__word">uur</span> <span class="home-hero__word">op</span> <span class="home-hero__word">de</span> <span class="home-hero__word">fiets</span></span></h1>
         </section>
 

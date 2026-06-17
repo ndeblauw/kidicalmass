@@ -44,3 +44,21 @@ it('shows the Steun support CTA in the header, linking to the support page', fun
 it('301s the old /membership path to the new /steun-ons page', function () {
     get('/nl/membership')->assertRedirect(route('membership', ['locale' => 'nl']));
 });
+
+it('groups the primary nav links in their own white band', function () {
+    get('/nl')->assertSee('site-nav__links', escape: false);
+});
+
+it('gives the homepage logo the scroll-shrink behaviour but not other pages', function () {
+    // The oversized intro logo (twice the size, shrinking on scroll) is homepage-only;
+    // the Alpine binding that drives it must not render on inner pages.
+    get('/nl')->assertSee('site-nav__logo--xl', escape: false);
+    get('/nl/events')->assertDontSee('site-nav__logo--xl', escape: false);
+});
+
+it('only runs the staggered header reveal intro on the homepage', function () {
+    // The header is hidden then revealed (logo, then menu) ahead of the blue-band
+    // lead; that intro flag must be homepage-only so inner pages stay visible at once.
+    get('/nl')->assertSee('site-header--intro', escape: false);
+    get('/nl/events')->assertDontSee('site-header--intro', escape: false);
+});

@@ -221,18 +221,52 @@ select:focus[data-flux-control] {
         inset: 0 0 auto 0;
         z-index: 60;                   
     }
+    /* The header floats transparently; only the logo and the nav band carry surface. */
     .site-nav {
         margin-top: 1rem;
-        background-color: white;
-        border-radius: 1.25rem;
-        box-shadow: 0 0.5rem 1.5rem -0.5rem color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
     }
     .site-nav__bar {
-        height: 4.5rem;
-        padding-inline: 1.25rem;
+        min-height: 4.5rem;
     }
     .site-nav__logo {
-        height: 3rem;
+        height: 4.5rem;
+        transition: height 0.3s ease, opacity 0.3s ease;
+    }
+    /* Homepage intro: the logo starts oversized (until the first scroll). */
+    .site-nav__logo--xl {
+        height: 9rem;
+    }
+    /* On every page, the logo fades out once the page scrolls; the nav band stays. */
+    .site-nav__logo--hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .site-nav__group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    /* Primary nav links sit together in their own white band, set apart from the bare logo. */
+    .site-nav__links {
+        display: flex;
+        align-items: center;
+        height: 3.5rem;
+        padding-inline: 1.5rem;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 0.4rem 1.2rem -0.4rem color-mix(in oklab, var(--color-kidical-ink), transparent 75%);
+    }
+
+    /* Homepage intro: the header is hidden, then the logo and the menu fade up in
+       sequence, landing just before the blue-band lead. The `both` fill keeps them
+       hidden through the delay; reduced-motion users skip it and see the header at once. */
+    @media (prefers-reduced-motion: no-preference) {
+        .site-header--intro .site-nav__reveal-logo {
+            animation: site-header-reveal 550ms cubic-bezier(0.16, 1, 0.3, 1) 2050ms both;
+        }
+        .site-header--intro .site-nav__reveal-menu {
+            animation: site-header-reveal 550ms cubic-bezier(0.16, 1, 0.3, 1) 2400ms both;
+        }
     }
     .page-panel {
         position: relative;
@@ -253,12 +287,13 @@ select:focus[data-flux-control] {
         display: inline-flex;
         align-items: center;
         gap: 0.3rem;
+        min-height: 3.5rem;
         background-color: var(--color-kidical-red);
         color: white;
         font-weight: 800;
-        font-size: var(--text-sm);
-        padding: 0.45rem 0.9rem;
-        border-radius: 9999px;
+        font-size: var(--text-base);
+        padding: 0 1rem;
+        border-radius: 1rem;
         white-space: nowrap;
         text-decoration: none;
         transition: filter 0.15s ease;
@@ -267,18 +302,19 @@ select:focus[data-flux-control] {
     .roze-nav-btn--active { box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-red), transparent 78%); }
     .roze-nav-btn--block { display: flex; justify-content: center; }
 
-    /* Steun pill — same shape + body font/weight as the roze button (not the Caprasimo
-       cta-button), just the yellow accent. Keeps the nav buttons visually consistent. */
+    /* Steun button — same height + rounded-rect shape as the nav band, body font/weight
+       and the yellow accent. Reads as part of the modular right-hand cluster. */
     .steun-nav-btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.45rem;
+        min-height: 3.5rem;
         background-color: var(--color-kidical-yellow);
         color: var(--color-kidical-ink);
         font-weight: 800;
-        font-size: var(--text-sm);
-        padding: 0.45rem 0.95rem;
-        border-radius: 9999px;
+        font-size: var(--text-base);
+        padding: 0 1.1rem;
+        border-radius: 1rem;
         white-space: nowrap;
         text-decoration: none;
         transition: filter 0.15s ease;
@@ -288,23 +324,28 @@ select:focus[data-flux-control] {
 }
 
 @media (max-width: 767px) {
-    /* Mobile dropdown nav: comfortable tap targets, branded dividers. */
-    header nav.md\:hidden {
+    /* Smaller bare logo on phones; the homepage intro variant is still ~2x. */
+    .site-nav__logo { height: 3rem; }
+    .site-nav__logo--xl { height: 6rem; }
+
+    /* Mobile menu: links drop into their own white rounded panel. */
+    .site-nav__mobile-menu {
         margin-top: 0.5rem;
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-        padding-top: 0.5rem;
+        background-color: white;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        box-shadow: 0 0.6rem 1.6rem -0.4rem color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
     }
-    header nav.md\:hidden [data-flux-navbar-items] {
+    .site-nav__mobile-menu [data-flux-navbar-items] {
         display: flex;
         align-items: center;
-        min-height: 44px;
-        padding-inline: 0.5rem;
-        font-family: var(--font-heading);
+        min-height: 48px;
+        padding-inline: 0.75rem;
         font-weight: 700;
         font-size: var(--text-lg);
     }
-    header nav.md\:hidden [data-flux-navbar-items] + [data-flux-navbar-items] {
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+    .site-nav__mobile-menu [data-flux-navbar-items] + [data-flux-navbar-items] {
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
     }
 
     /* Comfortable tap targets for the footer link lists on phones. */
@@ -316,5 +357,16 @@ select:focus[data-flux-control] {
     }
     .site-footer__links {
         gap: 0.25rem;
+    }
+}
+
+@keyframes site-header-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
