@@ -73,34 +73,36 @@
     @endphp
 
     {{-- 1 · IDENTITY HERO — blue band on the shared .page-hero look (eyebrow = postcode,
-         title = Kidical Mass / gemeente), via the --identity modifier. --}}
+         title = Kidical Mass / gemeente), via the --identity modifier. The group photo
+         now lives INSIDE the hero, as a rounded card on the right beside the title
+         (Frederik 2026-06-17) — the daisy peeks behind its top corner. --}}
     <header class="chapter-head chapter-head--identity">
         <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
         <div class="container mx-auto px-4 chapter-head__inner">
-            @if (filled($group->zip))
-                <p class="page-hero__eyebrow">{{ $group->zip }}</p>
-            @endif
-            <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
+            <div class="chapter-head__copy">
+                @if (filled($group->zip))
+                    <p class="page-hero__eyebrow">{{ $group->zip }}</p>
+                @endif
+                <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
+            </div>
+
+            <figure class="chapter-head__media">
+                @if ($coverPhoto)
+                    <img
+                        src="{{ $coverPhoto->getUrl() }}"
+                        alt="Foto van een Kidical Mass in {{ $gemeente }}"
+                        class="chapter-head__photo"
+                    >
+                @else
+                    <img
+                        src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
+                        alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
+                        class="chapter-head__photo"
+                    >
+                @endif
+            </figure>
         </div>
     </header>
-
-    {{-- 2 · GROUP PHOTO — full-bleed, flush under the hero. Shared fallback for now;
-         a real per-group photo is the eventual content need (no per-group cover field yet). --}}
-    <figure class="chapter-photo">
-        @if ($coverPhoto)
-            <img
-                src="{{ $coverPhoto->getUrl() }}"
-                alt="Foto van een Kidical Mass in {{ $gemeente }}"
-                class="chapter-photo__img"
-            >
-        @else
-            <img
-                src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
-                alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
-                class="chapter-photo__img"
-            >
-        @endif
-    </figure>
 
     {{-- 3 · OP DE AGENDA — white. A tall heart/30 sign anchors a left column beside the
          agenda on wider screens; the column collapses away on mobile (illustration hidden). --}}
@@ -139,9 +141,14 @@
             </div>
         </div>
 
-        <div class="mt-12">
-            <x-newsletter-optin :group="$group" />
-        </div>
+        {{-- Opt-in normally lives as the last tile of the gallery below; when there is no
+             gallery (≤1 photo) it falls back to here so the "schrijf je hieronder in" note
+             above keeps its promise. --}}
+        @if ($galleryRest->isEmpty())
+            <div class="mt-12">
+                <x-newsletter-optin :group="$group" />
+            </div>
+        @endif
     </section>
 
     {{-- 3b · IN BEELD — the group's gallery, editorial varied tiles + an inline lightbox.
@@ -164,8 +171,6 @@
             @keydown.arrow-right.window="isOpen && next()"
             @keydown.arrow-left.window="isOpen && prev()"
         >
-            <h2 class="chapter-section__title">In beeld</h2>
-
             <ul class="chapter-gallery__grid">
                 @foreach ($galleryRest as $media)
                     <li class="chapter-gallery__cell">
@@ -184,6 +189,12 @@
                         </button>
                     </li>
                 @endforeach
+
+                {{-- Last tile: the "Mis geen rit" opt-in, sitting inside the wall rather
+                     than floating in its own band. --}}
+                <li class="chapter-gallery__cell chapter-gallery__cell--optin">
+                    <x-newsletter-optin :group="$group" />
+                </li>
             </ul>
 
             <div
@@ -283,11 +294,6 @@
                             @endforeach
                         </ul>
                     </div>
-
-                    <figure class="chapter-team-band__media chapter-team-band__media--below">
-                        <img src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}"
-                            alt="Vrijwilligers in hesjes zwaaien blij met de Kidical Mass-vlag tijdens een rit" loading="lazy">
-                    </figure>
 
                     {{-- HELP MEE — recruitment CTA. On-demand reveal: the band stays light,
                          the helper expands the group-specific form right under the button.
