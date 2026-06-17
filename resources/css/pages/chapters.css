@@ -98,7 +98,7 @@
         padding: 0;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: calc(var(--spacing) * 3);
+        gap: calc(var(--spacing) * 6);
     }
     /* The opt-in tile spans the full width on mobile so its card never gets cramped. */
     .chapter-gallery__cell--optin { grid-column: 1 / -1; }
@@ -106,7 +106,7 @@
         .chapter-gallery__grid {
             grid-template-columns: repeat(12, 1fr);
             grid-auto-flow: dense;
-            gap: calc(var(--spacing) * 3);
+            gap: calc(var(--spacing) * 6);
         }
         .chapter-gallery__cell { grid-column: span 3; }
         .chapter-gallery__cell:nth-child(5n + 1) { grid-column: span 4; }
@@ -218,6 +218,12 @@
     }
     .chapter-next__empty-body { margin-top: 0.5rem; color: var(--color-kidical-ink); }
 
+    /* Extra breathing room above the agenda title, clearing the hero photo that
+       dips into this band on wide screens. */
+    .chapter-agenda {
+        margin-top: 5rem;
+    }
+
     /* Agenda layout: a tall sign in a left column beside the list on wider screens.
        Single column on mobile, where the sign column is dropped entirely. */
     .chapter-agenda__grid {
@@ -228,9 +234,12 @@
         display: none;
     }
     @media (min-width: 1024px) {
+        /* Bigger sign + a capped agenda track. Neither track grows past its max, so on
+           very wide screens grid leaves the leftover width as breathing room on the right
+           (left-anchored, asymmetric); on narrower large screens the agenda still fills. */
         .chapter-agenda__grid {
-            grid-template-columns: 9rem 1fr;
-            gap: clamp(2.5rem, 5vw, 4rem);
+            grid-template-columns: 15rem minmax(0, 48rem);
+            gap: clamp(3rem, 5vw, 5rem);
             align-items: start;
         }
         .chapter-agenda__aside {

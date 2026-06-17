@@ -133,10 +133,6 @@
                             <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
                         @endforeach
                     </div>
-
-                    <div class="chapter-agenda__foot">
-                        <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten, ook voorbije</x-cta-button>
-                    </div>
                 @endif
             </div>
         </div>
