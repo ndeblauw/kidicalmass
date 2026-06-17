@@ -44,9 +44,13 @@
         margin-bottom: 0;
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
+    /* Two-column split: agenda fills the container, opt-in card on the right.
+       The agenda takes the remaining space (minmax(0, 1fr)); the sidebar grows
+       fluidly so the ratio stays near 2:1 from lg up instead of the agenda
+       ballooning against a fixed-narrow card. Fills the full container width. */
     .kal-body {
         display: grid;
-        grid-template-columns: 1fr 300px;
+        grid-template-columns: minmax(0, 1fr) clamp(21rem, 28vw, 26rem);
         gap: 0 3rem;
         align-items: start;
         max-width: none;
@@ -58,6 +62,10 @@
     .kal-sidebar {
         position: sticky;
         top: 1.5rem;
+    }
+    /* Middle-lane sign: hidden until the large breakpoint opens a 3rd column. */
+    .kal-illu {
+        display: none;
     }
     .kal-sidebar__panel {
         border-radius: 16px;
@@ -86,41 +94,6 @@
         padding-block: 1.5rem;
         max-width: 46rem;
     }
-    .kal-optin {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        background: var(--color-kidical-yellow);
-        overflow: hidden;
-    }
-    .kal-optin__inner {
-        padding-block: clamp(2.75rem, 5vw, 4rem);
-        text-align: center;
-        max-width: 44rem;
-    }
-    .kal-optin__badge {
-        display: inline-block;
-        background: var(--color-kidical-ink);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xs);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding: 0.3rem 0.8rem;
-        border-radius: 999px;
-        margin-bottom: 1rem;
-    }
-    .kal-optin h2 {
-        color: var(--color-kidical-ink);
-        margin-bottom: 0.75rem;
-    }
-    .kal-optin__sub {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
-        font-weight: 600;
-        margin-inline: auto;
-        max-width: 38ch;
-    }
-
     .ride-month + .ride-month {
         margin-top: 3rem;
     }
@@ -142,6 +115,38 @@
 }
 
 @layer components {
+    /* From xl the agenda is wide enough that the old 13rem title cap left long
+       names wrapping to three lines against a sea of dot-leader. Let titles run
+       wider (fluid, so they use the room) before wrapping. Applies in both the
+       2-column (xl) and 3-column (2xl+) layouts. */
+    @media (min-width: 1280px) {
+        .kal-agenda .ride-row__place {
+            max-width: clamp(18rem, 22vw, 30rem);
+        }
+    }
+
+    /* 2xl+ is where the Tailwind container reaches its widest (1536px) and can
+       afford a third, slim middle lane for the decorative sign between the agenda
+       and the opt-in card. Below this it stays a 2-column grid (the sign is
+       display:none, so two children fill two tracks). */
+    @media (min-width: 1536px) {
+        .kal-body {
+            grid-template-columns: minmax(0, 1fr) clamp(7rem, 9vw, 10rem) clamp(21rem, 24vw, 26rem);
+        }
+        .kal-illu {
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 2.5rem;
+            align-self: start;
+        }
+        .kal-illu__img {
+            width: 100%;
+            max-width: 9rem;
+            height: auto;
+        }
+    }
+
     @media (max-width: 767px) {
         /* Single column: agenda stacks, sidebar drops below it. */
         .kal-body {

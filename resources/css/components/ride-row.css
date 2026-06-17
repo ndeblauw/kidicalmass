@@ -104,6 +104,10 @@
         }
         .ride-row__place {
             flex-basis: 100%;
+            /* On its own full-width row now (meta sits below, no leader beside it),
+               so drop the horizontal-layout cap and let the title fill the width
+               instead of wrapping early to three lines. */
+            max-width: none;
         }
         .ride-row__dots {
             display: none;
