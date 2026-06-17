@@ -233,15 +233,6 @@
         gap: 1.5rem;
     }
 
-    /* From xl the agenda column is wide enough that the default 13rem title cap left
-       long event names wrapping to three lines against a sea of dot-leader. Let titles
-       run wider before wrapping — same approach as the calendar's .kal-agenda. */
-    @media (min-width: 1280px) {
-        .chapter-agenda .ride-row__place {
-            max-width: clamp(18rem, 22vw, 30rem);
-        }
-    }
-
     /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
        recruitment CTA. Yellow so it fuses with the footer (lives in the layout's closing
        slot). */

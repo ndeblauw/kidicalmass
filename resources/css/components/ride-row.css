@@ -12,11 +12,13 @@
         color: var(--color-kidical-red);
     }
 
-    /* Commune — sized to its own content, capped at 13rem so long names wrap. */
+    /* Commune — sized to its own content so the dot leader always begins at the
+       title's real end. flex-shrink:1 lets it wrap only when the row genuinely
+       runs out of room (below that, the container query stacks it entirely);
+       no fixed cap, so a wide row keeps the title on one line. */
     .ride-row__place {
-        flex: 0 0 auto;
+        flex: 0 1 auto;
         min-width: 0;
-        max-width: 13rem;
         font-family: var(--font-heading);
         font-weight: 800;
         font-size: 1.75rem;
@@ -28,7 +30,10 @@
     }
 
     /* Dot leader — grows to fill all space between title and meta.
-       ::before provides a text node so baseline alignment works in flex. */
+       ::before provides a text node so baseline alignment works in flex. The
+       string is intentionally far longer than any real gap: it's left-aligned
+       and clipped by overflow:hidden, so it always reaches the meta on the right
+       no matter how wide the row, while starting flush against the title. */
     .ride-row__dots {
         flex: 1 0 0;
         min-width: 0;
@@ -36,7 +41,7 @@
         padding-inline: 0.5rem;
     }
     .ride-row__dots::before {
-        content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
+        content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
         white-space: nowrap;
         font-family: var(--font-sans);
         font-weight: 400;
@@ -103,11 +108,8 @@
             row-gap: 0.15rem;
         }
         .ride-row__place {
+            /* On its own full-width row now (meta sits below, no leader beside it). */
             flex-basis: 100%;
-            /* On its own full-width row now (meta sits below, no leader beside it),
-               so drop the horizontal-layout cap and let the title fill the width
-               instead of wrapping early to three lines. */
-            max-width: none;
         }
         .ride-row__dots {
             display: none;

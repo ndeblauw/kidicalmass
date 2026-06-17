@@ -145,16 +145,6 @@
 }
 
 @layer components {
-    /* From xl the agenda is wide enough that the old 13rem title cap left long
-       names wrapping to three lines against a sea of dot-leader. Let titles run
-       wider (fluid, so they use the room) before wrapping. Applies in both the
-       2-column (xl) and 3-column (2xl+) layouts. */
-    @media (min-width: 1280px) {
-        .kal-agenda .ride-row__place {
-            max-width: clamp(18rem, 22vw, 30rem);
-        }
-    }
-
     /* The lockup dips below the white panel into the yellow footer zone; lift the
        panel above that zone (both default to z-index 10, sibling order would hide
        the dip) so the sign paints over the yellow. Scoped to the calendar. */
