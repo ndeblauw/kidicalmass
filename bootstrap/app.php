@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\TrackLastActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'setlocale' => SetLocale::class,
         ]);
         $middleware->replaceInGroup('web', Illuminate\Cookie\Middleware\EncryptCookies::class, EncryptCookies::class);
+        $middleware->appendToGroup('web', TrackLastActive::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
