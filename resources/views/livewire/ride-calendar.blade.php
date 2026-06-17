@@ -88,11 +88,7 @@
             {{-- Sticky sidebar (desktop only; hidden on mobile via CSS) --}}
             @if ($when !== 'voorbije')
                 <aside class="kal-sidebar">
-                    <div class="kal-sidebar__panel kal-sidebar__panel--newsletter">
-                        <h3 class="kal-sidebar__heading">Mis geen rit</h3>
-                        <p class="kal-sidebar__body">Één seintje per maand met ritten bij jou in de buurt. Geen spam, altijd uitschrijfbaar.</p>
-                        <button type="button" class="kal-sidebar__btn">Schrijf je in</button>
-                    </div>
+                    <x-newsletter-optin />
                 </aside>
             @endif
 

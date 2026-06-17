@@ -66,9 +66,6 @@
         flex-direction: column;
         gap: 1rem;
     }
-    .kal-sidebar__panel--newsletter {
-        background: var(--color-kidical-yellow);
-    }
     .kal-sidebar__panel--nudge {
         background: color-mix(in oklab, var(--color-kidical-blue), transparent 90%);
     }
@@ -76,34 +73,6 @@
         width: 1.5rem;
         height: 1.5rem;
         color: var(--color-kidical-blue);
-    }
-    .kal-sidebar__heading {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-ink);
-        margin: 0;
-    }
-    .kal-sidebar__body {
-        font-size: var(--text-base);
-        line-height: 1.6;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
-    }
-    .kal-sidebar__btn {
-        align-self: flex-start;
-        background: var(--color-kidical-ink);
-        color: white;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-base);
-        padding: 0.65rem 1.4rem;
-        border-radius: 999px;
-        border: none;
-        cursor: pointer;
-        transition: opacity 0.15s;
-    }
-    .kal-sidebar__btn:hover {
-        opacity: 0.85;
     }
     .kal-pastbar {
         display: flex;
