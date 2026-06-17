@@ -301,14 +301,14 @@
                             </div>
                         </div>
 
-                        <div class="chapter-join__form" x-show="open" x-cloak>
-                            <button type="button" x-on:click="open = false" class="chapter-join__back">← Terug</button>
-                            @if (request('intent') === 'volunteer')
-                                <p class="chapter-team__welcome">
-                                    Je komt meehelpen in {{ $group->name }}. Welkom! Laat hieronder je gegevens achter.
-                                </p>
-                            @endif
-                            <livewire:chapter-volunteer-signup :group="$group" />
+                        <div class="chapter-join__panel" x-show="open" x-cloak>
+                            <div class="chapter-join__aside">
+                                <h2 class="chapter-join__welcome">Fijn dat je wil meehelpen in {{ $gemeente }}!</h2>
+                                <p class="chapter-join__welcome-sub">Je hoeft niets speciaals te kunnen, goesting volstaat. Laat je gegevens achter, dan nemen we snel contact met je op.</p>
+                            </div>
+                            <div class="chapter-join__form-col">
+                                <livewire:chapter-volunteer-signup :group="$group" />
+                            </div>
                         </div>
                     </div>
                 @else
