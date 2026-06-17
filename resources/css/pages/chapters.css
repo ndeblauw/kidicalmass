@@ -413,17 +413,114 @@
         justify-content: center;
         gap: 1rem 1.25rem;
     }
-    .chapter-join__back {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.3rem;
-        background: none;
-        border: none;
+    /* Reveal panel — a supportive message beside the form, not a narrow card adrift on
+       the wide yellow band. Stacks on mobile (message as a warm intro above the card);
+       from lg a 3 : 6 two-column split, the whole group capped and centred so the side
+       margins read as intentional. The message is vertically centred to the form card.
+       Scoped to .chapter-join so the shared .volunteer-signup__* kit stays plain. */
+    .chapter-join__panel {
+        max-width: 38rem;
+        margin-inline: auto;
+    }
+    .chapter-join__aside {
+        margin-bottom: 1.75rem;
+    }
+    .chapter-join__welcome {
+        max-width: 22ch;
+        text-wrap: balance;
+    }
+    .chapter-join__welcome-sub {
+        margin-top: 0.85rem;
+        font-size: var(--text-lg);
+        line-height: 1.55;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
+    }
+    @media (min-width: 64rem) {
+        .chapter-join__panel {
+            display: grid;
+            grid-template-columns: minmax(0, 4.5fr) minmax(0, 6fr);
+            gap: clamp(2rem, 4vw, 3rem);
+            align-items: center;
+            max-width: 66rem;
+        }
+        .chapter-join__aside {
+            margin-bottom: 0;
+        }
+    }
+
+    /* Empty-team form keeps a calm single-column measure (it carries its own intro
+       in .chapter-team-band__top above). */
+    .chapter-join--open {
+        max-width: 38rem;
+        margin-inline: auto;
+    }
+    .chapter-join .volunteer-signup__form,
+    .chapter-join .volunteer-signup__success {
+        background: white;
+        border-radius: 1.25rem;
+        padding: clamp(1.5rem, 3.5vw, 2.25rem);
+        box-shadow: 0 22px 50px -28px color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    }
+    /* Rhythm: tighten the field stack, then set the optional role block apart as its
+       own quieter beat with a touch more air above and below. */
+    .chapter-join .volunteer-signup__form {
+        gap: 1.1rem;
+    }
+    .chapter-join .volunteer-signup__form .volunteer-signup__field:has(.volunteer-roles) {
+        margin-block: 0.35rem;
+    }
+
+    /* Role picker — the optional, secondary block, so it stays light: soft tinted
+       tiles (no border/shadow that would read as cards nested in the white card),
+       two columns so it's compact rather than a tall stack. Checked borrows the
+       brand red via an inset ring (no layout shift). */
+    .volunteer-roles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        gap: 0.5rem;
+    }
+    .volunteer-role {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.55rem;
+        padding: 0.6rem 0.7rem;
+        border-radius: 0.7rem;
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 95%);
         cursor: pointer;
-        color: var(--color-kidical-blue);
+        transition: background-color 0.15s, box-shadow 0.15s;
+    }
+    .volunteer-role:hover {
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+    .volunteer-role:has(.volunteer-role__check:checked) {
+        background: color-mix(in oklab, var(--color-kidical-red), white 90%);
+        box-shadow: inset 0 0 0 2px var(--color-kidical-red);
+    }
+    .volunteer-role:has(.volunteer-role__check:focus-visible) {
+        outline: 2px solid var(--color-kidical-blue);
+        outline-offset: 2px;
+    }
+    .volunteer-role__check {
+        margin-top: 0.15rem;
+        width: 1rem;
+        height: 1rem;
+        flex-shrink: 0;
+        accent-color: var(--color-kidical-red);
+    }
+    .volunteer-role__text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+    .volunteer-role__name {
         font-weight: 700;
-        padding: 0;
-        margin-bottom: 1rem;
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+    }
+    .volunteer-role__desc {
+        font-size: var(--text-sm);
+        line-height: 1.35;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
     }
 
     /* 4 · LOCAL EXTRAS — quiet white, above the yellow closing band */
