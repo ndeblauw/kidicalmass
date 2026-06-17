@@ -2,26 +2,40 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
+use Database\Factories\PressArticleFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 #[ScopedBy([LocalGroupScope::class])]
-class Article extends Model implements HasMedia
+class PressArticle extends Model implements HasMedia
 {
+    /** @use HasFactory<PressArticleFactory> */
     use HasFactory;
-    use HasMainImage;
+
     use InteractsWithMedia;
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'datetime',
+        ];
+    }
+
+    public function getTitleAttribute(): string
+    {
+        return app()->getLocale() === 'fr' && filled($this->title_fr)
+            ? (string) $this->title_fr
+            : (string) $this->title_nl;
+    }
 
     public function registerMediaConversions(?Media $media = null): void
     {
@@ -30,28 +44,13 @@ class Article extends Model implements HasMedia
             ->width(150)
             ->height(150)
             ->sharpen(10);
-
-        $this
-            ->addMediaConversion('card')
-            ->width(400)
-            ->height(300)
-            ->sharpen(10);
     }
 
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection('main')
-            ->singleFile()
-            ->registerMediaConversions(function (Media $media) {
-                $this->registerMediaConversions($media);
-            });
-
-        $this
-            ->addMediaCollection('gallery')
-            ->registerMediaConversions(function (Media $media) {
-                $this->registerMediaConversions($media);
-            });
+            ->addMediaCollection('document')
+            ->singleFile();
     }
 
     public function author(): BelongsTo
@@ -59,13 +58,18 @@ class Article extends Model implements HasMedia
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function groups(): BelongsToMany
+    public function activities(): MorphToMany
     {
-        return $this->belongsToMany(Group::class);
+        return $this->morphedByMany(Activity::class, 'press_articleable');
     }
 
-    public function pressArticles(): MorphToMany
+    public function articles(): MorphToMany
     {
-        return $this->morphToMany(PressArticle::class, 'press_articleable');
+        return $this->morphedByMany(Article::class, 'press_articleable');
+    }
+
+    public function groups(): MorphToMany
+    {
+        return $this->morphedByMany(Group::class, 'press_articleable');
     }
 }
