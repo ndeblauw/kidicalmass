@@ -150,9 +150,9 @@ it('renders the Help out orientation page with its key NL sections', function ()
         ->assertSee('Roze hesje')
         // Term: "lokale groep" (the coordination duo's NL word for a chapter).
         ->assertSee('Vind je lokale groep')
-        // Reframe: orientation page that ROUTES to the chapter; the contact form lives
-        // there, not here. The single primary action points at the chapters index.
-        ->assertSee(route('groups.index'), escape: false)
+        // Coda for buurts without a chapter: the single action funnels to "start a group".
+        ->assertSee('Nog geen lokale groep in je buurt?')
+        ->assertSee(route('groups.start'), escape: false)
         // Tone of voice: no em-dashes in rendered copy.
         ->assertDontSee('—');
 });
@@ -161,7 +161,7 @@ it('routes the home "New here?" entry link to Getting Started', function () {
     get('/nl')
         ->assertOk()
         ->assertSee(route('getting-started'), escape: false)
-        ->assertSee('Zo werkt een Kidical Mass rit.', escape: false);
+        ->assertSee('Zo werkt een rit', escape: false);
 });
 
 it('renders the Steun support page with its key NL sections', function () {

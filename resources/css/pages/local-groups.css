@@ -6,10 +6,9 @@
 
     .grp-finder__controls {
         display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.9rem 1.5rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.85rem;
         margin-bottom: 1.1rem;
     }
     .grp-regions {
@@ -55,6 +54,20 @@
         flex: none;
     }
 
+    /* "Dichtbij" — the proximity pill, only shown once a location is set. */
+    .grp-region-btn__pin {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 999px;
+        flex: none;
+        background: var(--color-kidical-red);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-red), transparent 75%);
+    }
+    .grp-region-btn--nearby.is-active .grp-region-btn__pin {
+        background: white;
+        box-shadow: 0 0 0 3px rgb(255 255 255 / 0.3);
+    }
+
     /* Region colours — shared by selector dots and list-card dots. */
     .grp-region-btn[data-region="Brussels Capital Region"] .grp-region-btn__dot,
     .grp-card[data-region="Brussels Capital Region"] .grp-card__dot {
@@ -70,7 +83,6 @@
     }
 
     .grp-finder__picker {
-        flex: 1 1 20rem;
         max-width: 28rem;
         min-width: 15rem;
     }
@@ -172,12 +184,6 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
         margin-top: 0.15rem;
     }
-    .grp-card__dist {
-        font-weight: 800;
-        color: var(--color-kidical-blue);
-        font-size: var(--text-xs);
-        white-space: nowrap;
-    }
     .grp-card__go {
         font-weight: 800;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
@@ -233,9 +239,25 @@
     }
     .grp-pin.is-dim { opacity: 0.22; }
     .grp-pin.is-hot { transform: rotate(-45deg) scale(1.4); z-index: 1000 !important; }
-    .grp-popup__region {
-        font-weight: 600;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    /* Permanent marker labels — group title only, click leads to the group page. */
+    .grp-marker-label.leaflet-tooltip {
+        background: rgb(255 255 255 / 0.92);
+        border: none;
+        border-radius: 999px;
+        padding: 0.1rem 0.5rem;
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: var(--text-xs);
+        color: var(--color-kidical-ink);
+        box-shadow: 0 2px 8px rgb(40 26 57 / 0.22);
+        white-space: nowrap;
+        cursor: pointer;
+    }
+    .grp-marker-label.leaflet-tooltip:hover {
+        color: var(--color-kidical-blue);
+    }
+    .grp-marker-label.leaflet-tooltip::before {
+        display: none;
     }
 
     /* ---------- Kept: region pill (used by groups/show.blade.php) ---------- */

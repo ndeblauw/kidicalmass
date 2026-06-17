@@ -173,6 +173,7 @@ header [data-flux-navbar-items][data-current]::after {
 @layer components {
     .page-panel:has(.gs-expect-scroll) {
         background-color: var(--color-kidical-light-blue);
+        padding-bottom: 0;
     }
 }
 

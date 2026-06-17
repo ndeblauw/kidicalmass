@@ -94,7 +94,7 @@
                 @endforeach
             </div>
             <div class="chapter-agenda__foot">
-                <a href="{{ $allActivitiesUrl }}" class="chapter-next__all link-plain">Alle activiteiten in {{ $gemeente }} (ook voorbije) →</a>
+                <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten in {{ $gemeente }} (ook voorbije)</x-cta-button>
             </div>
         @endif
 

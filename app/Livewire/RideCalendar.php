@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class RideCalendar extends Component
 {
-    #[Url(as: 'when')]
+    #[Url(as: 'when', history: true)]
     public string $when = 'aankomend';
 
     /** URL-bound radius tab: dichtbij | regio | belgie */

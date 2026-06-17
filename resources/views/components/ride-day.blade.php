@@ -12,10 +12,7 @@
          card's clipped edge (the card hides overflow to round the header bar). --}}
     <div class="ride-day__cal" style="--ride-day-rot: {{ $rail['rotation'] }}deg">
         <time class="ride-day__rail" datetime="{{ $date->toDateString() }}">
-            <span class="ride-day__bar" aria-hidden="true">
-                <span class="ride-day__ring"></span>
-                <span class="ride-day__ring"></span>
-            </span>
+            <span class="ride-day__bar" aria-hidden="true"></span>
             <span class="ride-day__body">
                 <span class="ride-day__day">{{ $rail['day'] }}</span>
                 <span class="ride-day__date">{{ $rail['num'] }}</span>

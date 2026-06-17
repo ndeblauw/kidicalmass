@@ -12,7 +12,7 @@
                 ></iframe>
             </div>
 
-            <h1 class="home-hero__title">Het leukste uur op de fiets</h1>
+            <h1 class="home-hero__title"><span class="home-hero__title-line"><span class="home-hero__word">Het</span> <span class="home-hero__word">leukste</span> <span class="home-hero__word">uur</span> <span class="home-hero__word">op</span> <span class="home-hero__word">de</span> <span class="home-hero__word">fiets</span></span></h1>
         </section>
 
         <section class="home-intro">
@@ -23,7 +23,11 @@
                 </x-intro-text>
 
                 <div class="home-intro__actions mb-8">
-                    <x-cta-button href="#volgende-rit" variant="ghost" class="home-intro__scroll">{{ $hasLocation ? 'De volgende ritten bij jou' : 'Volgende ritten' }}</x-cta-button>
+                    <a href="#volgende-rit" class="home-intro__scroll" aria-label="Naar de volgende ritten">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </section>
@@ -39,7 +43,7 @@
              A right-facing rider (flag up, matching the "fietsparade" lead) anchors the
              left fifth from md up and is pulled up over the panel's rounded top edge, so
              a sliver shows in the blue hero view before you scroll. See .home-nextride. --}}
-        <section class="home-nextride scroll-mt-24" id="volgende-rit">
+        <section class="home-nextride scroll-mt-28 md:scroll-mt-48" id="volgende-rit">
             <div class="home-nextride__art" aria-hidden="true">
                 <img src="{{ asset('img/illustrations/rider-with-flag.svg') }}" alt="" loading="lazy">
             </div>
@@ -58,17 +62,8 @@
                         <x-ride-day :period-key="$periodKey" :rows="$rows" />
                     @endforeach
 
-                    <div class="home-nextride__pair grid gap-8 sm:grid-cols-2 sm:gap-0">
-                        <div class="sm:pr-10">
-                            <p class="home-nextride__eyebrow">Ritten bij jou</p>
-                            <livewire:location-picker :compact="true" />
-                            <p class="home-nextride__sub">Vul je gemeente in en we zetten de ritten dichtbij bovenaan.</p>
-                        </div>
-                        <div class="home-nextride__divide flex flex-col items-start justify-center sm:pl-10">
-                            <p class="home-nextride__eyebrow">Of bekijk alles</p>
-                            <a href="{{ route('activities.index') }}" class="font-bold text-kidical-blue hover:underline">Alle ritten in de agenda →</a>
-                            <p class="home-nextride__sub">De volledige kalender, van maart tot november.</p>
-                        </div>
+                    <div class="max-w-lg">
+                        <livewire:location-picker :compact="true" />
                     </div>
 
                 @else
@@ -82,32 +77,51 @@
                         <x-ride-day :period-key="$periodKey" :rows="$rows" />
                     @endforeach
 
-                    <div>
+                    <div class="flex justify-end">
                         <x-cta-button :href="route('activities.index')" variant="secondary">Alle ritten</x-cta-button>
                     </div>
                 @endif
             </div>
         </section>
 
-        {{-- ③ DISPATCHER — three equal routes. Home is a crossroads, not a content dump.
-             Each card previews the character you'll meet on the destination page. --}}
-        <section class="home-routes relative grid gap-5 sm:grid-cols-3">
-            {{-- Signposts at the crossroads (decorative, desktop only). --}}
-            <img src="{{ asset('img/illustrations/zone-30-sign.svg') }}" alt="" aria-hidden="true" loading="lazy"
-                class="pointer-events-none absolute right-2 bottom-full mb-2 w-16 rotate-6 hidden sm:block">
-            <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" aria-hidden="true" loading="lazy"
-                class="pointer-events-none absolute left-2 top-full mt-2 w-14 -rotate-6 hidden sm:block">
+        {{-- DRIE ROUTES: scrollytelling. Each section reads on its own; one sticky
+             bike rides in to match the section you're reading (see <x-scroll-sequence>).
+             No is-active on the first item, so it rolls in like the rest on first view.
+             Mobile: each section shows its own illustration inline (home.css), no ride. --}}
+        <x-scroll-sequence media-side="right" class="home-routes">
+            <x-slot:media>
+                <img class="home-routes__illu" data-seq-media="0" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" loading="lazy">
+                <img class="home-routes__illu" data-seq-media="1" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" loading="lazy">
+                <img class="home-routes__illu" data-seq-media="2" src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" loading="lazy">
+            </x-slot:media>
 
-            <x-route-card :href="route('getting-started')" illustration="waving-rider.svg" tint="sky" title="Nieuw hier?">Zo werkt een Kidical Mass rit.</x-route-card>
-            <x-route-card :href="route('volunteer')" illustration="volunteer-with-wrench.svg" tint="yellow" title="Help mee">Word vrijwilliger bij een rit.</x-route-card>
-            <x-route-card :href="route('groups.index')" illustration="longtail-with-kid.svg" tint="red" title="Vind je lokale groep">Ontdek de groep bij jou in de buurt.</x-route-card>
-        </section>
+            <div class="scroll-sequence__block" data-seq-block="0">
+                <img class="home-routes__block-illu" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true" loading="lazy">
+                <h2 class="text-kidical-ink">Nieuw hier?</h2>
+                <p class="text-kidical-ink/70">Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.</p>
+                <p><x-cta-button :href="route('getting-started')" variant="secondary">Zo werkt een rit</x-cta-button></p>
+            </div>
+
+            <div class="scroll-sequence__block" data-seq-block="1">
+                <img class="home-routes__block-illu" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" aria-hidden="true" loading="lazy">
+                <h2 class="text-kidical-ink">Vind je lokale groep</h2>
+                <p class="text-kidical-ink/70">Kidical Mass is geen organisatie ver weg, maar de mensen in jouw buurt. Overal in Vlaanderen en Brussel plannen lokale groepen hun eigen ritten. Vind de groep bij jou, en je weet meteen wanneer de volgende rit vertrekt en wie erachter zit.</p>
+                <p><x-cta-button :href="route('groups.index')" variant="secondary">Vind je groep</x-cta-button></p>
+            </div>
+
+            <div class="scroll-sequence__block" data-seq-block="2">
+                <img class="home-routes__block-illu" src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" loading="lazy">
+                <h2 class="text-kidical-ink">Help mee</h2>
+                <p class="text-kidical-ink/70">Een rit ontstaat niet vanzelf. Achter elke parade staan ouders en buren die de route uittekenen, de boel aankondigen en in een roze hesje meefietsen. Een paar uur per maand, en je krijgt er een warme bende vrienden voor terug.</p>
+                <p><x-cta-button :href="route('volunteer')" variant="secondary">Word vrijwilliger</x-cta-button></p>
+            </div>
+        </x-scroll-sequence>
 
         </div>
     </div>
 
     <x-slot:closing>
-        <x-closing-cta heading="Wil je vaker meerijden?"
-            :href="route('groups.index')" label="Vind je lokale groep" />
+        <x-closing-cta heading="Geef de straat terug aan kinderen"
+            :href="route('membership')" label="Word lid" icon="heart" />
     </x-slot:closing>
 </x-layouts::site>

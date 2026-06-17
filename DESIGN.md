@@ -155,7 +155,8 @@ The palette is four committed brand colours with a supporting cast of tinted sur
 - **Headline** (Caprasimo 800, `clamp(2rem, 4vw, 2.5rem)` / `text-4xl`, line-height 1.15): Section h2s — band or section title. Never tilted. Colour: Deep Aubergine on light bands; white or Summer Lemon on blue/dark bands.
 - **Title** (Caprasimo 800, `1.875rem` / `text-3xl`, line-height 1.25): h3 card headings, sub-section labels, section titles within cards. Colour: Deep Aubergine.
 - **Body** (Nunito Sans 400, `1.25rem` / `text-xl`, line-height 1.625): All flowing copy. Max measure ~48rem (`max-width`). Colour: text-body (`color-mix(in oklab, ink, white 50%)`).
-- **Label** (Nunito Sans 600–700, `0.875rem` / `text-sm`, uppercase, letter-spacing 0.06–0.1em): Section eyebrows, `<dt>` terms, timestamps, category tags, nav-strip labels. Colour: zinc-500 or ink at 40–45% opacity.
+- **Label** (Nunito Sans 700, `0.875rem` / `text-sm`, uppercase, letter-spacing 0.06–0.1em): Section eyebrows, `<dt>` terms, timestamps, category tags, nav-strip labels. Colour: zinc-500 or ink at 40–45% opacity.
+- **Meta** (Nunito Sans 400, `0.875rem` / `text-sm`, muted — ink ~40% transparent or zinc-500): Quiet secondary copy and fine print — a "wijzig"/change link, captions, helper text. Same size as Label but mixed-case and quiet, not an uppercase eyebrow.
 
 ### Named Rules
 **The One-Weight Heading Rule.** All headings use Caprasimo at one effective weight (800). Scale and colour create the hierarchy — never weight variation.
@@ -163,6 +164,10 @@ The palette is four committed brand colours with a supporting cast of tinted sur
 **The Body Width Rule.** Flowing body text is capped at `max-width: ~48rem`. Prose columns never exceed 65ch.
 
 **The Lead Rule.** Hero lead paragraphs (`.gs-hero__lead`, `.activity-hero__date`, etc.) use Nunito Sans 400 — not Caprasimo, not bold. They sit calmly under the Caprasimo title as a subtitle register.
+
+**The Three-Tier Body Rule.** Body copy uses exactly three sizes: **Lead** (section-opening paragraphs, `<x-intro-text>`, clamp up to ~`text-3xl`), **Body** (`text-xl`, the default for prose, list items, controls), and **Meta** (`text-sm`, muted, for quiet secondary copy). Pick a tier — never invent a per-component `font-size`. Body weights are 400 or 700 only; no 500/600. Codified in `app.css @layer base` (comment above the `body` rule) and demonstrated in the styleguide Typografie panel.
+
+**The Heading Floor Rule.** Each page has exactly one `h1` — the hero title (Display). In-page section titles start at `h2` (Headline) and step down without skipping (`h2` → `h3` → …). The biggest title inside page content is always an `h2`, never a second `h1`.
 
 ## 4. Elevation
 

@@ -30,11 +30,11 @@
          eronder door en vervagen links in het geel (spiegelt de bleed rechts buiten beeld). --}}
     @php
         $helpRoles = [
-            ['icon' => 'shield-check', 'name' => 'Roze hesje', 'text' => 'Hou je van de actie? Als roze hesje fiets je mee naast de groep, houd je de kinderen samen en zorg je dat iedereen veilig en vrolijk aankomt.'],
-            ['icon' => 'calendar-days', 'name' => 'Mede-organisator', 'text' => 'Elke rit begint met iemand die hem plant. Jij kiest de route, het tijdstip en het vertrekpunt, en stemt af met het lokale team. Dankbaar werk.'],
-            ['icon' => 'megaphone', 'name' => 'Communicator', 'text' => 'Jij zorgt dat de buurt komt opdagen. Sociale media, flyers, schoolgroepen, mond-tot-mond. Elke nieuwe familie aan de start is een beetje jouw verdienste.'],
-            ['icon' => 'camera', 'name' => 'Fotograaf', 'text' => 'Een foto van veertig kinderen op de fiets zegt meer dan duizend woorden. Jij vangt de mooiste momenten en deelt ze met het team.'],
-            ['icon' => 'musical-note', 'name' => 'DJ', 'text' => 'Muziek maakt het feest. Jij zet de toon voor de rit, houdt de energie hoog onderweg en stuurt iedereen met een glimlach naar huis.'],
+            ['icon' => 'shield-check', 'color' => 'red', 'name' => 'Roze hesje', 'text' => 'Hou je van de actie? Als roze hesje fiets je mee naast de groep, houd je de kinderen samen en zorg je dat iedereen veilig en vrolijk aankomt.'],
+            ['icon' => 'calendar-days', 'color' => 'blue', 'name' => 'Mede-organisator', 'text' => 'Elke rit begint met iemand die hem plant. Jij kiest de route, het tijdstip en het vertrekpunt, en stemt af met het lokale team. Dankbaar werk.'],
+            ['icon' => 'megaphone', 'color' => 'green', 'name' => 'Communicator', 'text' => 'Jij zorgt dat de buurt komt opdagen. Sociale media, flyers, schoolgroepen, mond-tot-mond. Elke nieuwe familie aan de start is een beetje jouw verdienste.'],
+            ['icon' => 'camera', 'color' => 'orange', 'name' => 'Fotograaf', 'text' => 'Een foto van veertig kinderen op de fiets zegt meer dan duizend woorden. Jij vangt de mooiste momenten en deelt ze met het team.'],
+            ['icon' => 'musical-note', 'color' => 'violet', 'name' => 'DJ', 'text' => 'Muziek maakt het feest. Jij zet de toon voor de rit, houdt de energie hoog onderweg en stuurt iedereen met een glimlach naar huis.'],
         ];
     @endphp
     <section class="ho-roles" aria-labelledby="ho-roles-title"
@@ -79,128 +79,98 @@
         <ul class="ho-roles__track" x-ref="track" role="list" aria-label="Manieren om te helpen" x-on:scroll.passive="update()">
             @foreach ($helpRoles as $role)
                 <li class="ho-roles__card">
-                    <span class="ho-roles__chip">
-                        <flux:icon :name="$role['icon']" variant="solid" class="ho-roles__icon" aria-hidden="true" />
-                    </span>
-                    <strong>{{ $role['name'] }}</strong>
-                    <p>{{ $role['text'] }}</p>
+                    <x-feature-card :icon="$role['icon']" :color="$role['color']" :title="$role['name']">
+                        {{ $role['text'] }}
+                    </x-feature-card>
                 </li>
             @endforeach
         </ul>
     </section>
 
-    {{-- WAT MEEDOEN INHOUDT — scrollytelling (Frederik 2026-06-03). Each block holds ~the
-         viewport with ample air; the large photo on the right crossfades to match the block
-         you're reading (IntersectionObserver swaps the active image at the viewport centre).
-         Bolder type, white (no band). Mobile: stacks, both photos shown, no swap. --}}
+    {{-- WAT MEEDOEN INHOUDT — scroll-sequence (gedeelde component). De foto rechts
+         crossfade't naar het blok dat je leest. Mobiel: beide foto's gestapeld, geen swap. --}}
     <section class="ho-deal">
         <div class="container mx-auto px-4">
-            <div class="ho-deal__layout">
+            <x-scroll-sequence media-side="right">
+                <x-slot:media>
+                    <img class="ho-deal__photo is-active" data-seq-media="0" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
+                    <img class="ho-deal__photo" data-seq-media="1" src="{{ asset('img/photography/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger in roze hesje houdt met een stopbord een kruispunt vrij" loading="lazy">
+                </x-slot:media>
 
-                <div class="ho-deal__text">
-                    <div class="ho-deal__block" data-ho-photo="0">
-                        <x-titled-list-block title="Wat je krijgt">
-                            <li>Kidical Mass-materiaal en steun vanaf dag één</li>
-                            <li>Opleiding rond veiligheid en routeplanning, als je dat wil</li>
-                            <li>Vier gezellige vrijwilligersmomenten per jaar, met lekker eten</li>
-                            <li>Een warme bende ouders en fietsers die echte vrienden worden</li>
-                        </x-titled-list-block>
-                    </div>
-
-                    <div class="ho-deal__block" data-ho-photo="1">
-                        <x-titled-list-block title="Wat we vragen">
-                            <li>Kom met goesting en een vrolijke, respectvolle houding</li>
-                            <li>Onderschrijf onze afspraken rond vriendelijkheid en veiligheid</li>
-                            <li>Maak je deel uit van een lokaal team? Stuur één afgevaardigde naar het jaarlijkse meetup-moment</li>
-                        </x-titled-list-block>
-                    </div>
+                <div class="scroll-sequence__block" data-seq-block="0">
+                    <x-titled-list-block title="Wat je krijgt" variant="get" level="h2">
+                        <li>Kidical Mass-materiaal en steun vanaf dag één</li>
+                        <li>Opleiding rond veiligheid en routeplanning, als je dat wil</li>
+                        <li>Vier gezellige vrijwilligersmomenten per jaar, met lekker eten</li>
+                        <li>Een warme bende ouders en fietsers die echte vrienden worden</li>
+                    </x-titled-list-block>
                 </div>
 
-                <div class="ho-deal__media">
-                    <div class="ho-deal__media-sticky">
-                        <figure class="ho-deal__frame">
-                            <img class="ho-deal__img is-active" data-ho-img="0" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
-                            <img class="ho-deal__img" data-ho-img="1" src="{{ asset('img/photography/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger in roze hesje houdt met een stopbord een kruispunt vrij" loading="lazy">
-                        </figure>
-                    </div>
+                <div class="scroll-sequence__block" data-seq-block="1">
+                    <x-titled-list-block title="Wat we vragen" variant="ask" level="h2">
+                        <li>Kom met goesting en een vrolijke, respectvolle houding</li>
+                        <li>Onderschrijf onze afspraken rond vriendelijkheid en veiligheid</li>
+                        <li>Maak je deel uit van een lokaal team? Stuur één afgevaardigde naar het jaarlijkse meetup-moment</li>
+                    </x-titled-list-block>
                 </div>
-
-            </div>
+            </x-scroll-sequence>
         </div>
     </section>
-
-    @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const blocks = document.querySelectorAll('.ho-deal__block');
-            const imgs = document.querySelectorAll('.ho-deal__img');
-            if (blocks.length < 2 || imgs.length < 2) return;
-
-            const setActive = (idx) => imgs.forEach((img, i) => img.classList.toggle('is-active', i === idx));
-
-            // A thin band at the viewport centre: whichever block crosses it drives the photo.
-            const io = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActive(parseInt(entry.target.dataset.hoPhoto, 10) || 0);
-                    }
-                });
-            }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-
-            blocks.forEach((block) => io.observe(block));
-        });
-    </script>
-    @endpush
 
     {{-- VIND JE LOKALE GROEP — light-blue band, the climax. Tap your group → its form. --}}
     <section class="ho-find">
         <div class="container mx-auto px-4">
-            <h2 class="ho-find__title">Vind je lokale groep</h2>
-            <p class="ho-find__lead">
-                Welke rol je ook kiest, je begint op dezelfde plek: bij de mensen in je eigen buurt.
-                Kies je groep, dan kom je rechtstreeks bij hun team terecht. Niet via een centrale
-                mailbox.
-            </p>
+            <div class="ho-find__layout">
+                <div class="ho-find__art" aria-hidden="true">
+                    <img src="{{ asset('img/illustrations/zone-30-sign.svg') }}" alt="" loading="lazy">
+                </div>
 
-            <div class="ho-find__picker">
-                <livewire:location-picker :compact="true" />
+                <div class="ho-find__body">
+                    <h2 class="ho-find__title">Vind je lokale groep</h2>
+                    <p class="ho-find__lead">
+                        Welke rol je ook kiest, je begint op dezelfde plek: bij de mensen in je eigen buurt.
+                        Kies je groep, dan kom je rechtstreeks bij hun team terecht. Niet via een centrale
+                        mailbox.
+                    </p>
+
+                    <div class="ho-find__picker">
+                        <livewire:location-picker :compact="true" />
+                    </div>
+
+                    @if ($location && $nearestGroups->isNotEmpty())
+                        <h3 class="ho-find__nearest-title">Het dichtst bij {{ $location['name'] }}</h3>
+                        <p class="ho-find__nearest">
+                            @foreach ($nearestGroups as $row)
+                                <a href="{{ route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">{{ $row['item']->name }}</a>@if (! $loop->last), @endif
+                            @endforeach
+                        </p>
+                    @endif
+                </div>
             </div>
-
-            @if ($location && $nearestGroups->isNotEmpty())
-                <h3 class="ho-find__nearest-title">Het dichtst bij {{ $location['name'] }}</h3>
-                <ul role="list" class="ho-groups">
-                    @foreach ($nearestGroups as $row)
-                        <li>
-                            <a class="ho-group link-plain" href="{{ route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">
-                                <span class="ho-group__name">{{ $row['item']->name }}</span>
-                                @if ($row['item']->zip)
-                                    <span class="ho-group__zip">{{ $row['item']->zip }}</span>
-                                @endif
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
         </div>
     </section>
 
     {{-- NOG GEEN LOKALE GROEP? quiet coda — funnels to the start-a-group page
-         (replaces the old mailto:bike@ black hole, D-12). --}}
+         (replaces the old mailto:bike@ black hole, D-12). The sign-holder bleeds
+         down into the yellow closing band below. --}}
     <section class="ho-start">
-        <h2 class="ho-start__title">Nog geen lokale groep in je buurt?</h2>
-        <p>
-            Misschien start jij er een. Een kernteam van twee of drie mensen en wat goesting volstaan
-            om te beginnen, de rest doen we samen. We tonen je precies wat het inhoudt, en je kan eerst
-            praten met iemand die het al deed.
-        </p>
-        <p>
-            <a href="{{ route('groups.start') }}">Zo start je een groep →</a>
-        </p>
-        <p>
-            <small>
-                Bekijk welke steden al een lokale groep hebben: <a href="{{ route('groups.index') }}">alle groepen →</a>
-            </small>
-        </p>
+        <div class="ho-start__layout">
+            <div class="ho-start__body">
+                <h2 class="ho-start__title">Nog geen lokale groep in je buurt?</h2>
+                <p>
+                    Misschien start jij er een. Een kernteam van twee of drie mensen en wat goesting volstaan
+                    om te beginnen, de rest doen we samen. We tonen je precies wat het inhoudt, en je kan eerst
+                    praten met iemand die het al deed.
+                </p>
+                <p class="ho-start__cta">
+                    <x-cta-button :href="route('groups.start')" variant="secondary">Zo start je een groep</x-cta-button>
+                </p>
+            </div>
+
+            <div class="ho-start__art" aria-hidden="true">
+                <img src="{{ asset('img/illustrations/heart-sign-holder.svg') }}" alt="" loading="lazy">
+            </div>
+        </div>
     </section>
 
     {{-- Scroll reveal for the role cards (mirrors the ride page) --}}

@@ -14,6 +14,8 @@
        the brief load / if Caprasimo fails). It ships a single weight, so `font-synthesis:
        none` on the body keeps the many 800-weight heading rules from faux-bolding it. */
     --font-heading: 'Caprasimo', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    /* Monospace is used for fixed-width data like postcodes, so columns of digits line up. */
+    --font-mono: ui-monospace, 'SF Mono', 'SFMono-Regular', 'Menlo', 'Consolas', 'Liberation Mono', monospace;
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -48,8 +50,11 @@
     --radius-chip: 28%;
     --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
 
-    --color-text-body: color-mix(in oklab, var(--color-kidical-ink), white 50%);
-    --color-text-link: var(--color-kidical-ink);
+    /* Body prose = ink at 75% (alpha, so it composites on white and on colour bands
+       alike). This is the one body-text colour; Lead/Body differ in size & weight,
+       not hue. Matches <x-feature-card>'s text-kidical-ink/75. */
+    --color-text-body: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+    --color-text-link: var(--color-kidical-blue);
 
     --color-accent: var(--color-kidical-yellow);
     --color-accent-content: var(--color-kidical-yellow);
@@ -73,6 +78,24 @@
         border-color: var(--color-gray-200, currentColor);
     }
 
+    /* Smooth in-page anchor scrolling (e.g. the hero scroll cue). */
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+
+    /* ── Body-text scale: three tiers, nothing more ───────────────────────
+       Pick one of these; never invent a per-component font-size. A new page
+       that needs body copy reaches for Body; an opening line for Lead; a
+       caption or secondary link for Meta.
+         • Lead — section-opening paragraphs. <x-intro-text>, clamp() to ~text-3xl, weight 400.
+         • Body — default prose, list items, controls. var(--text-xl), the `body` rule below.
+                  Weights are 400 (regular) or 700 (bold) only — no 500/600.
+         • Meta — secondary/meta bits (a "wijzig" link, captions, fine print).
+                  var(--text-sm), muted (ink ~40% transparent or zinc-500).
+       Headings (h1–h6) are a separate scale, always weight 800 — see below.
+       ─────────────────────────────────────────────────────────────────── */
     body {
         color: var(--color-text-body);
         font-size: var(--text-xl);
@@ -111,7 +134,7 @@
     }
 
     h1 { font-size: var(--text-6xl); line-height: 1.05; }
-    h2 { font-size: var(--text-4xl); line-height: 1.15; }
+    h2 { font-size: var(--text-5xl); line-height: 1.1; }
     h3 { font-size: var(--text-3xl); line-height: 1.25; }
     h4 { font-size: var(--text-2xl); line-height: 1.35; }
     h5 { font-size: var(--text-xl);  line-height: 1.4; }
@@ -119,7 +142,7 @@
 
     dt {
         font-size: var(--text-sm);
-        font-weight: 600;
+        font-weight: 700;
         color: var(--color-zinc-500);
         text-transform: uppercase;
         letter-spacing: 0.06em;
@@ -151,6 +174,7 @@
 @import './components/person-card.css';
 @import './components/info-card.css';
 @import './components/titled-list-block.css';
+@import './components/scroll-sequence.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';

@@ -3,7 +3,6 @@
         display: flex;
         align-items: center;
         background: white;
-        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
         padding: 0.75rem 2rem;
         margin: 0 -2rem;
         gap: 1.5rem;
@@ -32,11 +31,9 @@
     }
     .filter-bar__radius-label {
         font-family: var(--font-sans);
-        font-size: var(--text-xs);
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
+        font-size: var(--text-xl);
+        font-weight: 400;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
         flex-shrink: 0;
     }
     .filter-bar__tabs {
@@ -44,23 +41,24 @@
         gap: 4px;
     }
     .filter-bar__tab {
-        padding: 0.35rem 0.85rem;
+        padding: 0.45rem 1.1rem;
         font-family: var(--font-sans);
-        font-size: var(--text-sm);
+        font-size: var(--text-xl);
         font-weight: 700;
-        border-radius: 6px;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
-        background: color-mix(in oklab, var(--color-kidical-ink), transparent 93%);
+        border-radius: 8px;
+        color: var(--color-kidical-blue);
+        background: var(--color-kidical-light-blue);
         cursor: pointer;
         transition: background 0.15s, color 0.15s;
         border: none;
     }
     .filter-bar__tab:hover {
-        background: color-mix(in oklab, var(--color-kidical-blue), transparent 88%);
+        background: color-mix(in oklab, var(--color-kidical-light-blue), var(--color-kidical-blue) 15%);
         color: var(--color-kidical-blue);
     }
-    .filter-bar__tab--active {
-        background: var(--color-kidical-blue);
+    .filter-bar__tab--active,
+    .filter-bar__tab--active:hover {
+        background: var(--color-kidical-red);
         color: white;
     }
 

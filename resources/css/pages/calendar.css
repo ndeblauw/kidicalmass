@@ -109,8 +109,6 @@
         display: flex;
         justify-content: flex-start;
         margin-top: 3rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
     }
     .kal-empty {
         font-size: var(--text-lg);
@@ -155,22 +153,22 @@
     }
 
     .ride-month + .ride-month {
-        margin-top: 2.5rem;
+        margin-top: 3rem;
     }
     .ride-month__head {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
         text-transform: capitalize;
-        color: var(--color-kidical-ink);
-        margin: 0 0 0.4rem;
+        margin: 0 0 1.6rem;
     }
-    .ride-month__rides {
+    .ride-month__days {
         display: flex;
         flex-direction: column;
+        gap: 1.75rem;
     }
-    .ride-month__rides .ride-row + .ride-row {
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
+    /* Days are spaced by the gap above — no per-day horizontal divider. */
+    .ride-month__days .ride-day + .ride-day {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
     }
 }
 

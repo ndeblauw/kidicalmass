@@ -48,7 +48,14 @@
                         <h2>H2 — sectiekop</h2>
                         <h3>H3 — subkop</h3>
                         <h4>H4 — kleine kop</h4>
-                        <p>Body — Nunito Sans. Dit is hoe lopende tekst eruitziet op de site.</p>
+                    </div>
+
+                    {{-- Lopende tekst: drie maten, niet meer. Kies er één; verzin
+                         nooit een eigen font-size per component. Zie @layer base in app.css. --}}
+                    <div class="sg-demo p-8 flex flex-col gap-4">
+                        <x-intro-text>Lead — de openingszin van een sectie. Iets groter, gewicht 400. Eén maat, vastgelegd door &lt;x-intro-text&gt;.</x-intro-text>
+                        <p>Body — lopende tekst, lijstitems, knoppen en velden. var(--text-xl), gewicht 400 of 700. <strong>Dit stuk is vet (700).</strong></p>
+                        <p class="text-sm text-zinc-500">Meta — bijzaken zoals een “wijzig”-link of bijschrift. var(--text-sm), gedempt.</p>
                         <p><a href="#tokens">Een link met de gele onderlijn-animatie</a></p>
                     </div>
                 </div>

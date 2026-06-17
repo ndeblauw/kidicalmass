@@ -60,7 +60,7 @@ class LocationPicker extends Component
     public function clear(): void
     {
         Cookie::queue(Cookie::forget(config('location.cookie')));
-        $this->redirect($this->currentUrl());
+        $this->redirect($this->currentUrl(), navigate: true);
     }
 
     protected function persist(string $zip, float $lat, float $lng, string $name): void
@@ -71,7 +71,7 @@ class LocationPicker extends Component
             config('location.cookie_days') * 24 * 60,
         );
 
-        $this->redirect($this->currentUrl());
+        $this->redirect($this->currentUrl(), navigate: true);
     }
 
     protected function currentUrl(): string

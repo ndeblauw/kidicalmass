@@ -1,0 +1,89 @@
+@layer components {
+    /* Reusable scrollytelling unit: a scrolling text column beside a sticky media
+       column whose items crossfade as each text block reaches the viewport centre.
+       Owns layout + sticky + crossfade only; pages style the media items' own look
+       (cover photo vs contained illustration) and may override the mobile fallback.
+       Tunable sticky offsets via custom properties. */
+    .scroll-sequence {
+        --scroll-sequence-top: 8rem;       /* sticky offset (clears the fixed nav) */
+        --scroll-sequence-gutter: 4rem;     /* breathing room below the sticky frame */
+    }
+
+    .scroll-sequence__layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .scroll-sequence__block + .scroll-sequence__block {
+        margin-top: 3rem;
+    }
+
+    /* Default (mobile/tablet) media: items flow stacked — mirrors the old ho-deal
+       mobile behaviour so /help-out is unchanged below lg. */
+    .scroll-sequence__media-sticky {
+        display: grid;
+        gap: 1rem;
+    }
+
+    @media (min-width: 1024px) {
+        .scroll-sequence__layout {
+            grid-template-columns: 1fr 1fr;
+            gap: 4.5rem;
+            /* No align-items override: the grid default (stretch) makes the media
+               cell as tall as the text column, so its sticky child can stay pinned
+               across every block. `align-items: start` would cap the media cell at
+               its own height and the sticky illustration would scroll away after
+               the first block. */
+        }
+
+        /* media-side modifier: place the media column left or right. */
+        .scroll-sequence--media-right .scroll-sequence__media { order: 2; }
+        .scroll-sequence--media-right .scroll-sequence__text  { order: 1; }
+        .scroll-sequence--media-left  .scroll-sequence__media { order: 1; }
+        .scroll-sequence--media-left  .scroll-sequence__text  { order: 2; }
+
+        .scroll-sequence__block {
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .scroll-sequence__block + .scroll-sequence__block {
+            margin-top: 0;
+        }
+
+        .scroll-sequence__media-sticky {
+            position: sticky;
+            top: var(--scroll-sequence-top);
+            display: block;
+            /* `contain: layout` guarantees this is the containing block for the
+               absolutely-positioned crossfade children below, so their `inset: 0`
+               anchors here regardless of how a browser treats sticky as a positioned
+               ancestor. */
+            contain: layout;
+            height: calc(100vh - var(--scroll-sequence-top) - var(--scroll-sequence-gutter));
+        }
+
+        /* Crossfade: items stack and fade. Pages set object-fit / radius / shadow. */
+        .scroll-sequence__media-sticky > [data-seq-media] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .scroll-sequence__media-sticky > [data-seq-media].is-active {
+            opacity: 1;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .scroll-sequence__media-sticky > [data-seq-media] {
+            transition: none;
+        }
+    }
+}
