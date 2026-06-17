@@ -62,6 +62,14 @@
         $hasExtras = ! empty($fauxFriends) || ! empty($fauxDownloads) || $group->children->isNotEmpty();
 
         $allActivitiesUrl = route('activities.index', ['gemeente' => $group->id]);
+
+        // Chapter gallery — read the group's own `gallery` collection. The first photo
+        // is the cover (section 2); the rest fill the "In beeld" band. Uploads still
+        // attach to activities (Nico), so this is empty until photos land on the group;
+        // `php artisan dev:seed-group-gallery` populates it locally.
+        $galleryPhotos = $group->getMedia('gallery');
+        $coverPhoto = $galleryPhotos->first();
+        $galleryRest = $galleryPhotos->slice(1)->values();
     @endphp
 
     {{-- 1 · IDENTITY HERO — system blue band, just the group name (mirrors .index-hero) --}}
@@ -75,11 +83,19 @@
     {{-- 2 · GROUP PHOTO — full-bleed, flush under the hero. Shared fallback for now;
          a real per-group photo is the eventual content need (no per-group cover field yet). --}}
     <figure class="chapter-photo">
-        <img
-            src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
-            alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
-            class="chapter-photo__img"
-        >
+        @if ($coverPhoto)
+            <img
+                src="{{ $coverPhoto->getUrl() }}"
+                alt="Foto van een Kidical Mass in {{ $gemeente }}"
+                class="chapter-photo__img"
+            >
+        @else
+            <img
+                src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
+                alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
+                class="chapter-photo__img"
+            >
+        @endif
     </figure>
 
     {{-- 3 · OP DE AGENDA — white, full container width; every activity lists the same calm way --}}
@@ -114,6 +130,67 @@
             <x-newsletter-optin :group="$group" />
         </div>
     </section>
+
+    {{-- 3b · IN BEELD — the group's gallery, editorial varied tiles + an inline lightbox.
+         Renders only when there is more than the cover photo. Structure only; appearance
+         in resources/css/pages/chapters.css. --}}
+    @if ($galleryRest->isNotEmpty())
+        <section
+            class="chapter-body chapter-gallery"
+            x-data="{
+                photos: @js($galleryRest->map(fn ($m) => ['url' => $m->getUrl(), 'name' => $m->name])->values()),
+                isOpen: false,
+                index: 0,
+                open(i) { this.index = i; this.isOpen = true; this.$nextTick(() => this.$refs.closeBtn?.focus()); },
+                close() { this.isOpen = false; },
+                next() { this.index = (this.index + 1) % this.photos.length; },
+                prev() { this.index = (this.index - 1 + this.photos.length) % this.photos.length; },
+            }"
+            x-effect="document.documentElement.classList.toggle('is-lightbox-open', isOpen)"
+            @keydown.escape.window="close()"
+            @keydown.arrow-right.window="isOpen && next()"
+            @keydown.arrow-left.window="isOpen && prev()"
+        >
+            <h2 class="chapter-section__title">In beeld</h2>
+
+            <ul class="chapter-gallery__grid">
+                @foreach ($galleryRest as $media)
+                    <li class="chapter-gallery__cell">
+                        <button
+                            type="button"
+                            class="chapter-gallery__tile"
+                            @click="open({{ $loop->index }})"
+                            aria-label="Bekijk foto {{ $loop->iteration }} groter"
+                        >
+                            <img
+                                src="{{ $media->getUrl('card') }}"
+                                alt="Foto uit {{ $gemeente }}"
+                                loading="lazy"
+                                class="chapter-gallery__img"
+                            >
+                        </button>
+                    </li>
+                @endforeach
+            </ul>
+
+            <div
+                class="chapter-gallery__lightbox"
+                x-show="isOpen"
+                x-cloak
+                @click.self="close()"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Foto groter bekeken"
+            >
+                <button type="button" class="chapter-gallery__lb-close" x-ref="closeBtn" @click="close()" aria-label="Sluiten">&times;</button>
+                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--prev" @click="prev()" aria-label="Vorige foto">&lsaquo;</button>
+                <figure class="chapter-gallery__lb-figure">
+                    <img :src="photos[index]?.url" :alt="photos[index]?.name" class="chapter-gallery__lb-img">
+                </figure>
+                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--next" @click="next()" aria-label="Volgende foto">&rsaquo;</button>
+            </div>
+        </section>
+    @endif
 
     {{-- 4 · LOCAL EXTRAS — quiet white, moved above the closing band. Faux vrienden +
          downloads (preview). Press is hide-if-empty, never faked (D-11). National news CUT. --}}

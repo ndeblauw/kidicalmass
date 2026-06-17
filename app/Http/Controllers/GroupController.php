@@ -90,7 +90,7 @@ class GroupController extends Controller
 
     public function show(string $locale, Group $group): View
     {
-        $group->load(['parent', 'children', 'users'])->loadCount(['articles', 'activities']);
+        $group->load(['parent', 'children', 'users', 'media'])->loadCount(['articles', 'activities']);
 
         $groupIds = collect([$group->id]);
         $currentParent = $group->parent;
