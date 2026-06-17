@@ -319,6 +319,7 @@ select:focus[data-flux-control] {
         text-decoration: none;
         transition: filter 0.15s ease;
     }
+    .steun-nav-btn svg { color: var(--color-kidical-red); }
     .steun-nav-btn:hover { filter: brightness(1.03); }
     .steun-nav-btn--block { display: flex; justify-content: center; }
 }
