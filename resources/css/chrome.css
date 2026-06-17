@@ -239,6 +239,9 @@ select:focus[data-flux-control] {
     /* On every page, the logo fades out once the page scrolls; the nav band stays. */
     .site-nav__logo--hidden {
         opacity: 0;
+    }
+    /* Faded out = also out of reach: kill the link so the invisible logo isn't a phantom click/focus target. */
+    .site-nav__reveal-logo--hidden {
         pointer-events: none;
     }
     .site-nav__group {

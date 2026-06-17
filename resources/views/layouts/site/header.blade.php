@@ -14,9 +14,12 @@
         <div class="site-nav">
             <div class="site-nav__bar flex items-center justify-between gap-4">
                 {{-- Logo: bare, no backing --}}
-                <a href="{{ route('home') }}" class="site-nav__reveal-logo flex items-center">
+                <a href="{{ route('home') }}" class="site-nav__reveal-logo flex items-center"
+                    :class="{ 'site-nav__reveal-logo--hidden': scrolled }"
+                    :tabindex="scrolled ? -1 : null"
+                    :aria-hidden="scrolled ? 'true' : null">
                     <img
-                        src="{{ asset('img/logos/logo.png') }}"
+                        src="{{ asset('img/logos/footer-logo.avif') }}"
                         alt="Kidical Mass"
                         class="site-nav__logo w-auto"
                         :class="{
