@@ -14,6 +14,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
@@ -31,53 +32,70 @@ class ArticleResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('title_nl')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Title (NL)'),
-                TextInput::make('title_fr')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Title (FR)'),
-                Textarea::make('content_nl')
-                    ->required()
-                    ->rows(5)
-                    ->label('Content (NL)'),
-                Textarea::make('content_fr')
-                    ->required()
-                    ->rows(5)
-                    ->label('Content (FR)'),
-                Select::make('author_id')
-                    ->label('Author')
-                    ->relationship('author', 'name')
-                    ->required()
-                    ->searchable()
-                    ->preload(),
-                Select::make('groups')
-                    ->relationship('groups', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable(),
-                SpatieMediaLibraryFileUpload::make('main')
-                    ->label('Main Image')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '4:3',
-                        '16:9',
-                    ])
-                    ->maxSize(15360)
-                    ->disk('media')
-                    ->collection('main')
-                    ->helperText('This image will be used in the card preview on the articles index page.'),
-                SpatieMediaLibraryFileUpload::make('gallery')
-                    ->label('Additional Images')
-                    ->image()
-                    ->multiple()
-                    ->maxSize(15360)
-                    ->disk('media')
-                    ->collection('gallery')
-                    ->helperText('These images will only appear on the article detail page.'),
+                Section::make('Content')
+                    ->columnSpanFull()
+                    ->description('Provide content in at least one language (NL or FR)')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('title_nl')
+                            ->requiredWithout('title_fr')
+                            ->maxLength(255)
+                            ->label('Title (NL)'),
+                        TextInput::make('title_fr')
+                            ->requiredWithout('title_nl')
+                            ->maxLength(255)
+                            ->label('Title (FR)'),
+                        Textarea::make('content_nl')
+                            ->requiredWithout('content_fr')
+                            ->rows(5)
+                            ->columnSpanFull()
+                            ->label('Content (NL)'),
+                        Textarea::make('content_fr')
+                            ->requiredWithout('content_nl')
+                            ->rows(5)
+                            ->columnSpanFull()
+                            ->label('Content (FR)'),
+                    ]),
+                Section::make('Organisation')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->schema([
+                        Select::make('author_id')
+                            ->label('Author')
+                            ->relationship('author', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        Select::make('groups')
+                            ->relationship('groups', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+                    ]),
+                Section::make('Images')
+                    ->columnSpanFull()
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('main')
+                            ->label('Main Image')
+                            ->image()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '4:3',
+                                '16:9',
+                            ])
+                            ->maxSize(15360)
+                            ->disk('media')
+                            ->collection('main')
+                            ->helperText('This image will be used in the card preview on the articles index page.'),
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->label('Additional Images')
+                            ->image()
+                            ->multiple()
+                            ->maxSize(15360)
+                            ->disk('media')
+                            ->collection('gallery')
+                            ->helperText('These images will only appear on the article detail page.'),
+                    ]),
             ]);
     }
 

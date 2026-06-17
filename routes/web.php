@@ -15,6 +15,8 @@ use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
+use App\Models\PressArticle;
+use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
 use Illuminate\Support\Facades\Route;
 
@@ -66,7 +68,15 @@ Route::prefix('{locale}')
         Route::view('about/organisation', 'about.organisation')->name('about.organisation');
         Route::get('about/news', [ArticleController::class, 'index'])->name('articles.index');
         Route::get('about/news/{article}', [ArticleController::class, 'show'])->name('articles.show');
-        Route::view('about/press', 'about.press')->name('about.press');
+        Route::get('about/press', function () {
+            $articles = PressArticle::query()
+                ->whereNotNull('published_at')
+                ->orderBy('published_at', 'desc')
+                ->get()
+                ->groupBy(fn ($article) => $article->published_at->year);
+
+            return view('about.press', ['articlesByYear' => $articles]);
+        })->name('about.press');
         Route::view('about/partners', 'about.partners')->name('about.partners');
 
         // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
@@ -116,8 +126,8 @@ if (! app()->isProduction()) {
     })->name('prototype.mail.invite');
 
     Route::get('prototype/mail/welkom-roze-hesje', function () {
-        //$group = Group::where('shortname', 'oudergem')->firstOrFail();
-        $volunteer = \App\Models\User::where('email', 'pinkvest@kidi.be')->firstOrFail();
+        // $group = Group::where('shortname', 'oudergem')->firstOrFail();
+        $volunteer = User::where('email', 'pinkvest@kidi.be')->firstOrFail();
         $group = $volunteer->groups()->firstOrFail();
 
         $volunteer->notify(new WelcomeNotification($group));

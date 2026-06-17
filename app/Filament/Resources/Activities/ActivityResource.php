@@ -17,6 +17,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -37,106 +38,133 @@ class ActivityResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('title_nl')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Title (NL)'),
-                TextInput::make('title_fr')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Title (FR)'),
-                Textarea::make('content_nl')
-                    ->required()
-                    ->rows(5)
-                    ->label('Content (NL)'),
-                Textarea::make('content_fr')
-                    ->required()
-                    ->rows(5)
-                    ->label('Content (FR)'),
-                Select::make('activity_type')
-                    ->required()
-                    ->options(ActivityType::getOptionsArray())
-                    ->default(ActivityType::KIDICALMASS->value)
-                    ->label('Activity Type'),
-                DateTimePicker::make('begin_date')
-                    ->required()
-                    ->label('Begin Date'),
-                TextInput::make('location')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Location')
-                    ->helperText('For Critical Mass: enter the starting address'),
-                TextInput::make('postal_code')
-                    ->nullable()
-                    ->maxLength(10)
-                    ->label('Postal Code')
-                    ->helperText('e.g. 1000 — used in the display title'),
-                TextInput::make('distance')
-                    ->nullable()
-                    ->maxLength(50)
-                    ->label('Distance')
-                    ->helperText('e.g. 5–7 km'),
-                TextInput::make('commute_link')
-                    ->label('Commute Route Link')
-                    ->helperText('URL to visualize the route (e.g., Komoot, RideWithGPS)')
-                    ->url()
-                    ->maxLength(500),
-                TextInput::make('duration_minutes')
-                    ->label('Duration (minutes)')
-                    ->helperText('Duration of the activity in minutes')
-                    ->numeric()
-                    ->minValue(1),
-                TextInput::make('komoot_url')
-                    ->nullable()
-                    ->url()
-                    ->label('Komoot URL')
-                    ->helperText('Paste the public Komoot tour URL (e.g. https://www.komoot.com/tour/123). Optional.')
-                    ->maxLength(500),
-                SpatieMediaLibraryFileUpload::make('gpx')
-                    ->label('Route (GPX file)')
-                    ->disk('media')
-                    ->collection('gpx')
-                    ->acceptedFileTypes(['application/gpx+xml', 'application/xml', 'text/xml'])
-                    ->maxSize(15360)
-                    ->helperText('Export GPX from Komoot (or any route planner) and upload here.'),
-                Select::make('author_id')
-                    ->label('Author')
-                    ->relationship('author', 'name')
-                    ->required()
-                    ->searchable()
-                    ->preload(),
-                Select::make('groups')
-                    ->relationship('groups', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
-                    ->afterStateUpdated(fn ($state, $set) => $set('organizer_id', null)),
-                Select::make('organizer_id')
-                    ->label('Organizer')
-                    ->options(fn (Get $get): array => self::getOrganizerOptions($get))
-                    ->searchable()
-                    ->preload()
-                    ->helperText('Leave empty to automatically assign from the responsible group or author.'),
-                SpatieMediaLibraryFileUpload::make('main')
-                    ->label('Main Image')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '4:3',
-                        '16:9',
-                    ])
-                    ->maxSize(15360)
-                    ->disk('media')
-                    ->collection('main')
-                    ->helperText('This image will be used in the card preview on the activities index page.'),
-                SpatieMediaLibraryFileUpload::make('gallery')
-                    ->label('Additional Images')
-                    ->image()
-                    ->multiple()
-                    ->maxSize(15360)
-                    ->disk('media')
-                    ->collection('gallery')
-                    ->helperText('These images will only appear on the activity detail page.'),
+                Section::make('Content')
+                    ->columnSpanFull()
+                    ->description('Provide content in at least one language (NL or FR)')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('title_nl')
+                            ->requiredWithout('title_fr')
+                            ->maxLength(255)
+                            ->label('Title (NL)'),
+                        TextInput::make('title_fr')
+                            ->requiredWithout('title_nl')
+                            ->maxLength(255)
+                            ->label('Title (FR)'),
+                        Textarea::make('content_nl')
+                            ->requiredWithout('content_fr')
+                            ->rows(5)
+                            ->columnSpanFull()
+                            ->label('Content (NL)'),
+                        Textarea::make('content_fr')
+                            ->requiredWithout('content_nl')
+                            ->rows(5)
+                            ->columnSpanFull()
+                            ->label('Content (FR)'),
+                    ]),
+                Section::make('Activity Details')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->schema([
+                        Select::make('activity_type')
+                            ->required()
+                            ->options(ActivityType::getOptionsArray())
+                            ->default(ActivityType::KIDICALMASS->value)
+                            ->label('Activity Type'),
+                        DateTimePicker::make('begin_date')
+                            ->required()
+                            ->label('Begin Date'),
+                        TextInput::make('location')
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Location')
+                            ->helperText('For Critical Mass: enter the starting address'),
+                        TextInput::make('postal_code')
+                            ->nullable()
+                            ->maxLength(10)
+                            ->label('Postal Code')
+                            ->helperText('e.g. 1000 — used in the display title'),
+                        TextInput::make('distance')
+                            ->nullable()
+                            ->maxLength(50)
+                            ->label('Distance')
+                            ->helperText('e.g. 5–7 km'),
+                        TextInput::make('duration_minutes')
+                            ->label('Duration (minutes)')
+                            ->helperText('Duration of the activity in minutes')
+                            ->numeric()
+                            ->minValue(1),
+                    ]),
+                Section::make('Route Information')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('commute_link')
+                            ->label('Commute Route Link')
+                            ->helperText('URL to visualize the route (e.g., Komoot, RideWithGPS)')
+                            ->url()
+                            ->maxLength(500),
+                        TextInput::make('komoot_url')
+                            ->nullable()
+                            ->url()
+                            ->label('Komoot URL')
+                            ->helperText('Paste the public Komoot tour URL (e.g. https://www.komoot.com/tour/123). Optional.')
+                            ->maxLength(500),
+                        SpatieMediaLibraryFileUpload::make('gpx')
+                            ->columnSpanFull()
+                            ->label('Route (GPX file)')
+                            ->disk('media')
+                            ->collection('gpx')
+                            ->acceptedFileTypes(['application/gpx+xml', 'application/xml', 'text/xml'])
+                            ->maxSize(15360)
+                            ->helperText('Export GPX from Komoot (or any route planner) and upload here.'),
+                    ]),
+                Section::make('Organisation')
+                    ->columnSpanFull()
+                    ->schema([
+                        Select::make('author_id')
+                            ->label('Author')
+                            ->relationship('author', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        Select::make('groups')
+                            ->relationship('groups', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->afterStateUpdated(fn ($state, $set) => $set('organizer_id', null)),
+                        Select::make('organizer_id')
+                            ->label('Organizer')
+                            ->options(fn (Get $get): array => self::getOrganizerOptions($get))
+                            ->searchable()
+                            ->preload()
+                            ->helperText('Leave empty to automatically assign from the responsible group or author.'),
+                    ]),
+                Section::make('Images')
+                    ->columnSpanFull()
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('main')
+                            ->label('Main Image')
+                            ->image()
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '4:3',
+                                '16:9',
+                            ])
+                            ->maxSize(15360)
+                            ->disk('media')
+                            ->collection('main')
+                            ->helperText('This image will be used in the card preview on the activities index page.'),
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->label('Additional Images')
+                            ->image()
+                            ->multiple()
+                            ->maxSize(15360)
+                            ->disk('media')
+                            ->collection('gallery')
+                            ->helperText('These images will only appear on the activity detail page.'),
+                    ]),
             ]);
     }
 

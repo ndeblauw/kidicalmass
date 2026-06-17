@@ -9,7 +9,7 @@ it('renders public pages without server errors', function (string $uri) {
 })->with([
     '/nl', '/nl/events', '/nl/chapters', '/nl/getting-started',
     '/nl/steun-ons', '/nl/help-out', '/nl/find-a-bike', '/nl/about',
-    '/nl/contact', '/nl/privacy',
+    '/nl/about/press', '/nl/contact', '/nl/privacy',
 ]);
 
 it('renders the event detail page', function () {

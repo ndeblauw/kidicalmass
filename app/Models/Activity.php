@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityType;
+use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -18,6 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Activity extends Model implements HasMedia
 {
     use HasFactory;
+    use HasMainImage;
     use InteractsWithMedia;
 
     protected $guarded = [];
@@ -97,6 +100,11 @@ class Activity extends Model implements HasMedia
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function pressArticles(): MorphToMany
+    {
+        return $this->morphToMany(PressArticle::class, 'press_articleable');
     }
 
     public function getEffectiveOrganizerAttribute(): ?User
