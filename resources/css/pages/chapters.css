@@ -1,5 +1,9 @@
 @layer components {
-    /* 1 · IDENTITY HERO — blue band (mirrors .index-hero on the directory) */
+    /* 1 · IDENTITY HERO — blue band. The base shell is shared (settings reuses it as a
+       short tinted hero); the .chapter-head--identity modifier on the public chapter page
+       borrows the .page-hero band metrics (height floor + nav-clearing top padding + copy
+       width) so the eyebrow/title — which reuse .page-hero__eyebrow / .page-hero__title —
+       sit exactly like every other page. */
     .chapter-head {
         position: relative;
         z-index: 1;
@@ -29,12 +33,23 @@
         padding-bottom: calc(var(--spacing) * 9);
         max-width: 48rem;
     }
-    .chapter-head h1 {
-        color: white;
-        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
-        line-height: 1.0;
-        margin-block: 0.75rem 0.5rem;
-        animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+    .chapter-head--identity {
+        min-height: var(--page-hero-h);
+    }
+    .chapter-head--identity .chapter-head__inner {
+        padding-top: 11rem;
+        padding-bottom: 5rem;
+        max-width: none;
+    }
+    @media (min-width: 768px) {
+        .chapter-head--identity .chapter-head__inner {
+            max-width: 50%;
+        }
+    }
+    @media (min-width: 1280px) {
+        .chapter-head--identity .chapter-head__inner {
+            max-width: 56%;
+        }
     }
     /* 2 · GROUP PHOTO — full-bleed, flush under the blue hero (no white band between) */
     .chapter-photo {
@@ -176,18 +191,55 @@
     }
     .chapter-next__empty-body { margin-top: 0.5rem; color: var(--color-kidical-ink); }
 
+    /* Agenda layout: a tall sign in a left column beside the list on wider screens.
+       Single column on mobile, where the sign column is dropped entirely. */
+    .chapter-agenda__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .chapter-agenda__aside {
+        display: none;
+    }
+    @media (min-width: 1024px) {
+        .chapter-agenda__grid {
+            grid-template-columns: 9rem 1fr;
+            gap: clamp(2.5rem, 5vw, 4rem);
+            align-items: start;
+        }
+        .chapter-agenda__aside {
+            display: block;
+        }
+    }
+    .chapter-agenda__sign {
+        position: sticky;
+        top: 2rem;
+        width: 100%;
+        height: auto;
+    }
+
     .chapter-agenda__list {
         margin: 1.5rem 0 0;
         display: flex;
         flex-direction: column;
     }
 
-    /* Agenda foot: the "alle activiteiten" link */
+    /* Agenda foot: the "alle activiteiten" link — intrinsic width, left-aligned
+       (the foot is a flex column, so it would otherwise stretch the pill full-width). */
     .chapter-agenda__foot {
         margin-top: 1.75rem;
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
         gap: 1.5rem;
+    }
+
+    /* From xl the agenda column is wide enough that the default 13rem title cap left
+       long event names wrapping to three lines against a sea of dot-leader. Let titles
+       run wider before wrapping — same approach as the calendar's .kal-agenda. */
+    @media (min-width: 1280px) {
+        .chapter-agenda .ride-row__place {
+            max-width: clamp(18rem, 22vw, 30rem);
+        }
     }
 
     /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"

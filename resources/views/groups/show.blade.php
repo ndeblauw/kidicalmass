@@ -72,11 +72,15 @@
         $galleryRest = $galleryPhotos->slice(1)->values();
     @endphp
 
-    {{-- 1 · IDENTITY HERO — system blue band, just the group name (mirrors .index-hero) --}}
-    <header class="chapter-head">
+    {{-- 1 · IDENTITY HERO — blue band on the shared .page-hero look (eyebrow = postcode,
+         title = Kidical Mass / gemeente), via the --identity modifier. --}}
+    <header class="chapter-head chapter-head--identity">
         <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
         <div class="container mx-auto px-4 chapter-head__inner">
-            <h1>{{ $group->name }}</h1>
+            @if (filled($group->zip))
+                <p class="page-hero__eyebrow">{{ $group->zip }}</p>
+            @endif
+            <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
         </div>
     </header>
 
@@ -98,33 +102,42 @@
         @endif
     </figure>
 
-    {{-- 3 · OP DE AGENDA — white, full container width; every activity lists the same calm way --}}
+    {{-- 3 · OP DE AGENDA — white. A tall heart/30 sign anchors a left column beside the
+         agenda on wider screens; the column collapses away on mobile (illustration hidden). --}}
     <section class="chapter-body chapter-agenda">
-        <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
+        <div class="chapter-agenda__grid">
+            <aside class="chapter-agenda__aside" aria-hidden="true">
+                <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" class="chapter-agenda__sign">
+            </aside>
 
-        {{-- No ride on the agenda yet (there may still be workshops/meetings below):
-             a warm, honest note — never a workshop dressed as a ride. The opt-in below
-             handles "leave your email". --}}
-        @unless ($hasRide)
-            <div class="chapter-next__card chapter-next__card--empty">
-                <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
-                <p class="chapter-next__empty-body">We laten het je weten zodra {{ $gemeente }} vertrekt. Schrijf je hieronder in.</p>
-            </div>
-        @endunless
+            <div class="chapter-agenda__main">
+                <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
 
-        {{-- Rides, workshops and meetings, grouped by day with the date-rail lockup,
-             exactly like the calendar's upcoming agenda. --}}
-        @if ($activities->isNotEmpty())
-            <div class="chapter-agenda__list">
-                @foreach ($agendaByDay as $periodKey => $dayActivities)
-                    <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
-                @endforeach
-            </div>
+                {{-- No ride on the agenda yet (there may still be workshops/meetings below):
+                     a warm, honest note — never a workshop dressed as a ride. The opt-in below
+                     handles "leave your email". --}}
+                @unless ($hasRide)
+                    <div class="chapter-next__card chapter-next__card--empty">
+                        <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
+                        <p class="chapter-next__empty-body">We laten het je weten zodra {{ $gemeente }} vertrekt. Schrijf je hieronder in.</p>
+                    </div>
+                @endunless
 
-            <div class="chapter-agenda__foot">
-                <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten in {{ $gemeente }} (ook voorbije)</x-cta-button>
+                {{-- Rides, workshops and meetings, grouped by day with the date-rail lockup,
+                     exactly like the calendar's upcoming agenda. --}}
+                @if ($activities->isNotEmpty())
+                    <div class="chapter-agenda__list">
+                        @foreach ($agendaByDay as $periodKey => $dayActivities)
+                            <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
+                        @endforeach
+                    </div>
+
+                    <div class="chapter-agenda__foot">
+                        <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten, ook voorbije</x-cta-button>
+                    </div>
+                @endif
             </div>
-        @endif
+        </div>
 
         <div class="mt-12">
             <x-newsletter-optin :group="$group" />
