@@ -123,7 +123,6 @@
     </div>
 
     <x-slot:closing>
-        <x-closing-cta heading="Geef de straat terug aan kinderen"
-            :href="route('membership')" label="Word lid" icon="heart" />
+        <x-newsletter-cta />
     </x-slot:closing>
 </x-layouts::site>
