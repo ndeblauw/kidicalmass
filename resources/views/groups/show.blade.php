@@ -1,8 +1,9 @@
 {{--
     Chapter page (P-11) — the local group's HOME. Family-first arc, re-arranged onto the
-    shared band rhythm (Critique + normalize, Frederik 2026-06-09): blue identity hero ->
-    group photo (flush) -> ONE white agenda (typed; every activity day-grouped on the shared
-    ride kit, full container width) -> quiet white extras (vrienden + downloads) -> ONE
+    shared band rhythm (Critique + normalize, Frederik 2026-06-09): blue identity hero with
+    a group photo (inner-page <x-page-hero> layout) -> ONE white agenda (illustration column +
+    typed list, every activity day-grouped on the shared ride kit) -> quiet white extras
+    (vrienden + downloads) -> ONE
     yellow CLOSING band that fuses with the footer: first WHO runs the group (faces), then
     the "help mee" recruitment CTA whose signup form opens on demand right under the button.
     Colour story blue -> white -> yellow, like the sibling pages. The yellow band lives in
@@ -17,6 +18,12 @@
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
+
+        // Hero lockup: a "Kidical Mass" brand line above the gemeente, but only for groups
+        // that actually carry the prefix (parent/region nodes show their bare name on one line).
+        $hasBrandPrefix = (bool) preg_match('/^\s*kidical\s+mass\s+/i', $group->name);
+        // Eyebrow = postcode; falls back for nodes without a zip (real field is `zip`).
+        $heroEyebrow = filled($group->zip) ? $group->zip : 'Lokale groep';
 
         // One typed agenda, grouped by day under a typographic date rail (<x-ride-day>),
         // exactly like the calendar's upcoming view. No featured hero — every activity
@@ -64,59 +71,76 @@
         $allActivitiesUrl = route('activities.index', ['gemeente' => $group->id]);
     @endphp
 
-    {{-- 1 · IDENTITY HERO — system blue band, just the group name (mirrors .index-hero) --}}
+    {{-- 1 · IDENTITY HERO — full-bleed blue band on the shared inner-page rhythm (mirrors
+         <x-page-hero>): postcode eyebrow, two-line name, and a group/team photo where sibling
+         pages put an illustration. Photo is a shared placeholder for now; a real per-group
+         photo drops into the same <img> once the backend lands (no per-group cover field yet). --}}
     <header class="chapter-head">
-        <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
         <div class="container mx-auto px-4 chapter-head__inner">
-            <h1>{{ $group->name }}</h1>
+            <div class="chapter-head__copy">
+                <p class="chapter-head__eyebrow">{{ $heroEyebrow }}</p>
+                <h1 class="chapter-head__title">
+                    @if ($hasBrandPrefix)
+                        Kidical Mass<br>{{ $gemeente }}
+                    @else
+                        {{ $group->name }}
+                    @endif
+                </h1>
+            </div>
+            <figure class="chapter-head__media">
+                <img
+                    src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
+                    alt="Het team en de fietsers van Kidical Mass {{ $gemeente }}"
+                    class="chapter-head__photo"
+                >
+            </figure>
         </div>
     </header>
 
-    {{-- 2 · GROUP PHOTO — full-bleed, flush under the hero. Shared fallback for now;
-         a real per-group photo is the eventual content need (no per-group cover field yet). --}}
-    <figure class="chapter-photo">
-        <img
-            src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
-            alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
-            class="chapter-photo__img"
-        >
-    </figure>
-
-    {{-- 3 · OP DE AGENDA — white, full container width; every activity lists the same calm way --}}
+    {{-- 2 · OP DE AGENDA — white. A decorative illustration leads a left column; the agenda
+         (typed, day-grouped on the shared ride kit) fills the wider right column. --}}
     <section class="chapter-body chapter-agenda">
-        <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
+        <div class="chapter-agenda__grid">
+            <aside class="chapter-agenda__aside" aria-hidden="true">
+                <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" class="chapter-agenda__illustration">
+            </aside>
 
-        {{-- No ride on the agenda yet (there may still be workshops/meetings below):
-             a warm note, not a dead end. Honest — never a workshop dressed as a ride. --}}
-        @unless ($hasRide)
-            <div class="chapter-next__card chapter-next__card--empty" x-data="{ sent: false }">
-                <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
-                <p class="chapter-next__empty-body">Laat je e-mail achter en je bent de eerste die het hoort als {{ $gemeente }} vertrekt.</p>
-                <form @submit.prevent="sent = true" class="chapter-notify" x-show="!sent">
-                    <label class="sr-only" for="notify-empty">E-mail</label>
-                    <input type="email" id="notify-empty" required placeholder="jouw@email.be" class="chapter-notify__input">
-                    <button type="submit" class="chapter-notify__btn">Hou me op de hoogte</button>
-                </form>
-                <p class="chapter-notify__done" x-show="sent" x-cloak>Bedankt! We laten het je weten zodra er een rit is.</p>
-            </div>
-        @endunless
+            <div class="chapter-agenda__main">
+                <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
 
-        {{-- Rides, workshops and meetings, grouped by day with the date-rail lockup,
-             exactly like the calendar's upcoming agenda. --}}
-        @if ($activities->isNotEmpty())
-            <div class="chapter-agenda__list">
-                @foreach ($agendaByDay as $periodKey => $dayActivities)
-                    <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
-                @endforeach
-            </div>
+                {{-- No ride on the agenda yet (there may still be workshops/meetings below):
+                     a warm note, not a dead end. Honest — never a workshop dressed as a ride. --}}
+                @unless ($hasRide)
+                    <div class="chapter-next__card chapter-next__card--empty" x-data="{ sent: false }">
+                        <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
+                        <p class="chapter-next__empty-body">Laat je e-mail achter en je bent de eerste die het hoort als {{ $gemeente }} vertrekt.</p>
+                        <form @submit.prevent="sent = true" class="chapter-notify" x-show="!sent">
+                            <label class="sr-only" for="notify-empty">E-mail</label>
+                            <input type="email" id="notify-empty" required placeholder="jouw@email.be" class="chapter-notify__input">
+                            <button type="submit" class="chapter-notify__btn">Hou me op de hoogte</button>
+                        </form>
+                        <p class="chapter-notify__done" x-show="sent" x-cloak>Bedankt! We laten het je weten zodra er een rit is.</p>
+                    </div>
+                @endunless
 
-            <div class="chapter-agenda__foot">
-                <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten in {{ $gemeente }} (ook voorbije)</x-cta-button>
+                {{-- Rides, workshops and meetings, grouped by day with the date-rail lockup,
+                     exactly like the calendar's upcoming agenda. --}}
+                @if ($activities->isNotEmpty())
+                    <div class="chapter-agenda__list">
+                        @foreach ($agendaByDay as $periodKey => $dayActivities)
+                            <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
+                        @endforeach
+                    </div>
+
+                    <div class="chapter-agenda__foot">
+                        <x-cta-button :href="$allActivitiesUrl" variant="secondary">Alle activiteiten in {{ $gemeente }} (ook voorbije)</x-cta-button>
+                    </div>
+                @endif
             </div>
-        @endif
+        </div>
     </section>
 
-    {{-- 4 · LOCAL EXTRAS — quiet white, moved above the closing band. Faux vrienden +
+    {{-- 3 · LOCAL EXTRAS — quiet white, moved above the closing band. Faux vrienden +
          downloads (preview). Press is hide-if-empty, never faked (D-11). National news CUT. --}}
     @if ($hasExtras)
         <section class="chapter-body chapter-body--tail">
@@ -160,7 +184,7 @@
         </section>
     @endif
 
-    {{-- 5 · YELLOW CLOSING BAND — the warmth + "join us" climax, fused with the footer.
+    {{-- 4 · YELLOW CLOSING BAND — the warmth + "join us" climax, fused with the footer.
          First WHO runs the group (faces), then the "help mee" recruitment CTA whose signup
          form opens on demand right under the button. Rendered in the layout's `closing`
          slot so it sits flush above the yellow footer (main drops to pb-0). --}}

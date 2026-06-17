@@ -1,5 +1,6 @@
 @layer components {
-    /* 1 · IDENTITY HERO — blue band (mirrors .index-hero on the directory) */
+    /* 1 · IDENTITY HERO — full-bleed blue band on the shared inner-page rhythm
+       (mirrors <x-page-hero>): copy left, group photo right. */
     .chapter-head {
         position: relative;
         z-index: 1;
@@ -9,50 +10,50 @@
         background-color: var(--color-kidical-blue);
         overflow: hidden;
     }
-    .chapter-head__daisy {
-        position: absolute;
-        right: -2.5rem;
-        top: 50%;
-        transform: translateY(-50%) rotate(15deg);
-        width: 11rem;
-        opacity: 0.9;
-        z-index: 1;
-        pointer-events: none;
-    }
     .chapter-head__inner {
         position: relative;
         z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-top: calc(var(--spacing) * 24);
-        padding-bottom: calc(var(--spacing) * 9);
-        max-width: 48rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 5vw, 3.5rem);
+        align-items: center;
+        /* Clear the fixed nav, like .page-hero (the -28 top margin cancels <main>'s pt). */
+        padding-top: 11rem;
+        padding-bottom: clamp(3rem, 6vw, 4.5rem);
     }
-    .chapter-head h1 {
+    @media (min-width: 768px) {
+        .chapter-head__inner {
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(2.5rem, 5vw, 4rem);
+        }
+    }
+    .chapter-head__eyebrow {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-kidical-yellow);
+        margin-bottom: 0.6rem;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .chapter-head__title {
         color: white;
         font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
         line-height: 1.0;
-        margin-block: 0.75rem 0.5rem;
         animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
     }
-    /* 2 · GROUP PHOTO — full-bleed, flush under the blue hero (no white band between) */
-    .chapter-photo {
-        position: relative;
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-top: 0;
-        margin-bottom: 0;
-        max-height: 28rem;
-        overflow: hidden;
+    .chapter-head__media {
+        margin: 0;
     }
-    .chapter-photo__img {
+    .chapter-head__photo {
         width: 100%;
-        height: 100%;
-        max-height: 28rem;
+        aspect-ratio: 4 / 3;
         object-fit: cover;
-        object-position: center 42%;
+        object-position: center 40%;
+        border-radius: 1.5rem;
+        box-shadow: 0 22px 50px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
         display: block;
+        animation: hero-photo-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
 
     /* Full container-width content column (aligns with every band's container edge).
@@ -70,7 +71,42 @@
         margin-bottom: 1rem;
     }
 
-    /* 3 · AGENDA — the next ride is the single, unmistakable hero card */
+    /* 2 · AGENDA — a decorative illustration leads a narrow left column; the agenda fills
+       the wider right column. Stacks (illustration on top) below md. */
+    .chapter-agenda__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 5vw, 3rem);
+    }
+    @media (min-width: 768px) {
+        .chapter-agenda__grid {
+            grid-template-columns: 14rem 1fr;
+            gap: clamp(2.5rem, 5vw, 4rem);
+            align-items: start;
+        }
+    }
+    .chapter-agenda__aside {
+        display: flex;
+        justify-content: center;
+    }
+    .chapter-agenda__illustration {
+        width: 100%;
+        max-width: 12rem;
+        height: auto;
+        display: block;
+    }
+    @media (min-width: 768px) {
+        .chapter-agenda__aside {
+            display: block;
+            position: sticky;
+            top: 7rem;
+        }
+        .chapter-agenda__illustration {
+            max-width: 100%;
+        }
+    }
+
+    /* AGENDA — the next ride is the single, unmistakable hero card */
     .chapter-next__card {
         border-radius: 1.25rem;
         padding: 1.75rem 1.75rem 2rem;
@@ -131,7 +167,7 @@
     .chapter-notify__btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
     .chapter-notify__done { margin-top: 1rem; font-weight: 700; color: var(--color-kidical-blue); }
 
-    /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
+    /* 4 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
        recruitment CTA. Yellow so it fuses with the footer (lives in the layout's closing
        slot). */
     .chapter-team-band {
@@ -324,7 +360,7 @@
         margin-bottom: 1rem;
     }
 
-    /* 4 · LOCAL EXTRAS — quiet white, above the yellow closing band */
+    /* 3 · LOCAL EXTRAS — quiet white, above the yellow closing band */
     .chapter-extras {
         display: grid;
         gap: 2rem;
