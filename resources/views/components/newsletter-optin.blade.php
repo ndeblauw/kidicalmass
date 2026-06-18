@@ -1,4 +1,4 @@
-@props(['group' => null])
+@props(['group' => null, 'showJoin' => false])
 
 @php
     $gemeente = null;
@@ -16,20 +16,39 @@
 
 @auth
     <div {{ $attributes->class('@container bg-kidical-light-blue rounded-card p-8') }}>
-        <div class="flex flex-col gap-3 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
-            <div class="flex flex-col gap-3">
-                <h3 class="text-kidical-ink">Je bent al mee</h3>
-                <p class="text-kidical-ink/75">Je staat op de hoogte. Je nieuwsvoorkeuren beheer je in je profiel.</p>
+        @if ($showJoin)
+            {{-- A logged-in follower is the warmest lead on the page. Don't dead-end on
+                 "manage settings": acknowledge the follow, then escalate to the next step
+                 (join the crew). Follow first, then join. The button scrolls to the join
+                 band and opens its form via the open-volunteer event. --}}
+            <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-kidical-ink">Meer dan meefietsen?</h3>
+                    <p class="text-kidical-ink/75">{{ $gemeente ? 'Zin om zelf mee te trekken in '.$gemeente.'?' : 'Zin om zelf mee te helpen?' }}</p>
+                </div>
+                <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-data="{}" x-on:click="$dispatch('open-volunteer')" class="shrink-0">Word vrijwilliger</x-cta-button>
             </div>
-            <x-cta-button variant="blue" :href="route('settings')" class="shrink-0">Beheer voorkeuren</x-cta-button>
-        </div>
+        @else
+            <div class="flex flex-col gap-3 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
+                <div class="flex flex-col gap-3">
+                    <h3 class="text-kidical-ink">Je bent al mee</h3>
+                    <p class="text-kidical-ink/75">Je staat op de hoogte. Je nieuwsvoorkeuren beheer je in je profiel.</p>
+                </div>
+                <x-cta-button variant="blue" :href="route('settings')" class="shrink-0">Beheer voorkeuren</x-cta-button>
+            </div>
+        @endif
     </div>
 @else
     <div {{ $attributes->class('@container bg-kidical-light-blue rounded-card p-8') }}>
         <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-3">
                 <h3 class="text-kidical-ink">Mis geen rit</h3>
                 <p class="text-kidical-ink/75">{{ $lead }}</p>
+                @if ($showJoin)
+                    {{-- Bridge the follow step to the join step: subscribing and volunteering
+                         are escalating asks, not competing ones. --}}
+                    <p class="text-sm text-kidical-ink/70">Of <a href="#aanmelden" x-data="{}" x-on:click="$dispatch('open-volunteer')" class="text-kidical-blue underline underline-offset-2">help mee als vrijwilliger</a>.</p>
+                @endif
             </div>
             <x-cta-button variant="secondary" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
         </div>

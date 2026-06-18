@@ -24,6 +24,20 @@
     .cta-button--blue:hover {
         background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
     }
+    /* Pink — the roze-hesje signature fill, for actions a pink vest takes
+       (e.g. add your own ride photos). White disc with the pink icon so the
+       signature disc still reads against the pink ground. */
+    .cta-button--pink {
+        background: var(--color-kidical-red);
+        color: white;
+    }
+    .cta-button--pink:hover {
+        background: color-mix(in oklab, var(--color-kidical-red), black 10%);
+    }
+    .cta-button--pink .cta-button__disc {
+        background: white;
+        color: var(--color-kidical-red);
+    }
     .cta-button--sm {
         --disc-size: 26px;
         padding: 0.55rem 1.1rem;

@@ -1,6 +1,6 @@
 @props([
     'href' => null,
-    'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | secondary (outlined, quiet) | ghost (text-only)
+    'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | pink (roze-hesje actions) | secondary (outlined, quiet) | ghost (text-only)
     'icon' => 'arrow',     // arrow (a "go" action) | back (a "return" action) | heart (support / membership)
     'size' => 'md',        // md | sm (nav + footer)
     'disc' => null,        // disc colour: red (default) | green | orange
