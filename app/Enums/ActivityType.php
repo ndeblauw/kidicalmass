@@ -19,6 +19,22 @@ enum ActivityType: string
         };
     }
 
+    /**
+     * Accent colour for the calendar lockup (<x-ride-day>): rides read red,
+     * workshops green, meetings blue, anything else orange. Returns a CSS
+     * custom-property reference so it can be dropped straight into an inline
+     * `--ride-accent` declaration.
+     */
+    public function accentColor(): string
+    {
+        return match ($this) {
+            self::WORKSHOP => 'var(--color-kidical-green)',
+            self::MEETING => 'var(--color-kidical-blue)',
+            self::OTHER => 'var(--color-kidical-orange)',
+            self::KIDICALMASS => 'var(--color-kidical-red)',
+        };
+    }
+
     public function badgeColor(): string
     {
         return match ($this) {

@@ -1,64 +1,33 @@
 @layer components {
-    /* Three items: place | dot-leader | meta.
-       Baseline-aligns all three so dots and meta sit on the same line as the
-       title's first line — even when the title wraps to multiple lines. */
+    /* Every row is a simple two-line lockup: the title on top, the quiet
+       time/venue line beneath it. The row always stacks — no dot leader. */
     .ride-row {
         display: flex;
-        align-items: baseline;
-        flex-wrap: nowrap;
+        flex-direction: column;
+        row-gap: 0.2rem;
         padding-block: 0.9rem;
     }
     .ride-row:hover .ride-row__place {
         color: var(--color-kidical-red);
     }
 
-    /* Commune — sized to its own content so the dot leader always begins at the
-       title's real end. flex-shrink:1 lets it wrap only when the row genuinely
-       runs out of room (below that, the container query stacks it entirely);
-       no fixed cap, so a wide row keeps the title on one line. */
+    /* Title — the event name (or "Fietsparade" for a plain ride). */
     .ride-row__place {
-        flex: 0 1 auto;
-        min-width: 0;
         font-family: var(--font-heading);
         font-weight: 800;
         font-size: 1.75rem;
-        line-height: 1.2;
+        line-height: 1.15;
         letter-spacing: -0.01em;
         color: var(--color-kidical-blue);
         transition: color 0.18s;
-        text-wrap: balance;
     }
 
-    /* Dot leader — grows to fill all space between title and meta.
-       ::before provides a text node so baseline alignment works in flex. The
-       string is intentionally far longer than any real gap: it's left-aligned
-       and clipped by overflow:hidden, so it always reaches the meta on the right
-       no matter how wide the row, while starting flush against the title. */
-    .ride-row__dots {
-        flex: 1 0 0;
-        min-width: 0;
-        overflow: hidden;
-        padding-inline: 0.5rem;
-    }
-    .ride-row__dots::before {
-        content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
-        white-space: nowrap;
-        font-family: var(--font-sans);
-        font-weight: 400;
-        font-size: var(--text-lg);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
-        letter-spacing: 0.12em;
-        vertical-align: -0.25em;
-    }
-
-    /* Quiet meta line: one muted colour; only the time keeps weight.
-       Never shrinks — the title wraps to absorb a tight row, so the venue stays
-       whole instead of truncating. The container query below stacks the meta
-       under the title once the row is genuinely too narrow for both. */
+    /* Quiet meta line: one muted colour; only the time keeps weight. Wraps
+       freely on its own line. */
     .ride-row__meta {
-        flex: 0 0 auto;
         display: flex;
         align-items: baseline;
+        flex-wrap: wrap;
         gap: 0.4rem;
         font-family: var(--font-sans);
         font-size: var(--text-xl);
@@ -67,10 +36,8 @@
     .ride-row__time {
         font-weight: 700;
     }
-    .ride-row__venue {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    .ride-row__at {
+        color: color-mix(in oklab, var(--color-text-body), transparent 25%);
     }
     .ride-row__date {
         font-family: var(--font-heading);
@@ -80,51 +47,6 @@
         letter-spacing: 0.05em;
         color: var(--color-kidical-red);
         flex-shrink: 0;
-    }
-
-    /* Type chip — only present for non-ride activities; sits inline before the name. */
-    .ride-row__chip {
-        display: inline-block;
-        vertical-align: 0.15em;
-        margin-right: 0.45rem;
-        font-family: var(--font-heading);
-        font-size: var(--text-xs);
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        padding: 0.15rem 0.6rem;
-        border-radius: 9999px;
-    }
-    .ride-row__chip--workshop { background: var(--color-kidical-yellow); color: var(--color-kidical-ink); }
-    .ride-row__chip--meeting  { background: color-mix(in oklab, var(--color-kidical-blue), white 78%); color: var(--color-kidical-blue); }
-    .ride-row__chip--other    { background: color-mix(in oklab, var(--color-kidical-ink), transparent 88%); color: var(--color-kidical-ink); }
-}
-
-@layer components {
-    /* When the rides column itself is too narrow for place | meta side by side,
-       drop the time/venue onto its own row under the commune rather than
-       truncating it. Keyed to the column width, not the viewport, because the
-       column can be narrow even on wide screens (home's 2-col section grid). */
-    @container ride-rows (max-width: 34rem) {
-        .ride-row {
-            flex-wrap: wrap;
-            row-gap: 0.15rem;
-        }
-        .ride-row__place {
-            /* On its own full-width row now (meta sits below, no leader beside it). */
-            flex-basis: 100%;
-        }
-        .ride-row__dots {
-            display: none;
-        }
-        .ride-row__meta {
-            flex-basis: 100%;
-            flex-wrap: wrap;
-        }
-        .ride-row__venue {
-            white-space: normal;
-            overflow: visible;
-        }
     }
 
     @media (max-width: 767px) {

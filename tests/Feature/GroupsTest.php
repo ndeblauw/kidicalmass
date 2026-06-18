@@ -335,9 +335,8 @@ test('chapter agenda labels a workshop as a workshop, never as a ride', function
         ->assertOk()
         // No ride → the warm empty-ride state, NOT the workshop dressed up as a ride.
         ->assertSee('Nog geen fietstocht gepland')
-        // The workshop shows in the agenda, with a green-tinted "Workshop" label.
+        // The workshop shows in the agenda, typed by its green calendar accent.
         ->assertSee('--ride-accent: var(--color-kidical-green)', false)
-        ->assertSee('Workshop')
         ->assertSee('Fietscheck en sleutelworkshop')
         // A workshop never gets the ride CTA.
         ->assertDontSee('Naar de fietstocht');
@@ -358,8 +357,7 @@ test('chapter agenda accents a meeting blue on its calendar lockup', function ()
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('--ride-accent: var(--color-kidical-blue)', false) // blue-tinted "Vergadering" label
-        ->assertSee('Vergadering')
+        ->assertSee('--ride-accent: var(--color-kidical-blue)', false) // type now reads as the blue calendar accent
         ->assertSee('Vrijwilligersmeeting')
         ->assertDontSee('Naar de fietstocht');
 });

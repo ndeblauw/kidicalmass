@@ -10,7 +10,7 @@ beforeEach(function () {
     URL::defaults(['locale' => 'nl']); // route('activities.show', …) needs the {locale} param
 });
 
-it('renders a normal ride without a type chip', function () {
+it('keeps the full ride title (commune) when there is no chapter context', function () {
     $ride = Activity::factory()->create([
         'title_nl' => 'Kidical Mass Etterbeek',
         'activity_type' => ActivityType::KIDICALMASS,
@@ -20,22 +20,80 @@ it('renders a normal ride without a type chip', function () {
 
     $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
 
-    expect($html)->toContain('Etterbeek')
+    expect($html)->toContain('Etterbeek')   // the commune still identifies the ride
         ->toContain('14u')
         ->toContain('Jubelpark')
-        ->not->toContain('ride-row__chip');
+        ->not->toContain('ride-row__type')   // the eyebrow label is gone everywhere
+        ->not->toContain('Fietsparade');
 });
 
-it('shows a yellow chip for a workshop', function () {
-    $workshop = Activity::factory()->create([
-        'title_nl' => 'Fietsherstel',
-        'activity_type' => ActivityType::WORKSHOP,
-        'begin_date' => '2026-06-14 19:00',
+it('turns a plain ride into "Fietsparade" inside its own chapter', function () {
+    $ride = Activity::factory()->create([
+        'title_nl' => 'Kidical Mass Etterbeek',
+        'activity_type' => ActivityType::KIDICALMASS,
+        'begin_date' => '2026-06-14 14:00',
     ]);
 
-    $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $workshop]);
+    $html = Blade::render('<x-ride-row :activity="$activity" :commune="$commune" />', [
+        'activity' => $ride, 'commune' => 'Etterbeek',
+    ]);
 
-    expect($html)->toContain('ride-row__chip--workshop')->toContain('Workshop');
+    // The page already says Etterbeek, so the ride drops to its essence.
+    expect($html)->toContain('Fietsparade')
+        ->not->toContain('Etterbeek');
+});
+
+it('drops the commune from a named activity inside its chapter, keeping the name', function () {
+    $workshop = Activity::factory()->create([
+        'title_nl' => 'Fietscheck en sleutelworkshop Etterbeek',
+        'activity_type' => ActivityType::WORKSHOP,
+        'begin_date' => '2026-06-14 19:00',
+        'location' => 'Cyclo werkplaats, Etterbeek',
+    ]);
+
+    $html = Blade::render('<x-ride-row :activity="$activity" :commune="$commune" />', [
+        'activity' => $workshop, 'commune' => 'Etterbeek',
+    ]);
+
+    expect($html)->toContain('Fietscheck en sleutelworkshop')
+        ->toContain('Cyclo werkplaats')
+        ->not->toContain('Etterbeek')   // dropped from both title and venue
+        ->not->toContain('ride-row__type');
+});
+
+it('accents the calendar lockup by activity type', function () {
+    $cases = [
+        [ActivityType::KIDICALMASS, '--ride-accent: var(--color-kidical-red)'],
+        [ActivityType::WORKSHOP, '--ride-accent: var(--color-kidical-green)'],
+        [ActivityType::MEETING, '--ride-accent: var(--color-kidical-blue)'],
+        [ActivityType::OTHER, '--ride-accent: var(--color-kidical-orange)'],
+    ];
+
+    foreach ($cases as [$type, $accent]) {
+        $activity = Activity::factory()->create([
+            'activity_type' => $type,
+            'begin_date' => '2026-06-14 14:00',
+        ]);
+
+        $html = Blade::render(
+            '<x-ride-day :period-key="$key" :rows="$rows" />',
+            ['key' => '2026-06-14', 'rows' => [['item' => $activity]]],
+        );
+
+        expect($html)->toContain($accent);
+    }
+});
+
+it('lets the ride win the accent when a day mixes types', function () {
+    $ride = Activity::factory()->create(['activity_type' => ActivityType::KIDICALMASS, 'begin_date' => '2026-06-14 14:00']);
+    $meeting = Activity::factory()->create(['activity_type' => ActivityType::MEETING, 'begin_date' => '2026-06-14 19:00']);
+
+    $html = Blade::render(
+        '<x-ride-day :period-key="$key" :rows="$rows" />',
+        ['key' => '2026-06-14', 'rows' => [['item' => $meeting], ['item' => $ride]]],
+    );
+
+    expect($html)->toContain('--ride-accent: var(--color-kidical-red)');
 });
 
 it('shows the inline date only when showDate is set', function () {

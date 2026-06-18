@@ -16,9 +16,14 @@
     /* Wrapper holds the tilt + the star, so the star rotates with the card but is not
        clipped by the card's overflow. */
     .ride-day__cal {
+        /* Accent reflects the event type (ride = red, workshop = green,
+           meeting = blue, other = orange); set per day in <x-ride-day>. */
+        --ride-accent: var(--color-kidical-red);
         position: relative;
         width: 88px;
-        margin-top: calc(0.3rem + 15px);
+        /* Centre the tear-off against a single row's two-line title+meta lockup
+           (the card is taller than the text, so a top-align would hang low). */
+        margin-top: calc(0.3rem + 3px);
         transform: rotate(var(--ride-day-rot, 0deg));
     }
     .ride-day__rail {
@@ -46,7 +51,7 @@
     }
     .ride-day__bar {
         height: 13px;
-        background: var(--color-kidical-red);
+        background: var(--ride-accent);
     }
     .ride-day__body {
         display: flex;
@@ -70,7 +75,7 @@
         font-weight: 800;
         line-height: 0.95;
         letter-spacing: -0.02em;
-        color: var(--color-kidical-red);
+        color: var(--ride-accent);
         margin: 0.1em 0 0.05em;
     }
     .ride-day__month {
@@ -88,7 +93,6 @@
     }
 
     .ride-day__rides {
-        container: ride-rows / inline-size;
         display: flex;
         flex-direction: column;
         min-width: 0;

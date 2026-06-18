@@ -597,12 +597,9 @@
         padding: clamp(1.5rem, 3.5vw, 2.25rem);
         box-shadow: 0 22px 50px -28px color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
-    /* Standalone next-ride teaser: <x-ride-row> stacks place/meta via a `ride-rows`
-       container query, which only exists inside the calendar's <x-ride-day>. Here the
-       row stands alone, so establish the container ourselves (capped to a calm measure)
-       or the nowrap row overlaps in the narrow card. */
+    /* Standalone next-ride teaser: the <x-ride-row> already stacks title over meta
+       on its own; just cap it to a calm measure inside the card. */
     .volunteer-signup__next-ride {
-        container: ride-rows / inline-size;
         max-width: 24rem;
     }
 

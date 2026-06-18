@@ -21,7 +21,7 @@
         @if ($activities->isNotEmpty())
             <div class="chapter-agenda__list">
                 @foreach ($agendaByDay as $periodKey => $dayActivities)
-                    <x-ride-day :period-key="$periodKey" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
+                    <x-ride-day :period-key="$periodKey" :commune="$gemeente" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
                 @endforeach
             </div>
             <div class="chapter-agenda__foot">
