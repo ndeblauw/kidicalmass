@@ -18,8 +18,8 @@
     {{-- 6 · JOUW MATERIAAL — the chapter's material library (replaces the public CTA).
          FAUX until the backend lands. The startspeech is a besloten "Voor kapiteins" tile. --}}
     {{-- faux: per-chapter playlist URL (Nico #37) --}}
-    <section id="jouw-materiaal" class="chapter-body roze-materials-section scroll-mt-24">
-        <h2 class="chapter-section__title">Jouw materiaal</h2>
+    <section id="jouw-materiaal" class="roze-materials-section scroll-mt-24">
+        <h2 class="roze-hub-title">Jouw materiaal</h2>
         <p class="roze-materials__lead">Alles op één plek. <strong>Besloten</strong> blijft bij de hesjes; <strong>publiek</strong> mag je vrij delen.</p>
         <div class="roze-materials">
             @foreach ($materials as $material)

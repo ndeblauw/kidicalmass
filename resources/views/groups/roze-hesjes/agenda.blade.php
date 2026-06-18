@@ -11,8 +11,8 @@
 
     {{-- 3 · OP DE AGENDA — straight to the agenda (no intro). Typed, day-grouped on the
          shared ride kit, exactly like the public page. --}}
-    <section id="op-de-agenda" class="chapter-body chapter-agenda">
-        <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
+    <section id="op-de-agenda" class="chapter-agenda">
+        <h2 class="roze-hub-title">Op de agenda in {{ $gemeente }}</h2>
 
         @unless ($hasRide)
             <p class="roze-agenda__note">Nog geen fietstocht gepland. Hou de agenda in de gaten, of plan er samen een in.</p>
@@ -35,7 +35,7 @@
             <p class="roze-drafts__label">In voorbereiding</p>
             <a href="{{ route('groups.ride-preview', $group) }}" class="roze-draft link-plain">
                 <span class="roze-draft__flag" aria-hidden="true">Nog niet vast</span>
-                <span class="roze-draft__title">Een rit door {{ $gemeente }} — mogelijk 12 juli</span>
+                <span class="roze-draft__title">Een rit door {{ $gemeente }}, mogelijk 12 juli</span>
                 <span class="roze-draft__hint">Bekijk hoe deze rit vorm krijgt →</span>
             </a>
         </div>

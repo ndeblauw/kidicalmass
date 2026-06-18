@@ -3,7 +3,6 @@
     /* Full-bleed red band. Cancels the site layout's pt-28 with a negative top
        margin (same trick the other full-bleed bands use). */
     .roze-hub-hero {
-        margin-top: -7rem;
         background: var(--color-kidical-red);
         padding: 1.0625rem 1.25rem;
         display: flex;
@@ -39,7 +38,7 @@
     .roze-subnav__list {
         display: flex;
         gap: 0.4375rem;
-        padding: 0.6875rem 0.875rem;
+        padding: 0.6875rem 1.125rem;
         overflow-x: auto;
         scrollbar-width: none;
         list-style: none;
@@ -89,6 +88,14 @@
         padding: 1.25rem 1.125rem 1.5rem;
     }
 
+    .roze-hub-title {
+        margin: 0;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+        font-size: 1.3rem;
+    }
+
     /* Desktop: slim text row sub-nav + centered single column. */
     @media (min-width: 48rem) {
         .roze-hub-hero {
@@ -104,12 +111,16 @@
             height: 3.625rem;
         }
 
+        .roze-hub-title {
+            font-size: 1.6rem;
+        }
+
         .roze-subnav__list {
-            max-width: 60rem;
+            max-width: 47.5rem;
             margin: 0 auto;
             height: 3.5rem;
             gap: 1.75rem;
-            padding: 0 2.25rem;
+            padding: 0 1.5rem;
             overflow-x: visible;
             align-items: stretch;
         }
