@@ -40,7 +40,7 @@
         gap: 0.85rem;
         background-color: white;
         border: 1px solid color-mix(in oklab, var(--color-kidical-red), white 75%);
-        border-radius: var(--radius-card);
+        border-radius: 1rem;
         padding: 0.7rem 0.9rem;
     }
     .roze-roster__avatar {
@@ -269,7 +269,7 @@
         text-decoration: none;
         background: #fff;
         border: 1px solid var(--color-kidical-hairline);
-        border-radius: var(--radius-card);
+        border-radius: 1rem;
         padding: 0.625rem 0.75rem;
         transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
