@@ -132,6 +132,30 @@
         font-size: 1.3rem;
     }
 
+    .roze-hub-lead {
+        margin: 0.375rem 0 1.25rem;
+        max-width: 48rem;
+        line-height: 1.5;
+        color: var(--color-text-body);
+    }
+
+    .roze-card-title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-lg);
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+    }
+
+    .roze-row-title {
+        display: block;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--text-base);
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+    }
+
     /* Desktop: slim text row sub-nav + centered single column. */
     @media (min-width: 48rem) {
         .roze-hub-title {

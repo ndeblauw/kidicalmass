@@ -22,7 +22,7 @@
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $iconSvg !!}</svg>
     </x-icon-chip>
     <span class="roze-feed__body">
-        <span class="roze-feed__what">{{ $what }}</span>
+        <span class="roze-feed__what roze-row-title">{{ $what }}</span>
         <span class="roze-feed__meta">{{ $context }} · <time datetime="{{ $timestamp }}">{{ $relative }}</time></span>
     </span>
     <svg class="roze-feed__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>

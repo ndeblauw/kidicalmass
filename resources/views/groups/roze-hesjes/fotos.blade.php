@@ -13,7 +13,7 @@
                 <flux:icon name="arrow-up-tray" variant="micro" class="size-4" /> Foto's toevoegen (binnenkort)
             </button>
         </div>
-        <p class="roze-gallery__lead">Het gedeelde album van {{ $gemeente }}. Hier komen de foto's van onze ritten samen.</p>
+        <p class="roze-hub-lead">Het gedeelde album van {{ $gemeente }}. Hier komen de foto's van onze ritten samen.</p>
         <ul role="list" class="roze-gallery__grid">
             @for ($i = 0; $i < 6; $i++)
                 <li class="roze-gallery__cell" aria-hidden="true"></li>

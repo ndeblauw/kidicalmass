@@ -9,6 +9,7 @@
          material (a besloten tile in Jouw materiaal). --}}
     <section id="voor-je-eerste-rit" class="roze-onboarding scroll-mt-24">
         <h2 class="roze-hub-title">Voor je eerste rit</h2>
+        <p class="roze-hub-lead">Alles wat je nodig hebt voor je eerste keer meerijden. Het is makkelijker dan je denkt.</p>
 
         <h3 class="roze-onboarding__sub">Wat doet een roze hesje?</h3>
         <div class="roze-onboarding__cards">
@@ -48,7 +49,7 @@
                 <li class="roze-step">
                     <span class="roze-step__num">{{ $i + 1 }}</span>
                     <div>
-                        <strong class="roze-step__title">{{ $step[0] }}</strong>
+                        <strong class="roze-step__title roze-card-title">{{ $step[0] }}</strong>
                         <p class="roze-step__body">{{ $step[1] }}</p>
                     </div>
                 </li>
@@ -62,7 +63,7 @@
     <section class="chapter-body roze-whatsapp">
         <div class="roze-whatsapp__inner">
             <div>
-                <strong class="roze-whatsapp__title">De WhatsApp-groep van {{ $gemeente }}</strong>
+                <strong class="roze-whatsapp__title roze-card-title">De WhatsApp-groep van {{ $gemeente }}</strong>
                 <p class="roze-whatsapp__body">Voor het dagelijkse gepraat, snelle vragen en "wie kan er zondag mee".</p>
             </div>
             <a href="#" class="roze-whatsapp__btn" aria-disabled="true">Naar WhatsApp →</a>
