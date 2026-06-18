@@ -140,7 +140,7 @@
     }
 
     .roze-card-title {
-        font-family: var(--font-heading);
+        font-family: var(--font-sans);
         font-weight: 800;
         font-size: var(--text-lg);
         line-height: 1.2;
@@ -149,7 +149,7 @@
 
     .roze-row-title {
         display: block;
-        font-family: var(--font-heading);
+        font-family: var(--font-sans);
         font-weight: 700;
         font-size: var(--text-base);
         line-height: 1.2;

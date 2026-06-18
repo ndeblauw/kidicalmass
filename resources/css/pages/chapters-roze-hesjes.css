@@ -15,6 +15,12 @@
     .roze-welcome__foot { margin-top: 0.85rem; font-size: var(--text-sm); font-style: italic; color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); }
 
     /* 3 · AGENDA note (reuses .chapter-agenda / .chapter-agenda__list / .chapter-next__all) */
+    /* .chapter-agenda carries margin-top: 5rem to separate sections on the public
+       chapter page; in the hub it is the lone section, so drop that top gap. */
+    .roze-hub-body .chapter-agenda {
+        margin-top: 0;
+    }
+
     .roze-agenda__note {
         margin-top: 0.5rem;
         color: var(--color-text-body);
