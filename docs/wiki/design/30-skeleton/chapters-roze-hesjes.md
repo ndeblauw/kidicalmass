@@ -3,7 +3,7 @@ title: Roze-hesje-pagina — build-briefing
 tags: [build, chapters, backstage, roze-hesjes]
 sources: [design/30-skeleton/chapters.md, design/30-skeleton/chapters-research.md, design/playground-chapter-page.html, design/prototype-chapter-pages.html]
 phase: design
-updated: 2026-06-15
+updated: 2026-06-18
 ---
 
 # Roze-hesje-pagina — build-briefing
@@ -11,6 +11,8 @@ updated: 2026-06-15
 *Compacte briefing om in een verse thread de **roze-hesje-pagina** te bouwen. Visuele referentie: [`prototype-chapter-pages.html`](../prototype-chapter-pages.html) (rechterkolom). Achtergrond: [`chapters.md`](chapters.md) (P-11) + [`chapters-research.md`](chapters-research.md).*
 
 > **Status:** de eerste versie (hieronder, "Beslist in deze thread") is **gebouwd en op `main`** — route, hero, agenda, roster, materiaal, welkomblok + onboarding, roze nav-knop. De **[tweede iteratie](#tweede-iteratie-2026-06-15--de-levende-hub)** herstructureert die pagina rond *levende staat*. Implementatieplan: [`2026-06-15-roze-hesje-living-hub.md`](../../../superpowers/plans/2026-06-15-roze-hesje-living-hub.md).
+>
+> De **[derde iteratie](#derde-iteratie-2026-06-18--splitsing-in-deelpaginas)** (UX-planning, nog niet gebouwd) splitst de ene lange hub op in **een hub-overzicht + 5 deelpagina's**. Design-handoff voor de visuele uitwerking: [`2026-06-18-roze-hesje-hub-split-design-handoff.md`](../../../superpowers/specs/2026-06-18-roze-hesje-hub-split-design-handoff.md).
 
 ## Doel
 
@@ -53,6 +55,102 @@ Daarmee keert de hiërarchie om: het levende komt bovenaan, het statische zakt n
 - **`group_user` lid-sinds-timestamp** voor de "nieuw"-markering (of een expliciet veld).
 - **Per-groep WhatsApp-URL.**
 - **"Wat is nieuw"-feed** — vergt echte change-events (foto toegevoegd, lid bijgekomen, rit-status gewijzigd); voorlopig gefaket.
+
+## Derde iteratie (2026-06-18) — splitsing in deelpagina's
+
+De ene levende hub van iteratie 2 werd **overweldigend, rommelig en ongericht**: één pagina droeg tegelijk *aan-de-slag*-inhoud (alleen relevant de eerste keren) én terugkeer-inhoud, waardoor je niet meer ziet waarvoor de pagina dient. Deze iteratie **herziet bewust de eerdere "één hub, geen tab-app"-beslissing** — maar op een betere as: **we splitsen langs mentale toestanden, niet langs feature-tabs.** Dat is geen applicatie-denken; het is twee mensen die op verschillende momenten verschillende dingen nodig hebben.
+
+**Twee mentale toestanden (Strategy):**
+- **Nieuw hesje** — *"wat wordt er van mij verwacht, hoe werkt dit, wat moet ik doen?"* De veiligheid/hoe-het-werkt zit al grotendeels in de bestaande inhoud + de video. → landt op **Aan de slag** (grotendeels een **verhuizing** van bestaande onboarding, niet nieuw schrijfwerk).
+- **Gevestigd hesje** — zwaartepunt **lichtjes sociaal**. "Wat is nieuw" is het thuis: transparantie over wie nieuw is, dat de kapiteins aan een rit werken, dat er foto's bijkwamen die je zelf kan aanvullen. Het gevoel bij aankomst: *"dit is een levende gemeenschap, we doen dit samen."* Daarnaast een **praktische pull**: vóór een rit snel de **startspeech** en de **playlist** vinden.
+- **Kapitein = dezelfde gebruiker** (zelfde use-cases: playlist, materiaal als naslag) + een **link naar zijn Filament-login**. Geen aparte kapitein-only oppervlak in deze hub.
+
+**Job-to-be-done op de telefoon (gevestigd hesje):** (1) sociale check — "heeft er al iemand iets gepost?"; (2) pre-rit-nut — startspeech + playlist grijpen. Het sociale is het thuis; naslag/materiaal moet **één duidelijke tik weg** zijn, niet de landing.
+
+### Informatie-architectuur (Structure)
+
+```
+chapters/{group}/roze-hesjes   ← HUB-OVERZICHT (thuis voor het gevestigde hesje)
+│   • "wat is nieuw"-feed = kaart-gebaseerde navigatie; elke kaart deeplinkt naar het EXACTE ding
+│     (gewijzigde draft → die rit z'n draft-preview, NIET de agenda; foto's → die rit z'n galerij)
+│
+├── /aan-de-slag   Aan de slag   (thuis voor het NIEUWE hesje; onboarding + veiligheidsvideo + WhatsApp-link)
+├── /agenda        Agenda        (publieke kalender-component + status-badges; komend)
+├── /fotos         Foto's        (galerijen per rit; verleden, nieuwste eerst)
+├── /groep         De Groep      (vrijwilligers/roster, "nieuw"-markering, kapitein-badge)
+└── /materiaal     Materiaal     (bestanden én links: charter, speech, playlist, video)
+```
+
+**Beslist in deze iteratie:**
+- **Navigatiemodel = hybride.** Elke pagina draagt een **slanke header-subnav**; het Overzicht toont *daarbovenop* de **feed als navigatiekaarten** die naar het concrete detail sturen.
+- **Landingslogica.** Eerste bezoek → **Aan de slag** met het roze welkom dat **één keer** verschijnt; daarna landt het hesje op **Overzicht**. Aan de slag blijft altijd bereikbaar via de subnav.
+- **Feed = dispatcher, deeplinkt exact.** Een kaart over een gewijzigde draft opent die rit z'n draft-preview (niet de agenda-overzicht); foto-kaart opent die rit z'n galerij; nieuw-lid-kaart opent De Groep.
+- **Subnav-volgorde:** `Overzicht · Aan de slag · Agenda · Foto's · De Groep · Materiaal · [🔧 Beheer →]`.
+  - **Aan de slag zweeft:** **2e** item zolang het hesje in het welkom-venster zit (`ROZE_WELCOME_WEEKS`); zakt daarna naar **achteraan**. Voor kapiteins staat het **voorlaatste**, net vóór **Beheer**.
+  - **Beheer →** = laatste knop, **alleen voor kapiteins**, met een affordance dat je *de hub verlaat* naar Filament.
+  - **Telefoon:** subnav klapt in een **hamburger**; de kaarten zijn de focus, je opent het menu om te navigeren.
+- **WhatsApp-link** verhuist naar **Aan de slag** (was los onderaan de hub).
+
+### Skeleton
+
+**Compacte roze hero op élke pagina** (Overzicht + alle deelpagina's): **alleen de chapternaam**, gedistilleerde copy, **geen foto** (foto is een Surface-beslissing). De kleine variant van de bestaande hero.
+
+**Overzicht — telefoon (het kernstuk):**
+```
+┌─────────────────────────────┐
+│ ☰   Kidical Mass Mortsel  🎀 │  compacte roze hero · enkel chapternaam · hamburger
+├─────────────────────────────┤
+│ Wat is nieuw                │
+│ ┌─────────────────────────┐ │
+│ │ ▣  3 nieuwe foto's      │ │ → galerij van díe rit
+│ │    rit van zondag · 2d  │ │
+│ └─────────────────────────┘ │
+│ ┌─────────────────────────┐ │
+│ │ ✎  Draft-rit gewijzigd  │ │ → draft-preview van díe rit (niet agenda)
+│ │    "Halloweenrit" · 3d  │ │
+│ └─────────────────────────┘ │
+│ ┌─────────────────────────┐ │
+│ │ ☺  Nieuw lid: Sara · 5d │ │ → De Groep
+│ └─────────────────────────┘ │
+│   … oudere gebeurtenissen   │
+└─────────────────────────────┘
+```
+
+**Overzicht — desktop:**
+```
+┌────────────────────────────────────────────────────────────────┐
+│  Kidical Mass Mortsel                                       🎀   │  compacte roze hero
+├────────────────────────────────────────────────────────────────┤
+│ Overzicht · Aan de slag · Agenda · Foto's · De Groep · Materiaal │  slanke subnav
+│                                                  [🔧 Beheer →]   │  (kapitein-only, laatst)
+├────────────────────────────────────────────────────────────────┤
+│  Wat is nieuw                                                    │
+│  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐          │
+│  │ ▣ 3 nieuwe    │ │ ✎ Draft-rit   │ │ ☺ Nieuw lid:  │          │  nieuwste eerst,
+│  │   foto's      │ │   gewijzigd   │ │   Sara        │          │  gemengde types,
+│  │   rit zondag  │ │   Halloween   │ │               │          │  elk → exact doel
+│  └───────────────┘ └───────────────┘ └───────────────┘          │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**Deelpagina's** (allemaal: compacte hero + subnav):
+- **Aan de slag** — welkom (1×), "hoe werkt het / wat verwacht men", veiligheidsvideo, "voor je eerste rit", WhatsApp-link.
+- **Agenda** — herbruik de **publieke kalender-component** + status-badges; komende ritten; rit-klik → draft/detail.
+- **Foto's** — galerijen per rit, nieuwste rit eerst (verleden); rit-klik → die galerij.
+- **De Groep** — roster-grid + "nieuw"-markering + kapitein-badge.
+- **Materiaal** — lijst van bestanden én links: charter 📄, speech 📄, video ▶, playlist 🔗.
+
+**Feed-kaart-inhoud bewust uitgesteld.** De huidige feed-items zijn prozatekst; v2-kaarten moeten gevoed worden uit **databasevelden**. De exacte kaart-anatomie (thumbnail, één-regel-"wat", tijdstempel, wie) ontwerpen we *nadat* de deelpagina's bestaan en we de echte data kennen. De "voeg foto's toe aan de laatste rit"-nudge is één van die kaarttypes — ook uitgesteld.
+
+### Backend-noten (Nico / [#37](https://github.com/ndeblauw/kidicalmass/issues/37))
+
+Bovenop de bestaande lijst van iteratie 2:
+- **Materiaal = bestanden *of* links.** Een materiaal-item heeft een **type** (bestand vs. URL). De **playlist is een link**, geen upload. Materiaal is een dynamische pagina: **superadmin (Leticia)** uploadt globaal materiaal; **kapiteins** uploaden groep-specifiek materiaal.
+- **Feed-kaarten = gestructureerde DB-records**, niet proza — nodig om dynamische "wat is nieuw"-kaarten te bouwen.
+
+### Wat verandert t.o.v. iteratie 2
+
+De levende-hub-principes blijven (*toon wat beweegt*, *geheugen i.p.v. WhatsApp*, *onboardingpad door zichtbaarheid*, *zien-niet-claimen*). Wat verandert: de ene lange pagina wordt **opgesplitst per mentale toestand**, het "wat is nieuw"-blok promoveert tot **kaart-navigatie op een eigen Overzicht**, en de naslag-secties (onboarding, agenda, foto's, roster, materiaal) worden **eigen deelpagina's** met een gedeelde compacte hero + subnav.
 
 ## Beslist in deze thread
 
