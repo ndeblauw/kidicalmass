@@ -6,13 +6,16 @@ use App\Models\ContactForm;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
-it('renders the start-a-group page with the deal, the honest asks and the intent form', function () {
+it('renders the start-a-group page with the three story slides, the honest asks and the intent form', function () {
     $this->get(route('groups.start'))
         ->assertOk()
         ->assertSee('Breng Kidical Mass naar jouw buurt')
+        ->assertSee('Je hoeft dit niet alleen te dragen')
         ->assertSee('Wat jij brengt')
         ->assertSee('Wat wij dragen')
         ->assertSee('Wat het écht vraagt')
+        ->assertSee('sg-story__collage', escape: false)
+        ->assertSee('data-seq-block="2"', escape: false)
         ->assertSee('Zin om te beginnen?');
 });
 

@@ -29,39 +29,80 @@
             </div>
         </div>
 
-        {{-- DE DEAL — dissolves "te groot een klus voor mij" --}}
-        <section class="sg-deal">
-            <h2 class="sg-deal__title">Je hoeft dit niet alleen te dragen</h2>
-            <div class="sg-deal__cols">
-                <x-titled-list-block title="Wat jij brengt" variant="ask">
-                    <li>Een kernteam van twee of drie mensen</li>
-                    <li>Kennis van je eigen buurt</li>
-                    <li>Een vertrekpunt en een route-idee</li>
-                    <li>Energie en goesting</li>
-                </x-titled-list-block>
+        {{-- DRIE STORY SLIDES — a sticky collage column (right) crossfades through one
+             collage per slide as the reader scrolls. Non-alternating: media stays right.
+             Slide 1+2 dissolve "te groot een klus"; slide 3 is the honest filter.
+             Mobile: the shared component stacks the collages at rest (no swap). --}}
+        <section class="sg-story">
+            <h2 class="sg-story__title">Je hoeft dit niet alleen te dragen</h2>
+            <x-scroll-sequence media-side="right" active-margin="-40% 0px -45% 0px">
+                <x-slot:media>
+                    <div class="sg-story__collage sg-story__collage--a is-active" data-seq-media="0">
+                        <figure class="sg-story__photo sg-story__photo--lead">
+                            <img src="{{ asset('img/photography/ride-brussels-two-boys-at-start.webp') }}"
+                                 alt="Twee jongens arm in arm met hun fietsen en groene helmen aan de start van een rit in Brussel" loading="lazy">
+                        </figure>
+                        <figure class="sg-story__photo sg-story__photo--trail">
+                            <img src="{{ asset('img/photography/cargo-bike-mother-two-kids-flag.webp') }}"
+                                 alt="Een glimlachende vrouw rijdt op een cargobike met twee kinderen en een Kidical Mass vlag" loading="lazy">
+                        </figure>
+                    </div>
+                    <div class="sg-story__collage sg-story__collage--b" data-seq-media="1">
+                        <figure class="sg-story__photo sg-story__photo--lead">
+                            <img src="{{ asset('img/photography/ride-group-celebration-station.webp') }}"
+                                 alt="Tientallen gezinnen in fluohesjes juichen met opgeheven armen voor een sierlijk bakstenen station" loading="lazy">
+                        </figure>
+                        <figure class="sg-story__photo sg-story__photo--trail">
+                            <img src="{{ asset('img/photography/ride-girl-smiling-on-bike.webp') }}"
+                                 alt="Een lachend meisje in een roze helm rijdt mee in een groep" loading="lazy">
+                        </figure>
+                    </div>
+                    <div class="sg-story__collage sg-story__collage--c" data-seq-media="2">
+                        <figure class="sg-story__photo sg-story__photo--lead">
+                            <img src="{{ asset('img/photography/ride-trio-pink-vest-lei-portrait.webp') }}"
+                                 alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" loading="lazy">
+                        </figure>
+                        <figure class="sg-story__photo sg-story__photo--trail">
+                            <img src="{{ asset('img/photography/ride-brussels-boulevard-crowd.webp') }}"
+                                 alt="Een dichte menigte gezinnen met fietsen op een zonnige Brusselse boulevard" loading="lazy">
+                        </figure>
+                    </div>
+                </x-slot:media>
 
-                <x-titled-list-block title="Wat wij dragen" variant="get">
-                    <li>Het merk en al het materiaal, van flyers tot hesjes</li>
-                    <li>Opleiding rond veilige begeleiding en routeplanning</li>
-                    <li>Nationale zichtbaarheid en communicatie</li>
-                    <li>Coaching en een vast aanspreekpunt</li>
-                    <li>Contacten met gemeenten, partners en fietsbrigades</li>
-                    <li>Subsidieaanvragen voor de hele organisatie</li>
-                </x-titled-list-block>
-            </div>
-        </section>
+                <div class="scroll-sequence__block" data-seq-block="0">
+                    <x-titled-list-block title="Wat jij brengt" variant="ask" level="h3">
+                        <li>Een kernteam van twee of drie mensen</li>
+                        <li>Kennis van je eigen buurt</li>
+                        <li>Een vertrekpunt en een route-idee</li>
+                        <li>Energie en goesting</li>
+                    </x-titled-list-block>
+                </div>
 
-        {{-- WAT HET ÉCHT VRAAGT — the honest filter (fewer, higher-intent leads) --}}
-        <section class="sg-asks">
-            <h2 class="sg-asks__title">Wat het écht vraagt</h2>
-            <p class="sg-asks__lead">Eerlijk is eerlijk: een groep dragen is een engagement over een
-            heel seizoen. Dit verwachten we van een lokale trekker.</p>
-            <ul class="sg-asks__list" role="list">
-                <li>Een paar ritten per jaar mee plannen en begeleiden</li>
-                <li>Eén afgevaardigde naar de vier jaarlijkse Kidical-meetings</li>
-                <li>Je scharen achter ons huishoudelijk reglement rond veiligheid en goede vibes</li>
-                <li>Genoeg begeleiders verzamelen: minstens één roze hesje per tien deelnemers</li>
-            </ul>
+                <div class="scroll-sequence__block" data-seq-block="1">
+                    <x-titled-list-block title="Wat wij dragen" variant="get" level="h3">
+                        <li>Het merk en al het materiaal, van flyers tot hesjes</li>
+                        <li>Opleiding rond veilige begeleiding en routeplanning</li>
+                        <li>Nationale zichtbaarheid en communicatie</li>
+                        <li>Coaching en een vast aanspreekpunt</li>
+                        <li>Contacten met gemeenten, partners en fietsbrigades</li>
+                        <li>Subsidieaanvragen voor de hele organisatie</li>
+                    </x-titled-list-block>
+                </div>
+
+                <div class="scroll-sequence__block" data-seq-block="2">
+                    <div class="titled-list-block titled-list-block--ask">
+                        <h3 class="titled-list-block__title">Wat het écht vraagt</h3>
+                        <p class="sg-asks__lead">Eerlijk is eerlijk: een groep dragen is een engagement over een
+                        heel seizoen. Dit verwachten we van een lokale trekker.</p>
+                        <ul class="sg-asks__list" role="list">
+                            <li>Een paar ritten per jaar mee plannen en begeleiden</li>
+                            <li>Eén afgevaardigde naar de vier jaarlijkse Kidical-meetings</li>
+                            <li>Je scharen achter ons huishoudelijk reglement rond veiligheid en goede vibes</li>
+                            <li>Genoeg begeleiders verzamelen: minstens één roze hesje per tien deelnemers</li>
+                        </ul>
+                    </div>
+                </div>
+            </x-scroll-sequence>
         </section>
 
         {{-- ER IS ANIMO — proof, dissolves "is er wel animo hier?". An editorial photo
