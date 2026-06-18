@@ -16,6 +16,7 @@ it('exposes ride display accessors that delegate to RideDate', function () {
     ]);
 
     expect($ride->timeLabel)->toBe('14u');
+    expect($ride->weekdayLabel)->toBe('zondag');
     expect($ride->dateShort)->toBe('zo 14 jun.');
     expect($ride->dateFull)->toBe('zondag 14 juni');
     expect($ride->dateMonthYear)->toBe('juni 2026');

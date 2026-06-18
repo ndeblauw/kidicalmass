@@ -202,7 +202,7 @@
                             >
                                 <span class="ride-day__bar" aria-hidden="true"></span>
                                 <span class="ride-day__body">
-                                    <span class="ride-day__day">{{ $rideRail['day'] }}</span>
+                                    <span class="ride-day__day">{{ $latestRide->weekdayLabel }}</span>
                                     <span class="ride-day__date">{{ $rideRail['num'] }}</span>
                                     <span class="ride-day__month">{{ $rideRail['month'] }}</span>
                                 </span>

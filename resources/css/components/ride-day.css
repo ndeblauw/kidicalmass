@@ -1,18 +1,18 @@
 @layer components {
     .ride-day {
         display: grid;
-        grid-template-columns: 100px 1fr;
+        grid-template-columns: 88px 1fr;
         gap: 0 1.6rem;
         align-items: start;
     }
     .ride-day + .ride-day {
-        margin-top: 1.75rem;
-        padding-top: 1.75rem;
+        margin-top: 0.7rem;
+        padding-top: 0.7rem;
     }
 
     /* Calendar-page lockup — a flat illustrated tear-off: red header bar with ring
        binding, navy outline, flat coloured shadow, a stable readable tilt per date.
-       Order: full day name -> big date -> month. */
+       Order: big date -> 3-letter month (the weekday rides in the row's meta line). */
     /* Wrapper holds the tilt + the star, so the star rotates with the card but is not
        clipped by the card's overflow. */
     .ride-day__cal {
@@ -20,7 +20,7 @@
            meeting = blue, other = orange); set per day in <x-ride-day>. */
         --ride-accent: var(--color-kidical-red);
         position: relative;
-        width: 88px;
+        width: 76px;
         /* Centre the tear-off against a single row's two-line title+meta lockup
            (the card is taller than the text, so a top-align would hang low). */
         margin-top: calc(0.3rem + 3px);
@@ -61,6 +61,8 @@
         line-height: 1;
         padding: 7px 7px 9px;
     }
+    /* Weekday — only the "Laatste rit" poster lockup (.chapter-latest__rail) still
+       shows it; the agenda row moved its weekday to the meta line. */
     .ride-day__day {
         font-family: var(--font-sans);
         font-size: 0.55rem;
@@ -69,27 +71,28 @@
         letter-spacing: 0.06em;
         color: var(--color-zinc-500);
     }
+    /* Date number speaks in the title's voice — same heading font and size. */
     .ride-day__date {
-        font-family: var(--font-sans);
+        font-family: var(--font-heading);
         font-size: 1.75rem;
         font-weight: 800;
         line-height: 0.95;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.01em;
         color: var(--ride-accent);
         margin: 0.1em 0 0.05em;
     }
     .ride-day__month {
         font-family: var(--font-sans);
-        font-size: 0.68rem;
+        font-size: 0.96rem;
         font-weight: 700;
         text-transform: lowercase;
         color: var(--color-zinc-500);
     }
 
     @media (max-width: 560px) {
-        .ride-day { grid-template-columns: 84px 1fr; gap: 0 1rem; }
-        .ride-day__rail { width: 74px; }
-        .ride-day__date { font-size: 1.45rem; }
+        .ride-day { grid-template-columns: 76px 1fr; gap: 0 1rem; }
+        .ride-day__rail { width: 70px; }
+        .ride-day__date { font-size: 1.625rem; }
     }
 
     .ride-day__rides {

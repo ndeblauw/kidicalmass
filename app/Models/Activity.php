@@ -178,6 +178,11 @@ class Activity extends Model implements HasMedia
         return RideDate::short($this->begin_date);
     }
 
+    public function getWeekdayLabelAttribute(): string
+    {
+        return RideDate::weekday($this->begin_date);
+    }
+
     public function getDateFullAttribute(): string
     {
         return RideDate::full($this->begin_date);

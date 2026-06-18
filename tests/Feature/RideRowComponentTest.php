@@ -96,14 +96,21 @@ it('lets the ride win the accent when a day mixes types', function () {
     expect($html)->toContain('--ride-accent: var(--color-kidical-red)');
 });
 
-it('shows the inline date only when showDate is set', function () {
-    $ride = Activity::factory()->create(['begin_date' => '2026-06-14 14:00']);
+it('shows the inline date when showDate is set, and the meta weekday otherwise', function () {
+    $ride = Activity::factory()->create(['begin_date' => '2026-06-14 14:00']); // a Sunday
 
     $withDate = Blade::render('<x-ride-row :activity="$activity" :show-date="true" />', ['activity' => $ride]);
     $without = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
 
-    expect($withDate)->toContain('ride-row__date');
-    expect($without)->not->toContain('ride-row__date');
+    // With a date rail absent, the row spells out its own short date (no weekday duplicate).
+    expect($withDate)->toContain('ride-row__date')
+        ->not->toContain('ride-row__weekday');
+
+    // Inside <x-ride-day> the lockup carries the date number, so the meta line leads with
+    // the weekday (lowercase in the DOM; capitalized by CSS).
+    expect($without)->not->toContain('ride-row__date')
+        ->toContain('ride-row__weekday')
+        ->toContain('zondag');
 });
 
 it('marks a flagship ride as featured without putting the star in the title', function () {

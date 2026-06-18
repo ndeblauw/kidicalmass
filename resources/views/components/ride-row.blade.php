@@ -43,6 +43,9 @@
     <span class="ride-row__meta">
         @if ($showDate)
             <span class="ride-row__date">{{ $activity->dateShort }} ·</span>
+        @else
+            {{-- The lockup carries the date number; the meta line carries the weekday. --}}
+            <span class="ride-row__weekday">{{ $activity->weekdayLabel }}</span>
         @endif
         <time class="ride-row__time" datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $activity->timeLabel }}</time>
         @if ($venueDisplay)

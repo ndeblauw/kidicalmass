@@ -22,7 +22,7 @@ it('renders a day lockup with a date rail and no distance text', function () {
 
     expect($html)->toContain('ride-day__rail')
         ->toContain('14')        // day number
-        ->toContain('juni')      // month
+        ->toContain('jun')       // 3-letter month
         ->toContain('Etterbeek')
         ->not->toContain('km van jou');
 });

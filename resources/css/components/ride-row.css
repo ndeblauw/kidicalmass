@@ -33,6 +33,11 @@
         font-size: var(--text-xl);
         color: var(--color-text-body);
     }
+    /* Weekday leads the meta line; capitalized here (RideDate keeps it lowercase). */
+    .ride-row__weekday {
+        font-weight: 700;
+        text-transform: capitalize;
+    }
     .ride-row__time {
         font-weight: 700;
     }

@@ -26,7 +26,6 @@
         <time class="ride-day__rail" datetime="{{ $date->toDateString() }}">
             <span class="ride-day__bar" aria-hidden="true"></span>
             <span class="ride-day__body">
-                <span class="ride-day__day">{{ $rail['day'] }}</span>
                 <span class="ride-day__date">{{ $rail['num'] }}</span>
                 <span class="ride-day__month">{{ $rail['month'] }}</span>
             </span>
