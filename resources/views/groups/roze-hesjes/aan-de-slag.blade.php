@@ -13,18 +13,18 @@
 
         <h3 class="roze-onboarding__sub">Wat doet een roze hesje?</h3>
         <div class="roze-onboarding__cards">
-            <x-feature-card icon="users" title="Je rijdt mee met de groep" color="red">
+            <x-roze-card icon="users" title="Je rijdt mee met de groep" color="red">
                 Je fietst naast de kinderen en houdt ze samen. Geen kopwerk, gewoon meerijden en mee opletten.
-            </x-feature-card>
-            <x-feature-card icon="sparkles" title="Je brengt rust en goeie energie" color="orange">
+            </x-roze-card>
+            <x-roze-card icon="sparkles" title="Je brengt rust en goeie energie" color="orange">
                 Een vrolijke, kalme aanwezigheid op de weg doet meer dan je denkt. Dat ben jij.
-            </x-feature-card>
-            <x-feature-card icon="eye" title="Goed zichtbaar zijn is genoeg" color="blue">
+            </x-roze-card>
+            <x-roze-card icon="eye" title="Goed zichtbaar zijn is genoeg" color="blue">
                 Een fluo hesje en een glimlach. Meer heb je niet nodig om het verschil te maken.
-            </x-feature-card>
-            <x-feature-card icon="academic-cap" title="Geen verkeersopleiding nodig" color="green">
+            </x-roze-card>
+            <x-roze-card icon="academic-cap" title="Geen verkeersopleiding nodig" color="green">
                 Dat leer je vanzelf, samen met het team. Je staat er nooit alleen voor.
-            </x-feature-card>
+            </x-roze-card>
         </div>
 
         {{-- Begeleidingsvideo — embedded inline (privacy-friendly nocookie host). --}}

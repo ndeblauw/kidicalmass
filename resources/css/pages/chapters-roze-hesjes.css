@@ -19,7 +19,7 @@
         margin-top: 0.5rem;
         color: var(--color-text-body);
         background-color: var(--color-kidical-light-yellow);
-        border-radius: 0.85rem;
+        border-radius: var(--radius-card);
         padding: 0.85rem 1.1rem;
         font-weight: 600;
     }
@@ -40,7 +40,7 @@
         gap: 0.85rem;
         background-color: white;
         border: 1px solid color-mix(in oklab, var(--color-kidical-red), white 75%);
-        border-radius: 0.85rem;
+        border-radius: var(--radius-card);
         padding: 0.7rem 0.9rem;
     }
     .roze-roster__avatar {
@@ -124,7 +124,6 @@
     }
     .roze-material__icon--besloten { background-color: var(--color-kidical-red); }
     .roze-material__icon--publiek { background-color: var(--color-kidical-blue); }
-    .roze-material__title { }
     .roze-material__desc { color: var(--color-text-body); font-size: var(--text-sm); line-height: 1.4; }
     .roze-material__tags { display: flex; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
     .roze-material__tag { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in oklab, var(--color-kidical-ink), transparent 50%); }
@@ -179,7 +178,6 @@
         background-color: color-mix(in oklab, var(--color-kidical-red), white 86%);
         padding: 0.1rem 0.5rem; border-radius: 9999px; margin-bottom: 0.25rem;
     }
-    .roze-draft__title { }
     .roze-draft__hint { font-size: var(--text-sm); color: var(--color-kidical-red); font-weight: 700; }
 
     /* RIDE PREVIEW page */
@@ -271,7 +269,7 @@
         text-decoration: none;
         background: #fff;
         border: 1px solid var(--color-kidical-hairline);
-        border-radius: 1rem;
+        border-radius: var(--radius-card);
         padding: 0.625rem 0.75rem;
         transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
@@ -279,9 +277,6 @@
     .roze-tile:hover {
         transform: translateY(-1px);
         box-shadow: var(--shadow-hover);
-    }
-
-    .roze-tile__label {
     }
 
     .roze-feeds {
@@ -302,7 +297,7 @@
         gap: 0.8125rem;
         text-decoration: none;
         background: #fff;
-        border-radius: 1.5rem;
+        border-radius: var(--radius-card);
         box-shadow: var(--shadow-float);
         padding: 0.8125rem 0.9375rem;
         transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
