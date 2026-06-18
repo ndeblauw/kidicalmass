@@ -124,10 +124,10 @@
         margin-bottom: calc(var(--spacing) * 5);
     }
 
-    /* The "Laatste rit" lockup — a full-bleed photo poster leading the wall. The ride's
-       first photo fills it (at its native proportions, clickable into the lightbox); a
-       dark scrim carries the eyebrow, ride title and a single "view all" action at the
-       bottom, while the calendar tear-off (date it was) peeks from the top corner. */
+    /* The "Recentste parade" lockup — a full-bleed photo poster leading the wall. The
+       ride's first photo fills it (at its native proportions, clickable into the
+       lightbox); a dark scrim carries one grounded cluster at the bottom-left: the
+       calendar tear-off (date it was), then a stacked eyebrow + "view all" action. */
     .chapter-latest {
         position: relative;
         border-radius: var(--radius-card);
@@ -165,17 +165,28 @@
             transparent 62%
         );
     }
-    /* Eyebrow + title + action, over the scrim at the bottom of the poster. */
+    /* The bottom-left cluster: date tear-off on the left, eyebrow + action
+       stacked to its right. Bottoms align so it reads as one grounded unit.
+       In the narrowest columns (mobile, tight tablet) it wraps the lockup
+       below the date rather than truncating. */
     .chapter-latest__overlay {
         position: absolute;
         inset: auto 0 0 0;
         z-index: 2;
         display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: calc(var(--spacing) * 3);
+        padding: calc(var(--spacing) * 5);
+        pointer-events: none;
+    }
+    /* Eyebrow + the single action, stacked beside the date. */
+    .chapter-latest__lockup {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: calc(var(--spacing) * 3);
-        padding: calc(var(--spacing) * 7);
-        pointer-events: none;
+        gap: calc(var(--spacing) * 2);
+        pointer-events: auto;
     }
     .chapter-latest__eyebrow {
         font-family: var(--font-sans);
@@ -186,38 +197,17 @@
         color: white;
         margin: 0;
     }
-    .chapter-latest__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-2xl);
-        line-height: 1.05;
-        color: white;
-        margin: 0;
-        text-wrap: balance;
-    }
-    .chapter-latest__actions {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: calc(var(--spacing) * 4);
-        margin-top: calc(var(--spacing) * 1);
-        pointer-events: auto;
-    }
-    /* The calendar tear-off, peeking from the top corner with a confident tilt. */
+    /* The calendar tear-off — now grounded inline, left of the lockup. */
     .chapter-latest__rail {
-        position: absolute;
-        top: calc(var(--spacing) * -2.5);
-        right: calc(var(--spacing) * 5);
-        z-index: 3;
+        flex: none;
         display: flex;
         flex-direction: column;
-        width: 78px;
+        width: 72px;
         background: white;
         border: 1.5px solid var(--color-kidical-ink);
         border-radius: 6px;
         overflow: hidden;
-        transform: rotate(4deg);
-        box-shadow: 0 6px 18px rgb(0 0 0 / 0.18);
+        box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
     }
     .chapter-gallery__tile {
         display: block;

@@ -335,14 +335,15 @@ test('chapter agenda labels a workshop as a workshop, never as a ride', function
         ->assertOk()
         // No ride → the warm empty-ride state, NOT the workshop dressed up as a ride.
         ->assertSee('Nog geen fietstocht gepland')
-        // The workshop shows in the agenda, correctly typed.
+        // The workshop shows in the agenda, with a green-tinted "Workshop" label.
+        ->assertSee('--ride-accent: var(--color-kidical-green)', false)
         ->assertSee('Workshop')
         ->assertSee('Fietscheck en sleutelworkshop')
         // A workshop never gets the ride CTA.
         ->assertDontSee('Naar de fietstocht');
 });
 
-test('chapter agenda labels a meeting with a Vergadering chip', function () {
+test('chapter agenda accents a meeting blue on its calendar lockup', function () {
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'bxl', 'name' => 'Kidical Mass Brussel Stad', 'zip' => '1000', 'invisible' => false, 'started_at' => now()]);
 
@@ -357,7 +358,8 @@ test('chapter agenda labels a meeting with a Vergadering chip', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Vergadering')             // ride-row chip for meetings (was "Voor vrijwilligers" in old agenda-item)
+        ->assertSee('--ride-accent: var(--color-kidical-blue)', false) // blue-tinted "Vergadering" label
+        ->assertSee('Vergadering')
         ->assertSee('Vrijwilligersmeeting')
         ->assertDontSee('Naar de fietstocht');
 });
@@ -514,17 +516,16 @@ test('logged-in follow box nudges toward joining rather than dead-ending', funct
         ->assertDontSee('Beheer voorkeuren'); // the old dead-end button is gone on chapter pages
 });
 
-test('chapter gallery shows the latest past ride photos and names that ride', function () {
+test('chapter gallery shows the latest past ride photos under a grounded lockup', function () {
     Storage::fake('media');
     $group = Group::create(['shortname' => 'sbg', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
     pastRideFor($group, 'Bright Light Parade', now()->subWeeks(2), photos: 3);
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Laatste rit')           // the lockup eyebrow names the band
-        ->assertSee('Bright Light Parade')   // the ride's title in the lockup
+        ->assertSee('Recentste parade')      // the lockup eyebrow names the band
         ->assertSee('chapter-latest__rail')  // the calendar tear-off (date it was)
-        ->assertSee('Bekijk alle')           // the "open the full set" action
+        ->assertSee("3 foto's")              // the photo-count action opens the full set
         ->assertSee('chapter-gallery__tile'); // photo tiles render on the wall
 });
 
@@ -546,13 +547,15 @@ test('chapter gallery caps the wall at six tiles (the last two XL-only) while th
 test('chapter gallery follows the most recent past ride, not an older one', function () {
     Storage::fake('media');
     $group = Group::create(['shortname' => 'sbg3', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
-    pastRideFor($group, 'Oude Rit', now()->subMonths(3), photos: 2);
-    pastRideFor($group, 'Recente Rit', now()->subWeek(), photos: 2);
+    $old = pastRideFor($group, 'Oude Rit', now()->subMonths(3), photos: 2);
+    $recent = pastRideFor($group, 'Recente Rit', now()->subWeek(), photos: 2);
 
+    // The ride's name is no longer printed, so the calendar tear-off's date is
+    // what tells the recent ride from the older one in the poster.
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Recente Rit')
-        ->assertDontSee('Oude Rit');
+        ->assertSee('datetime="'.$recent->begin_date->toDateString().'"', false)
+        ->assertDontSee('datetime="'.$old->begin_date->toDateString().'"', false);
 });
 
 test('chapter gallery ignores upcoming rides even when they carry photos', function () {

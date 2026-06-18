@@ -179,10 +179,11 @@
         >
             <ul class="chapter-gallery__grid">
                 {{-- First cell — a full-bleed photo poster of the latest ride. Its first
-                     photo fills the tile and opens the lightbox; the eyebrow, ride title
-                     and a single "view all" action sit on a scrim at the bottom, with the
-                     calendar tear-off (date it was) peeking from the top corner. A roze
-                     hesje of this chapter also gets a quiet "add photos" link. --}}
+                     photo fills the tile and opens the lightbox; the calendar tear-off
+                     (date it was) and a stacked eyebrow + "view all" action sit grounded
+                     on a scrim at the bottom-left. The ride's own name is left off: on a
+                     chapter page every ride is "the" ride, so the title only repeats the
+                     page. A roze hesje of this chapter also gets a quiet "add photos" link. --}}
                 <li class="chapter-gallery__cell chapter-gallery__cell--feature">
                     <div class="chapter-latest">
                         <button
@@ -194,23 +195,22 @@
                             <img src="{{ $posterPhoto->getUrl('card') }}" alt="" class="chapter-latest__bg">
                         </button>
 
-                        <time
-                            class="chapter-latest__rail"
-                            datetime="{{ $latestRide->begin_date->toDateString() }}"
-                        >
-                            <span class="ride-day__bar" aria-hidden="true"></span>
-                            <span class="ride-day__body">
-                                <span class="ride-day__day">{{ $rideRail['day'] }}</span>
-                                <span class="ride-day__date">{{ $rideRail['num'] }}</span>
-                                <span class="ride-day__month">{{ $rideRail['month'] }}</span>
-                            </span>
-                        </time>
-
                         <div class="chapter-latest__overlay">
-                            <p class="chapter-latest__eyebrow">Laatste rit</p>
-                            <h3 class="chapter-latest__title">{{ $latestRide->title }}</h3>
-                            <div class="chapter-latest__actions">
-                                <x-cta-button variant="blue" size="sm" x-on:click="open(0)">{{ $ridePhotoCount > 1 ? "Bekijk alle {$ridePhotoCount} foto's" : 'Bekijk de foto' }}</x-cta-button>
+                            <time
+                                class="chapter-latest__rail"
+                                datetime="{{ $latestRide->begin_date->toDateString() }}"
+                            >
+                                <span class="ride-day__bar" aria-hidden="true"></span>
+                                <span class="ride-day__body">
+                                    <span class="ride-day__day">{{ $rideRail['day'] }}</span>
+                                    <span class="ride-day__date">{{ $rideRail['num'] }}</span>
+                                    <span class="ride-day__month">{{ $rideRail['month'] }}</span>
+                                </span>
+                            </time>
+
+                            <div class="chapter-latest__lockup">
+                                <h3 class="chapter-latest__eyebrow">Recentste parade</h3>
+                                <x-cta-button variant="blue" size="sm" x-on:click="open(0)">{{ $ridePhotoCount > 1 ? "{$ridePhotoCount} foto's" : '1 foto' }}</x-cta-button>
                             </div>
                         </div>
                     </div>
