@@ -42,7 +42,7 @@
                     @auth
                         @foreach ($myChapters as $myChapter)
                             <a href="{{ route('groups.roze-hesjes', $myChapter) }}"
-                               class="roze-nav-btn {{ request()->routeIs('groups.roze-hesjes') && optional(request()->route('group'))->is($myChapter) ? 'roze-nav-btn--active' : '' }}">
+                               class="roze-nav-btn {{ request()->routeIs('groups.roze-hesjes', 'groups.roze-hesjes.*') && optional(request()->route('group'))->is($myChapter) ? 'roze-nav-btn--active' : '' }}">
                                 {{ \Illuminate\Support\Str::of($myChapter->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim() }}
                             </a>
                         @endforeach

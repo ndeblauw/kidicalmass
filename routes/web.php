@@ -8,6 +8,7 @@ use App\Http\Controllers\DemoLoginController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
+use App\Http\Controllers\RozeHesjeController;
 use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\BackstageDemoAccess;
@@ -41,12 +42,17 @@ Route::prefix('{locale}')
         Route::get('chapters/start-een-groep', [GroupController::class, 'start'])->name('groups.start');
         Route::get('chapters/{group}', [GroupController::class, 'show'])->name('groups.show');
 
-        // Roze-hesje page — the logged-in-only chapter surface (replaces the old backstage).
-        // Lives in the public framework with a roze hero; gated on chapter membership.
-        // BackstageDemoAccess keeps the demo frictionless (auto-login outside production).
-        Route::get('chapters/{group}/roze-hesjes', [GroupController::class, 'rozeHesjes'])
-            ->middleware(BackstageDemoAccess::class)
-            ->name('groups.roze-hesjes');
+        // Roze-hesje hub — the logged-in-only chapter section (replaces the old backstage).
+        // Lives in the public framework with a compact roze hero + sub-nav; gated on chapter
+        // membership. BackstageDemoAccess keeps the demo frictionless (auto-login outside prod).
+        Route::middleware(BackstageDemoAccess::class)->group(function (): void {
+            Route::get('chapters/{group}/roze-hesjes', [RozeHesjeController::class, 'overview'])->name('groups.roze-hesjes');
+            Route::get('chapters/{group}/roze-hesjes/aan-de-slag', [RozeHesjeController::class, 'aanDeSlag'])->name('groups.roze-hesjes.aan-de-slag');
+            Route::get('chapters/{group}/roze-hesjes/agenda', [RozeHesjeController::class, 'agenda'])->name('groups.roze-hesjes.agenda');
+            Route::get('chapters/{group}/roze-hesjes/fotos', [RozeHesjeController::class, 'fotos'])->name('groups.roze-hesjes.fotos');
+            Route::get('chapters/{group}/roze-hesjes/groep', [RozeHesjeController::class, 'groep'])->name('groups.roze-hesjes.groep');
+            Route::get('chapters/{group}/roze-hesjes/materiaal', [RozeHesjeController::class, 'materiaal'])->name('groups.roze-hesjes.materiaal');
+        });
 
         // Read-only preview of a chapter ride that is still in preparation (draft). Membership-gated,
         // like the roze page. FAUX exemplar until Activity gains a draft/lifecycle state (Nico #37).

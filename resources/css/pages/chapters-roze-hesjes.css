@@ -1,69 +1,4 @@
 @layer components {
-    /* 1 · ROZE HERO — roze band (mirrors .chapter-head, roze instead of blue) */
-    .roze-head {
-        position: relative;
-        z-index: 1;
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-top: calc(var(--spacing) * -28);
-        background-color: var(--color-kidical-red);
-        overflow: hidden;
-    }
-    .roze-head__daisy {
-        position: absolute;
-        right: -2.5rem;
-        top: 50%;
-        transform: translateY(-50%) rotate(15deg);
-        width: 11rem;
-        opacity: 0.85;
-        z-index: 1;
-        pointer-events: none;
-    }
-    .roze-head__inner {
-        position: relative;
-        z-index: 2;
-        padding-top: calc(var(--spacing) * 24);
-        padding-bottom: calc(var(--spacing) * 9);
-    }
-    .roze-head__layout {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        align-items: center;
-    }
-    @media (min-width: 768px) {
-        .roze-head__layout { grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; }
-    }
-    .roze-head__kicker {
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, white, transparent 15%);
-        margin-bottom: 0.5rem;
-    }
-    .roze-head h1 {
-        color: white;
-        font-size: clamp(var(--text-5xl), 5vw, var(--text-7xl));
-        line-height: 1.0;
-        transform: rotate(-2deg);
-        transform-origin: left;
-        animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
-    }
-    .roze-head__photo {
-        margin: 0;
-        aspect-ratio: 1;
-        width: 100%;
-        max-width: 15rem;
-        justify-self: start;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 5px solid color-mix(in oklab, white, transparent 70%);
-        box-shadow: 0 12px 34px -10px color-mix(in oklab, var(--color-kidical-ink), transparent 50%);
-    }
-    @media (min-width: 768px) { .roze-head__photo { justify-self: end; } }
-    .roze-head__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
     /* 2 · WELKOM — compact, time-boxed contained notice (soft-roze card) */
     .roze-welcome-section { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
     .roze-welcome {
@@ -305,4 +240,156 @@
     .roze-whatsapp__title { display: block; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); color: var(--color-kidical-ink); }
     .roze-whatsapp__body { color: var(--color-text-body); }
     .roze-whatsapp__btn { flex-shrink: 0; font-weight: 800; color: white; background-color: var(--color-kidical-blue); padding: 0.6rem 1.1rem; border-radius: 9999px; }
+
+    /* === Roze-hub Overview ================================================= */
+    .roze-overview {
+        display: flex;
+        flex-direction: column;
+        gap: 1.375rem;
+    }
+
+    .roze-hub-welcome {
+        background: color-mix(in oklab, var(--color-kidical-red), transparent 90%);
+        border-radius: 1.5rem;
+        padding: 0.875rem 0.9375rem;
+    }
+
+    .roze-hub-welcome > h2 {
+        margin: 0 0 0.25rem;
+        color: var(--color-kidical-red);
+        font-size: 1.05rem;
+    }
+
+    .roze-hub-welcome p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--color-text-body);
+    }
+
+    .roze-grab {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5625rem;
+    }
+
+    .roze-grab__label {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+
+    .roze-grab__tiles {
+        display: flex;
+        gap: 0.625rem;
+    }
+
+    .roze-tile {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5625rem;
+        text-decoration: none;
+        background: #fff;
+        border: 1px solid var(--color-kidical-hairline);
+        border-radius: 1rem;
+        padding: 0.625rem 0.75rem;
+        transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
+    }
+
+    .roze-tile:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .roze-tile__label {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--color-kidical-ink);
+    }
+
+    .roze-feeds {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .roze-feeds > h2 {
+        margin: 0;
+        font-size: 1.3rem;
+    }
+
+    .roze-feeds__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .roze-feed {
+        display: flex;
+        align-items: center;
+        gap: 0.8125rem;
+        text-decoration: none;
+        background: #fff;
+        border-radius: 1.5rem;
+        box-shadow: var(--shadow-float);
+        padding: 0.8125rem 0.9375rem;
+        transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
+    }
+
+    .roze-feed:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .roze-feed__body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .roze-feed__what {
+        display: block;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: 0.97rem;
+        line-height: 1.3;
+        color: var(--color-kidical-ink);
+    }
+
+    .roze-feed__meta {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        margin-top: 0.1875rem;
+    }
+
+    .roze-feed__chev {
+        flex: none;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 62%);
+    }
+
+    @media (min-width: 48rem) {
+        .roze-overview {
+            gap: 1.5rem;
+        }
+
+        .roze-feeds > h2 {
+            font-size: 1.6rem;
+        }
+
+        .roze-feed {
+            padding: 1rem 1.125rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .roze-tile,
+        .roze-feed {
+            transition: none;
+        }
+    }
 }

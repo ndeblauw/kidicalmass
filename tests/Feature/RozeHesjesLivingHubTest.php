@@ -35,7 +35,7 @@ test('roster marks a member who joined within the window as new', function () {
     // Suppress the time-boxed welcome block so its "Nieuw hier?" copy cannot satisfy the assertion.
     $html = actingAs($member)
         ->withUnencryptedCookie('roze_welcome_'.$group->id, now()->subWeeks(3)->toIso8601String())
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.groep', $group))
         ->assertOk()
         ->getContent();
 
@@ -52,7 +52,7 @@ test('roster shows the real pivot role label', function () {
     $group->users()->attach($captain, ['role' => 'captain']);
 
     $html = actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.groep', $group))
         ->assertOk()
         ->getContent();
 
@@ -70,53 +70,37 @@ test('roze hub shows a wat-is-nieuw strook', function () {
         ->get(route('groups.roze-hesjes', $group))
         ->assertOk()
         ->assertSee('Sinds je laatste bezoek')
-        ->assertSeeInOrder(['Sinds je laatste bezoek', 'Op de agenda in Mortsel']); // strook before agenda
-});
-
-test('roze hub orders living content above the naslag sections', function () {
-    [$group, $member] = rozeChapterWithMember();
-
-    actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
-        ->assertOk()
-        ->assertSeeInOrder([
-            'Op de agenda in Mortsel',      // agenda (living) first
-            'De roze hesjes van Mortsel',   // roster (naslag) after it
-            'Voor je eerste rit',           // onboarding (naslag)
-            'Jouw materiaal',               // materiaal (naslag) last
-        ]);
+        ->assertSee('Sara rijdt nu mee als roze hesje'); // faux feed item on the Overview
 });
 
 test('agenda shows an in-voorbereiding draft block linking to a preview', function () {
     [$group, $member] = rozeChapterWithMember();
 
     actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.agenda', $group))
         ->assertOk()
         ->assertSee('In voorbereiding')
         ->assertSee(route('groups.ride-preview', $group), false);
 });
 
-test('roze hub shows a foto gallery slot above the roster', function () {
+test('fotos shows a gallery slot', function () {
     [$group, $member] = rozeChapterWithMember();
 
     // Assert on an apostrophe-free fragment: the literal "'" in the template stays as "'",
     // but assertSee()'s default escaping would look for "&#039;" and miss it.
     actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.fotos', $group))
         ->assertOk()
-        ->assertSee('van het chapter')
-        ->assertSeeInOrder(['van het chapter', 'De roze hesjes van Mortsel']);
+        ->assertSee('van het chapter');
 });
 
-test('roze hub shows a whatsapp doorgang at the foot', function () {
+test('aan de slag shows a whatsapp doorgang', function () {
     [$group, $member] = rozeChapterWithMember();
 
     actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.aan-de-slag', $group))
         ->assertOk()
-        ->assertSee('WhatsApp')
-        ->assertSeeInOrder(['Jouw materiaal', 'WhatsApp']); // doorgang after the naslag
+        ->assertSee('WhatsApp');
 });
 
 test('ride preview is membership-gated and shows one status line, marked not-yet-final', function () {
