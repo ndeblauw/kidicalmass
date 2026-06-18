@@ -105,51 +105,24 @@
             </x-scroll-sequence>
         </section>
 
-        {{-- ER IS ANIMO — proof, dissolves "is er wel animo hier?". An editorial photo
-             wall with the "Er is animo" call-to-action as the last card in the gallery.
-             Sits before the FAQ so the visual proof frames the practical questions. --}}
+        {{-- ER IS ANIMO — proof the movement exists: the wide crowd photo beside the
+             light-blue animo card. Sits before the FAQ so the visual proof frames the
+             practical questions. --}}
         <section class="sg-proof">
-            <ul class="sg-proof__gallery" role="list">
-                <li class="sg-proof__cell">
+            <div class="sg-proof__layout">
+                <figure class="sg-proof__photo">
                     <img src="{{ asset('img/photography/ride-park-crowd-cheering-namur.webp') }}"
                          alt="Een grote menigte gezinnen juicht met opgeheven armen op een zonnige verzamelplaats in Namen"
-                         loading="lazy" class="sg-proof__img">
-                </li>
-                <li class="sg-proof__cell">
-                    <img src="{{ asset('img/photography/ride-brussels-two-boys-at-start.webp') }}"
-                         alt="Twee jongens arm in arm met hun fietsen en groene helmen aan de start van een rit in Brussel"
-                         loading="lazy" class="sg-proof__img">
-                </li>
-                <li class="sg-proof__cell">
-                    <img src="{{ asset('img/photography/cargo-bike-mother-two-kids-flag.webp') }}"
-                         alt="Een glimlachende vrouw rijdt op een cargobike met twee kinderen en een Kidical Mass vlag"
-                         loading="lazy" class="sg-proof__img">
-                </li>
-                <li class="sg-proof__cell">
-                    <img src="{{ asset('img/photography/ride-girl-smiling-on-bike.webp') }}"
-                         alt="Een lachend meisje in een roze helm rijdt mee in een groep"
-                         loading="lazy" class="sg-proof__img">
-                </li>
-                <li class="sg-proof__cell">
-                    <img src="{{ asset('img/photography/ride-group-celebration-station.webp') }}"
-                         alt="Tientallen gezinnen in fluohesjes juichen met opgeheven armen voor een sierlijk bakstenen station"
-                         loading="lazy" class="sg-proof__img">
-                </li>
-                <li class="sg-proof__cell">
-                    <img src="{{ asset('img/photography/ride-brussels-boulevard-crowd.webp') }}"
-                         alt="Een dichte menigte gezinnen met fietsen op een zonnige Brusselse boulevard"
-                         loading="lazy" class="sg-proof__img">
-                </li>
-                <li class="sg-proof__cell sg-proof__cell--animo">
-                    <div class="sg-proof__animo-card">
-                        <h2>Er is animo</h2>
-                        <p>Kidical Mass groeit door heel België. Het netwerk telt intussen
-                        {{ $groupCount }} lokale groepen, van grote steden tot kleine gemeenten.
-                        Jouw stad kan de volgende zijn.</p>
-                        <x-cta-button href="#start" variant="secondary">Ik wil starten</x-cta-button>
-                    </div>
-                </li>
-            </ul>
+                         loading="lazy">
+                </figure>
+                <div class="sg-proof__animo-card">
+                    <h2>Er is animo</h2>
+                    <p>Kidical Mass groeit door heel België. Het netwerk telt intussen
+                    {{ $groupCount }} lokale groepen, van grote steden tot kleine gemeenten.
+                    Jouw stad kan de volgende zijn.</p>
+                    <x-cta-button href="#start" variant="secondary">Ik wil starten</x-cta-button>
+                </div>
+            </div>
         </section>
 
         {{-- VEELGESTELDE VRAGEN — practical lead objections, after the visual proof.

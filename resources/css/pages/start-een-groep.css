@@ -151,50 +151,40 @@
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
 
-    /* ER IS ANIMO — editorial photo wall proving the movement exists. Sits before the
-       FAQ; the "Er is animo" heading lives as the last card in the gallery itself. */
+    /* ER IS ANIMO — the wide crowd photo beside the light-blue animo card.
+       Replaces the editorial gallery; sits before the FAQ. */
     .sg-proof {
         margin-block: 4rem 3rem;
     }
 
-    /* Gallery — 2-col stack on mobile, editorial 12-col fixed-placement on desktop.
-       Explicit nth-child placement means the layout is deliberate, not auto-packed. */
-    .sg-proof__gallery {
-        list-style: none;
-        margin: 0;
-        padding: 0;
+    .sg-proof__layout {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
         gap: calc(var(--spacing) * 3);
+        align-items: stretch;
     }
 
-    .sg-proof__cell {
+    @media (min-width: 48rem) {
+        .sg-proof__layout {
+            grid-template-columns: 7fr 5fr;
+            gap: calc(var(--spacing) * 4);
+        }
+    }
+
+    .sg-proof__photo {
+        margin: 0;
         overflow: hidden;
         border-radius: calc(var(--radius-card) - 0.25rem);
     }
 
-    .sg-proof__img {
+    .sg-proof__photo img {
         display: block;
         width: 100%;
+        height: 100%;
         aspect-ratio: 16 / 9;
         object-fit: cover;
-        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .sg-proof__cell:hover .sg-proof__img {
-        transform: scale(1.04);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .sg-proof__img { transition: none; }
-    }
-
-    /* Animo card — spans full width on mobile so the text has room. */
-    .sg-proof__cell--animo {
-        grid-column: 1 / -1;
-        background-color: var(--color-kidical-light-blue);
-    }
-
+    /* The animo card is now itself the light-blue block. */
     .sg-proof__animo-card {
         display: flex;
         flex-direction: column;
@@ -202,30 +192,8 @@
         gap: 1.25rem;
         padding: clamp(1.5rem, 3vw, 2.5rem);
         height: 100%;
-    }
-
-    @media (min-width: 48rem) {
-        .sg-proof__gallery {
-            grid-template-columns: repeat(12, 1fr);
-            gap: calc(var(--spacing) * 4);
-        }
-
-        /* row 1: 5 + 4 + 3(tall) */
-        .sg-proof__cell:nth-child(1) { grid-column: span 5; }
-        .sg-proof__cell:nth-child(2) { grid-column: span 4; }
-        /* Portrait tile — height driven by 2-row grid span */
-        .sg-proof__cell:nth-child(3) { grid-column: span 3; grid-row: span 2; }
-        /* row 2: 3 + 6 + [3 cont.] */
-        .sg-proof__cell:nth-child(4) { grid-column: span 3; }
-        .sg-proof__cell:nth-child(5) { grid-column: span 6; }
-        /* Last row: photo 7-wide + animo card 5-wide */
-        .sg-proof__cell:nth-child(6) { grid-column: span 7; }
-        .sg-proof__cell:nth-child(7) { grid-column: span 5; }
-
-        .sg-proof__cell:nth-child(3) .sg-proof__img {
-            aspect-ratio: auto;
-            height: 100%;
-        }
+        background-color: var(--color-kidical-light-blue);
+        border-radius: calc(var(--radius-card) - 0.25rem);
     }
 
     /* VEELGESTELDE VRAGEN — full-bleed section, content left + illustration slides in

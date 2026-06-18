@@ -6,6 +6,14 @@ use App\Models\ContactForm;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
+it('shows the Er is animo closing band and no longer the photo gallery', function () {
+    $this->get(route('groups.start'))
+        ->assertOk()
+        ->assertSee('Er is animo')
+        ->assertSee('ride-park-crowd-cheering-namur.webp', escape: false)
+        ->assertDontSee('sg-proof__gallery', escape: false);
+});
+
 it('renders the start-a-group page with the three story slides, the honest asks and the intent form', function () {
     $this->get(route('groups.start'))
         ->assertOk()
