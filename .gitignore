@@ -29,6 +29,11 @@ yarn-error.log
 # Superpowers visual brainstorm scratch
 .superpowers/
 
+# Agent skill installs (personal tooling, kept local — not for the public repo)
+/.claude/skills/handoff
+/.agents/skills/handoff
+/skills-lock.json
+
 # OS / editor cruft
 .DS_Store
 /.obsidian
