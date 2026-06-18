@@ -235,6 +235,11 @@
             @keydown.arrow-right.window="isOpen && next()"
             @keydown.arrow-left.window="isOpen && prev()"
         >
+            {{-- Lead-in heading (Frederik 2026-06-19): the wall used to start cold, straight
+                 off the opt-in band. A warm, inviting title gives the eye a beat and frames
+                 the photos as "this could be you", not just an archive dump. --}}
+            <h2 class="chapter-section__title">Zo ziet het eruit in {{ $gemeente }}</h2>
+
             <ul class="chapter-gallery__grid">
                 {{-- First cell — a full-bleed photo poster of the latest ride. Its first
                      photo fills the tile and opens the lightbox; the calendar tear-off

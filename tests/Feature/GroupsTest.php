@@ -521,6 +521,7 @@ test('chapter gallery shows the latest past ride photos under a grounded lockup'
 
     get(route('groups.show', $group))
         ->assertOk()
+        ->assertSee('Zo ziet het eruit in Schaarbeek') // warm lead-in heading over the wall
         ->assertSee('Recentste parade')      // the lockup eyebrow names the band
         ->assertSee('chapter-latest__rail')  // the calendar tear-off (date it was)
         ->assertSee("3 foto's")              // the photo-count action opens the full set

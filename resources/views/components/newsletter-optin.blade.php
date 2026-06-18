@@ -1,4 +1,4 @@
-@props(['group' => null, 'showJoin' => false])
+@props(['group' => null, 'showJoin' => false, 'prominent' => false])
 
 @php
     $gemeente = null;
@@ -12,10 +12,16 @@
     $lead = $gemeente
         ? "Eén mail per maand met de ritten en het nieuws uit {$gemeente}."
         : 'Eén mail per maand met de ritten bij jou in de buurt.';
+
+    // Prominent treatment (chapter page): the opt-in is the page's primary low-commitment
+    // CTA, so it lifts off the white with the card shadow and trades the quiet outlined
+    // button for the signature pill. Default (calendar sidebar) stays calm and flat.
+    $cardClass = '@container bg-kidical-light-blue rounded-card p-8'.($prominent ? ' shadow-card' : '');
+    $ctaVariant = $prominent ? 'yellow' : 'secondary';
 @endphp
 
 @auth
-    <div {{ $attributes->class('@container bg-kidical-light-blue rounded-card p-8') }}>
+    <div {{ $attributes->class($cardClass) }}>
         @if ($showJoin)
             {{-- A logged-in follower is the warmest lead on the page. Don't dead-end on
                  "manage settings": acknowledge the follow, then escalate to the next step
@@ -39,7 +45,7 @@
         @endif
     </div>
 @else
-    <div {{ $attributes->class('@container bg-kidical-light-blue rounded-card p-8') }}>
+    <div {{ $attributes->class($cardClass) }}>
         <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
             <div class="flex flex-col gap-3">
                 <h3 class="text-kidical-ink">Mis geen rit</h3>
@@ -50,7 +56,7 @@
                     <p class="text-sm text-kidical-ink/70">Of <a href="#aanmelden" x-data="{}" x-on:click="$dispatch('open-volunteer')" class="text-kidical-blue underline underline-offset-2">help mee als vrijwilliger</a>.</p>
                 @endif
             </div>
-            <x-cta-button variant="secondary" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
+            <x-cta-button :variant="$ctaVariant" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
         </div>
     </div>
 @endauth
