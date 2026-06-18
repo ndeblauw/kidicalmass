@@ -542,6 +542,52 @@ test('chapter gallery caps the wall at six tiles (the last two XL-only) while th
     expect($content)->toContain('Foto 8')->toContain('Foto 9');
 });
 
+test('the lightbox carries usable controls — counter, edge-pinned nav, focus restore and a live label', function () {
+    Storage::fake('media');
+    $group = Group::create(['shortname' => 'sbg-lb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    pastRideFor($group, 'Lichtparade', now()->subWeek(), photos: 4);
+
+    $content = get(route('groups.show', $group))->assertOk()->getContent();
+
+    expect($content)
+        // A "n / total" counter orients the viewer within the set.
+        ->toContain('chapter-gallery__lb-counter')
+        ->toContain("(index + 1) + ' / ' + photos.length")
+        // Prev/next are reachable refs so Tab can cycle them (focus trap).
+        ->toContain('x-ref="prevBtn"')
+        ->toContain('x-ref="nextBtn"')
+        ->toContain('trapTab($event)')
+        // The dialog announces the current photo, not a static label.
+        ->toContain("'Foto ' + (index + 1) + ' van ' + photos.length")
+        // Opening remembers its trigger so focus returns to it on close.
+        ->toContain('this.trigger?.focus()')
+        ->toContain('open(0, $event)')
+        // Swipe navigation for touch.
+        ->toContain('onTouchEnd($event)');
+});
+
+test('the lightbox expresses brand enthusiasm — fly-from-tile open, directional flips and a rotating palette accent', function () {
+    Storage::fake('media');
+    $group = Group::create(['shortname' => 'sbg-joy', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    pastRideFor($group, 'Belparade', now()->subWeek(), photos: 4);
+
+    $content = get(route('groups.show', $group))->assertOk()->getContent();
+
+    expect($content)
+        // The photo launches from the clicked tile's position.
+        ->toContain('getBoundingClientRect()')
+        ->toContain('this.entering = true')
+        // Navigation is directional (slide), not a hard cut.
+        ->toContain('navigate(1)')
+        ->toContain('navigate(-1)')
+        ->toContain('var(--lb-slide)')
+        // The accent rotates through the brand palette as you flip.
+        ->toContain('--color-kidical-green')
+        ->toContain("'--lb-accent: var(' + accents[index % accents.length] + ')'")
+        // Motion stays reduced-motion safe.
+        ->toContain("window.matchMedia('(prefers-reduced-motion: reduce)')");
+});
+
 test('chapter gallery follows the most recent past ride, not an older one', function () {
     Storage::fake('media');
     $group = Group::create(['shortname' => 'sbg3', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);

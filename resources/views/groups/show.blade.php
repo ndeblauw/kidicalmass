@@ -144,16 +144,17 @@
                     </div>
                 @endif
 
-                {{-- Opt-in normally lives as the last tile of the gallery below; when there is
-                     no gallery (≤1 photo) it falls back to here, right under the rides in the
-                     same column, so the "schrijf je hieronder in" note above keeps its promise. --}}
-                @unless ($hasRideGallery)
-                    <div class="mt-12">
-                        <x-newsletter-optin :group="$group" :show-join="true" />
-                    </div>
-                @endunless
             </div>
         </div>
+    </section>
+
+    {{-- 3a · MIS GEEN RIT — the page's primary low-commitment CTA, lifted out of the photo
+         wall (Frederik 2026-06-19) into its own band at peak intent: right after "when do we
+         ride". Always shown, exactly once. Prominent treatment (shadow + signature pill,
+         capped to a calm centred measure) so it reads as an action, not a gallery tile.
+         The "schrijf je hieronder in" empty-state note above keeps pointing right here. --}}
+    <section class="chapter-body chapter-optin">
+        <x-newsletter-optin :group="$group" :show-join="true" :prominent="true" class="chapter-optin__card" />
     </section>
 
     {{-- 3b · IN BEELD — the latest ride's photos + an inline lightbox. Renders only when
@@ -167,10 +168,67 @@
                 photos: @js($ridePhotos->map(fn ($m) => ['url' => $m->getUrl(), 'name' => $m->name])->values()),
                 isOpen: false,
                 index: 0,
-                open(i) { this.index = i; this.isOpen = true; this.$nextTick(() => this.$refs.closeBtn?.focus()); },
-                close() { this.isOpen = false; },
-                next() { this.index = (this.index + 1) % this.photos.length; },
-                prev() { this.index = (this.index - 1 + this.photos.length) % this.photos.length; },
+                trigger: null,
+                touchX: null,
+                entering: false,
+                swap: false,
+                slideDir: 1,
+                fromX: '0px',
+                fromY: '0px',
+                accents: ['--color-kidical-yellow', '--color-kidical-red', '--color-kidical-blue', '--color-kidical-green', '--color-kidical-orange', '--color-kidical-sky'],
+                reduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; },
+                open(i, e) {
+                    this.index = i;
+                    this.trigger = e?.currentTarget ?? null;
+                    const r = this.trigger?.getBoundingClientRect();
+                    if (r && ! this.reduced()) {
+                        this.fromX = (r.left + r.width / 2 - window.innerWidth / 2) + 'px';
+                        this.fromY = (r.top + r.height / 2 - window.innerHeight / 2) + 'px';
+                        this.entering = true;
+                    }
+                    this.isOpen = true;
+                    this.$nextTick(() => requestAnimationFrame(() => {
+                        this.entering = false;
+                        this.$refs.closeBtn?.focus();
+                    }));
+                    this.preload();
+                },
+                close() {
+                    this.isOpen = false;
+                    this.$nextTick(() => this.trigger?.focus());
+                },
+                navigate(dir) {
+                    this.slideDir = dir;
+                    this.index = (this.index + dir + this.photos.length) % this.photos.length;
+                    this.preload();
+                    if (this.reduced()) { return; }
+                    this.swap = true;
+                    this.$nextTick(() => requestAnimationFrame(() => { this.swap = false; }));
+                },
+                next() { this.navigate(1); },
+                prev() { this.navigate(-1); },
+                preload() {
+                    const n = this.photos.length;
+                    [(this.index + 1) % n, (this.index - 1 + n) % n].forEach((j) => {
+                        const img = new Image();
+                        img.src = this.photos[j].url;
+                    });
+                },
+                onTouchStart(e) { this.touchX = e.changedTouches[0].clientX; },
+                onTouchEnd(e) {
+                    if (this.touchX === null) { return; }
+                    const dx = e.changedTouches[0].clientX - this.touchX;
+                    if (Math.abs(dx) > 40) { dx < 0 ? this.next() : this.prev(); }
+                    this.touchX = null;
+                },
+                trapTab(e) {
+                    const els = [this.$refs.closeBtn, this.$refs.prevBtn, this.$refs.nextBtn].filter(Boolean);
+                    if (! els.length) { return; }
+                    e.preventDefault();
+                    const dir = e.shiftKey ? -1 : 1;
+                    const at = els.indexOf(document.activeElement);
+                    els[(at + dir + els.length) % els.length].focus();
+                },
             }"
             x-effect="document.documentElement.classList.toggle('is-lightbox-open', isOpen)"
             @keydown.escape.window="close()"
@@ -189,7 +247,7 @@
                         <button
                             type="button"
                             class="chapter-latest__media"
-                            @click="open(0)"
+                            @click="open(0, $event)"
                             aria-label="Bekijk alle foto's van de laatste rit in {{ $gemeente }}"
                         >
                             <img src="{{ $posterPhoto->getUrl('card') }}" alt="" class="chapter-latest__bg">
@@ -210,7 +268,7 @@
 
                             <div class="chapter-latest__lockup">
                                 <h3 class="chapter-latest__eyebrow">Recentste parade</h3>
-                                <x-cta-button variant="blue" size="sm" x-on:click="open(0)">{{ $ridePhotoCount > 1 ? "{$ridePhotoCount} foto's" : '1 foto' }}</x-cta-button>
+                                <x-cta-button variant="blue" size="sm" x-on:click="open(0, $event)">{{ $ridePhotoCount > 1 ? "{$ridePhotoCount} foto's" : '1 foto' }}</x-cta-button>
                             </div>
                         </div>
                     </div>
@@ -223,7 +281,7 @@
                         <button
                             type="button"
                             class="chapter-gallery__tile"
-                            @click="open({{ $loop->index + 1 }})"
+                            @click="open({{ $loop->index + 1 }}, $event)"
                             aria-label="Bekijk foto {{ $loop->iteration + 1 }} groter"
                         >
                             <img
@@ -235,29 +293,42 @@
                         </button>
                     </li>
                 @endforeach
-
-                {{-- The "Mis geen rit" opt-in sits inline in the wall, taking a photo's
-                     slot — its narrow column makes the card stack to a calm portrait. --}}
-                <li class="chapter-gallery__cell chapter-gallery__cell--optin">
-                    <x-newsletter-optin :group="$group" :show-join="true" />
-                </li>
             </ul>
 
             <div
                 class="chapter-gallery__lightbox"
                 x-show="isOpen"
                 x-cloak
+                :style="'--lb-accent: var(' + accents[index % accents.length] + ')'"
                 @click.self="close()"
+                @touchstart="onTouchStart($event)"
+                @touchend="onTouchEnd($event)"
+                @keydown.tab="trapTab($event)"
                 role="dialog"
                 aria-modal="true"
-                aria-label="Foto groter bekeken"
+                :aria-label="'Foto ' + (index + 1) + ' van ' + photos.length"
             >
-                <button type="button" class="chapter-gallery__lb-close" x-ref="closeBtn" @click="close()" aria-label="Sluiten">&times;</button>
-                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--prev" @click="prev()" aria-label="Vorige foto">&lsaquo;</button>
-                <figure class="chapter-gallery__lb-figure">
-                    <img :src="photos[index]?.url" :alt="photos[index]?.name" class="chapter-gallery__lb-img">
+                <button type="button" class="chapter-gallery__lb-close" x-ref="closeBtn" @click="close()" aria-label="Sluiten">
+                    <flux:icon.x-mark />
+                </button>
+                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--prev" x-ref="prevBtn" @click="prev()" aria-label="Vorige foto">
+                    <flux:icon.chevron-left />
+                </button>
+                <figure
+                    class="chapter-gallery__lb-figure"
+                    :style="entering ? `transform: translate(${fromX}, ${fromY}) scale(0.18); opacity: 0.35;` : ''"
+                >
+                    <img
+                        :src="photos[index]?.url"
+                        :alt="photos[index]?.name"
+                        class="chapter-gallery__lb-img"
+                        :style="swap ? `transform: translateX(calc(var(--lb-slide) * ${slideDir})); opacity: 0;` : ''"
+                    >
                 </figure>
-                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--next" @click="next()" aria-label="Volgende foto">&rsaquo;</button>
+                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--next" x-ref="nextBtn" @click="next()" aria-label="Volgende foto">
+                    <flux:icon.chevron-right />
+                </button>
+                <p class="chapter-gallery__lb-counter" aria-hidden="true" x-text="(index + 1) + ' / ' + photos.length"></p>
             </div>
         </section>
     @endif

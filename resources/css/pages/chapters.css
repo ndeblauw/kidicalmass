@@ -237,14 +237,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: calc(var(--spacing) * 2);
         padding: calc(var(--spacing) * 4);
         background-color: color-mix(in srgb, var(--color-kidical-ink) 92%, transparent);
+        animation: lb-fade-in 0.2s ease-out;
+        /* Per-photo accent (rotates through the brand palette, set inline by Alpine)
+           and the directional slide distance for navigation. */
+        --lb-accent: var(--color-kidical-yellow);
+        --lb-slide: 1.75rem;
     }
+    /* Launches from the clicked tile (origin set inline by Alpine), then settles. */
     .chapter-gallery__lb-figure {
         margin: 0;
         max-width: min(90vw, 60rem);
         max-height: 86vh;
+        transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.34s ease-out;
     }
     .chapter-gallery__lb-img {
         width: 100%;
@@ -253,24 +259,96 @@
         object-fit: contain;
         border-radius: var(--radius-card);
         display: block;
+        /* Directional slide on next/prev — the parade rolling past. */
+        transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease-out;
     }
+
+    /* Controls — circular, high-contrast hit areas (≥44px) that survive any
+       photo behind them; prev/next pinned to the edges so the image runs full
+       width instead of sharing a flex row. */
     .chapter-gallery__lb-close,
     .chapter-gallery__lb-nav {
-        background: none;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: calc(var(--spacing) * 12);
+        height: calc(var(--spacing) * 12);
         border: 0;
-        color: white;
+        border-radius: 50%;
+        color: var(--color-kidical-ink);
+        background-color: var(--color-kidical-yellow);
         cursor: pointer;
-        font-size: var(--text-3xl);
-        line-height: 1;
-        padding: calc(var(--spacing) * 2);
+        transition: background-color 0.18s ease-out, color 0.18s ease-out, transform 0.18s ease-out;
+        /* Arrive just after the photo on open (re-runs only when the overlay shows). */
+        animation: lb-pop-in 0.3s ease-out 0.08s both;
+    }
+    .chapter-gallery__lb-close svg,
+    .chapter-gallery__lb-nav svg {
+        width: calc(var(--spacing) * 6);
+        height: calc(var(--spacing) * 6);
     }
     .chapter-gallery__lb-close {
-        position: absolute;
-        top: calc(var(--spacing) * 3);
+        top: calc(var(--spacing) * 4);
         right: calc(var(--spacing) * 4);
     }
+    .chapter-gallery__lb-close:hover,
+    .chapter-gallery__lb-close:focus-visible {
+        background-color: var(--color-kidical-red);
+        color: white;
+        transform: scale(1.1);
+    }
+    .chapter-gallery__lb-nav {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .chapter-gallery__lb-nav--prev { left: calc(var(--spacing) * 4); }
+    .chapter-gallery__lb-nav--next { right: calc(var(--spacing) * 4); }
+    .chapter-gallery__lb-nav:hover,
+    .chapter-gallery__lb-nav:focus-visible {
+        background-color: var(--color-kidical-red);
+        color: white;
+        transform: translateY(-50%) scale(1.1);
+    }
+    /* Brand-yellow keyboard ring, distinct from the pink active fill. */
+    .chapter-gallery__lb-close:focus-visible,
+    .chapter-gallery__lb-nav:focus-visible {
+        outline: 0.15rem solid var(--lb-accent);
+        outline-offset: 0.2rem;
+    }
+
+    /* Counter — a yellow-on-ink pill, echoing the badge / date-rail language. */
+    .chapter-gallery__lb-counter {
+        position: absolute;
+        bottom: calc(var(--spacing) * 5);
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 4);
+        background-color: color-mix(in srgb, var(--color-kidical-ink) 85%, transparent);
+        border-radius: var(--radius-card);
+        color: var(--lb-accent);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        transition: color 0.26s ease-out;
+    }
+
+    @keyframes lb-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes lb-pop-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
     @media (prefers-reduced-motion: reduce) {
-        .chapter-gallery__img { transition: none; }
+        .chapter-gallery__img,
+        .chapter-gallery__lightbox,
+        .chapter-gallery__lb-figure,
+        .chapter-gallery__lb-img { animation: none; transition: none; }
+        .chapter-gallery__lb-close,
+        .chapter-gallery__lb-nav { animation: none; transition: none; }
     }
 
     /* Full container-width content column (aligns with every band's container edge).
@@ -358,6 +436,15 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 1.5rem;
+    }
+
+    /* 3a · MIS GEEN RIT — the primary opt-in band sitting between the agenda and the
+       gallery. The card owns its own look (light-blue + shadow via the component's
+       prominent mode); the band just caps it to a calm measure and centres it so it
+       lands as one clear action on the white, not a full-bleed slab. */
+    .chapter-optin__card {
+        max-width: 60rem;
+        margin-inline: auto;
     }
 
     /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
