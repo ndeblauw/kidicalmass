@@ -33,6 +33,8 @@ Root cause: the hub is a **logged-in member workspace** (`@auth`-only, welcome
 banner that fades "na je eerste weken", captain/Beheer tab) wearing the public
 marketing site's chrome.
 
+> Built 2026-06-18 — see plan 2026-06-18-roze-hesje-hub-app-shell-nav.md.
+
 > **Update 2026-06-18 (after commit `2bf1db5`):** a "minimal fix" landed that
 > resolved the *collisions* but not the mode clash. Already done there:
 > the `-7rem` pull-up is **removed** (#7 no longer overlaps the logo — the pink
