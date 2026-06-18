@@ -245,7 +245,7 @@ select:focus[data-flux-control] {
         min-height: 4.5rem;
     }
     .site-logo-anchor {
-        position: fixed;
+        position: absolute; /* anchored to the hero, scrolls away with the page */
         inset: 0 0 auto 0;
         z-index: 5; /* below page-panel at z-10 — sections scroll over it */
         pointer-events: none;
@@ -352,14 +352,14 @@ select:focus[data-flux-control] {
     height: 3.5rem;
     width: 3.5rem;
     padding: 0;
-    background-color: transparent;
+    background-color: var(--color-kidical-blue);
     border: 2px solid white;
     border-radius: 1rem;
     box-shadow: var(--shadow-hard-sm);
     color: white;
 }
 .account-nav-btn:hover {
-    background-color: color-mix(in oklab, white, transparent 88%);
+    background-color: color-mix(in oklab, var(--color-kidical-blue), white 10%);
 }
 .account-nav-btn svg {
     color: white;
