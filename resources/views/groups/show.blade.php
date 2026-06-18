@@ -8,9 +8,8 @@
     Colour story blue -> white -> yellow, like the sibling pages. The yellow band lives in
     the layout's `closing` slot so it sits flush against the yellow footer (main -> pb-0).
     NL, on the ride/show kit. Structure only here; appearance in resources/css/pages/chapters.css.
-    Faked until the backend lands: friends, downloads, the empty-state opt-in (client-side).
-    Real now: typed agenda, filtered "alle activiteiten" deep-link (?gemeente=id), on-demand
-    reveal, group-specific J2 signup form.
+    Real now: typed agenda, partners (group-scoped, section 4), press articles (section 4),
+    on-demand reveal, group-specific J2 signup form.
     Plan: docs/wiki/design/30-skeleton/chapters.md (§ Chapter Page + Critique v3).
 --}}
 <x-layouts::site title="{{ $group->name }}">
@@ -50,26 +49,36 @@
         ];
         $illustrationFor = fn (string $name) => $teamIllustrations[crc32($name) % count($teamIllustrations)];
 
-        // FAUX local extras (no per-group partners/downloads model yet). Press never faked (D-11).
-        $fauxFriends = [
-            ['name' => 'Fietsbieb '.$gemeente],
-            ['name' => 'Buurthuis om de hoek'],
-        ];
+        // FAUX downloads — the flyers/posters a chapter offers (no per-group downloads
+        // source yet; Nico wires the backend). Same frontend-placeholder pattern as
+        // $fauxVolunteers above: design it now, swap the data source later. File type
+        // rides in its own tag, not baked into the label.
         $fauxDownloads = [
-            ['label' => 'Flyer '.$gemeente.' 2026 (PDF)', 'url' => '#'],
+            ['label' => 'Flyer '.$gemeente.' 2026', 'type' => 'PDF', 'url' => '#'],
+            ['label' => 'Affiche om op te hangen', 'type' => 'PDF', 'url' => '#'],
+            ['label' => 'Kleurplaat voor onderweg', 'type' => 'PDF', 'url' => '#'],
         ];
 
-        $hasExtras = ! empty($fauxFriends) || ! empty($fauxDownloads) || $group->children->isNotEmpty();
+        $hasExtras = $partners->isNotEmpty() || $pressArticles->isNotEmpty() || $group->children->isNotEmpty();
 
         $allActivitiesUrl = route('activities.index', ['gemeente' => $group->id]);
 
-        // Chapter gallery — read the group's own `gallery` collection. The first photo
-        // is the cover (section 2); the rest fill the "In beeld" band. Uploads still
-        // attach to activities (Nico), so this is empty until photos land on the group;
-        // `php artisan dev:seed-group-gallery` populates it locally.
-        $galleryPhotos = $group->getMedia('gallery');
-        $coverPhoto = $galleryPhotos->first();
-        $galleryRest = $galleryPhotos->slice(1)->values();
+        // Hero cover (section 1) — still the group's own identity photo, the cover of
+        // its `gallery` collection. `php artisan dev:seed-group-gallery` populates it.
+        $coverPhoto = $group->getMedia('gallery')->first();
+
+        // "In beeld" (section 3b) follows the latest ride that has photos ($latestRide,
+        // resolved in GroupController). The first photo becomes the "Laatste rit" poster
+        // (eyebrow + title + a single "bekijk alle foto's" action over a scrim, the date
+        // tear-off peeking from the corner); the rest fill the masonry wall as tiles (so
+        // the poster photo isn't shown twice). The full set powers the lightbox, so the
+        // tiles open at $loop->index + 1.
+        $ridePhotos = $latestRide?->getMedia('gallery') ?? collect();
+        $hasRideGallery = $latestRide !== null && $ridePhotos->isNotEmpty();
+        $ridePhotoCount = $ridePhotos->count();
+        $posterPhoto = $ridePhotos->first();
+        $tilePhotos = $ridePhotos->slice(1)->take(6)->values();
+        $rideRail = $latestRide ? \App\Support\RideDate::rail($latestRide->begin_date) : null;
     @endphp
 
     {{-- 1 · IDENTITY HERO — blue band on the shared .page-hero look (eyebrow = postcode,
@@ -138,23 +147,24 @@
                 {{-- Opt-in normally lives as the last tile of the gallery below; when there is
                      no gallery (≤1 photo) it falls back to here, right under the rides in the
                      same column, so the "schrijf je hieronder in" note above keeps its promise. --}}
-                @if ($galleryRest->isEmpty())
+                @unless ($hasRideGallery)
                     <div class="mt-12">
-                        <x-newsletter-optin :group="$group" />
+                        <x-newsletter-optin :group="$group" :show-join="true" />
                     </div>
-                @endif
+                @endunless
             </div>
         </div>
     </section>
 
-    {{-- 3b · IN BEELD — the group's gallery, editorial varied tiles + an inline lightbox.
-         Renders only when there is more than the cover photo. Structure only; appearance
-         in resources/css/pages/chapters.css. --}}
-    @if ($galleryRest->isNotEmpty())
+    {{-- 3b · IN BEELD — the latest ride's photos + an inline lightbox. Renders only when
+         that ride has photos. The first cell is a date-rail lockup naming the ride (not a
+         photo); then up to four photos, the rest reachable via the lightbox. Structure
+         only; appearance in resources/css/pages/chapters.css. --}}
+    @if ($hasRideGallery)
         <section
             class="chapter-body chapter-gallery"
             x-data="{
-                photos: @js($galleryRest->map(fn ($m) => ['url' => $m->getUrl(), 'name' => $m->name])->values()),
+                photos: @js($ridePhotos->map(fn ($m) => ['url' => $m->getUrl(), 'name' => $m->name])->values()),
                 isOpen: false,
                 index: 0,
                 open(i) { this.index = i; this.isOpen = true; this.$nextTick(() => this.$refs.closeBtn?.focus()); },
@@ -168,17 +178,57 @@
             @keydown.arrow-left.window="isOpen && prev()"
         >
             <ul class="chapter-gallery__grid">
-                @foreach ($galleryRest as $media)
-                    <li class="chapter-gallery__cell">
+                {{-- First cell — a full-bleed photo poster of the latest ride. Its first
+                     photo fills the tile and opens the lightbox; the eyebrow, ride title
+                     and a single "view all" action sit on a scrim at the bottom, with the
+                     calendar tear-off (date it was) peeking from the top corner. A roze
+                     hesje of this chapter also gets a quiet "add photos" link. --}}
+                <li class="chapter-gallery__cell chapter-gallery__cell--feature">
+                    <div class="chapter-latest">
+                        <button
+                            type="button"
+                            class="chapter-latest__media"
+                            @click="open(0)"
+                            aria-label="Bekijk alle foto's van de laatste rit in {{ $gemeente }}"
+                        >
+                            <img src="{{ $posterPhoto->getUrl('card') }}" alt="" class="chapter-latest__bg">
+                        </button>
+
+                        <time
+                            class="chapter-latest__rail"
+                            datetime="{{ $latestRide->begin_date->toDateString() }}"
+                        >
+                            <span class="ride-day__bar" aria-hidden="true"></span>
+                            <span class="ride-day__body">
+                                <span class="ride-day__day">{{ $rideRail['day'] }}</span>
+                                <span class="ride-day__date">{{ $rideRail['num'] }}</span>
+                                <span class="ride-day__month">{{ $rideRail['month'] }}</span>
+                            </span>
+                        </time>
+
+                        <div class="chapter-latest__overlay">
+                            <p class="chapter-latest__eyebrow">Laatste rit</p>
+                            <h3 class="chapter-latest__title">{{ $latestRide->title }}</h3>
+                            <div class="chapter-latest__actions">
+                                <x-cta-button variant="blue" size="sm" x-on:click="open(0)">{{ $ridePhotoCount > 1 ? "Bekijk alle {$ridePhotoCount} foto's" : 'Bekijk de foto' }}</x-cta-button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                @foreach ($tilePhotos as $media)
+                    {{-- The 5th and 6th tiles only show once there's room for them — the
+                         XL 4-column wall. Below that they'd overflow the calmer grid. --}}
+                    <li @class(['chapter-gallery__cell', 'chapter-gallery__cell--xl' => $loop->index >= 4])>
                         <button
                             type="button"
                             class="chapter-gallery__tile"
-                            @click="open({{ $loop->index }})"
-                            aria-label="Bekijk foto {{ $loop->iteration }} groter"
+                            @click="open({{ $loop->index + 1 }})"
+                            aria-label="Bekijk foto {{ $loop->iteration + 1 }} groter"
                         >
                             <img
                                 src="{{ $media->getUrl('card') }}"
-                                alt="Foto uit {{ $gemeente }}"
+                                alt="Foto van de laatste rit in {{ $gemeente }}"
                                 loading="lazy"
                                 class="chapter-gallery__img"
                             >
@@ -186,10 +236,10 @@
                     </li>
                 @endforeach
 
-                {{-- Last tile: the "Mis geen rit" opt-in, sitting inside the wall rather
-                     than floating in its own band. --}}
+                {{-- The "Mis geen rit" opt-in sits inline in the wall, taking a photo's
+                     slot — its narrow column makes the card stack to a calm portrait. --}}
                 <li class="chapter-gallery__cell chapter-gallery__cell--optin">
-                    <x-newsletter-optin :group="$group" />
+                    <x-newsletter-optin :group="$group" :show-join="true" />
                 </li>
             </ul>
 
@@ -212,29 +262,75 @@
         </section>
     @endif
 
-    {{-- 4 · LOCAL EXTRAS — quiet white, moved above the closing band. Faux vrienden +
-         downloads (preview). Press is hide-if-empty, never faked (D-11). National news CUT. --}}
+    {{-- 4 · LOCAL EXTRAS — quiet white, above the yellow closing band. Real partners
+         (visible, group-scoped) and press articles linked to this group. D-11 closed. --}}
     @if ($hasExtras)
         <section class="chapter-body chapter-body--tail">
-            @if (! empty($fauxFriends) || ! empty($fauxDownloads))
+            @if ($partners->isNotEmpty() || $pressArticles->isNotEmpty())
                 <div class="chapter-extras">
-                    @if (! empty($fauxFriends))
+                    @if ($pressArticles->isNotEmpty())
+                        {{-- "In de pers" leads the left column (Frederik 2026-06-18):
+                             local coverage first, friends to its right. --}}
                         <div class="chapter-extras__block">
-                            <h2 class="chapter-section__title">Vrienden van de groep</h2>
-                            <ul class="chapter-extras__friends">
-                                @foreach ($fauxFriends as $friend)
-                                    <li>{{ $friend['name'] }}</li>
+                            <h3 class="chapter-section__title">In de pers</h3>
+                            <ul class="chapter-press" role="list">
+                                @foreach ($pressArticles as $pressArticle)
+                                    <li class="chapter-press__item">
+                                        <span class="chapter-press__outlet">{{ $pressArticle->outlet }}</span>
+                                        @if ($pressArticle->published_at)
+                                            <time class="chapter-press__date" datetime="{{ $pressArticle->published_at->toDateString() }}">{{ $pressArticle->published_at->isoFormat('D MMM YYYY') }}</time>
+                                        @endif
+                                        @if ($pressArticle->url)
+                                            <a href="{{ $pressArticle->url }}" target="_blank" rel="noopener noreferrer" class="chapter-press__title">{{ $pressArticle->title }}</a>
+                                        @else
+                                            <span class="chapter-press__title">{{ $pressArticle->title }}</span>
+                                        @endif
+                                        @if ($pressArticle->getFirstMedia('document'))
+                                            <a href="{{ $pressArticle->getFirstMediaUrl('document') }}" target="_blank" rel="noopener noreferrer" class="chapter-press__doc" aria-label="Artikel downloaden">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                            </a>
+                                        @endif
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
                     @endif
 
+                    @if ($partners->isNotEmpty())
+                        {{-- One kind of friend, always a text link (never a logo: keeps
+                             volunteer-uploaded artwork out). A plain wrapping run that
+                             stays compact at any length, with no cap. Right column. --}}
+                        <div class="chapter-extras__block">
+                            <h3 class="chapter-section__title">Vrienden van de groep</h3>
+                            <ul class="chapter-partners" role="list">
+                                @foreach ($partners as $partner)
+                                    <li class="chapter-partners__item">
+                                        @if ($partner->url)
+                                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="chapter-partners__link">{{ $partner->name }}</a>
+                                        @else
+                                            <span class="chapter-partners__name">{{ $partner->name }}</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- Downloads — chapter flyers/posters. FAUX placeholder for now (Nico
+                         wires the source). Sits inside the partners/press gate, so empty
+                         chapters stay empty. Compact: icon + label + a small type tag. --}}
                     @if (! empty($fauxDownloads))
                         <div class="chapter-extras__block">
-                            <h2 class="chapter-section__title">Downloads</h2>
-                            <ul class="chapter-extras__downloads">
+                            <h3 class="chapter-section__title">Downloads</h3>
+                            <ul class="chapter-downloads" role="list">
                                 @foreach ($fauxDownloads as $download)
-                                    <li><a href="{{ $download['url'] }}" class="link-plain">↓ {{ $download['label'] }}</a></li>
+                                    <li class="chapter-downloads__item">
+                                        <a href="{{ $download['url'] }}" class="chapter-downloads__link">
+                                            <svg class="chapter-downloads__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                            <span class="chapter-downloads__label">{{ $download['label'] }}</span>
+                                            <span class="chapter-downloads__type">{{ $download['type'] }}</span>
+                                        </a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -245,7 +341,7 @@
             {{-- Parent/region node: minimal children list so a parent page does not break. --}}
             @if ($group->children->isNotEmpty())
                 <div class="chapter-children">
-                    <h2 class="chapter-section__title">Lokale groepen in {{ $group->name }}</h2>
+                    <h3 class="chapter-section__title">Lokale groepen in {{ $group->name }}</h3>
                     <ul class="flex flex-wrap gap-2.5">
                         @foreach ($group->children as $child)
                             <li><a href="{{ route('groups.show', $child) }}" class="grp-pill link-plain">{{ $child->name }}</a></li>
@@ -305,7 +401,7 @@
                 {{-- HELP MEE — recruitment CTA. On-demand reveal: the band stays light,
                      the helper expands the group-specific form right under the button.
                      Auto-open via ?intent=volunteer. --}}
-                <div class="chapter-join scroll-mt-24" x-data="{ open: {{ request('intent') === 'volunteer' ? 'true' : 'false' }} }">
+                <div class="chapter-join scroll-mt-24" x-data="{ open: {{ request('intent') === 'volunteer' ? 'true' : 'false' }} }" @open-volunteer.window="open = true">
                     <div class="chapter-join__cta"
                          x-show="!open"
                          x-transition:leave="chapter-join__cta--leave"
