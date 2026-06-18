@@ -14,16 +14,17 @@ it('shows the Er is animo closing band and no longer the photo gallery', functio
         ->assertDontSee('sg-proof__gallery', escape: false);
 });
 
-it('renders the start-a-group page with the three story slides, the honest asks and the intent form', function () {
+it('renders the start-a-group page with the three alternating sections and the intent form', function () {
     $this->get(route('groups.start'))
         ->assertOk()
         ->assertSee('Breng Kidical Mass naar jouw buurt')
-        ->assertSee('Je hoeft dit niet alleen te dragen')
-        ->assertSee('Wat jij brengt')
-        ->assertSee('Wat wij dragen')
-        ->assertSee('Wat het écht vraagt')
+        ->assertSee('Jij hebt al wat nodig is')
+        ->assertSee('De rest doen we samen')
+        ->assertSee('Waar je ja tegen zegt')
         ->assertSee('sg-story__collage', escape: false)
-        ->assertSee('data-seq-block="2"', escape: false)
+        ->assertSee('sg-story__row--reverse', escape: false)
+        ->assertDontSee('data-seq-block', escape: false)
+        ->assertDontSee('Je hoeft dit niet alleen te dragen')
         ->assertSee('Zin om te beginnen?');
 });
 

@@ -18,26 +18,44 @@
         justify-self: center;
     }
 
-    /* DRIE STORY SLIDES — sticky collage column (right) crossfading through one
-       collage per slide. Mirrors the help-out .ho-deal collage choreography
-       (1:1 stage, percentage-placed rotated photos, tossed→settle on crossfade);
-       photos only, no doodle. The shared component owns sticky + opacity fade. */
+    /* DRIE SECTIES — simple alternating two-column lockups (collage + text),
+       vertically centred, height driven by the content. Order alternates
+       collage-text / text-collage / collage-text via the --reverse modifier.
+       Static scattered collage (1:1 stage, percentage-placed rotated photos);
+       no sticky, no crossfade. */
     .sg-story {
+        display: grid;
+        gap: clamp(3rem, 7vw, 5.5rem);
         margin-block: 4rem;
     }
 
-    .sg-story__title {
-        margin-bottom: 2rem;
+    .sg-story__row {
+        display: grid;
+        gap: 2.5rem;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-story__row {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: clamp(2.5rem, 5vw, 4.5rem);
+        }
+
+        /* alternate: the reverse row places the text left, collage right */
+        .sg-story__row--reverse .sg-story__collage { order: 2; }
+        .sg-story__row--reverse .sg-story__text { order: 1; }
     }
 
     .sg-story__collage {
         position: relative;
         aspect-ratio: 1 / 1;
         width: 100%;
+        /* let the rotated photos spill slightly past the square stage */
+        overflow: visible;
     }
 
     /* Each photo is centred on its (x,y) via `translate`, leaving `transform`
-       free to animate the settle (rotate + scale) on crossfade. */
+       free for the resting rotation. */
     .sg-story__photo {
         position: absolute;
         top: var(--photo-y);
@@ -49,7 +67,6 @@
         box-shadow: 0 18px 45px -14px color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
         translate: -50% -50%;
         transform: rotate(var(--photo-r));
-        transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .sg-story__photo img {
@@ -60,52 +77,13 @@
         object-position: center 30%;
     }
 
-    /* Three distinct scatters so the beats don't read as the same frame thrice. */
+    /* Three distinct scatters so the sections don't read as the same frame thrice. */
     .sg-story__collage--a .sg-story__photo--lead  { --photo-w: 52%; --photo-x: 31%; --photo-y: 26%; --photo-r: -6deg; z-index: 1; }
     .sg-story__collage--a .sg-story__photo--trail { --photo-w: 48%; --photo-x: 74%; --photo-y: 45%; --photo-r: 6deg;  z-index: 2; }
     .sg-story__collage--b .sg-story__photo--lead  { --photo-w: 50%; --photo-x: 68%; --photo-y: 29%; --photo-r: 5deg;  z-index: 2; }
     .sg-story__collage--b .sg-story__photo--trail { --photo-w: 53%; --photo-x: 36%; --photo-y: 56%; --photo-r: -7deg; z-index: 1; }
     .sg-story__collage--c .sg-story__photo--lead  { --photo-w: 50%; --photo-x: 33%; --photo-y: 30%; --photo-r: 5deg;  z-index: 2; }
     .sg-story__collage--c .sg-story__photo--trail { --photo-w: 50%; --photo-x: 70%; --photo-y: 53%; --photo-r: -6deg; z-index: 1; }
-
-    /* a touch more separation between the stacked collages on mobile */
-    .sg-story .scroll-sequence__media-sticky {
-        gap: 2.5rem;
-    }
-
-    @media (min-width: 1024px) {
-        .sg-story .scroll-sequence__media-sticky {
-            /* square stage; let the rotated photos spill past its edges */
-            height: auto;
-            aspect-ratio: 1 / 1;
-            overflow: visible;
-        }
-
-        /* tossed → settle: the collage that isn't reading sits more rotated +
-           scaled up; the active beat settles its photos into place, trail a beat
-           after lead. (Opacity fade is the shared component's job.) */
-        .sg-story__collage:not(.is-active) .sg-story__photo--lead {
-            transform: rotate(calc(var(--photo-r) * 1.7)) scale(1.07);
-        }
-
-        .sg-story__collage:not(.is-active) .sg-story__photo--trail {
-            transform: rotate(calc(var(--photo-r) * 2)) scale(1.09);
-        }
-
-        .sg-story__collage.is-active .sg-story__photo--trail {
-            transition-delay: 0.1s;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .sg-story__photo,
-        .sg-story__collage:not(.is-active) .sg-story__photo,
-        .sg-story__collage.is-active .sg-story__photo {
-            transform: rotate(var(--photo-r));
-            transition: none;
-            transition-delay: 0s;
-        }
-    }
 
     /* WAT HET ÉCHT VRAAGT — slide 3 lead + list (honest filter). */
     .sg-asks__lead {
