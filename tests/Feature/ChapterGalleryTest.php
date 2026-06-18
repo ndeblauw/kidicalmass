@@ -22,14 +22,16 @@ function showChapter(Group $group)
     return test()->get(route('groups.show', ['locale' => 'nl', 'group' => $group->id]));
 }
 
-it('renders the gallery band with one tile per non-cover photo', function () {
+it('no longer drives the gallery band from the group gallery photos', function () {
+    // The "In beeld" band now follows the latest ride that has photos (see
+    // GroupsTest for that path), not the group's own gallery collection. The group
+    // gallery feeds only the hero cover now, so photos there produce no band.
     $group = Group::factory()->create();
-    attachGalleryPhotos($group, 3); // 1 cover + 2 in the band
+    attachGalleryPhotos($group, 3); // group gallery: a cover + two extras, but no ride
 
-    $response = showChapter($group)->assertOk();
-
-    $response->assertSee('chapter-gallery__grid', false);
-    expect(substr_count($response->getContent(), 'chapter-gallery__tile'))->toBe(2);
+    showChapter($group)
+        ->assertOk()
+        ->assertDontSee('chapter-gallery__grid', false);
 });
 
 it('uses the first gallery photo as the cover instead of the fallback', function () {

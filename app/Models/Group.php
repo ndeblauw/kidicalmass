@@ -95,6 +95,11 @@ class Group extends Model implements HasMedia
             });
     }
 
+    public function partners(): HasMany
+    {
+        return $this->hasMany(Partner::class);
+    }
+
     public function pressArticles(): MorphToMany
     {
         return $this->morphToMany(PressArticle::class, 'press_articleable');

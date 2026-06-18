@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
@@ -110,7 +111,22 @@ class GroupController extends Controller
             ->orderBy('begin_date')
             ->get();
 
-        return view('groups.show', compact('group', 'articles', 'activities'));
+        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name')->get();
+        $pressArticles = $group->pressArticles()->with('media')->latest('published_at')->get();
+
+        // The gallery now follows the most recent ride that actually has photos
+        // (group's own rides + parent regions, like the agenda above), so the page
+        // always highlights the latest outing rather than a hand-curated wall.
+        $latestRide = Activity::query()
+            ->with('media')
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '<', now())
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->first();
+
+        return view('groups.show', compact('group', 'articles', 'activities', 'partners', 'pressArticles', 'latestRide'));
     }
 
     /**

@@ -65,6 +65,30 @@ it('skips --source paths that do not exist', function () {
     expect($group->fresh()->getMedia('gallery'))->toHaveCount(2);
 });
 
+it('generates the card and thumb conversions synchronously', function () {
+    // Mirror local dev: the media library queues conversions onto a non-inline
+    // connection with no worker running. Without the command forcing in-process
+    // conversions, the jobs would sit unprocessed and the conversions would
+    // never be generated. (The default test env uses the inline 'sync' queue,
+    // which would hide the regression.)
+    config([
+        'media-library.queue_conversions_by_default' => true,
+        'media-library.queue_connection_name' => 'database',
+    ]);
+
+    $group = Group::factory()->create();
+
+    $this->artisan('dev:seed-group-gallery', ['--group' => [$group->id], '--count' => 1])
+        ->assertSuccessful();
+
+    // The gallery wall renders the 'card' conversion; without synchronous
+    // generation it would be a broken image until a queue worker ran.
+    $media = $group->fresh()->getMedia('gallery')->first();
+
+    expect($media->hasGeneratedConversion('card'))->toBeTrue()
+        ->and($media->hasGeneratedConversion('thumb'))->toBeTrue();
+});
+
 it('refuses to run in production', function () {
     app()->detectEnvironment(fn () => 'production');
     $group = Group::factory()->create();

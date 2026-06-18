@@ -29,6 +29,16 @@ class SeedGroupGalleryCommand extends Command
             return self::FAILURE;
         }
 
+        // Generate the 'card'/'thumb' conversions in-process. By default the media
+        // library queues them, but seeding has no queue worker running, so the
+        // gallery wall (which renders the 'card' conversion) would show broken
+        // images until a worker eventually picked the jobs up.
+        config(['media-library.queue_conversions_by_default' => false]);
+
+        // GD decompresses each source photo fully into memory; the full-size
+        // photography here can exceed the default 128M CLI limit while converting.
+        ini_set('memory_limit', '512M');
+
         $sources = $this->resolveSourcePaths();
 
         if ($sources === []) {

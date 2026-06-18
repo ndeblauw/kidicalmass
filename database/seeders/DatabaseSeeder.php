@@ -41,6 +41,14 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DemoUserSeeder::class);
 
+        // Dress specific chapters into deliberate content variations (press,
+        // chapter-scoped partners, hero cover, full agenda) for eyeballing P-11.
+        $this->call(ChapterShowcaseSeeder::class);
+
+        // Fill the "In beeld" wall: attach sample photos to three chapters' latest
+        // rides, in varied counts and orientations.
+        $this->call(ChapterRideGallerySeeder::class);
+
         $this->command->newLine();
         $this->task('Cleanup temporary media (if requested)', function () {
             MediaSeeder::cleanup();
