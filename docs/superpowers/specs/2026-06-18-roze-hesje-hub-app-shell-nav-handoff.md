@@ -33,6 +33,15 @@ Root cause: the hub is a **logged-in member workspace** (`@auth`-only, welcome
 banner that fades "na je eerste weken", captain/Beheer tab) wearing the public
 marketing site's chrome.
 
+> **Update 2026-06-18 (after commit `2bf1db5`):** a "minimal fix" landed that
+> resolved the *collisions* but not the mode clash. Already done there:
+> the `-7rem` pull-up is **removed** (#7 no longer overlaps the logo — the pink
+> band now seats below the floating nav); the subnav shares the **47.5rem**
+> content column; the 5 sub-pages share one `.roze-hub-title`. Still **unbuilt**
+> from this brief: the marketing nav is still rendered (`roze-hub.blade.php`
+> unchanged), the **red hero band remains**, and the chapter name still prints
+> three times. The App-shell work below is what's left.
+
 ## Decision: App shell (one nav)
 
 Inside the roze-hesjes routes, **drop the marketing nav entirely**. The hub gets
@@ -77,9 +86,11 @@ one slim top bar and the hub tabs become THE navigation.
   (a) a `:chrome="false"`/slot prop on the layout that hides
   `layouts/site/header`, or (b) give the hub a dedicated layout. Prefer (a) if
   the layout is small; it keeps footer/meta shared.
-- `resources/css/components/roze-hub.css` — **delete** `.roze-hub-hero*` and its
-  `margin-top: -7rem`; add the slim shell-bar styles. Keep `.roze-subnav*`
-  (it's good) but re-seat it directly under the new bar. Stays in `@layer
+- `resources/css/components/roze-hub.css` — **delete** the whole `.roze-hub-hero*`
+  block (the `-7rem` hack is already gone as of `2bf1db5`; the red band is what
+  remains to remove); add the slim shell-bar styles. Keep `.roze-subnav*`
+  (it's good) and the new `.roze-hub-title` + the **47.5rem** column the rework
+  introduced — align the shell bar to that same column. Stays in `@layer
   components`, token-backed colours only (no raw hex/px — `CssArchitectureTest`).
 - `resources/views/components/roze-subnav.blade.php` — no structural change; the
   `Beheer` external tab stays right-aligned (`margin-left:auto`).
