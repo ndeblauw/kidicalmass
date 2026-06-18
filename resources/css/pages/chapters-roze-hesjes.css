@@ -234,7 +234,7 @@
 
     .roze-hub-welcome {
         background: color-mix(in oklab, var(--color-kidical-red), transparent 90%);
-        border-radius: 1.5rem;
+        border-radius: var(--radius-card);
         padding: 0.875rem 0.9375rem;
     }
 
