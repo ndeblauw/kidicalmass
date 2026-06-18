@@ -81,7 +81,8 @@
         opacity: 1 !important;
         transform: none !important;
     }
-    .cta-button--secondary .cta-button__disc,
+    /* Ghost stays a quiet ink chip; secondary keeps the loud red disc + white
+       arrow from the base .cta-button__disc so it reads less boring. */
     .cta-button--ghost .cta-button__disc {
         background: color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
@@ -126,7 +127,7 @@
         width: var(--disc-size);
         height: var(--disc-size);
         border-radius: 50%;
-        background: var(--color-kidical-red);
+        background: var(--cta-disc-color, var(--color-kidical-red));
         color: white; /* the icon inherits this via currentColor */
         display: flex;
         align-items: center;

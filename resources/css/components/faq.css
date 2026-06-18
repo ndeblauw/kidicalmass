@@ -1,0 +1,100 @@
+/*
+ * FAQ accordion (<x-faq> + <x-faq.item>)
+ * Native <details> accordion with an animated open/close. Shared across pages
+ * (getting-started, start-een-groep). The page owns the section layout around it
+ * (heading, width, any illustration); this file owns only the accordion itself.
+ */
+
+@layer components {
+    .faq {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        interpolate-size: allow-keywords;
+    }
+
+    .faq__item {
+        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-light-yellow), black 6%);
+        padding-bottom: 0.75rem;
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        &:has(+ .faq__item[open]) {
+            border-bottom: none;
+        }
+
+        &[open] {
+            background: var(--color-kidical-light-yellow);
+            border-radius: 1.25rem;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+    }
+
+    .faq__q {
+        position: relative;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: 1.25rem 1.875rem;
+        padding-right: 4.625rem;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-xl);
+        color: var(--color-kidical-ink);
+        line-height: 1.4;
+    }
+
+    .faq__q::-webkit-details-marker { display: none; }
+
+    .faq__q::before,
+    .faq__q::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 1.875rem;
+        width: 1.375rem;
+        height: 0.1875rem;
+        border-radius: 1.5px;
+        background-color: var(--color-kidical-red);
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .faq__q::before { transform: translateY(-50%) rotate(90deg); }
+    .faq__q::after  { transform: translateY(-50%); }
+
+    .faq__item[open] .faq__q::before {
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    .faq__a {
+        padding: 0 1.875rem 1.25rem;
+        font-size: var(--text-xl);
+        line-height: 1.65;
+        color: var(--color-text-body);
+
+        p { margin: 0; }
+        a { color: var(--color-kidical-blue); }
+    }
+
+    .faq__item::details-content {
+        block-size: 0;
+        overflow: clip;
+        opacity: 0;
+        transition:
+            block-size 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.26s ease,
+            content-visibility 0.34s allow-discrete;
+    }
+
+    .faq__item[open]::details-content {
+        block-size: auto;
+        opacity: 1;
+    }
+}

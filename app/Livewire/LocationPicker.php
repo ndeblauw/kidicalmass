@@ -16,6 +16,11 @@ class LocationPicker extends Component
 
     public bool $compact = false;
 
+    public bool $reactive = false;
+
+    /** @var array{zip: string, lat: float, lng: float, name: string}|null */
+    public ?array $selected = null;
+
     /**
      * @return Collection<int, PostalCode>
      */
@@ -60,6 +65,14 @@ class LocationPicker extends Component
     public function clear(): void
     {
         Cookie::queue(Cookie::forget(config('location.cookie')));
+
+        if ($this->reactive) {
+            $this->selected = null;
+            $this->dispatch('location-selected', payload: null);
+
+            return;
+        }
+
         $this->redirect($this->currentUrl(), navigate: true);
     }
 
@@ -70,6 +83,13 @@ class LocationPicker extends Component
             json_encode(['zip' => $zip, 'lat' => $lat, 'lng' => $lng, 'name' => $name]),
             config('location.cookie_days') * 24 * 60,
         );
+
+        if ($this->reactive) {
+            $this->selected = ['zip' => $zip, 'lat' => $lat, 'lng' => $lng, 'name' => $name];
+            $this->dispatch('location-selected', payload: $this->selected);
+
+            return;
+        }
 
         $this->redirect($this->currentUrl(), navigate: true);
     }
@@ -82,7 +102,7 @@ class LocationPicker extends Component
     public function render()
     {
         return view('livewire.location-picker', [
-            'current' => CurrentLocation::resolve(),
+            'current' => $this->selected ?? CurrentLocation::resolve(),
             'suggestions' => $this->suggestions(),
         ]);
     }

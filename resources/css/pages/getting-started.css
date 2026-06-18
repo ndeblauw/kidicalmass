@@ -38,23 +38,30 @@
     .gs-expect-left {
         display: flex;
         flex-direction: column;
-        gap: 1.25rem;
+        gap: 2.5rem;
 
         .intro-text {
             margin-block: 0;
-            max-width: 24ch;
+            max-width: 32ch;
             font-weight: 400;
         }
 
-        img {
-            width: 200px;
-            object-fit: contain;
-
-            @media (min-width: 768px) {
-                width: 280px;
-            }
+        .gs-expect-collage {
+            /* Tall portrait stage so the three snapshots cascade down it (zigzag)
+               with air between them, rather than clustering on a square. The
+               bottom snapshot runs off the stage and tucks under the FAQ band. */
+            aspect-ratio: 2 / 3;
+            width: 100%;
+            max-width: 30rem;
         }
     }
+
+    /* Scatter for the three snapshots — shared by the stacked and pinned layouts.
+       Each top edge sits at the stage top (no empty gap under the intro); the
+       last one runs past the stage bottom so it slips under the white FAQ band. */
+    .gs-expect-collage .photo-collage__photo:nth-child(1) { --pc-x: 32%; --pc-y: 25%; --pc-w: 54%; --pc-r: -6deg; }
+    .gs-expect-collage .photo-collage__photo:nth-child(2) { --pc-x: 70%; --pc-y: 55%; --pc-w: 50%; --pc-r: 5deg; }
+    .gs-expect-collage .photo-collage__photo:nth-child(3) { --pc-x: 32%; --pc-y: 88%; --pc-w: 53%; --pc-r: -4deg; --pc-pos: center 35%; }
     .gs-expect-cards {
         display: flex;
         flex-direction: column;
@@ -75,10 +82,15 @@
     .gs-expect-scroll--ready .gs-expect-pin {
         position: sticky;
         top: 0;
+        /* The pin must match the viewport so its overflow edge lands at the viewport
+           edge — a shorter pin would slice cards off mid-screen. The content is then
+           grounded in the lower portion of the stage (see the columns below) so the
+           cards stack low and the FAQ follows right after the last one lands; the
+           empty space ends up above the deck, reading as sky, not dead space below. */
         height: 100dvh;
         min-height: 600px;
         overflow: hidden;
-        background: var(--color-kidical-light-blue); 
+        background: var(--color-kidical-light-blue);
         z-index: 1;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -86,23 +98,25 @@
         gap: 0;
     }
     .gs-expect-scroll--ready .gs-expect-left {
-        padding: 15rem 2rem 4rem max(2rem, calc((100vw - 80rem) / 2 + 2rem));
-        gap: 2rem;
+        /* Intro at the top, photo grounded at the bottom (sky sits in between,
+           reading as sky above a real moment from a ride). */
+        justify-content: space-between;
+        /* No bottom padding: the collage grounds at the pin's bottom edge so its
+           last snapshot runs into the seam and tucks under the FAQ band below. */
+        padding: 6rem 2rem 0 max(2rem, calc((100vw - 80rem) / 2 + 2rem));
+        gap: 2.5rem;
 
-        img {
-            flex: 1;
-            min-height: 0;
+        .gs-expect-collage {
+            aspect-ratio: 2 / 3;
             width: 100%;
-            max-height: 55vh;
-            object-fit: contain;
-            object-position: bottom left;
+            max-width: 30rem;
         }
     }
     .gs-expect-scroll--ready .gs-expect-right {
         display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        padding: 15rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 3rem 2rem;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 6rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 5rem 2rem;
     }
     .gs-expect-scroll--ready .gs-expect-cards {
         position: relative;
@@ -128,11 +142,28 @@
         max-width: 80rem;
         margin-inline: auto;
         padding-inline: 1rem;
+        /* Pin to the top so the illustration never shifts when an accordion
+           opens and the FAQ column grows taller. */
         align-items: start;
 
+        /* FAQ left (capped), illustration right — bleeding to the viewport edge.
+           The left gutter matches the page container so the FAQ stays aligned
+           with the rest of the page; the final 1fr lets the illustration run
+           all the way to the right edge of the screen. */
         @media (min-width: 768px) {
-            grid-template-columns: 280px 1fr;
-            gap: 4rem;
+            max-width: none;
+            margin-inline: 0;
+            padding-inline: 0;
+            grid-template-columns:
+                minmax(1rem, calc((100vw - 80rem) / 2 + 1rem))
+                minmax(0, 34rem)
+                1fr;
+            column-gap: clamp(2rem, 5vw, 6rem);
+        }
+    }
+    .gs-faq-content {
+        @media (min-width: 768px) {
+            grid-column: 2;
         }
     }
     .gs-faq-illustration {
@@ -140,15 +171,40 @@
 
         @media (min-width: 768px) {
             display: block;
+            grid-column: 3;
+            overflow: clip; /* keep the off-screen start from triggering scrollbars */
 
             img {
-                width: 100%;
+                /* Slightly wider than its column so the illustration reads big
+                   and runs off the right edge of the viewport (clipped by the
+                   column's overflow). It's fine if it isn't fully in frame. */
+                width: 108%;
+                height: auto;
+                /* The SVG carries a viewBox but no width/height, so pin its
+                   aspect ratio to keep the box from collapsing to zero. */
+                aspect-ratio: 492 / 335;
                 object-fit: contain;
-                object-position: top;
-                position: sticky;
-                top: 3rem;
-                max-height: 80vh;
+                /* Rides in from the right: starts off the viewport edge,
+                   coasts to its resting position with an ease-out settle. */
+                transform: translateX(115%);
+                opacity: 0;
+                transition:
+                    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.5s ease;
+                will-change: transform;
             }
+        }
+
+        &.is-in img {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .gs-faq-illustration img {
+            transform: none;
+            opacity: 1;
+            transition: none;
         }
     }
     .gs-faq-content {
@@ -161,91 +217,6 @@
         line-height: 1.1;
         color: var(--color-kidical-red);
         margin-bottom: 1.5rem;
-    }
-    .gs-faq {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-
-        
-        interpolate-size: allow-keywords;
-    }
-    .gs-faq__item {
-        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-light-yellow), black 6%);
-        padding-bottom: 0.75rem;
-
-        &:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        
-        &:has(+ .gs-faq__item[open]) {
-            border-bottom: none;
-        }
-
-        &[open] {
-            background: var(--color-kidical-light-yellow);
-            border-radius: 1.25rem;
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-    }
-    .gs-faq__q {
-        position: relative;
-        cursor: pointer;
-        list-style: none;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1.5rem;
-        padding: 1.25rem 1.875rem;
-        padding-right: 4.625rem;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: 1.625rem;
-        color: var(--color-kidical-ink);
-        line-height: 1.4;
-    }
-    .gs-faq__q::-webkit-details-marker { display: none; }
-    .gs-faq__q::before,
-    .gs-faq__q::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 1.875rem;
-        width: 1.375rem;
-        height: 0.1875rem;
-        border-radius: 1.5px;
-        background-color: var(--color-kidical-red);
-        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .gs-faq__q::before { transform: translateY(-50%) rotate(90deg); }
-    .gs-faq__q::after  { transform: translateY(-50%); }
-    .gs-faq__item[open] .gs-faq__q::before {
-        transform: translateY(-50%) rotate(0deg);
-    }
-    .gs-faq__a {
-        padding: 0 1.875rem 1.25rem;
-        font-size: 1.3125rem;
-        line-height: 1.65;
-        color: #4a3960;
-
-        p { margin: 0; }
-        a { color: var(--color-kidical-blue); }
-    }
-    .gs-faq__item::details-content {
-        block-size: 0;
-        overflow: clip;
-        opacity: 0;
-        transition:
-            block-size 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-            opacity 0.26s ease,
-            content-visibility 0.34s allow-discrete;
-    }
-    .gs-faq__item[open]::details-content {
-        block-size: auto;
-        opacity: 1;
     }
     .gs-hero__lead,
     .ho-hero__lead,

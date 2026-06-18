@@ -287,6 +287,32 @@
         }
     }
 
+    /* From lg up the art lane earns equal billing: a 50/50 split, with the
+       rider scaled up to fill the now-wider column so it reads as a hero
+       companion rather than a margin ornament. */
+    @media (min-width: 1024px) {
+        .home-nextride {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        .home-nextride__art img {
+            max-width: 30rem;
+        }
+    }
+
+    /* On very wide screens the 50/50 split over-stretches: the rider floats in a
+       half-empty art lane while the rides pack against the right edge. Cap the
+       pair at a comfortable width and centre it so the outer margins are even,
+       and let the content lane take the larger share so the rider sits beside
+       its rides rather than marooned in whitespace. */
+    @media (min-width: 1280px) {
+        .home-nextride {
+            max-width: 75rem;
+            margin-inline: auto;
+            grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+        }
+    }
+
     /* ─── Home — drie routes (scroll-sequence) ───
        The illustrations are bikes, so they RIDE rather than fade. The active bike
        parks in its lane; the next rolls in from the right; the one you leave bolts
@@ -335,16 +361,9 @@
         object-fit: contain;
     }
 
-    /* Photo behind each section: fills the square stage and crossfades by opacity
-       (lg rules below). Rounded + shadowed on the photo itself (not a frame) so the
-       illustration's edge overlap and the drop-shadow are never clipped. */
-    .home-routes__photo {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 1.75rem;
-        box-shadow: 0 28px 64px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
-    }
+    /* The per-beat media is now an <x-photo-collage> (.home-routes__media); it
+       fills the square stage and crossfades by opacity (lg rules below). The
+       collage component styles the scattered, rounded, shadowed photos within. */
 
     /* Mobile-only inline illustration per section. */
     .home-routes__block-illu {
@@ -393,9 +412,10 @@
             transform: translateY(-2rem);
         }
 
-        /* Photos fill the stage and crossfade by opacity as each block activates,
-           with a subtle ken-burns settle (mirrors /help-out). */
-        .home-routes__photo {
+        /* Each beat's collage fills the stage and crossfades by opacity as the
+           block activates, with a subtle ken-burns settle (mirrors /help-out).
+           The collage component styles the scattered photos within. */
+        .home-routes__media {
             position: absolute;
             inset: 0;
             opacity: 0;
@@ -403,7 +423,7 @@
             transition: opacity 0.8s ease, transform 1.3s ease;
         }
 
-        .home-routes__photo.is-active {
+        .home-routes__media.is-active {
             opacity: 1;
             transform: scale(1);
         }
@@ -465,12 +485,12 @@
             transform: none;
         }
 
-        .home-routes__photo {
+        .home-routes__media {
             transform: none;
             transition: opacity 0.3s ease;
         }
 
-        .home-routes__photo.is-active {
+        .home-routes__media.is-active {
             transform: none;
         }
     }

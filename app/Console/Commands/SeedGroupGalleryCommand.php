@@ -9,7 +9,8 @@ class SeedGroupGalleryCommand extends Command
 {
     protected $signature = 'dev:seed-group-gallery
         {--group=* : Group ids to seed (defaults to a curated set)}
-        {--count=6 : Photos to attach per group}';
+        {--count=6 : Photos to attach per group}
+        {--source=* : Explicit image paths in order, cover first (absolute or relative to base_path); defaults to globbing public/img/photography}';
 
     protected $description = 'Attach sample photos to groups\' gallery collection (non-production only).';
 
@@ -28,10 +29,10 @@ class SeedGroupGalleryCommand extends Command
             return self::FAILURE;
         }
 
-        $sources = $this->sampleImagePaths();
+        $sources = $this->resolveSourcePaths();
 
         if ($sources === []) {
-            $this->error('No sample images found under public/img/photography.');
+            $this->error('No source images found (checked --source paths and public/img/photography).');
 
             return self::FAILURE;
         }
@@ -63,6 +64,35 @@ class SeedGroupGalleryCommand extends Command
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Resolve the images to attach: explicit --source paths (in order, cover first)
+     * when given, otherwise the globbed sample set.
+     *
+     * @return list<string>
+     */
+    private function resolveSourcePaths(): array
+    {
+        $explicit = $this->option('source');
+
+        if ($explicit === []) {
+            return $this->sampleImagePaths();
+        }
+
+        return collect($explicit)
+            ->map(fn (string $path): string => is_file($path) ? $path : base_path($path))
+            ->filter(function (string $path): bool {
+                if (is_file($path)) {
+                    return true;
+                }
+
+                $this->warn("Source image not found, skipping: {$path}");
+
+                return false;
+            })
+            ->values()
+            ->all();
     }
 
     /**

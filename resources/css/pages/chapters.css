@@ -238,9 +238,9 @@
            very wide screens grid leaves the leftover width as breathing room on the right
            (left-anchored, asymmetric); on narrower large screens the agenda still fills. */
         .chapter-agenda__grid {
-            grid-template-columns: 15rem minmax(0, 48rem);
+            grid-template-columns: 12.75rem minmax(0, 48rem);
             gap: clamp(3rem, 5vw, 5rem);
-            align-items: start;
+            align-items: center;
         }
         .chapter-agenda__aside {
             display: block;
@@ -277,33 +277,6 @@
         margin-left: calc(50% - 50vw);
         background-color: var(--color-kidical-yellow);
         padding-block: clamp(3rem, 6vw, 5rem);
-    }
-    .chapter-team-band__top {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        align-items: center;
-    }
-    @media (min-width: 768px) {
-        .chapter-team-band__top {
-            grid-template-columns: 0.9fr 1.1fr;
-            gap: 3rem;
-        }
-    }
-    .chapter-team-band__media {
-        margin: 0;
-    }
-    .chapter-team-band__media img {
-        width: 100%;
-        aspect-ratio: 4 / 5;
-        object-fit: cover;
-        object-position: center 30%;
-        border-radius: 1.5rem;
-        box-shadow: 0 22px 50px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-        display: block;
-    }
-    @media (min-width: 768px) {
-        .chapter-team-band__media img { aspect-ratio: 1 / 1; }
     }
 
     /* Single big headline for the team block — the attention-grabber, no lead copy. */
@@ -406,8 +379,6 @@
         .chapter-team__card { width: 11.5rem; }
     }
 
-    /* Lead copy for the empty-team state only (the "no team yet" invitation). */
-    .chapter-team__pitch { margin-top: 0.5rem; max-width: 50ch; color: var(--color-text-body); line-height: 1.55; }
     .chapter-team__welcome {
         background-color: white;
         color: var(--color-kidical-ink);
@@ -424,8 +395,27 @@
     .chapter-join {
         margin-top: clamp(2.5rem, 5vw, 3.5rem);
         padding-top: clamp(2rem, 4vw, 3rem);
+        /* CTA and reveal panel share one grid cell so the swap crossfades in place,
+           rather than the band briefly stacking both heights mid-transition. */
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
     }
-    .chapter-join--open { padding-top: 0; }
+    .chapter-join__cta,
+    .chapter-join__panel {
+        grid-area: 1 / 1;
+    }
+
+    /* Meehelpen reveal motion — the CTA collapses (fade + settle), then the panel
+       unfolds: the left copy leads and the form follows a beat later (the staggered
+       panel-in below), so the eye reads left-to-right into the form. Reduced-motion
+       swaps instantly (effects.css). */
+    .chapter-join__cta--leave {
+        transition: opacity 0.12s cubic-bezier(0.25, 1, 0.5, 1),
+                    transform 0.12s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .chapter-join__cta--leave-start { opacity: 1; transform: scale(1); }
+    .chapter-join__cta--leave-end { opacity: 0; transform: scale(0.98); }
+
     .chapter-join__cta {
         display: flex;
         flex-direction: column;
@@ -452,6 +442,10 @@
     }
     .chapter-join__aside {
         margin-bottom: 1.75rem;
+        animation: panel-in 0.34s cubic-bezier(0.25, 1, 0.5, 1) 0.06s both;
+    }
+    .chapter-join__form-col {
+        animation: panel-in 0.34s cubic-bezier(0.25, 1, 0.5, 1) 0.15s both;
     }
     .chapter-join__welcome {
         max-width: 22ch;
@@ -475,13 +469,6 @@
             margin-bottom: 0;
         }
     }
-
-    /* Empty-team form keeps a calm single-column measure (it carries its own intro
-       in .chapter-team-band__top above). */
-    .chapter-join--open {
-        max-width: 38rem;
-        margin-inline: auto;
-    }
     .chapter-join .volunteer-signup__form,
     .chapter-join .volunteer-signup__success {
         background: white;
@@ -489,6 +476,15 @@
         padding: clamp(1.5rem, 3.5vw, 2.25rem);
         box-shadow: 0 22px 50px -28px color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
+    /* Standalone next-ride teaser: <x-ride-row> stacks place/meta via a `ride-rows`
+       container query, which only exists inside the calendar's <x-ride-day>. Here the
+       row stands alone, so establish the container ourselves (capped to a calm measure)
+       or the nowrap row overlaps in the narrow card. */
+    .volunteer-signup__next-ride {
+        container: ride-rows / inline-size;
+        max-width: 24rem;
+    }
+
     /* Rhythm: tighten the field stack, then set the optional role block apart as its
        own quieter beat with a touch more air above and below. */
     .chapter-join .volunteer-signup__form {

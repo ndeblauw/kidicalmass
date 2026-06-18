@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-06-18] assets | Photography library optimised + catalogued
+
+Processed all 58 raw photos in `docs/raw/assets/photography/` to **WebP** (long edge ≤ 1600 px, q80) via `sips` + `cwebp` — **~62 MB → ~13 MB**. Perceptual-hash (dHash) dedup against already-processed images found **9 raw photos already live in public** (8 exact-name + `ride-cinquantenaire-crowd.jpg` under a different name); skipped/removed those. Added **49 new optimised files** to `public/img/photography/` — 21 genuinely-new uploads (Facebook-named, given descriptive kebab-case slugs from a 5-agent vision pass) plus 28 older descriptively-named raw photos not yet in public. No template references broken (the 6 in-use files keep their `.jpg`/`.avif` paths). Rewrote the **Photography** section of [`design/60-asset-map.md`](design/60-asset-map.md) as six theme groups (rides/crowds · kids · cargo bikes · pink-vest volunteers · team · signs & merch) with a **Best for** page-matching column; **59 public files = 59 catalogue rows**, verified 1:1 (no orphans, no dead refs).
+
 ## [2026-06-17] build | Home (P-01) UI 🟠 → 🟢 + newsletter opt-in band
 
 Frederik approved the homepage surface pass — **P-01 UI 🟠 → 🟢** (Wire was already Frederik-approved). The closing slot's `<x-newsletter-cta>` was rebuilt as the opt-in band (design variant D): three envelope chips (green/red/blue) straddling a rounded white/yellow shoulder, with a gentle staggered scroll-in reveal (reduced-motion safe) and a white corner filler so the shoulder reads against white over the home hero's fixed blue parallax backdrop. CSS partial registered in `app.css`; `NewsletterCtaTest` covers the copy, the three chips, and the reveal hook. `Assets` stays 🟠 (self-hosted hero MP4 still wanted) and `Back` stays 🟠 (NextRide/location path). Roll-up moved Home into the Wire/UI 🟢 group. Dashboard parse verified: 23 rows, no warnings, no drift.

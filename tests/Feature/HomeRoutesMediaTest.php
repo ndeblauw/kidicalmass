@@ -2,15 +2,19 @@
 
 use function Pest\Laravel\followingRedirects;
 
-it('renders the three route photos and three illustrations on the home page', function () {
+it('renders the three route collages and three illustrations on the home page', function () {
     $response = followingRedirects()->get('/');
 
     $response->assertOk();
 
+    // Two photos per beat (PAT-20 collage), one collage per route section.
     $photos = [
-        'img/photography/kids-thumbsup-at-ride.jpg',
+        'img/photography/ride-child-thumbsup-red-helmet.webp',
+        'img/photography/ride-brussels-two-boys-at-start.webp',
         'img/photography/ride-cinquantenaire-crowd.jpg',
-        'img/photography/volunteers/volunteers-pink-vests-with-flag.jpg',
+        'img/photography/cargo-bike-mother-two-kids-flag.webp',
+        'img/photography/volunteers-pink-vest-group-cobbles.webp',
+        'img/photography/volunteer-fistbump-kids-park.webp',
     ];
 
     foreach ($photos as $photo) {

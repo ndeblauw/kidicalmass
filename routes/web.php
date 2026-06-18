@@ -61,6 +61,10 @@ Route::prefix('{locale}')
         Route::view('getting-started', 'getting-started')->name('getting-started');
         Route::view('find-a-bike', 'find-a-bike')->name('find-a-bike');
 
+        // Newsletter.
+        Route::view('nieuwsbrief', 'nieuwsbrief')->name('newsletter.show');
+        Route::view('nieuwsbrief/bevestigd', 'newsletter.confirmed')->name('newsletter.confirmed');
+
         // About section.
         Route::view('about', 'about.index')->name('about');
         Route::view('about/mission', 'about.mission')->name('about.mission');

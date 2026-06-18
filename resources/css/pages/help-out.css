@@ -1,4 +1,15 @@
 @layer components {
+    /* This page collapses to colour zones instead of alternating bands: a YELLOW
+       opener (intro + roles carousel), a WHITE middle (the deal sequence) and a
+       LIGHT-BLUE closer (the group finder). The panel itself carries the opening
+       yellow, so its rounded top reads as one band with the roles carousel below;
+       the later sections paint their own full-bleed bands over it. The "start a
+       group" coda lives on the separate YELLOW closing band (.ho-coda) below. */
+    .page-panel:has(.ho-intro) {
+        background-color: var(--color-kidical-yellow);
+        padding-bottom: 0;
+        z-index: 20;
+    }
     .ho-hero__lead {
         color: var(--color-kidical-yellow);
         font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
@@ -11,15 +22,42 @@
        The illustration + title are a fixed foreground anchor on the left; the cards
        scroll underneath them and fade into the yellow (mirrors the off-screen bleed
        on the right). Nav buttons sit on the white -> yellow seam, top-right. */
-    /* intro pitch sits vertically centred in its white zone, with room below for
-       the mascotte that pokes up from the band */
+    /* Opening pitch: the cyclist rides in from the left beside the text. The band is
+       full-bleed so the rear wheel can run off the left viewport edge (clipped by
+       overflow); the inner is capped to the page container so the pair stays aligned
+       with the rest of the page. */
     .ho-intro {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
         min-height: 46vh;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;   /* centre the pitch block in the page (text stays left-aligned) */
-        padding-bottom: 3rem;
+        align-items: center;
+        padding-block: clamp(3rem, 6vw, 5rem);
+        overflow: hidden;
+    }
+    .ho-intro__inner {
+        width: 100%;
+        max-width: 80rem;
+        margin-inline: auto;
+        padding-inline: 1rem;
+        display: flex;
+        align-items: center;
+        gap: clamp(1.5rem, 5vw, 5rem);
+    }
+    .ho-intro__mascot {
+        flex: 0 0 auto;
+        width: clamp(18rem, 30vw, 36rem);
+        height: auto;
+        /* pull left so the cyclist breaks past the viewport edge — the rear wheel
+           runs off-frame (clipped by the band's overflow) */
+        margin-left: clamp(-15rem, -11vw, -6rem);
+        transform: scaleX(-1);   /* face into the page, toward the pitch */
+        pointer-events: none;
+    }
+    .ho-intro__text {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 45ch;
     }
     .ho-intro .intro-text { margin-block: 0; }
 
@@ -35,7 +73,10 @@
         flex-direction: column;
         justify-content: center;     /* vertically centre the card row in the band */
         background: var(--color-kidical-yellow);
-        padding-block: clamp(2.5rem, 5vw, 3.25rem) clamp(2.5rem, 5vw, 3.5rem);
+        /* Roomy bottom padding: the band runs well below the cards so there's a clear
+           gap before the next section's photo bleeds up into the yellow (see .ho-deal
+           media offset). */
+        padding-block: clamp(2.5rem, 5vw, 3.25rem) clamp(14.5rem, 19vw, 18rem);
         overflow: visible;
 
         @media (min-width: 96rem) {
@@ -47,8 +88,9 @@
         column-gap: 1.6rem;
         list-style: none;
         margin: 0;
-        /* left pad starts the first card just past the mascotte */
-        padding: 1.6rem 1.5rem 0.8rem calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
+        /* left pad starts the first card just past the mascotte; the top/bottom pad
+           gives the card shadow room so overflow-x: auto doesn't clip it */
+        padding: 2rem 1.5rem 2.75rem calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
         scroll-padding-left: calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
         overflow-x: auto;
         scroll-snap-type: x mandatory;
@@ -62,23 +104,16 @@
        clear of this zone, so cards dissolve smoothly as they pass under it. */
     .ho-roles__fg {
         position: absolute;
-        left: 0;
-        top: 0;
+        inset: 0 auto 0 0;
         z-index: 3;
         width: calc(var(--ho-gutter) + var(--ho-fg-width));
         padding-left: var(--ho-gutter);
         pointer-events: none;
         display: flex;
         flex-direction: column;
+        justify-content: center;   /* centre the title against the card row */
         align-items: flex-start;
         gap: 0.4rem;
-    }
-    .ho-roles__mascot {
-        width: 20rem;
-        max-width: 52vw;
-        margin-top: -6rem;
-        transform: scaleX(-1);   /* face into the page, toward the cards */
-        object-fit: contain;
     }
     .ho-roles__title {
         color: var(--color-kidical-ink);
@@ -140,7 +175,9 @@
     /* phones: foreground becomes a stacked header, arrows drop to their own row,
        no scroll-behind fade (cards just bleed right and are swipeable) */
     @media (max-width: 47.99rem) {
-        .ho-intro { min-height: 0; padding-bottom: 0; }
+        .ho-intro { min-height: 0; padding-block: clamp(2rem, 8vw, 3rem); }
+        .ho-intro__inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        .ho-intro__mascot { width: 12rem; margin-left: -1.5rem; }
         .ho-roles { min-height: 0; justify-content: flex-start; }
         .ho-roles__fg {
             position: static;
@@ -150,7 +187,6 @@
             gap: 1rem;
             padding: 0 1rem;
         }
-        .ho-roles__mascot { width: 9rem; margin-top: 0; }
         .ho-roles__title { max-width: none; font-size: var(--text-4xl); }
         .ho-roles__nav {
             position: static;
@@ -160,20 +196,74 @@
         }
         .ho-roles__track { padding-left: 1rem; scroll-padding-left: 1rem; padding-top: 1rem; }
     }
+    /* white middle zone — a full-bleed white band over the yellow panel, sitting
+       between the yellow opener and the light-blue closer */
     .ho-deal {
-        padding-block: clamp(4.5rem, 9vw, 7.5rem);
+        --ho-deal-pt: clamp(4.5rem, 9vw, 7.5rem);
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: white;
+        padding-block: var(--ho-deal-pt) clamp(4.5rem, 9vw, 7.5rem);
     }
 
-    /* Help-out media: real photos in a rounded frame. Mobile = 4:5 card with shadow;
-       lg+ = fill the sticky frame edge-to-edge (the shared component stacks + crossfades). */
+    /* Help-out media: a small organic collage of two photos per beat, with a waving
+       cyclist doodle anchored bottom-left. The collage is a 1:1 stage and the photos
+       are absolutely placed by percentage, so the same scatter holds at every width.
+       lg+ = the shared component stacks + crossfades the two beats' collages. */
+    .ho-deal__collage {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+    }
+
+    /* Each photo is centred on its (x,y) via the `translate` property, which leaves
+       `transform` free to animate the settle (rotate + scale) on crossfade. */
     .ho-deal__photo {
+        position: absolute;
+        top: var(--ho-photo-y);
+        left: var(--ho-photo-x);
+        width: var(--ho-photo-w);
+        margin: 0;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        box-shadow: 0 18px 45px -14px color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
+        translate: -50% -50%;
+        transform: rotate(var(--ho-photo-r)); /* rest state */
+        transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .ho-deal__photo img {
+        display: block;
         width: 100%;
         aspect-ratio: 4 / 5;
         object-fit: cover;
         object-position: center 30%;
-        display: block;
-        border-radius: 1.5rem;
-        box-shadow: 0 18px 44px -18px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+
+    /* Two distinct scatters so the beats don't read as the same frame twice.
+       A (Wat je krijgt): lead top-left, trail bottom-right.
+       B (Wat we vragen): mirrored — lead top-right, trail lower-left, opposite tilts. */
+    .ho-deal__collage--a .ho-deal__photo--lead  { --ho-photo-w: 52%; --ho-photo-x: 30.96%; --ho-photo-y: 26.2%;  --ho-photo-r: -6deg; z-index: 1; }
+    .ho-deal__collage--a .ho-deal__photo--trail { --ho-photo-w: 48%; --ho-photo-x: 73.8%;  --ho-photo-y: 45.24%; --ho-photo-r: 6deg;  z-index: 2; }
+    .ho-deal__collage--b .ho-deal__photo--lead  { --ho-photo-w: 50%; --ho-photo-x: 68%;     --ho-photo-y: 29%;    --ho-photo-r: 5deg;  z-index: 2; }
+    .ho-deal__collage--b .ho-deal__photo--trail { --ho-photo-w: 53%; --ho-photo-x: 36%;     --ho-photo-y: 56%;    --ho-photo-r: -7deg; z-index: 1; }
+
+    /* The waving rider stays put — no settle motion; only the photos animate. */
+    .ho-deal__doodle {
+        position: absolute;
+        top: 82%;
+        left: 14%;
+        width: 46%;
+        height: auto;
+        translate: -50% -50%;
+        z-index: 3;
+        pointer-events: none;
+        filter: drop-shadow(0 10px 18px color-mix(in oklab, var(--color-kidical-ink), transparent 80%));
+    }
+
+    /* a touch more separation between the two stacked collages on mobile */
+    .ho-deal .scroll-sequence__media-sticky {
+        gap: 2.5rem;
     }
 
     .ho-deal .scroll-sequence {
@@ -182,32 +272,62 @@
     }
 
     @media (min-width: 1024px) {
+        /* Lift the photo column up so its top reaches ~7rem into the yellow carousel
+           band above. The sticky media is a positioned element that paints over the
+           (earlier, unstacked) yellow band, so the photo bleeds across the seam and
+           leads the eye down — the band's own bottom padding keeps the yellow tall
+           enough to receive it. */
+        .ho-deal .scroll-sequence__media {
+            margin-top: calc(-1 * (var(--ho-deal-pt) + 7rem));
+        }
+
+        /* slight lift so "Wat je krijgt" sits up near the photo top, while keeping
+           clear breathing room below the yellow band (a larger pull hides the
+           heading behind the band) */
+        .ho-deal .scroll-sequence__text {
+            margin-top: -2rem;
+        }
+
+        /* halve the vertical run of each block so the two lists sit closer together
+           (the second photo's crossfade is timed to this shorter scroll — see the
+           activeMargin override on the component) */
+        .ho-deal .scroll-sequence__block {
+            min-height: 39vh;
+        }
+
         .ho-deal .scroll-sequence__media-sticky {
-            border-radius: 1.75rem;
-            overflow: hidden;
-            box-shadow: 0 28px 64px -22px color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+            /* square stage; let the rotated photos + doodle spill past its edges */
+            height: auto;
+            aspect-ratio: 1 / 1;
+            overflow: visible;
         }
 
-        .ho-deal__photo {
-            aspect-ratio: auto;
-            border-radius: 0;
-            box-shadow: none;
-            transform: scale(1.05);
-            transition: opacity 0.8s ease, transform 1.3s ease;
+        /* Crossfade choreography (the opacity fade is the shared component's job).
+           The collage that isn't reading sits in a slightly "tossed" state — more
+           rotated and scaled up — so the active beat settles its photos into place
+           like snapshots being laid down. The trail photo and the doodle land a beat
+           later than the lead, making the swap feel handmade instead of a flat fade.
+           This lives lg+ only: on mobile both collages show at rest, no swap. */
+        .ho-deal__collage:not(.is-active) .ho-deal__photo--lead {
+            transform: rotate(calc(var(--ho-photo-r) * 1.7)) scale(1.07);
         }
 
-        .ho-deal__photo.is-active {
-            transform: scale(1);
+        .ho-deal__collage:not(.is-active) .ho-deal__photo--trail {
+            transform: rotate(calc(var(--ho-photo-r) * 2)) scale(1.09);
+        }
+
+        .ho-deal__collage.is-active .ho-deal__photo--trail {
+            transition-delay: 0.1s;
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .ho-deal__photo {
-            transform: none;
+        .ho-deal__photo,
+        .ho-deal__collage:not(.is-active) .ho-deal__photo,
+        .ho-deal__collage.is-active .ho-deal__photo {
+            transform: rotate(var(--ho-photo-r));
             transition: none;
-        }
-        .ho-deal__photo.is-active {
-            transform: none;
+            transition-delay: 0s;
         }
     }
     .ho-find {
@@ -230,11 +350,14 @@
     .ho-find__art {
         display: flex;
         justify-content: center;
+        align-self: start;   /* anchor to the top so the sign can rise into the white band */
     }
     .ho-find__art img {
         width: 100%;
         max-width: 13rem;
         height: auto;
+        /* lift the sign up across the seam so it dips into the white band above */
+        margin-top: calc(-1 * clamp(3rem, 7vw, 6rem));
     }
     .ho-find__body { min-width: 0; }
     .ho-find__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
@@ -244,12 +367,17 @@
         margin-top: 2rem;
         margin-bottom: 0.75rem;
     }
-    .ho-find__lead {
-        max-width: 54ch;
+    /* Shared lead treatment so the two light-blue sections speak in one voice:
+       same size, colour and line-height for the find pitch and the start coda. */
+    .ho-find__lead,
+    .ho-coda__body p:not(.ho-coda__cta) {
         font-size: clamp(var(--text-lg), 1.5vw, var(--text-2xl));
         line-height: 1.5;
-        margin-bottom: 2rem;
         color: var(--color-kidical-ink);
+    }
+    .ho-find__lead {
+        max-width: 54ch;
+        margin-bottom: 2rem;
     }
     /* nearest groups read as an inline, comma-separated run of standard body links */
     .ho-find__nearest {
@@ -259,13 +387,14 @@
     .ho-find__all {
         margin-top: 1rem;
     }
-    .ho-start {
-        margin-top: calc(var(--spacing) * 14);
-        overflow: visible;
+    /* Closing coda — full-bleed yellow band rendered in the layout's closing slot
+       (already full width there, so no 100vw trick), directly above the footer's
+       yellow field. Carries the "start a group" message that replaces the generic
+       membership CTA on this page. Content on the left, sign-holder on the right. */
+    .ho-coda {
+        padding-block: clamp(3rem, 6vw, 5rem);
     }
-    /* body left, sign-holder right; align-items:end lets the illustration sit on the
-       baseline and bleed past the bottom edge into the yellow closing band below. */
-    .ho-start__layout {
+    .ho-coda__layout {
         display: grid;
         gap: clamp(1.5rem, 4vw, 3rem);
         align-items: end;
@@ -274,20 +403,30 @@
             grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
         }
     }
-    .ho-start__body { max-width: 60ch; }
-    .ho-start__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
-    .ho-start p { margin-bottom: 0.75rem; }
-    .ho-start__cta { margin-top: 1.25rem; margin-bottom: 0; }
-    .ho-start__art {
+    .ho-coda__body { max-width: 54ch; }
+    .ho-coda__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
+    .ho-coda__body p { margin-bottom: 0.75rem; }
+    .ho-coda__cta { margin-top: 1.5rem; margin-bottom: 0; }
+    .ho-coda__art {
         display: flex;
         justify-content: center;
         align-self: end;
     }
-    .ho-start__art img {
+    .ho-coda__art img {
         width: 100%;
         max-width: 19rem;
         height: auto;
-        margin-bottom: calc(-1 * clamp(2rem, 6vw, 4rem));
+    }
+    /* Desktop: anchor the holder to the top of the band and lift it so the raised
+       heart sign dips up across the seam into the light-blue finder band above.
+       (.ho-coda is z-30, above the panel's z-20, so the dip paints over the blue.) */
+    @media (min-width: 64rem) {
+        .ho-coda__art {
+            align-self: start;
+        }
+        .ho-coda__art img {
+            margin-top: calc(-1 * clamp(5rem, 10vw, 9rem));
+        }
     }
 
     @media (max-width: 767px) {
@@ -304,15 +443,13 @@
             padding-bottom: clamp(2rem, 8vw, 3.5rem);
         }
 
-        /* "Start je groep" coda: 56px top margin is generous before a short closing
-           section — halve to breathing room, not dead space. The sign-holder bleeds
-           less on phones, where it stacks below the body. */
-        .ho-start {
-            margin-top: clamp(2rem, 6vw, 3.5rem);
+        /* "Start je groep" coda on the yellow band: trim padding and the holder so
+           the short closing section reads tight on a phone. */
+        .ho-coda {
+            padding-block: clamp(2.5rem, 8vw, 3.5rem);
         }
-        .ho-start__art img {
-            max-width: 11rem;
-            margin-bottom: calc(-1 * clamp(1rem, 4vw, 2rem));
+        .ho-coda__art img {
+            max-width: 12rem;
         }
     }
 }

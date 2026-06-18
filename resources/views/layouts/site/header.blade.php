@@ -4,31 +4,26 @@
         ? Auth::user()->groups()->where('invisible', false)->orderBy('name')->get()
         : collect();
 
-    // Homepage gets the oversized intro logo that shrinks on first scroll.
     $isHome = request()->routeIs('home');
 @endphp
-<header class="site-header @if ($isHome) site-header--intro @endif" x-data="{ mobileOpen: false, scrolled: false }"
-        x-init="scrolled = window.scrollY > 16"
-        @scroll.window="scrolled = window.scrollY > 16">
+
+{{-- Logo: fixed at hero z-level so page panels scroll over it --}}
+<div class="site-logo-anchor @if ($isHome) site-logo-anchor--intro @endif">
+    <div class="container mx-auto px-4">
+        <a href="{{ route('home') }}" class="site-logo-anchor__link">
+            <img
+                src="{{ asset('img/logos/footer-logo.avif') }}"
+                alt="Kidical Mass"
+                class="site-nav__logo w-auto"
+            >
+        </a>
+    </div>
+</div>
+
+<header class="site-header @if ($isHome) site-header--intro @endif" x-data="{ mobileOpen: false }">
     <div class="container mx-auto px-4">
         <div class="site-nav">
-            <div class="site-nav__bar flex items-center justify-between gap-4">
-                {{-- Logo: bare, no backing --}}
-                <a href="{{ route('home') }}" class="site-nav__reveal-logo flex items-center"
-                    :class="{ 'site-nav__reveal-logo--hidden': scrolled }"
-                    :tabindex="scrolled ? -1 : null"
-                    :aria-hidden="scrolled ? 'true' : null">
-                    <img
-                        src="{{ asset('img/logos/footer-logo.avif') }}"
-                        alt="Kidical Mass"
-                        class="site-nav__logo w-auto"
-                        :class="{
-                            'site-nav__logo--hidden': scrolled,
-                            @if ($isHome) 'site-nav__logo--xl': !scrolled, @endif
-                        }"
-                    >
-                </a>
-
+            <div class="site-nav__bar flex items-center justify-end gap-4">
                 <!-- Desktop: nav links in their own white band + support CTA (+ member items) -->
                 <div class="site-nav__group site-nav__reveal-menu hidden md:flex">
                     <flux:navbar class="site-nav__links">
@@ -52,7 +47,7 @@
                             </a>
                         @endforeach
                         <flux:dropdown>
-                            <flux:button variant="ghost" icon="user-circle" aria-label="Account" />
+                            <flux:button variant="ghost" icon="ellipsis-vertical" aria-label="Account" class="account-nav-btn" />
                             <flux:menu>
                                 <flux:menu.item href="{{ route('settings') }}" wire:navigate>{{ __('Instellingen') }}</flux:menu.item>
                                 @if(Auth::user()->canAccessFilament())
@@ -75,7 +70,7 @@
                         <flux:icon name="heart" variant="solid" class="size-4" aria-hidden="true" />
                         {{ __('support.nav') }}
                     </a>
-                    <flux:button icon="bars-3" variant="ghost" x-on:click="mobileOpen = !mobileOpen" aria-label="Toggle menu" />
+                    <flux:button icon="bars-3" variant="ghost" x-on:click="mobileOpen = !mobileOpen" aria-label="Toggle menu" class="mobile-menu-toggle" />
                 </div>
             </div>
 

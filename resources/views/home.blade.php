@@ -45,7 +45,7 @@
              A right-facing rider (flag up, matching the "fietsparade" lead) anchors the
              left fifth from md up and is pulled up over the panel's rounded top edge, so
              a sliver shows in the blue hero view before you scroll. See .home-nextride. --}}
-        <section class="home-nextride scroll-mt-28 md:scroll-mt-48" id="volgende-rit">
+        <section class="home-nextride scroll-mt-28 md:scroll-mt-48 pt-12" id="volgende-rit">
             <div class="home-nextride__art" aria-hidden="true">
                 <img src="{{ asset('img/illustrations/rider-with-flag.svg') }}" alt="" loading="lazy">
             </div>
@@ -79,7 +79,7 @@
                         <x-ride-day :period-key="$periodKey" :rows="$rows" />
                     @endforeach
 
-                    <div class="flex justify-end">
+                    <div class="flex justify-start">
                         <x-cta-button :href="route('activities.index')" variant="secondary">Alle ritten</x-cta-button>
                     </div>
                 @endif
@@ -91,13 +91,35 @@
              No is-active on the first item, so it rolls in like the rest on first view.
              Mobile: each section shows its own illustration inline (home.css), no ride. --}}
         <x-scroll-sequence media-side="right" class="home-routes" active-margin="-12% 0px -61% 0px">
+            @php
+                // One collage per beat (PAT-20). Each is a [data-seq-media] item the
+                // scroll-sequence crossfades; the riding bike below rides per beat.
+                $routeCollages = [
+                    [
+                        ['src' => 'img/photography/ride-child-thumbsup-red-helmet.webp', 'alt' => 'Stralende jongen met rode helm steekt zijn duim op tijdens een rit.', 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/ride-brussels-two-boys-at-start.webp', 'alt' => 'Twee jongens staan arm in arm met hun fietsen aan de start van een rit.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 40%'],
+                    ],
+                    [
+                        ['src' => 'img/photography/ride-cinquantenaire-crowd.jpg', 'alt' => 'Een grote groep gezinnen fietst samen onder de triomfboog van het Jubelpark.', 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => 'Lachende vrouw fietst met twee kinderen in haar bakfiets en een Kidical Mass-vlag.', 'x' => '36%', 'y' => '62%', 'w' => '50%', 'r' => '-6deg'],
+                    ],
+                    [
+                        ['src' => 'img/photography/volunteers-pink-vest-group-cobbles.webp', 'alt' => 'Een bende vrijwilligers in roze hesjes lacht en zwaait op een plein.', 'x' => '40%', 'y' => '32%', 'w' => '56%', 'r' => '-6deg', 'pos' => 'center 40%'],
+                        ['src' => 'img/photography/volunteer-fistbump-kids-park.webp', 'alt' => 'Vrijwilliger geeft een boks aan een klein kind tussen fietsende kinderen in het park.', 'x' => '71%', 'y' => '63%', 'w' => '48%', 'r' => '6deg'],
+                    ],
+                ];
+            @endphp
             <x-slot:media>
-                {{-- A centred square stage holds the crossfading photos and the
-                     illustration that hangs off the photo's bottom edge. --}}
+                {{-- A centred square stage holds the crossfading collages and the
+                     illustration that rides off the stage's bottom edge per beat. --}}
                 <div class="home-routes__stage">
-                    <img class="home-routes__photo is-active" data-seq-media="0" src="{{ asset('img/photography/kids-thumbsup-at-ride.jpg') }}" alt="Twee kinderen met fietshelm steken vrolijk hun duim op tijdens een Kidical Mass" loading="lazy">
-                    <img class="home-routes__photo" data-seq-media="1" src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="Een grote groep gezinnen fietst samen weg onder de triomfboog van het Jubelpark" loading="lazy">
-                    <img class="home-routes__photo" data-seq-media="2" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
+                    @foreach ($routeCollages as $i => $collagePhotos)
+                        <x-photo-collage
+                            class="home-routes__media{{ $i === 0 ? ' is-active' : '' }}"
+                            :photos="$collagePhotos"
+                            :reveal="false"
+                            data-seq-media="{{ $i }}" />
+                    @endforeach
 
                     <img class="home-routes__illu" data-seq-media="0" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" loading="lazy">
                     <img class="home-routes__illu" data-seq-media="1" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" loading="lazy">
@@ -109,14 +131,14 @@
                 <img class="home-routes__block-illu" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true" loading="lazy">
                 <h2 class="text-kidical-ink">Nieuw hier?</h2>
                 <p class="text-kidical-ink/70">Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.</p>
-                <p><x-cta-button :href="route('getting-started')" variant="secondary">Zo werkt een rit</x-cta-button></p>
+                <p><x-cta-button :href="route('getting-started')" variant="secondary" disc="green">Zo werkt een rit</x-cta-button></p>
             </div>
 
             <div class="scroll-sequence__block" data-seq-block="1">
                 <img class="home-routes__block-illu" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" aria-hidden="true" loading="lazy">
                 <h2 class="text-kidical-ink">Vind je lokale groep</h2>
                 <p class="text-kidical-ink/70">Kidical Mass is geen organisatie ver weg, maar de mensen in jouw buurt. Overal in Vlaanderen en Brussel plannen lokale groepen hun eigen ritten. Vind de groep bij jou, en je weet meteen wanneer de volgende rit vertrekt en wie erachter zit.</p>
-                <p><x-cta-button :href="route('groups.index')" variant="secondary">Vind je groep</x-cta-button></p>
+                <p><x-cta-button :href="route('groups.index')" variant="secondary" disc="orange">Vind je groep</x-cta-button></p>
             </div>
 
             <div class="scroll-sequence__block" data-seq-block="2">

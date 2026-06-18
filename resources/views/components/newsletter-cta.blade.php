@@ -1,7 +1,6 @@
 @props([
-    'heading' => 'Elke maand de nieuwste ritten in je bus',
+    'heading' => 'Krijg de nieuwste ritten in je mailbox',
     'lead' => 'Schrijf je in voor de maandelijkse mail. Zo weet je als eerste waar en wanneer er bij jou in de buurt gefietst wordt.',
-    'note' => 'Geen spam, beloofd. Uitschrijven met één klik.',
 ])
 
 {{-- Page-owned closing block: newsletter sign-up on the full-bleed yellow band.
@@ -11,8 +10,8 @@
      blue) straddles that seam and gently settles in when the band scrolls into view.
      Reveal is gated on is-ready (added by Alpine) so the chips are never hidden
      without JS, and neutralised under prefers-reduced-motion — see newsletter-cta.css.
-     Not wired yet — the form has no action and the submit is inert; backend hook
-     comes later. Raw <h2> inherits the @layer base heading scale. --}}
+     The CTA links to the dedicated signup page (newsletter.show); the form itself
+     lives there. Raw <h2> inherits the @layer base heading scale. --}}
 <section
     {{ $attributes->merge(['class' => 'newsletter-cta relative z-10 bg-kidical-yellow']) }}
     x-data="{
@@ -42,23 +41,10 @@
     </span>
 
     <div class="container mx-auto px-4 py-20 flex flex-col items-center gap-6 text-center">
-        <h2 class="max-w-3xl">{{ $heading }}</h2>
+        <h2 class="max-w-3xl mt-12">{{ $heading }}</h2>
 
         <p class="newsletter-cta__lead max-w-xl">{{ $lead }}</p>
 
-        <form class="newsletter-cta__form" method="POST" action="" onsubmit="return false">
-            <label for="newsletter-email" class="sr-only">Je e-mailadres</label>
-            <input
-                id="newsletter-email"
-                type="email"
-                name="email"
-                autocomplete="email"
-                placeholder="jouw@email.be"
-                class="newsletter-cta__input"
-            >
-            <x-cta-button variant="blue" icon="arrow">Schrijf me in</x-cta-button>
-        </form>
-
-        <p class="newsletter-cta__note">{{ $note }}</p>
+        <x-cta-button :href="route('newsletter.show', ['locale' => app()->getLocale()])" variant="blue" icon="arrow">Schrijf me in</x-cta-button>
     </div>
 </section>

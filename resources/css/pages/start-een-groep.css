@@ -7,6 +7,22 @@
  */
 
 @layer components {
+    /* INTRO — opening copy with the "start" CTA beside it (right column,
+       vertically centred to the intro), stacking below it on narrow viewports.
+       The intro-text owns its own vertical rhythm (margin-block). */
+    .sg-intro {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-intro {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 2.5rem;
+        }
+    }
+
     /* DE DEAL — jij brengt / wij dragen, side by side on wide viewports. */
     .sg-deal {
         margin-block: 4rem;
@@ -28,9 +44,17 @@
         }
     }
 
-    /* WAT HET ÉCHT VRAAGT — the honest filter. Plain, calm, no card. */
+    /* WAT HET ÉCHT VRAAGT — the honest filter. Plain, calm, no card.
+       The secondary beats (asks + faq) step a clear notch down the heading scale
+       (size only, full ink — no gray), so the loud beats (deal, proof, form) carry
+       the page. A filter that whispers is more confident than one that shouts. */
     .sg-asks {
-        margin-block: 4rem;
+        margin-block: 3rem;
+    }
+
+    .sg-asks__title {
+        font-size: var(--text-3xl);
+        line-height: 1.25;
     }
 
     .sg-asks__lead {
@@ -38,46 +62,247 @@
         margin-bottom: 1.5rem;
     }
 
-    .sg-asks__list,
-    .sg-support__list {
+    /* Red chevron bullets = something expected of you — the same "ask" chip as the
+       Deal's "Wat jij brengt" column (<x-titled-list-block variant="ask">), so the
+       page speaks one bullet language. */
+    .sg-asks__list {
         display: grid;
-        gap: 0.75rem;
-        padding-left: 1.25rem;
-        list-style: disc;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
     }
 
-    /* ER IS ANIMO — proof band on the brand light-blue. */
+    .sg-asks__list li {
+        position: relative;
+        padding-left: 2.9rem;
+        line-height: 1.4;
+    }
+
+    .sg-asks__list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.1em;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 32%;
+        transform: rotate(-4deg);
+        background-color: var(--color-kidical-red);
+        background-size: 64%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    /* ER IS ANIMO — editorial photo wall proving the movement exists. Sits before the
+       FAQ; the "Er is animo" heading lives as the last card in the gallery itself. */
     .sg-proof {
-        margin-block: 4rem;
-        padding: 3rem 2rem;
-        border-radius: var(--radius-card);
+        margin-block: 4rem 3rem;
+    }
+
+    /* Gallery — 2-col stack on mobile, editorial 12-col fixed-placement on desktop.
+       Explicit nth-child placement means the layout is deliberate, not auto-packed. */
+    .sg-proof__gallery {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: calc(var(--spacing) * 3);
+    }
+
+    .sg-proof__cell {
+        overflow: hidden;
+        border-radius: calc(var(--radius-card) - 0.25rem);
+    }
+
+    .sg-proof__img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .sg-proof__cell:hover .sg-proof__img {
+        transform: scale(1.04);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sg-proof__img { transition: none; }
+    }
+
+    /* Animo card — spans full width on mobile so the text has room. */
+    .sg-proof__cell--animo {
+        grid-column: 1 / -1;
         background-color: var(--color-kidical-light-blue);
-        text-align: center;
     }
 
-    .sg-proof__lead {
-        max-width: 44rem;
+    .sg-proof__animo-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        height: 100%;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-proof__gallery {
+            grid-template-columns: repeat(12, 1fr);
+            gap: calc(var(--spacing) * 4);
+        }
+
+        /* row 1: 5 + 4 + 3(tall) */
+        .sg-proof__cell:nth-child(1) { grid-column: span 5; }
+        .sg-proof__cell:nth-child(2) { grid-column: span 4; }
+        /* Portrait tile — height driven by 2-row grid span */
+        .sg-proof__cell:nth-child(3) { grid-column: span 3; grid-row: span 2; }
+        /* row 2: 3 + 6 + [3 cont.] */
+        .sg-proof__cell:nth-child(4) { grid-column: span 3; }
+        .sg-proof__cell:nth-child(5) { grid-column: span 6; }
+        /* Last row: photo 7-wide + animo card 5-wide */
+        .sg-proof__cell:nth-child(6) { grid-column: span 7; }
+        .sg-proof__cell:nth-child(7) { grid-column: span 5; }
+
+        .sg-proof__cell:nth-child(3) .sg-proof__img {
+            aspect-ratio: auto;
+            height: 100%;
+        }
+    }
+
+    /* VEELGESTELDE VRAGEN — full-bleed section, content left + illustration slides in
+       from the right. Matches the getting-started FAQ layout pattern. */
+    .sg-faq-section {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-block: 4rem 0;
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+
+    .sg-faq-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        max-width: 80rem;
         margin-inline: auto;
+        padding-inline: 1rem;
+        align-items: start;
+    }
+
+    .sg-faq__title {
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--color-kidical-red);
+        margin-bottom: 1.5rem;
+    }
+
+    .sg-faq-illustration {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .sg-faq-layout {
+            max-width: none;
+            margin-inline: 0;
+            padding-inline: 0;
+            grid-template-columns:
+                minmax(1rem, calc((100vw - 80rem) / 2 + 1rem))
+                minmax(0, 34rem)
+                1fr;
+            column-gap: clamp(2rem, 5vw, 6rem);
+        }
+
+        .sg-faq-content {
+            grid-column: 2;
+        }
+
+        .sg-faq-illustration {
+            display: block;
+            grid-column: 3;
+            overflow: clip;
+        }
+
+        .sg-faq-illustration img {
+            width: 108%;
+            height: auto;
+            aspect-ratio: 463 / 445;
+            object-fit: contain;
+            transform: translateX(115%);
+            opacity: 0;
+            transition:
+                transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s ease;
+            will-change: transform;
+        }
+
+        .sg-faq-illustration.is-in img {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sg-faq-illustration img {
+            transform: none;
+            opacity: 1;
+            transition: none;
+        }
+    }
+
+    /* INTENT-FORM — the climax. Full-bleed yellow band fused with the footer
+       (rendered in the layout's `closing` slot). A white card floats on it;
+       two columns on desktop, welcome text left (vertically centred), form right. */
+    .sg-cta {
+        position: relative;
+        z-index: 10;
+        background-color: var(--color-kidical-yellow);
+        padding-block: clamp(4rem, 7vw, 6.5rem);
+        scroll-margin-top: 6rem;
+    }
+
+    .sg-cta__aside h2 {
+        font-size: clamp(var(--text-4xl), 3.5vw, var(--text-5xl));
+        line-height: 1.1;
+    }
+
+    .sg-cta__aside p {
         margin-top: 1rem;
+        max-width: 36ch;
     }
 
-    /* JE STAAT ER NIET ALLEEN VOOR */
-    .sg-support {
-        margin-block: 4rem;
+    /* The form (and its success state) is the white floating card on the yellow. */
+    .sg-cta .volunteer-signup__form,
+    .sg-cta .volunteer-signup__success {
+        background: white;
+        border-radius: var(--radius-card);
+        padding: clamp(1.5rem, 3.5vw, 2.25rem);
+        box-shadow: 0 22px 50px -28px color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
 
-    .sg-support__list {
-        margin-top: 1.5rem;
+    @media (min-width: 64rem) {
+        .sg-cta__panel {
+            display: grid;
+            grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+            gap: clamp(2rem, 4vw, 3.5rem);
+            align-items: center;
+        }
+
+        .sg-cta__aside {
+            order: 1;
+        }
+
+        .sg-cta__form-col {
+            order: 2;
+        }
     }
 
-    /* INTENT-FORM — the climax. */
-    .sg-form {
-        margin-block: 4rem 2rem;
-        max-width: 40rem;
-    }
-
-    .sg-form__lead {
-        margin-block: 1rem 2rem;
+    .sg-cta__secondary {
+        margin-top: 2rem;
+        text-align: center;
+        font-size: var(--text-sm);
     }
 
     /* Two-path comfort choice (radio group). */

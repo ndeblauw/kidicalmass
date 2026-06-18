@@ -15,14 +15,19 @@
 
     <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/volunteer-with-wrench.svg">
 
-    {{-- PITCH (contained) — vertically centred in its white zone so it clears the
-         mascotte that pokes up from the band below --}}
+    {{-- PITCH — the cyclist rides in from the left, breaking out past the viewport
+         edge (rear wheel runs off-frame), and sits beside the opening pitch. --}}
     <div class="ho-intro">
-        <x-intro-text>
-            <p>Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die
-            meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten, en het
-            goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.</p>
-        </x-intro-text>
+        <div class="ho-intro__inner">
+            <img class="ho-intro__mascot" src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" loading="lazy">
+            <div class="ho-intro__text">
+                <x-intro-text>
+                    <p>Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die
+                    meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten, en het
+                    goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.</p>
+                </x-intro-text>
+            </div>
+        </div>
     </div>
 
     {{-- HOE JE KAN HELPEN — carousel (zelfde aanpak als de teamband op de groep-pagina).
@@ -64,10 +69,9 @@
         x-init="$nextTick(() => update())"
         x-on:resize.window="update()">
 
-        {{-- foreground anchor: mascotte pokes over the top seam, title sits under it.
-             Cards scroll behind it and fade out (opacity) as they pass under. --}}
+        {{-- foreground anchor: the title holds the left fade zone. Cards scroll behind
+             it and fade out (opacity) as they pass under. --}}
         <div class="ho-roles__fg" x-ref="fg">
-            <img class="ho-roles__mascot" src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" loading="lazy">
             <h2 id="ho-roles-title" class="ho-roles__title">Hoe je kan helpen</h2>
         </div>
 
@@ -87,14 +91,31 @@
         </ul>
     </section>
 
-    {{-- WAT MEEDOEN INHOUDT — scroll-sequence (gedeelde component). De foto rechts
-         crossfade't naar het blok dat je leest. Mobiel: beide foto's gestapeld, geen swap. --}}
+    {{-- WAT MEEDOEN INHOUDT — scroll-sequence (gedeelde component). De collage rechts
+         crossfade't naar het blok dat je leest; een zwaaiende fietser ankert linksonder.
+         Mobiel: beide collages gestapeld, geen swap. --}}
     <section class="ho-deal">
         <div class="container mx-auto px-4">
-            <x-scroll-sequence media-side="right">
+            <x-scroll-sequence media-side="right" active-margin="-25% 0px -66% 0px">
                 <x-slot:media>
-                    <img class="ho-deal__photo is-active" data-seq-media="0" src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}" alt="Een warme bende vrijwilligers in hesjes zwaait blij met de Kidical Mass-vlag" loading="lazy">
-                    <img class="ho-deal__photo" data-seq-media="1" src="{{ asset('img/photography/volunteers/volunteer-selfie-stop-sign.jpg') }}" alt="Vrijwilliger in roze hesje houdt met een stopbord een kruispunt vrij" loading="lazy">
+                    <div class="ho-deal__collage ho-deal__collage--a is-active" data-seq-media="0">
+                        <figure class="ho-deal__photo ho-deal__photo--lead">
+                            <img src="{{ asset('img/photography/ride-trio-pink-vest-lei-portrait.webp') }}" alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" loading="lazy">
+                        </figure>
+                        <figure class="ho-deal__photo ho-deal__photo--trail">
+                            <img src="{{ asset('img/photography/team-blue-sweatshirts-celebration.webp') }}" alt="Organisatoren in blauwe truien juichen samen onder de lichtjes tijdens een vrijwilligersfeest" loading="lazy">
+                        </figure>
+                        <img class="ho-deal__doodle" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true">
+                    </div>
+                    <div class="ho-deal__collage ho-deal__collage--b" data-seq-media="1">
+                        <figure class="ho-deal__photo ho-deal__photo--lead">
+                            <img src="{{ asset('img/photography/ride-crowd-intersection.webp') }}" alt="Twee vrijwilligers in roze hesje houden samen een kruispunt in het oog terwijl de stoet passeert" loading="lazy">
+                        </figure>
+                        <figure class="ho-deal__photo ho-deal__photo--trail">
+                            <img src="{{ asset('img/photography/volunteers-season-launch-meetup.webp') }}" alt="Vrijwilligers kletsen gezellig na tijdens de jaarlijkse meetup van de Roze Hesjes" loading="lazy">
+                        </figure>
+                        <img class="ho-deal__doodle" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true">
+                    </div>
                 </x-slot:media>
 
                 <div class="scroll-sequence__block" data-seq-block="0">
@@ -154,29 +175,6 @@
         </div>
     </section>
 
-    {{-- NOG GEEN LOKALE GROEP? quiet coda — funnels to the start-a-group page
-         (replaces the old mailto:bike@ black hole, D-12). The sign-holder bleeds
-         down into the yellow closing band below. --}}
-    <section class="ho-start">
-        <div class="ho-start__layout">
-            <div class="ho-start__body">
-                <h2 class="ho-start__title">Nog geen lokale groep in je buurt?</h2>
-                <p>
-                    Misschien start jij er een. Een kernteam van twee of drie mensen en wat goesting volstaan
-                    om te beginnen, de rest doen we samen. We tonen je precies wat het inhoudt, en je kan eerst
-                    praten met iemand die het al deed.
-                </p>
-                <p class="ho-start__cta">
-                    <x-cta-button :href="route('groups.start')" variant="secondary">Zo start je een groep</x-cta-button>
-                </p>
-            </div>
-
-            <div class="ho-start__art" aria-hidden="true">
-                <img src="{{ asset('img/illustrations/heart-sign-holder.svg') }}" alt="" loading="lazy">
-            </div>
-        </div>
-    </section>
-
     {{-- Scroll reveal for the role cards (mirrors the ride page) --}}
     @push('scripts')
     <script>
@@ -209,8 +207,28 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Geef de straat terug aan kinderen"
-            :href="route('membership')" label="Word lid" icon="heart" />
+        {{-- Closing coda on the yellow band: the "start a group" route replaces the
+             generic membership CTA on this page. Content left, sign-holder right. --}}
+        <section class="ho-coda relative z-30 bg-kidical-yellow">
+            <div class="container mx-auto px-4">
+                <div class="ho-coda__layout">
+                    <div class="ho-coda__body">
+                        <h2 class="ho-coda__title">Nog geen lokale groep in je buurt?</h2>
+                        <p>
+                            Misschien start jij er een. Twee of drie buren en wat goesting volstaan,
+                            de rest doen we samen.
+                        </p>
+                        <p class="ho-coda__cta">
+                            <x-cta-button :href="route('groups.start')" variant="blue">Zo start je een groep</x-cta-button>
+                        </p>
+                    </div>
+
+                    <div class="ho-coda__art" aria-hidden="true">
+                        <img src="{{ asset('img/illustrations/heart-sign-holder.svg') }}" alt="" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
     </x-slot:closing>
 
 </x-layouts::site>

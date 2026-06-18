@@ -104,41 +104,6 @@
     .newsletter-cta__lead {
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
     }
-
-    .newsletter-cta__form {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.75rem;
-        width: 100%;
-        max-width: 34rem;
-    }
-
-    .newsletter-cta__input {
-        flex: 1 1 16rem;
-        min-width: 0;
-        padding: 0.9rem 1.4rem;
-        border: 2px solid transparent;
-        border-radius: 999px;
-        background: white;
-        color: var(--color-kidical-ink);
-        font: inherit;
-        box-shadow: var(--shadow-card);
-    }
-
-    .newsletter-cta__input::placeholder {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
-    }
-
-    .newsletter-cta__input:focus {
-        outline: none;
-        border-color: var(--color-kidical-blue);
-    }
-
-    .newsletter-cta__note {
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
-    }
 }
 
 /* Quiet for motion-sensitive users: the chips simply sit at rest, no rise or fade. */

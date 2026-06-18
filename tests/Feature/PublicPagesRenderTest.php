@@ -10,6 +10,7 @@ it('renders public pages without server errors', function (string $uri) {
     '/nl', '/nl/events', '/nl/chapters', '/nl/getting-started',
     '/nl/steun-ons', '/nl/help-out', '/nl/find-a-bike', '/nl/about',
     '/nl/about/press', '/nl/contact', '/nl/privacy',
+    '/nl/nieuwsbrief', '/nl/nieuwsbrief/bevestigd',
 ]);
 
 it('renders the event detail page', function () {

@@ -55,7 +55,7 @@ it('renders the Kalender with NL chrome and no English/em-dashes', function () {
         ->assertSee('Spring op de fiets, wij rijden samen.')
         ->assertSee('Waar wil je fietsen?')           // location-first filter is the primary control
         ->assertSee('Bekijk voorbije ritten')          // period demoted to a link
-        ->assertSee('Mis geen fietstocht')
+        ->assertSee('Mis geen rit')
         ->assertDontSee('Activities')
         ->assertDontSee('Find a ride near you')
         ->assertDontSee('—');

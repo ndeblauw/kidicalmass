@@ -7,7 +7,9 @@
 
             @if ($this->nextActivity)
                 <p>Wacht niet op de mail. Kom alvast langs op onze volgende rit:</p>
-                <x-ride-row :activity="$this->nextActivity" :show-date="true" class="max-w-sm" />
+                <div class="volunteer-signup__next-ride">
+                    <x-ride-row :activity="$this->nextActivity" :show-date="true" />
+                </div>
             @endif
         </div>
     @else

@@ -134,17 +134,17 @@
                         @endforeach
                     </div>
                 @endif
+
+                {{-- Opt-in normally lives as the last tile of the gallery below; when there is
+                     no gallery (≤1 photo) it falls back to here, right under the rides in the
+                     same column, so the "schrijf je hieronder in" note above keeps its promise. --}}
+                @if ($galleryRest->isEmpty())
+                    <div class="mt-12">
+                        <x-newsletter-optin :group="$group" />
+                    </div>
+                @endif
             </div>
         </div>
-
-        {{-- Opt-in normally lives as the last tile of the gallery below; when there is no
-             gallery (≤1 photo) it falls back to here so the "schrijf je hieronder in" note
-             above keeps its promise. --}}
-        @if ($galleryRest->isEmpty())
-            <div class="mt-12">
-                <x-newsletter-optin :group="$group" />
-            </div>
-        @endif
     </section>
 
     {{-- 3b · IN BEELD — the group's gallery, editorial varied tiles + an inline lightbox.
@@ -290,48 +290,34 @@
                             @endforeach
                         </ul>
                     </div>
-
-                    {{-- HELP MEE — recruitment CTA. On-demand reveal: the band stays light,
-                         the helper expands the group-specific form right under the button.
-                         Auto-open via ?intent=volunteer. --}}
-                    <div class="chapter-join scroll-mt-24" x-data="{ open: {{ request('intent') === 'volunteer' ? 'true' : 'false' }} }">
-                        <div class="chapter-join__cta" x-show="!open">
-                            <h2>Help mee in {{ $gemeente }}</h2>
-                            <div class="chapter-join__actions">
-                                <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-on:click.prevent="open = true">Ja, ik wil meehelpen</x-cta-button>
-                                <x-cta-button variant="secondary" href="{{ route('volunteer') }}">Meer over meehelpen</x-cta-button>
-                            </div>
-                        </div>
-
-                        <div class="chapter-join__panel" x-show="open" x-cloak>
-                            <div class="chapter-join__aside">
-                                <h2 class="chapter-join__welcome">Fijn dat je wil meehelpen in {{ $gemeente }}!</h2>
-                                <p class="chapter-join__welcome-sub">Je hoeft niets speciaals te kunnen, goesting volstaat. Laat je gegevens achter, dan nemen we snel contact met je op.</p>
-                            </div>
-                            <div class="chapter-join__form-col">
-                                <livewire:chapter-volunteer-signup :group="$group" />
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    {{-- Empty-team state: stays warm, the form leads (the absence is an invitation). --}}
-                    <div class="chapter-team-band__top">
-                        <figure class="chapter-team-band__media">
-                            <img src="{{ asset('img/photography/volunteers/volunteers-pink-vests-with-flag.jpg') }}"
-                                alt="Vrijwilligers in hesjes zwaaien blij met de Kidical Mass-vlag tijdens een rit" loading="lazy">
-                        </figure>
-                        <div class="chapter-team-band__intro">
-                            <h2 class="chapter-section__title">Help {{ $gemeente }} op gang</h2>
-                            <p class="chapter-team__pitch">
-                                Er is nog geen team. Iemand moet de eerste zijn, en dat hoef je niet alleen te doen. Laat hieronder van je horen, wij helpen je op weg.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="chapter-join chapter-join--open scroll-mt-24">
-                        <livewire:chapter-volunteer-signup :group="$group" />
-                        <p class="chapter-team__more"><a href="{{ route('volunteer') }}" class="link-plain">Meer over meehelpen →</a></p>
-                    </div>
                 @endif
+
+                {{-- HELP MEE — recruitment CTA. On-demand reveal: the band stays light,
+                     the helper expands the group-specific form right under the button.
+                     Auto-open via ?intent=volunteer. --}}
+                <div class="chapter-join scroll-mt-24" x-data="{ open: {{ request('intent') === 'volunteer' ? 'true' : 'false' }} }">
+                    <div class="chapter-join__cta"
+                         x-show="!open"
+                         x-transition:leave="chapter-join__cta--leave"
+                         x-transition:leave-start="chapter-join__cta--leave-start"
+                         x-transition:leave-end="chapter-join__cta--leave-end">
+                        <h2>Help mee in {{ $gemeente }}</h2>
+                        <div class="chapter-join__actions">
+                            <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-on:click.prevent="open = true">Ja, ik wil meehelpen</x-cta-button>
+                            <x-cta-button variant="secondary" href="{{ route('volunteer') }}">Meer over meehelpen</x-cta-button>
+                        </div>
+                    </div>
+
+                    <div class="chapter-join__panel" x-show="open" x-cloak>
+                        <div class="chapter-join__aside">
+                            <h2 class="chapter-join__welcome">Fijn dat je wil meehelpen in {{ $gemeente }}!</h2>
+                            <p class="chapter-join__welcome-sub">Je hoeft niets speciaals te kunnen, goesting volstaat. Laat je gegevens achter, dan nemen we snel contact met je op.</p>
+                        </div>
+                        <div class="chapter-join__form-col">
+                            <livewire:chapter-volunteer-signup :group="$group" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </x-slot:closing>

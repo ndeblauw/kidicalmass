@@ -1,0 +1,195 @@
+@layer components {
+    /* The brand-blue hero uses the reusable `size="compact"` variant (shorter band
+       + smaller title), defined in components/page-hero.css. The page itself only
+       styles the yellow band and the form below. */
+
+    /* Yellow band under the brand-blue hero. Compound selector beats .page-panel's
+       white default. min-height overridden so the form's natural height governs. */
+    .page-panel.page-panel--newsletter {
+        background-color: var(--color-kidical-yellow);
+        min-height: 0;
+        padding-bottom: 6rem;
+    }
+
+    /* Form card pulled up so it dips into the blue hero above. The pull only
+       applies from md, where the card sits in its own grid column; below md the
+       benefits and form are stacked, so a negative margin would drag the card up
+       over the last reassurance line (it did — that was the overlap bug). */
+    .newsletter-form-col {
+        margin-top: 0;
+    }
+
+    @media (min-width: 768px) {
+        .newsletter-form-col {
+            margin-top: -5rem;
+        }
+    }
+
+    .newsletter-signup__input {
+        width: 100%;
+        padding: 0.85rem 1.1rem;
+        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 85%);
+        border-radius: 9999px;
+        background: white;
+        color: var(--color-kidical-ink);
+    }
+
+    .newsletter-signup__input:focus {
+        outline: none;
+        border-color: var(--color-kidical-blue);
+    }
+
+    /* A flagged field turns red so the error is felt at the input, not only read
+       in the message below it. Holds through focus so it stays visible on retry. */
+    .newsletter-signup__input[aria-invalid='true'],
+    .newsletter-signup__input[aria-invalid='true']:focus {
+        border-color: var(--color-kidical-red);
+    }
+
+    .newsletter-signup__error {
+        margin-top: 0.45rem;
+        color: var(--color-kidical-red);
+        font-size: 0.9rem;
+    }
+
+    .newsletter-signup__groups {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+
+    .newsletter-signup__groups-hint {
+        margin-top: 0.25rem;
+        margin-bottom: 0.85rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    }
+
+    .newsletter-signup__disclosure {
+        align-self: flex-start;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: var(--color-kidical-blue);
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+        cursor: pointer;
+    }
+
+    .newsletter-signup__reveal {
+        animation: newsletter-signup-reveal 0.2s ease-out both;
+    }
+
+    @keyframes newsletter-signup-reveal {
+        from {
+            opacity: 0;
+            transform: translateY(-0.25rem);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .newsletter-signup__reveal {
+            animation: none;
+        }
+    }
+
+    .newsletter-signup__chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .newsletter-signup__chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.9rem;
+        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 85%);
+        border-radius: 9999px;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+        cursor: pointer;
+        user-select: none;
+        transition:
+            background-color 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease;
+    }
+
+    /* The check is always shown: light gray when unticked (a hint to tick),
+       red once the chip is selected. */
+    .newsletter-signup__chip::before {
+        content: '✓';
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 75%);
+    }
+
+    .newsletter-signup__chip:has(input:checked) {
+        background: color-mix(in oklab, var(--color-kidical-blue), transparent 88%);
+        border-color: color-mix(in oklab, var(--color-kidical-blue), transparent 60%);
+        color: var(--color-kidical-blue);
+    }
+
+    .newsletter-signup__chip:has(input:checked)::before {
+        color: var(--color-kidical-red);
+    }
+
+    .newsletter-signup__chip:has(input:focus-visible) {
+        outline: 2px solid var(--color-kidical-blue);
+        outline-offset: 2px;
+    }
+
+    /* The countrywide opt-in. Dashed while off, signalling "add more"; it picks
+       up the solid blue checked treatment from the shared chip rule when on. */
+    .newsletter-signup__chip--all {
+        border-style: dashed;
+    }
+
+    /* Ticking "Heel België" makes the per-group picks irrelevant, so the nearby
+       chips dim and go inert. Pure CSS, instant, no server round-trip. */
+    .newsletter-signup__chips:has(.newsletter-signup__chip--all input:checked)
+        .newsletter-signup__chip:not(.newsletter-signup__chip--all) {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .newsletter-signup-benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    /* Top-align (not center): when a line wraps, the check stays beside the first
+       line instead of floating to the vertical middle of both. */
+    .newsletter-signup-benefits li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        color: var(--color-kidical-ink);
+        font-weight: 500;
+    }
+
+    /* A small, soft-blue check. The reassurance list is a supporting closer, not
+       the focal point, so the badge recedes (was a large saturated-red square that
+       out-shouted the form). The loud red is reserved for the submit action. */
+    .newsletter-signup-benefits li::before {
+        content: '✓';
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 9999px;
+        background: color-mix(in oklab, var(--color-kidical-blue), transparent 86%);
+        color: var(--color-kidical-blue);
+        font-size: 0.72rem;
+        font-weight: 700;
+        /* Optical nudge so the badge sits centred on the first text line, not its top. */
+        margin-top: 0.15rem;
+    }
+}

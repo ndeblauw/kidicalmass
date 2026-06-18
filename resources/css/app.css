@@ -171,6 +171,7 @@
 /* Role-based partials — see docs/superpowers/specs/2026-06-06-css-partials-architecture-design.md */
 @import './components/closing-cta.css';
 @import './components/cta-button.css';
+@import './components/envelope-chips.css';
 @import './components/ride-row.css';
 @import './components/ride-day.css';
 @import './components/location-picker.css';
@@ -185,8 +186,10 @@
 @import './components/numbered-item.css';
 @import './components/person-card.css';
 @import './components/info-card.css';
+@import './components/faq.css';
 @import './components/titled-list-block.css';
 @import './components/scroll-sequence.css';
+@import './components/photo-collage.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';
@@ -196,6 +199,7 @@
 @import './pages/help-out.css';
 @import './pages/home.css';
 @import './pages/local-groups.css';
+@import './pages/nieuwsbrief.css';
 @import './pages/start-een-groep.css';
 @import './pages/partners.css';
 @import './pages/steun.css';
