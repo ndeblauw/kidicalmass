@@ -7,20 +7,15 @@
  */
 
 @layer components {
-    /* INTRO — opening copy with the "start" CTA beside it (right column,
-       vertically centred to the intro), stacking below it on narrow viewports.
-       The intro-text owns its own vertical rhythm (margin-block). */
+    /* INTRO — opening copy with the "start" CTA centred below it (no longer a
+       right-hand column). The intro-text owns its own vertical rhythm. */
     .sg-intro {
         display: grid;
         gap: 1.5rem;
     }
 
-    @media (min-width: 48rem) {
-        .sg-intro {
-            grid-template-columns: minmax(0, 1fr) auto;
-            align-items: center;
-            gap: 2.5rem;
-        }
+    .sg-intro__action {
+        justify-self: center;
     }
 
     /* DRIE STORY SLIDES — sticky collage column (right) crossfading through one
