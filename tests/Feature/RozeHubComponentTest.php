@@ -4,9 +4,18 @@ use App\Models\Group;
 use Illuminate\Support\Facades\Blade;
 
 test('the site layout renders a supplied navbar slot instead of the marketing header', function () {
+    $obLevel = ob_get_level();
+
     $html = Blade::render(
         '<x-layouts::site><x-slot:navbar>SHELLBAR</x-slot:navbar>BODY</x-layouts::site>',
     );
+
+    // Blade::render of a NAMED slot leaves an output buffer open in the test
+    // process (the HTTP kernel closes it on a real request); drain it so the
+    // result stays pristine instead of "risky".
+    while (ob_get_level() > $obLevel) {
+        ob_end_clean();
+    }
 
     expect($html)
         ->toContain('SHELLBAR')
