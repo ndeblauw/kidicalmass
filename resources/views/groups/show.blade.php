@@ -263,6 +263,16 @@
     <x-slot:closing>
         <section class="chapter-team-band" id="aanmelden">
             <div class="container mx-auto px-4 chapter-team-band__inner">
+                {{-- Pink-vest volunteer, straddling the seam between the white extras and
+                     this yellow band (Frederik 2026-06-18): anchored bottom-right of the
+                     extras, it rises out of the white zone and dips ~4rem into the yellow,
+                     a playful hand-off between the two colour zones. Lives here (not in the
+                     white section) so it paints above the yellow band it overlaps. Decorative;
+                     hidden on narrow screens where there's no empty corner to grow into. --}}
+                @if ($hasExtras)
+                    <img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" class="chapter-seam-illo">
+                @endif
+
                 @if ($team->isNotEmpty())
                     {{-- WIE DIT TREKT — full-width carousel of illustrated polaroid cards.
                          Headline + nav on top; crew photo at container width below. Each card's

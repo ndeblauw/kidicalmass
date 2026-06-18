@@ -273,10 +273,40 @@
        recruitment CTA. Yellow so it fuses with the footer (lives in the layout's closing
        slot). */
     .chapter-team-band {
+        --band-pad: clamp(3rem, 6vw, 5rem);
+        position: relative;
         width: 100vw;
         margin-left: calc(50% - 50vw);
         background-color: var(--color-kidical-yellow);
-        padding-block: clamp(3rem, 6vw, 5rem);
+        padding-block: var(--band-pad);
+    }
+    /* The container itself is the positioning context for the seam illustration, so
+       it lines up with the content's right edge (px-4 handled by the container). */
+    .chapter-team-band__inner {
+        position: relative;
+    }
+
+    /* Pink-vest volunteer straddling the white → yellow seam. Anchored to the content's
+       right edge, it sits with its bottom ~4rem below the seam (in the yellow) and the
+       rest rising up into the white extras zone above — a hand-off between the two zones.
+       The inner top is one band-pad below the seam, so we lift the whole figure by its
+       own height + that pad, then drop it back 4rem to leave the foot in the yellow.
+       Decorative and revealed only where the two-column extras leave an empty corner. */
+    .chapter-seam-illo {
+        display: none;
+    }
+    @media (min-width: 48rem) {
+        .chapter-seam-illo {
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: clamp(14.4rem, 22.4vw, 20.8rem);
+            height: auto;
+            transform: translateY(calc(-100% - var(--band-pad) + 4rem));
+            z-index: 2;
+            pointer-events: none;
+        }
     }
 
     /* Single big headline for the team block — the attention-grabber, no lead copy. */
