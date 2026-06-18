@@ -7,8 +7,9 @@
  */
 
 @layer components {
-    /* INTRO — opening copy with the "start" CTA centred below it (no longer a
-       right-hand column). The intro-text owns its own vertical rhythm. */
+    /* INTRO — opening copy with the "start" CTA beside it. On mobile the button
+       stacks under the copy; from md it moves into a second column, centred (both
+       axes) in that empty column next to the intro text. */
     .sg-intro {
         display: grid;
         gap: 1.5rem;
@@ -16,6 +17,18 @@
 
     .sg-intro__action {
         justify-self: center;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-intro {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            column-gap: clamp(2rem, 5vw, 4rem);
+        }
+
+        .sg-intro__action {
+            place-self: center;
+        }
     }
 
     /* DRIE SECTIES — simple alternating two-column lockups (collage + text),
@@ -169,11 +182,10 @@
         border-radius: calc(var(--radius-card) - 0.25rem);
     }
 
-    /* VEELGESTELDE VRAGEN — full-bleed section, content left + illustration slides in
-       from the right. Matches the getting-started FAQ layout pattern. */
+    /* VEELGESTELDE VRAGEN — stays inside the page container so the content's left
+       edge lines up with every other section (no full-bleed gutter). The
+       illustration sits in a capped right column and slides in from the right. */
     .sg-faq-section {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
         margin-block: 4rem 0;
         padding-block: clamp(3rem, 6vw, 5rem);
     }
@@ -181,9 +193,6 @@
     .sg-faq-layout {
         display: grid;
         grid-template-columns: 1fr;
-        max-width: 80rem;
-        margin-inline: auto;
-        padding-inline: 1rem;
         align-items: start;
     }
 
@@ -202,32 +211,25 @@
 
     @media (min-width: 768px) {
         .sg-faq-layout {
-            max-width: none;
-            margin-inline: 0;
-            padding-inline: 0;
-            grid-template-columns:
-                minmax(1rem, calc((100vw - 80rem) / 2 + 1rem))
-                minmax(0, 34rem)
-                1fr;
-            column-gap: clamp(2rem, 5vw, 6rem);
-        }
-
-        .sg-faq-content {
-            grid-column: 2;
+            grid-template-columns: minmax(0, 38rem) minmax(0, 20rem);
+            justify-content: space-between;
+            column-gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
         }
 
         .sg-faq-illustration {
             display: block;
-            grid-column: 3;
-            overflow: clip;
+            /* clip the slide-in horizontally only, so a negative top margin can lift
+               the artwork up past its box without being cut off */
+            overflow-x: clip;
         }
 
         .sg-faq-illustration img {
-            width: 108%;
+            width: 100%;
             height: auto;
             aspect-ratio: 463 / 445;
             object-fit: contain;
-            transform: translateX(115%);
+            transform: translateX(135%);
             opacity: 0;
             transition:
                 transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
@@ -238,6 +240,19 @@
         .sg-faq-illustration.is-in img {
             transform: translateX(0);
             opacity: 1;
+        }
+    }
+
+    /* From lg the illustration fills more of its column and lifts up a touch so it
+       slightly overlaps the light-blue "Er is animo" box above. */
+    @media (min-width: 64rem) {
+        .sg-faq-layout {
+            grid-template-columns: minmax(0, 36rem) minmax(0, 30rem);
+            align-items: start;
+        }
+
+        .sg-faq-illustration {
+            margin-top: -6rem;
         }
     }
 
@@ -300,6 +315,32 @@
         margin-top: 2rem;
         text-align: center;
         font-size: var(--text-sm);
+    }
+
+    /* Volunteer mascot — sits directly above the "Zin om te beginnen?" title and
+       pulls the eye down into it. In normal flow above the heading (title ~5rem
+       below), but lifted with a negative top margin so it dips up out of the yellow
+       band into the white above. */
+    .sg-cta__mascot {
+        display: block;
+        width: clamp(16rem, 24vw, 24rem);
+        height: auto;
+        margin-top: -7rem;
+        margin-bottom: 5rem;
+        transform: rotate(-8deg);
+        pointer-events: none;
+    }
+
+    @media (min-width: 64rem) {
+        /* Top-anchor the aside so the mascot rides at the band's top edge (and dips
+           into the white), rather than floating mid-band against the tall form. */
+        .sg-cta__aside {
+            align-self: start;
+        }
+
+        .sg-cta__mascot {
+            margin-top: -9rem;
+        }
     }
 
     /* Two-path comfort choice (radio group). */

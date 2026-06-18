@@ -15,6 +15,7 @@
         title="Breng Kidical Mass naar jouw buurt"
         photo="img/photography/team-kidical-mass.webp"
         photo-alt="Vier vrijwilligers van het Kidical Mass team lachen met roze hesjes en blauwe vlaggen, naast een kartonnen figuur van twee kinderen op de fiets"
+        photo-tilt
         caption="Foto © Marc Baert">
 
         {{-- Intro opens the white panel, with the "start" CTA in a right column,
@@ -36,8 +37,8 @@
             <div class="sg-story__row">
                 <div class="sg-story__collage sg-story__collage--a">
                     <figure class="sg-story__photo sg-story__photo--lead">
-                        <img src="{{ asset('img/photography/ride-brussels-two-boys-at-start.webp') }}"
-                             alt="Twee jongens arm in arm met hun fietsen en groene helmen aan de start van een rit in Brussel" loading="lazy">
+                        <img src="{{ asset('img/photography/volunteers-season-launch-meetup.webp') }}"
+                             alt="Een klein groepje vrijwilligers komt samen om het fietsseizoen voor te bereiden" loading="lazy">
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
                         <img src="{{ asset('img/photography/cargo-bike-mother-two-kids-flag.webp') }}"
@@ -57,12 +58,12 @@
             <div class="sg-story__row sg-story__row--reverse">
                 <div class="sg-story__collage sg-story__collage--b">
                     <figure class="sg-story__photo sg-story__photo--lead">
-                        <img src="{{ asset('img/photography/ride-group-celebration-station.webp') }}"
-                             alt="Tientallen gezinnen in fluohesjes juichen met opgeheven armen voor een sierlijk bakstenen station" loading="lazy">
+                        <img src="{{ asset('img/photography/volunteers-pink-vest-group-cobbles.webp') }}"
+                             alt="Een groep vrijwilligers in roze hesjes stapt samen op straat, klaar om de rit te begeleiden" loading="lazy">
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
-                        <img src="{{ asset('img/photography/ride-girl-smiling-on-bike.webp') }}"
-                             alt="Een lachend meisje in een roze helm rijdt mee in een groep" loading="lazy">
+                        <img src="{{ asset('img/photography/volunteer-handing-stickers-to-kids.webp') }}"
+                             alt="Een vrijwilliger deelt Kidical Mass stickers uit aan kinderen" loading="lazy">
                     </figure>
                 </div>
                 <div class="sg-story__text">
@@ -84,8 +85,8 @@
                              alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" loading="lazy">
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
-                        <img src="{{ asset('img/photography/ride-brussels-boulevard-crowd.webp') }}"
-                             alt="Een dichte menigte gezinnen met fietsen op een zonnige Brusselse boulevard" loading="lazy">
+                        <img src="{{ asset('img/photography/volunteer-pink-vest-blue-helmet.webp') }}"
+                             alt="Een begeleider in een roze hesje en blauwe helm houdt mee de rit veilig" loading="lazy">
                     </figure>
                 </div>
                 <div class="sg-story__text">
@@ -198,6 +199,7 @@
             <div class="container mx-auto px-4">
                 <div class="sg-cta__panel">
                     <div class="sg-cta__aside">
+                        <img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" class="sg-cta__mascot">
                         <h2>Zin om te beginnen?</h2>
                         <p>Laat van je horen. Je kiest zelf hoe je eerste stap eruitziet:
                         eerst praten met iemand die het al deed, of meteen contact met het team.</p>
@@ -206,8 +208,6 @@
                         <livewire:start-group-enquiry />
                     </div>
                 </div>
-                <p class="sg-cta__secondary">Liever eerst rondkijken?
-                    <a href="{{ route('groups.index') }}">Bekijk alle groepen</a></p>
             </div>
         </section>
     </x-slot:closing>

@@ -7,6 +7,7 @@
     'caption' => null,
     'size' => 'default',   // 'default' | 'compact' — compact = shorter band + smaller title, for single-action pages (e.g. the newsletter signup)
     'panelClass' => '',
+    'photoTilt' => false,  // tilt the photo card and let it dip out of the blue band (chapter-page treatment); opts the hero out of the pinned scroll-over
 ])
 
 {{-- In-flow brand-blue hero. The band sizes to its content (min-height floor),
@@ -14,7 +15,7 @@
      nav pill (site header) sits above this. Pass `photo` to swap the floating
      illustration for a rounded photo card beside the title (with an optional
      `caption` credit), the same in-hero treatment the chapter page uses. --}}
-<header class="page-hero {{ $photo ? 'page-hero--has-photo' : '' }} {{ $size === 'compact' ? 'page-hero--compact' : '' }}">
+<header class="page-hero {{ $photo ? 'page-hero--has-photo' : '' }} {{ $photoTilt ? 'page-hero--photo-tilt' : '' }} {{ $size === 'compact' ? 'page-hero--compact' : '' }}">
     <div class="page-hero__inner container mx-auto px-4">
         <div class="page-hero__copy">
             <p class="page-hero__eyebrow">{{ $eyebrow }}</p>

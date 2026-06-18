@@ -133,6 +133,47 @@
         }
     }
 
+    /* Tilted-photo variant — the chapter-page treatment: the card rotates and its
+       bottom-right corner dips out of the blue band, lapping over the white panel
+       below. This opts out of the pinned scroll-over: the hero drops its stacking
+       context (and its inner's) so the figure can paint above the panel (z-index 10),
+       while the panel still rounds over the band. position: static cancels the md
+       sticky so the dip reads in normal flow, like .chapter-head. */
+    .page-hero--photo-tilt {
+        position: static;
+        z-index: auto;
+        overflow: visible;
+        overflow-x: clip;
+    }
+    .page-hero--photo-tilt .page-hero__inner {
+        z-index: auto;
+    }
+    @media (min-width: 64rem) {
+        /* Band hugs the photo + paddings instead of a fixed floor — no dead blue
+           space above or below the card. */
+        .page-hero--photo-tilt {
+            min-height: 0;
+        }
+        .page-hero--photo-tilt .page-hero__inner {
+            align-items: start; /* top-anchor the photo → no gap above it */
+            padding-bottom: 5rem;
+        }
+        .page-hero--photo-tilt .page-hero__copy {
+            align-self: center; /* title centred against the photo */
+        }
+        .page-hero--photo-tilt .page-hero__figure {
+            position: relative;
+            z-index: 11; /* lap over the panel (z-index 10) that rounds up next */
+            /* pull the card down so its bottom-right corner dips ~2rem below the
+               band; the band follows the card. */
+            margin-bottom: -7rem;
+            transform: rotate(3deg);
+        }
+        .page-hero--photo-tilt .page-hero__photo {
+            aspect-ratio: 4 / 3; /* match the chapter card proportions */
+        }
+    }
+
     .page-hero__visual {
         display: none;
 
