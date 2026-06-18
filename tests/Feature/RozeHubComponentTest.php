@@ -3,6 +3,25 @@
 use App\Models\Group;
 use Illuminate\Support\Facades\Blade;
 
+test('the site layout renders a supplied navbar slot instead of the marketing header', function () {
+    $html = Blade::render(
+        '<x-layouts::site><x-slot:navbar>SHELLBAR</x-slot:navbar>BODY</x-layouts::site>',
+    );
+
+    expect($html)
+        ->toContain('SHELLBAR')
+        ->toContain('BODY')
+        ->not->toContain('site-nav__links');
+});
+
+test('the site layout falls back to the marketing header with no navbar slot', function () {
+    $html = Blade::render('<x-layouts::site>BODY</x-layouts::site>');
+
+    expect($html)
+        ->toContain('site-nav__links')
+        ->toContain('BODY');
+});
+
 test('roze-hub renders the chapter name in the compact hero', function () {
     $group = Group::factory()->create(['name' => 'Schaarbeek']);
 

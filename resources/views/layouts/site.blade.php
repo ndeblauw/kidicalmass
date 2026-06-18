@@ -12,13 +12,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col">
-    <x-layouts::site.header />
+    @isset($navbar)
+        {{ $navbar }}
+    @else
+        <x-layouts::site.header />
+    @endisset
 
     <!-- Main Content -->
     {{-- pt-28 clears the fixed floating nav pill (~5.5rem). Full-bleed blue bands
          (.home-hero/.chapter-head/.page-hero) cancel it with
          margin-top: calc(var(--spacing) * -28). --}}
-    <main class="flex-1 container mx-auto px-4 pt-28 {{ isset($closing) ? 'pb-0' : 'pb-8' }}">
+    <main class="flex-1 container mx-auto px-4 {{ isset($navbar) ? 'pt-0' : 'pt-28' }} {{ isset($closing) ? 'pb-0' : 'pb-8' }}">
         {{ $slot }}
     </main>
 
