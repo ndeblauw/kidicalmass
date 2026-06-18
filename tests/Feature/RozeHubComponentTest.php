@@ -31,18 +31,26 @@ test('the site layout falls back to the marketing header with no navbar slot', f
         ->toContain('BODY');
 });
 
-test('roze-hub renders the chapter name in the compact hero', function () {
-    $group = Group::factory()->create(['name' => 'Schaarbeek']);
+test('roze-hub renders the chapter name in the app-shell bar, not a hero', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Schaarbeek']);
+
+    $obLevel = ob_get_level();
 
     $html = Blade::render(
         '<x-roze-hub :group="$group" active="overzicht" :is-captain="false" :show-welcome="false">BODY</x-roze-hub>',
         ['group' => $group],
     );
 
+    while (ob_get_level() > $obLevel) {
+        ob_end_clean();
+    }
+
     expect($html)
-        ->toContain('roze-hub-hero')
-        ->toContain('Kidical Mass Schaarbeek')
-        ->toContain('BODY');
+        ->toContain('roze-shell-bar')
+        ->toContain('roze-chrome')
+        ->toContain('Schaarbeek')
+        ->toContain('BODY')
+        ->not->toContain('roze-hub-hero');
 });
 
 test('the active tab carries the active modifier class', function () {

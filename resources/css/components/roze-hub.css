@@ -1,32 +1,10 @@
 @layer components {
-    /* === Roze-hub compact hero ============================================ */
-    /* Full-bleed red band. Cancels the site layout's pt-28 with a negative top
-       margin (same trick the other full-bleed bands use). */
-    .roze-hub-hero {
-        background: var(--color-kidical-red);
-        padding: 1.0625rem 1.25rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-    }
-
-    .roze-hub-hero > h1 {
-        margin: 0;
-        color: #fff;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-synthesis: none;
-        letter-spacing: -0.01em;
-        line-height: 1.05;
-        font-size: 1.34rem;
-    }
-
-    .roze-hub-hero__mark {
-        flex: none;
-        width: 2.375rem;
-        height: 2.375rem;
-        object-fit: contain;
+    /* The shell bar + sub-nav travel together and pin to the top on scroll. */
+    .roze-chrome {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: #fff;
     }
 
     /* === App-shell top bar ================================================ */
@@ -156,19 +134,6 @@
 
     /* Desktop: slim text row sub-nav + centered single column. */
     @media (min-width: 48rem) {
-        .roze-hub-hero {
-            padding: 1.625rem 2.25rem;
-        }
-
-        .roze-hub-hero > h1 {
-            font-size: 2.3rem;
-        }
-
-        .roze-hub-hero__mark {
-            width: 3.625rem;
-            height: 3.625rem;
-        }
-
         .roze-hub-title {
             font-size: 1.6rem;
         }

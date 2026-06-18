@@ -11,12 +11,14 @@
 @endphp
 
 <x-layouts::site title="Kidical Mass {{ $group->name }}">
-    <header class="roze-hub-hero">
-        <h1>Kidical Mass {{ $group->name }}</h1>
-        <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="roze-hub-hero__mark">
-    </header>
-
-    <x-roze-subnav :tabs="$tabs" :group="$group" :beheer-url="$beheerUrl" />
+    {{-- App-shell chrome in the header's place: one slim bar + the hub tabs,
+         sticky together. The red marketing nav is gone here (member workspace). --}}
+    <x-slot:navbar>
+        <div class="roze-chrome">
+            <x-roze-shell-bar :group="$group" />
+            <x-roze-subnav :tabs="$tabs" :group="$group" :beheer-url="$beheerUrl" />
+        </div>
+    </x-slot:navbar>
 
     <div class="roze-hub-body">
         {{ $slot }}

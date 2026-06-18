@@ -107,14 +107,49 @@ test('each sub-page marks its own tab active', function (string $name, string $l
     ['groups.roze-hesjes.materiaal', 'Materiaal'],
 ]);
 
-test('the site-nav roze button stays active on the hub sub-pages, not just the Overview', function (string $name) {
+test('the hub renders the app-shell bar and hides the marketing nav', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Schaarbeek', 'invisible' => false]);
+    $member = User::factory()->create();
+    $group->users()->attach($member, ['role' => null]);
+
+    actingAs($member)->get(hubUrl('groups.roze-hesjes', $group))
+        ->assertOk()
+        ->assertSee('roze-shell-bar', escape: false)
+        ->assertSee('Schaarbeek', escape: false)
+        ->assertDontSee('site-nav__links', escape: false)
+        ->assertDontSee('steun-nav-btn', escape: false);
+});
+
+test('a member of one chapter sees a plain context label, no switcher', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Schaarbeek', 'invisible' => false]);
+    $member = User::factory()->create();
+    $group->users()->attach($member, ['role' => null]);
+
+    actingAs($member)->get(hubUrl('groups.roze-hesjes', $group))
+        ->assertSee('roze-shell-bar__context', escape: false)
+        ->assertDontSee('roze-shell-switch', escape: false);
+});
+
+test('a member of multiple chapters gets a chapter switcher', function () {
+    $here = Group::factory()->create(['name' => 'Kidical Mass Schaarbeek', 'invisible' => false]);
+    $other = Group::factory()->create(['name' => 'Kidical Mass Gent', 'invisible' => false]);
+    $member = User::factory()->create();
+    $here->users()->attach($member, ['role' => null]);
+    $other->users()->attach($member, ['role' => null]);
+
+    actingAs($member)->get(hubUrl('groups.roze-hesjes', $here))
+        ->assertSee('roze-shell-switch', escape: false)
+        ->assertSee('Gent', escape: false);
+});
+
+test('the shell bar context label appears on every hub sub-page', function (string $name) {
     $group = Group::factory()->create();
     $member = User::factory()->create();
     $group->users()->attach($member, ['role' => null]);
 
     actingAs($member)->get(hubUrl($name, $group))
         ->assertOk()
-        ->assertSee('roze-nav-btn--active', escape: false);
+        ->assertSee('roze-shell-bar', escape: false);
 })->with([
     'groups.roze-hesjes',
     'groups.roze-hesjes.agenda',
