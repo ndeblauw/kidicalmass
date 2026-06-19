@@ -56,7 +56,7 @@
 
     .roze-shell-bar__role {
         font-family: var(--font-sans);
-        font-weight: 600;
+        font-weight: 700;
         font-size: 0.85rem;
         color: var(--color-kidical-red);
     }
@@ -124,6 +124,24 @@
         padding: 1.25rem 1.125rem 1.5rem;
     }
 
+    /* ── Roze-hub type system ─────────────────────────────────────────────
+       Mirrors the marketing scale (few sizes, few weights, one role each),
+       but the hub is a calm member workspace, so it splits headings across
+       two faces instead of one. Pick a role below; never invent a font-size.
+
+       Headings — Caprasimo (--font-heading), weight 800, ink:
+         • Section title  .roze-hub-title       1.3rem → 1.6rem (top of each tab)
+         • Sub-heading     .roze-onboarding__sub var(--text-xl) (division in a section)
+       Titles — Nunito Sans (--font-sans), ink (cards & rows read as workspace, not megaphone):
+         • Card title      .roze-card-title      weight 800, var(--text-lg)
+         • Row title       .roze-row-title       weight 700, var(--text-base)
+       Body — Nunito Sans, weight 400, three tiers (marketing's Lead/Body/Meta):
+         • Body/Lead       inherited var(--text-xl) — prose, .roze-hub-lead
+         • Small           var(--text-sm) — captions, roles, hints, descriptions
+         • Micro           var(--text-xs) — caps labels, badges, flags
+       Weights are 400, 700, or 800 only — never 500/600. The shell bar + sub-nav
+       run their own compact chrome scale (above), outside this content ladder.
+       ───────────────────────────────────────────────────────────────────── */
     .roze-hub-title {
         margin: 0;
         font-weight: 800;

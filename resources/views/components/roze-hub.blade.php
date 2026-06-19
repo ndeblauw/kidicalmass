@@ -8,6 +8,7 @@
 
 @php
     $tabs = \App\Support\RozeHub\HubTabs::for($group, $active, (bool) $isCaptain, (bool) $showWelcome);
+    $place = \Illuminate\Support\Str::of($group->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim();
 @endphp
 
 <x-layouts::site title="Kidical Mass {{ $group->name }}">
@@ -21,6 +22,7 @@
     </x-slot:navbar>
 
     <div class="roze-hub-body">
+        <h1 class="sr-only">Roze hesjes van {{ $place }}</h1>
         {{ $slot }}
     </div>
 </x-layouts::site>

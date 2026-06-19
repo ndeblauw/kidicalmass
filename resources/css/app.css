@@ -47,6 +47,7 @@
 
     /* Feature-card surface tokens (canonical = getting-started scale). */
     --radius-card: 2rem;
+    --radius-tile: 1rem;     /* compact tier: tiles, roster (content cards stay --radius-card) */
     --radius-chip: 28%;
     --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
     /* Hard small shadow — no blur, solid edge, plus a 1px inner hairline for
@@ -139,7 +140,9 @@
     }
 
     header a,
-    footer ul a {
+    footer ul a,
+    .roze-chrome a,
+    [popover] a {
         background-image: none;
         transition: none;
     }
