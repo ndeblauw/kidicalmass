@@ -6,8 +6,12 @@
         {{-- Video covers the whole backdrop (hero + lead band), so it reads as one
              continuous frame; the blue band fades in over it with its copy. --}}
         <div class="home-hero__video" aria-hidden="true">
+            {{-- Looped via the IFrame Player API (seek to 0 on end), NOT the
+                 &loop=&playlist= trick — a playlist makes YouTube show the
+                 prev/next centre arrows, which controls=0 doesn't suppress. --}}
             <iframe
-                src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&loop=1&playlist=VXiIgU9vI-4&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
+                id="home-hero-player"
+                src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&disablekb=1"
                 title="" tabindex="-1" frameborder="0"
                 allow="autoplay; encrypted-media; picture-in-picture"
             ></iframe>
@@ -155,4 +159,30 @@
     <x-slot:closing>
         <x-newsletter-cta />
     </x-slot:closing>
+
+    @push('scripts')
+        {{-- Hero video: loop without the &playlist= trick (which adds the
+             prev/next centre arrows). Seek back to 0 when the clip ends, and
+             keep it muted + playing so YouTube never parks on its paused-state
+             centre controls. --}}
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script>
+            function onYouTubeIframeAPIReady() {
+                new YT.Player('home-hero-player', {
+                    events: {
+                        onReady: function (event) {
+                            event.target.mute();
+                            event.target.playVideo();
+                        },
+                        onStateChange: function (event) {
+                            if (event.data === YT.PlayerState.ENDED) {
+                                event.target.seekTo(0);
+                                event.target.playVideo();
+                            }
+                        },
+                    },
+                });
+            }
+        </script>
+    @endpush
 </x-layouts::site>
