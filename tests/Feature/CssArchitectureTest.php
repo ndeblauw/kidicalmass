@@ -36,6 +36,16 @@ test('every local @import in app.css resolves to an existing file', function () 
     }
 });
 
+test('body clips horizontal overflow so full-bleed 100vw bands cannot cause a phantom scrollbar', function () {
+    // Full-bleed bands site-wide use `width: 100vw; margin: calc(50% - 50vw)`. On systems with
+    // classic (space-consuming) scrollbars, 100vw exceeds the content box by the scrollbar width,
+    // producing a horizontal scrollbar on every page. The global guard is `body { overflow-x: clip }`
+    // — `clip`, not `hidden`, so sticky/pinned heroes are unaffected.
+    $appCss = File::get(resource_path('css/app.css'));
+
+    expect($appCss)->toMatch('/body\s*\{[^}]*overflow-x:\s*clip;[^}]*\}/');
+});
+
 test('blade components do not hardcode raw colors or px in styling contexts', function () {
     // Inherently raw-value components (SVG icons / logos / patterns).
     $allowlist = ['bike-icon', 'app-logo', 'app-logo-icon', 'placeholder-pattern'];

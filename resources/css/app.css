@@ -118,6 +118,13 @@
         /* Caprasimo (headers) is single-weight; never fake a bold for it. Nunito Sans has a
            real 400 + 700, so body bold is unaffected. */
         font-synthesis: none;
+        /* Full-bleed bands across the site use `width: 100vw; margin: calc(50% - 50vw)`.
+           `100vw` counts the vertical-scrollbar gutter, but the content box doesn't — so
+           on systems with classic (space-consuming) scrollbars every band is scrollbar-width
+           too wide and the page gains a phantom horizontal scrollbar. Clip that overflow here.
+           `clip` (not `hidden`) does NOT create a scroll container, so the pinned/sticky heroes
+           still pin to the viewport. */
+        overflow-x: clip;
     }
 
     /* Two stacked underlines: the bottom layer is a 50% blue line at full width
