@@ -13,8 +13,6 @@ use Illuminate\Support\Str;
  */
 class PartnerFactory extends Factory
 {
-    protected $model = Partner::class;
-
     public function definition(): array
     {
         $companyNames = [

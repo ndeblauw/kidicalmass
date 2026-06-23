@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PressArticleFactory extends Factory
 {
-    protected $model = PressArticle::class;
-
     protected array $outlets = [
         'RTBF', 'BX1', 'BRUZZ', 'La DH', 'HLN', 'Het Nieuwsblad',
         'Politico', 'Vivacité', 'La Libre', 'Le Soir', 'De Standaard',
