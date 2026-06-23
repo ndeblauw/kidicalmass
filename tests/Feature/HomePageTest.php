@@ -3,6 +3,7 @@
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\PostalCode;
+use App\Models\User;
 
 use function Pest\Laravel\get;
 use function Pest\Laravel\withCookie;
@@ -12,6 +13,8 @@ beforeEach(function () {
         ['zip' => '1090', 'name' => 'Jette', 'latitude' => 50.8782, 'longitude' => 4.3265, 'created_at' => now(), 'updated_at' => now()],
         ['zip' => '9000', 'name' => 'Gent', 'latitude' => 51.0543, 'longitude' => 3.7174, 'created_at' => now(), 'updated_at' => now()],
     ]);
+
+    $this->author = User::factory()->create();
 });
 
 it('renders the NL video hero and drops the old English copy', function () {
@@ -55,6 +58,7 @@ it('shows the location picker in the next-ride section when no location is set',
         'activity_type' => ActivityType::KIDICALMASS,
         'postal_code' => '1090',
         'begin_date' => now()->addDays(3),
+        'author_id' => $this->author->id,
     ]);
 
     get('/nl')
@@ -73,6 +77,7 @@ it('shows the nearest upcoming ride using the date-rail lockup when a location i
         'location' => 'Josaphatpark',
         'postal_code' => '1090',
         'begin_date' => now()->addDays(3),
+        'author_id' => $this->author->id,
     ]);
 
     withCookie('kcm_location', json_encode(['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette']))
@@ -90,6 +95,7 @@ it('lists the three soonest nearby rides when a location is set', function () {
             'title_nl' => $title,
             'postal_code' => '1090',
             'begin_date' => now()->addDays(2 + $i),
+            'author_id' => $this->author->id,
         ]);
     }
 
@@ -111,6 +117,7 @@ it('flags a far fallback ride when nothing is in range', function () {
         'title_nl' => 'Kidical Mass Gent',
         'postal_code' => '9000',
         'begin_date' => now()->addDays(3),
+        'author_id' => $this->author->id,
     ]);
 
     withCookie('kcm_location', json_encode(['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette']))

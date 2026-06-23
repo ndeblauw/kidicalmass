@@ -4,10 +4,10 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\PostalCode;
 use App\Support\Location\NextRideFinder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
+uses(TestCase::class, LazilyRefreshDatabase::class);
 
 beforeEach(function () {
     PostalCode::insert([

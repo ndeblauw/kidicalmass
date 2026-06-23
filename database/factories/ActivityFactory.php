@@ -53,6 +53,17 @@ class ActivityFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Activity $activity) {
+            if (app()->environment('testing')) {
+                return;
+            }
+
+            $this->attachImages($activity);
+        });
+    }
+
+    public function withMedia(): static
+    {
+        return $this->afterCreating(function (Activity $activity) {
             $this->attachImages($activity);
         });
     }

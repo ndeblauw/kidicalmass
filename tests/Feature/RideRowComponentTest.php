@@ -2,12 +2,15 @@
 
 use App\Enums\ActivityType;
 use App\Models\Activity;
+use App\Models\User;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 
 beforeEach(function () {
     app()->setLocale('nl');
-    URL::defaults(['locale' => 'nl']); // route('activities.show', …) needs the {locale} param
+    URL::defaults(['locale' => 'nl']);
+
+    $this->author = User::factory()->create();
 });
 
 it('keeps the full ride title (commune) when there is no chapter context', function () {
@@ -16,6 +19,7 @@ it('keeps the full ride title (commune) when there is no chapter context', funct
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => '2026-06-14 14:00',
         'location' => 'Jubelpark',
+        'author_id' => $this->author->id,
     ]);
 
     $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
@@ -32,6 +36,7 @@ it('turns a plain ride into "Fietsparade" inside its own chapter', function () {
         'title_nl' => 'Kidical Mass Etterbeek',
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => '2026-06-14 14:00',
+        'author_id' => $this->author->id,
     ]);
 
     $html = Blade::render('<x-ride-row :activity="$activity" :commune="$commune" />', [
@@ -49,6 +54,7 @@ it('drops the commune from a named activity inside its chapter, keeping the name
         'activity_type' => ActivityType::WORKSHOP,
         'begin_date' => '2026-06-14 19:00',
         'location' => 'Cyclo werkplaats, Etterbeek',
+        'author_id' => $this->author->id,
     ]);
 
     $html = Blade::render('<x-ride-row :activity="$activity" :commune="$commune" />', [
@@ -73,6 +79,7 @@ it('accents the calendar lockup by activity type', function () {
         $activity = Activity::factory()->create([
             'activity_type' => $type,
             'begin_date' => '2026-06-14 14:00',
+            'author_id' => $this->author->id,
         ]);
 
         $html = Blade::render(
@@ -85,8 +92,16 @@ it('accents the calendar lockup by activity type', function () {
 });
 
 it('lets the ride win the accent when a day mixes types', function () {
-    $ride = Activity::factory()->create(['activity_type' => ActivityType::KIDICALMASS, 'begin_date' => '2026-06-14 14:00']);
-    $meeting = Activity::factory()->create(['activity_type' => ActivityType::MEETING, 'begin_date' => '2026-06-14 19:00']);
+    $ride = Activity::factory()->create([
+        'activity_type' => ActivityType::KIDICALMASS,
+        'begin_date' => '2026-06-14 14:00',
+        'author_id' => $this->author->id,
+    ]);
+    $meeting = Activity::factory()->create([
+        'activity_type' => ActivityType::MEETING,
+        'begin_date' => '2026-06-14 19:00',
+        'author_id' => $this->author->id,
+    ]);
 
     $html = Blade::render(
         '<x-ride-day :period-key="$key" :rows="$rows" />',
@@ -97,7 +112,10 @@ it('lets the ride win the accent when a day mixes types', function () {
 });
 
 it('shows the inline date when showDate is set, and the meta weekday otherwise', function () {
-    $ride = Activity::factory()->create(['begin_date' => '2026-06-14 14:00']); // a Sunday
+    $ride = Activity::factory()->create([
+        'begin_date' => '2026-06-14 14:00',
+        'author_id' => $this->author->id,
+    ]); // a Sunday
 
     $withDate = Blade::render('<x-ride-row :activity="$activity" :show-date="true" />', ['activity' => $ride]);
     $without = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
@@ -117,6 +135,7 @@ it('marks a flagship ride as featured without putting the star in the title', fu
     $ride = Activity::factory()->create([
         'title_nl' => 'Grote Kidical Mass Gent',
         'begin_date' => '2026-06-14 14:00',
+        'author_id' => $this->author->id,
     ]);
 
     $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);
@@ -129,8 +148,16 @@ it('marks a flagship ride as featured without putting the star in the title', fu
 });
 
 it('shows the Grande star on the calendar lockup, not on a normal day', function () {
-    $grande = Activity::factory()->create(['title_nl' => 'Grote Kidical Mass Gent', 'begin_date' => '2026-06-14 14:00']);
-    $normal = Activity::factory()->create(['title_nl' => 'Kidical Mass Etterbeek', 'begin_date' => '2026-06-21 14:00']);
+    $grande = Activity::factory()->create([
+        'title_nl' => 'Grote Kidical Mass Gent',
+        'begin_date' => '2026-06-14 14:00',
+        'author_id' => $this->author->id,
+    ]);
+    $normal = Activity::factory()->create([
+        'title_nl' => 'Kidical Mass Etterbeek',
+        'begin_date' => '2026-06-21 14:00',
+        'author_id' => $this->author->id,
+    ]);
 
     $withStar = Blade::render('<x-ride-day :period-key="$key" :rows="$rows" />', ['key' => '2026-06-14', 'rows' => [['item' => $grande]]]);
     $withoutStar = Blade::render('<x-ride-day :period-key="$key" :rows="$rows" />', ['key' => '2026-06-21', 'rows' => [['item' => $normal]]]);
@@ -144,6 +171,7 @@ it('strips a trailing commune from the venue when it duplicates the headline', f
         'title_nl' => 'Kidical Mass Etterbeek',
         'begin_date' => '2026-06-14 14:00',
         'location' => 'Jubelpark, Etterbeek',
+        'author_id' => $this->author->id,
     ]);
 
     $html = Blade::render('<x-ride-row :activity="$activity" />', ['activity' => $ride]);

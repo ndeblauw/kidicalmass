@@ -11,6 +11,12 @@ beforeEach(function () {
     Storage::fake('media');
 });
 
+afterEach(function () {
+    foreach (glob(storage_path('app/temp-test-photo-*.jpg')) ?: [] as $path) {
+        @unlink($path);
+    }
+});
+
 /**
  * A past Kidical Mass ride attached to $group.
  */
@@ -32,11 +38,48 @@ function pastRide(Group $group, CarbonInterface $when): Activity
     return $ride;
 }
 
+/**
+ * Create fake image files and return their paths.
+ */
+function createFakePhotoPaths(int $count): array
+{
+    $paths = [];
+    for ($i = 0; $i < $count; $i++) {
+        $path = storage_path("app/temp-test-photo-{$i}.jpg");
+        $img = imagecreatetruecolor(40, 30);
+        $bg = imagecolorallocate($img, 200, 100, 50);
+        imagefill($img, 0, 0, $bg);
+        imagejpeg($img, $path, 10);
+        imagedestroy($img);
+        $paths[] = $path;
+    }
+
+    return $paths;
+}
+
+/**
+ * Build a ChapterRideGallerySeeder that uses fake images instead of real photos.
+ */
+function seederWithFakePhotos(int $photoCount): ChapterRideGallerySeeder
+{
+    $paths = createFakePhotoPaths($photoCount);
+
+    return new class($paths) extends ChapterRideGallerySeeder
+    {
+        public function __construct(private array $paths) {}
+
+        protected function samplePhotoPaths(): array
+        {
+            return $this->paths;
+        }
+    };
+}
+
 it('attaches the requested number of photos to the chapter\'s latest ride', function () {
     $group = Group::factory()->create();
     $ride = pastRide($group, now()->subWeek());
 
-    $seeded = (new ChapterRideGallerySeeder)->seedLatestRide($group, 3);
+    $seeded = seederWithFakePhotos(5)->seedLatestRide($group, 3);
 
     expect($seeded)->toBeTrue();
     expect($ride->refresh()->getMedia('gallery'))->toHaveCount(3);
@@ -47,7 +90,7 @@ it('targets the most recent past ride, not an older one', function () {
     $older = pastRide($group, now()->subMonths(2));
     $latest = pastRide($group, now()->subWeek());
 
-    (new ChapterRideGallerySeeder)->seedLatestRide($group, 2);
+    seederWithFakePhotos(5)->seedLatestRide($group, 2);
 
     expect($latest->refresh()->getMedia('gallery'))->toHaveCount(2);
     expect($older->refresh()->getMedia('gallery'))->toHaveCount(0);
@@ -57,7 +100,7 @@ it('is idempotent — reseeding replaces rather than piles up', function () {
     $group = Group::factory()->create();
     $ride = pastRide($group, now()->subWeek());
 
-    $seeder = new ChapterRideGallerySeeder;
+    $seeder = seederWithFakePhotos(5);
     $seeder->seedLatestRide($group, 3);
     $seeder->seedLatestRide($group, 3);
 
@@ -67,7 +110,7 @@ it('is idempotent — reseeding replaces rather than piles up', function () {
 it('skips a chapter with no past ride', function () {
     $group = Group::factory()->create();
 
-    $seeded = (new ChapterRideGallerySeeder)->seedLatestRide($group, 3);
+    $seeded = seederWithFakePhotos(5)->seedLatestRide($group, 3);
 
     expect($seeded)->toBeFalse();
     expect($group->fresh()->getMedia('gallery'))->toHaveCount(0);

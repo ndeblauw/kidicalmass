@@ -217,6 +217,7 @@ it('provides a correct summary with mixed changes', function () {
     $article = Article::factory()->create([
         'author_id' => $this->author->id,
         'created_at' => now()->subDays(7),
+        'updated_at' => now()->subDays(7),
     ]);
     $this->group->articles()->attach($article);
 

@@ -126,7 +126,7 @@ class ChapterRideGallerySeeder extends Seeder
      *
      * @return list<string>
      */
-    private function samplePhotoPaths(): array
+    protected function samplePhotoPaths(): array
     {
         $base = public_path('img/photography');
 
