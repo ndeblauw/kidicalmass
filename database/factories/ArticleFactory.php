@@ -15,8 +15,6 @@ class ArticleFactory extends Factory
 {
     use AttachesMediaFromCache;
 
-    protected $model = Article::class;
-
     public function definition(): array
     {
         return [

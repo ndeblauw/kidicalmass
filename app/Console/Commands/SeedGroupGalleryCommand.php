@@ -3,17 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Models\Group;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('dev:seed-group-gallery {--group=* : Group ids to seed (defaults to a curated set)} {--count=6 : Photos to attach per group} {--source=* : Explicit image paths in order, cover first (absolute or relative to base_path); defaults to globbing public/img/photography}')]
+#[Description('Attach sample photos to groups\' gallery collection (non-production only).')]
 class SeedGroupGalleryCommand extends Command
 {
-    protected $signature = 'dev:seed-group-gallery
-        {--group=* : Group ids to seed (defaults to a curated set)}
-        {--count=6 : Photos to attach per group}
-        {--source=* : Explicit image paths in order, cover first (absolute or relative to base_path); defaults to globbing public/img/photography}';
-
-    protected $description = 'Attach sample photos to groups\' gallery collection (non-production only).';
-
     /**
      * Groups that get a sample gallery by default. Includes id 3 (the local test page).
      *

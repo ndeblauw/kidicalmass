@@ -17,8 +17,6 @@ class ActivityFactory extends Factory
 {
     use AttachesMediaFromCache;
 
-    protected $model = Activity::class;
-
     public function definition(): array
     {
         $beginDate = Carbon::parse(fake()->dateTimeBetween('now', '+1 year'));

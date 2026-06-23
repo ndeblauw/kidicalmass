@@ -7,6 +7,7 @@ use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,14 +17,13 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+#[Unguarded]
 #[ScopedBy([LocalGroupScope::class])]
 class Activity extends Model implements HasMedia
 {
     use HasFactory;
     use HasMainImage;
     use InteractsWithMedia;
-
-    protected $guarded = [];
 
     protected function casts(): array
     {
