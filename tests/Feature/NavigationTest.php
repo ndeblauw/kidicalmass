@@ -52,8 +52,8 @@ it('groups the primary nav links in their own white band', function () {
 it('gives the homepage logo the scroll-shrink behaviour but not other pages', function () {
     // The oversized intro logo (twice the size, shrinking on scroll) is homepage-only;
     // the Alpine binding that drives it must not render on inner pages.
-    get('/nl')->assertSee('site-nav__logo--xl', escape: false);
-    get('/nl/events')->assertDontSee('site-nav__logo--xl', escape: false);
+    get('/nl')->assertSee('site-logo-anchor--intro', escape: false);
+    get('/nl/events')->assertDontSee('site-logo-anchor--intro', escape: false);
 });
 
 it('only runs the staggered header reveal intro on the homepage', function () {
