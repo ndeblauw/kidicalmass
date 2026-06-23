@@ -65,6 +65,7 @@
         --ho-gutter: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
         --ho-fg-width: 21rem;        /* foreground zone: mascotte + 2-line title, the fade edge */
         --ho-start-gap: 2.5rem;      /* breathing room before the first card */
+        --ho-card-w: 20rem;          /* a single card's width — drives the snap + end runway */
         position: relative;
         width: 100vw;
         margin-left: calc(50% - 50vw);
@@ -92,6 +93,12 @@
            gives the card shadow room so overflow-x: auto doesn't clip it */
         padding: 2rem 1.5rem 2.75rem calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
         scroll-padding-left: calc(var(--ho-gutter) + var(--ho-fg-width) + var(--ho-start-gap));
+        /* Trailing runway: enough empty room after the last card that the end-of-scroll
+           rest snaps the *second-to-last* card to the clear start line (last card flush
+           right beside it). Every rest therefore leaves a card fully clear of the title —
+           no card ever lingers half-faded under it (the old end-state pinned a ghost
+           there) — while the final view still reads full instead of one lone card. */
+        padding-right: max(1.5rem, calc(100vw - var(--ho-gutter) - var(--ho-fg-width) - var(--ho-start-gap) - 2 * var(--ho-card-w) - 1.6rem));
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
@@ -124,36 +131,40 @@
         pointer-events: auto;
     }
     .ho-roles__nav {
-        position: absolute;
-        top: 0;
-        right: var(--ho-gutter);
-        transform: translateY(-50%);
+        position: relative;
         z-index: 4;
         display: flex;
+        justify-content: flex-end;
         gap: 0.6rem;
+        /* sit just below the card row, anchored to the page's right gutter */
+        margin-top: 1.75rem;
+        padding-right: var(--ho-gutter);
     }
     .ho-roles__btn {
-        width: 3rem;
-        height: 3rem;
+        width: 4.5rem;
+        height: 4.5rem;
         border-radius: 9999px;
-        border: 3px solid var(--color-kidical-ink);
+        border: 0;
         background: var(--color-kidical-blue);
         color: white;
-        font-size: 1.3rem;
-        line-height: 1;
         display: grid;
         place-items: center;
         cursor: pointer;
-        box-shadow: 3px 3px 0 var(--color-kidical-ink);
-        transition: transform 0.1s, box-shadow 0.1s;
+        /* soft ambient lift, not the hard sticker offset — this nav floats on the band */
+        box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        transition: transform 0.18s ease-out, background-color 0.18s ease-out;
         padding: 0;
+    }
+    .ho-roles__btn svg {
+        width: 1.75rem;
+        height: 1.75rem;
     }
     .ho-roles__btn:not(:disabled):hover {
         background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
+        transform: scale(1.08);
     }
     .ho-roles__btn:not(:disabled):active {
-        transform: translate(2px, 2px);
-        box-shadow: 1px 1px 0 var(--color-kidical-ink);
+        transform: scale(0.94);
     }
     /* at the ends, hide the unusable button rather than greying it — a semi-transparent
        button reads oddly where it floats over the white -> yellow seam */
@@ -166,7 +177,7 @@
     .ho-roles__card {
         flex: 0 0 auto;
         scroll-snap-align: start;
-        width: 20rem;
+        width: var(--ho-card-w);
         display: flex;
     }
     .ho-roles__card > .feature-card { width: 100%; }
@@ -189,12 +200,9 @@
         }
         .ho-roles__title { max-width: none; font-size: var(--text-4xl); }
         .ho-roles__nav {
-            position: static;
-            justify-content: flex-end;
-            margin: 1rem 1rem 0;
-            transform: none;
+            margin-top: 1rem;
         }
-        .ho-roles__track { padding-left: 1rem; scroll-padding-left: 1rem; padding-top: 1rem; }
+        .ho-roles__track { padding-left: 1rem; scroll-padding-left: 1rem; padding-top: 1rem; padding-right: 1.5rem; }
     }
     /* white middle zone — a full-bleed white band over the yellow panel, sitting
        between the yellow opener and the light-blue closer */

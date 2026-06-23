@@ -451,16 +451,31 @@
                          photo slot holds a brand illustration for now (no portrait field yet);
                          a real per-person photo drops into the same <img> later. --}}
                     <div class="chapter-team__carousel"
-                        x-data="{ page(dir) { const t = $refs.track; const card = t.querySelector('.chapter-team__card'); if (!card) return; const step = card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0); t.scrollBy({ left: dir * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); } }">
+                        x-data="{
+                            start: true,
+                            end: false,
+                            scrollable: true,
+                            page(dir) { const t = $refs.track; const card = t.querySelector('.chapter-team__card'); if (!card) return; const step = card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0); t.scrollBy({ left: dir * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); },
+                            update() {
+                                const t = $refs.track;
+                                const max = t.scrollWidth - t.clientWidth;
+                                const card = t.querySelector('.chapter-team__card');
+                                const step = card ? card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0) : 0;
+                                this.scrollable = max > 1;
+                                // half-a-card tolerance both ends: the full-bleed track's snap
+                                // leaves a few-dozen px of lead-in scroll at rest, so an exact
+                                // 0 / max test never fires
+                                this.start = step === 0 || t.scrollLeft <= step / 2;
+                                this.end = step > 0 && max - t.scrollLeft <= step / 2;
+                            }
+                        }"
+                        x-init="$nextTick(() => update())"
+                        x-on:resize.window="update()">
                         <div class="chapter-team__head">
                             <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
-                            <div class="chapter-team__nav">
-                                <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)">‹</button>
-                                <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)">›</button>
-                            </div>
                         </div>
 
-                        <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}">
+                        <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}" x-on:scroll.passive="update()">
                             @foreach ($team as $member)
                                 <li class="chapter-team__card">
                                     <span class="chapter-team__photo">
@@ -471,6 +486,15 @@
                                 </li>
                             @endforeach
                         </ul>
+
+                        <div class="chapter-team__nav" x-show="scrollable" x-cloak>
+                            <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
+                                <flux:icon.chevron-left aria-hidden="true" />
+                            </button>
+                            <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)" :disabled="end">
+                                <flux:icon.chevron-right aria-hidden="true" />
+                            </button>
+                        </div>
                     </div>
                 @endif
 

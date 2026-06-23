@@ -62,8 +62,12 @@
                     });
                 }
                 const max = t.scrollWidth - t.clientWidth;
+                const card = t.querySelector('.ho-roles__card');
+                const step = card ? card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0) : 0;
                 this.start = t.scrollLeft <= 1;
-                this.end = t.scrollLeft >= max - 1;
+                // within half a card of the end — tolerant of the few-px gap mandatory
+                // snap leaves between the last snap point and the raw max scroll
+                this.end = step > 0 && max - t.scrollLeft <= step / 2;
             }
         }"
         x-init="$nextTick(() => update())"
@@ -75,11 +79,6 @@
             <h2 id="ho-roles-title" class="ho-roles__title">Hoe je kan helpen</h2>
         </div>
 
-        <div class="ho-roles__nav">
-            <button type="button" class="ho-roles__btn" aria-label="Vorige rollen" x-on:click="page(-1)" :disabled="start">‹</button>
-            <button type="button" class="ho-roles__btn" aria-label="Volgende rollen" x-on:click="page(1)" :disabled="end">›</button>
-        </div>
-
         <ul class="ho-roles__track" x-ref="track" role="list" aria-label="Manieren om te helpen" x-on:scroll.passive="update()">
             @foreach ($helpRoles as $role)
                 <li class="ho-roles__card">
@@ -89,6 +88,15 @@
                 </li>
             @endforeach
         </ul>
+
+        <div class="ho-roles__nav">
+            <button type="button" class="ho-roles__btn" aria-label="Vorige rollen" x-on:click="page(-1)" :disabled="start">
+                <flux:icon.chevron-left aria-hidden="true" />
+            </button>
+            <button type="button" class="ho-roles__btn" aria-label="Volgende rollen" x-on:click="page(1)" :disabled="end">
+                <flux:icon.chevron-right aria-hidden="true" />
+            </button>
+        </div>
     </section>
 
     {{-- WAT MEEDOEN INHOUDT — scroll-sequence (gedeelde component). De collage rechts

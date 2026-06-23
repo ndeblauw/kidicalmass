@@ -504,25 +504,44 @@
         margin-bottom: 0.5rem;
     }
     .chapter-team__head .chapter-team__headline { margin-bottom: 0; }
-    .chapter-team__nav { display: flex; gap: 0.6rem; flex-shrink: 0; }
+    /* Nav lives below the card row, anchored to the carousel's right edge (the track
+       breaks out full-bleed, but this stays within the container). */
+    .chapter-team__nav {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.6rem;
+        margin-top: 1rem;
+    }
     .chapter-team__btn {
-        width: 3rem;
-        height: 3rem;
+        width: 4.5rem;
+        height: 4.5rem;
         border-radius: 9999px;
-        border: 3px solid var(--color-kidical-ink);
+        border: 0;
         background: var(--color-kidical-blue);
         color: white;
-        font-size: 1.2rem;
-        line-height: 1;
         display: grid;
         place-items: center;
         cursor: pointer;
-        box-shadow: 3px 3px 0 var(--color-kidical-ink);
-        transition: transform 0.1s, box-shadow 0.1s;
+        /* soft ambient lift, not the hard sticker offset */
+        box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        transition: transform 0.18s ease-out, background-color 0.18s ease-out;
+        padding: 0;
     }
-    .chapter-team__btn:active {
-        transform: translate(2px, 2px);
-        box-shadow: 1px 1px 0 var(--color-kidical-ink);
+    .chapter-team__btn svg {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+    .chapter-team__btn:not(:disabled):hover {
+        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
+        transform: scale(1.08);
+    }
+    .chapter-team__btn:not(:disabled):active {
+        transform: scale(0.94);
+    }
+    /* hide the unusable arrow at the ends rather than greying it (matches the help-out
+       roles carousel) */
+    .chapter-team__btn:disabled {
+        visibility: hidden;
     }
 
     .chapter-team__track {
