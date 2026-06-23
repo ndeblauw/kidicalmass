@@ -19,7 +19,6 @@ class Partner extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-
     protected function casts(): array
     {
         return [

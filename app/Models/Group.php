@@ -28,7 +28,6 @@ class Group extends Model implements HasMedia
     use HasMainImage;
     use InteractsWithMedia;
 
-
     protected function casts(): array
     {
         return [

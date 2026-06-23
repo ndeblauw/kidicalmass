@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ArticleFactory extends Factory
 {
     use AttachesMediaFromCache;
+
     public function definition(): array
     {
         return [
