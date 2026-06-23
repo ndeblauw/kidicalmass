@@ -28,11 +28,15 @@ class Group extends Model implements HasMedia
     use HasMainImage;
     use InteractsWithMedia;
 
-    protected $casts = [
-        'started_at' => 'date',
-        'ended_at' => 'date',
-        'invisible' => 'boolean',
-    ];
+
+    protected function casts(): array
+    {
+        return [
+            'started_at' => 'date',
+            'ended_at' => 'date',
+            'invisible' => 'boolean',
+        ];
+    }
 
     public function parent(): BelongsTo
     {

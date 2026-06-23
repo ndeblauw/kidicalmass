@@ -19,10 +19,14 @@ class Partner extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    protected $casts = [
-        'show_logo' => 'boolean',
-        'visible' => 'boolean',
-    ];
+
+    protected function casts(): array
+    {
+        return [
+            'show_logo' => 'boolean',
+            'visible' => 'boolean',
+        ];
+    }
 
     public function registerMediaConversions(?Media $media = null): void
     {
