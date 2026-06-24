@@ -19,7 +19,7 @@ class ActivityController extends Controller
     {
         $this->authorizeAccess($activity);
 
-        $activity->load(['author', 'groups']);
+        $activity->load(['author', 'groups.users']);
 
         // Rides get the full ride layout (route map, pace promises, pink-vest ask);
         // every other type (workshop/meeting/other) gets the lighter, description-led
