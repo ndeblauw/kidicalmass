@@ -9,26 +9,35 @@
         <div class="container mx-auto px-4 activity-head__inner">
 
             <div class="activity-head__copy">
-                <h1 class="page-hero__title">{{ $activity->title_nl }}</h1>
-
-                <p class="activity-head__date">
-                    <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ \Illuminate\Support\Str::ucfirst($activity->begin_date->translatedFormat('l j F')) }}</time>
+                <p class="activity-head__eyebrow">
+                    <time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->dateFull) }} &middot; {{ $activity->timeLabel }}</time>
                 </p>
 
+                <h1 class="page-hero__title">{{ $activity->title_nl }}</h1>
+
+                @if($activity->content_nl)
+                    <x-intro-text class="activity-head__lead">{!! nl2br(e($activity->content_nl)) !!}</x-intro-text>
+                @endif
+
                 @if($activity->groups->isNotEmpty())
-                    <div class="activity-head__chapter">
-                        <svg class="activity-head__chapter-pin" viewBox="0 0 40 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M20 2C10.059 2 2 10.059 2 20C2 32 20 52 20 52C20 52 38 32 38 20C38 10.059 29.941 2 20 2Z" fill="var(--color-kidical-red)"/>
-                            <circle cx="20" cy="20" r="7.5" fill="rgba(0,0,0,0.25)"/>
-                            <circle cx="20" cy="20" r="4.5" fill="white"/>
-                        </svg>
-                        <div class="activity-head__chapter-label">
+                    <div class="activity-head__org">
+                        <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="activity-head__org-mark">
+                        <div class="activity-head__org-label">
                             @foreach($activity->groups as $group)
-                                <span>{{ $group->name }}</span>
+                                <span class="activity-head__org-name">{{ $group->name }}</span>
+                                @if($group->zip)
+                                    <span class="activity-head__org-zip">{{ $group->zip }}</span>
+                                @endif
                             @endforeach
                         </div>
                     </div>
                 @endif
+
+                <x-share-links
+                    :url="route('activities.show', $activity)"
+                    :title="$activity->title_nl"
+                    :date="\Illuminate\Support\Str::ucfirst($activity->dateFull)"
+                    class="activity-head__share" />
             </div>
 
             <figure class="activity-head__media">
@@ -132,13 +141,6 @@
                 @endif
             </div>
         </article>
-
-        {{-- DESCRIPTION — the ride in a few warm lines --}}
-        @if($activity->content_nl)
-            <section class="activity-prose">
-                {!! nl2br(e($activity->content_nl)) !!}
-            </section>
-        @endif
 
         {{-- WAT KUN JE VERWACHTEN — the fixed promises, as soft cards --}}
         <section class="activity-promises">

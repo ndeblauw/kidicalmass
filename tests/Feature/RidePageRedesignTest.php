@@ -50,3 +50,22 @@ it('eager-loads the organising group so its name renders (not masked by the acti
         ->assertOk()
         ->assertSee('Fietsersbond Etterbeek');
 });
+
+it('shows the date·time eyebrow, the description as hero lead, and the group zip', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Etterbeek', 'zip' => '1040']);
+    $ride = makeRide([
+        'content_nl' => 'Een vrolijke gezinsrit door autovrije straten.',
+        'begin_date' => now()->setDate(2026, 6, 28)->setTime(14, 0),
+    ]);
+    $ride->groups()->attach($group);
+
+    get(rideUrl($ride))
+        ->assertOk()
+        ->assertSee('activity-head__eyebrow', false)          // yellow date·time eyebrow exists
+        ->assertSee('14:00')                                  // time present in the eyebrow
+        ->assertSee('Een vrolijke gezinsrit')                 // description rendered as hero lead
+        ->assertSee('1040')                                   // group zip on the logo lockup
+        ->assertSee('activity-head__share', false)            // share links at the bottom of the hero
+        ->assertDontSee('activity-head__date', false)         // old date treatment gone
+        ->assertDontSee('activity-head__chapter', false);     // old pin lockup gone
+});

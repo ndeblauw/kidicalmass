@@ -24,42 +24,50 @@
         padding-top: calc(var(--spacing) * 24);
         padding-bottom: calc(var(--spacing) * 9);
     }
-    .activity-head__date {
+    /* Yellow date·time eyebrow above the title */
+    .activity-head__eyebrow {
         color: var(--color-kidical-yellow);
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
-        margin-top: 1rem;
+        font-size: clamp(var(--text-lg), 1.6vw, var(--text-xl));
+        margin: 0 0 0.75rem;
     }
-    .activity-head__chapter {
+    /* Description as a light lead on the blue band */
+    .activity-head__lead {
+        color: color-mix(in oklab, white, transparent 6%);
+        margin-top: 1.25rem;
+        max-width: 46ch;
+    }
+    /* Organising group identity lockup — brand mark + name + zip */
+    .activity-head__org {
         display: inline-flex;
         align-items: center;
+        gap: 0.75rem;
         margin-top: 1.75rem;
-        transform: rotate(-3deg);
-        transform-origin: left center;
     }
-    .activity-head__chapter-pin {
-        width: 4.5rem;
-        height: auto;
+    .activity-head__org-mark {
+        width: 2.75rem;
+        height: 2.75rem;
         flex-shrink: 0;
-        position: relative;
-        z-index: 1;
-        margin-right: -1.1rem;
-        margin-left: -10px;
     }
-    .activity-head__chapter-label {
+    .activity-head__org-label {
         display: flex;
         flex-direction: column;
-        background-color: var(--color-kidical-sky);
-        color: white;
+        line-height: 1.15;
+    }
+    .activity-head__org-name {
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: 1.3rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        line-height: 1.2;
-        padding: 0.7rem 1.4rem 0.7rem 1.7rem;
-        border-radius: 0.9rem;
+        font-size: var(--text-lg);
+        color: white;
+    }
+    .activity-head__org-zip {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        color: color-mix(in oklab, white, transparent 28%);
+    }
+    .activity-head__share {
+        margin-top: 2rem;
     }
     .activity-head__media {
         margin: 2rem 0 0;
@@ -188,13 +196,6 @@
     .activity-facts__route {
         flex: 1;
         min-height: 14rem;
-    }
-
-    /* ── DESCRIPTION — a comfortable measure of prose ─────────────────────────── */
-    .activity-prose {
-        max-width: 58ch;
-        line-height: 1.65;
-        color: var(--color-text-body);
     }
 
     /* ── WAT KUN JE VERWACHTEN — the fixed promises, as soft cards ────────────── */
