@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
     /** Coordinator/author users, rotated across content. */
     private Collection $authors;
 
+    /** Shared sample GPX track, generated once and reused for every ride. */
+    private ?string $sampleGpx = null;
+
     public function run(): void
     {
         $this->call(PostalCodeSeeder::class);
@@ -118,6 +121,8 @@ class DatabaseSeeder extends Seeder
                 if (! empty($data['photo'])) {
                     $this->attachRealPhoto($activity, 'main');
                 }
+
+                $this->attachSampleGpx($activity);
             }
         });
     }
@@ -210,6 +215,59 @@ class DatabaseSeeder extends Seeder
 
         $model->clearMediaCollection($collection);
         $model->addMedia($path)->preservingOriginal()->toMediaCollection($collection);
+    }
+
+    /**
+     * Give every ride a GPX route so its detail page renders a route map. Only actual
+     * rides get one (a meeting or workshop has no route). Skipped in the testing
+     * environment (mirrors ActivityFactory) and when one already exists.
+     */
+    private function attachSampleGpx(Activity $activity): void
+    {
+        if (app()->environment('testing')) {
+            return;
+        }
+
+        if ($activity->activity_type !== ActivityType::KIDICALMASS) {
+            return;
+        }
+
+        if ($activity->getFirstMedia('gpx')) {
+            return;
+        }
+
+        $activity->addMediaFromString($this->sampleRouteGpx())
+            ->usingFileName('route.gpx')
+            ->usingName('route')
+            ->toMediaCollection('gpx');
+    }
+
+    /**
+     * A believable ~1.5 km loop through central Brussels, reused for every seeded ride.
+     * Enough points for a convincing route line and a departure pin. Built once, cached.
+     */
+    private function sampleRouteGpx(): string
+    {
+        if ($this->sampleGpx !== null) {
+            return $this->sampleGpx;
+        }
+
+        $lat = 50.8467;
+        $lng = 4.3499;
+        $steps = 32;
+        $points = [];
+
+        for ($i = 0; $i <= $steps; $i++) {
+            $angle = ($i / $steps) * 2 * M_PI;
+            $pointLat = $lat + (0.009 * sin($angle)) + (0.0018 * sin(3 * $angle));
+            $pointLng = $lng + (0.013 * cos($angle)) + (0.0026 * cos(2 * $angle));
+            $points[] = sprintf('<trkpt lat="%.5f" lon="%.5f"/>', $pointLat, $pointLng);
+        }
+
+        return $this->sampleGpx = '<?xml version="1.0" encoding="UTF-8"?>'
+            .'<gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1"><trk><trkseg>'
+            .implode('', $points)
+            .'</trkseg></trk></gpx>';
     }
 
     /**
