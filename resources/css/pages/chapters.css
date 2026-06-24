@@ -94,19 +94,23 @@
     /* 3b · LATEST-RIDE GALLERY ("In beeld") — a "Recentste parade" poster leads a grid wall
        of the ride's photos; the dual-logic opt-in card is woven INTO the wall, spanning two
        columns of the top row so its light-blue surface breaks the run of photo-tops. The
-       rest of the set lives in the lightbox. Mobile: two columns. Wide: three. XL: four. */
+       rest of the set lives in the lightbox. Up to md: two columns (the poster + opt-in
+       still pair cleanly and tiles stay generous). Three columns wait until they fit
+       without squeezing (64rem); four on the XL wall. The minmax(0, 1fr) tracks let
+       columns shrink below their content's intrinsic width so a wide photo crops to fill
+       (object-fit) instead of blowing the grid past the container. */
     .chapter-gallery__grid {
         list-style: none;
         margin: 0;
         padding: 0;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: calc(var(--spacing) * 5);
         grid-auto-flow: row dense;
     }
-    @media (min-width: 48rem) {
+    @media (min-width: 64rem) {
         .chapter-gallery__grid {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
         }
     }
     /* Two extra photos earn their place only on the wider XL wall. */
@@ -115,7 +119,7 @@
     }
     @media (min-width: 80rem) {
         .chapter-gallery__grid {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));
         }
         .chapter-gallery__cell--xl {
             display: block;
