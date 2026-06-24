@@ -852,3 +852,14 @@ test('§7 join block auto-opens when intent=volunteer is in the query string', f
         ->assertOk()
         ->assertSee('open: true', false);          // x-data initialises open
 });
+
+test('chapter team carousel hides members who opted out of the public roster', function () {
+    $group = Group::create(['shortname' => 'opt', 'name' => 'Kidical Mass Etterbeek', 'zip' => '1040', 'invisible' => false, 'started_at' => now()]);
+    $group->users()->attach(User::factory()->create(['name' => 'Sofie Maes']), ['is_public' => true]);
+    $group->users()->attach(User::factory()->create(['name' => 'Bram Verhaeghe']), ['is_public' => false]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Sofie')        // public member shown
+        ->assertDontSee('Bram');    // opted-out member hidden
+});

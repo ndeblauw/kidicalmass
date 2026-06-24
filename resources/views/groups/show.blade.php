@@ -38,13 +38,13 @@
 
         // FAUX active volunteers + roles (no per-group volunteer roster/role field yet —
         // GitHub #37 / D-1). Shown only alongside a real lead, to preview "lead + crew".
-        $fauxVolunteers = $group->users->isNotEmpty() ? [
+        $fauxVolunteers = $group->publicMembers->isNotEmpty() ? [
             ['name' => 'Marieke', 'role' => 'roze hesje'],
             ['name' => 'Tariq', 'role' => 'roze hesje'],
             ['name' => 'Lien', 'role' => 'communicatie'],
         ] : [];
 
-        $members = $group->users
+        $members = $group->publicMembers
             ->map(fn ($u) => ['name' => $u->name, 'role' => 'trekker', 'initials' => $initialsOf($u->name)])
             ->concat(collect($fauxVolunteers)->map(fn ($v) => ['name' => $v['name'], 'role' => $v['role'], 'initials' => $initialsOf($v['name'])]));
 

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -60,6 +61,17 @@ class Group extends Model implements HasMedia
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withPivot('is_public', 'role')->withTimestamps();
+    }
+
+    /**
+     * The members shown on public rosters (chapter + ride pages): everyone who
+     * has not opted out via the `is_public` pivot flag. Filters the loaded
+     * `users` collection in memory, so eager-loading `users` is enough — no
+     * extra query. Use `users()` (unfiltered) for membership/auth checks.
+     */
+    public function getPublicMembersAttribute(): Collection
+    {
+        return $this->users->filter(fn (User $user): bool => (bool) $user->pivot->is_public)->values();
     }
 
     public function changes(?CarbonInterface $startDate = null, ?CarbonInterface $endDate = null): GroupChangesResult

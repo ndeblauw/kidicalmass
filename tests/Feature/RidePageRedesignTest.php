@@ -113,3 +113,17 @@ it('hides the team section when the organising group has no members', function (
         ->assertOk()
         ->assertDontSee('activity-team__people', false);
 });
+
+it('excludes group members who opted out of the public roster (is_public = false)', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Etterbeek', 'zip' => '1040']);
+    $group->users()->attach(User::factory()->create(['name' => 'Marieke Janssens']), ['is_public' => true]);
+    $group->users()->attach(User::factory()->create(['name' => 'Bram Verhaeghe']), ['is_public' => false]);
+
+    $ride = makeRide();
+    $ride->groups()->attach($group);
+
+    get(rideUrl($ride))
+        ->assertOk()
+        ->assertSee('Marieke')      // public member shown
+        ->assertDontSee('Bram');    // opted-out member hidden
+});

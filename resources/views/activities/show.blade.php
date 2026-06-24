@@ -5,10 +5,11 @@
     $hasMap = count($routeCoords) > 0;
     $mainImage = $activity->getFirstMedia('main');
 
-    // The organising group's real registered members, deduped across multiple groups.
-    // No per-ride volunteer roster exists yet (GitHub #37 / D-1); avatars are the
-    // deterministic brand illustrations, keyed by name so each person keeps the same one.
-    $volunteers = $activity->groups->flatMap->users->unique('id')->values();
+    // The organising group's public members, deduped across multiple groups. Members
+    // who opted out (is_public = false) are excluded. No per-ride volunteer roster
+    // exists yet (GitHub #37 / D-1); avatars are the deterministic brand illustrations,
+    // keyed by name so each person keeps the same one.
+    $volunteers = $activity->groups->flatMap->publicMembers->unique('id')->values();
 
     $teamIllustrations = [
         'waving-rider', 'relaxed-rider', 'rider-with-flag',
