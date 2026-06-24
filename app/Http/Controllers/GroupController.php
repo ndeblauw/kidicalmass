@@ -112,6 +112,15 @@ class GroupController extends Controller
             ->orderBy('begin_date')
             ->get();
 
+        $upcomingRides = $activities->where('activity_type', ActivityType::KIDICALMASS)->values();
+        $otherActivities = $activities->where('activity_type', '!=', ActivityType::KIDICALMASS)->values();
+
+        $pastRidesCount = Activity::query()
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '<', now())
+            ->count();
+
         $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name')->get();
         $pressArticles = $group->pressArticles()->with('media')->latest('published_at')->get();
 
@@ -128,7 +137,10 @@ class GroupController extends Controller
             ->orderByDesc('begin_date')
             ->first();
 
-        return view('groups.show', compact('group', 'articles', 'activities', 'partners', 'pressArticles', 'latestRide'));
+        return view('groups.show', compact(
+            'group', 'articles', 'activities', 'partners', 'pressArticles', 'latestRide',
+            'upcomingRides', 'otherActivities', 'pastRidesCount',
+        ));
     }
 
     /**

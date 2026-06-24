@@ -1,16 +1,18 @@
 {{--
-    Chapter page (P-11) — the local group's HOME. Family-first arc, re-arranged onto the
-    shared band rhythm (Critique + normalize, Frederik 2026-06-09): blue identity hero ->
-    group photo (flush) -> ONE white agenda (typed; every activity day-grouped on the shared
-    ride kit, full container width) -> quiet white extras (vrienden + downloads) -> ONE
-    yellow CLOSING band that fuses with the footer: first WHO runs the group (faces), then
-    the "help mee" recruitment CTA whose signup form opens on demand right under the button.
-    Colour story blue -> white -> yellow, like the sibling pages. The yellow band lives in
-    the layout's `closing` slot so it sits flush against the yellow footer (main -> pb-0).
+    Chapter page (P-11) — the local group's HOME. Intent-driven "v4" arc (Critique v4,
+    Frederik 2026-06-23): the parade is the page's gravity. Order:
+    1 hero (mission line only) -> 2 De volgende parade (split: left = next ride + subscribe
+    CTA, right = real stat cards "sinds {jaar}" + "N ritten") -> 3 alle parades strip ->
+    4 "Ook in {gemeente}" sky band of activity cards -> 5 photo gallery (kept) + colouring
+    download -> 6 team carousel (relocated mid-page) -> 8 affiches + "met dank aan" (press
+    REMOVED, lives on the channel Press page) -> 7 yellow CLOSING "help mee" band fused with
+    the footer (on-demand signup reveal). Colour story blue -> white -> sky -> white -> yellow.
     NL, on the ride/show kit. Structure only here; appearance in resources/css/pages/chapters.css.
-    Real now: typed agenda, partners (group-scoped, section 4), press articles (section 4),
-    on-demand reveal, group-specific J2 signup form.
-    Plan: docs/wiki/design/30-skeleton/chapters.md (§ Chapter Page + Critique v3).
+    Real now: rides/other-activities split (controller), real stat cards, on-demand reveal,
+    group-specific J2 signup form. Faked (clearly commented): subscribe CTA, volunteer roles,
+    affiches/sponsors, colouring download.
+    Plan: docs/superpowers/plans/2026-06-23-chapter-page-v4.md ·
+    Design: docs/wiki/design/30-skeleton/chapters.md (§ Critique v4).
 --}}
 <x-layouts::site title="{{ $group->name }}">
     @php
@@ -59,7 +61,7 @@
             ['label' => 'Kleurplaat voor onderweg', 'type' => 'PDF', 'url' => '#'],
         ];
 
-        $hasExtras = $partners->isNotEmpty() || $pressArticles->isNotEmpty() || $group->children->isNotEmpty();
+        $hasExtras = $partners->isNotEmpty() || $group->children->isNotEmpty();
 
         $allActivitiesUrl = route('activities.index', ['gemeente' => $group->id]);
 
@@ -89,10 +91,8 @@
         <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
         <div class="container mx-auto px-4 chapter-head__inner">
             <div class="chapter-head__copy">
-                @if (filled($group->zip))
-                    <p class="page-hero__eyebrow">{{ $group->zip }}</p>
-                @endif
                 <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
+                <p class="page-hero__lead">Wij fietsen samen met kinderen door {{ $gemeente }}, veilig, vrolijk, op kindertempo.</p>
             </div>
 
             <figure class="chapter-head__media">
@@ -113,49 +113,73 @@
         </div>
     </header>
 
-    {{-- 3 · OP DE AGENDA — white. A tall heart/30 sign anchors a left column beside the
-         agenda on wider screens; the column collapses away on mobile (illustration hidden). --}}
-    <section class="chapter-body chapter-agenda">
-        <div class="chapter-agenda__grid">
-            <aside class="chapter-agenda__aside" aria-hidden="true">
-                <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" class="chapter-agenda__sign">
-            </aside>
-
-            <div class="chapter-agenda__main">
-                <h2 class="chapter-section__title">Op de agenda in {{ $gemeente }}</h2>
-
-                {{-- No ride on the agenda yet (there may still be workshops/meetings below):
-                     a warm, honest note — never a workshop dressed as a ride. The opt-in below
-                     handles "leave your email". --}}
-                @unless ($hasRide)
+    {{-- 2 · DE VOLGENDE PARADE — the soonest kidicalmass ride leads. Phase 1: plain card.
+         Phase 2 turns this into the split-screen (left parade / right stat cards). --}}
+    <section class="chapter-body chapter-parade">
+        <h2 class="chapter-section__title">De volgende parade in {{ $gemeente }}</h2>
+        <div class="chapter-parade__split">
+            <div class="chapter-parade__main">
+                @if ($upcomingRides->isNotEmpty())
+                    @php $nextRide = $upcomingRides->first(); @endphp
+                    <x-ride-day
+                        :period-key="$nextRide->begin_date->format('Y-m-d')"
+                        :commune="$gemeente"
+                        :rows="[['item' => $nextRide]]" />
+                    {{-- built-in subscribe CTA --}}
+                    <x-newsletter-optin :group="$group" :show-join="false" class="chapter-parade__optin" />
+                @else
                     <div class="chapter-next__card chapter-next__card--empty">
                         <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
                         <p class="chapter-next__empty-body">We laten het je weten zodra {{ $gemeente }} vertrekt. Schrijf je hieronder in.</p>
-                    </div>
-                @endunless
-
-                {{-- Rides, workshops and meetings, grouped by day with the date-rail lockup,
-                     exactly like the calendar's upcoming agenda. --}}
-                @if ($activities->isNotEmpty())
-                    <div class="chapter-agenda__list">
-                        @foreach ($agendaByDay as $periodKey => $dayActivities)
-                            <x-ride-day :period-key="$periodKey" :commune="$gemeente" :rows="$dayActivities->map(fn ($a) => ['item' => $a])->values()->all()" />
-                        @endforeach
+                        <x-newsletter-optin :group="$group" :show-join="false" class="chapter-parade__optin" />
                     </div>
                 @endif
-
             </div>
+            <aside class="chapter-parade__proof">
+                <div class="chapter-stat">
+                    <span class="chapter-stat__num">sinds {{ $group->started_at?->format('Y') ?? '2023' }}</span>
+                </div>
+                @if ($pastRidesCount > 0)
+                    <div class="chapter-stat">
+                        <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? 'rit' : 'ritten' }}</span>
+                        <span class="chapter-stat__label">samen gefietst</span>
+                    </div>
+                @endif
+            </aside>
         </div>
     </section>
 
-    {{-- 3a · MIS GEEN RIT — the page's primary low-commitment CTA, lifted out of the photo
-         wall (Frederik 2026-06-19) into its own band at peak intent: right after "when do we
-         ride". Always shown, exactly once. Prominent treatment (shadow + signature pill,
-         capped to a calm centred measure) so it reads as an action, not a gallery tile.
-         The "schrijf je hieronder in" empty-state note above keeps pointing right here. --}}
-    <section class="chapter-body chapter-optin">
-        <x-newsletter-optin :group="$group" :show-join="true" :prominent="true" class="chapter-optin__card" />
-    </section>
+    {{-- 3 · ALLE PARADES — the remaining upcoming rides as a compact strip, paired under §2. --}}
+    @if ($upcomingRides->count() > 1)
+        <section class="chapter-body chapter-parades-strip">
+            <h2 class="chapter-section__title">Alle parades</h2>
+            <div class="chapter-agenda__list">
+                @foreach ($upcomingRides->slice(1)->groupBy(fn ($a) => $a->begin_date->format('Y-m-d')) as $periodKey => $dayRides)
+                    <x-ride-day :period-key="$periodKey" :commune="$gemeente" :rows="$dayRides->map(fn ($a) => ['item' => $a])->values()->all()" />
+                @endforeach
+            </div>
+            <a href="{{ $allActivitiesUrl }}" class="link-plain chapter-parades-strip__all">Alle ritten (ook voorbije) →</a>
+        </section>
+    @endif
+
+    {{-- 4 · OOK IN GEMEENTE — workshops, filmavonden, meetings. Phase 2: full-bleed sky
+         band of activity cards. Each card shows type chip, title, date and location.
+         Lighter presence than the §2 parade but with real visual weight. --}}
+    @if ($otherActivities->isNotEmpty())
+        <section class="chapter-body chapter-other chapter-other--sky">
+            <h2 class="chapter-section__title">Ook in {{ $gemeente }}</h2>
+            <ul class="chapter-other__grid" role="list">
+                @foreach ($otherActivities as $activity)
+                    <li class="chapter-other__card">
+                        <span class="chapter-other__type">{{ $activity->activity_type->label() }}</span>
+                        <h3 class="chapter-other__title">{{ $activity->title_nl }}</h3>
+                        <time datetime="{{ $activity->begin_date->toDateString() }}">{{ $activity->begin_date->isoFormat('ddd D MMM') }}</time>
+                        @if ($activity->location)<p class="chapter-other__loc">{{ $activity->location }}</p>@endif
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
 
     {{-- 3b · IN BEELD — the latest ride's photos + an inline lightbox. Renders only when
          that ride has photos. The first cell is a date-rail lockup naming the ride (not a
@@ -338,63 +362,104 @@
         </section>
     @endif
 
-    {{-- 4 · LOCAL EXTRAS — quiet white, above the yellow closing band. Real partners
-         (visible, group-scoped) and press articles linked to this group. D-11 closed. --}}
+    {{-- §5 KLEURPLAAT — a small illustrated download aside between the gallery and the
+         team carousel. FAUX: real per-group download source pending Nico (#37).
+         Remove this block (and the .chapter-colouring* CSS) once the backend is wired. --}}
+    <aside class="chapter-body chapter-colouring">
+        {{-- FAUX: preview points at an existing illustration SVG (no binary asset yet). --}}
+        <img
+            src="{{ asset('img/illustrations/caterpillar-bike.svg') }}"
+            alt="Voorbeeld van de kleurplaat"
+            class="chapter-colouring__preview"
+        >
+        <div class="chapter-colouring__content">
+            <h3 class="chapter-colouring__title">Kleurplaat voor onderweg</h3>
+            <p class="chapter-colouring__desc">Print hem uit, neem hem mee op de fiets en kleur onderweg!</p>
+            {{-- FAUX: href="#" until Nico wires a real per-group download URL. --}}
+            <x-cta-button variant="secondary" href="#">Download (PDF)</x-cta-button>
+        </div>
+    </aside>
+
+    {{-- 6 · WIE ZIJN WIJ — the team carousel, relocated here (was in the closing band).
+         Markup unchanged. Faces meet the newcomer BEFORE the recruitment ask in §7. --}}
+    @if ($team->isNotEmpty())
+        <section class="chapter-body chapter-team">
+            <div class="chapter-team__carousel"
+                x-data="{
+                    start: true,
+                    end: false,
+                    scrollable: true,
+                    page(dir) { const t = $refs.track; const card = t.querySelector('.chapter-team__card'); if (!card) return; const step = card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0); t.scrollBy({ left: dir * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); },
+                    update() {
+                        const t = $refs.track;
+                        const max = t.scrollWidth - t.clientWidth;
+                        const card = t.querySelector('.chapter-team__card');
+                        const step = card ? card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0) : 0;
+                        this.scrollable = max > 1;
+                        // half-a-card tolerance both ends: the full-bleed track's snap
+                        // leaves a few-dozen px of lead-in scroll at rest, so an exact
+                        // 0 / max test never fires
+                        this.start = step === 0 || t.scrollLeft <= step / 2;
+                        this.end = step > 0 && max - t.scrollLeft <= step / 2;
+                    }
+                }"
+                x-init="$nextTick(() => update())"
+                x-on:resize.window="update()">
+                <div class="chapter-team__head">
+                    <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
+                </div>
+
+                <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}" x-on:scroll.passive="update()">
+                    @foreach ($team as $member)
+                        <li class="chapter-team__card">
+                            <span class="chapter-team__photo">
+                                <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
+                            </span>
+                            <span class="chapter-team__name">{{ explode(' ', trim($member['name']))[0] }}</span>
+                            <span class="chapter-team__role">{{ $member['role'] }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+
+                <div class="chapter-team__nav" x-show="scrollable" x-cloak>
+                    <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
+                        <flux:icon.chevron-left aria-hidden="true" />
+                    </button>
+                    <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)" :disabled="end">
+                        <flux:icon.chevron-right aria-hidden="true" />
+                    </button>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    {{-- 8 · AFFICHES + MET DANK AAN — quiet white tail. Real partners (visible, group-scoped)
+         and faux downloads. Press moved to the channel-wide Press page. D-11 closed. --}}
     @if ($hasExtras)
         <section class="chapter-body chapter-body--tail">
-            @if ($partners->isNotEmpty() || $pressArticles->isNotEmpty())
+            @if ($partners->isNotEmpty())
                 <div class="chapter-extras">
-                    @if ($pressArticles->isNotEmpty())
-                        {{-- "In de pers" leads the left column (Frederik 2026-06-18):
-                             local coverage first, friends to its right. --}}
-                        <div class="chapter-extras__block">
-                            <h3 class="chapter-section__title">In de pers</h3>
-                            <ul class="chapter-press" role="list">
-                                @foreach ($pressArticles as $pressArticle)
-                                    <li class="chapter-press__item">
-                                        <span class="chapter-press__outlet">{{ $pressArticle->outlet }}</span>
-                                        @if ($pressArticle->published_at)
-                                            <time class="chapter-press__date" datetime="{{ $pressArticle->published_at->toDateString() }}">{{ $pressArticle->published_at->isoFormat('D MMM YYYY') }}</time>
-                                        @endif
-                                        @if ($pressArticle->url)
-                                            <a href="{{ $pressArticle->url }}" target="_blank" rel="noopener noreferrer" class="chapter-press__title">{{ $pressArticle->title }}</a>
-                                        @else
-                                            <span class="chapter-press__title">{{ $pressArticle->title }}</span>
-                                        @endif
-                                        @if ($pressArticle->getFirstMedia('document'))
-                                            <a href="{{ $pressArticle->getFirstMediaUrl('document') }}" target="_blank" rel="noopener noreferrer" class="chapter-press__doc" aria-label="Artikel downloaden">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                            </a>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    @if ($partners->isNotEmpty())
-                        {{-- One kind of friend, always a text link (never a logo: keeps
-                             volunteer-uploaded artwork out). A plain wrapping run that
-                             stays compact at any length, with no cap. Right column. --}}
-                        <div class="chapter-extras__block">
-                            <h3 class="chapter-section__title">Vrienden van de groep</h3>
-                            <ul class="chapter-partners" role="list">
-                                @foreach ($partners as $partner)
-                                    <li class="chapter-partners__item">
-                                        @if ($partner->url)
-                                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="chapter-partners__link">{{ $partner->name }}</a>
-                                        @else
-                                            <span class="chapter-partners__name">{{ $partner->name }}</span>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    {{-- One kind of friend, always a text link (never a logo: keeps
+                         volunteer-uploaded artwork out). A plain wrapping run that
+                         stays compact at any length, with no cap. --}}
+                    <div class="chapter-extras__block">
+                        <h3 class="chapter-section__title">Met dank aan</h3>
+                        <ul class="chapter-partners" role="list">
+                            @foreach ($partners as $partner)
+                                <li class="chapter-partners__item">
+                                    @if ($partner->url)
+                                        <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="chapter-partners__link">{{ $partner->name }}</a>
+                                    @else
+                                        <span class="chapter-partners__name">{{ $partner->name }}</span>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
 
                     {{-- Downloads — chapter flyers/posters. FAUX placeholder for now (Nico
-                         wires the source). Sits inside the partners/press gate, so empty
-                         chapters stay empty. Compact: icon + label + a small type tag. --}}
+                         wires the source). Sits alongside partners, so empty chapters stay
+                         empty. Compact: icon + label + a small type tag. --}}
                     @if (! empty($fauxDownloads))
                         <div class="chapter-extras__block">
                             <h3 class="chapter-section__title">Downloads</h3>
@@ -428,10 +493,10 @@
         </section>
     @endif
 
-    {{-- 5 · YELLOW CLOSING BAND — the warmth + "join us" climax, fused with the footer.
-         First WHO runs the group (faces), then the "help mee" recruitment CTA whose signup
-         form opens on demand right under the button. Rendered in the layout's `closing`
-         slot so it sits flush above the yellow footer (main drops to pb-0). --}}
+    {{-- 7 · YELLOW CLOSING BAND — §7 help mee: the "join us" recruitment climax, fused
+         with the footer. The team carousel has moved to §6 (above). The seam illo and
+         "help mee" form remain here. Rendered in the layout's `closing` slot so it sits
+         flush above the yellow footer (main drops to pb-0). --}}
     <x-slot:closing>
         <section class="chapter-team-band" id="aanmelden">
             <div class="container mx-auto px-4 chapter-team-band__inner">
@@ -445,59 +510,6 @@
                     <img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" class="chapter-seam-illo">
                 @endif
 
-                @if ($team->isNotEmpty())
-                    {{-- WIE DIT TREKT — full-width carousel of illustrated polaroid cards.
-                         Headline + nav on top; crew photo at container width below. Each card's
-                         photo slot holds a brand illustration for now (no portrait field yet);
-                         a real per-person photo drops into the same <img> later. --}}
-                    <div class="chapter-team__carousel"
-                        x-data="{
-                            start: true,
-                            end: false,
-                            scrollable: true,
-                            page(dir) { const t = $refs.track; const card = t.querySelector('.chapter-team__card'); if (!card) return; const step = card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0); t.scrollBy({ left: dir * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); },
-                            update() {
-                                const t = $refs.track;
-                                const max = t.scrollWidth - t.clientWidth;
-                                const card = t.querySelector('.chapter-team__card');
-                                const step = card ? card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0) : 0;
-                                this.scrollable = max > 1;
-                                // half-a-card tolerance both ends: the full-bleed track's snap
-                                // leaves a few-dozen px of lead-in scroll at rest, so an exact
-                                // 0 / max test never fires
-                                this.start = step === 0 || t.scrollLeft <= step / 2;
-                                this.end = step > 0 && max - t.scrollLeft <= step / 2;
-                            }
-                        }"
-                        x-init="$nextTick(() => update())"
-                        x-on:resize.window="update()">
-                        <div class="chapter-team__head">
-                            <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
-                        </div>
-
-                        <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}" x-on:scroll.passive="update()">
-                            @foreach ($team as $member)
-                                <li class="chapter-team__card">
-                                    <span class="chapter-team__photo">
-                                        <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
-                                    </span>
-                                    <span class="chapter-team__name">{{ explode(' ', trim($member['name']))[0] }}</span>
-                                    <span class="chapter-team__role">{{ $member['role'] }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <div class="chapter-team__nav" x-show="scrollable" x-cloak>
-                            <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
-                                <flux:icon.chevron-left aria-hidden="true" />
-                            </button>
-                            <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)" :disabled="end">
-                                <flux:icon.chevron-right aria-hidden="true" />
-                            </button>
-                        </div>
-                    </div>
-                @endif
-
                 {{-- HELP MEE — recruitment CTA. On-demand reveal: the band stays light,
                      the helper expands the group-specific form right under the button.
                      Auto-open via ?intent=volunteer. --}}
@@ -508,6 +520,7 @@
                          x-transition:leave-start="chapter-join__cta--leave-start"
                          x-transition:leave-end="chapter-join__cta--leave-end">
                         <h2>Help mee in {{ $gemeente }}</h2>
+                        <p class="chapter-join__tagline">Een paar uur per maand, je hoeft geen fietsexpert te zijn.</p>
                         <div class="chapter-join__actions">
                             <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-on:click.prevent="open = true">Ja, ik wil meehelpen</x-cta-button>
                             <x-cta-button variant="secondary" href="{{ route('volunteer') }}">Meer over meehelpen</x-cta-button>

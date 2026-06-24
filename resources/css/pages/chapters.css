@@ -369,6 +369,48 @@
         margin-bottom: 1rem;
     }
 
+    /* 2 · PARADE SPLIT — left: featured ride + subscribe CTA; right: stat cards.
+       Two columns on wider screens (parade ~1.2fr, proof ~1fr); stacks on mobile.
+       The proof column holds token-backed stat cards, no photos. */
+    .chapter-parade__split {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 4vw, 3rem);
+    }
+    @media (min-width: 48rem) {
+        .chapter-parade__split {
+            grid-template-columns: 1.2fr 1fr;
+            align-items: start;
+        }
+    }
+    .chapter-parade__proof {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--spacing) * 4);
+    }
+    .chapter-stat {
+        background-color: var(--color-kidical-light-yellow);
+        border-radius: var(--radius-card);
+        padding: calc(var(--spacing) * 6) calc(var(--spacing) * 7);
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--spacing) * 1);
+    }
+    .chapter-stat__num {
+        font-family: var(--font-heading);
+        font-size: var(--text-2xl);
+        font-weight: 900;
+        color: var(--color-kidical-ink);
+        line-height: 1.1;
+    }
+    .chapter-stat__label {
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+    }
+
     /* 3 · AGENDA — the next ride is the single, unmistakable hero card */
     .chapter-next__card {
         border-radius: 1.25rem;
@@ -771,6 +813,48 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
     }
 
+    /* §5 KLEURPLAAT DOWNLOAD — small illustrated aside between the gallery and the team
+       carousel. FAUX placeholder: remove when Nico wires real per-group downloads. */
+    .chapter-colouring {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+    @media (min-width: 36rem) {
+        .chapter-colouring {
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+    .chapter-colouring__preview {
+        flex: none;
+        width: 7rem;
+        height: auto;
+        border-radius: var(--radius-card);
+        background-color: var(--color-kidical-light-yellow);
+    }
+    .chapter-colouring__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    .chapter-colouring__title {
+        margin: 0;
+        font-family: var(--font-heading);
+        font-size: var(--text-xl);
+        font-weight: 800;
+        color: var(--color-kidical-ink);
+        line-height: 1.2;
+    }
+    .chapter-colouring__desc {
+        margin: 0;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+        font-size: var(--text-sm);
+    }
+
     /* 4 · LOCAL EXTRAS — quiet white, above the yellow closing band */
     .chapter-extras {
         display: grid;
@@ -841,6 +925,57 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+    }
+
+    /* 4 · OOK IN GEMEENTE — sky band of activity cards (Phase 2).
+       Full-bleed with the same margin technique as .chapter-team-band (100vw /
+       calc(50% - 50vw)), matching commit a526452's fix to avoid horizontal scroll:
+       overflow-x is clipped on the band itself so the scrollbar-gutter gap from
+       100vw never creates a phantom horizontal bar. */
+    .chapter-other--sky {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        padding-inline: max(1rem, calc(50vw - 50%));
+        background-color: var(--color-kidical-sky);
+        overflow-x: clip;
+    }
+    .chapter-other__grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+        gap: clamp(1rem, 2.5vw, 1.5rem);
+        margin-top: 1.5rem;
+    }
+    .chapter-other__card {
+        background-color: white;
+        border-radius: var(--radius-card);
+        padding: clamp(1.25rem, 3vw, 1.75rem);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        box-shadow: var(--shadow-card);
+    }
+    .chapter-other__type {
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+    }
+    .chapter-other__title {
+        font-family: var(--font-heading);
+        font-size: var(--text-xl);
+        font-weight: 800;
+        color: var(--color-kidical-ink);
+        margin: 0;
+        line-height: 1.2;
+    }
+    .chapter-other__loc {
+        margin: 0;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
 
     /* Press articles list — local coverage linked to this chapter. */

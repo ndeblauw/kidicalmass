@@ -285,9 +285,8 @@ test('chapter home leads with the next ride in NL, not metadata', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Op de agenda')           // unified typed agenda; the ride lists as a normal day-grouped row
-        ->assertSee('Place Colignon')         // the ride's venue shows in its ride-row meta
-        ->assertDontSee('Naar de rit')        // no featured spotlight hero on the chapter page anymore
+        ->assertSee('De volgende parade')     // §2 heading — parade leads the page
+        ->assertSee('Place Colignon')         // the ride's venue
         ->assertDontSee('Part of:')
         ->assertDontSee('Organised by')
         ->assertDontSee('Subgroups');
@@ -335,9 +334,9 @@ test('chapter agenda labels a workshop as a workshop, never as a ride', function
         ->assertOk()
         // No ride → the warm empty-ride state, NOT the workshop dressed up as a ride.
         ->assertSee('Nog geen fietstocht gepland')
-        // The workshop shows in the agenda, typed by its green calendar accent.
-        ->assertSee('--ride-accent: var(--color-kidical-green)', false)
+        // The workshop title appears in the §4 sky band of activity cards.
         ->assertSee('Fietscheck en sleutelworkshop')
+        ->assertSee('Ook in')
         // A workshop never gets the ride CTA.
         ->assertDontSee('Naar de fietstocht');
 });
@@ -357,8 +356,9 @@ test('chapter agenda accents a meeting blue on its calendar lockup', function ()
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('--ride-accent: var(--color-kidical-blue)', false) // type now reads as the blue calendar accent
+        // The meeting title appears in the §4 sky band of activity cards.
         ->assertSee('Vrijwilligersmeeting')
+        ->assertSee('Ook in')
         ->assertDontSee('Naar de fietstocht');
 });
 
@@ -378,17 +378,17 @@ test('chapter page shows visible local partners', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Vrienden van de groep')
+        ->assertSee('Met dank aan')
         ->assertSee('Fietsbieb Anderlecht')
         ->assertDontSee('Verborgen Partner');
 });
 
-test('chapter page shows press articles linked to the group', function () {
+test('chapter page no longer shows press — it moved to the channel Press page', function () {
     $group = Group::create(['shortname' => 'mol', 'name' => 'Kidical Mass Mol', 'zip' => '2400', 'invisible' => false, 'started_at' => now()]);
 
     $article = PressArticle::factory()->create([
         'title_nl' => 'Gezinnen fietsen door Mol',
-        'title_fr' => 'Des familles roulent à Mol',
+        'title_fr' => 'x',
         'outlet' => 'Het Nieuwsblad',
         'url' => null,
         'published_at' => now()->subMonths(2),
@@ -397,19 +397,19 @@ test('chapter page shows press articles linked to the group', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('In de pers')
-        ->assertSee('Het Nieuwsblad')
-        ->assertSee('Gezinnen fietsen door Mol');
+        ->assertDontSee('In de pers')
+        ->assertDontSee('Het Nieuwsblad')
+        ->assertDontSee('Gezinnen fietsen door Mol');
 });
 
-test('chapter extras section hidden when no partners or press articles', function () {
+test('chapter extras section hidden when no partners', function () {
     $group = Group::create(['shortname' => 'hm', 'name' => 'Kidical Mass Hasselt', 'zip' => '3500', 'invisible' => false, 'started_at' => now()]);
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertDontSee('Vrienden van de groep')
+        ->assertDontSee('Met dank aan')
         ->assertDontSee('In de pers')
-        ->assertDontSee('Downloads'); // downloads ride along with real extras, never alone
+        ->assertDontSee('Downloads'); // downloads ride along with real partners, never alone
 });
 
 test('chapter friends always render as text, never a logo', function () {
@@ -453,7 +453,7 @@ test('chapter partners are listed alphabetically', function () {
         ->assertSeeInOrder(['Atelier Velo Brugge', 'Zorgwinkel Brugge']);
 });
 
-test('press article links out only when it has a url', function () {
+test('press articles no longer link out on the chapter page — press moved to channel Press page', function () {
     $group = Group::create(['shortname' => 'ev', 'name' => 'Kidical Mass Evere', 'zip' => '1140', 'invisible' => false, 'started_at' => now()]);
 
     $linked = PressArticle::factory()->create(['title_nl' => 'Met een link erbij', 'outlet' => 'BRUZZ', 'url' => 'https://example.test/artikel', 'published_at' => now()->subMonth()]);
@@ -463,11 +463,11 @@ test('press article links out only when it has a url', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('https://example.test/artikel', false) // the linked title is an <a href>
-        ->assertSee('Zonder link');
+        ->assertDontSee('https://example.test/artikel', false)
+        ->assertDontSee('Zonder link');
 });
 
-test('press articles are ordered newest first', function () {
+test('press article ordering is irrelevant — press no longer appears on the chapter page', function () {
     $group = Group::create(['shortname' => 'jt', 'name' => 'Kidical Mass Jette', 'zip' => '1090', 'invisible' => false, 'started_at' => now()]);
 
     $older = PressArticle::factory()->create(['title_nl' => 'Oud bericht', 'outlet' => 'Le Soir', 'url' => null, 'published_at' => now()->subYear()]);
@@ -477,41 +477,48 @@ test('press articles are ordered newest first', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSeeInOrder(['Vers bericht', 'Oud bericht']);
+        ->assertDontSee('Oud bericht')
+        ->assertDontSee('Vers bericht');
 });
 
-test('downloads block appears alongside real extras', function () {
+test('downloads block appears alongside real partners', function () {
     $group = Group::create(['shortname' => 'wm', 'name' => 'Kidical Mass Watermaal', 'zip' => '1170', 'invisible' => false, 'started_at' => now()]);
 
-    $article = PressArticle::factory()->create(['title_nl' => 'Lokaal nieuws', 'outlet' => 'BRUZZ', 'url' => null, 'published_at' => now()->subMonth()]);
-    $article->groups()->attach($group);
+    Partner::factory()->create(['group_id' => $group->id, 'name' => 'Lokale Bakker', 'visible' => true, 'show_logo' => false]);
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('In de pers')
+        ->assertSee('Met dank aan')
         ->assertSee('Downloads');
 });
 
-test('guest follow box bridges to the volunteer signup', function () {
+test('guest follow box shows the newsletter opt-in in §2', function () {
+    // The standalone chapter-optin band (show-join="true") is removed in v4;
+    // the subscribe CTA now lives inside §2 with show-join="false".
     $group = Group::create(['shortname' => 'fo', 'name' => 'Kidical Mass Vorst', 'zip' => '1190', 'invisible' => false, 'started_at' => now()]);
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Schrijf je in')                 // following stays the primary action
-        ->assertSee('help mee als vrijwilliger')      // bridge to the join step
-        ->assertSee('#aanmelden', false);             // anchors to the join band
+        ->assertSee('Mis geen rit')                      // subscribe CTA in §2
+        ->assertSee('Schrijf je in')                     // primary action
+        ->assertDontSee('help mee als vrijwilliger');    // join bridge removed (show-join="false")
 });
 
-test('logged-in follow box nudges toward joining rather than dead-ending', function () {
+test('logged-in follow box shows a calm non-dead-end state in §2', function () {
+    // The standalone chapter-optin band (show-join="true") is removed in v4;
+    // show-join="false" means the plain "Je bent al mee" branch renders in §2.
     $group = Group::create(['shortname' => 'st', 'name' => 'Kidical Mass Sint-Gillis', 'zip' => '1060', 'invisible' => false, 'started_at' => now()]);
 
     actingAs(User::factory()->create())
         ->get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Meer dan meefietsen?') // an enticing title, not a flat status line
-        ->assertSee('Word vrijwilliger')    // escalates to the next step
-        ->assertDontSee('Voorkeuren beheren') // no settings link cluttering the box
-        ->assertDontSee('Beheer voorkeuren'); // the old dead-end button is gone on chapter pages
+        ->assertSee('Je bent al mee')               // plain status line for logged-in user
+        ->assertDontSee('Meer dan meefietsen?')     // no escalation push in §2 (show-join=false)
+        // Regression: "Word vrijwilliger" belongs only to the show-join=true optin branch;
+        // it must not bleed into the calm logged-in state. Note: "Voorkeuren beheren" /
+        // "Beheer voorkeuren" are NOT guarded here — "Beheer voorkeuren" is the intended
+        // settings link rendered by the show-join=false @auth branch.
+        ->assertDontSee('Word vrijwilliger');       // optin escalation button absent (show-join=false)
 });
 
 test('chapter gallery shows the latest past ride photos under a grounded lockup', function () {
@@ -658,4 +665,75 @@ test('guests and ordinary members never see the add-photos button', function () 
         ->assertOk()
         ->assertDontSee('Voeg je foto')
         ->assertDontSee('chapter-latest__upload');
+});
+
+test('chapter hero is mission intro only: no stats, no press', function () {
+    $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->subYears(3)]);
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Wij fietsen samen met kinderen door Schaarbeek')
+        ->assertDontSee('ritten sinds')   // micro-proof is NOT in the hero
+        ->assertDontSee('In de pers');    // no press trust line in the hero
+});
+
+test('controller buckets upcoming rides and other activities separately', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->subYears(3)]);
+
+    $ride = Activity::create(['title_nl' => 'Parade juni', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $workshop = Activity::create(['title_nl' => 'Sleutelworkshop', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'workshop', 'begin_date' => now()->addDays(3), 'duration_minutes' => 90, 'location' => 'Werkplaats', 'author_id' => $author->id]);
+    $pastRide = Activity::create(['title_nl' => 'Parade mei', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->subMonth(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $ride->groups()->attach($group);
+    $workshop->groups()->attach($group);
+    $pastRide->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertViewHas('upcomingRides', fn ($r) => $r->count() === 1 && $r->first()->is($ride))
+        ->assertViewHas('otherActivities', fn ($o) => $o->count() === 1 && $o->first()->is($workshop))
+        ->assertViewHas('pastRidesCount', 1);
+});
+
+test('chapter page shows the colouring download aside with a preview thumbnail', function () {
+    $group = Group::create(['shortname' => 'clr', 'name' => 'Kidical Mass Leuven', 'zip' => '3000', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('Kleurplaat voor onderweg')
+        ->assertSeeInOrder(['caterpillar-bike.svg', 'chapter-colouring__preview'], false);
+});
+
+test('chapter parade split shows real stat cards (sinds + ritten), no fake numbers', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->setDate(2023, 1, 1)]);
+    foreach ([now()->subMonths(2), now()->subMonth()] as $when) {
+        $r = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => $when, 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+        $r->groups()->attach($group);
+    }
+    $next = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $next->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('sinds 2023')
+        ->assertSee('2 ritten')          // two past rides counted
+        ->assertDontSee('gezinnen vorige keer');  // no invented attendance figure (e.g. "± 80 gezinnen vorige keer")
+});
+
+test('§7 join block defaults to collapsed state without intent param', function () {
+    $group = Group::create(['shortname' => 'rev1', 'name' => 'Kidical Mass Roeselare', 'zip' => '8800', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('open: false', false)         // x-data initialises closed
+        ->assertSee('Help mee in Roeselare')       // CTA heading is present
+        ->assertSee('Een paar uur per maand');     // warm sub-line present
+});
+
+test('§7 join block auto-opens when intent=volunteer is in the query string', function () {
+    $group = Group::create(['shortname' => 'rev2', 'name' => 'Kidical Mass Roeselare', 'zip' => '8800', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group).'?intent=volunteer')
+        ->assertOk()
+        ->assertSee('open: true', false);          // x-data initialises open
 });

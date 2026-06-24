@@ -3,7 +3,7 @@ title: Lokale groepen — Chapters overview + page template
 tags: []
 sources: [notion, raw/website/index.md, raw/website/organisation.md, wiki/design/20-structure.md, wiki/glossary.md]
 phase: design
-updated: 2026-06-03
+updated: 2026-06-23
 ---
 
 This file covers two related pages: the **Lokale groepen / Chapters Overview** (national directory) and the **Chapter Page** (per-chapter template).
@@ -541,4 +541,115 @@ Reviewing the **built** page (Schaarbeek = filled; Anderlecht = workshop, no tea
 
 **New data deps for Nico (added to § Still open):** `activity_type`-aware agenda rendering; volunteers + pivot `role` on `group_user`; `/events?group=…` filtered link incl. past; per-chapter subscription model (shared with events-overview).
 
-**Built 2026-06-03 (Frederik: "implement as much as possible, fake the rest").** `groups/show.blade.php` rebuilt to the v3 arc. **Real now:** the **typed agenda** (reads `activity_type` → Fietstocht / Workshop / **Voor vrijwilligers** badge + per-type CTA; the next `kidicalmass` ride is the weighted hero, empty-ride state otherwise — verified on Schaarbeek/Anderlecht/Brussel-Stad); the **filtered "Alle activiteiten … (ook voorbije) →"** deep-link (`route('activities.index', ['gemeente' => $group->id])` — `RideCalendar` already reads `#[Url] gemeente` + `when`); the **on-demand meehelpen reveal** (Alpine `x-show`, auto-opens + welcome banner on `?intent=volunteer`); the J2 form; **news CUT**; opt-in **promoted** beside the agenda; closing demoted to a quiet hand-back. **Faked (clearly commented, removable):** active volunteers + roles (lead = `trekker` from the real pivot + faux `roze hesje`/`communicatie` crew — needs the `group_user` `role` field), friends + downloads, the client-side opt-in. CSS: `.chapter-agenda*`, `.chapter-join*`, `.chapter-team__role` on the ride/show kit; the old full-bleed closing band slimmed. Tests: `GroupsTest` updated to v3 (heading "Op de agenda", empty "Nog geen fietstocht gepland", faces+roles) + **2 new type-label tests** (workshop ≠ ride; meeting → "voor vrijwilligers"). **Verified:** full suite **138 green**, Pint clean, `npm run build` clean, screenshots (3 chapters + reveal + intent). Registry P-11 stage left to Frederik's pipeline. Per-lead routing still GitHub #37.
+**Built 2026-06-03 (Frederik: "implement as much as possible, fake the rest").**
+
+(— v3 build details continue below; the Critique v4 rethink is appended after this section. —) `groups/show.blade.php` rebuilt to the v3 arc. **Real now:** the **typed agenda** (reads `activity_type` → Fietstocht / Workshop / **Voor vrijwilligers** badge + per-type CTA; the next `kidicalmass` ride is the weighted hero, empty-ride state otherwise — verified on Schaarbeek/Anderlecht/Brussel-Stad); the **filtered "Alle activiteiten … (ook voorbije) →"** deep-link (`route('activities.index', ['gemeente' => $group->id])` — `RideCalendar` already reads `#[Url] gemeente` + `when`); the **on-demand meehelpen reveal** (Alpine `x-show`, auto-opens + welcome banner on `?intent=volunteer`); the J2 form; **news CUT**; opt-in **promoted** beside the agenda; closing demoted to a quiet hand-back. **Faked (clearly commented, removable):** active volunteers + roles (lead = `trekker` from the real pivot + faux `roze hesje`/`communicatie` crew — needs the `group_user` `role` field), friends + downloads, the client-side opt-in. CSS: `.chapter-agenda*`, `.chapter-join*`, `.chapter-team__role` on the ride/show kit; the old full-bleed closing band slimmed. Tests: `GroupsTest` updated to v3 (heading "Op de agenda", empty "Nog geen fietstocht gepland", faces+roles) + **2 new type-label tests** (workshop ≠ ride; meeting → "voor vrijwilligers"). **Verified:** full suite **138 green**, Pint clean, `npm run build` clean, screenshots (3 chapters + reveal + intent). Registry P-11 stage left to Frederik's pipeline. Per-lead routing still GitHub #37.
+
+---
+
+## Critique v4 — role-driven structure rethink (Frederik 2026-06-23, `/critique`)
+
+> Reviewing the **shipped v3 page** (Schaarbeek, filled) against the question *"who is each section actually for?"*. The v3 build is sound and on-brand — this is not a surface problem. The diagnosis is structural: **the page is sequenced by content type (agenda → photos → press → friends → downloads → team → CTA), not by reader intent.** It's a well-dressed CMS dump. Each section announces "here is a kind of thing we have"; none is ordered around the question a specific visitor walked in with. Result: it opens *flat* — it lists before it orients — and the parade, the chapter's actual product, is just one undifferentiated row in a homogeneous day-grouped list.
+
+### The four roles (Frederik's framing, reconciled with the Strategy personas)
+
+The earlier persona set still holds; v4 sharpens it into four *intents the sequence must serve in order*:
+
+- **A · The curious newcomer** — "Who are these people? What even is this chapter?" *(orientation — currently unserved on the first screen; the humans who'd answer this are buried 6 sections down inside the recruitment band.)*
+- **B · The practical parent** — "What's Kidical, what does this chapter do, and when's the next ride?" *(= persona 1, primary. The single most-wanted answer has no special treatment — a film night and a parade render identically.)*
+- **C · The proud member / returning local** — "This is us." *(= persona 3. Served by photos, but there's no "who we are / what we did" pride beat above the recruitment ask.)*
+- **D · The prospective volunteer** — "What's next, what do I need to do?" *(= persona 2, secondary. The "Help mee" CTA lands cold — nothing builds to it.)*
+- *(Stakeholder/media stays tertiary — served as a by-product, see press below.)*
+
+### Answers to the four design questions (now load-bearing principles)
+
+These were posed in the critique and resolved with Frederik; they are the *why* behind the revised arc:
+
+1. **The next parade is the page's gravitational centre — commit fully.** Every other section must earn the right to sit above or beside it; almost none do. One loud element makes the rest legible by contrast — the flatness is the *absence* of that anchor. The only thing allowed to share its first screen is the warm what/why orientation line (a parade *of what?*). **Risk handled:** a chapter with no parade scheduled keeps the slot as the hero — the slot is always the star; sometimes the star is a promise ("nog geen parade — laat je mailadres achter") instead of a date. (Extends, not contradicts, v3's typed-agenda fix — see "Evolves v3" below.)
+2. **"Wij zwaaien je welkom aan de start" is misfiled.** It's the page's warmest line and a welcome to *everyone who shows up*, not a recruitment pitch — yet it's gated behind the volunteer band, spending the best emotional asset on the narrowest audience. **Split the faces from the ask:** faces + welcome mid-page (role A/C orientation), the quieter recruitment ask at the bottom (role D), now earned. Same people, two jobs — welcome high, recruit low.
+3. **Press works better as a line than a block.** On a chapter home, press is a *trust signal*, not content anyone reads — best small, early, glanceable ("ook gezien in BRUZZ, De Standaard"). The full clippings list has a real but niche reader (media / word-spreaders), served in a quiet "voor pers & delen" zone near the footer, never in the parent's flow. Both, demoted.
+4. **Strip to the parent deciding whether to show up Saturday — that's the true spine.** What survives: *(i)* what is this / for my kid's age (orient) · *(ii)* when & where is the next parade, how long (decide) · *(iii)* will we fit in / is it safe — real-family photos + welcoming faces (reassure) · *(iv)* what if I can't make this one — the email reminder (catch the miss). Everything else is supporting cast that must never obstruct those four beats. **Build outward from them.**
+
+**Through-line:** the page currently treats every section as a peer; none are. There's one decision (show up), one fear (fitting in), one fallback (next time). Serve those three loudly and let the rest go quiet — the flatness dissolves not by adding more, but by finally saying what the page is *for*.
+
+### The moves
+
+1. **Open by orienting, not listing.** Hero does triple duty: name + **one warm what/why line** + the **next-parade date as a glanceable anchor** + a micro-proof ("sinds 2023 · 12 ritten") + the **press trust line**. Serves A, B and C in the first three seconds.
+2. **Tier the events: parade as hero.** Replace the single homogeneous day-grouped list with three weighted zones — **De volgende parade** (one featured card: date · time · start · route hint · "kom mee"), **Alle parades** (a compact rhythm strip so the cadence is felt), and **Ook in [gemeente]** (workshops / film / repair, visibly lighter, clearly secondary).
+3. **Fold "mis geen rit" into the featured-parade card.** Intent peaks the instant a parent sees a date they can't make — the reminder belongs *there* ("Kan je er niet bij? Krijg een seintje voor de volgende"), not in a later band.
+4. **Surface the faces mid-page; keep the ask at the bottom.** A short, warm **"Wie zijn wij"** after the photos answers role A and reassures role B; the recruitment reveal stays in the yellow closing band (role D), now set up by photos + faces so it lands.
+5. **Regroup the resource drawer by the role each serves.** Press → one-line trust signal up top **and** full list in a quiet "voor pers & delen" zone near the footer. Friends/partners → a quiet "met dank aan" strip low on the page (never competes with the parent). Downloads → **split**: the **colouring page** is family delight, moved near the photos/parade; the **flyer/poster** is a spreader tool, grouped with press and shown as an actual **thumbnail** ("here's the poster"), not a boring file row.
+
+### Revised arc (role-driven)
+
+```
+1. Identity hero (blue)   — name + warm what/why line + next-parade glance + micro-proof + press trust line   [A·B·C]
+2. De volgende parade     — featured card; "mis geen rit" reminder folded in                                    [B]
+3. Alle parades           — compact rhythm strip (cadence)                                                      [B·C]
+4. Ook in [gemeente]      — workshops / film / repair, lighter weight                                           [B·D]
+5. Zo ziet het eruit      — photos (keep, strongest section) + colouring-page download nearby                   [C·B]
+6. Wie zijn wij           — short, warm faces (orientation + reassurance)                                        [A·B·C]
+7. Help mee (yellow)      — recruitment ask, on-demand reveal — now earned                                       [D]
+8. Voor pers & delen      — press list + poster/flyer thumbnails + "met dank aan" friends, quiet, near footer    [D·media]
+   closing                — "deze groep is van jou" hand-back to the overview
+```
+Orient → next action → rhythm → extras → proof → people → join → quiet resources.
+
+### Desktop — filled leaf chapter (v4)
+
+```
+┌──────────────────────────────────────────────────────┐
+│ NAV                                                  │
+├──────────────────────────────────────────────────────┤
+│  Kidical Mass Schaarbeek            [ ride photo ]    │
+│  Wij fietsen samen met kinderen door Schaarbeek —    │
+│  veilig, vrolijk, op kindertempo.                    │
+│  Volgende parade: zo 28 juni · sinds 2023 · 12 ritten│
+│  Ook gezien in BRUZZ · De Standaard · VRT            │
+├──────────────────────────────────────────────────────┤
+│  DE VOLGENDE PARADE   ← the page's gravity            │
+│  ┌────────────────────────────────────────────────┐  │
+│  │ ZONDAG 28 JUNI · 15:00                         │  │
+│  │ Verzamelen: Place Colignon · ±3 km · rustig    │  │
+│  │                            [ Kom mee → ]       │  │
+│  │ Kan je er niet bij? [ Geef me een seintje → ]  │  │
+│  └────────────────────────────────────────────────┘  │
+├──────────────────────────────────────────────────────┤
+│  ALLE PARADES        · zo 26 jul · zo 30 aug   meer →│
+├──────────────────────────────────────────────────────┤
+│  OOK IN SCHAARBEEK   (lichter)                       │
+│  · wo 10 jul — Fietscheck-workshop                   │
+│  · vr 19 jul — Filmavond                             │
+├──────────────────────────────────────────────────────┤
+│  ZO ZIET HET ERUIT   [photo wall + lightbox]         │
+│  ………………  +  [ Kleurplaat voor onderweg ↓ ]         │
+├──────────────────────────────────────────────────────┤
+│  WIE ZIJN WIJ        faces + "wij zwaaien je welkom" │
+│  [Sofie] [Marc] [Lena]                               │
+├──────────────────────────────────────────────────────┤
+│  [YELLOW]  Help mee in Schaarbeek   [ on-demand → ]  │
+├──────────────────────────────────────────────────────┤
+│  Voor pers & delen [quiet]                           │
+│  In de pers: HLN · BRUZZ ↗   |  Affiche [thumb] ↓    │
+│  Met dank aan: Fietsersbond · buurthuis · …          │
+├──────────────────────────────────────────────────────┤
+│ FOOTER                                               │
+└──────────────────────────────────────────────────────┘
+```
+*(The just-started empty-state variant from v2/v3 still holds: featured-parade slot becomes the "nog geen parade — hou me op de hoogte" promise, parades/other/extras zones don't render, the page stays short and intentional.)*
+
+### Evolves v3 — read before building (so it doesn't look like a regression)
+
+- **Event tiering vs. v3's "one unified typed agenda."** v3 *correctly* fixed activity-type blindness by typing a single day-grouped list and weighting the next `kidicalmass` ride. v4 **extends** that: the type-awareness becomes *visual tiering* — featured parade / parades strip / other activities as distinct zones, not one mixed list. The honest-empty-state and "never dress a workshop as a ride" rules from v3 **carry over unchanged**. This is a deliberate sharpening, not a reversal — but it *does* re-split what v3 unified, so it's a conscious build choice, not a drift.
+- **"Mis geen rit" placement.** v3 promoted it beside the agenda; v4 moves it *tighter* — folded into the featured-parade card at peak intent. Same intent, better moment.
+- **Faces location.** v3 kept faces only in the closing band (with the on-demand J2 reveal). v4 **surfaces a warm faces beat mid-page** (orientation) *in addition to* the closing recruitment reveal. The on-demand reveal pattern for the form **stays**.
+- **Press/friends/downloads.** v3 had them as side-by-side hide-if-empty blocks; v4 re-roles them (press up + down, friends → "met dank", downloads split with the colouring page moving to family content). Still hide-if-empty.
+
+### New / changed data deps (for Nico — append to § Still open)
+
+- **`activity_type`-aware tiering** beyond v3's labels: the query needs to *separate* `kidicalmass` rides (featured + strip) from `workshop`/`meeting`/`other` (the "ook in …" zone). No new field — just grouping logic on the existing enum.
+- **Per-group "since" / ride-count** for the hero micro-proof (`started_at` already exists; a completed-rides count is derivable from past `activities`).
+- **Download categorisation** — a flag distinguishing *family* downloads (colouring page) from *spreader* downloads (flyer/poster) so they can route to different zones; plus a thumbnail/preview for poster-type downloads.
+- **Press trust line** — needs the same `group_id`-scoped press already specced; the one-line form is just the top 2–3 outlets.
+
+**Status:** rethink agreed in conversation (2026-06-23); **not yet built.** Mockups above are the target. Open question for Frederik before build: confirm the parade/other split is worth re-splitting v3's unified agenda (it reverses a deliberate v3 call), and whether the hero micro-proof ("sinds X · Y ritten") is data we can stand behind per group.
