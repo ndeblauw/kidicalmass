@@ -4,6 +4,7 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Support\Facades\Blade;
 
 use function Pest\Laravel\get;
 
@@ -23,6 +24,19 @@ function rideUrl(Activity $activity): string
 {
     return route('activities.show', ['locale' => 'nl', 'activity' => $activity]);
 }
+
+it('renders the shared share-links controls with all channels', function () {
+    $html = Blade::render(
+        '<x-share-links url="https://example.test/rit" title="Kidical Mass" date="zondag 28 juni" />'
+    );
+
+    expect($html)
+        ->toContain('share-band__channels')
+        ->toContain('wa.me')                 // WhatsApp
+        ->toContain('facebook.com/sharer')   // Facebook
+        ->toContain('mailto:')               // e-mail
+        ->toContain('Kopieer link');         // copy button
+});
 
 it('eager-loads the organising group so its name renders (not masked by the activity title)', function () {
     $group = Group::factory()->create(['name' => 'Fietsersbond Etterbeek', 'zip' => '1040']);
