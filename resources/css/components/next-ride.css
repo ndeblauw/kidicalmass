@@ -103,12 +103,20 @@
         transform: translateX(0.25rem);
     }
 
-    /* Stylised route map (FAUX placeholder). Fills its grid cell; on mobile it's a band
-       below the text. */
+    /* Route map. Fills its grid cell; on mobile it's a band below the text. Holds either
+       the real Leaflet preview (<x-route-map>) or the faux SVG placeholder. */
     .next-ride__map {
         position: relative;
         min-height: 13rem;
         background-color: var(--color-kidical-light-blue);
+    }
+    /* The Leaflet preview is decorative: swallow its pointer events so the card link
+       underneath stays the single click target. The two-class selector outweighs
+       Leaflet's own `.leaflet-interactive` rule without needing !important. */
+    .next-ride__map.leaflet-container,
+    .next-ride__map .leaflet-pane,
+    .next-ride__map .leaflet-control-container {
+        pointer-events: none;
     }
     .next-ride__map-svg {
         position: absolute;

@@ -11,12 +11,14 @@
     as a quiet line BENEATH the card (in groups/show.blade.php), so the two destinations
     never compete. Appearance in resources/css/components/next-ride.css.
 
-    FAUX: the route map is a stylised brand placeholder (no per-ride GPX rendering yet —
-    Nico #37). The km figure reads the real, optional `distance` string and is dropped
-    when empty.
+    The route map renders the ride's real GPX track (via <x-route-map>, shared with the
+    ride detail page) as a static, non-interactive preview — clicks fall through to the
+    card link. Rides without a GPX file fall back to the stylised brand placeholder.
+    The km figure reads the real, optional `distance` string and is dropped when empty.
 --}}
 @php
     $href = route('activities.show', $activity);
+    $routeCoords = $activity->route_coordinates;
     $dateHeadline = \Illuminate\Support\Str::ucfirst($activity->dateFull); // "Zondag 28 juni"
 
     // Drop a trailing ", {gemeente}" — redundant on the commune's own chapter page
@@ -78,18 +80,23 @@
             </span>
         </div>
 
-        {{-- FAUX stylised route map (no per-ride GPX yet). Decorative. --}}
-        <div class="next-ride__map" aria-hidden="true">
-            <svg class="next-ride__map-svg" viewBox="0 0 440 320" preserveAspectRatio="xMidYMid slice">
-                <path class="next-ride__route" d="M50 270 C 120 260, 150 210, 200 200 S 300 180, 330 120 400 75 405 45" fill="none"/>
-                <circle class="next-ride__route-wp" cx="200" cy="200" r="5"/>
-                <circle class="next-ride__route-wp" cx="330" cy="120" r="5"/>
-                <circle class="next-ride__route-start" cx="50" cy="270" r="10"/>
-                <g transform="translate(396 28)">
-                    <path class="next-ride__route-pin" d="M9 0C4 0 0 4 0 9c0 6.5 9 17 9 17s9-10.5 9-17c0-5-4-9-9-9Z"/>
-                    <circle class="next-ride__route-pin-dot" cx="9" cy="9" r="3.4"/>
-                </g>
-            </svg>
-        </div>
+        @if (count($routeCoords) > 0)
+            {{-- Real GPX route — a static preview; the whole card still links to detail. --}}
+            <x-route-map :coordinates="$routeCoords" :interactive="false" class="next-ride__map" aria-hidden="true" />
+        @else
+            {{-- FAUX stylised route map — fallback when the ride has no GPX file yet. --}}
+            <div class="next-ride__map" aria-hidden="true">
+                <svg class="next-ride__map-svg" viewBox="0 0 440 320" preserveAspectRatio="xMidYMid slice">
+                    <path class="next-ride__route" d="M50 270 C 120 260, 150 210, 200 200 S 300 180, 330 120 400 75 405 45" fill="none"/>
+                    <circle class="next-ride__route-wp" cx="200" cy="200" r="5"/>
+                    <circle class="next-ride__route-wp" cx="330" cy="120" r="5"/>
+                    <circle class="next-ride__route-start" cx="50" cy="270" r="10"/>
+                    <g transform="translate(396 28)">
+                        <path class="next-ride__route-pin" d="M9 0C4 0 0 4 0 9c0 6.5 9 17 9 17s9-10.5 9-17c0-5-4-9-9-9Z"/>
+                        <circle class="next-ride__route-pin-dot" cx="9" cy="9" r="3.4"/>
+                    </g>
+                </svg>
+            </div>
+        @endif
     </a>
 </article>

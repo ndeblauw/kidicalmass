@@ -96,6 +96,10 @@ class ChapterShowcaseSeeder extends Seeder
             'duration' => 90,
         ]);
 
+        // Give the chapter's next ride a real GPX route so the next-ride card (§2) draws
+        // an actual map (parity with the ride detail page) instead of the faux placeholder.
+        $this->attachRouteToNextRide($group, 50.8676, 4.3735); // Place Colignon, Schaarbeek
+
         // Friends — text links (the chapter page never renders logos). Most carry a
         // url; "Buurtcomité Josaphat" has none, so it renders as plain text.
         $this->resetChapterPartners($group);
@@ -244,10 +248,12 @@ class ChapterShowcaseSeeder extends Seeder
      *
      * @param  array{title_nl: string, title_fr: string, type: ActivityType, begin_date: Carbon, location: string, postal_code: string, duration: int}  $data
      */
-    private function ensureActivity(Group $group, array $data): void
+    private function ensureActivity(Group $group, array $data): Activity
     {
-        if (Activity::where('title_nl', $data['title_nl'])->exists()) {
-            return;
+        $existing = Activity::where('title_nl', $data['title_nl'])->first();
+
+        if ($existing) {
+            return $existing;
         }
 
         $author = $group->users()->first() ?? User::query()->first();
@@ -267,5 +273,72 @@ class ChapterShowcaseSeeder extends Seeder
         ]);
 
         $activity->groups()->attach($group->id);
+
+        return $activity;
+    }
+
+    /**
+     * Attach a GPX route to the chapter's soonest upcoming Kidical Mass ride (the one
+     * the next-ride card features), so its map renders. Reuses the base-seed ride when
+     * present; creates a headline ride otherwise (e.g. an isolated test).
+     */
+    private function attachRouteToNextRide(Group $group, float $lat, float $lng): void
+    {
+        $nextRide = Activity::query()
+            ->whereHas('groups', fn ($query) => $query->where('groups.id', $group->id))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '>=', now())
+            ->orderBy('begin_date')
+            ->first();
+
+        $nextRide ??= $this->ensureActivity($group, [
+            'title_nl' => 'Kidical Mass Schaarbeek',
+            'title_fr' => 'Kidical Mass Schaerbeek',
+            'type' => ActivityType::KIDICALMASS,
+            'begin_date' => now()->addDays(4)->setTime(14, 0),
+            'location' => 'Gemeenteplein Colignon, Schaarbeek',
+            'postal_code' => '1030',
+            'duration' => 90,
+        ]);
+
+        $this->attachRouteGpx($nextRide, $lat, $lng);
+    }
+
+    /**
+     * Attach a generated GPX route to the ride's single-file 'gpx' collection, unless
+     * one is already present (idempotent).
+     */
+    private function attachRouteGpx(Activity $activity, float $lat, float $lng): void
+    {
+        if ($activity->getFirstMedia('gpx')) {
+            return;
+        }
+
+        $activity->addMediaFromString($this->routeGpxNear($lat, $lng))
+            ->usingFileName('route.gpx')
+            ->usingName('route')
+            ->toMediaCollection('gpx');
+    }
+
+    /**
+     * Build a GPX track tracing a believable ~1.5 km loop around (lat, lng) — enough
+     * points for a convincing route line and a departure pin on the map.
+     */
+    private function routeGpxNear(float $lat, float $lng): string
+    {
+        $points = [];
+        $steps = 32;
+
+        for ($i = 0; $i <= $steps; $i++) {
+            $angle = ($i / $steps) * 2 * M_PI;
+            $pointLat = $lat + (0.009 * sin($angle)) + (0.0018 * sin(3 * $angle));
+            $pointLng = $lng + (0.013 * cos($angle)) + (0.0026 * cos(2 * $angle));
+            $points[] = sprintf('<trkpt lat="%.5f" lon="%.5f"/>', $pointLat, $pointLng);
+        }
+
+        return '<?xml version="1.0" encoding="UTF-8"?>'
+            .'<gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1"><trk><trkseg>'
+            .implode('', $points)
+            .'</trkseg></trk></gpx>';
     }
 }

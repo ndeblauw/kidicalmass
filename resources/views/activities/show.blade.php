@@ -129,10 +129,7 @@
         {{-- RIGHT: route map --}}
         @if($hasMap)
             <div class="activity-info-map__map">
-                <div id="activity-map"
-                     class="activity-info-map__route"
-                     data-coordinates="{{ json_encode($routeCoords) }}">
-                </div>
+                <x-route-map :coordinates="$routeCoords" class="activity-info-map__route" />
                 <div class="activity-map-info-strip">
                     <div class="activity-map-info-strip__stats">
                         <span class="activity-map-stat">
@@ -276,55 +273,6 @@
         :url="route('activities.show', $activity)"
         :title="$activity->title_nl"
         :date="$activity->begin_date->translatedFormat('l j F')" />
-
-    @if($hasMap)
-        @push('scripts')
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.9/dist/leaflet.js"></script>
-        <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const el = document.getElementById('activity-map');
-            if (!el) return;
-
-            const coords = JSON.parse(el.dataset.coordinates || '[]');
-            if (!coords.length) return;
-
-            const brandRed = getComputedStyle(document.documentElement).getPropertyValue('--color-kidical-red').trim() || '#E63A7B';
-
-            const map = L.map(el, { zoomControl: true, scrollWheelZoom: false });
-
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 19,
-            }).addTo(map);
-
-            const polyline = L.polyline(coords, {
-                color: brandRed,
-                weight: 5,
-                opacity: 0.95,
-            }).addTo(map);
-
-            map.invalidateSize();
-            map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });
-
-            // Departure pin
-            const departureIcon = L.divIcon({
-                html: `<svg width="28" height="38" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="${brandRed}"/>
-                    <circle cx="14" cy="14" r="5.5" fill="rgba(0,0,0,0.2)"/>
-                    <circle cx="14" cy="14" r="3.5" fill="white"/>
-                </svg><span class="activity-map-label">Vertrekpunt</span>`,
-                className: 'activity-map-marker',
-                iconAnchor: [14, 37],
-                iconSize: [28, 38],
-            });
-
-            L.marker(coords[0], { icon: departureIcon }).addTo(map);
-        });
-        </script>
-        @endpush
-    @endif
 
     @push('scripts')
     <script>
