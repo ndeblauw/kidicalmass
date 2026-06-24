@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Activity;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
+
+uses(RefreshDatabase::class);
 
 it('renders the share band with framed copy and all four channels', function () {
     $url = 'https://kidicalmass.test/nl/events/17';
@@ -31,4 +35,16 @@ it('lets callers override the heading and subline', function () {
     );
 
     expect($html)->toContain('Anders')->toContain('Ook anders');
+});
+
+it('shows the share band on the ride page and no longer shows the old action bar', function () {
+    $activity = Activity::factory()->create();
+
+    $response = $this->get(route('activities.show', $activity));
+
+    $response->assertOk()
+        ->assertSee('Ken je een gezin dat dit leuk zou vinden?')
+        ->assertSee('wa.me/?text=', false)
+        ->assertDontSee('activity-actions-bar')
+        ->assertDontSee('Bewaar in agenda');
 });

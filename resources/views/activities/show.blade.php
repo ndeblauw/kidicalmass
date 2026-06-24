@@ -271,6 +271,12 @@
     {{-- Support (PAT-10 contextual block) — the warm "just rode" moment --}}
     <x-support-callout variant="event" />
 
+    {{-- Share — the warm "invite a gezin" moment, end of page --}}
+    <x-share-band
+        :url="route('activities.show', $activity)"
+        :title="$activity->title_nl"
+        :date="$activity->begin_date->translatedFormat('l j F')" />
+
     @if($hasMap)
         @push('scripts')
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />
@@ -347,28 +353,6 @@
     });
     </script>
     @endpush
-
-    {{-- FIXED ACTION BAR --}}
-    <div class="activity-actions-bar" x-data="{ copied: false, shareTitle: @js($activity->title_nl) }">
-        <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="ghost">
-            Bewaar in agenda
-        </flux:button>
-        <flux:button
-            icon="share"
-            variant="ghost"
-            x-on:click="
-                if (navigator.share) {
-                    navigator.share({ title: shareTitle, url: window.location.href })
-                } else {
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        copied = true
-                        setTimeout(() => copied = false, 2000)
-                    })
-                }
-            "
-        >Deel</flux:button>
-        <span x-show="copied" class="activity-actions-bar__copied">Gekopieerd!</span>
-    </div>
 
     <x-slot:closing>
         <x-closing-cta heading="Nog niet zeker hoe het werkt?"

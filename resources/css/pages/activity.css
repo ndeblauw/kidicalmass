@@ -225,45 +225,6 @@
         padding: 0.78rem 1.56rem 0.78rem 1.95rem;
         border-radius: 0.96rem;
     }
-    .activity-hero__actions {
-        display: flex;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-    .activity-actions-bar__copied {
-        font-size: var(--text-sm);
-        color: var(--color-kidical-ink);
-        font-weight: 600;
-    }
-    .activity-actions-bar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background: var(--color-kidical-yellow);
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-yellow), black 15%);
-        padding: 0.875rem 1.5rem;
-        padding-bottom: calc(0.875rem + env(safe-area-inset-bottom));
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        justify-content: center;
-    }
-    .activity-actions-bar [data-flux-button] {
-        font-size: var(--text-lg);
-        font-weight: 700;
-        color: var(--color-kidical-ink);
-        background: transparent;
-        border-radius: 0.5rem;
-        transition: background 0.15s;
-
-        &:hover {
-            background: color-mix(in oklab, var(--color-kidical-yellow), black 12%);
-            color: var(--color-kidical-ink);
-        }
-    }
     .activity-strip {
         display: flex;
         flex-wrap: wrap;
