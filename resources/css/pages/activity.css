@@ -693,4 +693,78 @@
             overflow-wrap: break-word;
         }
     }
+
+    /* ── BASIC ACTIVITY PAGE (workshop / meeting / other) ──────────────────────────
+       The lighter, description-led detail page (activities/show-basic.blade.php). It
+       reuses the .activity-hero poster above; these rules cover the type eyebrow in the
+       hero and the single-column body below it. No map panel — a non-ride has no route. */
+
+    /* Type eyebrow above the hero title — announces "Workshop" / "Vergadering" on the
+       blue band, in the brand yellow so it reads as a label, not the title. */
+    .activity-basic__type {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: var(--text-sm);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-kidical-yellow);
+        margin: 0;
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    }
+
+    /* Single readable column — the description carries the page, so it gets a measured
+       width and generous air rather than a wide full-bleed band. */
+    .activity-basic__inner {
+        max-width: 44rem;
+        padding-top: clamp(2.5rem, 5vw, 4rem);
+        padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    /* Compact meta row — time · place · duration, icon + value, wrapping. Replaces the
+       ride page's big yellow map panel; just the facts, quietly. */
+    .activity-basic__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.75rem;
+        margin: 0 0 clamp(1.75rem, 3.5vw, 2.5rem);
+        padding-bottom: clamp(1.5rem, 3vw, 2rem);
+        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+    .activity-basic__meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+    }
+    .activity-basic__meta-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        flex: none;
+        color: var(--color-kidical-red);
+    }
+    .activity-basic__meta dd {
+        margin: 0;
+        font-weight: 700;
+        color: var(--color-kidical-ink);
+    }
+
+    /* The description — the heart of the page. Comfortable measure + line-height. */
+    .activity-basic__prose {
+        font-size: var(--text-lg);
+        line-height: 1.65;
+        color: var(--color-text-body);
+    }
+
+    .activity-basic__cta {
+        margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+    }
+
+    .activity-basic__organizer {
+        margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+    }
+    .activity-basic__organizer a {
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+    }
 }

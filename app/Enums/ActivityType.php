@@ -20,6 +20,16 @@ enum ActivityType: string
     }
 
     /**
+     * Whether this activity is a family bike parade. Drives the activity-detail
+     * split: rides get the full ride layout (route map, pace promises, pink-vest
+     * ask); every other type gets the lighter "basic activity" page.
+     */
+    public function isRide(): bool
+    {
+        return $this === self::KIDICALMASS;
+    }
+
+    /**
      * Public-site (NL) label for an activity type, used by the chapter page's
      * "Ook in {gemeente}" chips. `label()` stays English for Filament/admin and
      * form option arrays; this mirrors the NL fallbacks in <x-ride-row>.

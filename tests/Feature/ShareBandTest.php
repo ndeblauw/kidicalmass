@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ActivityType;
 use App\Models\Activity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
@@ -38,7 +39,9 @@ it('lets callers override the heading and subline', function () {
 });
 
 it('shows the share band on the ride page and no longer shows the old action bar', function () {
-    $activity = Activity::factory()->create();
+    $activity = Activity::factory()->create([
+        'activity_type' => ActivityType::KIDICALMASS,
+    ]);
 
     $response = $this->get(route('activities.show', $activity));
 

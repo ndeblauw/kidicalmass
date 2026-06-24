@@ -21,7 +21,12 @@ class ActivityController extends Controller
 
         $activity->load(['author', 'groups']);
 
-        return view('activities.show', compact('activity'));
+        // Rides get the full ride layout (route map, pace promises, pink-vest ask);
+        // every other type (workshop/meeting/other) gets the lighter, description-led
+        // "basic activity" page. One route, two faces — split per D-2.
+        $view = $activity->activity_type->isRide() ? 'activities.show' : 'activities.show-basic';
+
+        return view($view, compact('activity'));
     }
 
     private function authorizeAccess(Activity $activity): void

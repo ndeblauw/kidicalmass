@@ -4,14 +4,17 @@
     'date',
     'heading' => 'Ken je een gezin dat dit leuk zou vinden?',
     'subline' => 'Samen fietsen is leuker. Stuur deze rit door, dan staat de straat zondag nog voller met kinderen.',
+    // Share-message + email subject default to the ride wording; the basic activity
+    // page (workshop/meeting) passes its own so the copy isn't ride-specific.
+    'message' => null,
+    'subject' => 'Een leuke fietstocht voor jullie gezin',
 ])
 
 @php
-    $message = "Zin om samen te fietsen? {$title} op {$date}, een vrolijke gezinsrit door autovrije straten. Rij je mee? {$url}";
-    $whatsappUrl = 'https://wa.me/?text='.rawurlencode($message);
+    $shareMessage = $message ?? "Zin om samen te fietsen? {$title} op {$date}, een vrolijke gezinsrit door autovrije straten. Rij je mee? {$url}";
+    $whatsappUrl = 'https://wa.me/?text='.rawurlencode($shareMessage);
     $facebookUrl = 'https://www.facebook.com/sharer/sharer.php?u='.rawurlencode($url);
-    $emailSubject = 'Een leuke fietstocht voor jullie gezin';
-    $mailtoUrl = 'mailto:?subject='.rawurlencode($emailSubject).'&body='.rawurlencode($message);
+    $mailtoUrl = 'mailto:?subject='.rawurlencode($subject).'&body='.rawurlencode($shareMessage);
 @endphp
 
 <section class="share-band" x-data="{ copied: false }">
