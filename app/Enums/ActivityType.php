@@ -20,6 +20,21 @@ enum ActivityType: string
     }
 
     /**
+     * Public-site (NL) label for an activity type, used by the chapter page's
+     * "Ook in {gemeente}" chips. `label()` stays English for Filament/admin and
+     * form option arrays; this mirrors the NL fallbacks in <x-ride-row>.
+     */
+    public function labelNl(): string
+    {
+        return match ($this) {
+            self::KIDICALMASS => 'Fietsparade',
+            self::MEETING => 'Vergadering',
+            self::WORKSHOP => 'Workshop',
+            self::OTHER => 'Activiteit',
+        };
+    }
+
+    /**
      * Accent colour for the calendar lockup (<x-ride-day>): rides read red,
      * workshops green, meetings blue, anything else orange. Returns a CSS
      * custom-property reference so it can be dropped straight into an inline

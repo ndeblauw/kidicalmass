@@ -1,0 +1,154 @@
+@layer components {
+    /* NEXT-RIDE FEATURE CARD (chapter §2) — a custom, richer ride card (not the list
+       <x-ride-row>). Light on white: a soft red eyebrow, the date as the Caprasimo
+       focal point, a chip meta row, a stylised route map on the right, and a benefit
+       opt-in footer. The whole body is one link to the ride detail; a hover lift +
+       "Bekijk deze rit" cue advertise the click. */
+    .next-ride {
+        position: relative;
+        background-color: white;
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+        transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    /* Lift the whole card when the body link is hovered or keyboard-focused. */
+    .next-ride:has(.next-ride__body:hover),
+    .next-ride:has(.next-ride__body:focus-visible) {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    /* The clickable body: text column + map. Stacks on mobile (map as a band below). */
+    .next-ride__body {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: stretch;
+        color: inherit;
+    }
+    .next-ride__body:focus-visible {
+        outline: 0.18rem solid var(--color-kidical-blue);
+        outline-offset: -0.18rem;
+    }
+    @media (min-width: 48rem) {
+        .next-ride__body {
+            grid-template-columns: minmax(0, 1fr) 41%;
+        }
+    }
+
+    .next-ride__main {
+        padding: clamp(1.6rem, 3.5vw, 2.2rem);
+    }
+
+    /* Soft red eyebrow — echoes the hero eyebrow (Nunito, regular weight, sentence
+       case), red because it sits on white. */
+    .next-ride__eyebrow {
+        font-family: var(--font-sans);
+        font-weight: 400;
+        font-size: clamp(var(--text-base), 1.4vw, var(--text-xl));
+        line-height: 1.3;
+        color: var(--color-kidical-red);
+        margin: 0 0 0.35rem;
+    }
+
+    /* The date is the focal point. */
+    .next-ride__date {
+        font-family: var(--font-heading);
+        font-size: clamp(2.1rem, 4.2vw, 3rem);
+        line-height: 1;
+        color: var(--color-kidical-ink);
+        margin: 0 0 1.1rem;
+    }
+
+    /* Chip meta row (time · place · km) — the brand icon-chip motif carries the colour;
+       value sits beside it. The <dl> keys are visually hidden. */
+    .next-ride__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.6rem 1.4rem;
+        margin: 0 0 1.3rem;
+    }
+    .next-ride__meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+    }
+    .next-ride__meta dd {
+        margin: 0;
+        font-weight: 700;
+        color: var(--color-kidical-ink);
+    }
+
+    .next-ride__desc {
+        margin: 0 0 1.3rem;
+        max-width: 42ch;
+        line-height: 1.5;
+        color: var(--color-text-body);
+    }
+
+    /* The click cue — a quiet blue "go" affordance that animates on card hover. */
+    .next-ride__more {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+    }
+    .next-ride__more svg {
+        transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .next-ride:has(.next-ride__body:hover) .next-ride__more svg {
+        transform: translateX(0.25rem);
+    }
+
+    /* Stylised route map (FAUX placeholder). Fills its grid cell; on mobile it's a band
+       below the text. */
+    .next-ride__map {
+        position: relative;
+        min-height: 13rem;
+        background-color: var(--color-kidical-light-blue);
+    }
+    .next-ride__map-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .next-ride__route {
+        stroke: var(--color-kidical-blue);
+        stroke-width: 4.5;
+        stroke-linecap: round;
+        stroke-dasharray: 2 13;
+    }
+    .next-ride__route-wp {
+        fill: var(--color-kidical-blue);
+    }
+    .next-ride__route-start {
+        fill: white;
+        stroke: var(--color-kidical-red);
+        stroke-width: 4.5;
+    }
+    .next-ride__route-pin {
+        fill: var(--color-kidical-red);
+    }
+    .next-ride__route-pin-dot {
+        fill: white;
+    }
+
+    /* The "stay informed" CTA is intentionally NOT in this card — it lives decoupled
+       beneath it (.chapter-parade__subscribe in pages/chapters.css), so the card stays
+       a single, unambiguous link to the ride. */
+
+    @media (prefers-reduced-motion: reduce) {
+        .next-ride,
+        .next-ride__more svg {
+            transition: none;
+        }
+        .next-ride:has(.next-ride__body:hover),
+        .next-ride:has(.next-ride__body:focus-visible) {
+            transform: none;
+        }
+    }
+}

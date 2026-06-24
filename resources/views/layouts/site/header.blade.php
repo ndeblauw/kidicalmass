@@ -5,6 +5,10 @@
         : collect();
 
     $isHome = request()->routeIs('home');
+
+    // On a chapter page the route binds a {group}; show its postcode beside the logo.
+    $navChapter = request()->route('group');
+    $navChapter = $navChapter instanceof \App\Models\Group ? $navChapter : null;
 @endphp
 
 {{-- Logo: fixed at hero z-level so page panels scroll over it --}}
@@ -16,6 +20,9 @@
                 alt="Kidical Mass"
                 class="site-nav__logo w-auto"
             >
+            @if ($navChapter?->zip)
+                <span class="site-nav__postcode">{{ $navChapter->zip }}</span>
+            @endif
         </a>
     </div>
 </div>

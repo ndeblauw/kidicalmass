@@ -1,16 +1,21 @@
 {{--
     Chapter page (P-11) — the local group's HOME. Intent-driven "v4" arc (Critique v4,
     Frederik 2026-06-23): the parade is the page's gravity. Order:
-    1 hero (mission line only) -> 2 De volgende parade (split: left = next ride + subscribe
-    CTA, right = real stat cards "sinds {jaar}" + "N ritten") -> 3 alle parades strip ->
-    4 "Ook in {gemeente}" sky band of activity cards -> 5 photo gallery (kept) + colouring
-    download -> 6 team carousel (relocated mid-page) -> 8 affiches + "met dank aan" (press
+    1 hero (mission line only) -> 2 De volgende parade (<x-next-ride> card: date focal
+    point, chip meta, route map; the whole card is one link to the ride, with a decoupled
+    "stay informed" line beneath) PAIRED in a two-column zone with the chapter's other
+    activities in a quiet right rail ("Ook in {gemeente}" — workshops/meetings, folded out
+    of their old full-bleed sky band into a sidebar; rail stacks under the card on narrow
+    screens) -> 3 alle parades strip -> 5 photo gallery (kept) -> 6 team carousel
+    (relocated mid-page) + 6b "Samen al"
+    stat cards "sinds {jaar}" / "N parades" (relocated here from §2, the crew's track
+    record) -> 8 affiches + "met dank aan" (press
     REMOVED, lives on the channel Press page) -> 7 yellow CLOSING "help mee" band fused with
-    the footer (on-demand signup reveal). Colour story blue -> white -> sky -> white -> yellow.
+    the footer (on-demand signup reveal). Colour story blue -> white -> yellow.
     NL, on the ride/show kit. Structure only here; appearance in resources/css/pages/chapters.css.
     Real now: rides/other-activities split (controller), real stat cards, on-demand reveal,
     group-specific J2 signup form. Faked (clearly commented): subscribe CTA, volunteer roles,
-    affiches/sponsors, colouring download.
+    affiches/sponsors.
     Plan: docs/superpowers/plans/2026-06-23-chapter-page-v4.md ·
     Design: docs/wiki/design/30-skeleton/chapters.md (§ Critique v4).
 --}}
@@ -92,7 +97,9 @@
         <div class="container mx-auto px-4 chapter-head__inner">
             <div class="chapter-head__copy">
                 <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
-                <p class="page-hero__lead">Wij fietsen samen met kinderen door {{ $gemeente }}, veilig, vrolijk, op kindertempo.</p>
+                <x-intro-text class="chapter-head__lead">
+                    Wij fietsen samen met kinderen door {{ $gemeente }}, veilig, vrolijk, op kindertempo.
+                </x-intro-text>
             </div>
 
             <figure class="chapter-head__media">
@@ -113,20 +120,31 @@
         </div>
     </header>
 
-    {{-- 2 · DE VOLGENDE PARADE — the soonest kidicalmass ride leads. Phase 1: plain card.
-         Phase 2 turns this into the split-screen (left parade / right stat cards). --}}
+    {{-- 2 · DE VOLGENDE PARADE + OOK IN GEMEENTE — one "what's on in {gemeente}" zone.
+         The soonest ride leads as the full feature card (<x-next-ride>, the whole card a
+         single link to the ride; no floating title — its own eyebrow carries it). The
+         "stay informed" CTA stays DECOUPLED beneath the card so the two destinations
+         never compete inside one surface. The chapter's other activities (workshops,
+         meetings) sit in a quiet right rail beside it — folded out of their old full-bleed
+         sky band so the page reads as one block, not two stacked sections. On narrow
+         screens the rail stacks under the card. The proof stat cards live in §6b. --}}
     <section class="chapter-body chapter-parade">
-        <h2 class="chapter-section__title">De volgende parade in {{ $gemeente }}</h2>
-        <div class="chapter-parade__split">
+        <div class="chapter-parade__layout">
             <div class="chapter-parade__main">
                 @if ($upcomingRides->isNotEmpty())
                     @php $nextRide = $upcomingRides->first(); @endphp
-                    <x-ride-day
-                        :period-key="$nextRide->begin_date->format('Y-m-d')"
-                        :commune="$gemeente"
-                        :rows="[['item' => $nextRide]]" />
-                    {{-- built-in subscribe CTA --}}
-                    <x-newsletter-optin :group="$group" :show-join="false" class="chapter-parade__optin" />
+                    <x-next-ride :activity="$nextRide" :commune="$gemeente" />
+
+                    {{-- Decoupled subscribe: a subtle, secondary line BENEATH the card (never
+                         inside it). One quiet sentence whose link goes STRAIGHT to the
+                         newsletter sign-up page — no in-between reveal/card. --}}
+                    <p class="chapter-parade__subscribe">
+                        <span class="chapter-parade__subscribe-lead">Kan je er niet bij deze keer?</span>
+                        <a href="{{ route('newsletter.show', ['locale' => app()->getLocale()]) }}" class="chapter-parade__subscribe-link">
+                            Hou me op de hoogte van de volgende
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                    </p>
                 @else
                     <div class="chapter-next__card chapter-next__card--empty">
                         <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
@@ -135,17 +153,25 @@
                     </div>
                 @endif
             </div>
-            <aside class="chapter-parade__proof">
-                <div class="chapter-stat">
-                    <span class="chapter-stat__num">sinds {{ $group->started_at?->format('Y') ?? '2023' }}</span>
-                </div>
-                @if ($pastRidesCount > 0)
-                    <div class="chapter-stat">
-                        <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? 'rit' : 'ritten' }}</span>
-                        <span class="chapter-stat__label">samen gefietst</span>
-                    </div>
-                @endif
-            </aside>
+
+            {{-- OOK IN GEMEENTE — the other activities as a quiet sidebar. A small uppercase
+                 eyebrow title keeps it subordinate to the parade; white cards on white,
+                 separated by shadow (echoing the feature card's material). --}}
+            @if ($otherActivities->isNotEmpty())
+                <aside class="chapter-aside">
+                    <h2 class="chapter-aside__title">Ook in {{ $gemeente }}</h2>
+                    <ul class="chapter-aside__list" role="list">
+                        @foreach ($otherActivities as $activity)
+                            <li class="chapter-other__card">
+                                <span class="chapter-other__type">{{ $activity->activity_type->labelNl() }}</span>
+                                <h3 class="chapter-other__title">{{ $activity->title_nl }}</h3>
+                                <time datetime="{{ $activity->begin_date->toDateString() }}">{{ $activity->begin_date->isoFormat('ddd D MMM') }}</time>
+                                @if ($activity->location)<p class="chapter-other__loc">{{ $activity->location }}</p>@endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </aside>
+            @endif
         </div>
     </section>
 
@@ -153,31 +179,12 @@
     @if ($upcomingRides->count() > 1)
         <section class="chapter-body chapter-parades-strip">
             <h2 class="chapter-section__title">Alle parades</h2>
-            <div class="chapter-agenda__list">
+            <div class="chapter-parades-strip__list">
                 @foreach ($upcomingRides->slice(1)->groupBy(fn ($a) => $a->begin_date->format('Y-m-d')) as $periodKey => $dayRides)
                     <x-ride-day :period-key="$periodKey" :commune="$gemeente" :rows="$dayRides->map(fn ($a) => ['item' => $a])->values()->all()" />
                 @endforeach
             </div>
             <a href="{{ $allActivitiesUrl }}" class="link-plain chapter-parades-strip__all">Alle ritten (ook voorbije) →</a>
-        </section>
-    @endif
-
-    {{-- 4 · OOK IN GEMEENTE — workshops, filmavonden, meetings. Phase 2: full-bleed sky
-         band of activity cards. Each card shows type chip, title, date and location.
-         Lighter presence than the §2 parade but with real visual weight. --}}
-    @if ($otherActivities->isNotEmpty())
-        <section class="chapter-body chapter-other chapter-other--sky">
-            <h2 class="chapter-section__title">Ook in {{ $gemeente }}</h2>
-            <ul class="chapter-other__grid" role="list">
-                @foreach ($otherActivities as $activity)
-                    <li class="chapter-other__card">
-                        <span class="chapter-other__type">{{ $activity->activity_type->label() }}</span>
-                        <h3 class="chapter-other__title">{{ $activity->title_nl }}</h3>
-                        <time datetime="{{ $activity->begin_date->toDateString() }}">{{ $activity->begin_date->isoFormat('ddd D MMM') }}</time>
-                        @if ($activity->location)<p class="chapter-other__loc">{{ $activity->location }}</p>@endif
-                    </li>
-                @endforeach
-            </ul>
         </section>
     @endif
 
@@ -362,24 +369,6 @@
         </section>
     @endif
 
-    {{-- §5 KLEURPLAAT — a small illustrated download aside between the gallery and the
-         team carousel. FAUX: real per-group download source pending Nico (#37).
-         Remove this block (and the .chapter-colouring* CSS) once the backend is wired. --}}
-    <aside class="chapter-body chapter-colouring">
-        {{-- FAUX: preview points at an existing illustration SVG (no binary asset yet). --}}
-        <img
-            src="{{ asset('img/illustrations/caterpillar-bike.svg') }}"
-            alt="Voorbeeld van de kleurplaat"
-            class="chapter-colouring__preview"
-        >
-        <div class="chapter-colouring__content">
-            <h3 class="chapter-colouring__title">Kleurplaat voor onderweg</h3>
-            <p class="chapter-colouring__desc">Print hem uit, neem hem mee op de fiets en kleur onderweg!</p>
-            {{-- FAUX: href="#" until Nico wires a real per-group download URL. --}}
-            <x-cta-button variant="secondary" href="#">Download (PDF)</x-cta-button>
-        </div>
-    </aside>
-
     {{-- 6 · WIE ZIJN WIJ — the team carousel, relocated here (was in the closing band).
          Markup unchanged. Faces meet the newcomer BEFORE the recruitment ask in §7. --}}
     @if ($team->isNotEmpty())
@@ -406,7 +395,10 @@
                 x-init="$nextTick(() => update())"
                 x-on:resize.window="update()">
                 <div class="chapter-team__head">
-                    <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
+                    <div class="chapter-team__intro">
+                        <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
+                        <p class="chapter-team__lead">De trekkers en roze hesjes die elke parade laten rollen. Kom je bij hen staan?</p>
+                    </div>
                 </div>
 
                 <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}" x-on:scroll.passive="update()">
@@ -432,6 +424,36 @@
             </div>
         </section>
     @endif
+
+    {{-- 6b · SAMEN AL — the chapter's track record, placed right under the team so the
+         numbers read as the crew's accomplishments (relocated from §2). Small compact
+         cards. "sinds {jaar}" is a fact every chapter has; "{N} parades" joins once
+         there's a past ride. Real data (started_at + pastRidesCount), no invented figures. --}}
+    <section class="chapter-body chapter-stats-band">
+        <p class="chapter-stats-band__eyebrow">Samen al</p>
+        <div class="chapter-stats-band__grid">
+            <div class="chapter-stat">
+                <x-icon-chip color="blue" size="sm" class="chapter-stat__chip">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                </x-icon-chip>
+                <span class="chapter-stat__text">
+                    <span class="chapter-stat__num">sinds {{ $group->started_at?->format('Y') ?? '2023' }}</span>
+                    <span class="chapter-stat__label">op pad in {{ $gemeente }}</span>
+                </span>
+            </div>
+            @if ($pastRidesCount > 0)
+                <div class="chapter-stat">
+                    <x-icon-chip color="red" size="sm" class="chapter-stat__chip">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+                    </x-icon-chip>
+                    <span class="chapter-stat__text">
+                        <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? 'parade' : 'parades' }}</span>
+                        <span class="chapter-stat__label">samen gereden</span>
+                    </span>
+                </div>
+            @endif
+        </div>
+    </section>
 
     {{-- 8 · AFFICHES + MET DANK AAN — quiet white tail. Real partners (visible, group-scoped)
          and faux downloads. Press moved to the channel-wide Press page. D-11 closed. --}}
@@ -498,8 +520,8 @@
          "help mee" form remain here. Rendered in the layout's `closing` slot so it sits
          flush above the yellow footer (main drops to pb-0). --}}
     <x-slot:closing>
-        <section class="chapter-team-band" id="aanmelden">
-            <div class="container mx-auto px-4 chapter-team-band__inner">
+        <section class="chapter-closing-band" id="aanmelden">
+            <div class="container mx-auto px-4 chapter-closing-band__inner">
                 {{-- Pink-vest volunteer, straddling the seam between the white extras and
                      this yellow band (Frederik 2026-06-18): anchored bottom-right of the
                      extras, it rises out of the white zone and dips ~4rem into the yellow,

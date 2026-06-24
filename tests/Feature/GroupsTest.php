@@ -242,9 +242,10 @@ test('group show mixes parent and direct content with correct ordering', functio
 
     // News was CUT from the chapter page (Critique v3) — only the typed activity agenda remains.
     $response->assertOk()
-        ->assertSee('Nearest Child Activity') // hero title (next ride, incl. parent/region)
-        ->assertSee('Child place')            // hero meeting point
-        ->assertSee('Parent place')           // later ride listed in the agenda
+        ->assertSee('Volgende rit')                                  // the §2 next-ride card leads
+        ->assertSee(route('activities.show', $nearestActivity), false) // it features the NEAREST ride (incl. parent/region)
+        ->assertSee('Child place')            // the nearest ride's meeting point, in the card
+        ->assertSee('Parent place')           // later ride listed in the §3 strip
         ->assertDontSee('Past Child Activity')
         ->assertDontSee('Articles from Parent Groups')
         ->assertDontSee('Activities from Parent Groups')
@@ -285,8 +286,10 @@ test('chapter home leads with the next ride in NL, not metadata', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('De volgende parade')     // §2 heading — parade leads the page
-        ->assertSee('Place Colignon')         // the ride's venue
+        ->assertSee('Volgende rit')                          // §2 card eyebrow — parade leads the page
+        ->assertSee('Place Colignon')                        // the ride's venue
+        ->assertSee('Bekijk deze rit')                       // the click-through affordance cue
+        ->assertSee(route('activities.show', $next), false)  // the whole card links to the ride detail
         ->assertDontSee('Part of:')
         ->assertDontSee('Organised by')
         ->assertDontSee('Subgroups');
@@ -299,6 +302,31 @@ test('chapter home shows a designed empty state when no upcoming ride', function
         ->assertOk()
         ->assertSee('Nog geen fietstocht gepland')
         ->assertSee('Mis geen rit');
+});
+
+test('chapter nav shows the chapter postcode just right of the logo', function () {
+    $group = Group::create(['shortname' => 'sb-pc', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('site-nav__postcode')
+        ->assertSeeInOrder(['site-nav__logo', 'site-nav__postcode', '1030'], false); // postcode follows the logo in source order
+});
+
+test('chapter nav omits the postcode when the chapter has no zip', function () {
+    $group = Group::create(['shortname' => 'no-zip', 'name' => 'Kidical Mass Ergens', 'zip' => null, 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertDontSee('site-nav__postcode');
+});
+
+test('the nav postcode appears only on chapter pages, not the chapter index', function () {
+    Group::create(['shortname' => 'idx-pc', 'name' => 'Kidical Mass Gent', 'zip' => '9000', 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.index'))
+        ->assertOk()
+        ->assertDontSee('site-nav__postcode');
 });
 
 test('chapter team carousel shows member cards with first names and roles', function () {
@@ -359,6 +387,9 @@ test('chapter agenda accents a meeting blue on its calendar lockup', function ()
         // The meeting title appears in the §4 sky band of activity cards.
         ->assertSee('Vrijwilligersmeeting')
         ->assertSee('Ook in')
+        // The §4 type chip reads in NL ("Vergadering"), never the English enum label.
+        ->assertSee('Vergadering')
+        ->assertDontSee('Meeting')
         ->assertDontSee('Naar de fietstocht');
 });
 
@@ -408,7 +439,6 @@ test('chapter extras section hidden when no partners', function () {
     get(route('groups.show', $group))
         ->assertOk()
         ->assertDontSee('Met dank aan')
-        ->assertDontSee('In de pers')
         ->assertDontSee('Downloads'); // downloads ride along with real partners, never alone
 });
 
@@ -694,16 +724,9 @@ test('controller buckets upcoming rides and other activities separately', functi
         ->assertViewHas('pastRidesCount', 1);
 });
 
-test('chapter page shows the colouring download aside with a preview thumbnail', function () {
-    $group = Group::create(['shortname' => 'clr', 'name' => 'Kidical Mass Leuven', 'zip' => '3000', 'invisible' => false, 'started_at' => now()]);
-
-    get(route('groups.show', $group))
-        ->assertOk()
-        ->assertSee('Kleurplaat voor onderweg')
-        ->assertSeeInOrder(['caterpillar-bike.svg', 'chapter-colouring__preview'], false);
-});
-
-test('chapter parade split shows real stat cards (sinds + ritten), no fake numbers', function () {
+test('chapter shows real track-record stat cards (sinds + parades) under a Samen al eyebrow, no fake numbers', function () {
+    // The proof stats moved out of §2 to §6b (under the team) in the v4 next-ride rebuild,
+    // where they read as the crew's track record. They render even without a team roster.
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->setDate(2023, 1, 1)]);
     foreach ([now()->subMonths(2), now()->subMonth()] as $when) {
@@ -715,9 +738,44 @@ test('chapter parade split shows real stat cards (sinds + ritten), no fake numbe
 
     get(route('groups.show', $group))
         ->assertOk()
+        ->assertSee('Samen al')           // the track-record eyebrow bridging from the team
         ->assertSee('sinds 2023')
-        ->assertSee('2 ritten')          // two past rides counted
+        ->assertSee('2 parades')          // two past rides counted
+        ->assertSee('samen gereden')
         ->assertDontSee('gezinnen vorige keer');  // no invented attendance figure (e.g. "± 80 gezinnen vorige keer")
+});
+
+test('the track-record stats sit under the team carousel as the crew accomplishments', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'sbt', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->setDate(2021, 1, 1)]);
+    $group->users()->attach(User::factory()->create(['name' => 'Sofie Maes']));
+    $past = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->subMonth(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $past->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        // The team headline comes first, then the "Samen al" stats — the numbers read as theirs.
+        ->assertSeeInOrder(['Wij zwaaien je welkom aan de start', 'Samen al', 'sinds 2021'], false);
+});
+
+test('the §2 subscribe CTA is decoupled beneath the ride card, not nested inside it', function () {
+    $author = User::factory()->create();
+    $group = Group::create(['shortname' => 'nr', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    $ride = Activity::create([
+        'title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'Een rustige lus.', 'content_fr' => 'x',
+        'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60,
+        'location' => 'Gemeenteplein Colignon', 'distance' => '3 km', 'author_id' => $author->id,
+    ]);
+    $ride->groups()->attach($group);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('3 km')                                  // the real, optional distance string shows
+        ->assertSee('Hou me op de hoogte van de volgende')   // benefit-driven wording, not a bare "Schrijf je in"
+        // The subscribe link goes STRAIGHT to the newsletter page — no in-between reveal/card.
+        ->assertSee(route('newsletter.show', ['locale' => app()->getLocale()]), false)
+        // ... and it sits AFTER the card's own link — decoupled beneath the single-affordance card.
+        ->assertSeeInOrder(['Bekijk deze rit', 'Kan je er niet bij deze keer?']);
 });
 
 test('§7 join block defaults to collapsed state without intent param', function () {

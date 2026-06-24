@@ -43,6 +43,14 @@
         padding-bottom: 5rem;
         max-width: none;
     }
+    /* Intro text inside the blue header — override the component's default body colour
+       to yellow, and give it breathing room below the h1. */
+    .chapter-head__lead {
+        color: var(--color-kidical-yellow);
+        margin-block: 0;
+        margin-top: calc(var(--spacing) * 8);
+    }
+
     /* The photo lives inside the hero. On phone/tablet it stacks under the title as a
        calm landscape card; from the lg breakpoint it sits beside the title, tilted, with
        its bottom-right corner dipping out of the band. */
@@ -77,6 +85,10 @@
         }
         .chapter-head__copy {
             align-self: center; /* title centred against the photo */
+        }
+        .chapter-head__lead {
+            margin-block: 0;
+            margin-top: calc(var(--spacing) * 10);
         }
         .chapter-head__media {
             margin: 0;
@@ -369,49 +381,130 @@
         margin-bottom: 1rem;
     }
 
-    /* 2 · PARADE SPLIT — left: featured ride + subscribe CTA; right: stat cards.
-       Two columns on wider screens (parade ~1.2fr, proof ~1fr); stacks on mobile.
-       The proof column holds token-backed stat cards, no photos. */
-    .chapter-parade__split {
+    /* 2 · DE VOLGENDE PARADE + OOK IN GEMEENTE — one "what's on" zone. The <x-next-ride>
+       feature card (its own component + CSS partial) leads the main column; the other
+       activities sit in a right rail beside it. Two columns from 64rem up; stacked below.
+       :has() guards the split so a chapter with no other activities keeps the card full
+       width. The stat cards moved to §6b. */
+    .chapter-parade__layout {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: clamp(2rem, 4vw, 3rem);
+        gap: clamp(1.75rem, 3.5vw, 2.75rem);
+        align-items: start;
     }
-    @media (min-width: 48rem) {
-        .chapter-parade__split {
-            grid-template-columns: 1.2fr 1fr;
-            align-items: start;
+    .chapter-parade__main {
+        min-width: 0;
+    }
+    @media (min-width: 64rem) {
+        .chapter-parade__layout:has(.chapter-aside) {
+            grid-template-columns: minmax(0, 1fr) clamp(18rem, 30%, 23rem);
         }
     }
-    .chapter-parade__proof {
+
+    /* 2b · OOK IN GEMEENTE — the chapter's other activities (workshops, meetings) as a
+       quiet sidebar beside the parade (was a full-bleed sky band). A small uppercase
+       eyebrow title keeps it subordinate; the cards stack vertically down the rail. */
+    .chapter-aside__title {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        margin: 0 0 0.9rem;
+    }
+    .chapter-aside__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
+        gap: clamp(0.85rem, 2vw, 1.15rem);
+    }
+
+    /* DECOUPLED SUBSCRIBE — a quiet, secondary line beneath the ride card (never inside
+       it), so it can't be mistaken for the card's own "view this ride" link. Lower
+       emphasis than the card (muted lead), but body-sized and readable; its link goes
+       straight to the newsletter sign-up page (no in-between reveal). */
+    .chapter-parade__subscribe {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.3rem 0.65rem;
+        margin: clamp(1rem, 2.5vw, 1.5rem) 0 0;
+        font-size: var(--text-lg);
+    }
+    .chapter-parade__subscribe-lead {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    }
+    .chapter-parade__subscribe-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+        background-image: none; /* drop the global resting underline; hover carries it */
+    }
+    .chapter-parade__subscribe-link:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.2rem;
+    }
+
+    /* 6b · SAMEN AL — the chapter's track record as small compact cards, sitting right
+       under the team (§6) so the numbers read as the crew's accomplishments. A quiet
+       eyebrow bridges the two; tightened top so it hugs the team above. */
+    .chapter-stats-band {
+        padding-top: clamp(1rem, 2vw, 1.25rem);
+    }
+    .chapter-stats-band__eyebrow {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        margin: 0 0 0.9rem;
+    }
+    .chapter-stats-band__grid {
+        display: flex;
+        flex-wrap: wrap;
         gap: calc(var(--spacing) * 4);
     }
+    /* Compact proof card — chip on the left, a big Caprasimo figure over a quiet
+       descriptor on the right. Butter-yellow ground (warm surface, never action yellow). */
     .chapter-stat {
+        flex: 1 1 16rem;
         background-color: var(--color-kidical-light-yellow);
         border-radius: var(--radius-card);
-        padding: calc(var(--spacing) * 6) calc(var(--spacing) * 7);
+        padding: clamp(1.2rem, 2.5vw, 1.5rem) clamp(1.4rem, 3vw, 1.75rem);
+        display: flex;
+        align-items: center;
+        gap: calc(var(--spacing) * 4);
+    }
+    .chapter-stat__chip {
+        flex: none;
+    }
+    .chapter-stat__text {
         display: flex;
         flex-direction: column;
-        gap: calc(var(--spacing) * 1);
+        gap: calc(var(--spacing) * 0.5);
     }
     .chapter-stat__num {
         font-family: var(--font-heading);
-        font-size: var(--text-2xl);
-        font-weight: 900;
+        font-size: clamp(1.75rem, 3vw, 2.1rem);
+        font-weight: 800;
         color: var(--color-kidical-ink);
-        line-height: 1.1;
+        line-height: 1;
+        text-wrap: balance;
     }
     .chapter-stat__label {
-        font-size: var(--text-sm);
+        font-size: var(--text-base);
         font-weight: 700;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 32%);
+        line-height: 1.3;
     }
 
-    /* 3 · AGENDA — the next ride is the single, unmistakable hero card */
+    /* 2 · EMPTY STATE — the butter card shown in the parade split when no ride is
+       scheduled yet (a calm "nog geen fietstocht gepland" + the subscribe opt-in). */
     .chapter-next__card {
         border-radius: 1.25rem;
         padding: 1.75rem 1.75rem 2rem;
@@ -429,70 +522,39 @@
     }
     .chapter-next__empty-body { margin-top: 0.5rem; color: var(--color-kidical-ink); }
 
-    /* Extra breathing room above the agenda title, clearing the hero photo that
-       dips into this band on wide screens. */
-    .chapter-agenda {
-        margin-top: 5rem;
-    }
-
-    /* Agenda layout: a tall sign in a left column beside the list on wider screens.
-       Single column on mobile, where the sign column is dropped entirely. */
-    .chapter-agenda__grid {
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-    .chapter-agenda__aside {
-        display: none;
-    }
-    @media (min-width: 1024px) {
-        /* Bigger sign + a capped agenda track. Neither track grows past its max, so on
-           very wide screens grid leaves the leftover width as breathing room on the right
-           (left-anchored, asymmetric); on narrower large screens the agenda still fills. */
-        .chapter-agenda__grid {
-            grid-template-columns: 12.75rem minmax(0, 48rem);
-            gap: clamp(3rem, 5vw, 5rem);
-            align-items: center;
-        }
-        .chapter-agenda__aside {
-            display: block;
-        }
-    }
-    .chapter-agenda__sign {
-        position: sticky;
-        top: 2rem;
-        width: 100%;
-        height: auto;
-    }
-
-    .chapter-agenda__list {
-        margin: 1.5rem 0 0;
+    /* 3 · ALLE PARADES — the remaining upcoming rides as a tight, secondary list paired
+       under §2. Lighter than the featured parade: a calm divider rhythm, the ride titles
+       a step down from §2's lead, so the eye reads this as "the rest, in order". */
+    .chapter-parades-strip__list {
+        margin-top: 1.5rem;
         display: flex;
         flex-direction: column;
     }
-
-    /* Agenda foot: the "alle activiteiten" link — intrinsic width, left-aligned
-       (the foot is a flex column, so it would otherwise stretch the pill full-width). */
-    .chapter-agenda__foot {
-        margin-top: 1.75rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.5rem;
+    /* Each day is a row in the list, set apart by a hairline rather than air alone. */
+    .chapter-parades-strip__list .ride-day {
+        padding-block: clamp(0.9rem, 2vw, 1.25rem);
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+        margin-top: 0;
+    }
+    .chapter-parades-strip__list .ride-day:first-child {
+        border-top: 0;
+        padding-top: 0;
+    }
+    /* A step down from §2's featured title, a step up from nothing — the secondary tier. */
+    .chapter-parades-strip__list .ride-row__place {
+        font-size: 1.5rem;
+    }
+    .chapter-parades-strip__all {
+        display: inline-block;
+        margin-top: 1.5rem;
+        font-weight: 700;
     }
 
-    /* 3a · MIS GEEN RIT — the primary opt-in band sitting between the agenda and the
-       gallery. The card owns its own look (light-blue + shadow via the component's
-       prominent mode); the band just caps it to a calm measure and centres it so it
-       lands as one clear action on the white, not a full-bleed slab. */
-    .chapter-optin__card {
-        max-width: 60rem;
-        margin-inline: auto;
-    }
-
-    /* 5 · YELLOW CLOSING BAND — warmth ("wie dit trekt") flowing into the "help mee"
-       recruitment CTA. Yellow so it fuses with the footer (lives in the layout's closing
-       slot). */
-    .chapter-team-band {
+    /* 7 · YELLOW CLOSING BAND — the "help mee" recruitment climax, fused with the footer.
+       Yellow so it flows into the footer (lives in the layout's closing slot). The team
+       carousel has moved to §6 on the white; this band now wraps only the seam illo + the
+       help-mee ask, hence the name (was .chapter-team-band when the team lived here). */
+    .chapter-closing-band {
         --band-pad: clamp(3rem, 6vw, 5rem);
         position: relative;
         width: 100vw;
@@ -502,7 +564,7 @@
     }
     /* The container itself is the positioning context for the seam illustration, so
        it lines up with the content's right edge (px-4 handled by the container). */
-    .chapter-team-band__inner {
+    .chapter-closing-band__inner {
         position: relative;
     }
 
@@ -529,21 +591,28 @@
         }
     }
 
-    /* Single big headline for the team block — the attention-grabber, no lead copy. */
+    /* 6 · WIE ZIJN WIJ — the team carousel in its white mid-page home (relocated from the
+       old yellow band). A headline + warm lead introduce the faces before the §7 ask. */
     .chapter-team__headline {
-        max-width: 18ch;
+        max-width: 20ch;
         text-wrap: balance;
         margin-bottom: 1.75rem;
     }
+    .chapter-team__lead {
+        margin-top: 0.6rem;
+        max-width: 46ch;
+        font-size: var(--text-lg);
+        color: var(--color-text-body);
+    }
 
-    /* Full-width team carousel of flat illustrated polaroids. */
-    .chapter-team__carousel { margin-bottom: 2.5rem; }
+    /* Full-width team carousel of soft illustrated cards — the site's standard card
+       idiom (--radius-tile + --shadow-card, no sticker border/offset/tilt). The team and
+       its track record (§6b "Samen al") read as one block: the section's bottom air is
+       dropped here and re-added small on the stats band, so the numbers hug the crew. */
+    .chapter-team { padding-bottom: 0; }
+    .chapter-team__carousel { margin-bottom: 0; }
     .chapter-team__head {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 1rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
     }
     .chapter-team__head .chapter-team__headline { margin-bottom: 0; }
     /* Nav lives below the card row, anchored to the carousel's right edge (the track
@@ -552,7 +621,7 @@
         display: flex;
         justify-content: flex-end;
         gap: 0.6rem;
-        margin-top: 1rem;
+        margin-top: 0.75rem;
     }
     .chapter-team__btn {
         width: 4.5rem;
@@ -608,20 +677,17 @@
         scroll-snap-align: start;
         width: 13.5rem;
         background: white;
-        padding: 0.7rem 0.7rem 1.05rem;
-        border-radius: 0.55rem;
-        border: 2px solid var(--color-kidical-ink);
-        box-shadow: 4px 5px 0 color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
+        padding: 0.75rem 0.75rem 1.1rem;
+        border-radius: var(--radius-tile);
+        box-shadow: var(--shadow-card);
         text-align: center;
     }
-    .chapter-team__card:nth-child(odd)  { transform: rotate(-3deg); }
-    .chapter-team__card:nth-child(even) { transform: rotate(2.5deg); }
     .chapter-team__photo {
         display: grid;
         place-items: center;
         width: 100%;
         aspect-ratio: 1 / 1;
-        border-radius: 0.25rem;
+        border-radius: 0.5rem;
         overflow: hidden;
         margin-bottom: 0.7rem;
         background: var(--color-kidical-light-yellow);
@@ -633,31 +699,17 @@
     .chapter-team__photo img { max-width: 88%; max-height: 88%; object-fit: contain; }
 
     .chapter-team__name { display: block; font-weight: 700; color: var(--color-kidical-ink); line-height: 1.1; }
+    /* Plain body text under the bold name — no eyebrow treatment (inherits the body
+       size/weight/colour, so "trekker" / "roze hesje" read in their natural lowercase). */
     .chapter-team__role {
         display: block;
-        margin-top: 0.3rem;
-        font-size: var(--text-sm);
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--color-zinc-500);
+        margin-top: 0.2rem;
     }
 
     @media (max-width: 640px) {
         .chapter-team__head { align-items: center; }
         .chapter-team__card { width: 11.5rem; }
     }
-
-    .chapter-team__welcome {
-        background-color: white;
-        color: var(--color-kidical-ink);
-        border-radius: 0.85rem;
-        padding: 0.85rem 1.1rem;
-        font-weight: 400;
-        margin-bottom: 1.1rem;
-    }
-    .chapter-team__more { margin-top: 1rem; font-weight: 700; }
-    .chapter-team__more a { color: var(--color-kidical-blue); }
 
     /* On-demand meehelpen reveal — the standard centered closing-CTA pattern on yellow:
        one big title + the shared <x-cta-button>s, no lead copy. Sits below the team intro. */
@@ -813,47 +865,6 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
     }
 
-    /* §5 KLEURPLAAT DOWNLOAD — small illustrated aside between the gallery and the team
-       carousel. FAUX placeholder: remove when Nico wires real per-group downloads. */
-    .chapter-colouring {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.5rem;
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
-    }
-    @media (min-width: 36rem) {
-        .chapter-colouring {
-            flex-direction: row;
-            align-items: center;
-        }
-    }
-    .chapter-colouring__preview {
-        flex: none;
-        width: 7rem;
-        height: auto;
-        border-radius: var(--radius-card);
-        background-color: var(--color-kidical-light-yellow);
-    }
-    .chapter-colouring__content {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-    }
-    .chapter-colouring__title {
-        margin: 0;
-        font-family: var(--font-heading);
-        font-size: var(--text-xl);
-        font-weight: 800;
-        color: var(--color-kidical-ink);
-        line-height: 1.2;
-    }
-    .chapter-colouring__desc {
-        margin: 0;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
-        font-size: var(--text-sm);
-    }
 
     /* 4 · LOCAL EXTRAS — quiet white, above the yellow closing band */
     .chapter-extras {
@@ -927,27 +938,9 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
     }
 
-    /* 4 · OOK IN GEMEENTE — sky band of activity cards (Phase 2).
-       Full-bleed with the same margin technique as .chapter-team-band (100vw /
-       calc(50% - 50vw)), matching commit a526452's fix to avoid horizontal scroll:
-       overflow-x is clipped on the band itself so the scrollbar-gutter gap from
-       100vw never creates a phantom horizontal bar. */
-    .chapter-other--sky {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        padding-inline: max(1rem, calc(50vw - 50%));
-        background-color: var(--color-kidical-sky);
-        overflow-x: clip;
-    }
-    .chapter-other__grid {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-        gap: clamp(1rem, 2.5vw, 1.5rem);
-        margin-top: 1.5rem;
-    }
+    /* OOK IN GEMEENTE — the activity card itself (now lives in the §2 right rail,
+       .chapter-aside; was a full-bleed sky band). White on white, separated by a soft
+       shadow so it echoes the next-ride feature card's material. */
     .chapter-other__card {
         background-color: white;
         border-radius: var(--radius-card);
@@ -977,66 +970,6 @@
         font-size: var(--text-sm);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
-
-    /* Press articles list — local coverage linked to this chapter. */
-    .chapter-press {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-    }
-    .chapter-press__item {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: 0.25rem 0.55rem;
-        padding-block: 0.7rem;
-        border-bottom: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
-    }
-    .chapter-press__item:first-child { padding-top: 0; }
-    .chapter-press__item:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-    /* Titles read at the Body tier (inherited text-xl); outlet and date are genuine
-       metadata, so they stay at the Meta tier. Two sanctioned sizes, no invented ones. */
-    .chapter-press__outlet {
-        font-weight: 700;
-        font-size: var(--text-sm);
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-        color: var(--color-kidical-ink);
-        flex-shrink: 0;
-    }
-    .chapter-press__date {
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 48%);
-        flex-shrink: 0;
-    }
-    .chapter-press__title {
-        flex: 1 1 100%;
-        color: var(--color-kidical-ink);
-        line-height: 1.45;
-    }
-    @media (min-width: 480px) {
-        .chapter-press__title { flex-basis: auto; }
-    }
-    a.chapter-press__title {
-        color: var(--color-kidical-blue);
-        background-image: none; /* drop the rest-underline; the row divider already separates items */
-    }
-    a.chapter-press__title:hover { text-decoration: underline; }
-    .chapter-press__doc {
-        flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 48%);
-        transition: color 0.15s;
-        background-image: none; /* icon-only link, no underline */
-    }
-    .chapter-press__doc:hover { color: var(--color-kidical-blue); }
 }
 
 @layer components {

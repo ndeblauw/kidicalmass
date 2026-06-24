@@ -254,11 +254,29 @@ select:focus[data-flux-control] {
     .site-logo-anchor__link {
         display: inline-flex;
         align-items: center;
+        gap: 0.875rem; /* sets the postcode tile just right of the wordmark on chapter pages */
         height: 4.5rem; /* match .site-nav__bar min-height */
         pointer-events: all;
     }
     .site-nav__logo {
         height: 4.5rem;
+    }
+    /* Chapter postcode beside the wordmark — a darker-blue tile (≈ wordmark height) with a
+       small bold yellow postcode centred inside. */
+    .site-nav__postcode {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.52rem;
+        padding-inline: 0.85rem;
+        border-radius: 1.55rem;
+        background: color-mix(in oklab, var(--color-kidical-blue), black 18%);
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: 1.305rem;
+        line-height: 1;
+        letter-spacing: 0.5px;
+        color: var(--color-kidical-yellow);
     }
     .site-nav__group {
         display: flex;
