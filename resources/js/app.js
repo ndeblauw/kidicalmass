@@ -29,6 +29,29 @@ document.addEventListener('alpine:init', () => {
         init() {
             this._raf = null;
             this.$nextTick(() => this.update());
+            this.armReveal();
+        },
+
+        // --- one-shot staggered entrance: cards drift in from the right --------
+        // Hide the row up front, then reveal it the first time it scrolls into
+        // view so the stagger plays where it can be seen. Skipped entirely under
+        // reduced motion — there the cards are simply present from the start.
+        armReveal() {
+            const track = this.$refs.track;
+            if (this.reduce || !track || !('IntersectionObserver' in window)) {
+                return;
+            }
+            track.classList.add('is-revealable');
+            const io = new IntersectionObserver((entries, obs) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        track.classList.remove('is-revealable');
+                        track.classList.add('is-revealed');
+                        obs.disconnect();
+                    }
+                }
+            }, { threshold: 0.18 });
+            io.observe(track);
         },
 
         // --- prev/next nav (unchanged behaviour) -------------------------------
