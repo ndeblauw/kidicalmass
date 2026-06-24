@@ -25,6 +25,9 @@
     $tilePhotos = $photos->slice(1)->values();
     // Keep the chapter page's EXACT ragged-row cap: 9 or 5
     $tilePhotos = $tilePhotos->take($tilePhotos->count() >= 9 ? 9 : 5);
+    // Photos not shown as the cover or a tile — surfaced as a "+N, all photos" overlay on the
+    // last tile so people know the wall is a doorway to the full set (the lightbox cycles all).
+    $hiddenCount = max(0, $photos->count() - 1 - $tilePhotos->count());
     $rideRail = $date ? \App\Support\RideDate::rail($date) : null;
 @endphp
 
@@ -146,12 +149,13 @@
         @foreach ($tilePhotos as $media)
             {{-- Tiles past the fourth only show once there's room for them — the XL 4-column
                  wall fits eight in three rows; below that, only the first four show. --}}
+            @php($isMoreTile = $loop->last && $hiddenCount > 0)
             <li @class(['ride-gallery__cell', 'ride-gallery__cell--xl' => $loop->index >= 4])>
                 <button
                     type="button"
                     class="ride-gallery__tile"
                     @click="open({{ $loop->index + 1 }}, $event)"
-                    aria-label="Bekijk foto {{ $loop->iteration + 1 }} groter"
+                    aria-label="{{ $isMoreTile ? "Bekijk alle foto's" : 'Bekijk foto ' . ($loop->iteration + 1) . ' groter' }}"
                 >
                     <img
                         src="{{ $media->getUrl('card') }}"
@@ -159,6 +163,12 @@
                         loading="lazy"
                         class="ride-gallery__img"
                     >
+                    @if ($isMoreTile)
+                        <span class="ride-gallery__more" aria-hidden="true">
+                            <span class="ride-gallery__more-count">+{{ $hiddenCount }}</span>
+                            <span class="ride-gallery__more-label">Bekijk alle foto's</span>
+                        </span>
+                    @endif
                 </button>
             </li>
         @endforeach

@@ -18,7 +18,10 @@ it('upcoming ride shows promises and the how-it-works CTA', function () {
     showRide($ride)
         ->assertSee('Wat kun je verwachten')
         ->assertSee('Lees hoe je meerijdt')
-        ->assertDontSee('Net gereden');
+        ->assertDontSee('Net gereden')
+        // The support ask uses a present-tense hook while the ride is still ahead.
+        ->assertSee('Zin om mee te rijden')
+        ->assertDontSee('Fijn meegereden');
 });
 
 it('just-past ride shows the photo nudge, drops promises, points to the chapter', function () {
@@ -30,6 +33,8 @@ it('just-past ride shows the photo nudge, drops promises, points to the chapter'
         ->assertSee('Net gereden')
         ->assertDontSee('Wat kun je verwachten')
         ->assertDontSee('Lees hoe je meerijdt')
+        // Past ride: the support ask uses its past-tense hook.
+        ->assertSee('Fijn meegereden')
         ->assertSee(route('groups.show', ['locale' => 'nl', 'group' => $group]), escape: false);
 });
 
@@ -43,5 +48,19 @@ it('recap ride shows the gallery, drops promises, points to the chapter', functi
         ->assertDontSee('Wat kun je verwachten')
         ->assertDontSee('Net gereden')
         ->assertDontSee('Lees hoe je meerijdt')
-        ->assertSee(route('groups.show', ['locale' => 'nl', 'group' => $group]), escape: false);
+        ->assertSee('Fijn meegereden')
+        ->assertSee(route('groups.show', ['locale' => 'nl', 'group' => $group]), escape: false)
+        // 3 photos fit on the wall, so no "more" overlay.
+        ->assertDontSee('ride-gallery__more', escape: false);
+});
+
+it('recap gallery surfaces a "view all photos" overlay when the wall is capped', function () {
+    $ride = Activity::factory()->past()->withGallery(8)->create();
+    $ride->groups()->attach(Group::factory()->create());
+
+    // 8 photos: 1 cover + 5 tiles shown, 2 hidden behind the last tile's overlay.
+    showRide($ride)
+        ->assertSee('ride-gallery__more', escape: false)
+        ->assertSee('+2')
+        ->assertSee("Bekijk alle foto's");
 });

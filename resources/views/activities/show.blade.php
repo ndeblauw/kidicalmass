@@ -249,8 +249,10 @@
             @endif
         </section>
 
-        {{-- STEUN — contextual support ask, quiet & contained --}}
-        <x-support-callout variant="event" :contained="true" />
+        {{-- STEUN — contextual support ask, quiet & contained. Past-tense hook only once the
+             ride has happened; a present-tense framing while it is still upcoming. --}}
+        <x-support-callout variant="event" :contained="true"
+            :title="$isPast ? null : __('support.event_upcoming_title')" />
 
         {{-- DEEL — invite a gezin, or share the memory for past rides --}}
         @if($isPast)

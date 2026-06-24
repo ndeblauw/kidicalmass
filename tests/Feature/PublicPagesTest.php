@@ -226,7 +226,7 @@ it('keeps the activity detail page branded', function () {
 it('shows the support callout at the end of an event detail page', function () {
     get(route('activities.show', $this->activity))
         ->assertOk()
-        ->assertSee('Fijn meegereden')
+        ->assertSee('Steun de volgende rit')
         ->assertSee(route('membership'), escape: false);
 });
 
