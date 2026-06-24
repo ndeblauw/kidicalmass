@@ -30,7 +30,7 @@
                     :aria-label="copied ? 'Link gekopieerd' : 'Kopieer de link naar deze rit'">
                     <flux:icon.link class="share-band__copy-icon" aria-hidden="true" />
                     <span x-show="!copied">Kopieer link</span>
-                    <span x-show="copied" x-cloak>Gekopieerd!</span>
+                    <span x-show="copied" x-cloak aria-live="polite">Gekopieerd!</span>
                 </button>
 
                 {{-- WhatsApp --}}
