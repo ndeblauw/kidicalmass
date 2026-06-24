@@ -207,6 +207,7 @@
 @import './components/titled-list-block.css';
 @import './components/scroll-sequence.css';
 @import './components/photo-collage.css';
+@import './components/share-band.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';
