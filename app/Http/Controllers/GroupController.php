@@ -105,6 +105,7 @@ class GroupController extends Controller
             ->get();
 
         $activities = Activity::query()
+            ->published()
             ->with(['author', 'groups'])
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
             ->where('begin_date', '>=', now())
@@ -118,6 +119,7 @@ class GroupController extends Controller
         // (group's own rides + parent regions, like the agenda above), so the page
         // always highlights the latest outing rather than a hand-curated wall.
         $latestRide = Activity::query()
+            ->published()
             ->with('media')
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
             ->where('activity_type', ActivityType::KIDICALMASS)

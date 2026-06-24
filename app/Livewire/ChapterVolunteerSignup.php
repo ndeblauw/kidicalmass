@@ -79,6 +79,7 @@ class ChapterVolunteerSignup extends Component
     public function nextActivity(): ?Activity
     {
         return $this->group->activities()
+            ->published()
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')
             ->first();

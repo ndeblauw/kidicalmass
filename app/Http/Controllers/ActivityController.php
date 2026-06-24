@@ -17,9 +17,32 @@ class ActivityController extends Controller
 
     public function show(string $locale, Activity $activity): View
     {
+        $this->authorizeAccess($activity);
+
         $activity->load(['author', 'groups']);
 
         return view('activities.show', compact('activity'));
+    }
+
+    private function authorizeAccess(Activity $activity): void
+    {
+        if ($activity->published) {
+            return;
+        }
+
+        $user = auth()->user();
+
+        if (! $user) {
+            abort(404);
+        }
+
+        $isMemberOfGroup = $activity->groups()
+            ->whereHas('users', fn ($q) => $q->whereKey($user))
+            ->exists();
+
+        if (! $isMemberOfGroup) {
+            abort(404);
+        }
     }
 
     public function ical(string $locale, Activity $activity): Response

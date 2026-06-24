@@ -7,20 +7,24 @@ use App\Filament\Resources\Activities\Pages\ManageActivities;
 use App\Models\Activity;
 use App\Models\User;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -165,6 +169,13 @@ class ActivityResource extends Resource
                             ->collection('gallery')
                             ->helperText('These images will only appear on the activity detail page.'),
                     ]),
+                Section::make('Visibility')
+                    ->columnSpanFull()
+                    ->schema([
+                        Checkbox::make('published')
+                            ->label('Published')
+                            ->helperText('Unpublished activities are hidden from the public site.'),
+                    ]),
             ]);
     }
 
@@ -240,6 +251,10 @@ class ActivityResource extends Resource
                     ->url(fn ($record) => $record->commute_link)
                     ->openUrlInNewTab()
                     ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('published')
+                    ->boolean()
+                    ->sortable()
+                    ->label('Published'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -250,6 +265,12 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('published')
+                    ->options([
+                        1 => 'Published',
+                        0 => 'Unpublished',
+                    ])
+                    ->label('Published'),
                 SelectFilter::make('activity_type')
                     ->options(ActivityType::getOptionsArray())
                     ->label('Activity Type'),
@@ -270,6 +291,23 @@ class ActivityResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('publish')
+                    ->label('Publish')
+                    ->icon(Heroicon::OutlinedEye)
+                    ->visible(fn (Activity $record): bool => ! $record->published)
+                    ->action(function (Activity $record): void {
+                        $record->update(['published' => true]);
+                        Notification::make()->success()->title('Activity published')->send();
+                    }),
+                Action::make('unpublish')
+                    ->label('Unpublish')
+                    ->icon(Heroicon::OutlinedEyeSlash)
+                    ->color('warning')
+                    ->visible(fn (Activity $record): bool => $record->published)
+                    ->action(function (Activity $record): void {
+                        $record->update(['published' => false]);
+                        Notification::make()->success()->title('Activity unpublished')->send();
+                    }),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

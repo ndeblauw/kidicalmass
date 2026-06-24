@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Groups;
 
 use App\Filament\Resources\Groups\Pages\ManageGroups;
+use App\Filament\Resources\Groups\Pages\ViewGroup;
 use App\Models\Group;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -137,6 +139,10 @@ class GroupResource extends Resource
                 //
             ])
             ->recordActions([
+                Action::make('dashboard')
+                    ->label('Dashboard')
+                    ->icon('heroicon-o-chart-bar')
+                    ->url(fn (Group $record): string => GroupResource::getUrl('view', ['record' => $record])),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
@@ -152,6 +158,7 @@ class GroupResource extends Resource
     {
         return [
             'index' => ManageGroups::route('/'),
+            'view' => ViewGroup::route('/{record}'),
         ];
     }
 }

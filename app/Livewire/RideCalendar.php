@@ -41,6 +41,7 @@ class RideCalendar extends Component
         $when = $this->when === 'voorbije' ? 'voorbije' : 'aankomend';
 
         $query = Activity::query()
+            ->published()
             ->where('activity_type', ActivityType::KIDICALMASS)
             ->with(['groups']);
 

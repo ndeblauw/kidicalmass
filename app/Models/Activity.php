@@ -8,6 +8,7 @@ use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,7 @@ class Activity extends Model implements HasMedia
         return [
             'begin_date' => 'datetime',
             'activity_type' => ActivityType::class,
+            'published' => 'boolean',
         ];
     }
 
@@ -191,5 +193,83 @@ class Activity extends Model implements HasMedia
     public function getDateMonthYearAttribute(): string
     {
         return RideDate::monthYear($this->begin_date);
+    }
+
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('published', true);
+    }
+
+    public function isPast(): bool
+    {
+        $end = $this->end_date;
+
+        return $end !== null && $end->isPast();
+    }
+
+    public function hasMainImage(): bool
+    {
+        return $this->getFirstMedia('main') !== null;
+    }
+
+    public function hasGallery(): bool
+    {
+        return $this->getMedia('gallery')->isNotEmpty();
+    }
+
+    public function hasPressCoverage(): bool
+    {
+        return $this->pressArticles()->exists();
+    }
+
+    public function hasRoute(): bool
+    {
+        return filled($this->commute_link)
+            || filled($this->komoot_url)
+            || $this->getFirstMedia('gpx') !== null;
+    }
+
+    public function missingFields(): array
+    {
+        $missing = [];
+
+        if (! filled($this->title_nl)) {
+            $missing[] = 'title_nl';
+        }
+
+        if (! filled($this->title_fr)) {
+            $missing[] = 'title_fr';
+        }
+
+        if (! filled($this->content_nl) && ! filled($this->content_fr)) {
+            $missing[] = 'content';
+        }
+
+        if (! $this->hasMainImage()) {
+            $missing[] = 'main_image';
+        }
+
+        if (! $this->hasRoute()) {
+            $missing[] = 'route';
+        }
+
+        if (! filled($this->location)) {
+            $missing[] = 'location';
+        }
+
+        if (! $this->organizer_id) {
+            $missing[] = 'organizer';
+        }
+
+        if ($this->begin_date === null) {
+            $missing[] = 'begin_date';
+        }
+
+        return $missing;
+    }
+
+    public function isComplete(): bool
+    {
+        return empty($this->missingFields());
     }
 }

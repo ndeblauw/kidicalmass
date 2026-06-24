@@ -21,6 +21,7 @@ class NextRideFinder
     public static function find(?array $location): array
     {
         $upcoming = Activity::query()
+            ->published()
             ->where('activity_type', ActivityType::KIDICALMASS)
             ->where('begin_date', '>=', now()->startOfDay())
             ->orderBy('begin_date')
