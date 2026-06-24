@@ -229,3 +229,13 @@ it('shows the support callout at the end of an event detail page', function () {
         ->assertSee('Fijn meegereden')
         ->assertSee(route('membership'), escape: false);
 });
+
+it('links the chapter gallery to the full ride recap', function () {
+    $group = Group::factory()->create();
+    $ride = Activity::factory()->past()->withGallery(3)->create();
+    $ride->groups()->attach($group);
+
+    $this->get(route('groups.show', ['locale' => 'nl', 'group' => $group]))
+        ->assertSee(route('activities.show', ['locale' => 'nl', 'activity' => $ride]), escape: false)
+        ->assertSee('Bekijk de hele rit');
+});

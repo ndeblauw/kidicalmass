@@ -613,3 +613,25 @@
         color: var(--color-kidical-blue);
     }
 }
+
+/* ─── Lifecycle state markers ────────────────────────────────────────────────
+   "Voorbij" badge shown in the hero for past rides (awaiting-photos + recap).
+   Token-backed; no raw hex or px values.
+   ─────────────────────────────────────────────────────────────────────────── */
+@layer components {
+    .activity-head__past {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35em;
+        margin-bottom: var(--space-2, 0.5rem);
+        padding-inline: 0.65em;
+        padding-block: 0.25em;
+        border-radius: var(--radius-full, 9999px);
+        background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 82%);
+        font-size: var(--text-xs);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-white), transparent 15%);
+    }
+}

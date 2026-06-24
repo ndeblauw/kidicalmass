@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityType;
+use App\Enums\RideLifecycleState;
 use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
@@ -205,6 +206,39 @@ class Activity extends Model implements HasMedia
         $end = $this->end_date;
 
         return $end !== null && $end->isPast();
+    }
+
+    public function hasEnded(): bool
+    {
+        $end = $this->end_date ?? $this->begin_date;
+
+        return $end !== null && $end->isPast();
+    }
+
+    public function lifecycleState(): RideLifecycleState
+    {
+        if (! $this->hasEnded()) {
+            return RideLifecycleState::Upcoming;
+        }
+
+        return $this->hasGallery()
+            ? RideLifecycleState::Recap
+            : RideLifecycleState::AwaitingPhotos;
+    }
+
+    public function isUpcoming(): bool
+    {
+        return $this->lifecycleState() === RideLifecycleState::Upcoming;
+    }
+
+    public function isAwaitingPhotos(): bool
+    {
+        return $this->lifecycleState() === RideLifecycleState::AwaitingPhotos;
+    }
+
+    public function isRecap(): bool
+    {
+        return $this->lifecycleState() === RideLifecycleState::Recap;
     }
 
     public function hasMainImage(): bool

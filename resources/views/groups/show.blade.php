@@ -81,21 +81,9 @@
         $coverPhoto = $group->getMedia('gallery')->first();
 
         // "In beeld" (section 3b) follows the latest ride that has photos ($latestRide,
-        // resolved in GroupController). The first photo becomes the "Recentste parade"
-        // poster (a big top-left title + a single "bekijk alle foto's" action over a scrim,
-        // the date tear-off grounded bottom-left); the rest fill the grid wall as tiles (so
-        // the poster photo isn't shown twice). The full set powers the lightbox, so the
-        // tiles open at $loop->index + 1.
-        $ridePhotos = $latestRide?->getMedia('gallery') ?? collect();
-        $hasRideGallery = $latestRide !== null && $ridePhotos->isNotEmpty();
-        $posterPhoto = $ridePhotos->first();
-        // The grid wall wants a full final row. The poster (2 rows) and the 1-col opt-in
-        // card leave room for 5 tiles in two rows, or 9 in three, on the XL wall. Show 9
-        // only when there are enough to fill them; otherwise 5 — so the wall never ends on a
-        // ragged half-row. The remainder stay reachable through the lightbox.
-        $wallTiles = $ridePhotos->slice(1);
-        $tilePhotos = $wallTiles->take($wallTiles->count() >= 9 ? 9 : 5)->values();
-        $rideRail = $latestRide ? \App\Support\RideDate::rail($latestRide->begin_date) : null;
+        // resolved in GroupController). Gallery markup + lightbox live in the reusable
+        // <x-ride-gallery> component; only the guard flag is needed here.
+        $hasRideGallery = $latestRide !== null && $latestRide->hasGallery();
     @endphp
 
     {{-- 1 · IDENTITY HERO — blue band on the shared .page-hero look (eyebrow = postcode,
@@ -185,192 +173,33 @@
     @endif
 
     {{-- 3b · IN BEELD — the latest ride's photos + an inline lightbox. Renders only when
-         that ride has photos. The first cell is a date-rail lockup naming the ride (not a
-         photo); then up to four photos, the rest reachable via the lightbox. Structure
-         only; appearance in resources/css/pages/chapters.css. --}}
+         that ride has photos. The <x-ride-gallery> component owns the markup and CSS;
+         the chapter passes its opt-in card into the `card` slot and the ride's recap
+         URL via :href so a "Bekijk de hele rit" link appears beneath the grid. --}}
     @if ($hasRideGallery)
-        <section
-            class="chapter-body chapter-gallery"
-            x-data="{
-                photos: @js($ridePhotos->map(fn ($m) => ['url' => $m->getUrl(), 'name' => $m->name])->values()),
-                isOpen: false,
-                index: 0,
-                trigger: null,
-                touchX: null,
-                entering: false,
-                swap: false,
-                slideDir: 1,
-                fromX: '0px',
-                fromY: '0px',
-                accents: ['--color-kidical-yellow', '--color-kidical-red', '--color-kidical-blue', '--color-kidical-green', '--color-kidical-orange', '--color-kidical-sky'],
-                reduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; },
-                open(i, e) {
-                    this.index = i;
-                    this.trigger = e?.currentTarget ?? null;
-                    const r = this.trigger?.getBoundingClientRect();
-                    if (r && ! this.reduced()) {
-                        this.fromX = (r.left + r.width / 2 - window.innerWidth / 2) + 'px';
-                        this.fromY = (r.top + r.height / 2 - window.innerHeight / 2) + 'px';
-                        this.entering = true;
-                    }
-                    this.isOpen = true;
-                    this.$nextTick(() => requestAnimationFrame(() => {
-                        this.entering = false;
-                        this.$refs.closeBtn?.focus();
-                    }));
-                    this.preload();
-                },
-                close() {
-                    this.isOpen = false;
-                    this.$nextTick(() => this.trigger?.focus());
-                },
-                navigate(dir) {
-                    this.slideDir = dir;
-                    this.index = (this.index + dir + this.photos.length) % this.photos.length;
-                    this.preload();
-                    if (this.reduced()) { return; }
-                    this.swap = true;
-                    this.$nextTick(() => requestAnimationFrame(() => { this.swap = false; }));
-                },
-                next() { this.navigate(1); },
-                prev() { this.navigate(-1); },
-                preload() {
-                    const n = this.photos.length;
-                    [(this.index + 1) % n, (this.index - 1 + n) % n].forEach((j) => {
-                        const img = new Image();
-                        img.src = this.photos[j].url;
-                    });
-                },
-                onTouchStart(e) { this.touchX = e.changedTouches[0].clientX; },
-                onTouchEnd(e) {
-                    if (this.touchX === null) { return; }
-                    const dx = e.changedTouches[0].clientX - this.touchX;
-                    if (Math.abs(dx) > 40) { dx < 0 ? this.next() : this.prev(); }
-                    this.touchX = null;
-                },
-                trapTab(e) {
-                    const els = [this.$refs.closeBtn, this.$refs.prevBtn, this.$refs.nextBtn].filter(Boolean);
-                    if (! els.length) { return; }
-                    e.preventDefault();
-                    const dir = e.shiftKey ? -1 : 1;
-                    const at = els.indexOf(document.activeElement);
-                    els[(at + dir + els.length) % els.length].focus();
-                },
-            }"
-            x-effect="document.documentElement.classList.toggle('is-lightbox-open', isOpen)"
-            @keydown.escape.window="close()"
-            @keydown.arrow-right.window="isOpen && next()"
-            @keydown.arrow-left.window="isOpen && prev()"
-        >
-            <ul class="chapter-gallery__grid">
-                {{-- First cell — a full-bleed photo poster of the latest ride. Its first
-                     photo fills the tile and opens the lightbox; "Recentste parade" leads as
-                     a big heading top-left, with the calendar tear-off (date it was) tucked
-                     just beneath it. The ride's own name is left off: on a chapter page every
-                     ride is "the" ride, so the title only names the band. --}}
-                <li class="chapter-gallery__cell chapter-gallery__cell--feature">
-                    <div class="chapter-latest">
-                        <button
-                            type="button"
-                            class="chapter-latest__media"
-                            @click="open(0, $event)"
-                            aria-label="Bekijk alle foto's van de laatste rit in {{ $gemeente }}"
-                        >
-                            <img src="{{ $posterPhoto->getUrl('card') }}" alt="" class="chapter-latest__bg">
-                        </button>
-
-                        {{-- Title + the shared calendar tear-off (same lockup as the agenda),
-                             red accent, clustered top-left over the photo scrim. --}}
-                        <div class="chapter-latest__head">
-                            <h2 class="chapter-latest__title">Recentste parade</h2>
-
-                            <div
-                                class="chapter-latest__cal ride-day__cal"
-                                style="--ride-day-rot: {{ $rideRail['rotation'] }}deg; --ride-accent: var(--color-kidical-red);"
-                            >
-                                <time class="ride-day__rail" datetime="{{ $latestRide->begin_date->toDateString() }}">
-                                    <span class="ride-day__bar" aria-hidden="true"></span>
-                                    <span class="ride-day__body">
-                                        <span class="ride-day__day">{{ $latestRide->weekdayLabel }}</span>
-                                        <span class="ride-day__date">{{ $rideRail['num'] }}</span>
-                                        <span class="ride-day__month">{{ $rideRail['month'] }}</span>
-                                    </span>
-                                </time>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                {{-- The dual-logic opt-in rides in the wall — on the XL wall it pins to the
-                     top row's right corner (col 4), a compact square beside the poster and
-                     photos. Guests get the subscribe teaser; logged-in followers get the
-                     volunteer ask. Placed up here so it's present even on a single-photo
-                     gallery. h-full + centred so its content fills the square. --}}
-                <li class="chapter-gallery__optin">
-                    {{-- The brand daisy, tucked behind the sky-blue opt-in card: ~80% of it
-                         rises above the card's top edge, ~20% dips behind it. Decorative,
-                         only on the XL wall where this card pins to the top row. --}}
-                    <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-gallery__sun">
-                    <x-newsletter-optin :group="$group" :show-join="true" prominent class="h-full flex flex-col justify-center" />
-                </li>
-
-                @foreach ($tilePhotos as $media)
-                    {{-- Tiles past the fourth only show once there's room for them — the
-                         XL 4-column wall fits eight in three rows; below that, only the
-                         first four show so the calmer 2/3-column wall stays a full block. --}}
-                    <li @class(['chapter-gallery__cell', 'chapter-gallery__cell--xl' => $loop->index >= 4])>
-                        <button
-                            type="button"
-                            class="chapter-gallery__tile"
-                            @click="open({{ $loop->index + 1 }}, $event)"
-                            aria-label="Bekijk foto {{ $loop->iteration + 1 }} groter"
-                        >
-                            <img
-                                src="{{ $media->getUrl('card') }}"
-                                alt="Foto van de laatste rit in {{ $gemeente }}"
-                                loading="lazy"
-                                class="chapter-gallery__img"
-                            >
-                        </button>
+        <section class="chapter-body">
+            <p class="chapter-eyebrow">In beeld</p>
+            <x-ride-gallery
+                :photos="$latestRide->getMedia('gallery')"
+                title="Recentste parade"
+                :date="$latestRide->begin_date"
+                :commune="$gemeente"
+                :href="route('activities.show', $latestRide)">
+                <x-slot:card>
+                    {{-- The dual-logic opt-in rides in the wall — on the XL wall it pins to
+                         the top row's right corner (col 4), a compact square beside the poster
+                         and photos. Guests get the subscribe teaser; logged-in followers get
+                         the volunteer ask. Placed up here so it's present even on a
+                         single-photo gallery. h-full + centred so its content fills the square. --}}
+                    <li class="ride-gallery__optin">
+                        {{-- The brand daisy, tucked behind the sky-blue opt-in card: ~80% of
+                             it rises above the card's top edge, ~20% dips behind it.
+                             Decorative, only on the XL wall where this card pins to the top row. --}}
+                        <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="ride-gallery__sun">
+                        <x-newsletter-optin :group="$group" :show-join="true" prominent class="h-full flex flex-col justify-center" />
                     </li>
-                @endforeach
-            </ul>
-
-            <div
-                class="chapter-gallery__lightbox"
-                x-show="isOpen"
-                x-cloak
-                :style="'--lb-accent: var(' + accents[index % accents.length] + ')'"
-                @click.self="close()"
-                @touchstart="onTouchStart($event)"
-                @touchend="onTouchEnd($event)"
-                @keydown.tab="trapTab($event)"
-                role="dialog"
-                aria-modal="true"
-                :aria-label="'Foto ' + (index + 1) + ' van ' + photos.length"
-            >
-                <button type="button" class="chapter-gallery__lb-close" x-ref="closeBtn" @click="close()" aria-label="Sluiten">
-                    <flux:icon.x-mark />
-                </button>
-                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--prev" x-ref="prevBtn" @click="prev()" aria-label="Vorige foto">
-                    <flux:icon.chevron-left />
-                </button>
-                <figure
-                    class="chapter-gallery__lb-figure"
-                    :style="entering ? `transform: translate(${fromX}, ${fromY}) scale(0.18); opacity: 0.35;` : ''"
-                >
-                    <img
-                        :src="photos[index]?.url"
-                        :alt="photos[index]?.name"
-                        class="chapter-gallery__lb-img"
-                        :style="swap ? `transform: translateX(calc(var(--lb-slide) * ${slideDir})); opacity: 0;` : ''"
-                    >
-                </figure>
-                <button type="button" class="chapter-gallery__lb-nav chapter-gallery__lb-nav--next" x-ref="nextBtn" @click="next()" aria-label="Volgende foto">
-                    <flux:icon.chevron-right />
-                </button>
-                <p class="chapter-gallery__lb-counter" aria-hidden="true" x-text="(index + 1) + ' / ' + photos.length"></p>
-            </div>
+                </x-slot:card>
+            </x-ride-gallery>
         </section>
     @endif
 

@@ -17,12 +17,18 @@
     ];
     $illustrationFor = fn (string $name) => $teamIllustrations[crc32($name) % count($teamIllustrations)];
 @endphp
+@php($state = $activity->lifecycleState())
+@php($isPast = $state->isPastState())
+@php($primaryGroup = $activity->groups->first())
 
     {{-- HERO — blue band, tilted photo card dipping into the white below (new look) --}}
     <header class="activity-head">
         <div class="container mx-auto px-4 activity-head__inner">
 
             <div class="activity-head__copy">
+                @if($isPast)
+                    <p class="activity-head__past">Voorbij</p>
+                @endif
                 <p class="activity-head__eyebrow">
                     <time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->dateFull) }} &middot; {{ $activity->timeLabel }}</time>
                 </p>
@@ -67,6 +73,17 @@
 
     {{-- CONTAINED BODY — calm white column, soft cards, colour only as accent --}}
     <div class="activity-stack">
+
+        {{-- PHOTO BLOCK — recap leads with the gallery; just-past shows the nudge; upcoming has none --}}
+        @if($activity->isRecap())
+            <x-ride-gallery
+                :photos="$activity->getMedia('gallery')"
+                title="In beeld"
+                :date="$activity->begin_date"
+                :commune="$primaryGroup?->name" />
+        @elseif($activity->isAwaitingPhotos())
+            <x-ride-photo-nudge :activity="$activity" />
+        @endif
 
         {{-- PRAKTISCH — facts + route, paired with a "stay in the loop" card --}}
         <section class="activity-praktisch">
@@ -168,7 +185,8 @@
             <x-newsletter-optin :group="$activity->groups->first()" class="activity-updates h-full flex flex-col justify-center" />
         </section>
 
-        {{-- WAT KUN JE VERWACHTEN — the fixed promises, as soft cards --}}
+        {{-- WAT KUN JE VERWACHTEN — the fixed promises, only for upcoming rides --}}
+        @unless($isPast)
         <section class="activity-promises">
             <p class="activity-eyebrow">Wat kun je verwachten?</p>
             <ul class="activity-promises__grid" role="list">
@@ -202,6 +220,7 @@
                 </li>
             </ul>
         </section>
+        @endunless
 
         {{-- VAN EN VOOR DE BUURT — the crew that makes this parade roll --}}
         <section class="activity-team">
@@ -233,12 +252,22 @@
         {{-- STEUN — contextual support ask, quiet & contained --}}
         <x-support-callout variant="event" :contained="true" />
 
-        {{-- DEEL — invite a gezin, quiet & contained --}}
-        <x-share-band
-            :url="route('activities.show', $activity)"
-            :title="$activity->title_nl"
-            :date="$activity->begin_date->translatedFormat('l j F')"
-            :contained="true" />
+        {{-- DEEL — invite a gezin, or share the memory for past rides --}}
+        @if($isPast)
+            <x-share-band
+                :url="route('activities.show', $activity)"
+                :title="$activity->title_nl"
+                :date="$activity->begin_date->translatedFormat('l j F')"
+                heading="Deel de herinnering"
+                subline="Laat anderen zien hoe fijn het was."
+                :contained="true" />
+        @else
+            <x-share-band
+                :url="route('activities.show', $activity)"
+                :title="$activity->title_nl"
+                :date="$activity->begin_date->translatedFormat('l j F')"
+                :contained="true" />
+        @endif
 
     </div>
 
@@ -271,8 +300,15 @@
     @endpush
 
     <x-slot:closing>
-        <x-closing-cta heading="Nog niet zeker hoe het werkt?"
-            :href="route('getting-started')" label="Lees hoe je meerijdt" />
+        @if($isPast && $primaryGroup)
+            <x-closing-cta
+                heading="Meer ritten van Kidical Mass {{ $primaryGroup->name }}?"
+                :href="route('groups.show', $primaryGroup)"
+                label="Ontdek de groep" />
+        @else
+            <x-closing-cta heading="Nog niet zeker hoe het werkt?"
+                :href="route('getting-started')" label="Lees hoe je meerijdt" />
+        @endif
     </x-slot:closing>
 
 </x-layouts::site>

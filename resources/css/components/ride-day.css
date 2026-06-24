@@ -61,7 +61,7 @@
         line-height: 1;
         padding: 7px 7px 9px;
     }
-    /* Weekday — only the "Laatste rit" poster lockup (.chapter-latest__rail) still
+    /* Weekday — only the ride gallery poster lockup (.ride-gallery__feature-cal) still
        shows it; the agenda row moved its weekday to the meta line. */
     .ride-day__day {
         font-family: var(--font-sans);

@@ -1,0 +1,32 @@
+@layer components {
+    /* Quiet contained panel shown on the ride page when the ride is just past
+       and no photos have been added yet. Matches the contained-section rhythm
+       of .support-callout--contained. */
+    .ride-photo-nudge {
+        border-radius: var(--radius-card);
+        padding: clamp(1.75rem, 4vw, 2.75rem);
+        background-color: var(--color-kidical-light-blue);
+    }
+    .ride-photo-nudge__eyebrow {
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        margin: 0 0 0.875rem;
+    }
+    .ride-photo-nudge__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-2xl);
+        line-height: 1.15;
+        color: var(--color-kidical-ink);
+        margin: 0 0 0.75rem;
+    }
+    .ride-photo-nudge__lead {
+        max-width: 40rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
+        margin: 0;
+    }
+}

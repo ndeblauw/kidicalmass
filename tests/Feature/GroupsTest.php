@@ -574,9 +574,9 @@ test('chapter gallery shows the latest past ride photos under a grounded lockup'
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Recentste parade')      // the poster heading names the band (top-left)
-        ->assertSee('chapter-latest__cal')   // the calendar tear-off (date it was), now under the title
-        ->assertSee('chapter-gallery__tile'); // photo tiles render on the wall
+        ->assertSee('Recentste parade')        // the poster heading names the band (top-left)
+        ->assertSee('ride-gallery__feature-cal') // the calendar tear-off (date it was), now under the title
+        ->assertSee('ride-gallery__tile');   // photo tiles render on the wall
 });
 
 test('the opt-in card is woven into the gallery wall — subscribe for guests', function () {
@@ -586,7 +586,7 @@ test('the opt-in card is woven into the gallery wall — subscribe for guests', 
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('chapter-gallery__optin') // the card spans cols 3–4 inside the wall
+        ->assertSee('ride-gallery__optin')    // the card spans cols 3–4 inside the wall
         ->assertSee('Mis geen rit')           // guests get the subscribe teaser
         ->assertSee('Schrijf je in')
         ->assertDontSee('help mee als vrijwilliger'); // the join bridge line is gone
@@ -600,7 +600,7 @@ test('the gallery opt-in escalates a logged-in follower to volunteer', function 
     actingAs(User::factory()->create())
         ->get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('chapter-gallery__optin')
+        ->assertSee('ride-gallery__optin')
         ->assertSee('Word vrijwilliger')   // signed-in followers get the volunteer ask
         ->assertDontSee('Schrijf je in');  // no subscribe CTA once you're in
 });
@@ -614,10 +614,10 @@ test('chapter gallery caps the wall on a full row (nine tiles, the last five XL-
 
     // The grid ends on a full row: poster + the 1-col opt-in card leave room for nine tiles
     // (three rows) on the XL wall — never a ragged half-row.
-    expect(substr_count($content, 'chapter-gallery__tile'))->toBe(9);
+    expect(substr_count($content, 'ride-gallery__tile'))->toBe(9);
     // ... the last five of which only appear on the widest (4-column) wall; below it the
     // calmer 2/3-column wall shows just the first four.
-    expect(substr_count($content, 'chapter-gallery__cell--xl'))->toBe(5);
+    expect(substr_count($content, 'ride-gallery__cell--xl'))->toBe(5);
     // ... and the photos past the wall stay reachable through the lightbox set.
     expect($content)->toContain('Foto 10')->toContain('Foto 11');
 });
@@ -631,8 +631,8 @@ test('chapter gallery drops to five tiles when there are not enough to fill the 
 
     $content = get(route('groups.show', $group))->assertOk()->getContent();
 
-    expect(substr_count($content, 'chapter-gallery__tile'))->toBe(5);
-    expect(substr_count($content, 'chapter-gallery__cell--xl'))->toBe(1);
+    expect(substr_count($content, 'ride-gallery__tile'))->toBe(5);
+    expect(substr_count($content, 'ride-gallery__cell--xl'))->toBe(1);
     // The unshown photos still live in the lightbox set.
     expect($content)->toContain('Foto 8');
 });
@@ -646,7 +646,7 @@ test('the lightbox carries usable controls — counter, edge-pinned nav, focus r
 
     expect($content)
         // A "n / total" counter orients the viewer within the set.
-        ->toContain('chapter-gallery__lb-counter')
+        ->toContain('ride-gallery__lb-counter')
         ->toContain("(index + 1) + ' / ' + photos.length")
         // Prev/next are reachable refs so Tab can cycle them (focus trap).
         ->toContain('x-ref="prevBtn"')

@@ -68,6 +68,24 @@ class ActivityFactory extends Factory
         });
     }
 
+    public function past(int $days = 7): static
+    {
+        return $this->state(fn () => [
+            'activity_type' => ActivityType::KIDICALMASS,
+            'begin_date' => now()->subDays($days)->setTime(14, 0),
+            'duration_minutes' => 90,
+            'published' => true,
+        ]);
+    }
+
+    public function withGallery(int $count = 3): static
+    {
+        return $this->afterCreating(function (Activity $activity) use ($count): void {
+            $this->primeMediaCache('images', fn () => MediaSeeder::ensureImages(5));
+            $this->attachMultipleMedia($activity, 'gallery', $count, $count, 'images');
+        });
+    }
+
     public function withFakeGpx(): static
     {
         return $this->afterCreating(function (Activity $activity) {
