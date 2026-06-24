@@ -54,93 +54,105 @@
     {{-- CONTAINED BODY — calm white column, soft cards, colour only as accent --}}
     <div class="activity-stack">
 
-        {{-- PRAKTISCH — facts + route map, in one soft card --}}
-        <article class="activity-facts">
-            <div class="activity-facts__body">
-                <div class="activity-facts__main">
-                    <h2 class="activity-facts__title">Praktisch</h2>
-                    <dl class="activity-facts__meta">
+        {{-- PRAKTISCH — facts + route, paired with a "stay in the loop" card --}}
+        <section class="activity-praktisch">
+            <article class="activity-facts">
+                <h2 class="activity-facts__title">Praktisch</h2>
+                <dl class="activity-facts__meta">
+                    <div class="activity-facts__meta-item">
+                        <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                        </x-icon-chip>
+                        <div>
+                            <dt>Startuur</dt>
+                            <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->dateFull) }}, {{ $activity->timeLabel }}</time></dd>
+                        </div>
+                    </div>
+
+                    <div class="activity-facts__meta-item">
+                        <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                        </x-icon-chip>
+                        <div>
+                            <dt>Vertrekpunt</dt>
+                            <dd>{!! nl2br(e($activity->location)) !!}</dd>
+                        </div>
+                    </div>
+
+                    @if($activity->distance)
+                        <div class="activity-facts__meta-item">
+                            <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L4 11l4 4"/><path d="M4 11h16"/><path d="M16 17l4-4-4-4"/></svg>
+                            </x-icon-chip>
+                            <div>
+                                <dt>Afstand</dt>
+                                <dd>{{ $activity->distance }}</dd>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($activity->duration_label)
                         <div class="activity-facts__meta-item">
                             <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
                             </x-icon-chip>
                             <div>
-                                <dt>Startuur</dt>
-                                <dd><time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ $activity->timeLabel }}</time></dd>
+                                <dt>Duur</dt>
+                                <dd>{{ $activity->duration_label }}</dd>
                             </div>
                         </div>
+                    @endif
 
-                        <div class="activity-facts__meta-item">
-                            <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-                            </x-icon-chip>
-                            <div>
-                                <dt>Vertrekpunt</dt>
-                                <dd>{!! nl2br(e($activity->location)) !!}</dd>
-                            </div>
-                        </div>
-
-                        @if($activity->distance)
-                            <div class="activity-facts__meta-item">
-                                <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L4 11l4 4"/><path d="M4 11h16"/><path d="M16 17l4-4-4-4"/></svg>
-                                </x-icon-chip>
-                                <div>
-                                    <dt>Afstand</dt>
-                                    <dd>{{ $activity->distance }}</dd>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($activity->duration_label)
-                            <div class="activity-facts__meta-item">
-                                <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                                </x-icon-chip>
-                                <div>
-                                    <dt>Duur</dt>
-                                    <dd>{{ $activity->duration_label }}</dd>
-                                </div>
-                            </div>
-                        @endif
-
-                        <div class="activity-facts__meta-item">
-                            <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg>
-                            </x-icon-chip>
-                            <div>
-                                <dt>Deelname</dt>
-                                <dd>Gratis &middot; geen inschrijving nodig</dd>
-                            </div>
-                        </div>
-                    </dl>
-                </div>
-
-                @if($hasMap)
-                    <div class="activity-facts__map">
-                        <x-route-map :coordinates="$routeCoords" :interactive="false" class="activity-facts__route" aria-hidden="true" />
-                        <div class="activity-map-info-strip">
-                            <div class="activity-map-info-strip__stats">
-                                <span class="activity-map-stat">
-                                    <flux:icon.arrows-right-left class="activity-map-stat__icon" aria-hidden="true" />
-                                    {{ $activity->distance ?? '—' }}
-                                </span>
-                                <span class="activity-map-stat">
-                                    <flux:icon.clock class="activity-map-stat__icon" aria-hidden="true" />
-                                    {{ $activity->duration_label ?? '—' }}
-                                </span>
-                            </div>
-                            @if($activity->komoot_url)
-                                <a href="{{ $activity->komoot_url }}" target="_blank" rel="noopener noreferrer" class="activity-map-komoot-link">
-                                    Bekijk op Komoot
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                </a>
-                            @endif
+                    <div class="activity-facts__meta-item">
+                        <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg>
+                        </x-icon-chip>
+                        <div>
+                            <dt>Deelname</dt>
+                            <dd>Gratis &middot; geen inschrijving nodig</dd>
                         </div>
                     </div>
-                @endif
-            </div>
-        </article>
+                </dl>
+
+                {{-- Route — the real GPX track when present, else the stylised brand fallback
+                     (same dual logic as the chapter page's <x-next-ride>). --}}
+                <div class="activity-facts__map">
+                    @if($hasMap)
+                        <x-route-map :coordinates="$routeCoords" :interactive="false" class="activity-facts__route" aria-hidden="true" />
+                    @else
+                        <div class="activity-facts__route-faux" aria-hidden="true">
+                            <svg viewBox="0 0 440 320" preserveAspectRatio="xMidYMid slice" class="activity-facts__route-svg">
+                                <path class="activity-facts__route-line" d="M50 270 C 120 260, 150 210, 200 200 S 300 180, 330 120 400 75 405 45" fill="none"/>
+                                <circle class="activity-facts__route-dot" cx="200" cy="200" r="5"/>
+                                <circle class="activity-facts__route-dot" cx="330" cy="120" r="5"/>
+                                <circle class="activity-facts__route-start" cx="50" cy="270" r="10"/>
+                            </svg>
+                        </div>
+                    @endif
+                    <div class="activity-map-info-strip">
+                        <div class="activity-map-info-strip__stats">
+                            <span class="activity-map-stat">
+                                <flux:icon.arrows-right-left class="activity-map-stat__icon" aria-hidden="true" />
+                                {{ $activity->distance ?? '—' }}
+                            </span>
+                            <span class="activity-map-stat">
+                                <flux:icon.clock class="activity-map-stat__icon" aria-hidden="true" />
+                                {{ $activity->duration_label ?? '—' }}
+                            </span>
+                        </div>
+                        @if($activity->komoot_url)
+                            <a href="{{ $activity->komoot_url }}" target="_blank" rel="noopener noreferrer" class="activity-map-komoot-link">
+                                Bekijk op Komoot
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </article>
+
+            {{-- UPDATES — invite people to follow this chapter's rides --}}
+            <x-newsletter-optin :group="$activity->groups->first()" class="activity-updates h-full flex flex-col justify-center" />
+        </section>
 
         {{-- WAT KUN JE VERWACHTEN — the fixed promises, as soft cards --}}
         <section class="activity-promises">

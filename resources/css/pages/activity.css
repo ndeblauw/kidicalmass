@@ -131,25 +131,22 @@
         margin: 0 0 0.875rem;
     }
 
-    /* ── PRAKTISCH — facts + route map in one soft card ───────────────────────── */
+    /* ── PRAKTISCH — facts card paired with a "stay in the loop" card ─────────── */
+    .activity-praktisch {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        align-items: stretch;
+
+        @media (min-width: 64rem) {
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+        }
+    }
     .activity-facts {
-        position: relative;
         background: white;
         border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-card);
         box-shadow: var(--shadow-card);
-        overflow: hidden;
-    }
-    .activity-facts__body {
-        display: grid;
-        grid-template-columns: 1fr;
-        align-items: stretch;
-
-        @media (min-width: 48rem) {
-            grid-template-columns: minmax(0, 1fr) 42%;
-        }
-    }
-    .activity-facts__main {
         padding: clamp(1.75rem, 3.5vw, 2.6rem);
     }
     .activity-facts__title {
@@ -161,10 +158,14 @@
         margin: 0 0 1.5rem;
     }
     .activity-facts__meta {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem 1.75rem;
         margin: 0;
+
+        @media (min-width: 30rem) {
+            grid-template-columns: 1fr 1fr;
+        }
     }
     .activity-facts__meta-item {
         display: flex;
@@ -186,16 +187,42 @@
         color: var(--color-kidical-ink);
         line-height: 1.25;
     }
+    /* Route panel — sits below the meta, full width inside the card */
     .activity-facts__map {
         position: relative;
         display: flex;
         flex-direction: column;
-        min-height: 18rem;
+        margin-top: clamp(1.5rem, 3vw, 2rem);
+        min-height: 16rem;
+        border-radius: var(--radius-chip);
+        overflow: hidden;
         background: var(--color-kidical-light-blue);
     }
-    .activity-facts__route {
+    .activity-facts__route,
+    .activity-facts__route-faux {
         flex: 1;
-        min-height: 14rem;
+        min-height: 13rem;
+    }
+    /* Stylised brand route — the fallback when a ride has no GPX track yet */
+    .activity-facts__route-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .activity-facts__route-line {
+        stroke: var(--color-kidical-yellow);
+        stroke-width: 6;
+        stroke-linecap: round;
+    }
+    .activity-facts__route-dot {
+        fill: white;
+        stroke: var(--color-kidical-ink);
+        stroke-width: 2;
+    }
+    .activity-facts__route-start {
+        fill: var(--color-kidical-red);
+        stroke: white;
+        stroke-width: 3;
     }
 
     /* ── WAT KUN JE VERWACHTEN — the fixed promises, as soft cards ────────────── */

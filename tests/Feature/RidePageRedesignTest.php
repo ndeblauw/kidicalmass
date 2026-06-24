@@ -69,3 +69,19 @@ it('shows the date·time eyebrow, the description as hero lead, and the group zi
         ->assertDontSee('activity-head__date', false)         // old date treatment gone
         ->assertDontSee('activity-head__chapter', false);     // old pin lockup gone
 });
+
+it('shows the full date in Startuur, an always-on route, and an updates card beside Praktisch', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Etterbeek', 'zip' => '1040']);
+    $ride = makeRide([
+        'begin_date' => now()->setDate(2026, 6, 28)->setTime(14, 0),
+    ]); // no GPX media → faux route fallback must still render
+    $ride->groups()->attach($group);
+
+    get(rideUrl($ride))
+        ->assertOk()
+        ->assertSee('activity-praktisch', false)        // the two-column wrapper
+        ->assertSee('activity-facts__route-faux', false) // route shown even without a GPX file
+        ->assertSee('Startuur')
+        ->assertSee('juni')                              // full date (not just the time) in Startuur
+        ->assertSee('Mis geen rit');                     // <x-newsletter-optin> guest copy = the updates card
+});
