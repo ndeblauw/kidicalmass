@@ -66,7 +66,7 @@ One template, sections swap per state.
 | Wat kun je verwachten (4 promises) | shown | **dropped** | **dropped** |
 | Photo block | — | **"deel je foto's" nudge** (vests + visitors) | **gallery wall — the hero of the body** |
 | Van en voor de buurt (organisers + roze-hesje signup) | as-is | keep | keep |
-| Steun | as-is | keep | keep |
+| Steun | — (not shown) | keep | keep |
 | Deel | "nodig een gezin uit" | "deel de herinnering" | "deel de herinnering" |
 | Slot-CTA | "Lees hoe je meerijdt" | → **chapter** (+ newsletter secondary) | → **chapter** (+ newsletter secondary) |
 

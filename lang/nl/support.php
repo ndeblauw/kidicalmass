@@ -74,6 +74,5 @@ return [
     'home_title' => 'Kidical Mass blijft gratis. Dankzij mensen zoals jij.',
     'home_body' => 'Steun vanaf €3 per maand en help veilige straten voor kinderen waarmaken, in elke buurt. Meefietsen blijft gratis.',
     'event_title' => 'Fijn meegereden? Steun de volgende rit.',
-    'event_upcoming_title' => 'Zin om mee te rijden? Steun de volgende rit.',
     'event_body' => 'Met €3 per maand zorg je dat er volgende maand weer een rit is. Meefietsen blijft altijd gratis.',
 ];

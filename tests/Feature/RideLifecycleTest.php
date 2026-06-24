@@ -19,9 +19,8 @@ it('upcoming ride shows promises and the how-it-works CTA', function () {
         ->assertSee('Wat kun je verwachten')
         ->assertSee('Lees hoe je meerijdt')
         ->assertDontSee('Net gereden')
-        // The support ask uses a present-tense hook while the ride is still ahead.
-        ->assertSee('Zin om mee te rijden')
-        ->assertDontSee('Fijn meegereden');
+        // The support ask only appears once the ride is in the past.
+        ->assertDontSee('Steun de volgende rit');
 });
 
 it('just-past ride shows the photo nudge, drops promises, points to the chapter', function () {
