@@ -11,19 +11,9 @@
         margin-left: calc(50% - 50vw);
         margin-top: calc(var(--spacing) * -28);
         background-color: var(--color-kidical-blue);
-        /* clip the daisy's horizontal bleed but let the tilted photo card dip
-           out of the band's bottom edge (overflow-y stays visible) */
+        /* let the tilted photo card dip out of the band's bottom edge (overflow-y
+           stays visible); clip any horizontal bleed */
         overflow-x: clip;
-    }
-    .chapter-head__daisy {
-        position: absolute;
-        right: -2.5rem;
-        top: 6.5rem;
-        transform: rotate(15deg);
-        width: 11rem;
-        opacity: 0.9;
-        z-index: 1;
-        pointer-events: none;
     }
     .chapter-head__inner {
         position: relative;
@@ -141,10 +131,22 @@
         aspect-ratio: auto;
         grid-row: span 2;
     }
-    /* The dual-logic opt-in card, set into the wall: two columns wide. On the XL wall it
-       pins to the top-right pair (cols 3–4), beside the poster and the first photo. */
+    /* The dual-logic opt-in card, set into the wall: one column wide, a compact square
+       among the photo squares (its content fills it without the dead space a wider panel
+       left). On the XL wall it pins to the top-right corner (col 4). */
     .chapter-gallery__optin {
-        grid-column: span 2;
+        grid-column: span 1;
+        /* own stacking context so the daisy can tuck behind the card (z-index: -1)
+           without slipping behind the page itself */
+        position: relative;
+        z-index: 0;
+    }
+    /* The brand daisy peeking over the sky box: 20% bigger than the old hero daisy,
+       anchored to the card's top edge and lifted so ~80% rises above it while ~20%
+       stays behind the card. Shown only on the XL wall, where the card pins to the
+       top row and has clear space above it. */
+    .chapter-gallery__sun {
+        display: none;
     }
     @media (min-width: 80rem) {
         .chapter-gallery__cell--feature {
@@ -152,8 +154,19 @@
             grid-row: 1 / span 2;
         }
         .chapter-gallery__optin {
-            grid-column: 3 / span 2;
+            grid-column: 4;
             grid-row: 1;
+        }
+        .chapter-gallery__sun {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 2.5rem;
+            width: 13.2rem;
+            transform: translateY(-80%) rotate(12deg);
+            z-index: -1;
+            opacity: 0.9;
+            pointer-events: none;
         }
     }
 
@@ -207,43 +220,30 @@
                 transparent 62%
             );
     }
-    /* The title — promoted to a real heading, top-left, in the display face. */
-    .chapter-latest__title {
+    /* Title + calendar tear-off, clustered top-right over the scrim — the date sits just
+       beneath the heading rather than grounded at the foot of the poster. */
+    .chapter-latest__head {
         position: absolute;
-        top: calc(var(--spacing) * 5);
-        left: calc(var(--spacing) * 5);
-        right: calc(var(--spacing) * 5);
+        inset: calc(var(--spacing) * 5) calc(var(--spacing) * 5) auto;
         z-index: 2;
-        margin: 0;
-        color: white;
-        pointer-events: none;
-    }
-    /* The bottom-left cluster: date tear-off on the left, the single "view all" action
-       beside it. Bottoms align so it reads as one grounded unit. */
-    .chapter-latest__overlay {
-        position: absolute;
-        inset: auto 0 0 0;
-        z-index: 2;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-end;
-        gap: calc(var(--spacing) * 3);
-        padding: calc(var(--spacing) * 5);
-        pointer-events: none;
-    }
-    .chapter-latest__action {
-        pointer-events: auto;
-    }
-    /* The calendar tear-off — now grounded inline, left of the lockup. */
-    .chapter-latest__rail {
-        flex: none;
         display: flex;
         flex-direction: column;
-        width: 72px;
-        background: white;
-        border: 1.5px solid var(--color-kidical-ink);
-        border-radius: 6px;
-        overflow: hidden;
+        align-items: flex-end;
+        gap: calc(var(--spacing) * 3);
+        pointer-events: none;
+    }
+    /* The title — a real heading, in the display face. */
+    .chapter-latest__title {
+        margin: 0;
+        color: white;
+        text-align: right;
+    }
+    /* Reuse the agenda's .ride-day__cal lockup; only add a drop shadow so the white
+       tear-off stays legible over the photo (the agenda sits on white and needs none). */
+    .chapter-latest__cal {
+        margin-top: 0;
+    }
+    .chapter-latest__cal .ride-day__rail {
         box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
     }
     .chapter-gallery__tile {
@@ -396,13 +396,20 @@
         padding-top: clamp(3rem, 6vw, 4.5rem);
         padding-bottom: clamp(3rem, 6vw, 4.5rem);
     }
-    .chapter-body--tail {
+    /* The extras (Met dank aan + Downloads) close the white body as a light-yellow
+       full-width band — the colour-band change marks the seam, so no hairline is
+       needed. Breaks out of <main>'s container to 100vw; the inner re-applies the
+       container so the content keeps its column edge. */
+    .chapter-extras-band {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background-color: var(--color-kidical-light-yellow);
+        padding-block: clamp(3rem, 6vw, 4.5rem);
+    }
+    .chapter-extras-band__inner {
         display: flex;
         flex-direction: column;
         gap: clamp(2.5rem, 5vw, 3.5rem);
-        /* Hairline above the quiet extras, setting them apart from the white gallery
-           it follows (no colour-band change marks the seam otherwise). */
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
     }
     .chapter-section__title {
         margin-bottom: 1rem;
@@ -455,86 +462,48 @@
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
     }
 
-    /* DECOUPLED SUBSCRIBE — a quiet, secondary line beneath the ride card (never inside
-       it), so it can't be mistaken for the card's own "view this ride" link. Lower
-       emphasis than the card (muted lead), but body-sized and readable; its link goes
-       straight to the newsletter sign-up page (no in-between reveal). */
-    .chapter-parade__subscribe {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: 0.3rem 0.65rem;
-        margin: clamp(1rem, 2.5vw, 1.5rem) 0 0;
-        font-size: var(--text-lg);
-    }
-    .chapter-parade__subscribe-lead {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
-    }
-    .chapter-parade__subscribe-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-weight: 700;
-        color: var(--color-kidical-blue);
-        background-image: none; /* drop the global resting underline; hover carries it */
-    }
-    .chapter-parade__subscribe-link:hover {
-        text-decoration: underline;
-        text-underline-offset: 0.2rem;
-    }
-
-    /* 6b · SAMEN AL — the chapter's track record as small compact cards, sitting right
-       under the team (§6) so the numbers read as the crew's accomplishments. A quiet
-       eyebrow bridges the two; tightened top so it hugs the team above. */
+    /* 6b · TRACK RECORD — the chapter's record as a single quiet line, sitting right
+       under the team (§6) so the numbers read as the crew's accomplishments. No card,
+       no eyebrow: chip + fact, baseline-aligned, wrapping to a second line on narrow
+       screens. Tightened top so it hugs the team above. */
     .chapter-stats-band {
         padding-top: clamp(1rem, 2vw, 1.25rem);
     }
-    .chapter-stats-band__eyebrow {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-        margin: 0 0 0.9rem;
-    }
-    .chapter-stats-band__grid {
+    .chapter-stats-band__line {
         display: flex;
+        align-items: baseline;
         flex-wrap: wrap;
-        gap: calc(var(--spacing) * 4);
+        gap: 0.55rem 1.4rem;
     }
-    /* Compact proof card — chip on the left, a big Caprasimo figure over a quiet
-       descriptor on the right. Butter-yellow ground (warm surface, never action yellow). */
+    /* A single fact — chip + Caprasimo figure + quiet descriptor, all on one baseline. */
     .chapter-stat {
-        flex: 1 1 16rem;
-        background-color: var(--color-kidical-light-yellow);
-        border-radius: var(--radius-card);
-        padding: clamp(1.2rem, 2.5vw, 1.5rem) clamp(1.4rem, 3vw, 1.75rem);
-        display: flex;
-        align-items: center;
-        gap: calc(var(--spacing) * 4);
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.7rem;
     }
+    /* The chip is a box, so it can't sit on the text baseline — centre it to the line. */
     .chapter-stat__chip {
         flex: none;
-    }
-    .chapter-stat__text {
-        display: flex;
-        flex-direction: column;
-        gap: calc(var(--spacing) * 0.5);
+        align-self: center;
     }
     .chapter-stat__num {
         font-family: var(--font-heading);
-        font-size: clamp(1.75rem, 3vw, 2.1rem);
-        font-weight: 800;
+        font-size: clamp(1.4rem, 3vw, 1.6rem);
+        font-weight: 400;
         color: var(--color-kidical-ink);
         line-height: 1;
-        text-wrap: balance;
     }
     .chapter-stat__label {
         font-size: var(--text-base);
-        font-weight: 700;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 32%);
-        line-height: 1.3;
+        font-weight: 600;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        line-height: 1;
+    }
+    .chapter-stats-band__sep {
+        align-self: center;
+        color: var(--color-kidical-hairline);
+        font-size: 1.4rem;
+        line-height: 1;
     }
 
     /* 2 · EMPTY STATE — the butter card shown in the parade split when no ride is
@@ -651,16 +620,20 @@
     .chapter-team { padding-bottom: 0; }
     .chapter-team__carousel { margin-bottom: 0; }
     .chapter-team__head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.5rem;
         margin-bottom: 0.75rem;
     }
     .chapter-team__head .chapter-team__headline { margin-bottom: 0; }
-    /* Nav lives below the card row, anchored to the carousel's right edge (the track
-       breaks out full-bleed, but this stays within the container). */
+    /* Nav sits in the head, above the card row, anchored to the carousel's right edge
+       opposite the intro (the track breaks out full-bleed, but this stays in container). */
     .chapter-team__nav {
         display: flex;
         justify-content: flex-end;
         gap: 0.6rem;
-        margin-top: 0.75rem;
+        flex-shrink: 0;
     }
     .chapter-team__btn {
         width: 4.5rem;
@@ -793,6 +766,24 @@
         margin-top: 0.2rem;
     }
 
+    /* Entrance — the crew drifts in from the right, one after another, the first
+       time the carousel scrolls into view. The script adds `.is-revealable` so
+       nothing flashes before the reveal, then swaps in `.is-revealed` to fire the
+       stagger; the animation is one-shot (no fill-mode forwards) so each card hands
+       its transform back to the live --focus lift the moment it settles. Per-card
+       --enter-i (the Blade $loop index) staggers the delay; nth-child nudges the
+       start lean/drift so the row lands like a hand-laid stack, not a conveyor. */
+    .chapter-team__track.is-revealable .chapter-team__card {
+        opacity: 0;
+    }
+    .chapter-team__track.is-revealed .chapter-team__card {
+        animation: team-card-in 0.66s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+        animation-delay: calc(var(--enter-i, 0) * 0.07s);
+    }
+    .chapter-team__card:nth-child(3n+1) { --enter-x: 4rem;    --enter-y: 0.5rem;  --enter-r: 2.6deg; }
+    .chapter-team__card:nth-child(3n+2) { --enter-x: 5.25rem; --enter-y: 0.9rem;  --enter-r: 1.4deg; }
+    .chapter-team__card:nth-child(3n)   { --enter-x: 4.6rem;  --enter-y: 0.25rem; --enter-r: 3.2deg; }
+
     /* Flick-through respects reduced motion: no focus lift, no lean, no easing
        (the script also pins --focus to 0 and skips drag/lean under this query). */
     @media (prefers-reduced-motion: reduce) {
@@ -800,6 +791,7 @@
         .chapter-team__photo img {
             transform: none;
             transition: none;
+            animation: none;
         }
         .chapter-team__card {
             box-shadow: var(--shadow-card);
@@ -825,7 +817,7 @@
     }
 
     @media (max-width: 640px) {
-        .chapter-team__head { align-items: center; }
+        .chapter-team__head { flex-wrap: wrap; align-items: center; }
         .chapter-team__card { width: 11.5rem; }
     }
 

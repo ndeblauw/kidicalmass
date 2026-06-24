@@ -559,8 +559,7 @@ test('chapter gallery shows the latest past ride photos under a grounded lockup'
     get(route('groups.show', $group))
         ->assertOk()
         ->assertSee('Recentste parade')      // the poster heading names the band (top-left)
-        ->assertSee('chapter-latest__rail')  // the calendar tear-off (date it was)
-        ->assertSee("3 foto's")              // the photo-count action opens the full set
+        ->assertSee('chapter-latest__cal')   // the calendar tear-off (date it was), now under the title
         ->assertSee('chapter-gallery__tile'); // photo tiles render on the wall
 });
 
@@ -590,19 +589,36 @@ test('the gallery opt-in escalates a logged-in follower to volunteer', function 
         ->assertDontSee('Schrijf je in');  // no subscribe CTA once you're in
 });
 
-test('chapter gallery caps the wall at six tiles (the last two XL-only) while the lightbox keeps the full set', function () {
+test('chapter gallery caps the wall on a full row (nine tiles, the last five XL-only) while the lightbox keeps the full set', function () {
     Storage::fake('media');
     $group = Group::create(['shortname' => 'sbg2', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
-    pastRideFor($group, 'Grote Kidical Mass', now()->subWeek(), photos: 9);
+    pastRideFor($group, 'Grote Kidical Mass', now()->subWeek(), photos: 11);
 
     $content = get(route('groups.show', $group))->assertOk()->getContent();
 
-    // The poster takes the first photo; up to six more fill the wall as tiles ...
-    expect(substr_count($content, 'chapter-gallery__tile'))->toBe(6);
-    // ... the last two of which only appear on the widest (4-column) wall.
-    expect(substr_count($content, 'chapter-gallery__cell--xl'))->toBe(2);
-    // ... and the eighth and ninth stay reachable through the lightbox set.
-    expect($content)->toContain('Foto 8')->toContain('Foto 9');
+    // The grid ends on a full row: poster + the 1-col opt-in card leave room for nine tiles
+    // (three rows) on the XL wall — never a ragged half-row.
+    expect(substr_count($content, 'chapter-gallery__tile'))->toBe(9);
+    // ... the last five of which only appear on the widest (4-column) wall; below it the
+    // calmer 2/3-column wall shows just the first four.
+    expect(substr_count($content, 'chapter-gallery__cell--xl'))->toBe(5);
+    // ... and the photos past the wall stay reachable through the lightbox set.
+    expect($content)->toContain('Foto 10')->toContain('Foto 11');
+});
+
+test('chapter gallery drops to five tiles when there are not enough to fill the nine-tile wall', function () {
+    Storage::fake('media');
+    $group = Group::create(['shortname' => 'sbg2b', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    // 8 photos: poster + 7 candidates. Seven can't fill the nine-tile wall cleanly, so it
+    // falls back to a clean five-tile block (the "remove the ragged corner" rule).
+    pastRideFor($group, 'Lenteparade', now()->subWeek(), photos: 8);
+
+    $content = get(route('groups.show', $group))->assertOk()->getContent();
+
+    expect(substr_count($content, 'chapter-gallery__tile'))->toBe(5);
+    expect(substr_count($content, 'chapter-gallery__cell--xl'))->toBe(1);
+    // The unshown photos still live in the lightbox set.
+    expect($content)->toContain('Foto 8');
 });
 
 test('the lightbox carries usable controls — counter, edge-pinned nav, focus restore and a live label', function () {
@@ -749,7 +765,7 @@ test('controller buckets upcoming rides and other activities separately', functi
         ->assertViewHas('pastRidesCount', 1);
 });
 
-test('chapter shows real track-record stat cards (sinds + parades) under a Samen al eyebrow, no fake numbers', function () {
+test('chapter shows the real track-record line (sinds + parades), no fake numbers', function () {
     // The proof stats moved out of §2 to §6b (under the team) in the v4 next-ride rebuild,
     // where they read as the crew's track record. They render even without a team roster.
     $author = User::factory()->create();
@@ -763,10 +779,10 @@ test('chapter shows real track-record stat cards (sinds + parades) under a Samen
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Samen al')           // the track-record eyebrow bridging from the team
         ->assertSee('sinds 2023')
+        ->assertSee('op pad in')
         ->assertSee('2 parades')          // two past rides counted
-        ->assertSee('samen gereden')
+        ->assertSee('gereden')
         ->assertDontSee('gezinnen vorige keer');  // no invented attendance figure (e.g. "± 80 gezinnen vorige keer")
 });
 
@@ -779,11 +795,13 @@ test('the track-record stats sit under the team carousel as the crew accomplishm
 
     get(route('groups.show', $group))
         ->assertOk()
-        // The team headline comes first, then the "Samen al" stats — the numbers read as theirs.
-        ->assertSeeInOrder(['Wij zwaaien je welkom aan de start', 'Samen al', 'sinds 2021'], false);
+        // The team headline comes first, then the track-record line — the numbers read as theirs.
+        ->assertSeeInOrder(['Wij zwaaien je welkom aan de start', 'sinds 2021'], false);
 });
 
-test('the §2 subscribe CTA is decoupled beneath the ride card, not nested inside it', function () {
+test('the §2 ride card is a single affordance, with no subscribe line nested or beneath it', function () {
+    // v4: the §2 decoupled subscribe line is gone — the subscribe ask now lives in the
+    // photo wall opt-in. §2 is purely the next-ride card (its own single link).
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'nr', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
     $ride = Activity::create([
@@ -796,11 +814,9 @@ test('the §2 subscribe CTA is decoupled beneath the ride card, not nested insid
     get(route('groups.show', $group))
         ->assertOk()
         ->assertSee('3 km')                                  // the real, optional distance string shows
-        ->assertSee('Hou me op de hoogte van de volgende')   // benefit-driven wording, not a bare "Schrijf je in"
-        // The subscribe link goes STRAIGHT to the newsletter page — no in-between reveal/card.
-        ->assertSee(route('newsletter.show', ['locale' => app()->getLocale()]), false)
-        // ... and it sits AFTER the card's own link — decoupled beneath the single-affordance card.
-        ->assertSeeInOrder(['Bekijk deze parade', 'Kan je er niet bij deze keer?']);
+        ->assertSee('Bekijk deze parade')                    // the card's own single affordance
+        ->assertDontSee('Hou me op de hoogte van de volgende') // the old decoupled subscribe line is gone
+        ->assertDontSee('Kan je er niet bij deze keer?');
 });
 
 test('§7 join block defaults to collapsed state without intent param', function () {

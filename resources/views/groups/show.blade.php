@@ -73,25 +73,28 @@
         $coverPhoto = $group->getMedia('gallery')->first();
 
         // "In beeld" (section 3b) follows the latest ride that has photos ($latestRide,
-        // resolved in GroupController). The first photo becomes the "Laatste rit" poster
-        // (eyebrow + title + a single "bekijk alle foto's" action over a scrim, the date
-        // tear-off peeking from the corner); the rest fill the masonry wall as tiles (so
+        // resolved in GroupController). The first photo becomes the "Recentste parade"
+        // poster (a big top-left title + a single "bekijk alle foto's" action over a scrim,
+        // the date tear-off grounded bottom-left); the rest fill the grid wall as tiles (so
         // the poster photo isn't shown twice). The full set powers the lightbox, so the
         // tiles open at $loop->index + 1.
         $ridePhotos = $latestRide?->getMedia('gallery') ?? collect();
         $hasRideGallery = $latestRide !== null && $ridePhotos->isNotEmpty();
-        $ridePhotoCount = $ridePhotos->count();
         $posterPhoto = $ridePhotos->first();
-        $tilePhotos = $ridePhotos->slice(1)->take(6)->values();
+        // The grid wall wants a full final row. The poster (2 rows) and the 1-col opt-in
+        // card leave room for 5 tiles in two rows, or 9 in three, on the XL wall. Show 9
+        // only when there are enough to fill them; otherwise 5 — so the wall never ends on a
+        // ragged half-row. The remainder stay reachable through the lightbox.
+        $wallTiles = $ridePhotos->slice(1);
+        $tilePhotos = $wallTiles->take($wallTiles->count() >= 9 ? 9 : 5)->values();
         $rideRail = $latestRide ? \App\Support\RideDate::rail($latestRide->begin_date) : null;
     @endphp
 
     {{-- 1 · IDENTITY HERO — blue band on the shared .page-hero look (eyebrow = postcode,
          title = Kidical Mass / gemeente), via the --identity modifier. The group photo
          now lives INSIDE the hero, as a rounded card on the right beside the title
-         (Frederik 2026-06-17) — the daisy peeks behind its top corner. --}}
+         (Frederik 2026-06-17). --}}
     <header class="chapter-head chapter-head--identity">
-        <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-head__daisy">
         <div class="container mx-auto px-4 chapter-head__inner">
             <div class="chapter-head__copy">
                 <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
@@ -132,17 +135,6 @@
                 @if ($upcomingRides->isNotEmpty())
                     @php $nextRide = $upcomingRides->first(); @endphp
                     <x-next-ride :activity="$nextRide" :commune="$gemeente" />
-
-                    {{-- Decoupled subscribe: a subtle, secondary line BENEATH the card (never
-                         inside it). One quiet sentence whose link goes STRAIGHT to the
-                         newsletter sign-up page — no in-between reveal/card. --}}
-                    <p class="chapter-parade__subscribe">
-                        <span class="chapter-parade__subscribe-lead">Kan je er niet bij deze keer?</span>
-                        <a href="{{ route('newsletter.show', ['locale' => app()->getLocale()]) }}" class="chapter-parade__subscribe-link">
-                            Hou me op de hoogte van de volgende
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </p>
                 @else
                     <div class="chapter-next__card chapter-next__card--empty">
                         <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
@@ -175,7 +167,7 @@
     {{-- 3 · ALLE PARADES — the remaining upcoming rides as a compact strip, paired under §2. --}}
     @if ($upcomingRides->count() > 1)
         <section class="chapter-body chapter-parades-strip">
-            <h2 class="chapter-section__title">Latere parades</h2>
+            <h2 class="chapter-section__title">Later</h2>
             <div class="chapter-parades-strip__list">
                 @foreach ($upcomingRides->slice(1) as $ride)
                     <x-ride-pill :activity="$ride" :commune="$gemeente" />
@@ -265,10 +257,9 @@
             <ul class="chapter-gallery__grid">
                 {{-- First cell — a full-bleed photo poster of the latest ride. Its first
                      photo fills the tile and opens the lightbox; "Recentste parade" leads as
-                     a big heading top-left, with the calendar tear-off (date it was) + the
-                     "view all" action grounded bottom-left. The ride's own name is left off:
-                     on a chapter page every ride is "the" ride, so the title only names the
-                     band. A roze hesje of this chapter also gets a quiet "add photos" link. --}}
+                     a big heading top-left, with the calendar tear-off (date it was) tucked
+                     just beneath it. The ride's own name is left off: on a chapter page every
+                     ride is "the" ride, so the title only names the band. --}}
                 <li class="chapter-gallery__cell chapter-gallery__cell--feature">
                     <div class="chapter-latest">
                         <button
@@ -280,37 +271,45 @@
                             <img src="{{ $posterPhoto->getUrl('card') }}" alt="" class="chapter-latest__bg">
                         </button>
 
-                        <h3 class="chapter-latest__title">Recentste parade</h3>
+                        {{-- Title + the shared calendar tear-off (same lockup as the agenda),
+                             red accent, clustered top-left over the photo scrim. --}}
+                        <div class="chapter-latest__head">
+                            <h2 class="chapter-latest__title">Recentste parade</h2>
 
-                        <div class="chapter-latest__overlay">
-                            <time
-                                class="chapter-latest__rail"
-                                datetime="{{ $latestRide->begin_date->toDateString() }}"
+                            <div
+                                class="chapter-latest__cal ride-day__cal"
+                                style="--ride-day-rot: {{ $rideRail['rotation'] }}deg; --ride-accent: var(--color-kidical-red);"
                             >
-                                <span class="ride-day__bar" aria-hidden="true"></span>
-                                <span class="ride-day__body">
-                                    <span class="ride-day__day">{{ $latestRide->weekdayLabel }}</span>
-                                    <span class="ride-day__date">{{ $rideRail['num'] }}</span>
-                                    <span class="ride-day__month">{{ $rideRail['month'] }}</span>
-                                </span>
-                            </time>
-
-                            <x-cta-button variant="blue" size="sm" class="chapter-latest__action" x-on:click="open(0, $event)">{{ $ridePhotoCount > 1 ? "{$ridePhotoCount} foto's" : '1 foto' }}</x-cta-button>
+                                <time class="ride-day__rail" datetime="{{ $latestRide->begin_date->toDateString() }}">
+                                    <span class="ride-day__bar" aria-hidden="true"></span>
+                                    <span class="ride-day__body">
+                                        <span class="ride-day__day">{{ $latestRide->weekdayLabel }}</span>
+                                        <span class="ride-day__date">{{ $rideRail['num'] }}</span>
+                                        <span class="ride-day__month">{{ $rideRail['month'] }}</span>
+                                    </span>
+                                </time>
+                            </div>
                         </div>
                     </div>
                 </li>
 
                 {{-- The dual-logic opt-in rides in the wall — on the XL wall it pins to the
-                     top row's right pair (cols 3–4), beside the poster and first photo.
-                     Guests get the subscribe teaser; logged-in followers get the volunteer
-                     ask. Placed up here so it's present even on a single-photo gallery. --}}
+                     top row's right corner (col 4), a compact square beside the poster and
+                     photos. Guests get the subscribe teaser; logged-in followers get the
+                     volunteer ask. Placed up here so it's present even on a single-photo
+                     gallery. h-full + centred so its content fills the square. --}}
                 <li class="chapter-gallery__optin">
-                    <x-newsletter-optin :group="$group" :show-join="true" prominent class="h-full" />
+                    {{-- The brand daisy, tucked behind the sky-blue opt-in card: ~80% of it
+                         rises above the card's top edge, ~20% dips behind it. Decorative,
+                         only on the XL wall where this card pins to the top row. --}}
+                    <img src="{{ asset('img/logos/logo-icon.png') }}" alt="" aria-hidden="true" class="chapter-gallery__sun">
+                    <x-newsletter-optin :group="$group" :show-join="true" prominent class="h-full flex flex-col justify-center" />
                 </li>
 
                 @foreach ($tilePhotos as $media)
-                    {{-- The 5th and 6th tiles only show once there's room for them — the
-                         XL 4-column wall. Below that they'd overflow the calmer grid. --}}
+                    {{-- Tiles past the fourth only show once there's room for them — the
+                         XL 4-column wall fits eight in three rows; below that, only the
+                         first four show so the calmer 2/3-column wall stays a full block. --}}
                     <li @class(['chapter-gallery__cell', 'chapter-gallery__cell--xl' => $loop->index >= 4])>
                         <button
                             type="button"
@@ -379,6 +378,14 @@
                         <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
                         <p class="chapter-team__lead">De trekkers en roze hesjes die elke parade laten rollen. Kom je bij hen staan?</p>
                     </div>
+                    <div class="chapter-team__nav" x-show="scrollable" x-cloak>
+                        <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
+                            <flux:icon.chevron-left aria-hidden="true" />
+                        </button>
+                        <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)" :disabled="end">
+                            <flux:icon.chevron-right aria-hidden="true" />
+                        </button>
+                    </div>
                 </div>
 
                 <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}"
@@ -386,7 +393,7 @@
                     x-on:scroll.passive="update()"
                     @pointerdown="onDown($event)" @pointermove="onMove($event)" @pointerup="onUp()" @pointercancel="onUp()">
                     @foreach ($team as $member)
-                        <li class="chapter-team__card" @pointermove="lean($event)" @pointerleave="leaveLean($event)">
+                        <li class="chapter-team__card" style="--enter-i: {{ $loop->index }}" @pointermove="lean($event)" @pointerleave="leaveLean($event)">
                             <span class="chapter-team__photo">
                                 <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
                             </span>
@@ -395,53 +402,44 @@
                         </li>
                     @endforeach
                 </ul>
-
-                <div class="chapter-team__nav" x-show="scrollable" x-cloak>
-                    <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
-                        <flux:icon.chevron-left aria-hidden="true" />
-                    </button>
-                    <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)" :disabled="end">
-                        <flux:icon.chevron-right aria-hidden="true" />
-                    </button>
-                </div>
             </div>
         </section>
     @endif
 
-    {{-- 6b · SAMEN AL — the chapter's track record, placed right under the team so the
-         numbers read as the crew's accomplishments (relocated from §2). Small compact
-         cards. "sinds {jaar}" is a fact every chapter has; "{N} parades" joins once
-         there's a past ride. Real data (started_at + pastRidesCount), no invented figures. --}}
+    {{-- 6b · TRACK RECORD — the chapter's record, placed right under the team so the
+         numbers read as the crew's accomplishments (relocated from §2). A single quiet
+         line of chip + fact, no card and no eyebrow. "sinds {jaar}" is a fact every
+         chapter has; "{N} parades" joins once there's a past ride. Real data
+         (started_at + pastRidesCount), no invented figures. --}}
     <section class="chapter-body chapter-stats-band">
-        <p class="chapter-stats-band__eyebrow">Samen al</p>
-        <div class="chapter-stats-band__grid">
-            <div class="chapter-stat">
+        <div class="chapter-stats-band__line">
+            <span class="chapter-stat">
                 <x-icon-chip color="blue" size="sm" class="chapter-stat__chip">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
                 </x-icon-chip>
-                <span class="chapter-stat__text">
-                    <span class="chapter-stat__num">sinds {{ $group->started_at?->format('Y') ?? '2023' }}</span>
-                    <span class="chapter-stat__label">op pad in {{ $gemeente }}</span>
-                </span>
-            </div>
+                <span class="chapter-stat__num">sinds {{ $group->started_at?->format('Y') ?? '2023' }}</span>
+                <span class="chapter-stat__label">op pad in {{ $gemeente }}</span>
+            </span>
             @if ($pastRidesCount > 0)
-                <div class="chapter-stat">
+                <span class="chapter-stats-band__sep" aria-hidden="true">·</span>
+                <span class="chapter-stat">
                     <x-icon-chip color="red" size="sm" class="chapter-stat__chip">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
                     </x-icon-chip>
-                    <span class="chapter-stat__text">
-                        <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? 'parade' : 'parades' }}</span>
-                        <span class="chapter-stat__label">samen gereden</span>
-                    </span>
-                </div>
+                    <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? 'parade' : 'parades' }}</span>
+                    <span class="chapter-stat__label">gereden</span>
+                </span>
             @endif
         </div>
     </section>
 
-    {{-- 8 · AFFICHES + MET DANK AAN — quiet white tail. Real partners (visible, group-scoped)
-         and faux downloads. Press moved to the channel-wide Press page. D-11 closed. --}}
+    {{-- 8 · AFFICHES + MET DANK AAN — a light-yellow full-width band closing the white
+         body (was a quiet white tail with a hairline seam). Real partners (visible,
+         group-scoped) and faux downloads. Press moved to the channel-wide Press page.
+         D-11 closed. --}}
     @if ($hasExtras)
-        <section class="chapter-body chapter-body--tail">
+        <section class="chapter-extras-band">
+            <div class="container mx-auto px-4 chapter-extras-band__inner">
             @if ($partners->isNotEmpty())
                 <div class="chapter-extras">
                     {{-- One kind of friend, always a text link (never a logo: keeps
@@ -495,6 +493,7 @@
                     </ul>
                 </div>
             @endif
+            </div>
         </section>
     @endif
 

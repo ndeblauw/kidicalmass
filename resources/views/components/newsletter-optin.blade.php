@@ -50,11 +50,6 @@
             <div class="flex flex-col gap-3">
                 <h3 class="text-kidical-ink">Mis geen rit</h3>
                 <p class="text-kidical-ink/75">{{ $lead }}</p>
-                @if ($showJoin)
-                    {{-- Bridge the follow step to the join step: subscribing and volunteering
-                         are escalating asks, not competing ones. --}}
-                    <p class="text-sm text-kidical-ink/70">Of <a href="#aanmelden" x-data="{}" x-on:click="$dispatch('open-volunteer')" class="text-kidical-blue underline underline-offset-2">help mee als vrijwilliger</a>.</p>
-                @endif
             </div>
             <x-cta-button :variant="$ctaVariant" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
         </div>
