@@ -8,6 +8,9 @@
     // page (workshop/meeting) passes its own so the copy isn't ride-specific.
     'message' => null,
     'subject' => 'Een leuke fietstocht voor jullie gezin',
+    // Render as a quiet contained panel inside the page container instead of a
+    // full-bleed band (e.g. the ride page).
+    'contained' => false,
 ])
 
 @php
@@ -17,8 +20,8 @@
     $mailtoUrl = 'mailto:?subject='.rawurlencode($subject).'&body='.rawurlencode($shareMessage);
 @endphp
 
-<section class="share-band" x-data="{ copied: false }">
-    <div class="container mx-auto px-4">
+<section @class(['share-band', 'share-band--contained' => $contained]) x-data="{ copied: false }">
+    <div @class(['container mx-auto px-4' => ! $contained])>
         <div class="share-band__inner">
             <div class="share-band__text">
                 <h2 class="share-band__title">{{ $heading }}</h2>

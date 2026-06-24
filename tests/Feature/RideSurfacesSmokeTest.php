@@ -22,7 +22,7 @@ it('renders the date-rail lockup and rows on the events page, without legacy mar
         ->assertDontSee('km van jou');
 });
 
-it('renders the original blue poster hero (h1, not the spotlight card) on an activity detail page', function () {
+it('renders the contained blue hero (h1, not the spotlight card) on an activity detail page', function () {
     $activity = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
         'title_nl' => 'Kidical Mass Gent',
@@ -32,7 +32,7 @@ it('renders the original blue poster hero (h1, not the spotlight card) on an act
 
     get(route('activities.show', ['locale' => 'nl', 'activity' => $activity]))
         ->assertOk()
-        ->assertSee('activity-hero__', false)
+        ->assertSee('activity-head__', false)
         ->assertSee('<h1', false)
         ->assertDontSee('ride-spotlight', false);
 });
