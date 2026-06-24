@@ -147,7 +147,6 @@
         fill: white;
     }
 
-    /* The "stay informed" CTA is intentionally NOT in this card — it lives decoupled
-       beneath it (.chapter-parade__subscribe in pages/chapters.css), so it never competes
+    /* The "stay informed" CTA is intentionally NOT in this card, so it never competes
        with the card's primary "Bekijk deze rit" action. */
 }

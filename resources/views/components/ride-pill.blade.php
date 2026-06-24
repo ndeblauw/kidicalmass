@@ -31,8 +31,8 @@
     {{ $attributes->merge(['class' => 'ride-pill link-plain']) }}
 >
     <time class="ride-pill__date" datetime="{{ $activity->begin_date->format('Y-m-d') }}">{{ $shortDate }}</time>
-    <span class="ride-pill__title">{{ $headline }}</span>
     @if ($activity->isGrande())
         <span class="ride-pill__star" aria-hidden="true">★</span>
     @endif
+    <span class="ride-pill__title">{{ $headline }}</span>
 </a>
