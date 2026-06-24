@@ -44,14 +44,22 @@
             ['name' => 'Lien', 'role' => 'communicatie'],
         ] : [];
 
-        $team = $group->users
+        $members = $group->users
             ->map(fn ($u) => ['name' => $u->name, 'role' => 'trekker', 'initials' => $initialsOf($u->name)])
             ->concat(collect($fauxVolunteers)->map(fn ($v) => ['name' => $v['name'], 'role' => $v['role'], 'initials' => $initialsOf($v['name'])]));
 
+        // Captains (trekkers) lead the row alphabetically, then the "Jij?" invite, then the
+        // rest of the crew (roze hesjes etc.) alphabetically — the ask sits at the seam
+        // between the leads and the wider crew.
+        $captains = $members->where('role', 'trekker')->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)->values();
+        $crew = $members->reject(fn ($m) => $m['role'] === 'trekker')->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)->values();
+        $team = $captains->concat($crew);
+
         // Brand-illustration placeholder per member (no portrait field yet — D-1).
         // Deterministic by name so a person keeps the same drawing across reloads.
+        // cyclist-peace-sign is reserved for the "Jij?" invite card, so it stays out of this pool.
         $teamIllustrations = [
-            'waving-rider', 'relaxed-rider', 'cyclist-peace-sign', 'rider-with-flag',
+            'waving-rider', 'relaxed-rider', 'rider-with-flag',
             'volunteer-with-wrench', 'longtail-with-kid', 'cargo-bike-family',
         ];
         $illustrationFor = fn (string $name) => $teamIllustrations[crc32($name) % count($teamIllustrations)];
@@ -376,7 +384,7 @@
                 <div class="chapter-team__head">
                     <div class="chapter-team__intro">
                         <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
-                        <p class="chapter-team__lead">De trekkers en roze hesjes die elke parade laten rollen. Kom je bij hen staan?</p>
+                        <p class="chapter-team__lead">De trekkers en roze hesjes die elke parade laten rollen.</p>
                     </div>
                     <div class="chapter-team__nav" x-show="scrollable" x-cloak>
                         <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
@@ -392,8 +400,41 @@
                     :class="{ 'is-grabbing': dragging, 'is-snapoff': dragging || animating }"
                     x-on:scroll.passive="update()"
                     @pointerdown="onDown($event)" @pointermove="onMove($event)" @pointerup="onUp()" @pointercancel="onUp()">
-                    @foreach ($team as $member)
+                    {{-- Captains (trekkers) lead, alphabetically. --}}
+                    @foreach ($captains as $member)
                         <li class="chapter-team__card" style="--enter-i: {{ $loop->index }}" @pointermove="lean($event)" @pointerleave="leaveLean($event)">
+                            <span class="chapter-team__photo">
+                                <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
+                            </span>
+                            <span class="chapter-team__name">{{ explode(' ', trim($member['name']))[0] }}</span>
+                            <span class="chapter-team__role">{{ $member['role'] }}</span>
+                        </li>
+                    @endforeach
+
+                    {{-- The invite sits at the seam between the captains and the wider crew: a
+                         card in the team's own idiom, but the seat is the reader's. A volunteer
+                         illustration is cropped to a medium shot so it fills the slot like a
+                         portrait (teammates show theirs small + contained), a + badge marks it as
+                         "join", and the whole card opens the §7 sign-up form (scrolls to
+                         #aanmelden and reveals it via the open-volunteer event). --}}
+                    <li class="chapter-team__card chapter-team__card--cta" style="--enter-i: {{ $captains->count() }}">
+                        <a href="#aanmelden" class="chapter-team__join"
+                           aria-label="Doe mee als vrijwilliger in {{ $gemeente }}"
+                           x-on:click="$dispatch('open-volunteer')">
+                            <span class="chapter-team__photo chapter-team__photo--cta">
+                                <img src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" class="chapter-team__cta-illo">
+                                <span class="chapter-team__cta-badge" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                                </span>
+                            </span>
+                            <span class="chapter-team__name">Jij?</span>
+                            <span class="chapter-team__role">kom erbij</span>
+                        </a>
+                    </li>
+
+                    {{-- Then the rest of the crew (roze hesjes etc.), alphabetically. --}}
+                    @foreach ($crew as $member)
+                        <li class="chapter-team__card" style="--enter-i: {{ $captains->count() + 1 + $loop->index }}" @pointermove="lean($event)" @pointerleave="leaveLean($event)">
                             <span class="chapter-team__photo">
                                 <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
                             </span>

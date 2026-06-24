@@ -730,13 +730,20 @@
         border-radius: var(--radius-tile);
         text-align: center;
         transform-origin: center bottom;
-        transform: translateY(calc(var(--focus, 0) * -0.45rem)) scale(calc(1 + var(--focus, 0) * 0.05));
+        transform: rotate(var(--tilt, 0deg)) translateY(calc(var(--focus, 0) * -0.45rem)) scale(calc(1 + var(--focus, 0) * 0.05));
         box-shadow:
             var(--shadow-card),
             0 calc(var(--focus, 0) * 16px) calc(var(--focus, 0) * 34px) calc(var(--focus, 0) * -10px)
                 color-mix(in oklab, var(--color-kidical-ink) calc(var(--focus, 0) * 28%), transparent);
         transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s ease-out;
     }
+    /* A hand-laid resting tilt across the row (same idea as the meehelpen carousel), so
+       the cards read as a stack someone laid down rather than a strict grid. Composed into
+       the transform above with the live --focus lift; the entrance keyframe settles here. */
+    .chapter-team__card:nth-child(4n+1) { --tilt: -1.8deg; }
+    .chapter-team__card:nth-child(4n+2) { --tilt: 1.2deg; }
+    .chapter-team__card:nth-child(4n+3) { --tilt: -1deg; }
+    .chapter-team__card:nth-child(4n)   { --tilt: 2deg; }
     .chapter-team__photo {
         display: grid;
         place-items: center;
@@ -760,6 +767,53 @@
         transform: translate(var(--lean-x, 0), var(--lean-y, 0)) rotate(var(--lean-r, 0));
         transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
         will-change: transform;
+    }
+
+    /* The invite card — a teammate-shaped link that opens the §7 sign-up form. The
+       volunteer illustration fills the slot like a portrait (cropped to a medium shot,
+       unlike the small contained illustrations on real cards), and a + badge marks it
+       as "add yourself". It still rides the carousel's tilt + focus-lift like any card. */
+    .chapter-team__join {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border-radius: var(--radius-tile);
+    }
+    .chapter-team__join:focus-visible {
+        outline: 3px solid var(--color-kidical-blue);
+        outline-offset: 3px;
+    }
+    .chapter-team__photo--cta {
+        background: var(--color-kidical-light-blue);
+        position: relative;
+    }
+    /* Two classes (0,2,0) so this beats the base `.chapter-team__photo img` (0,1,1) rule
+       and its contain/max-width clamp — the illustration crops to fill the square. */
+    .chapter-team__photo--cta .chapter-team__cta-illo {
+        max-width: none;
+        max-height: none;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.5);
+        transform-origin: 34% 16%;
+    }
+    .chapter-team__cta-badge {
+        position: absolute;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        width: 2.1rem;
+        height: 2.1rem;
+        border-radius: 9999px;
+        background: var(--color-kidical-blue);
+        color: white;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 4px 12px color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+    }
+    .chapter-team__cta-badge svg {
+        width: 1.1rem;
+        height: 1.1rem;
     }
 
     .chapter-team__name { display: block; font-weight: 700; color: var(--color-kidical-ink); line-height: 1.1; }

@@ -345,6 +345,22 @@ test('chapter team carousel shows member cards with first names and roles', func
         ->assertDontSee('chapter-team__avatar');          // old initials avatar is gone
 });
 
+test('the team carousel seats a "Jij?" invite between the captains and the crew', function () {
+    $group = Group::create(['shortname' => 'sb3', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    $group->users()->attach(User::factory()->create(['name' => 'Sofie Maes'])); // a trekker (captain)
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('chapter-team__card--cta')   // the invite card rides in the row
+        ->assertSee('Jij?')                       // the reader's own seat
+        ->assertSee('kom erbij')                  // its role line
+        ->assertSee('href="#aanmelden"', false)   // links down to the §7 sign-up band
+        ->assertSee('cyclist-peace-sign')         // the volunteer illustration fills the slot
+        // Captain (trekker) leads, the invite sits at the seam, then the crew (roze hesje).
+        ->assertSeeInOrder(['Sofie', 'Jij?', 'Marieke'])
+        ->assertDontSee('Kom je bij hen staan');  // the old loose invite line is dropped
+});
+
 test('chapter agenda labels a workshop as a workshop, never as a ride', function () {
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'and', 'name' => 'Kidical Mass Anderlecht', 'zip' => '1070', 'invisible' => false, 'started_at' => now()]);

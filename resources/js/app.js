@@ -102,6 +102,9 @@ document.addEventListener('alpine:init', () => {
             if (e.pointerType === 'mouse' && e.button !== 0) {
                 return;
             }
+            if (e.target.closest('a')) {
+                return; // a link in the row (the "Jij?" invite) must click through, not drag
+            }
             cancelAnimationFrame(this._raf);
             this.dragging = true;
             this.animating = true;
