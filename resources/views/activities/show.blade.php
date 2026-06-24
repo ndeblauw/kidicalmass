@@ -1,8 +1,21 @@
 <x-layouts::site title="{{ $activity->title_nl }}">
 
-@php($routeCoords = $activity->route_coordinates)
-@php($hasMap = count($routeCoords) > 0)
-@php($mainImage = $activity->getFirstMedia('main'))
+@php
+    $routeCoords = $activity->route_coordinates;
+    $hasMap = count($routeCoords) > 0;
+    $mainImage = $activity->getFirstMedia('main');
+
+    // The organising group's real registered members, deduped across multiple groups.
+    // No per-ride volunteer roster exists yet (GitHub #37 / D-1); avatars are the
+    // deterministic brand illustrations, keyed by name so each person keeps the same one.
+    $volunteers = $activity->groups->flatMap->users->unique('id')->values();
+
+    $teamIllustrations = [
+        'waving-rider', 'relaxed-rider', 'rider-with-flag',
+        'volunteer-with-wrench', 'longtail-with-kid', 'cargo-bike-family',
+    ];
+    $illustrationFor = fn (string $name) => $teamIllustrations[crc32($name) % count($teamIllustrations)];
+@endphp
 
     {{-- HERO — blue band, tilted photo card dipping into the white below (new look) --}}
     <header class="activity-head">
@@ -189,48 +202,31 @@
             </ul>
         </section>
 
-        {{-- VAN EN VOOR DE BUURT — organisers + volunteer reveal --}}
-        <section class="activity-team" x-data="{ open: false }">
+        {{-- VAN EN VOOR DE BUURT — the crew that makes this parade roll --}}
+        <section class="activity-team">
+            <p class="activity-eyebrow">Van en voor de buurt</p>
 
-            <template x-if="!open"><div>
-                <p class="activity-eyebrow">Van en voor de buurt</p>
+            @if($activity->groups->isNotEmpty())
+                <p class="activity-team__lead">
+                    Georganiseerd door vrijwilligers van Kidical Mass
+                    @foreach($activity->groups as $group)
+                        <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>@if(!$loop->last), @endif
+                    @endforeach
+                </p>
+            @endif
 
-                @if($activity->groups->isNotEmpty())
-                    <p class="activity-team__lead">
-                        Georganiseerd door vrijwilligers van Kidical Mass
-                        @foreach($activity->groups as $group)
-                            <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>@if(!$loop->last), @endif
-                        @endforeach
-                    </p>
-                @endif
-
-                <div class="activity-team__person">
-                    <img src="https://i.pravatar.cc/128?img=47" alt="{{ Str::before($activity->author->name, ' ') }}" class="activity-team__avatar" loading="lazy">
-                    <div>
-                        <span class="activity-team__name">{{ Str::before($activity->author->name, ' ') }}</span>
-                        <span class="activity-team__role">Organisator</span>
-                    </div>
-                </div>
-
-                <div class="activity-volunteer">
-                    <h3>Roze hesje worden?</h3>
-                    <p>Als roze hesje begeleid je de groep en zorg je dat iedereen veilig aankomt. Je rijdt vooraan of achteraan, houdt kruispunten vrij en zorgt dat geen enkel kind achterblijft. <a href="{{ route('volunteer') }}">Lees hoe dat werkt.</a></p>
-                    <button x-on:click="open = true" class="activity-volunteer__btn">
-                        Ik wil meedoen als roze hesje
-                    </button>
-                </div>
-            </div></template>
-
-            <template x-if="open"><div class="activity-team__signup">
-                <button x-on:click="open = false" class="activity-team__back">
-                    <flux:icon.arrow-left class="activity-team__back-icon" aria-hidden="true" />
-                    Terug
-                </button>
-                <h2 class="activity-facts__title">Meld je aan</h2>
-                <p class="activity-team__lead">We nemen zo snel mogelijk contact met je op als roze hesje.</p>
-                <livewire:volunteer-signup />
-            </div></template>
-
+            @if($volunteers->isNotEmpty())
+                <ul class="activity-team__people" role="list">
+                    @foreach($volunteers as $person)
+                        <li class="activity-team__member">
+                            <span class="activity-team__face">
+                                <img src="{{ asset('img/illustrations/'.$illustrationFor($person->name).'.svg') }}" alt="" aria-hidden="true">
+                            </span>
+                            <span class="activity-team__first">{{ \Illuminate\Support\Str::before(trim($person->name), ' ') }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </section>
 
         {{-- STEUN — contextual support ask, quiet & contained --}}

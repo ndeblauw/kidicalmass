@@ -85,3 +85,31 @@ it('shows the full date in Startuur, an always-on route, and an updates card bes
         ->assertSee('juni')                              // full date (not just the time) in Startuur
         ->assertSee('Mis geen rit');                     // <x-newsletter-optin> guest copy = the updates card
 });
+
+it('shows a compact real-volunteer row and no pink-vest recruitment CTA', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Etterbeek', 'zip' => '1040']);
+    $member = User::factory()->create(['name' => 'Marieke Janssens']);
+    $group->users()->attach($member, ['role' => 'trekker', 'is_public' => true]);
+
+    $ride = makeRide();
+    $ride->groups()->attach($group);
+
+    get(rideUrl($ride))
+        ->assertOk()
+        ->assertSee('activity-team__people', false)   // the compact avatar row
+        ->assertSee('Marieke')                        // real member, first name only
+        ->assertDontSee('Janssens')                   // surname dropped
+        ->assertDontSee('Roze hesje worden?')         // pink-vest CTA removed
+        ->assertDontSee('activity-volunteer', false)  // recruitment block gone
+        ->assertDontSee('volunteer-signup', false);   // inline livewire reveal gone
+});
+
+it('hides the team section when the organising group has no members', function () {
+    $group = Group::factory()->create(['name' => 'Kidical Mass Leeg', 'zip' => '9000']);
+    $ride = makeRide();
+    $ride->groups()->attach($group);
+
+    get(rideUrl($ride))
+        ->assertOk()
+        ->assertDontSee('activity-team__people', false);
+});
