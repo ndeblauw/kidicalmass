@@ -233,7 +233,10 @@ select:focus[data-flux-control] {
         z-index: 60;
         pointer-events: none; /* transparent shell — actual nav elements re-enable below */
     }
-    .site-nav__bar,
+    /* The bar spans full width but justifies its content right, leaving an empty
+       strip over the logo. Keep that strip click-through so the logo link below
+       it stays reachable; re-enable pointer events only on the actual clusters. */
+    .site-nav__reveal-menu,
     .site-nav__mobile-menu {
         pointer-events: all;
     }
