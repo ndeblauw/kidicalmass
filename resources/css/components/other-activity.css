@@ -1,0 +1,41 @@
+@layer components {
+    /* OTHER-ACTIVITY ROW — one workshop/meeting/other in the chapter page's "Ook in
+       {gemeente}" rail (component <x-other-activity>). A quiet two-line link: a
+       sans-serif bold title in the type's accent colour over a muted "date · venue"
+       meta line. No boxes — the parent .chapter-aside__list draws the hairline
+       dividers. Values dialled in via the design playground (Frederik 2026-06-24).
+       Self-contained so it can travel, though today it lives only in the rail. */
+    .other-activity {
+        display: block;
+        padding-block: 19px;
+        color: inherit;
+    }
+
+    /* Title — body font, bold, blue (the link colour); underlines on hover/focus for the
+       affordance, no colour shuffle. */
+    .other-activity__title {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-xl);
+        line-height: 1.2;
+        color: var(--color-kidical-blue);
+    }
+    .other-activity:hover .other-activity__title,
+    .other-activity:focus-visible .other-activity__title {
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+    }
+
+    /* Meta — one muted line: "do 25 jun · Cyclo werkplaats" (weekday-led date, then the
+       commune-stripped venue). Body font, plain weight. */
+    .other-activity__meta {
+        margin: 5px 0 0;
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        font-weight: 400;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
+    .other-activity__sep {
+        opacity: 0.6;
+    }
+}

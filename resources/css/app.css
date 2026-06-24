@@ -190,6 +190,8 @@
 @import './components/envelope-chips.css';
 @import './components/ride-row.css';
 @import './components/ride-day.css';
+@import './components/ride-pill.css';
+@import './components/other-activity.css';
 @import './components/next-ride.css';
 @import './components/location-picker.css';
 @import './components/newsletter-cta.css';

@@ -10,6 +10,17 @@ beforeEach(function () {
     Storage::fake('media');
 });
 
+it('gives the Schaarbeek chapter a posed group photo as its hero cover', function () {
+    Group::factory()->create(['shortname' => 'schaarbeek', 'name' => 'Schaarbeek']);
+
+    (new ChapterShowcaseSeeder)->run();
+
+    $cover = Group::where('shortname', 'schaarbeek')->first()->getMedia('gallery')->first();
+
+    expect($cover)->not->toBeNull()
+        ->and($cover->name)->toBe('ride-group-photo-bandstand');
+});
+
 it('gives the Schaarbeek chapter a next ride with a real GPX route to draw', function () {
     $group = Group::factory()->create(['shortname' => 'schaarbeek', 'name' => 'Schaarbeek']);
 

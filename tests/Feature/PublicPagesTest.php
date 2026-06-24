@@ -207,10 +207,13 @@ it('renders the article detail with its content', function () {
 });
 
 it('renders the group detail with its upcoming ride', function () {
+    // The v4 chapter page leads with the <x-next-ride> feature card, which surfaces the
+    // ride as "Volgende fietsparade" + its date (not the title — that's only on the ride page).
     get(route('groups.show', $this->group))
         ->assertOk()
         ->assertSee('Kidical Mass Testville')
-        ->assertSee('Surface Test Ride');
+        ->assertSee('Volgende fietsparade')
+        ->assertSee(route('activities.show', $this->activity), escape: false);
 });
 
 it('keeps the activity detail page branded', function () {

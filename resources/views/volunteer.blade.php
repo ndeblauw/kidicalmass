@@ -65,7 +65,7 @@
                 const card = t.querySelector('.ho-roles__card');
                 const step = card ? card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0) : 0;
                 this.start = t.scrollLeft <= 1;
-                // within half a card of the end — tolerant of the few-px gap mandatory
+                // within half a card of the end, tolerant of the few-px gap mandatory
                 // snap leaves between the last snap point and the raw max scroll
                 this.end = step > 0 && max - t.scrollLeft <= step / 2;
             }

@@ -68,8 +68,6 @@
 
         $hasExtras = $partners->isNotEmpty() || $group->children->isNotEmpty();
 
-        $allActivitiesUrl = route('activities.index', ['gemeente' => $group->id]);
-
         // Hero cover (section 1) — still the group's own identity photo, the cover of
         // its `gallery` collection. `php artisan dev:seed-group-gallery` populates it.
         $coverPhoto = $group->getMedia('gallery')->first();
@@ -154,19 +152,18 @@
                 @endif
             </div>
 
-            {{-- OOK IN GEMEENTE — the other activities as a quiet sidebar. A small uppercase
-                 eyebrow title keeps it subordinate to the parade; white cards on white,
-                 separated by shadow (echoing the feature card's material). --}}
+            {{-- OOK IN GEMEENTE — the other activities as a quiet sidebar, a hairline-divided
+                 list (no boxes) so it stays lighter than the parade card. Its own dedicated
+                 row component (<x-other-activity>, separate from the rides' <x-ride-row>):
+                 a sans-serif bold title in the type's accent colour over a muted date ·
+                 venue line. No type label — the title carries the kind. --}}
             @if ($otherActivities->isNotEmpty())
                 <aside class="chapter-aside">
                     <h2 class="chapter-aside__title">Ook in {{ $gemeente }}</h2>
                     <ul class="chapter-aside__list" role="list">
                         @foreach ($otherActivities as $activity)
-                            <li class="chapter-other__card">
-                                <span class="chapter-other__type">{{ $activity->activity_type->labelNl() }}</span>
-                                <h3 class="chapter-other__title">{{ $activity->title_nl }}</h3>
-                                <time datetime="{{ $activity->begin_date->toDateString() }}">{{ $activity->begin_date->isoFormat('ddd D MMM') }}</time>
-                                @if ($activity->location)<p class="chapter-other__loc">{{ $activity->location }}</p>@endif
+                            <li class="chapter-aside__item">
+                                <x-other-activity :activity="$activity" :commune="$gemeente" />
                             </li>
                         @endforeach
                     </ul>
@@ -178,13 +175,12 @@
     {{-- 3 · ALLE PARADES — the remaining upcoming rides as a compact strip, paired under §2. --}}
     @if ($upcomingRides->count() > 1)
         <section class="chapter-body chapter-parades-strip">
-            <h2 class="chapter-section__title">Alle parades</h2>
+            <h2 class="chapter-section__title">Latere parades</h2>
             <div class="chapter-parades-strip__list">
-                @foreach ($upcomingRides->slice(1)->groupBy(fn ($a) => $a->begin_date->format('Y-m-d')) as $periodKey => $dayRides)
-                    <x-ride-day :period-key="$periodKey" :commune="$gemeente" :rows="$dayRides->map(fn ($a) => ['item' => $a])->values()->all()" />
+                @foreach ($upcomingRides->slice(1) as $ride)
+                    <x-ride-pill :activity="$ride" :commune="$gemeente" />
                 @endforeach
             </div>
-            <a href="{{ $allActivitiesUrl }}" class="link-plain chapter-parades-strip__all">Alle ritten (ook voorbije) →</a>
         </section>
     @endif
 
@@ -266,18 +262,13 @@
             @keydown.arrow-right.window="isOpen && next()"
             @keydown.arrow-left.window="isOpen && prev()"
         >
-            {{-- Lead-in heading (Frederik 2026-06-19): the wall used to start cold, straight
-                 off the opt-in band. A warm, inviting title gives the eye a beat and frames
-                 the photos as "this could be you", not just an archive dump. --}}
-            <h2 class="chapter-section__title">Zo ziet het eruit in {{ $gemeente }}</h2>
-
             <ul class="chapter-gallery__grid">
                 {{-- First cell — a full-bleed photo poster of the latest ride. Its first
-                     photo fills the tile and opens the lightbox; the calendar tear-off
-                     (date it was) and a stacked eyebrow + "view all" action sit grounded
-                     on a scrim at the bottom-left. The ride's own name is left off: on a
-                     chapter page every ride is "the" ride, so the title only repeats the
-                     page. A roze hesje of this chapter also gets a quiet "add photos" link. --}}
+                     photo fills the tile and opens the lightbox; "Recentste parade" leads as
+                     a big heading top-left, with the calendar tear-off (date it was) + the
+                     "view all" action grounded bottom-left. The ride's own name is left off:
+                     on a chapter page every ride is "the" ride, so the title only names the
+                     band. A roze hesje of this chapter also gets a quiet "add photos" link. --}}
                 <li class="chapter-gallery__cell chapter-gallery__cell--feature">
                     <div class="chapter-latest">
                         <button
@@ -288,6 +279,8 @@
                         >
                             <img src="{{ $posterPhoto->getUrl('card') }}" alt="" class="chapter-latest__bg">
                         </button>
+
+                        <h3 class="chapter-latest__title">Recentste parade</h3>
 
                         <div class="chapter-latest__overlay">
                             <time
@@ -302,12 +295,17 @@
                                 </span>
                             </time>
 
-                            <div class="chapter-latest__lockup">
-                                <h3 class="chapter-latest__eyebrow">Recentste parade</h3>
-                                <x-cta-button variant="blue" size="sm" x-on:click="open(0, $event)">{{ $ridePhotoCount > 1 ? "{$ridePhotoCount} foto's" : '1 foto' }}</x-cta-button>
-                            </div>
+                            <x-cta-button variant="blue" size="sm" class="chapter-latest__action" x-on:click="open(0, $event)">{{ $ridePhotoCount > 1 ? "{$ridePhotoCount} foto's" : '1 foto' }}</x-cta-button>
                         </div>
                     </div>
+                </li>
+
+                {{-- The dual-logic opt-in rides in the wall — on the XL wall it pins to the
+                     top row's right pair (cols 3–4), beside the poster and first photo.
+                     Guests get the subscribe teaser; logged-in followers get the volunteer
+                     ask. Placed up here so it's present even on a single-photo gallery. --}}
+                <li class="chapter-gallery__optin">
+                    <x-newsletter-optin :group="$group" :show-join="true" prominent class="h-full" />
                 </li>
 
                 @foreach ($tilePhotos as $media)
@@ -374,25 +372,7 @@
     @if ($team->isNotEmpty())
         <section class="chapter-body chapter-team">
             <div class="chapter-team__carousel"
-                x-data="{
-                    start: true,
-                    end: false,
-                    scrollable: true,
-                    page(dir) { const t = $refs.track; const card = t.querySelector('.chapter-team__card'); if (!card) return; const step = card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0); t.scrollBy({ left: dir * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); },
-                    update() {
-                        const t = $refs.track;
-                        const max = t.scrollWidth - t.clientWidth;
-                        const card = t.querySelector('.chapter-team__card');
-                        const step = card ? card.offsetWidth + parseFloat(getComputedStyle(t).columnGap || 0) : 0;
-                        this.scrollable = max > 1;
-                        // half-a-card tolerance both ends: the full-bleed track's snap
-                        // leaves a few-dozen px of lead-in scroll at rest, so an exact
-                        // 0 / max test never fires
-                        this.start = step === 0 || t.scrollLeft <= step / 2;
-                        this.end = step > 0 && max - t.scrollLeft <= step / 2;
-                    }
-                }"
-                x-init="$nextTick(() => update())"
+                x-data="teamCarousel"
                 x-on:resize.window="update()">
                 <div class="chapter-team__head">
                     <div class="chapter-team__intro">
@@ -401,9 +381,12 @@
                     </div>
                 </div>
 
-                <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}" x-on:scroll.passive="update()">
+                <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}"
+                    :class="{ 'is-grabbing': dragging, 'is-snapoff': dragging || animating }"
+                    x-on:scroll.passive="update()"
+                    @pointerdown="onDown($event)" @pointermove="onMove($event)" @pointerup="onUp()" @pointercancel="onUp()">
                     @foreach ($team as $member)
-                        <li class="chapter-team__card">
+                        <li class="chapter-team__card" @pointermove="lean($event)" @pointerleave="leaveLean($event)">
                             <span class="chapter-team__photo">
                                 <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
                             </span>

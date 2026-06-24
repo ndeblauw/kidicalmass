@@ -636,6 +636,10 @@
         align-items: flex-end;
         gap: 0.375rem;
     }
+    /* Lift the departure pin off the map with a soft drop shadow that follows its shape. */
+    .activity-map-marker svg {
+        filter: drop-shadow(0 2px 3px color-mix(in oklab, var(--color-kidical-ink), transparent 55%));
+    }
     .activity-map-label {
         font-family: var(--font-heading);
         font-size: var(--text-sm);

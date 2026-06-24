@@ -14,7 +14,7 @@
         <p class="roze-preview__when">Mogelijk <time datetime="2026-07-12">zondag 12 juli</time>, datum nog te bevestigen.</p>
 
         <div class="roze-preview__status">
-            <strong class="roze-preview__status-title">Wat moet er nog gebeuren</strong>
+            <strong class="roze-preview__status-title roze-card-title">Wat moet er nog gebeuren</strong>
             <p class="roze-preview__status-body">De route is gekozen, maar de communicatiekaart is nog niet ingevuld. Zodra die klaar is, kondigen de kapiteins de rit aan.</p>
         </div>
 

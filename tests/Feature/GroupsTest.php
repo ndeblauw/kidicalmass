@@ -242,10 +242,10 @@ test('group show mixes parent and direct content with correct ordering', functio
 
     // News was CUT from the chapter page (Critique v3) — only the typed activity agenda remains.
     $response->assertOk()
-        ->assertSee('Volgende rit')                                  // the §2 next-ride card leads
+        ->assertSee('Volgende fietsparade')                          // the §2 next-ride card leads
         ->assertSee(route('activities.show', $nearestActivity), false) // it features the NEAREST ride (incl. parent/region)
         ->assertSee('Child place')            // the nearest ride's meeting point, in the card
-        ->assertSee('Parent place')           // later ride listed in the §3 strip
+        ->assertSee(route('activities.show', $laterActivity), false) // later ride listed in the §3 parades strip (pill links to it; venue no longer shown there)
         ->assertDontSee('Past Child Activity')
         ->assertDontSee('Articles from Parent Groups')
         ->assertDontSee('Activities from Parent Groups')
@@ -286,9 +286,9 @@ test('chapter home leads with the next ride in NL, not metadata', function () {
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Volgende rit')                          // §2 card eyebrow — parade leads the page
+        ->assertSee('Volgende fietsparade')                  // §2 card eyebrow — parade leads the page
         ->assertSee('Place Colignon')                        // the ride's venue
-        ->assertSee('Bekijk deze rit')                       // the click-through affordance cue
+        ->assertSee('Bekijk deze parade')                    // the click-through affordance cue
         ->assertSee(route('activities.show', $next), false)  // the whole card links to the ride detail
         ->assertDontSee('Part of:')
         ->assertDontSee('Organised by')
@@ -362,7 +362,7 @@ test('chapter agenda labels a workshop as a workshop, never as a ride', function
         ->assertOk()
         // No ride → the warm empty-ride state, NOT the workshop dressed up as a ride.
         ->assertSee('Nog geen fietstocht gepland')
-        // The workshop title appears in the §4 sky band of activity cards.
+        // The workshop title appears in the "Ook in {gemeente}" rail.
         ->assertSee('Fietscheck en sleutelworkshop')
         ->assertSee('Ook in')
         // A workshop never gets the ride CTA.
@@ -384,11 +384,11 @@ test('chapter agenda accents a meeting blue on its calendar lockup', function ()
 
     get(route('groups.show', $group))
         ->assertOk()
-        // The meeting title appears in the §4 sky band of activity cards.
+        // The meeting title appears in the "Ook in {gemeente}" rail (reuses <x-ride-row>;
+        // the title carries the kind, so there's no separate NL type label any more).
         ->assertSee('Vrijwilligersmeeting')
         ->assertSee('Ook in')
-        // The §4 type chip reads in NL ("Vergadering"), never the English enum label.
-        ->assertSee('Vergadering')
+        // Never the English enum label, and never the ride CTA.
         ->assertDontSee('Meeting')
         ->assertDontSee('Naar de fietstocht');
 });
@@ -558,11 +558,36 @@ test('chapter gallery shows the latest past ride photos under a grounded lockup'
 
     get(route('groups.show', $group))
         ->assertOk()
-        ->assertSee('Zo ziet het eruit in Schaarbeek') // warm lead-in heading over the wall
-        ->assertSee('Recentste parade')      // the lockup eyebrow names the band
+        ->assertSee('Recentste parade')      // the poster heading names the band (top-left)
         ->assertSee('chapter-latest__rail')  // the calendar tear-off (date it was)
         ->assertSee("3 foto's")              // the photo-count action opens the full set
         ->assertSee('chapter-gallery__tile'); // photo tiles render on the wall
+});
+
+test('the opt-in card is woven into the gallery wall — subscribe for guests', function () {
+    Storage::fake('media');
+    $group = Group::create(['shortname' => 'sbg-opt', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    pastRideFor($group, 'Bright Light Parade', now()->subWeeks(2), photos: 3);
+
+    get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('chapter-gallery__optin') // the card spans cols 3–4 inside the wall
+        ->assertSee('Mis geen rit')           // guests get the subscribe teaser
+        ->assertSee('Schrijf je in')
+        ->assertDontSee('help mee als vrijwilliger'); // the join bridge line is gone
+});
+
+test('the gallery opt-in escalates a logged-in follower to volunteer', function () {
+    Storage::fake('media');
+    $group = Group::create(['shortname' => 'sbg-vol', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
+    pastRideFor($group, 'Bright Light Parade', now()->subWeeks(2), photos: 3);
+
+    actingAs(User::factory()->create())
+        ->get(route('groups.show', $group))
+        ->assertOk()
+        ->assertSee('chapter-gallery__optin')
+        ->assertSee('Word vrijwilliger')   // signed-in followers get the volunteer ask
+        ->assertDontSee('Schrijf je in');  // no subscribe CTA once you're in
 });
 
 test('chapter gallery caps the wall at six tiles (the last two XL-only) while the lightbox keeps the full set', function () {
@@ -775,7 +800,7 @@ test('the §2 subscribe CTA is decoupled beneath the ride card, not nested insid
         // The subscribe link goes STRAIGHT to the newsletter page — no in-between reveal/card.
         ->assertSee(route('newsletter.show', ['locale' => app()->getLocale()]), false)
         // ... and it sits AFTER the card's own link — decoupled beneath the single-affordance card.
-        ->assertSeeInOrder(['Bekijk deze rit', 'Kan je er niet bij deze keer?']);
+        ->assertSeeInOrder(['Bekijk deze parade', 'Kan je er niet bij deze keer?']);
 });
 
 test('§7 join block defaults to collapsed state without intent param', function () {

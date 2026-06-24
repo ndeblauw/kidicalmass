@@ -101,20 +101,22 @@
         }
     }
 
-    /* 3b · LATEST-RIDE GALLERY ("In beeld") — a "Laatste rit" lockup card leads a masonry
-       wall of the ride's first photos at their own proportions (no cropping); the rest live
-       in the lightbox. Mobile: two columns. Wide: three. The opt-in closes the section as a
-       calm full-width band below the wall. */
+    /* 3b · LATEST-RIDE GALLERY ("In beeld") — a "Recentste parade" poster leads a grid wall
+       of the ride's photos; the dual-logic opt-in card is woven INTO the wall, spanning two
+       columns of the top row so its light-blue surface breaks the run of photo-tops. The
+       rest of the set lives in the lightbox. Mobile: two columns. Wide: three. XL: four. */
     .chapter-gallery__grid {
         list-style: none;
         margin: 0;
         padding: 0;
-        columns: 2;
-        column-gap: calc(var(--spacing) * 5);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: calc(var(--spacing) * 5);
+        grid-auto-flow: row dense;
     }
     @media (min-width: 48rem) {
         .chapter-gallery__grid {
-            columns: 3;
+            grid-template-columns: repeat(3, 1fr);
         }
     }
     /* Two extra photos earn their place only on the wider XL wall. */
@@ -123,25 +125,45 @@
     }
     @media (min-width: 80rem) {
         .chapter-gallery__grid {
-            columns: 4;
+            grid-template-columns: repeat(4, 1fr);
         }
         .chapter-gallery__cell--xl {
             display: block;
         }
     }
-    /* Each cell is a masonry item — keep it whole within its column, with even vertical
-       rhythm matching the column gap. */
+    /* Each photo tile is a square cell; images crop to fill it (object-fit). The poster
+       feature is taller, spanning two rows so it anchors the wall like an editorial lead. */
     .chapter-gallery__cell {
-        break-inside: avoid;
-        margin-bottom: calc(var(--spacing) * 5);
+        margin: 0;
+        aspect-ratio: 1 / 1;
+    }
+    .chapter-gallery__cell--feature {
+        aspect-ratio: auto;
+        grid-row: span 2;
+    }
+    /* The dual-logic opt-in card, set into the wall: two columns wide. On the XL wall it
+       pins to the top-right pair (cols 3–4), beside the poster and the first photo. */
+    .chapter-gallery__optin {
+        grid-column: span 2;
+    }
+    @media (min-width: 80rem) {
+        .chapter-gallery__cell--feature {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
+        .chapter-gallery__optin {
+            grid-column: 3 / span 2;
+            grid-row: 1;
+        }
     }
 
-    /* The "Recentste parade" lockup — a full-bleed photo poster leading the wall. The
-       ride's first photo fills it (at its native proportions, clickable into the
-       lightbox); a dark scrim carries one grounded cluster at the bottom-left: the
-       calendar tear-off (date it was), then a stacked eyebrow + "view all" action. */
+    /* The "Recentste parade" poster — a full-bleed photo leading the wall. The ride's first
+       photo fills the tall feature cell (cropped to fill, clickable into the lightbox). A
+       big title sits top-left; the calendar tear-off (date it was) + the "view all" action
+       are grounded bottom-left. Scrims top and bottom keep both clusters legible. */
     .chapter-latest {
         position: relative;
+        height: 100%;
         border-radius: var(--radius-card);
     }
     /* The photo — a button so the whole poster opens the lightbox; ::after is the scrim. */
@@ -149,6 +171,7 @@
         position: relative;
         display: block;
         width: 100%;
+        height: 100%;
         padding: 0;
         border: 0;
         background: none;
@@ -158,7 +181,8 @@
     }
     .chapter-latest__bg {
         width: 100%;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
         display: block;
         transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -170,17 +194,32 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(
-            to top,
-            color-mix(in oklab, var(--color-kidical-ink), transparent 8%) 0%,
-            color-mix(in oklab, var(--color-kidical-ink), transparent 45%) 30%,
-            transparent 62%
-        );
+        background:
+            linear-gradient(
+                to bottom,
+                color-mix(in oklab, var(--color-kidical-ink), transparent 35%) 0%,
+                transparent 32%
+            ),
+            linear-gradient(
+                to top,
+                color-mix(in oklab, var(--color-kidical-ink), transparent 8%) 0%,
+                color-mix(in oklab, var(--color-kidical-ink), transparent 45%) 30%,
+                transparent 62%
+            );
     }
-    /* The bottom-left cluster: date tear-off on the left, eyebrow + action
-       stacked to its right. Bottoms align so it reads as one grounded unit.
-       In the narrowest columns (mobile, tight tablet) it wraps the lockup
-       below the date rather than truncating. */
+    /* The title — promoted to a real heading, top-left, in the display face. */
+    .chapter-latest__title {
+        position: absolute;
+        top: calc(var(--spacing) * 5);
+        left: calc(var(--spacing) * 5);
+        right: calc(var(--spacing) * 5);
+        z-index: 2;
+        margin: 0;
+        color: white;
+        pointer-events: none;
+    }
+    /* The bottom-left cluster: date tear-off on the left, the single "view all" action
+       beside it. Bottoms align so it reads as one grounded unit. */
     .chapter-latest__overlay {
         position: absolute;
         inset: auto 0 0 0;
@@ -192,22 +231,8 @@
         padding: calc(var(--spacing) * 5);
         pointer-events: none;
     }
-    /* Eyebrow + the single action, stacked beside the date. */
-    .chapter-latest__lockup {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: calc(var(--spacing) * 2);
+    .chapter-latest__action {
         pointer-events: auto;
-    }
-    .chapter-latest__eyebrow {
-        font-family: var(--font-sans);
-        font-size: var(--text-sm);
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: white;
-        margin: 0;
     }
     /* The calendar tear-off — now grounded inline, left of the lockup. */
     .chapter-latest__rail {
@@ -224,6 +249,7 @@
     .chapter-gallery__tile {
         display: block;
         width: 100%;
+        height: 100%;
         padding: 0;
         border: 0;
         background: none;
@@ -231,10 +257,11 @@
         overflow: hidden;
         border-radius: var(--radius-card);
     }
-    /* Native proportions — the photo keeps its own aspect ratio, no cropping. */
+    /* The photo crops to fill its square cell so the grid stays even. */
     .chapter-gallery__img {
         width: 100%;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
         display: block;
         transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -402,15 +429,19 @@
 
     /* 2b · OOK IN GEMEENTE — the chapter's other activities (workshops, meetings) as a
        quiet sidebar beside the parade (was a full-bleed sky band). A small uppercase
-       eyebrow title keeps it subordinate; the cards stack vertically down the rail. */
-    .chapter-aside__title {
+       eyebrow keeps it subordinate; each entry is an <x-other-activity> row (its own
+       component + CSS partial), and this list just supplies the hairline dividers. */
+    /* Shared secondary-zone eyebrow: the "Ook in {gemeente}" rail and the "Ook gepland"
+       parades strip read as the same tier, so they wear the same small uppercase label. */
+    .chapter-aside__title,
+    .chapter-parades-strip .chapter-section__title {
         font-family: var(--font-sans);
         font-size: var(--text-sm);
         font-weight: 700;
-        letter-spacing: 0.1em;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-        margin: 0 0 0.9rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        margin: 0 0 14px;
     }
     .chapter-aside__list {
         list-style: none;
@@ -418,7 +449,10 @@
         padding: 0;
         display: flex;
         flex-direction: column;
-        gap: clamp(0.85rem, 2vw, 1.15rem);
+    }
+    /* Hairline between entries; the row's own padding-block carries the rhythm. */
+    .chapter-aside__item + .chapter-aside__item {
+        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
     }
 
     /* DECOUPLED SUBSCRIBE — a quiet, secondary line beneath the ride card (never inside
@@ -522,32 +556,37 @@
     }
     .chapter-next__empty-body { margin-top: 0.5rem; color: var(--color-kidical-ink); }
 
-    /* 3 · ALLE PARADES — the remaining upcoming rides as a tight, secondary list paired
-       under §2. Lighter than the featured parade: a calm divider rhythm, the ride titles
-       a step down from §2's lead, so the eye reads this as "the rest, in order". */
-    .chapter-parades-strip__list {
-        margin-top: 1.5rem;
-        display: flex;
-        flex-direction: column;
-    }
-    /* Each day is a row in the list, set apart by a hairline rather than air alone. */
-    .chapter-parades-strip__list .ride-day {
-        padding-block: clamp(0.9rem, 2vw, 1.25rem);
-        border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-        margin-top: 0;
-    }
-    .chapter-parades-strip__list .ride-day:first-child {
-        border-top: 0;
+    /* 3 · OOK GEPLAND — the remaining upcoming rides as a compact, secondary strip paired
+       under §2. It belongs to §2's "what's on" zone, not a new section: no top air, and a
+       small heading so it reads as "the rest" beneath the featured next ride. Each ride is
+       a wrapping <x-ride-pill> card-chip. */
+    /* The eyebrow and the pills share one line: the label sits at the left and the chips
+       flow to its right, wrapping. On narrow screens the chip row drops below the label. */
+    .chapter-parades-strip {
+        /* Paired tightly under §2's card, not floated as its own section: cancel most of
+           §2's bottom air with a negative top margin, and trim the bottom padding before
+           the gallery. (Top margin only applies when the strip renders, so a single-ride
+           chapter keeps §2's normal spacing.) */
         padding-top: 0;
+        margin-top: clamp(-2.75rem, -4vw, -1.5rem);
+        padding-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 1rem;
+        row-gap: 0.6rem;
     }
-    /* A step down from §2's featured title, a step up from nothing — the secondary tier. */
-    .chapter-parades-strip__list .ride-row__place {
-        font-size: 1.5rem;
+    /* Eyebrow styling is shared with .chapter-aside__title above; drop its bottom margin
+       now that it sits inline, to the left of the pills. */
+    .chapter-parades-strip .chapter-section__title {
+        flex: none;
+        margin: 0;
     }
-    .chapter-parades-strip__all {
-        display: inline-block;
-        margin-top: 1.5rem;
-        font-weight: 700;
+    .chapter-parades-strip__list {
+        flex: 1 1 18rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
     }
 
     /* 7 · YELLOW CLOSING BAND — the "help mee" recruitment climax, fused with the footer.
@@ -635,24 +674,48 @@
         cursor: pointer;
         /* soft ambient lift, not the hard sticker offset */
         box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
-        transition: transform 0.18s ease-out, background-color 0.18s ease-out;
+        transition:
+            transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+            background-color 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+            visibility 0s;
         padding: 0;
     }
     .chapter-team__btn svg {
         width: 1.75rem;
         height: 1.75rem;
+        transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    /* The chevron leans toward its travel direction on hover — a tiny "go that way"
+       cue layered under the button's own rise (prev = left, next = right). */
+    .chapter-team__nav .chapter-team__btn:first-child:not(:disabled):hover svg { transform: translateX(-2px); }
+    .chapter-team__nav .chapter-team__btn:last-child:not(:disabled):hover svg { transform: translateX(2px); }
+    /* A gentle rise, not a blunt pop: a smaller scale + a 2px lift and a softer,
+       deeper shadow, eased on a decelerating quint curve so it settles in instead
+       of snapping. */
     .chapter-team__btn:not(:disabled):hover {
         background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
-        transform: scale(1.08);
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 14px 26px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
+    /* Quick, shallow press — responsive on the way down, soft release via the base curve. */
     .chapter-team__btn:not(:disabled):active {
-        transform: scale(0.94);
+        transform: scale(0.97);
+        transition-duration: 0.12s;
     }
-    /* hide the unusable arrow at the ends rather than greying it (matches the help-out
-       roles carousel) */
+    /* At the ends the unusable arrow fades + shrinks away rather than snapping out
+       (it was a hard visibility flip). The base rule fades it back in instantly-
+       visible; here `visibility 0s 0.26s` delays the hidden flip until the fade
+       finishes, so it still leaves the a11y tree once it's invisible. */
     .chapter-team__btn:disabled {
+        opacity: 0;
+        transform: scale(0.85);
         visibility: hidden;
+        transition:
+            transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+            visibility 0s linear 0.26s;
     }
 
     .chapter-team__track {
@@ -670,8 +733,17 @@
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
+        cursor: grab;
     }
     .chapter-team__track::-webkit-scrollbar { display: none; }
+    /* Flick-through (mouse/pen): a grabbing cursor while dragging, and snap is
+       suspended during the JS-driven drag/fling/spring so it can't fight the
+       scrollLeft we set each frame. Touch keeps native momentum + snap. */
+    .chapter-team__track.is-grabbing { cursor: grabbing; user-select: none; }
+    .chapter-team__track.is-snapoff { scroll-snap-type: none; }
+    /* The card nearest the track centre lifts into focus (--focus, 0..1, set per
+       frame by the carousel script as you scroll/fling). A second shadow grows
+       with it for depth; the base soft shadow always stays. */
     .chapter-team__card {
         flex: 0 0 auto;
         scroll-snap-align: start;
@@ -679,8 +751,14 @@
         background: white;
         padding: 0.75rem 0.75rem 1.1rem;
         border-radius: var(--radius-tile);
-        box-shadow: var(--shadow-card);
         text-align: center;
+        transform-origin: center bottom;
+        transform: translateY(calc(var(--focus, 0) * -0.45rem)) scale(calc(1 + var(--focus, 0) * 0.05));
+        box-shadow:
+            var(--shadow-card),
+            0 calc(var(--focus, 0) * 16px) calc(var(--focus, 0) * 34px) calc(var(--focus, 0) * -10px)
+                color-mix(in oklab, var(--color-kidical-ink) calc(var(--focus, 0) * 28%), transparent);
+        transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s ease-out;
     }
     .chapter-team__photo {
         display: grid;
@@ -696,7 +774,16 @@
     .chapter-team__card:nth-child(5n+3) .chapter-team__photo { background: color-mix(in oklab, var(--color-kidical-red), white 80%); }
     .chapter-team__card:nth-child(5n+4) .chapter-team__photo { background: color-mix(in oklab, var(--color-kidical-green), white 78%); }
     .chapter-team__card:nth-child(5n)   .chapter-team__photo { background: color-mix(in oklab, var(--color-kidical-orange), white 80%); }
-    .chapter-team__photo img { max-width: 88%; max-height: 88%; object-fit: contain; }
+    /* Magnetic lean: the character tips toward the cursor (--lean-*, set by the
+       carousel script on hover; mouse only, reset on leave). */
+    .chapter-team__photo img {
+        max-width: 88%;
+        max-height: 88%;
+        object-fit: contain;
+        transform: translate(var(--lean-x, 0), var(--lean-y, 0)) rotate(var(--lean-r, 0));
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+    }
 
     .chapter-team__name { display: block; font-weight: 700; color: var(--color-kidical-ink); line-height: 1.1; }
     /* Plain body text under the bold name — no eyebrow treatment (inherits the body
@@ -704,6 +791,37 @@
     .chapter-team__role {
         display: block;
         margin-top: 0.2rem;
+    }
+
+    /* Flick-through respects reduced motion: no focus lift, no lean, no easing
+       (the script also pins --focus to 0 and skips drag/lean under this query). */
+    @media (prefers-reduced-motion: reduce) {
+        .chapter-team__card,
+        .chapter-team__photo img {
+            transform: none;
+            transition: none;
+        }
+        .chapter-team__card {
+            box-shadow: var(--shadow-card);
+        }
+        /* Nav buttons keep their colour feedback but drop the scale/lift/nudge motion,
+           and the end arrow snaps out instead of fading. */
+        .chapter-team__btn {
+            transition: background-color 0.15s linear;
+        }
+        .chapter-team__btn:disabled {
+            transition: none;
+        }
+        .chapter-team__btn:not(:disabled):hover,
+        .chapter-team__btn:not(:disabled):active {
+            transform: none;
+        }
+        .chapter-team__btn svg {
+            transition: none;
+        }
+        .chapter-team__nav .chapter-team__btn:not(:disabled):hover svg {
+            transform: none;
+        }
     }
 
     @media (max-width: 640px) {
@@ -938,38 +1056,6 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
     }
 
-    /* OOK IN GEMEENTE — the activity card itself (now lives in the §2 right rail,
-       .chapter-aside; was a full-bleed sky band). White on white, separated by a soft
-       shadow so it echoes the next-ride feature card's material. */
-    .chapter-other__card {
-        background-color: white;
-        border-radius: var(--radius-card);
-        padding: clamp(1.25rem, 3vw, 1.75rem);
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-        box-shadow: var(--shadow-card);
-    }
-    .chapter-other__type {
-        font-size: var(--text-sm);
-        font-weight: 700;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
-    }
-    .chapter-other__title {
-        font-family: var(--font-heading);
-        font-size: var(--text-xl);
-        font-weight: 800;
-        color: var(--color-kidical-ink);
-        margin: 0;
-        line-height: 1.2;
-    }
-    .chapter-other__loc {
-        margin: 0;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-    }
 }
 
 @layer components {

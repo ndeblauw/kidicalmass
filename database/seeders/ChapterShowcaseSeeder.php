@@ -63,10 +63,28 @@ class ChapterShowcaseSeeder extends Seeder
             return;
         }
 
-        // Hero cover — the group's own identity photo, via the tested command (it
-        // clears the collection first, so this stays idempotent). The "In beeld"
-        // wall (the latest ride's photos) is owned by ChapterRideGallerySeeder.
-        Artisan::call('dev:seed-group-gallery', ['--group' => [$group->id], '--count' => 6]);
+        // Hero cover — the group's own identity photo: a posed group shot from a
+        // Schaarbeek ride (cover first), via the tested command (it clears the
+        // collection first, so this stays idempotent). Only the first gallery photo
+        // surfaces, as the hero cover; the rest round out the collection. The "In
+        // beeld" wall (the latest ride's photos) is owned by ChapterRideGallerySeeder.
+        $coverFirst = [
+            'ride-group-photo-bandstand.webp',        // hero cover: the group posed together at the kiosk
+            'ride-group-celebration-station.webp',
+            'ride-brussels-boulevard-crowd.webp',
+            'ride-crowd-intersection.webp',
+            'ride-park-crowd-cheering-namur.webp',
+            'ride-brussels-street-crowd-portrait.webp',
+        ];
+
+        Artisan::call('dev:seed-group-gallery', [
+            '--group' => [$group->id],
+            '--source' => array_map(
+                fn (string $file): string => public_path("img/photography/{$file}"),
+                $coverFirst,
+            ),
+            '--count' => count($coverFirst),
+        ]);
 
         // A second real trekker so the team carousel shows more than one face.
         $cohost = User::firstOrCreate(

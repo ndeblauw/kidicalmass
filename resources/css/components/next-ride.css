@@ -1,35 +1,23 @@
 @layer components {
     /* NEXT-RIDE FEATURE CARD (chapter §2) — a custom, richer ride card (not the list
-       <x-ride-row>). Light on white: a soft red eyebrow, the date as the Caprasimo
-       focal point, a chip meta row, a stylised route map on the right, and a benefit
-       opt-in footer. The whole body is one link to the ride detail; a hover lift +
-       "Bekijk deze rit" cue advertise the click. */
+       <x-ride-row>). Light on white: a red Caprasimo title, a chip meta row, a stylised
+       route map on the right, and the signature <x-cta-button> as the primary action. */
     .next-ride {
         position: relative;
         background-color: white;
+        border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-card);
         box-shadow: var(--shadow-card);
         overflow: hidden;
-        transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-            box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    /* Lift the whole card when the body link is hovered or keyboard-focused. */
-    .next-ride:has(.next-ride__body:hover),
-    .next-ride:has(.next-ride__body:focus-visible) {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-hover);
     }
 
-    /* The clickable body: text column + map. Stacks on mobile (map as a band below). */
+    /* The body: text column + map. Stacks on mobile (map as a band below). Positioned
+       so the primary button can overlay the map. */
     .next-ride__body {
+        position: relative;
         display: grid;
         grid-template-columns: 1fr;
         align-items: stretch;
-        color: inherit;
-    }
-    .next-ride__body:focus-visible {
-        outline: 0.18rem solid var(--color-kidical-blue);
-        outline-offset: -0.18rem;
     }
     @media (min-width: 48rem) {
         .next-ride__body {
@@ -41,33 +29,28 @@
         padding: clamp(1.6rem, 3.5vw, 2.2rem);
     }
 
-    /* Soft red eyebrow — echoes the hero eyebrow (Nunito, regular weight, sentence
-       case), red because it sits on white. */
-    .next-ride__eyebrow {
-        font-family: var(--font-sans);
-        font-weight: 400;
-        font-size: clamp(var(--text-base), 1.4vw, var(--text-xl));
-        line-height: 1.3;
-        color: var(--color-kidical-red);
-        margin: 0 0 0.35rem;
+    .next-ride__headline {
+        margin: 0 0 1.4rem;
     }
 
-    /* The date is the focal point. */
-    .next-ride__date {
+    /* Title — the brand's pink (red) Caprasimo as the card's hero, sitting in the text
+       column. No plate, no break-out. */
+    .next-ride__title {
         font-family: var(--font-heading);
-        font-size: clamp(2.1rem, 4.2vw, 3rem);
-        line-height: 1;
-        color: var(--color-kidical-ink);
-        margin: 0 0 1.1rem;
+        font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+        line-height: 1.05;
+        color: var(--color-kidical-red);
+        margin: 0;
     }
 
-    /* Chip meta row (time · place · km) — the brand icon-chip motif carries the colour;
-       value sits beside it. The <dl> keys are visually hidden. */
+    /* Meta block (when · place · km). The chips are a single ink tone — colour on this
+       card is reserved for identity (pink plate + route) and the one blue action. Every
+       row gets the same quiet treatment; the <dl> keys are visually hidden. */
     .next-ride__meta {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.6rem 1.4rem;
+        gap: 0.65rem 1.4rem;
         margin: 0 0 1.3rem;
     }
     .next-ride__meta-item {
@@ -77,42 +60,61 @@
     }
     .next-ride__meta dd {
         margin: 0;
-        font-weight: 700;
-        color: var(--color-kidical-ink);
-    }
-
-    .next-ride__desc {
-        margin: 0 0 1.3rem;
-        max-width: 42ch;
-        line-height: 1.5;
+        font-weight: 400;
         color: var(--color-text-body);
     }
 
-    /* The click cue — a quiet blue "go" affordance that animates on card hover. */
-    .next-ride__more {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        font-weight: 700;
-        color: var(--color-kidical-blue);
-    }
-    .next-ride__more svg {
-        transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .next-ride:has(.next-ride__body:hover) .next-ride__more svg {
-        transform: translateX(0.25rem);
+    /* Primary action — the shared <x-cta-button>, anchored over the map's bottom-right
+       corner. The button supplies its own appearance and motion; we only place it. */
+    .next-ride__cta {
+        position: absolute;
+        z-index: 3;
+        right: clamp(0.9rem, 2.5vw, 1.4rem);
+        bottom: clamp(0.9rem, 2.5vw, 1.4rem);
     }
 
     /* Route map. Fills its grid cell; on mobile it's a band below the text. Holds either
        the real Leaflet preview (<x-route-map>) or the faux SVG placeholder. */
     .next-ride__map {
         position: relative;
+        z-index: 1;
         min-height: 13rem;
         background-color: var(--color-kidical-light-blue);
     }
-    /* The Leaflet preview is decorative: swallow its pointer events so the card link
-       underneath stays the single click target. The two-class selector outweighs
-       Leaflet's own `.leaflet-interactive` rule without needing !important. */
+    /* Soften the hard white/map seam: a slightly rotated white-to-transparent wash that
+       bleeds in from the card's edge. Anchored at the seam and gone before it reaches the
+       route or pin (centre/right); the CTA keeps its own higher z-index, so the wash sits
+       over the tiles only. On mobile the map is a band below the text, so the seam — and
+       the fade — is along the top edge. */
+    .next-ride__map::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        /* Above Leaflet's own panes (its .leaflet-map-pane sits at z-index 400), so the
+           wash lands over the tiles+route. It can't reach the CTA: the whole map is one
+           stacking context (.next-ride__map, z-index 1) below the button (z-index 3). */
+        z-index: 410;
+        pointer-events: none;
+        background: linear-gradient(
+            188deg,
+            white 0%,
+            color-mix(in oklab, white, transparent 40%) 12%,
+            transparent 34%
+        );
+    }
+    @media (min-width: 48rem) {
+        .next-ride__map::after {
+            background: linear-gradient(
+                100deg,
+                white 0%,
+                color-mix(in oklab, white, transparent 40%) 11%,
+                transparent 32%
+            );
+        }
+    }
+    /* The Leaflet preview is decorative: swallow its pointer events so it never steals
+       interaction from the primary button sitting over it. The two-class selector
+       outweighs Leaflet's own `.leaflet-interactive` rule without needing !important. */
     .next-ride__map.leaflet-container,
     .next-ride__map .leaflet-pane,
     .next-ride__map .leaflet-control-container {
@@ -146,17 +148,6 @@
     }
 
     /* The "stay informed" CTA is intentionally NOT in this card — it lives decoupled
-       beneath it (.chapter-parade__subscribe in pages/chapters.css), so the card stays
-       a single, unambiguous link to the ride. */
-
-    @media (prefers-reduced-motion: reduce) {
-        .next-ride,
-        .next-ride__more svg {
-            transition: none;
-        }
-        .next-ride:has(.next-ride__body:hover),
-        .next-ride:has(.next-ride__body:focus-visible) {
-            transform: none;
-        }
-    }
+       beneath it (.chapter-parade__subscribe in pages/chapters.css), so it never competes
+       with the card's primary "Bekijk deze rit" action. */
 }

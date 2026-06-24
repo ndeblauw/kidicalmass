@@ -31,7 +31,10 @@
         <script src="https://unpkg.com/leaflet@1.9/dist/leaflet.js"></script>
         <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const brandRed = getComputedStyle(document.documentElement).getPropertyValue('--color-kidical-red').trim() || '#E63A7B';
+            const rootStyle = getComputedStyle(document.documentElement);
+            const brandRed = rootStyle.getPropertyValue('--color-kidical-red').trim() || '#E63A7B';
+            const brandYellow = rootStyle.getPropertyValue('--color-kidical-yellow').trim() || '#f9d924';
+            const brandInk = rootStyle.getPropertyValue('--color-kidical-ink').trim() || '#281a39';
 
             document.querySelectorAll('.js-route-map').forEach((el) => {
                 const coords = JSON.parse(el.dataset.coordinates || '[]');
@@ -57,7 +60,10 @@
                     maxZoom: 19,
                 }).addTo(map);
 
-                const polyline = L.polyline(coords, { color: brandRed, weight: 5, opacity: 0.95 }).addTo(map);
+                // Yellow track over a dark casing — the ink outline gives the pale brand
+                // yellow real contrast against the light CARTO tiles.
+                L.polyline(coords, { color: brandInk, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round' }).addTo(map);
+                const polyline = L.polyline(coords, { color: brandYellow, weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round' }).addTo(map);
 
                 map.invalidateSize();
                 map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });

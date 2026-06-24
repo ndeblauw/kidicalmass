@@ -1,0 +1,51 @@
+@layer components {
+    /* Each upcoming parade as a self-contained white card-chip; the whole chip is the
+       link. A short date (muted) leads, the title (blue) carries the name. The chips
+       wrap in a flowing row — compact and scannable, structured without a calendar
+       lockup. A soft shadow lifts the chip on hover so it reads as a tappable card. */
+    .ride-pill {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.55em;
+        max-width: 100%;
+        padding: 0.4rem 0.9rem;
+        background: white;
+        border: 1px solid var(--color-kidical-hairline);
+        border-radius: 999px;
+        font-size: 1.05rem;
+        line-height: 1.25;
+        box-shadow: 0 1px 2px color-mix(in oklab, var(--color-kidical-ink), transparent 95%);
+        transition:
+            border-color 0.15s var(--ease-brand),
+            box-shadow 0.15s var(--ease-brand),
+            transform 0.15s var(--ease-brand);
+    }
+    .ride-pill__date {
+        flex: none;
+        color: var(--color-text-body);
+    }
+    .ride-pill__title {
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+        /* A long title wraps inside the chip on narrow screens rather than pushing it
+           past the viewport edge. */
+        overflow-wrap: anywhere;
+        transition: color 0.15s var(--ease-brand);
+    }
+    .ride-pill__star {
+        font-size: 0.85em;
+        color: var(--color-kidical-orange);
+    }
+    .ride-pill:hover {
+        border-color: color-mix(in oklab, var(--color-kidical-blue), transparent 55%);
+        box-shadow: 0 6px 16px -8px color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
+        transform: translateY(-1px);
+    }
+    /* Phones: a touch tighter on type, a touch taller in padding for a comfortable tap. */
+    @media (max-width: 480px) {
+        .ride-pill {
+            padding: 0.45rem 0.8rem;
+            font-size: 1rem;
+        }
+    }
+}

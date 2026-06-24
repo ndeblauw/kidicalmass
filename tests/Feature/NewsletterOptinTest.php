@@ -72,9 +72,12 @@ test('chapter page shows the localised opt-in teaser, with and without a ride', 
         'location' => 'Place Colignon', 'author_id' => $author->id,
     ])->groups()->attach($group);
 
+    // v4: with a ride, the opt-in card is replaced by a decoupled subscribe line beneath
+    // the next-ride card, linking straight to the newsletter sign-up (never competing
+    // with the card). The localised "Mis geen rit" teaser is reserved for the empty state.
     get(route('groups.show', ['locale' => 'nl', 'group' => $group]))
         ->assertOk()
         ->assertDontSee('Nog geen fietstocht gepland')
-        ->assertSee('Mis geen rit')
-        ->assertSee('uit Schaarbeek', escape: false);
+        ->assertSee('Kan je er niet bij deze keer?')
+        ->assertSee(route('newsletter.show', ['locale' => 'nl']), escape: false);
 });
