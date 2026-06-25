@@ -171,19 +171,16 @@ it('renders the Steun support page with its key NL sections', function () {
         ->assertSee('Steun Kidical Mass')
         // Mission-led hero: the cause leads the ask.
         ->assertSee('Samen maken we straten veilig voor kinderen.')
-        // Proof of impact backs the ask with real, sourced numbers, shown as a stat-card deck.
-        ->assertSee('Van één rit naar heel België')
-        ->assertSee('5.500')
-        ->assertSee('60+')
-        ->assertSee('16/19')
-        ->assertSee('ritten per jaar')
+        // Proof + load share one story section; the stat deck backs it with live
+        // numbers (the always-present local-groups card; values asserted in
+        // SupportStatsTest / SteunOnsPageTest, which seed the data).
+        ->assertSee('Een grote beweging op de schouders van een klein team')
+        ->assertSee(__('support.stat_groups'))
         ->assertSee('Steun vanaf €3 per maand')
-        // The riding-stays-free reassurance is non-negotiable (and not phrased as a threat).
-        ->assertSee('Meefietsen blijft altijd gratis')
         // Links out to Growfunding; the site processes no payments.
         ->assertSee('growfunding.be')
-        // No backer count (dropped); movement scale instead.
-        ->assertSee('honderden gezinnen')
+        // The single closing ask reassures that riding stays free.
+        ->assertSee('meefietsen blijft altijd gratis')
         // Terminology: "lid" is retired; tone of voice: no em-dashes.
         ->assertDontSee('Word lid')
         ->assertDontSee('Lid worden')

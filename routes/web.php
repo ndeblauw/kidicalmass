@@ -19,6 +19,7 @@ use App\Models\Group;
 use App\Models\PressArticle;
 use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
+use App\Support\SupportStats;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -92,7 +93,9 @@ Route::prefix('{locale}')
         // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
         // `membership` (links use route('membership')). The old /membership path 301s
         // here so anything indexed from the old site keeps resolving.
-        Route::view('steun-ons', 'steun-ons')->name('membership');
+        Route::get('steun-ons', fn () => view('steun-ons', [
+            'proofCards' => (new SupportStats)->cards(),
+        ]))->name('membership');
         Route::get('membership', fn (string $locale) => redirect()->route('membership', ['locale' => $locale], 301))->name('membership.legacy');
 
         // Contact (national).

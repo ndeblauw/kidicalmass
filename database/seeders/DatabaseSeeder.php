@@ -9,6 +9,7 @@ use App\Models\ContactForm;
 use App\Models\Group;
 use App\Models\Partner;
 use App\Models\User;
+use App\Models\YearStat;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -38,6 +39,8 @@ class DatabaseSeeder extends Seeder
 
         $this->seedUsers();
         $this->seedActivities();
+        $this->seedHistoricalRides();
+        $this->seedYearStats();
         $this->seedArticles();
         $this->seedPartners();
         $this->seedContactForms();
@@ -124,6 +127,60 @@ class DatabaseSeeder extends Seeder
 
                 $this->attachSampleGpx($activity);
             }
+        });
+    }
+
+    /**
+     * A believable 2025 ride archive so the "Steun ons" proof deck can count a
+     * real "ritten in 2025" figure (App\Support\SupportStats). Lightweight on
+     * purpose: plain creates, no media or GPX, spread across local chapters and
+     * the calendar year. These also populate the calendar's "voorbije" tab.
+     */
+    private function seedHistoricalRides(): void
+    {
+        $this->task('Seeding 2025 ride archive', function () {
+            $blurbNl = 'Een rustige, feestelijke fietstocht op kindermaat door de buurt. We reden traag, met muziek voorop, langs veilige straten en pleintjes.';
+            $blurbFr = "Une parade à vélo joyeuse et tranquille, à hauteur d'enfant, dans le quartier. On a roulé lentement, en musique, le long de rues sûres.";
+
+            $names = Group::pluck('name', 'shortname');
+            $shortnames = array_keys($this->groupIds);
+            $postals = ['1000', '1030', '1050', '1070', '1080', '1090', '1180', '1200', '5000', '7000', '9000', '2000'];
+
+            $start = Carbon::create(2025, 1, 11, 14, 0);
+
+            // 62 rides -> matches the "meer dan 60 parades" story, all within 2025.
+            foreach (range(0, 61) as $i) {
+                $shortname = $shortnames[$i % count($shortnames)];
+                $name = $names[$shortname] ?? 'Kidical Mass';
+
+                $activity = Activity::create([
+                    'title_nl' => 'Kidical Mass '.$name,
+                    'title_fr' => 'Kidical Mass '.$name,
+                    'content_nl' => $blurbNl,
+                    'content_fr' => $blurbFr,
+                    'activity_type' => ActivityType::KIDICALMASS,
+                    'begin_date' => (clone $start)->addDays($i * 5),
+                    'location' => $name,
+                    'postal_code' => $postals[$i % count($postals)],
+                    'duration_minutes' => 60,
+                    'published' => true,
+                    'author_id' => $this->authors[$i % $this->authors->count()]->id,
+                ]);
+
+                $activity->groups()->attach($this->groupIds[$shortname]);
+            }
+        });
+    }
+
+    /**
+     * The curated per-year impact figure the admin edits (year_stats). There is
+     * no attendance tracking to derive this from, so the participant count is
+     * seeded by hand to match the current copy.
+     */
+    private function seedYearStats(): void
+    {
+        $this->task('Seeding year stats', function () {
+            YearStat::updateOrCreate(['year' => 2025], ['participants' => 5500]);
         });
     }
 
