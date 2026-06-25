@@ -48,3 +48,30 @@ it('passes extra attributes (e.g. a page layout class) onto the card root', func
 
     expect($html)->toContain('gs-expect-card');
 });
+
+it('renders the compact md size with the roze-card title face and tighter padding', function () {
+    $html = Blade::render(
+        '<x-feature-card icon="users" title="X" size="md">body</x-feature-card>'
+    );
+
+    expect($html)
+        ->toContain('roze-card-title')   // compact title face
+        ->toContain('p-6')               // compact padding
+        ->toContain('size-6')            // compact icon
+        ->not->toContain('p-10')         // not the full-size card
+        ->not->toContain('feature-card'); // compact drops the identity hook
+});
+
+it('roze-card is a thin alias for the compact feature-card', function () {
+    $html = Blade::render(
+        '<x-roze-card icon="users" title="Je rijdt mee" color="orange">samen op pad</x-roze-card>'
+    );
+
+    expect($html)
+        ->toContain('Je rijdt mee')
+        ->toContain('samen op pad')
+        ->toContain('roze-card-title')
+        ->toContain('bg-kidical-orange')
+        ->toContain('p-6')
+        ->toContain('size-6');
+});
