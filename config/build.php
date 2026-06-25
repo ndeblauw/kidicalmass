@@ -58,7 +58,7 @@ return [
         '/chapters' => ['view' => 'resources/views/groups/index.blade.php', 'route' => 'chapters'],
         '/chapters/start-een-groep' => ['view' => 'resources/views/groups/start.blade.php', 'route' => 'chapters/start-een-groep'],
         '/chapters/[postal-code]' => ['view' => 'resources/views/groups/show.blade.php', 'route' => 'chapters/{group}'],
-        '/chapters/[postal-code]/roze-hesjes' => ['view' => 'resources/views/groups/roze-hesjes.blade.php', 'route' => 'chapters/{group}/roze-hesjes'],
+        '/chapters/[postal-code]/roze-hesjes' => ['view' => 'resources/views/groups/roze-hesjes/overzicht.blade.php', 'route' => 'chapters/{group}/roze-hesjes'],
         '/getting-started' => ['view' => null, 'route' => 'getting-started'],
         '/find-a-bike' => ['view' => 'resources/views/find-a-bike.blade.php', 'route' => 'find-a-bike'],
         '/help-out' => ['view' => null, 'route' => 'help-out'],
