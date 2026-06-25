@@ -70,5 +70,6 @@ return [
         '/about/press' => ['view' => null, 'route' => 'about/press'],
         '/about/partners' => ['view' => null, 'route' => 'about/partners'],
         '/admin' => ['view' => null, 'route' => 'admin'],
+        '/nieuwsbrief' => ['view' => 'resources/views/nieuwsbrief.blade.php', 'route' => 'nieuwsbrief'],
     ],
 ];
