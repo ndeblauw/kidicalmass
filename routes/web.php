@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
@@ -15,6 +16,7 @@ use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
+use App\Models\Article;
 use App\Models\Group;
 use App\Models\PressArticle;
 use App\Models\User;
@@ -147,6 +149,49 @@ if (! app()->isProduction()) {
 
         return (new WelcomeNotification($group))->toMail($volunteer);
     })->name('prototype.mail.welcome');
+
+    // Monthly group-update digest (J1 #6). Demo group: Schaarbeek. Real recap rides
+    // and upcoming activities; faux pink vests + article so every block is visible.
+    Route::get('prototype/mail/groep-update', function () {
+        $group = Group::where('name', 'Schaarbeek')->firstOrFail();
+
+        $recentRidesWithPhotos = $group->activities()
+            ->where('begin_date', '<', now())
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->get();
+
+        $upcomingActivities = $group->activities()
+            ->where('published', true)
+            ->whereBetween('begin_date', [now(), now()->addMonths(3)])
+            ->orderBy('begin_date')
+            ->get();
+
+        $pinkVests = collect(['Sofie Maes', 'Mehmet Yilmaz', 'Lars De Smet'])
+            ->map(fn (string $name) => (new User)->forceFill(['name' => $name]));
+
+        $article = (new Article)->forceFill([
+            'title_nl' => 'Een massa kets kleurt de Haachtsesteenweg',
+            'content_nl' => 'De buurt liep uit voor de lenterit: muziek, bakfietsen en kinderen die de straat even helemaal voor zich hadden. De pers pikte het op.',
+        ]);
+
+        $result = new GroupChangesResult(
+            startDate: now()->subMonth(),
+            endDate: now(),
+            group: $group,
+            newActivities: collect(),
+            updatedActivities: collect(),
+            newCaptains: collect(),
+            newPinkVests: $pinkVests,
+            newInterested: collect(),
+            newArticles: collect([$article]),
+            updatedArticles: collect(),
+            recentRidesWithPhotos: $recentRidesWithPhotos,
+            upcomingActivities: $upcomingActivities,
+        );
+
+        return view('emails.group-update', ['changes' => collect([$result])]);
+    })->name('prototype.mail.group-update');
 }
 
 Route::middleware(['auth'])->prefix('admin')->group(function (): void {

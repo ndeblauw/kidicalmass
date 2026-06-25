@@ -5,6 +5,8 @@ use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
     $this->group = Group::factory()->create();
@@ -170,6 +172,90 @@ it('detects updated articles in the date range', function () {
 
     expect($changes->updatedArticles)->toHaveCount(1)
         ->and($changes->newArticles)->toBeEmpty();
+});
+
+it('collects recent rides that happened in range and have gallery photos', function () {
+    Storage::fake('media');
+
+    $withPhotos = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->subDays(5),
+    ]);
+    $withPhotos->addMedia(UploadedFile::fake()->image('rit.jpg', 40, 30))->toMediaCollection('gallery');
+    $this->group->activities()->attach($withPhotos);
+
+    $withoutPhotos = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->subDays(6),
+    ]);
+    $this->group->activities()->attach($withoutPhotos);
+
+    $changes = (new GetGroupChangesAction($this->group, $this->startDate, $this->endDate))->execute();
+
+    expect($changes->recentRidesWithPhotos)->toHaveCount(1)
+        ->and($changes->recentRidesWithPhotos->first()->is($withPhotos))->toBeTrue()
+        ->and($changes->hasAny())->toBeTrue();
+});
+
+it('excludes rides outside the window or without photos from recentRidesWithPhotos', function () {
+    Storage::fake('media');
+
+    $old = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->subMonths(3),
+    ]);
+    $old->addMedia(UploadedFile::fake()->image('oud.jpg', 40, 30))->toMediaCollection('gallery');
+    $this->group->activities()->attach($old);
+
+    $changes = (new GetGroupChangesAction($this->group, $this->startDate, $this->endDate))->execute();
+
+    expect($changes->recentRidesWithPhotos)->toBeEmpty();
+});
+
+it('collects published upcoming activities within the look-ahead horizon', function () {
+    $soon = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->addWeeks(2),
+        'published' => true,
+    ]);
+    $this->group->activities()->attach($soon);
+
+    $unpublished = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->addWeeks(3),
+        'published' => false,
+    ]);
+    $this->group->activities()->attach($unpublished);
+
+    $tooFar = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->addMonths(6),
+        'published' => true,
+    ]);
+    $this->group->activities()->attach($tooFar);
+
+    $changes = (new GetGroupChangesAction($this->group, $this->startDate, $this->endDate))->execute();
+
+    expect($changes->upcomingActivities)->toHaveCount(1)
+        ->and($changes->upcomingActivities->first()->is($soon))->toBeTrue();
+});
+
+it('does not let upcoming activities alone trigger hasAny', function () {
+    // Planned at year-start (created/updated before the window) so it is only
+    // "upcoming", not a fresh new/updated activity.
+    $soon = Activity::factory()->create([
+        'author_id' => $this->author->id,
+        'begin_date' => now()->addWeeks(2),
+        'published' => true,
+        'created_at' => now()->subMonths(3),
+        'updated_at' => now()->subMonths(3),
+    ]);
+    $this->group->activities()->attach($soon);
+
+    $changes = (new GetGroupChangesAction($this->group, $this->startDate, $this->endDate))->execute();
+
+    expect($changes->upcomingActivities)->toHaveCount(1)
+        ->and($changes->hasAny())->toBeFalse();
 });
 
 it('uses default dates when none are provided', function () {

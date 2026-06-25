@@ -19,8 +19,16 @@ class GroupChangesResult
         public readonly Collection $newInterested,
         public readonly Collection $newArticles,
         public readonly Collection $updatedArticles,
+        public readonly Collection $recentRidesWithPhotos,
+        public readonly Collection $upcomingActivities,
     ) {}
 
+    /**
+     * Whether there is anything *fresh* worth mailing about. Upcoming activities
+     * are deliberately excluded: they are usually non-empty (the calendar is built
+     * at the start of the year), so they must not force a monthly mail on their own.
+     * Recent rides with photos do count, since a new recap is genuine fresh value.
+     */
     public function hasAny(): bool
     {
         return $this->newActivities->isNotEmpty()
@@ -29,7 +37,8 @@ class GroupChangesResult
             || $this->newPinkVests->isNotEmpty()
             || $this->newInterested->isNotEmpty()
             || $this->newArticles->isNotEmpty()
-            || $this->updatedArticles->isNotEmpty();
+            || $this->updatedArticles->isNotEmpty()
+            || $this->recentRidesWithPhotos->isNotEmpty();
     }
 
     public function summary(): array
