@@ -29,7 +29,7 @@
         width: 100%;
         padding: 0.85rem 1.1rem;
         border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 85%);
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         background: white;
         color: var(--color-kidical-ink);
     }
@@ -110,7 +110,7 @@
         padding: 0.3rem 0.8rem;
         font-size: 0.9rem;
         border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 85%);
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
         cursor: pointer;
         user-select: none;
@@ -184,7 +184,7 @@
         justify-content: center;
         width: 1.35rem;
         height: 1.35rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         background: color-mix(in oklab, var(--color-kidical-blue), transparent 86%);
         color: var(--color-kidical-blue);
         font-size: 0.72rem;

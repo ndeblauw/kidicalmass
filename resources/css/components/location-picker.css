@@ -1,6 +1,6 @@
 .leaflet-control-attribution {
     font-size: 10px !important;
-    background: rgb(255 255 255 / 0.7) !important;
+    background: color-mix(in oklab, white, transparent 30%) !important;
 }
 
 .location-picker {
@@ -200,7 +200,7 @@
     margin: 0;
     padding: 0.6rem 0.6rem 0.6rem 1.1rem;
     background: white;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
     font-family: var(--font-sans);
     font-weight: 700;
@@ -230,7 +230,7 @@
     background: var(--color-kidical-yellow);
     color: var(--color-kidical-ink);
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     padding: 0.4rem 0.95rem;
     font-family: var(--font-sans);
     font-weight: 700;
@@ -269,7 +269,10 @@
 .location-picker--compact .location-picker__change {
     background: transparent;
     border-radius: 0;
-    padding: 0;
+    /* Grow the vertical tap area without shifting the inline layout. */
+    padding-block: 0.5rem;
+    margin-block: -0.5rem;
+    padding-inline: 0;
     font-size: var(--text-sm);
     font-weight: 400;
     color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);

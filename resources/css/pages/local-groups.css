@@ -23,7 +23,7 @@
         cursor: pointer;
         border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
         background: white;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         padding: 0.5rem 1rem;
         font-family: var(--font-sans);
         font-weight: 800;
@@ -45,12 +45,12 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
     }
     .grp-region-btn.is-active .grp-region-btn__count {
-        color: rgb(255 255 255 / 0.7);
+        color: color-mix(in oklab, white, transparent 30%);
     }
     .grp-region-btn__dot {
         width: 0.7rem;
         height: 0.7rem;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         flex: none;
     }
 
@@ -58,14 +58,14 @@
     .grp-region-btn__pin {
         width: 0.55rem;
         height: 0.55rem;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         flex: none;
         background: var(--color-kidical-red);
         box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-red), transparent 75%);
     }
     .grp-region-btn--nearby.is-active .grp-region-btn__pin {
         background: white;
-        box-shadow: 0 0 0 3px rgb(255 255 255 / 0.3);
+        box-shadow: 0 0 0 3px color-mix(in oklab, white, transparent 70%);
     }
 
     /* Region colours — shared by selector dots and list-card dots. */
@@ -139,7 +139,7 @@
     }
     .grp-card__link:hover {
         border-color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
-        box-shadow: 0 8px 22px -12px rgb(40 26 57 / 0.4);
+        box-shadow: 0 8px 22px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
         transform: translateY(-1px);
     }
     .grp-card.is-active .grp-card__link {
@@ -155,7 +155,7 @@
         border-radius: 50% 50% 50% 0;
         transform: rotate(-45deg);
         border: 2px solid white;
-        box-shadow: 0 2px 6px rgb(40 26 57 / 0.3);
+        box-shadow: 0 2px 6px color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
         flex: none;
     }
     .grp-card__main {
@@ -195,7 +195,7 @@
         position: relative;
         border-radius: 1.25rem;
         overflow: hidden;
-        box-shadow: 0 24px 60px -28px rgb(40 26 57 / 0.45);
+        box-shadow: 0 24px 60px -28px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
         border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
     }
     @media (max-width: 47.99rem) {
@@ -213,12 +213,12 @@
         top: 1rem;
         z-index: 500;
         margin: 0;
-        background: rgb(255 255 255 / 0.94);
-        border-radius: 999px;
+        background: color-mix(in oklab, white, transparent 6%);
+        border-radius: var(--radius-pill);
         padding: 0.45rem 0.95rem;
         font-weight: 800;
         font-size: var(--text-sm);
-        box-shadow: 0 6px 18px rgb(40 26 57 / 0.18);
+        box-shadow: 0 6px 18px color-mix(in oklab, var(--color-kidical-ink), transparent 82%);
     }
 
     /* Leaflet divIcon pins */
@@ -229,7 +229,7 @@
         border-radius: 50% 50% 50% 0;
         transform: rotate(-45deg);
         border: 2.5px solid white;
-        box-shadow: 0 3px 8px rgb(40 26 57 / 0.4);
+        box-shadow: 0 3px 8px color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
         transition: opacity 0.25s, transform 0.15s;
     }
     .grp-pin--me {
@@ -241,15 +241,15 @@
     .grp-pin.is-hot { transform: rotate(-45deg) scale(1.4); z-index: 1000 !important; }
     /* Permanent marker labels — group title only, click leads to the group page. */
     .grp-marker-label.leaflet-tooltip {
-        background: rgb(255 255 255 / 0.92);
+        background: color-mix(in oklab, white, transparent 8%);
         border: none;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         padding: 0.1rem 0.5rem;
         font-family: var(--font-sans);
         font-weight: 800;
         font-size: var(--text-xs);
         color: var(--color-kidical-ink);
-        box-shadow: 0 2px 8px rgb(40 26 57 / 0.22);
+        box-shadow: 0 2px 8px color-mix(in oklab, var(--color-kidical-ink), transparent 78%);
         white-space: nowrap;
         cursor: pointer;
     }
@@ -270,7 +270,7 @@
     }
     .grp-pill {
         display: inline-block;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
         background: white;
         padding: 0.55rem 1.15rem;

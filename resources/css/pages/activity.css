@@ -579,7 +579,7 @@
     .activity-team__face {
         width: 3.4rem;
         height: 3.4rem;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         border: 3px solid white;
         background: var(--color-kidical-light-blue);
         display: flex;
@@ -600,7 +600,7 @@
     .activity-team__more {
         width: 3.4rem;
         height: 3.4rem;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         border: 3px solid white;
         background: var(--color-kidical-yellow);
         display: flex;

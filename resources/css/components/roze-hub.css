@@ -4,14 +4,14 @@
         position: sticky;
         top: 0;
         z-index: 20;
-        background: #fff;
+        background: white;
     }
 
     /* === App-shell top bar ================================================ */
     /* Calm white bar (NOT red) — a logged-in member workspace, not the
        marketing megaphone. Red survives only as the role accent. */
     .roze-shell-bar {
-        background: #fff;
+        background: white;
     }
 
     .roze-shell-bar__inner {
@@ -67,7 +67,7 @@
 
     /* === Hub sub-nav ====================================================== */
     .roze-subnav {
-        background: #fff;
+        background: white;
         border-bottom: 1px solid var(--color-kidical-hairline);
     }
 
@@ -93,7 +93,7 @@
         font-weight: 700;
         font-size: 0.85rem;
         padding: 0.375rem 0.8125rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
         transition: color 0.18s var(--ease-brand), background 0.18s var(--ease-brand);
     }
@@ -114,7 +114,7 @@
         font-weight: 700;
         font-size: 0.85rem;
         padding: 0.4375rem 0.9375rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         color: var(--color-kidical-ink);
         background: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
     }

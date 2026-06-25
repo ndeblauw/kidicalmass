@@ -41,7 +41,7 @@
         flex-shrink: 0;
         width: 2.75rem;
         height: 2.75rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         background-color: var(--color-kidical-red);
         color: white;
         font-family: var(--font-heading);
@@ -67,7 +67,7 @@
     @media (min-width: 768px) { .roze-onboarding__cards { grid-template-columns: repeat(2, 1fr); } }
     .roze-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; max-width: 48rem; }
     .roze-step { display: flex; gap: 1rem; align-items: flex-start; background-color: white; border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 1.25rem; }
-    .roze-step__num { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2.75rem; height: 2.75rem; border-radius: 9999px; background-color: var(--color-kidical-blue); color: white; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); }
+    .roze-step__num { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-pill); background-color: var(--color-kidical-blue); color: white; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); }
     .roze-step__title { display: block; margin-bottom: 0.25rem; }
     .roze-step__body { color: var(--color-text-body); line-height: 1.5; }
 
@@ -122,7 +122,7 @@
         font-size: var(--text-xs);
         font-weight: 800;
         padding: 0.15rem 0.55rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
     }
     .roze-material__badge--besloten { background-color: color-mix(in oklab, var(--color-kidical-red), white 82%); color: var(--color-kidical-red); }
     .roze-material__badge--publiek { background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%); color: var(--color-kidical-blue); }
@@ -132,7 +132,7 @@
     .roze-roster__new {
         margin-left: auto; align-self: center;
         font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.03em;
-        padding: 0.15rem 0.55rem; border-radius: 9999px;
+        padding: 0.15rem 0.55rem; border-radius: var(--radius-pill);
         background-color: var(--color-kidical-red); color: white;
     }
 
@@ -155,7 +155,7 @@
         text-transform: uppercase; letter-spacing: 0.04em;
         color: var(--color-kidical-red);
         background-color: color-mix(in oklab, var(--color-kidical-red), white 86%);
-        padding: 0.1rem 0.5rem; border-radius: 9999px; margin-bottom: 0.25rem;
+        padding: 0.1rem 0.5rem; border-radius: var(--radius-pill); margin-bottom: 0.25rem;
     }
     .roze-draft__hint { font-size: var(--text-sm); color: var(--color-kidical-red); font-weight: 700; }
 
@@ -166,7 +166,7 @@
         display: inline-block; font-size: var(--text-sm); font-weight: 800;
         text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-kidical-red);
         background-color: color-mix(in oklab, var(--color-kidical-red), white 86%);
-        padding: 0.2rem 0.6rem; border-radius: 9999px; margin: 1rem 0 0.5rem;
+        padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); margin: 1rem 0 0.5rem;
     }
     .roze-preview__when { color: var(--color-text-body); margin-bottom: 1.5rem; }
     .roze-preview__status {
@@ -185,7 +185,7 @@
         font-size: var(--text-sm); font-weight: 700;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
         background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
-        border-radius: 9999px; padding: 0.45rem 0.9rem; cursor: not-allowed;
+        border-radius: var(--radius-pill); padding: 0.45rem 0.9rem; cursor: not-allowed;
     }
     .roze-gallery__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
     @media (min-width: 640px) { .roze-gallery__grid { grid-template-columns: repeat(3, 1fr); } }
@@ -202,7 +202,7 @@
     }
     .roze-whatsapp__title { display: block; }
     .roze-whatsapp__body { color: var(--color-text-body); }
-    .roze-whatsapp__btn { flex-shrink: 0; font-weight: 800; color: white; background-color: var(--color-kidical-blue); padding: 0.6rem 1.1rem; border-radius: 9999px; }
+    .roze-whatsapp__btn { flex-shrink: 0; font-weight: 800; color: white; background-color: var(--color-kidical-blue); padding: 0.6rem 1.1rem; border-radius: var(--radius-pill); }
 
     /* === Roze-hub Overview ================================================= */
     /* Surface rule: tappable (tile, feed) = hairline border + shadow-float,
@@ -250,7 +250,7 @@
         align-items: center;
         gap: 0.5625rem;
         text-decoration: none;
-        background: #fff;
+        background: white;
         border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-tile);
         box-shadow: var(--shadow-float);
@@ -282,7 +282,7 @@
         align-items: center;
         gap: 0.8125rem;
         text-decoration: none;
-        background: #fff;
+        background: white;
         border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-card);
         box-shadow: var(--shadow-float);

@@ -13,7 +13,7 @@ body:has(.activity-actions-bar) .site-footer {
     margin-inline: auto;
     border-radius: var(--radius-card) var(--radius-card) 0 0;
     background-color: var(--color-kidical-ink);
-    color: rgba(255, 255, 255, 0.55);
+    color: color-mix(in oklab, white, transparent 45%);
     font-size: var(--text-base);
 }
 
@@ -41,7 +41,7 @@ body:has(.activity-actions-bar) .site-footer {
 .site-footer__tagline {
     font-size: var(--text-base);
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.5);
+    color: color-mix(in oklab, white, transparent 50%);
     max-width: 220px;
 }
 
@@ -66,7 +66,7 @@ body:has(.activity-actions-bar) .site-footer {
 
 .site-footer__links a {
     font-size: var(--text-base);
-    color: rgba(255, 255, 255, 0.7);
+    color: color-mix(in oklab, white, transparent 30%);
     background-image: none;
     transition: color 0.2s;
 
@@ -82,9 +82,15 @@ body:has(.activity-actions-bar) .site-footer {
 }
 
 .site-footer__social-link {
-    color: rgba(255, 255, 255, 0.6);
+    color: color-mix(in oklab, white, transparent 40%);
     background-image: none;
-    display: block;
+    /* 24px icon in a >=44px tap target; the negative margin cancels the padding
+       so the visual layout (and row gap) is unchanged. */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem;
+    margin: -0.625rem;
     transition: color 0.2s;
 
     &:hover {
@@ -100,14 +106,14 @@ body:has(.activity-actions-bar) .site-footer {
 }
 
 .site-footer__funder {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid color-mix(in oklab, white, transparent 90%);
     padding-block: 1.25rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem 1rem;
     font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.5);
+    color: color-mix(in oklab, white, transparent 50%);
 }
 
 .site-footer__funder-logo {
@@ -118,17 +124,17 @@ body:has(.activity-actions-bar) .site-footer {
 }
 
 .site-footer__bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid color-mix(in oklab, white, transparent 90%);
     padding-block: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.45);
+    color: color-mix(in oklab, white, transparent 55%);
 }
 
 .site-footer__bottom a {
-    color: rgba(255, 255, 255, 0.7);
+    color: color-mix(in oklab, white, transparent 30%);
     background-image: none;
     transition: color 0.2s;
 
@@ -147,12 +153,12 @@ body:has(.activity-actions-bar) .site-footer {
 }
 
 .site-footer__bottom-links a {
-    color: rgba(255, 255, 255, 0.45);
+    color: color-mix(in oklab, white, transparent 55%);
     background-image: none;
     transition: color 0.2s;
 
     &:hover {
-        color: rgba(255, 255, 255, 0.8);
+        color: color-mix(in oklab, white, transparent 20%);
         background-image: none;
     }
 }

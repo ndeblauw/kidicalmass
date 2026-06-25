@@ -91,7 +91,7 @@
     .home-hero__title {
         max-width: 18ch;
         text-align: center;
-        color: #fff;
+        color: white;
         font-size: clamp(3.375rem, 6.75vw, 6.75rem);
         line-height: 1.0;
         /* Hard offset shadow (no blur) in 20% kidical-ink for a graphic, poster feel. */
@@ -141,7 +141,7 @@
     .home-intro {
         flex: 0 0 auto;
         background: var(--color-kidical-blue);
-        color: #fff;
+        color: white;
         padding-block: clamp(1.75rem, 3vw, 2.75rem);
     }
 
@@ -149,7 +149,7 @@
         margin-block: 0;
         margin-inline: auto;
         max-width: 42ch;
-        color: #fff;
+        color: white;
     }
 
     /* Beat 3 — the lead and scroll-cue fade up last, now after the header has
@@ -183,7 +183,7 @@
 
     .home-intro__link {
         font-weight: 700;
-        color: #fff;
+        color: white;
     }
 
     .home-intro__link:hover {
@@ -194,7 +194,7 @@
     /* Scroll cue: a bare down-arrow nudging you to the panel below. */
     .home-intro__scroll {
         display: inline-flex;
-        color: #fff;
+        color: white;
         line-height: 0;
         background-image: none;
         transition: opacity 0.15s ease;

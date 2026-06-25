@@ -46,6 +46,50 @@ test('body clips horizontal overflow so full-bleed 100vw bands cannot cause a ph
     expect($appCss)->toMatch('/body\s*\{[^}]*overflow-x:\s*clip;[^}]*\}/');
 });
 
+test('css partials do not hardcode raw hex or ink/white rgb literals', function () {
+    // Colours in partials must come from tokens or color-mix() — never raw hex
+    // or the ink/white values spelled out as rgb(). px is allowed (borders, radii,
+    // shadow geometry) since there are no border/radius spacing tokens yet.
+    $violations = [];
+
+    foreach (cssPartials() as $partial) {
+        $content = File::get($partial->getPathname());
+
+        preg_match_all('/#[0-9a-fA-F]{3,8}\b/', $content, $hex);
+        // The ink (#281a39) and white spelled out as rgb()/rgba() — space- or
+        // comma-separated — bypass the hex check.
+        preg_match_all('/rgba?\(\s*40[\s,]+26[\s,]+57\b[^)]*\)/i', $content, $ink);
+        preg_match_all('/rgba?\(\s*255[\s,]+255[\s,]+255\b[^)]*\)/i', $content, $white);
+
+        $hits = array_merge($hex[0], $ink[0], $white[0]);
+        if ($hits !== []) {
+            $violations[$partial->getFilename()] = array_values(array_unique($hits));
+        }
+    }
+
+    expect($violations)->toBe(
+        [],
+        'Raw colour literals in CSS partials (use a token or color-mix): '.json_encode($violations, JSON_PRETTY_PRINT)
+    );
+});
+
+test('every css partial wraps its rules in an @layer', function () {
+    // An unlayered partial wins the cascade over every @layer components partial
+    // regardless of source order — a silent specificity footgun.
+    $violations = [];
+
+    foreach (cssPartials() as $partial) {
+        if (! str_contains(File::get($partial->getPathname()), '@layer')) {
+            $violations[] = $partial->getFilename();
+        }
+    }
+
+    expect($violations)->toBe(
+        [],
+        'CSS partials missing an @layer wrapper: '.json_encode($violations, JSON_PRETTY_PRINT)
+    );
+});
+
 test('blade components do not hardcode raw colors or px in styling contexts', function () {
     // Inherently raw-value components (SVG icons / logos / patterns).
     $allowlist = ['bike-icon', 'app-logo', 'app-logo-icon', 'placeholder-pattern'];

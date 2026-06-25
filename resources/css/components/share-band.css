@@ -58,7 +58,7 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.625rem 1.125rem;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         background-color: white;
         color: var(--color-kidical-ink);
         font-weight: 600;
@@ -85,7 +85,7 @@
         justify-content: center;
         width: 3rem;
         height: 3rem;
-        border-radius: 999px;
+        border-radius: var(--radius-pill);
         background-color: white;
         box-shadow: var(--shadow-float);
         background-image: none; /* opt out of the global text-link underline */

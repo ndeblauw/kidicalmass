@@ -345,7 +345,7 @@
     .chapter-team__btn {
         width: 4.5rem;
         height: 4.5rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         border: 0;
         background: var(--color-kidical-blue);
         color: white;
@@ -507,7 +507,7 @@
         bottom: 0.5rem;
         width: 2.1rem;
         height: 2.1rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         background: var(--color-kidical-blue);
         color: white;
         display: grid;
