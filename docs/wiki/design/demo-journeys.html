@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Demo journeys — arc & open gaps</title>
+<style>
+  :root {
+    --done: #16a34a;
+    --partly: #d97706;
+    --todo: #dc2626;
+    --decide: #64748b;
+    --ink: #0f172a;
+    --muted: #475569;
+    --hair: #e2e8f0;
+    --paper: #ffffff;
+    /* journey accents — uit journey-palette.md */
+    --j1-line:#16a34a; --j1-tint:#dcfce7; --j1-text:#14532d;
+    --j2-line:#ea580c; --j2-tint:#ffedd5; --j2-text:#7c2d12;
+    --j3-line:#7c3aed; --j3-tint:#ede9fe; --j3-text:#4c1d95;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0; background: #f1f5f9; color: var(--ink); line-height: 1.4;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .page {
+    width: 210mm; min-height: 297mm; margin: 12px auto; padding: 13mm 13mm 11mm;
+    background: var(--paper); box-shadow: 0 2px 12px rgba(15,23,42,.12);
+    display: flex; flex-direction: column;
+  }
+  @page { size: A4 portrait; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+  }
+
+  header { border-bottom: 3px solid var(--accent-line); padding-bottom: 10px; margin-bottom: 8px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    color: #fff; background: var(--accent-line); padding: 4px 11px; border-radius: 999px;
+  }
+  h1 { font-size: 24px; margin: 10px 0 3px; letter-spacing: -.01em; }
+  .lede { font-size: 12.5px; color: var(--muted); margin: 0; max-width: 70ch; }
+
+  /* ---- steps ---- */
+  .steps { flex: 1; margin-top: 12px; }
+  .step {
+    display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start;
+    padding: 7px 0; page-break-inside: avoid;
+  }
+  .num {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    background: var(--accent-tint); color: var(--accent-text); border: 1.5px solid var(--accent-line);
+  }
+  .num.trigger { background: #fff; border-style: dashed; color: var(--muted); }
+  .body { padding-top: 2px; }
+  .ttl { font-size: 13.5px; }
+  .ttl b { font-weight: 700; }
+  .ref { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: .03em; }
+
+  /* done = stil; gap = uitgelicht */
+  .step.done .ttl { color: #334155; }
+  .step.done .check { color: var(--done); font-weight: 800; margin-right: 4px; }
+
+  .gap { margin-top: 5px; padding: 7px 10px; border-radius: 7px; border-left: 4px solid; font-size: 11.5px; }
+  .gap .badge {
+    display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+    padding: 1px 7px; border-radius: 4px; margin-right: 7px; color: #fff; vertical-align: 1px;
+  }
+  .gap.partly { background: #fffbeb; border-left-color: var(--partly); }
+  .gap.partly .badge { background: var(--partly); }
+  .gap.todo   { background: #fef2f2; border-left-color: var(--todo); }
+  .gap.todo .badge { background: var(--todo); }
+  .gap.decide { background: #f8fafc; border-left-color: var(--decide); }
+  .gap.decide .badge { background: var(--decide); }
+
+  /* per-journey samenvatting */
+  .summary {
+    margin-top: 12px; padding: 11px 14px; border-radius: 9px;
+    background: var(--accent-tint); border: 1px solid var(--accent-line);
+  }
+  .summary .lbl { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent-text); }
+  .summary p { margin: 4px 0 0; font-size: 12px; color: #334155; }
+  .summary .tip { margin-top: 6px; font-size: 11px; color: var(--muted); font-style: italic; }
+
+  footer { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--hair);
+           display: flex; gap: 16px; flex-wrap: wrap; align-items: center; font-size: 10.5px; color: var(--muted); }
+  .legend-item { display: inline-flex; align-items: center; gap: 5px; }
+  .chip { display:inline-block; width: 11px; height: 11px; border-radius: 3px; }
+  .legend-note { margin-left: auto; font-style: italic; }
+
+  /* ---- build-checklist page ---- */
+  .page.list h1 { margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 12px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  th { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border-bottom: 2px solid var(--hair); }
+  td .tick { display:inline-block; width: 13px; height: 13px; border: 1.4px solid #64748b; border-radius: 3px; transform: translateY(2px); }
+  td.gapname b { font-weight: 700; }
+  td .owner { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #f1f5f9; color: #475569; }
+  .loop { margin-top: 16px; padding: 12px 16px; border-radius: 10px; background: #f8fafc; border: 1px dashed #cbd5e1; font-size: 12.5px; color: #334155; }
+  .loop b { color: var(--ink); }
+
+  .j1 { --accent-line: var(--j1-line); --accent-tint: var(--j1-tint); --accent-text: var(--j1-text); }
+  .j2 { --accent-line: var(--j2-line); --accent-tint: var(--j2-tint); --accent-text: var(--j2-text); }
+  .j3 { --accent-line: var(--j3-line); --accent-tint: var(--j3-tint); --accent-text: var(--j3-text); }
+  .neutral { --accent-line: #0f172a; }
+</style>
+</head>
+<body>
+
+<!-- ================= JOURNEY 1 ================= -->
+<section class="page j1">
+  <header>
+    <span class="kicker">🟢 Journey 1 · De eerste rijder</span>
+    <h1>Van onbekend naar geïnteresseerd</h1>
+    <p class="lede">Hoort erover → vindt een rit in de buurt → deelt → schrijft zich in → krijgt een mail → bekijkt foto's → steunt. Volledig frontstage, publiek. Het meeste werkt — de aandacht gaat naar wat nog open is.</p>
+  </header>
+
+  <div class="steps">
+    <div class="step done"><div class="num">1</div><div class="body"><div class="ttl"><span class="check">✓</span> Landt op <b>Home</b>, ziet <i>"volgende rit bij jou"</i> (echte proximity). <span class="ref">P-01</span></div></div></div>
+    <div class="step done"><div class="num">2</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Vindt een rit in de buurt</b> op de kalender (afstandsbands). <span class="ref">P-02</span></div></div></div>
+    <div class="step done"><div class="num">3</div><div class="body"><div class="ttl"><span class="check">✓</span> Opent het <b>ritdetail</b> (route, GPX, datum, iCal). <span class="ref">P-03</span></div></div></div>
+    <div class="step done"><div class="num">4</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Deelt</b> met vrienden (WhatsApp · Facebook · mailto). <span class="ref">P-03</span></div></div></div>
+    <div class="step"><div class="num">5</div><div class="body"><div class="ttl"><b>Schrijft zich in</b> voor updates. <span class="ref">P-24</span></div>
+      <div class="gap partly"><span class="badge">deels</span>UI werkt, maar <b>persistentie ontbreekt</b>: geen subscriber-model, geen dubbele opt-in.</div></div></div>
+    <div class="step"><div class="num">6</div><div class="body"><div class="ttl"><b>Krijgt een maandelijkse update-mail</b>. <span class="ref">P-24</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Zware bouwstenen klaar &amp; getest: <code>GetGroupChangesAction</code> (per-groep changes) + een afgewerkte mailtemplate. <b>Mist:</b> de lijm-mailable + trigger/schedule + ontvangers. <i>(Maandelijkse digest, geen RSVP — lost D-1 op.)</i></div></div></div>
+    <div class="step done"><div class="num">7</div><div class="body"><div class="ttl"><span class="check">✓</span> …en <b>bekijkt de foto's</b> (recap-galerij) — <i>dit zijn de foto's die J2 uploadt; lus sluit.</i> <span class="ref">P-03</span></div></div></div>
+    <div class="step done"><div class="num">8</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Beslist te steunen</b> (echte proof-stats, link-out Growfunding). <span class="ref">P-04</span></div></div></div>
+  </div>
+
+  <div class="summary">
+    <span class="lbl">⚠ Nog te bouwen in deze journey</span>
+    <p>De <b>nieuwsbrief-lijm</b>: subscriber-persistentie (5) + een mailable die <code>GetGroupChangesAction</code> in de bestaande template giet, met trigger/schedule (6). Rekenkern én mailtemplate bestaan al — kleiner dan het lijkt.</p>
+    <p class="tip">Demo-tip: de inschrijf-UI toont een optimistische bevestiging, en de mailtemplate is al productie-klaar — beide toonbaar.</p>
+  </div>
+
+  <footer>
+    <span class="legend-item"><span class="chip" style="background:var(--done)"></span>werkt &amp; live</span>
+    <span class="legend-item"><span class="chip" style="background:var(--partly)"></span>deels / faux / manueel</span>
+    <span class="legend-item"><span class="chip" style="background:var(--todo)"></span>nog te bouwen</span>
+    <span class="legend-item"><span class="chip" style="background:var(--decide)"></span>beslissing nodig</span>
+    <span class="legend-note">Kidical Mass · demo-blauwdruk</span>
+  </footer>
+</section>
+
+<!-- ================= JOURNEY 2 ================= -->
+<section class="page j2">
+  <header>
+    <span class="kicker">🟠 Journey 2 · De kandidaat-roze-hesje</span>
+    <h1>Van rijder naar lid</h1>
+    <p class="lede">Reed al mee → bekijkt de lokale groep → contacteert de kapiteins → krijgt een uitnodiging → bezoekt de roze-hesjes-hub → bereidt zich voor → deelt foto's (de foto's die J1 ziet).</p>
+  </header>
+
+  <div class="steps">
+    <div class="step done"><div class="num">1</div><div class="body"><div class="ttl"><span class="check">✓</span> Bekijkt de <b>lokale-groep-pagina</b> (echte agenda, laatste-rit-galerij). <span class="ref">P-11</span></div></div></div>
+    <div class="step"><div class="num">2</div><div class="body"><div class="ttl"><b>Contacteert de kapiteins</b> (<code>?intent=volunteer</code>). <span class="ref">P-11</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Formulier werkt &amp; slaat op, maar landt in de <b>centrale inbox</b> — routing naar de kapitein van die groep nog niet gebouwd.</div></div></div>
+    <div class="step"><div class="num">3</div><div class="body"><div class="ttl"><b>Krijgt een uitnodiging</b> (activatielink). <span class="ref">P-07</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Mail bestaat, maar <b>geen automatische trigger</b>; user + groepskoppeling gebeuren manueel in Filament.</div></div></div>
+    <div class="step"><div class="num">4</div><div class="body"><div class="ttl">Bezoekt de <b>roze-hesjes-hub</b>. <span class="ref">P-09</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Gating + agenda echt; <b>change-feed en materiaal nog faux</b>.</div></div></div>
+    <div class="step done"><div class="num">5</div><div class="body"><div class="ttl"><span class="check">✓</span> Leest de <b>getting-started</b>. <span class="ref">P-12</span></div></div></div>
+    <div class="step"><div class="num">6</div><div class="body"><div class="ttl"><b>Bereidt zich voor</b> op de eerste rit. <span class="ref">P-09</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Content statisch; <b>materiaalbibliotheek nog faux</b>.</div></div></div>
+    <div class="step done"><div class="num">7</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Deelt foto's</b> van die rit (upload-tool, lid-gated) — <i>foto's verschijnen op de publieke recap (J1 #7); lus sluit.</i> <span class="ref">P-09</span></div></div></div>
+  </div>
+
+  <div class="summary">
+    <span class="lbl">⚠ Nog te bouwen in deze journey</span>
+    <p><b>Kapitein-routing</b> (2) en <b>automatische uitnodiging + "accepteer-aanvrager"</b> (3); roze-hub <b>feed + materiaal</b> (4, 6). De overgang naar lid is vandaag manueel.</p>
+    <p class="tip">Demo-tip: de uitnodigingsmail is toonbaar via een prototype-route (<code>prototype.mail.invite</code>).</p>
+  </div>
+
+  <footer>
+    <span class="legend-item"><span class="chip" style="background:var(--done)"></span>werkt &amp; live</span>
+    <span class="legend-item"><span class="chip" style="background:var(--partly)"></span>deels / faux / manueel</span>
+    <span class="legend-item"><span class="chip" style="background:var(--todo)"></span>nog te bouwen</span>
+    <span class="legend-item"><span class="chip" style="background:var(--decide)"></span>beslissing nodig</span>
+    <span class="legend-note">Kidical Mass · demo-blauwdruk</span>
+  </footer>
+</section>
+
+<!-- ================= JOURNEY 3 ================= -->
+<section class="page j3">
+  <header>
+    <span class="kicker">🟣 Journey 3 · De kapitein</span>
+    <h1>Van lid naar trekker die publiceert</h1>
+    <p class="lede">Krijgt de aanmelding (J2) → bevestigt → plant een rit → WhatsApp "jaarplanning klaar" → ziet de concept-rides → verfijnt &amp; publiceert → ze verschijnen automatisch op de groepspagina (waar J1 ze ontdekt).</p>
+  </header>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body"><div class="ttl"><b>Krijgt de aanmelding</b> van de roze-hesje (J2). <span class="ref">P-21</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Komt in de centrale inbox, niet rechtstreeks bij de kapitein van die chapter.</div></div></div>
+    <div class="step"><div class="num">2</div><div class="body"><div class="ttl"><b>Bevestigt</b> het nieuwe lid. <span class="ref">P-21</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Manueel (<code>User</code> + <code>group_user</code>-pivot); geen "accepteer"-actie of auto-uitnodiging.</div></div></div>
+    <div class="step done"><div class="num">3</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Plant een volgende rit</b> in Filament (gescopet op eigen groep). <span class="ref">P-21</span></div></div></div>
+    <div class="step"><div class="num trigger">4</div><div class="body"><div class="ttl"><i>Trigger:</i> <b>WhatsApp</b> "jaarplanning klaar".</div>
+      <div class="gap decide"><span class="badge">beslissing</span>Bewust manueel, off-platform — geen automatisatie in code.</div></div></div>
+    <div class="step"><div class="num">5</div><div class="body"><div class="ttl"><b>Ziet de concept-rides</b> van zijn chapter. <span class="ref">P-21</span></div>
+      <div class="gap partly"><span class="badge">deels</span>Alleen een binaire <code>published</code>-vlag (niet-gepubliceerd = verborgen); rijkere draft-lifecycle is faux. <b>⚪ scope beslissen.</b></div></div></div>
+    <div class="step done"><div class="num">6</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Verfijnt</b> de draft-rides (volledige velden + completeness-widgets). <span class="ref">P-21</span></div></div></div>
+    <div class="step done"><div class="num">7</div><div class="body"><div class="ttl"><span class="check">✓</span> <b>Publiceert</b> (echte publish-actie). <span class="ref">P-21</span></div></div></div>
+    <div class="step done"><div class="num">8</div><div class="body"><div class="ttl"><span class="check">✓</span> Rit <b>verschijnt automatisch</b> op groepspagina + kalender — <i>hier ontdekt J1 #2 de rit; cirkel rond.</i> <span class="ref">P-11</span></div></div></div>
+  </div>
+
+  <div class="summary">
+    <span class="lbl">⚠ Nog te bouwen in deze journey</span>
+    <p><b>Aanmelding → kapitein</b> (1) en <b>bevestigen/uitnodigen</b> (2); een echte <b>concept/draft-lifecycle</b> voorbij de enkele vlag (5). Het publiceren zelf (6–8) is echt en sterk — de kern van J3 werkt.</p>
+  </div>
+
+  <footer>
+    <span class="legend-item"><span class="chip" style="background:var(--done)"></span>werkt &amp; live</span>
+    <span class="legend-item"><span class="chip" style="background:var(--partly)"></span>deels / faux / manueel</span>
+    <span class="legend-item"><span class="chip" style="background:var(--todo)"></span>nog te bouwen</span>
+    <span class="legend-item"><span class="chip" style="background:var(--decide)"></span>beslissing nodig</span>
+    <span class="legend-note">Kidical Mass · demo-blauwdruk</span>
+  </footer>
+</section>
+
+<!-- ================= BUILD-CHECKLIST ================= -->
+<section class="page list neutral">
+  <header>
+    <span class="kicker">De openstaande lijst</span>
+    <h1>Eén build-checklist</h1>
+    <p class="lede">Alleen wat nog gebouwd of beslist moet worden — de rest van de arc werkt al. Vink af tijdens de bouwdag.</p>
+  </header>
+
+  <table>
+    <thead><tr><th style="width:24px"></th><th>Gap</th><th>Raakt</th><th>Ref</th><th>Eigenaar</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tick"></span></td><td class="gapname"><b>Nieuwsbrief-persistentie</b> — subscriber-model + opslaan + dubbele opt-in</td><td>J1 #5</td><td>P-24</td><td><span class="owner">Nico</span></td></tr>
+      <tr><td><span class="tick"></span></td><td class="gapname"><b>Update-mail-lijm</b> — mailable die <code>GetGroupChangesAction</code> → de bestaande template giet, + schedule + ontvangers <i>(Action + template bestaan al &amp; getest)</i></td><td>J1 #6</td><td>P-24</td><td><span class="owner">Nico</span></td></tr>
+      <tr><td><span class="tick"></span></td><td class="gapname"><b>Kapitein-routing</b> van aanmeldingen (nu centrale inbox)</td><td>J2 #2 · J3 #1</td><td>#37</td><td><span class="owner">Nico</span></td></tr>
+      <tr><td><span class="tick"></span></td><td class="gapname"><b>Automatische uitnodiging + "accepteer-aanvrager"-actie</b></td><td>J2 #3 · J3 #2</td><td>P-07 · #37</td><td><span class="owner">Nico</span></td></tr>
+      <tr><td><span class="tick"></span></td><td class="gapname"><b>Roze-hub: change-feed + materiaalbibliotheek</b> (nu faux)</td><td>J2 #4 · #6</td><td>P-09 · #37</td><td><span class="owner">Nico</span></td></tr>
+      <tr><td><span class="tick"></span></td><td class="gapname"><b>Concept/draft-lifecycle</b> voorbij de binaire <code>published</code>-vlag</td><td>J3 #5</td><td>P-21 · #37 ⚪</td><td><span class="owner">beslissing → Nico</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="loop">
+    <b>De cirkel rond:</b> J3 publiceert een rit → J1 ontdekt die op de groepspagina → J1 bekijkt de recap-foto's die J2 uploadde → J2 werd bevestigd door J3. Sluit de demo met die lus.
+    <br><br>
+    <b>Demo-baar ondanks ontbrekende backend:</b> nieuwsbrief-UI (optimistische bevestiging) · uitnodigingsmail (<code>prototype.mail.invite</code>) · roze-hub (faux feed leest als echt).
+  </div>
+
+  <footer>
+    <span class="legend-item"><span class="tick"></span>afvinken tijdens de bouwdag</span>
+    <span class="legend-note">Kidical Mass · demo-blauwdruk · bron: demo-journeys.md</span>
+  </footer>
+</section>
+
+</body>
+</html>
