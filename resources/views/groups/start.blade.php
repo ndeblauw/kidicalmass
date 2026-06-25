@@ -37,12 +37,12 @@
             <div class="sg-story__row">
                 <div class="sg-story__collage sg-story__collage--a">
                     <figure class="sg-story__photo sg-story__photo--lead">
-                        <img src="{{ asset('img/photography/volunteers-season-launch-meetup.webp') }}"
-                             alt="Een klein groepje vrijwilligers komt samen om het fietsseizoen voor te bereiden" loading="lazy">
+                        <x-photo src="img/photography/volunteers-season-launch-meetup.webp"
+                                 alt="Een klein groepje vrijwilligers komt samen om het fietsseizoen voor te bereiden" />
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
-                        <img src="{{ asset('img/photography/cargo-bike-mother-two-kids-flag.webp') }}"
-                             alt="Een glimlachende vrouw rijdt op een cargobike met twee kinderen en een Kidical Mass vlag" loading="lazy">
+                        <x-photo src="img/photography/cargo-bike-mother-two-kids-flag.webp"
+                                 alt="Een glimlachende vrouw rijdt op een cargobike met twee kinderen en een Kidical Mass vlag" />
                     </figure>
                 </div>
                 <div class="sg-story__text">
@@ -58,12 +58,12 @@
             <div class="sg-story__row sg-story__row--reverse">
                 <div class="sg-story__collage sg-story__collage--b">
                     <figure class="sg-story__photo sg-story__photo--lead">
-                        <img src="{{ asset('img/photography/volunteers-pink-vest-group-cobbles.webp') }}"
-                             alt="Een groep vrijwilligers in roze hesjes stapt samen op straat, klaar om de rit te begeleiden" loading="lazy">
+                        <x-photo src="img/photography/volunteers-pink-vest-group-cobbles.webp"
+                                 alt="Een groep vrijwilligers in roze hesjes stapt samen op straat, klaar om de rit te begeleiden" />
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
-                        <img src="{{ asset('img/photography/volunteer-handing-stickers-to-kids.webp') }}"
-                             alt="Een vrijwilliger deelt Kidical Mass stickers uit aan kinderen" loading="lazy">
+                        <x-photo src="img/photography/volunteer-handing-stickers-to-kids.webp"
+                                 alt="Een vrijwilliger deelt Kidical Mass stickers uit aan kinderen" />
                     </figure>
                 </div>
                 <div class="sg-story__text">
@@ -81,12 +81,12 @@
             <div class="sg-story__row">
                 <div class="sg-story__collage sg-story__collage--c">
                     <figure class="sg-story__photo sg-story__photo--lead">
-                        <img src="{{ asset('img/photography/ride-trio-pink-vest-lei-portrait.webp') }}"
-                             alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" loading="lazy">
+                        <x-photo src="img/photography/ride-trio-pink-vest-lei-portrait.webp"
+                                 alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" />
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
-                        <img src="{{ asset('img/photography/volunteer-pink-vest-blue-helmet.webp') }}"
-                             alt="Een begeleider in een roze hesje en blauwe helm houdt mee de rit veilig" loading="lazy">
+                        <x-photo src="img/photography/volunteer-pink-vest-blue-helmet.webp"
+                                 alt="Een begeleider in een roze hesje en blauwe helm houdt mee de rit veilig" />
                     </figure>
                 </div>
                 <div class="sg-story__text">
@@ -111,9 +111,9 @@
         <section class="sg-proof">
             <div class="sg-proof__layout">
                 <figure class="sg-proof__photo">
-                    <img src="{{ asset('img/photography/ride-park-crowd-cheering-namur.webp') }}"
-                         alt="Een grote menigte gezinnen juicht met opgeheven armen op een zonnige verzamelplaats in Namen"
-                         loading="lazy">
+                    <x-photo src="img/photography/ride-park-crowd-cheering-namur.webp"
+                             alt="Een grote menigte gezinnen juicht met opgeheven armen op een zonnige verzamelplaats in Namen"
+                             sizes="(min-width: 768px) 55vw, 92vw" />
                 </figure>
                 <div class="sg-proof__animo-card">
                     <h2>Er is animo</h2>

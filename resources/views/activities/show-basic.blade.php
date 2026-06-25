@@ -55,7 +55,7 @@
             <div class="activity-hero__visual">
                 @if ($mainImage)
                     <div class="activity-hero__photo">
-                        <img src="{{ $mainImage->getUrl() }}" alt="{{ $activity->title_nl }}" class="activity-hero__img">
+                        <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="(min-width: 768px) 50vw, 100vw" @endif alt="{{ $activity->title_nl }}" class="activity-hero__img" fetchpriority="high">
                     </div>
                 @endif
             </div>

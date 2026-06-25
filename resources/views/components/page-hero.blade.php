@@ -30,7 +30,7 @@
 
         @if ($photo)
             <figure class="page-hero__figure">
-                <img src="{{ asset($photo) }}" alt="{{ $photoAlt }}" class="page-hero__photo">
+                <img src="{{ asset($photo) }}" alt="{{ $photoAlt }}" class="page-hero__photo" fetchpriority="high">
                 @if ($caption)
                     <figcaption class="page-hero__credit">{{ $caption }}</figcaption>
                 @endif

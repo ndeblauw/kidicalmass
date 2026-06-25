@@ -115,7 +115,7 @@
                     @click="open(0, $event)"
                     aria-label="Bekijk alle foto's{{ $commune ? ' in ' . $commune : '' }}"
                 >
-                    <img src="{{ $coverPhoto->getUrl('card') }}" alt="" class="ride-gallery__feature-bg">
+                    <img src="{{ $coverPhoto->getUrl('card') }}" alt="" class="ride-gallery__feature-bg" loading="lazy" decoding="async">
                 </button>
 
                 {{-- Title + the shared calendar tear-off (same lockup as the agenda),

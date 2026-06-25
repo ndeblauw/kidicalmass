@@ -79,9 +79,9 @@
 
             <figure class="activity-head__media">
                 @if($mainImage)
-                    <img src="{{ $mainImage->getUrl() }}" alt="{{ $activity->title_nl }}" class="activity-head__photo">
+                    <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title_nl }}" class="activity-head__photo" fetchpriority="high">
                 @else
-                    <img src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="" aria-hidden="true" class="activity-head__photo">
+                    <img src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="" aria-hidden="true" class="activity-head__photo" fetchpriority="high">
                 @endif
             </figure>
 

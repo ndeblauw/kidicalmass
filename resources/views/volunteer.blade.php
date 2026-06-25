@@ -108,19 +108,19 @@
                 <x-slot:media>
                     <div class="ho-deal__collage ho-deal__collage--a is-active" data-seq-media="0">
                         <figure class="ho-deal__photo ho-deal__photo--lead">
-                            <img src="{{ asset('img/photography/ride-trio-pink-vest-lei-portrait.webp') }}" alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" loading="lazy">
+                            <x-photo src="img/photography/ride-trio-pink-vest-lei-portrait.webp" alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" />
                         </figure>
                         <figure class="ho-deal__photo ho-deal__photo--trail">
-                            <img src="{{ asset('img/photography/team-blue-sweatshirts-celebration.webp') }}" alt="Organisatoren in blauwe truien juichen samen onder de lichtjes tijdens een vrijwilligersfeest" loading="lazy">
+                            <x-photo src="img/photography/team-blue-sweatshirts-celebration.webp" alt="Organisatoren in blauwe truien juichen samen onder de lichtjes tijdens een vrijwilligersfeest" />
                         </figure>
                         <img class="ho-deal__doodle" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true">
                     </div>
                     <div class="ho-deal__collage ho-deal__collage--b" data-seq-media="1">
                         <figure class="ho-deal__photo ho-deal__photo--lead">
-                            <img src="{{ asset('img/photography/ride-crowd-intersection.webp') }}" alt="Twee vrijwilligers in roze hesje houden samen een kruispunt in het oog terwijl de stoet passeert" loading="lazy">
+                            <x-photo src="img/photography/ride-crowd-intersection.webp" alt="Twee vrijwilligers in roze hesje houden samen een kruispunt in het oog terwijl de stoet passeert" />
                         </figure>
                         <figure class="ho-deal__photo ho-deal__photo--trail">
-                            <img src="{{ asset('img/photography/volunteers-season-launch-meetup.webp') }}" alt="Vrijwilligers kletsen gezellig na tijdens de jaarlijkse meetup van de Roze Hesjes" loading="lazy">
+                            <x-photo src="img/photography/volunteers-season-launch-meetup.webp" alt="Vrijwilligers kletsen gezellig na tijdens de jaarlijkse meetup van de Roze Hesjes" />
                         </figure>
                         <img class="ho-deal__doodle" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true">
                     </div>

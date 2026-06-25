@@ -103,14 +103,17 @@
                 @if ($coverPhoto)
                     <img
                         src="{{ $coverPhoto->getUrl() }}"
+                        @if ($coverPhoto->getSrcset()) srcset="{{ $coverPhoto->getSrcset() }}" sizes="100vw" @endif
                         alt="Foto van een Kidical Mass in {{ $gemeente }}"
                         class="chapter-head__photo"
+                        fetchpriority="high"
                     >
                 @else
                     <img
                         src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
                         alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
                         class="chapter-head__photo"
+                        fetchpriority="high"
                     >
                 @endif
             </figure>

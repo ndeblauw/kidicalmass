@@ -34,10 +34,10 @@
                 @if($logoUrl)
                     @if($partner->url)
                         <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" title="{{ $partner->name }}" class="partner-strip__logo-link">
-                            <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo">
+                            <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
                         </a>
                     @else
-                        <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo">
+                        <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
                     @endif
                 @else
                     @if($partner->url)

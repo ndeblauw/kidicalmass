@@ -124,6 +124,10 @@ class ChapterRideGallerySeeder extends Seeder
      * web image at the top level of img/photography plus one sub-dir deep. Widened
      * to .webp (the bulk of the set) beyond SeedGroupGalleryCommand's jpg/png glob.
      *
+     * Only GD-decodable formats (no .avif) and never the generated `-768`
+     * responsive variants — those are derivatives of a sibling, not distinct
+     * photos, and would seed low-res duplicates.
+     *
      * @return list<string>
      */
     protected function samplePhotoPaths(): array
@@ -131,7 +135,8 @@ class ChapterRideGallerySeeder extends Seeder
         $base = public_path('img/photography');
 
         return collect(glob("{$base}/*.{webp,jpg,jpeg,png}", GLOB_BRACE) ?: [])
-            ->merge(glob("{$base}/*/*.{webp,jpg,jpeg,png,avif}", GLOB_BRACE) ?: [])
+            ->merge(glob("{$base}/*/*.{webp,jpg,jpeg,png}", GLOB_BRACE) ?: [])
+            ->reject(fn (string $path): bool => str_contains($path, '-768.'))
             ->values()
             ->all();
     }

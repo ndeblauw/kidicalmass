@@ -99,12 +99,14 @@ class Group extends Model implements HasMedia
         $this
             ->addMediaCollection('main')
             ->singleFile()
+            ->withResponsiveImages()
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
 
         $this
             ->addMediaCollection('gallery')
+            ->withResponsiveImages()
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });

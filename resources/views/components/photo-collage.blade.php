@@ -41,7 +41,7 @@
             $placement[] = 'z-index: '.($i + 1);
         @endphp
         <figure class="photo-collage__photo" style="{{ implode('; ', $placement) }}">
-            <img src="{{ asset($photo['src']) }}" alt="{{ $photo['alt'] }}" loading="lazy">
+            <x-photo :src="$photo['src']" :alt="$photo['alt']" sizes="(min-width: 768px) 28vw, 60vw" />
         </figure>
     @endforeach
 

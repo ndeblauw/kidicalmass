@@ -8,7 +8,7 @@
 
     {{-- Footerbunch illustration, on the yellow, leading into the dark card --}}
     <figure class="relative z-20 mx-auto max-w-5xl px-4" aria-hidden="true">
-        <img src="{{ asset('img/illustrations/footerbunch.svg') }}" alt="" class="block w-full -mb-[2%]">
+        <img src="{{ asset('img/illustrations/footerbunch.svg') }}" alt="" class="block w-full -mb-[2%]" loading="lazy" decoding="async">
     </figure>
 
     {{-- Dark footer card — inset + rounded-top (styling in .site-footer) --}}
@@ -19,7 +19,7 @@
 
             {{-- Brand + persistent membership CTA --}}
             <div>
-                <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo">
+                <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo" loading="lazy" decoding="async">
                 <p class="site-footer__tagline">{{ __('footer.tagline') }}</p>
                 <x-cta-button :href="route('membership')" icon="heart" size="sm" class="mt-5">{{ __('footer.membership_cta') }}</x-cta-button>
             </div>
@@ -66,7 +66,7 @@
         {{-- Funder acknowledgment — quiet, site-wide --}}
         <div class="site-footer__funder">
             <span>{{ __('partners.funder_credit') }}</span>
-            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo">
+            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo" loading="lazy" decoding="async">
         </div>
 
         {{-- Bottom bar — utilities --}}
