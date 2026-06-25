@@ -89,6 +89,12 @@ class GroupController extends Controller
 
     public function show(string $locale, Group $group): View
     {
+        // Region/country nodes (Belgium, Brussels, Flanders, Wallonia) are
+        // invisible grouping data, not public pages: they're excluded from the
+        // index, so the detail route must refuse them too rather than leak a
+        // half-built hub by direct URL.
+        abort_if($group->invisible, 404);
+
         $group->load(['parent', 'children', 'users', 'media'])->loadCount(['articles', 'activities']);
 
         $groupIds = collect([$group->id]);

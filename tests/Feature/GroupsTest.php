@@ -268,6 +268,14 @@ test('group show mixes parent and direct content with correct ordering', functio
     Carbon::setTestNow();
 });
 
+test('chapter detail 404s for invisible region nodes', function () {
+    $region = Group::create(['shortname' => 'bxl', 'name' => 'Brussels Capital Region', 'invisible' => true, 'started_at' => now()]);
+    $chapter = Group::create(['shortname' => 'sb', 'name' => 'Schaarbeek', 'zip' => '1030', 'parent_id' => $region->id, 'invisible' => false, 'started_at' => now()]);
+
+    get(route('groups.show', $region))->assertNotFound();
+    get(route('groups.show', $chapter))->assertOk();
+});
+
 test('chapter home leads with the next ride in NL, not metadata', function () {
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()]);
