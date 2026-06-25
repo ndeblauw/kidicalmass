@@ -38,7 +38,7 @@ it('lets callers override the heading and subline', function () {
     expect($html)->toContain('Anders')->toContain('Ook anders');
 });
 
-it('shows the share band on the ride page and no longer shows the old action bar', function () {
+it('shows the in-context share panel on the ride page and no longer shows the old action bar', function () {
     $activity = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
     ]);
@@ -46,8 +46,9 @@ it('shows the share band on the ride page and no longer shows the old action bar
     $response = $this->get(route('activities.show', $activity));
 
     $response->assertOk()
-        ->assertSee('Ken je een gezin dat dit leuk zou vinden?')
+        ->assertSee('activity-share', false)             // share now lives beside the facts, not in a full-width band
         ->assertSee('wa.me/?text=', false)
+        ->assertDontSee('Ken je een gezin dat dit leuk zou vinden?') // the old full-width band is gone
         ->assertDontSee('activity-actions-bar')
         ->assertDontSee('Bewaar in agenda');
 });

@@ -1,3 +1,5 @@
+@props(['chapter' => null])
+
 @php
     // The visitor's chapters drive the roze nav button(s); compute once, reuse in both navs.
     $myChapters = Auth::check()
@@ -6,8 +8,9 @@
 
     $isHome = request()->routeIs('home');
 
-    // On a chapter page the route binds a {group}; show its postcode beside the logo.
-    $navChapter = request()->route('group');
+    // Show a group's postcode beside the logo. On a chapter page the route binds a {group};
+    // pages without that binding (e.g. a ride) can pass the organising group via :chapter.
+    $navChapter = $chapter ?? request()->route('group');
     $navChapter = $navChapter instanceof \App\Models\Group ? $navChapter : null;
 @endphp
 

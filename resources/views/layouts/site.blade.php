@@ -1,3 +1,4 @@
+@props(['title' => null, 'navChapter' => null])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -15,7 +16,7 @@
     @isset($navbar)
         {{ $navbar }}
     @else
-        <x-layouts::site.header />
+        <x-layouts::site.header :chapter="$navChapter" />
     @endisset
 
     <!-- Main Content -->

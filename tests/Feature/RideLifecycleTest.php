@@ -16,11 +16,29 @@ it('upcoming ride shows promises and the how-it-works CTA', function () {
     ]);
 
     showRide($ride)
-        ->assertSee('Wat kun je verwachten')
-        ->assertSee('Lees hoe je meerijdt')
+        ->assertSee('Wat kan je verwachten')
+        // The how-it-works ask lives in the promises block above the map.
+        ->assertSee('Zo werkt een rit')
+        // The closing band no longer duplicates it: it nudges towards future rides.
+        ->assertSee('Geen rit missen?')
+        ->assertSee('Schrijf je in voor updates')
+        ->assertSee(route('newsletter.show', ['locale' => 'nl']), escape: false)
         ->assertDontSee('Net gereden')
         // The support ask only appears once the ride is in the past.
         ->assertDontSee('Steun de volgende rit');
+});
+
+it('upcoming ride closing band names the organising group', function () {
+    $group = Group::factory()->create(['name' => 'Etterbeek', 'zip' => '1040']);
+    $ride = Activity::factory()->create([
+        'activity_type' => ActivityType::KIDICALMASS,
+        'begin_date' => now()->addWeek(),
+    ]);
+    $ride->groups()->attach($group);
+
+    showRide($ride)
+        ->assertSee('Mis geen rit van Kidical Mass Etterbeek')
+        ->assertDontSee('Geen rit missen?');
 });
 
 it('just-past ride shows the photo nudge, drops promises, points to the chapter', function () {
@@ -30,7 +48,7 @@ it('just-past ride shows the photo nudge, drops promises, points to the chapter'
 
     showRide($ride)
         ->assertSee('Net gereden')
-        ->assertDontSee('Wat kun je verwachten')
+        ->assertDontSee('Wat kan je verwachten')
         ->assertDontSee('Lees hoe je meerijdt')
         // Past ride: the support ask uses its past-tense hook.
         ->assertSee('Fijn meegereden')
@@ -44,7 +62,7 @@ it('recap ride shows the gallery, drops promises, points to the chapter', functi
 
     showRide($ride)
         ->assertSee('ride-gallery__grid', escape: false)
-        ->assertDontSee('Wat kun je verwachten')
+        ->assertDontSee('Wat kan je verwachten')
         ->assertDontSee('Net gereden')
         ->assertDontSee('Lees hoe je meerijdt')
         ->assertSee('Fijn meegereden')

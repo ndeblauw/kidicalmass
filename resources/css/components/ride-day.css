@@ -137,6 +137,39 @@
         height: 23px;
     }
 
+    /* Large variant — the ride hero's date anchor (<x-ride-date-tile size="lg">). Every
+       dimension is the agenda tear-off's value times --lg-scale, so the whole lockup
+       grows as one unit; the hero runs it at 2x to hold its own beside the big title. */
+    .ride-day__cal--lg {
+        --lg-scale: 2;
+        width: calc(76px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__rail {
+        border-width: 2px;
+        border-radius: calc(6px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__bar {
+        height: calc(13px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__body {
+        padding: calc(7px * var(--lg-scale)) calc(7px * var(--lg-scale)) calc(9px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__day {
+        font-size: calc(0.55rem * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__date {
+        font-size: calc(1.75rem * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__month {
+        font-size: calc(0.96rem * var(--lg-scale));
+    }
+    /* Step the hero tile down a notch on phones so it doesn't crowd the title. */
+    @media (max-width: 560px) {
+        .ride-day__cal--lg {
+            --lg-scale: 1.5;
+        }
+    }
+
     @media (max-width: 560px) {
         .ride-day { grid-template-columns: 64px 1fr; gap: 0 1rem; }
         .ride-day .ride-day__cal { width: 58px; }

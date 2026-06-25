@@ -1,6 +1,8 @@
 @props([
     'coordinates' => [],   // [[lat, lng], ...] (from Activity::route_coordinates) or a JSON string
-    'interactive' => true, // false → a static preview: no pan/zoom, no attribution anchors, no label.
+    'interactive' => true, // false → a static preview: no pan/zoom, no attribution anchors.
+    'label' => null,       // optional place name shown in a popup (with a tail) on the departure pin.
+    'eyebrow' => null,     // optional eyebrow above the popup label (e.g. "Vertrekpunt").
 ])
 
 {{--
@@ -23,6 +25,8 @@
     {{ $attributes->class('js-route-map') }}
     data-coordinates="{{ $coordsJson }}"
     data-interactive="{{ $interactive ? 'true' : 'false' }}"
+    @if($label) data-label="{{ $label }}" @endif
+    @if($eyebrow) data-eyebrow="{{ $eyebrow }}" @endif
 ></div>
 
 @once
@@ -68,20 +72,35 @@
                 map.invalidateSize();
                 map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });
 
-                // Departure pin. The "Vertrekpunt" label is for the full detail map only;
-                // on the small preview the pin alone keeps it uncluttered.
-                const label = interactive ? '<span class="activity-map-label">Vertrekpunt</span>' : '';
+                // Departure pin.
                 const departureIcon = L.divIcon({
                     html: `<svg width="28" height="38" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="${brandRed}"/>
                         <circle cx="14" cy="14" r="5.5" fill="rgba(0,0,0,0.2)"/>
                         <circle cx="14" cy="14" r="3.5" fill="white"/>
-                    </svg>${label}`,
+                    </svg>`,
                     className: 'activity-map-marker',
                     iconAnchor: [14, 37],
                     iconSize: [28, 38],
+                    popupAnchor: [0, -34],
                 });
-                L.marker(coords[0], { icon: departureIcon }).addTo(map);
+                const marker = L.marker(coords[0], { icon: departureIcon }).addTo(map);
+
+                // Departure label — an always-open popup with a tail pointing to the pin.
+                // The caller renders the same text as an accessible chip in the DOM (see
+                // .activity-facts__map-label--fallback), so this popup is purely visual.
+                const labelText = el.dataset.label || '';
+                if (labelText) {
+                    const eyebrow = el.dataset.eyebrow
+                        ? `<dt>${el.dataset.eyebrow}</dt>`
+                        : '';
+                    marker.bindPopup(`<dl class="map-pin-popup__label">${eyebrow}<dd>${labelText}</dd></dl>`, {
+                        className: 'map-pin-popup',
+                        closeButton: false,
+                        autoClose: false,
+                        closeOnClick: false,
+                    }).openPopup();
+                }
             });
         });
         </script>

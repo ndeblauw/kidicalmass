@@ -3,7 +3,7 @@
     'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | pink (roze-hesje actions) | secondary (outlined, quiet) | ghost (text-only)
     'icon' => 'arrow',     // arrow (a "go" action) | back (a "return" action) | heart (support / membership)
     'size' => 'md',        // md | sm (nav + footer)
-    'disc' => null,        // disc colour: red (default) | green | orange
+    'disc' => null,        // disc colour: red (default) | green | orange | blue
     'disabled' => false,   // inert, dimmed — no navigation, no hover animation
     'loading' => false,    // inert, shows a spinner (state set server-side)
     'block' => false,      // full-width
@@ -33,6 +33,7 @@
     $discStyle = match ($disc) {
         'green' => '--cta-disc-color: var(--color-kidical-green);',
         'orange' => '--cta-disc-color: var(--color-kidical-orange);',
+        'blue' => '--cta-disc-color: var(--color-kidical-blue);',
         'red' => '--cta-disc-color: var(--color-kidical-red);',
         default => null,
     };
