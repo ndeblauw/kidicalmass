@@ -15,10 +15,16 @@
         background-color: var(--color-kidical-blue);
         overflow-x: clip;
 
-        /* Pinned-hero scroll-over (md+), mirroring .page-hero on /events: the hero sticks
-           to the top of the viewport and the white .activity-stack panel (z-index 10) rides
-           up over it, covering the blue and the riders' lower halves as you scroll. */
-        @media (min-width: 768px) {
+        /* Pinned-hero scroll-over, mirroring .page-hero on /events: the hero sticks to the
+           top of the viewport and the white .activity-stack panel (z-index 10) rides up
+           over it, covering the blue and the riders' lower halves as you scroll.
+
+           Pin ONLY at lg (64rem), where the 2-column layout makes the hero short enough to
+           fit, AND only when the viewport is tall enough (44rem) to contain it. Below either
+           threshold the hero stays in normal flow (like mobile): a sticky hero taller than
+           the viewport clips its own lower half (photo + riders) behind the rising white
+           panel, with no way to scroll it into view. */
+        @media (min-width: 64rem) and (min-height: 44rem) {
             position: sticky;
             top: 0;
         }

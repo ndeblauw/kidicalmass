@@ -19,8 +19,13 @@
        reveal the homepage gives its backdrop, here for every inner page that uses
        <x-page-hero>. The hero's sticky containing block is <main>, which stops before
        the closing band and footer, so the pinned hero can never overlap them. Mobile
-       keeps the hero in normal flow (matching the homepage, which only pins from md). */
-    @media (min-width: 768px) {
+       keeps the hero in normal flow (matching the homepage, which only pins from md).
+
+       The (min-height: 40rem) guard matches the hero's --page-hero-h floor: pin only
+       when the viewport can contain the band. On a shorter viewport a sticky hero
+       taller than the viewport would clip its own lower half behind the rising panel,
+       unreachable by scroll — so there we fall back to normal flow. */
+    @media (min-width: 768px) and (min-height: 40rem) {
         .page-hero {
             position: sticky;
             top: 0;
