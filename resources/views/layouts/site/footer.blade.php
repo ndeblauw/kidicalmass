@@ -7,8 +7,8 @@
     <x-partners />
 
     {{-- Footerbunch illustration, on the yellow, leading into the dark card --}}
-    <figure class="mx-auto max-w-5xl px-4 -mb-px" aria-hidden="true">
-        <img src="{{ asset('img/illustrations/footerbunch-yellow.png') }}" alt="" class="block w-full">
+    <figure class="relative z-20 mx-auto max-w-5xl px-4" aria-hidden="true">
+        <img src="{{ asset('img/illustrations/footerbunch.svg') }}" alt="" class="block w-full -mb-[2%]">
     </figure>
 
     {{-- Dark footer card — inset + rounded-top (styling in .site-footer) --}}
