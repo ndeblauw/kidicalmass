@@ -11026,6 +11026,1666 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "tv140",
+      "name": "Ride — Team sectie (varianten)",
+      "x": 13400,
+      "y": -1480,
+      "width": 920,
+      "fill": "#F4F2F7",
+      "layout": "vertical",
+      "gap": 56,
+      "padding": 64,
+      "alignItems": "start",
+      "children": [
+        {
+          "type": "frame",
+          "id": "tv127",
+          "name": "Head",
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "text",
+              "id": "tv125",
+              "name": "text",
+              "fill": "$kidical-ink",
+              "content": "Ride-pagina · teamsectie",
+              "fontFamily": "$font-heading",
+              "fontSize": 34,
+              "fontWeight": "800",
+              "lineHeight": 1.4
+            },
+            {
+              "type": "text",
+              "id": "tv126",
+              "name": "text",
+              "fill": "#281A398C",
+              "content": "Vier verfijningen van de minimale crew-rij. Geen werving, alleen krediet: eyebrow + 'georganiseerd door' + namen met gezichten.",
+              "fontFamily": "$font-sans",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "lineHeight": 1.5,
+              "width": 760,
+              "textGrowth": "fixed-width"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tv130",
+          "name": "A — Inline (huidige) wrap",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "tv128",
+              "name": "VarTitle",
+              "fill": "$kidical-ink",
+              "content": "A — Inline (huidige)",
+              "fontFamily": "$font-heading",
+              "fontSize": 20,
+              "fontWeight": "800",
+              "lineHeight": 1.4
+            },
+            {
+              "type": "text",
+              "id": "tv129",
+              "name": "VarDesc",
+              "fill": "#281A398C",
+              "content": "Zoals nu gebouwd. Eyebrow, één regel krediet met de groep als blauwe link, gezichten met voornamen op een rij.",
+              "fontFamily": "$font-sans",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "lineHeight": 1.45,
+              "width": 760,
+              "textGrowth": "fixed-width"
+            },
+            {
+              "type": "frame",
+              "id": "tv031",
+              "name": "A — Inline (huidige)",
+              "width": 760,
+              "fill": "$surface-white",
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000001A",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 24
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tv005",
+                  "name": "Header",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tv001",
+                      "name": "Eyebrow",
+                      "fill": "#281A3973",
+                      "content": "VAN EN VOOR DE BUURT",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "lineHeight": 1.2,
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv004",
+                      "name": "Lead",
+                      "layout": "horizontal",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tv002",
+                          "name": "text",
+                          "fill": "$kidical-ink-75",
+                          "content": "Georganiseerd door vrijwilligers van Kidical Mass ",
+                          "fontFamily": "$font-sans",
+                          "fontSize": 19,
+                          "fontWeight": "600",
+                          "lineHeight": 1.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv003",
+                          "name": "text",
+                          "fill": "$kidical-blue",
+                          "content": "Schaarbeek",
+                          "fontFamily": "$font-sans",
+                          "fontSize": 19,
+                          "fontWeight": "700",
+                          "lineHeight": 1.4
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tv030",
+                  "name": "People",
+                  "width": "fill_container",
+                  "layout": "horizontal",
+                  "gap": 24,
+                  "alignItems": "start",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tv009",
+                      "name": "Cecilia",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv007",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv006",
+                              "name": "avatar",
+                              "icon": "bike",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv008",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Cecilia",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv013",
+                      "name": "Marieke",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv011",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv010",
+                              "name": "avatar",
+                              "icon": "flower",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv012",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Marieke",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv017",
+                      "name": "Tariq",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv015",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv014",
+                              "name": "avatar",
+                              "icon": "smile",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv016",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Tariq",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv021",
+                      "name": "Lien",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv019",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv018",
+                              "name": "avatar",
+                              "icon": "sun",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv020",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Lien",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv025",
+                      "name": "Sofie",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv023",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv022",
+                              "name": "avatar",
+                              "icon": "heart",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv024",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Sofie",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv029",
+                      "name": "Bram",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv027",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv026",
+                              "name": "avatar",
+                              "icon": "music",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv028",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Bram",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tv133",
+          "name": "B — Zachte band wrap",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "tv131",
+              "name": "VarTitle",
+              "fill": "$kidical-ink",
+              "content": "B — Zachte band",
+              "fontFamily": "$font-heading",
+              "fontSize": 20,
+              "fontWeight": "800",
+              "lineHeight": 1.4
+            },
+            {
+              "type": "text",
+              "id": "tv132",
+              "name": "VarDesc",
+              "fill": "#281A398C",
+              "content": "Zelfde inhoud, maar de crew krijgt een zacht getint vlak (lichtgeel) als 'thuis'. Witte cirkels zetten de gezichten apart. Warmer, meer een eenheid.",
+              "fontFamily": "$font-sans",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "lineHeight": 1.45,
+              "width": 760,
+              "textGrowth": "fixed-width"
+            },
+            {
+              "type": "frame",
+              "id": "tv062",
+              "name": "B — Zachte band",
+              "width": 760,
+              "fill": "$surface-white",
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 40,
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000001A",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 24
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tv036",
+                  "name": "Header",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tv032",
+                      "name": "Eyebrow",
+                      "fill": "#281A3973",
+                      "content": "VAN EN VOOR DE BUURT",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "lineHeight": 1.2,
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv035",
+                      "name": "Lead",
+                      "layout": "horizontal",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tv033",
+                          "name": "text",
+                          "fill": "$kidical-ink-75",
+                          "content": "Georganiseerd door vrijwilligers van Kidical Mass ",
+                          "fontFamily": "$font-sans",
+                          "fontSize": 19,
+                          "fontWeight": "600",
+                          "lineHeight": 1.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv034",
+                          "name": "text",
+                          "fill": "$kidical-blue",
+                          "content": "Schaarbeek",
+                          "fontFamily": "$font-sans",
+                          "fontSize": 19,
+                          "fontWeight": "700",
+                          "lineHeight": 1.4
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tv061",
+                  "name": "Band",
+                  "width": "fill_container",
+                  "fill": "$kidical-light-yellow",
+                  "layout": "horizontal",
+                  "gap": 24,
+                  "padding": 28,
+                  "cornerRadius": 18,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tv040",
+                      "name": "Cecilia",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv038",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$surface-white",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv037",
+                              "name": "avatar",
+                              "icon": "bike",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv039",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Cecilia",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv044",
+                      "name": "Marieke",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv042",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$surface-white",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv041",
+                              "name": "avatar",
+                              "icon": "flower",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv043",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Marieke",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv048",
+                      "name": "Tariq",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv046",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$surface-white",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv045",
+                              "name": "avatar",
+                              "icon": "smile",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv047",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Tariq",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv052",
+                      "name": "Lien",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv050",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$surface-white",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv049",
+                              "name": "avatar",
+                              "icon": "sun",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv051",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Lien",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv056",
+                      "name": "Sofie",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv054",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$surface-white",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv053",
+                              "name": "avatar",
+                              "icon": "heart",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv055",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Sofie",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv060",
+                      "name": "Bram",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv058",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$surface-white",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv057",
+                              "name": "avatar",
+                              "icon": "music",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv059",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Bram",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tv136",
+          "name": "C — Lockup + roster wrap",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "tv134",
+              "name": "VarTitle",
+              "fill": "$kidical-ink",
+              "content": "C — Lockup + roster",
+              "fontFamily": "$font-heading",
+              "fontSize": 20,
+              "fontWeight": "800",
+              "lineHeight": 1.4
+            },
+            {
+              "type": "text",
+              "id": "tv135",
+              "name": "VarDesc",
+              "fill": "#281A398C",
+              "content": "Twee kolommen: krediet-lockup links, gezichten als nette roster (2×3) rechts. Redactioneler, geeft de namen meer rust en ademruimte.",
+              "fontFamily": "$font-sans",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "lineHeight": 1.45,
+              "width": 760,
+              "textGrowth": "fixed-width"
+            },
+            {
+              "type": "frame",
+              "id": "tv094",
+              "name": "C — Lockup + roster",
+              "width": 760,
+              "fill": "$surface-white",
+              "layout": "horizontal",
+              "gap": 40,
+              "padding": 40,
+              "cornerRadius": 20,
+              "alignItems": "start",
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000001A",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 24
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tv066",
+                  "name": "Lockup",
+                  "width": 280,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tv063",
+                      "name": "Eyebrow",
+                      "fill": "#281A3973",
+                      "content": "VAN EN VOOR DE BUURT",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "lineHeight": 1.2,
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "tv064",
+                      "name": "text",
+                      "fill": "$kidical-ink-75",
+                      "content": "Georganiseerd door vrijwilligers van Kidical Mass",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 19,
+                      "fontWeight": "600",
+                      "lineHeight": 1.4,
+                      "width": "fill_container",
+                      "textGrowth": "fixed-width"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tv065",
+                      "name": "text",
+                      "fill": "$kidical-blue",
+                      "content": "Schaarbeek →",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 19,
+                      "fontWeight": "700",
+                      "lineHeight": 1.4
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tv093",
+                  "name": "Roster",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tv079",
+                      "name": "Row",
+                      "layout": "horizontal",
+                      "gap": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv070",
+                          "name": "Cecilia",
+                          "width": 80,
+                          "layout": "vertical",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tv068",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$kidical-light-blue",
+                              "layout": "vertical",
+                              "cornerRadius": 999,
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tv067",
+                                  "name": "avatar",
+                                  "icon": "bike",
+                                  "library": "lucide",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "$kidical-ink"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tv069",
+                              "name": "First",
+                              "fill": "$kidical-ink",
+                              "content": "Cecilia",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 16,
+                              "fontWeight": "800",
+                              "lineHeight": 1.1,
+                              "textAlign": "center"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tv074",
+                          "name": "Marieke",
+                          "width": 80,
+                          "layout": "vertical",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tv072",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$kidical-light-blue",
+                              "layout": "vertical",
+                              "cornerRadius": 999,
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tv071",
+                                  "name": "avatar",
+                                  "icon": "flower",
+                                  "library": "lucide",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "$kidical-ink"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tv073",
+                              "name": "First",
+                              "fill": "$kidical-ink",
+                              "content": "Marieke",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 16,
+                              "fontWeight": "800",
+                              "lineHeight": 1.1,
+                              "textAlign": "center"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tv078",
+                          "name": "Tariq",
+                          "width": 80,
+                          "layout": "vertical",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tv076",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$kidical-light-blue",
+                              "layout": "vertical",
+                              "cornerRadius": 999,
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tv075",
+                                  "name": "avatar",
+                                  "icon": "smile",
+                                  "library": "lucide",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "$kidical-ink"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tv077",
+                              "name": "First",
+                              "fill": "$kidical-ink",
+                              "content": "Tariq",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 16,
+                              "fontWeight": "800",
+                              "lineHeight": 1.1,
+                              "textAlign": "center"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv092",
+                      "name": "Row",
+                      "layout": "horizontal",
+                      "gap": 20,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv083",
+                          "name": "Lien",
+                          "width": 80,
+                          "layout": "vertical",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tv081",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$kidical-light-blue",
+                              "layout": "vertical",
+                              "cornerRadius": 999,
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tv080",
+                                  "name": "avatar",
+                                  "icon": "sun",
+                                  "library": "lucide",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "$kidical-ink"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tv082",
+                              "name": "First",
+                              "fill": "$kidical-ink",
+                              "content": "Lien",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 16,
+                              "fontWeight": "800",
+                              "lineHeight": 1.1,
+                              "textAlign": "center"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tv087",
+                          "name": "Sofie",
+                          "width": 80,
+                          "layout": "vertical",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tv085",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$kidical-light-blue",
+                              "layout": "vertical",
+                              "cornerRadius": 999,
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tv084",
+                                  "name": "avatar",
+                                  "icon": "heart",
+                                  "library": "lucide",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "$kidical-ink"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tv086",
+                              "name": "First",
+                              "fill": "$kidical-ink",
+                              "content": "Sofie",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 16,
+                              "fontWeight": "800",
+                              "lineHeight": 1.1,
+                              "textAlign": "center"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tv091",
+                          "name": "Bram",
+                          "width": 80,
+                          "layout": "vertical",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tv089",
+                              "name": "Face",
+                              "width": 72,
+                              "height": 72,
+                              "fill": "$kidical-light-blue",
+                              "layout": "vertical",
+                              "cornerRadius": 999,
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tv088",
+                                  "name": "avatar",
+                                  "icon": "music",
+                                  "library": "lucide",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "$kidical-ink"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "tv090",
+                              "name": "First",
+                              "fill": "$kidical-ink",
+                              "content": "Bram",
+                              "fontFamily": "$font-heading",
+                              "fontSize": 16,
+                              "fontWeight": "800",
+                              "lineHeight": 1.1,
+                              "textAlign": "center"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tv139",
+          "name": "D — Warme zin wrap",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "tv137",
+              "name": "VarTitle",
+              "fill": "$kidical-ink",
+              "content": "D — Warme zin",
+              "fontFamily": "$font-heading",
+              "fontSize": 20,
+              "fontWeight": "800",
+              "lineHeight": 1.4
+            },
+            {
+              "type": "text",
+              "id": "tv138",
+              "name": "VarDesc",
+              "fill": "#281A398C",
+              "content": "Ruilt de institutionele kredietregel voor één warme mensenzin; de groepsnaam zakt naar een kleine onderschriftregel. Toon doet het werk.",
+              "fontFamily": "$font-sans",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "lineHeight": 1.45,
+              "width": 760,
+              "textGrowth": "fixed-width"
+            },
+            {
+              "type": "frame",
+              "id": "tv124",
+              "name": "D — Warme zin",
+              "width": 760,
+              "fill": "$surface-white",
+              "layout": "vertical",
+              "gap": 28,
+              "padding": 40,
+              "cornerRadius": 20,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000001A",
+                "offset": {
+                  "x": 0,
+                  "y": 8
+                },
+                "blur": 24
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tv098",
+                  "name": "Header",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tv095",
+                      "name": "Eyebrow",
+                      "fill": "#281A3973",
+                      "content": "VAN EN VOOR DE BUURT",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 14,
+                      "fontWeight": "700",
+                      "lineHeight": 1.2,
+                      "letterSpacing": 1.5
+                    },
+                    {
+                      "type": "text",
+                      "id": "tv096",
+                      "name": "Warm",
+                      "fill": "$kidical-ink",
+                      "content": "Dit zijn de buren die elke rit de kruispunten veilig houden en er een feestje van maken.",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 22,
+                      "fontWeight": "600",
+                      "lineHeight": 1.4,
+                      "width": "fill_container",
+                      "textGrowth": "fixed-width"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tv097",
+                      "name": "text",
+                      "fill": "#281A398C",
+                      "content": "Vrijwilligers van Kidical Mass Schaarbeek",
+                      "fontFamily": "$font-sans",
+                      "fontSize": 15,
+                      "fontWeight": "600",
+                      "lineHeight": 1.4
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tv123",
+                  "name": "People",
+                  "width": "fill_container",
+                  "layout": "horizontal",
+                  "gap": 24,
+                  "alignItems": "start",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tv102",
+                      "name": "Cecilia",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv100",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv099",
+                              "name": "avatar",
+                              "icon": "bike",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv101",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Cecilia",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv106",
+                      "name": "Marieke",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv104",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv103",
+                              "name": "avatar",
+                              "icon": "flower",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv105",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Marieke",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv110",
+                      "name": "Tariq",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv108",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv107",
+                              "name": "avatar",
+                              "icon": "smile",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv109",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Tariq",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv114",
+                      "name": "Lien",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv112",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv111",
+                              "name": "avatar",
+                              "icon": "sun",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv113",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Lien",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv118",
+                      "name": "Sofie",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv116",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv115",
+                              "name": "avatar",
+                              "icon": "heart",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv117",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Sofie",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tv122",
+                      "name": "Bram",
+                      "width": 80,
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tv120",
+                          "name": "Face",
+                          "width": 72,
+                          "height": 72,
+                          "fill": "$kidical-light-blue",
+                          "layout": "vertical",
+                          "cornerRadius": 999,
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "tv119",
+                              "name": "avatar",
+                              "icon": "music",
+                              "library": "lucide",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "$kidical-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tv121",
+                          "name": "First",
+                          "fill": "$kidical-ink",
+                          "content": "Bram",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 16,
+                          "fontWeight": "800",
+                          "lineHeight": 1.1,
+                          "textAlign": "center"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {
