@@ -60,8 +60,8 @@ test('the Overview shows the Voor de rit tiles and the feed', function () {
         ->assertSee('Speech')
         ->assertSee('Playlist')
         ->assertSee('Sinds je laatste bezoek')
-        ->assertSee("3 nieuwe foto's van de rit van zondag")
-        ->assertSee('Sara rijdt nu mee als roze hesje');
+        // The member just joined, so the feed surfaces the dynamic new-member card.
+        ->assertSee('rijdt nu mee als roze hesje');
 });
 
 test('the welcome panel shows on a first visit and hides afterwards', function () {

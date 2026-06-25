@@ -1,11 +1,5 @@
 @layer components {
-    /* 3 · AGENDA note (reuses .chapter-agenda / .chapter-agenda__list / .chapter-next__all) */
-    /* .chapter-agenda carries margin-top: 5rem to separate sections on the public
-       chapter page; in the hub it is the lone section, so drop that top gap. */
-    .roze-hub-body .chapter-agenda {
-        margin-top: 0;
-    }
-
+    /* 3 · AGENDA — empty-state note for the "al vastgelegd" list */
     .roze-agenda__note {
         margin-top: 0.5rem;
         color: var(--color-text-body);
@@ -136,12 +130,7 @@
         background-color: var(--color-kidical-red); color: white;
     }
 
-    /* IN VOORBEREIDING — draft entries under the agenda */
-    .roze-drafts { margin-top: 1.25rem; }
-    .roze-drafts__label {
-        font-size: var(--text-sm); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%); margin-bottom: 0.5rem;
-    }
+    /* IN VOORBEREIDING — draft cards (agenda + overview feed target) */
     .roze-draft {
         display: flex; flex-direction: column; gap: 0.2rem;
         background-color: white;
@@ -157,7 +146,48 @@
         background-color: color-mix(in oklab, var(--color-kidical-red), white 86%);
         padding: 0.1rem 0.5rem; border-radius: var(--radius-pill); margin-bottom: 0.25rem;
     }
-    .roze-draft__hint { font-size: var(--text-sm); color: var(--color-kidical-red); font-weight: 700; }
+    .roze-draft__when { font-size: var(--text-sm); color: var(--color-text-body); }
+    .roze-draft__hint { font-size: var(--text-sm); color: var(--color-kidical-red); font-weight: 700; margin-top: 0.15rem; }
+
+    /* 3 · AGENDA — drafts lead, confirmed rides follow as a lean list */
+    .roze-agenda { display: flex; flex-direction: column; }
+    .roze-agenda .roze-hub-lead { margin: 0.375rem 0 0; }
+    .roze-agenda__block { margin-top: 1.75rem; }
+    .roze-agenda__label {
+        font-size: var(--text-sm); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%); margin-bottom: 0.75rem;
+    }
+    .roze-agenda__drafts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .roze-agenda__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.625rem; }
+    .roze-agenda-row {
+        display: flex; align-items: center; gap: 1rem;
+        background-color: white;
+        border: 1px solid var(--color-kidical-hairline);
+        border-left: 4px solid var(--ride-accent, var(--color-kidical-red));
+        border-radius: var(--radius-tile);
+        box-shadow: var(--shadow-float);
+        padding: 0.7rem 1rem;
+    }
+    .roze-agenda-row__date {
+        flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 3rem; line-height: 1;
+        color: var(--ride-accent, var(--color-kidical-red));
+    }
+    .roze-agenda-row__num { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl); }
+    .roze-agenda-row__mon { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .roze-agenda-row__body { flex: 1; min-width: 0; }
+    .roze-agenda-row__title { display: block; line-height: 1.2; }
+    .roze-agenda-row__meta { display: block; font-size: var(--text-sm); color: var(--color-text-body); margin-top: 0.1rem; }
+    .roze-agenda-row__type {
+        flex: none; align-self: center;
+        font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.03em;
+        padding: 0.2rem 0.6rem; border-radius: var(--radius-pill);
+        color: var(--ride-accent, var(--color-kidical-red));
+        background-color: color-mix(in oklab, var(--ride-accent, var(--color-kidical-red)), white 86%);
+    }
+
+    .roze-agenda__foot { margin-top: 1.25rem; }
 
     /* RIDE PREVIEW page */
     .roze-preview { max-width: 44rem; }
@@ -178,21 +208,53 @@
     .roze-preview__status-body { color: var(--color-text-body); line-height: 1.5; }
     .roze-preview__foot { margin-top: 1.5rem; font-size: var(--text-sm); color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%); }
 
-    /* FOTO-GALERIJ — shell with disabled upload */
-    .roze-gallery__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    /* FOTO-GALERIJ — one album per ride, switched by the picker. The wall itself is the
+       shared <x-ride-gallery>; these rules are the head, picker and empty state around it. */
+    .roze-gallery__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .roze-gallery__head .roze-hub-lead { margin-top: 0.375rem; }
     .roze-gallery__upload {
+        flex: none;
         display: inline-flex; align-items: center; gap: 0.4rem;
         font-size: var(--text-sm); font-weight: 700;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
         background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
         border-radius: var(--radius-pill); padding: 0.45rem 0.9rem; cursor: not-allowed;
     }
-    .roze-gallery__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-    @media (min-width: 640px) { .roze-gallery__grid { grid-template-columns: repeat(3, 1fr); } }
-    .roze-gallery__cell {
-        aspect-ratio: 1; border-radius: var(--radius-tile);
-        background-color: color-mix(in oklab, var(--color-kidical-red), white 88%);
+
+    .roze-gallery__picker { display: flex; flex-direction: column; gap: 0.4rem; margin: 1.25rem 0 1.5rem; }
+    .roze-gallery__picker label {
+        font-size: var(--text-sm); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
     }
+    .roze-gallery__select-wrap { position: relative; display: inline-flex; align-items: center; max-width: 24rem; }
+    .roze-gallery__select {
+        appearance: none; -webkit-appearance: none;
+        width: 100%;
+        font-family: var(--font-heading); font-weight: 700; font-size: var(--text-base);
+        color: var(--color-kidical-ink);
+        background-color: white;
+        border: 1px solid var(--color-kidical-hairline);
+        border-radius: var(--radius-pill);
+        box-shadow: var(--shadow-float);
+        padding: 0.65rem 2.5rem 0.65rem 1.1rem;
+        cursor: pointer;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .roze-gallery__select:hover { border-color: color-mix(in oklab, var(--color-kidical-red), white 50%); }
+    .roze-gallery__select:focus-visible { outline: 2px solid var(--color-kidical-red); outline-offset: 2px; }
+    .roze-gallery__select-chev {
+        position: absolute; right: 1rem; pointer-events: none;
+        color: var(--color-kidical-red);
+    }
+
+    .roze-gallery__empty {
+        margin-top: 1.25rem;
+        background-color: color-mix(in oklab, var(--color-kidical-red), white 90%);
+        border-radius: var(--radius-card);
+        padding: 2rem 1.75rem;
+        color: var(--color-text-body);
+    }
+    .roze-gallery__empty > .roze-row-title { color: var(--color-kidical-red); margin-bottom: 0.25rem; }
 
     /* WHATSAPP-DOORGANG — foot hand-off */
     .roze-whatsapp__inner {

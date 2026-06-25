@@ -1,10 +1,38 @@
 <?php
 
+use App\Enums\ActivityType;
+use App\Models\Activity;
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 use function Pest\Laravel\actingAs;
+
+/** A past, published ride attached to the group, dressed with $photos gallery images. */
+function rozePastRideWithPhotos(Group $group, User $author, string $title, int $photos): Activity
+{
+    $ride = Activity::create([
+        'title_nl' => $title,
+        'title_fr' => $title,
+        'content_nl' => 'Voorbij.',
+        'content_fr' => 'Passé.',
+        'activity_type' => ActivityType::KIDICALMASS,
+        'begin_date' => now()->subWeeks(2),
+        'location' => 'Mortsel',
+        'author_id' => $author->id,
+        'published' => true,
+    ]);
+    $ride->groups()->attach($group->id);
+
+    for ($i = 0; $i < $photos; $i++) {
+        $ride->addMedia(UploadedFile::fake()->image("ride-{$ride->id}-{$i}.jpg", 800, 600))
+            ->toMediaCollection('gallery');
+    }
+
+    return $ride;
+}
 
 /**
  * Living-hub iteration tests for the roze-hesje page.
@@ -63,35 +91,74 @@ test('roster shows the real pivot role label', function () {
     expect($memberRow)->toContain('Roze hesje')->not->toContain('Kapitein');
 });
 
-test('roze hub shows a wat-is-nieuw strook', function () {
-    [$group, $member] = rozeChapterWithMember();
+test('roze hub feed surfaces the newest member, derived from real data', function () {
+    [$group, $member] = rozeChapterWithMember(); // Saar attached now → within the welcome window
 
     actingAs($member)
         ->get(route('groups.roze-hesjes', $group))
         ->assertOk()
         ->assertSee('Sinds je laatste bezoek')
-        ->assertSee('Sara rijdt nu mee als roze hesje'); // faux feed item on the Overview
+        ->assertSee('Saar Vermeulen rijdt nu mee als roze hesje'); // dynamic new-member card
 });
 
-test('agenda shows an in-voorbereiding draft block linking to a preview', function () {
+test('roze hub feed hides when nothing has changed', function () {
     [$group, $member] = rozeChapterWithMember();
+    // Push the only member out of the welcome window so no feed event remains.
+    $group->users()->updateExistingPivot($member->id, ['created_at' => now()->subWeeks(4)]);
+
+    actingAs($member)
+        ->get(route('groups.roze-hesjes', $group))
+        ->assertOk()
+        ->assertDontSee('Sinds je laatste bezoek');
+});
+
+test('agenda leads with a real in-voorbereiding draft linking to its preview', function () {
+    [$group, $member] = rozeChapterWithMember();
+
+    $draft = Activity::create([
+        'title_nl' => 'Testrit in voorbereiding',
+        'title_fr' => 'Sortie test en préparation',
+        'content_nl' => 'Nog in de maak.',
+        'content_fr' => 'Encore en préparation.',
+        'activity_type' => ActivityType::KIDICALMASS,
+        'begin_date' => now()->addWeeks(2),
+        'location' => 'Mortsel',
+        'author_id' => $member->id,
+        'published' => false, // a draft never reaches the public agenda
+    ]);
+    $draft->groups()->attach($group->id);
 
     actingAs($member)
         ->get(route('groups.roze-hesjes.agenda', $group))
         ->assertOk()
         ->assertSee('In voorbereiding')
-        ->assertSee(route('groups.ride-preview', $group), false);
+        ->assertSee('Testrit in voorbereiding')
+        ->assertSee(route('groups.ride-preview', [$group, 'ride' => $draft->id]), false);
 });
 
-test('fotos shows a gallery slot', function () {
+test('fotos lists an album per past ride with a picker, newest by default', function () {
+    Storage::fake('media');
     [$group, $member] = rozeChapterWithMember();
 
-    // Assert on an apostrophe-free fragment: the literal "'" in the template stays as "'",
-    // but assertSee()'s default escaping would look for "&#039;" and miss it.
+    rozePastRideWithPhotos($group, $member, 'Rit van april', 2);
+    rozePastRideWithPhotos($group, $member, 'Rit van juni', 3);
+
     actingAs($member)
         ->get(route('groups.roze-hesjes.fotos', $group))
         ->assertOk()
-        ->assertSee('van het chapter');
+        ->assertSee('Het gedeelde album van') // head, apostrophe-free fragment
+        ->assertSee('Kies een rit')           // the ride picker (two albums)
+        ->assertSee('ride-gallery__grid', false) // the real photo wall rendered
+        ->assertDontSee('Nog geen');          // not the empty state
+});
+
+test('fotos shows a friendly empty state when no ride has photos', function () {
+    [$group, $member] = rozeChapterWithMember();
+
+    actingAs($member)
+        ->get(route('groups.roze-hesjes.fotos', $group))
+        ->assertOk()
+        ->assertSee('Nog geen'); // empty-state copy, apostrophe-free fragment
 });
 
 test('aan de slag shows a whatsapp doorgang', function () {

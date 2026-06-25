@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Group;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 
 /**
@@ -23,7 +25,7 @@ class RozeHesjeController extends Controller
     {
         return view('groups.roze-hesjes.overzicht', [
             ...$this->hubContext($group),
-            'feed' => $this->fauxFeed($group),
+            'feed' => $this->feed($group),
         ]);
     }
 
@@ -36,32 +38,52 @@ class RozeHesjeController extends Controller
     {
         $context = $this->hubContext($group);
 
-        $groupIds = collect([$group->id]);
-        $currentParent = $group->parent;
-        while ($currentParent) {
-            $groupIds->push($currentParent->id);
-            $currentParent = $currentParent->parent;
-        }
-
-        $activities = Activity::query()
+        // Confirmed rides follow the chapter's lineage (own chapter + the region/country
+        // editions above it), exactly like the public page.
+        $confirmed = Activity::query()
+            ->published()
             ->with(['author', 'groups'])
-            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $this->lineageIds($group)))
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')
             ->get();
 
-        $lead = $activities->first()?->author ?? $group->users->sortBy('name')->first();
+        // Drafts are this chapter's own work-in-progress — never the region's — so a hesje
+        // sees what their captains are preparing, not unrelated regional drafts.
+        $drafts = Activity::query()
+            ->where('published', false)
+            ->with('groups')
+            ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
+            ->where('begin_date', '>=', now())
+            ->orderBy('begin_date')
+            ->get();
 
         return view('groups.roze-hesjes.agenda', [
             ...$context,
-            'activities' => $activities,
-            'lead' => $lead,
+            'confirmed' => $confirmed,
+            'drafts' => $drafts,
         ]);
     }
 
     public function fotos(string $locale, Group $group): View
     {
-        return view('groups.roze-hesjes.fotos', $this->hubContext($group));
+        $context = $this->hubContext($group);
+
+        // One album per past ride that actually has photos, newest first. The view shows
+        // the latest by default and lets a hesje page back to earlier outings.
+        $rides = Activity::query()
+            ->with('media')
+            ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '<', now())
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->get();
+
+        return view('groups.roze-hesjes.fotos', [
+            ...$context,
+            'rides' => $rides,
+        ]);
     }
 
     public function groep(string $locale, Group $group): View
@@ -113,45 +135,90 @@ class RozeHesjeController extends Controller
         return compact('group', 'isCaptain', 'showWelcome', 'beheerUrl');
     }
 
-    /**
-     * Faux change-feed (newest first). Each item deep-links to its exact target.
-     * Real records come from the change-feed Nico builds (GitHub #37).
-     *
-     * @return array<int, array{type: string, color: string, icon: string, what: string, context: string, timestamp: string, relative: string, href: string}>
-     */
-    private function fauxFeed(Group $group): array
+    /** The chapter's id plus every region/country node above it, nearest first. */
+    private function lineageIds(Group $group): Collection
     {
-        return [
-            [
-                'type' => 'photos',
+        $ids = collect([$group->id]);
+        $parent = $group->parent;
+        while ($parent) {
+            $ids->push($parent->id);
+            $parent = $parent->parent;
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Change-feed (newest first), each card deep-linking to its exact target. The events
+     * themselves are derived from real seeded data — the latest album, the newest draft,
+     * the newest hesje — rather than hard-coded; a structured change-feed with precise
+     * timestamps is still Nico's (GitHub #37), so the relative labels stay approximate.
+     *
+     * @return array<int, array{color: string, icon: string, what: string, context: string, timestamp: string, relative: string, href: string}>
+     */
+    private function feed(Group $group): array
+    {
+        $items = collect();
+
+        $latestAlbum = Activity::query()
+            ->with('media')
+            ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '<', now())
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->first();
+
+        if ($latestAlbum) {
+            $count = $latestAlbum->getMedia('gallery')->count();
+            $rideDate = $latestAlbum->begin_date->locale(app()->getLocale())->isoFormat('D MMMM');
+            $items->push([
                 'color' => 'blue',
                 'icon' => 'image',
-                'what' => "3 nieuwe foto's van de rit van zondag",
-                'context' => 'Rit van zondag',
-                'timestamp' => now()->subDays(2)->toDateString(),
-                'relative' => '2 dagen geleden',
-                'href' => route('groups.roze-hesjes.fotos', $group),
-            ],
-            [
-                'type' => 'draft',
+                'what' => "{$count} foto's van de rit van {$rideDate}",
+                'context' => 'Nieuw in het album',
+                'timestamp' => $latestAlbum->begin_date->toDateString(),
+                'relative' => $latestAlbum->begin_date->diffForHumans(),
+                'href' => route('groups.roze-hesjes.fotos', [$group, 'ride' => $latestAlbum->id]),
+            ]);
+        }
+
+        $draft = Activity::query()
+            ->where('published', false)
+            ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
+            ->where('begin_date', '>=', now())
+            ->orderBy('begin_date')
+            ->first();
+
+        if ($draft) {
+            $items->push([
                 'color' => 'orange',
                 'icon' => 'pencil',
-                'what' => 'De Halloweenrit krijgt vorm',
-                'context' => 'Route gewijzigd',
-                'timestamp' => now()->subDays(3)->toDateString(),
-                'relative' => '3 dagen geleden',
-                'href' => route('groups.ride-preview', $group),
-            ],
-            [
-                'type' => 'member',
+                'what' => "{$draft->title} krijgt vorm",
+                'context' => 'Rit in voorbereiding',
+                'timestamp' => now()->toDateString(),
+                'relative' => 'deze week',
+                'href' => route('groups.ride-preview', [$group, 'ride' => $draft->id]),
+            ]);
+        }
+
+        $newMember = $group->users
+            ->filter(fn ($member) => $member->pivot->created_at?->greaterThan(now()->subWeeks(self::ROZE_WELCOME_WEEKS)))
+            ->sortByDesc(fn ($member) => $member->pivot->created_at)
+            ->first();
+
+        if ($newMember) {
+            $items->push([
                 'color' => 'red',
                 'icon' => 'user-plus',
-                'what' => 'Sara rijdt nu mee als roze hesje',
+                'what' => "{$newMember->name} rijdt nu mee als roze hesje",
                 'context' => 'Nieuw lid',
-                'timestamp' => now()->subDays(5)->toDateString(),
-                'relative' => '5 dagen geleden',
+                'timestamp' => $newMember->pivot->created_at->toDateString(),
+                'relative' => $newMember->pivot->created_at->diffForHumans(),
                 'href' => route('groups.roze-hesjes.groep', $group),
-            ],
-        ];
+            ]);
+        }
+
+        return $items->all();
     }
 }

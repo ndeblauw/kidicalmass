@@ -26,6 +26,7 @@
             </div>
         </section>
 
+        @if (count($feed) > 0)
         <section class="roze-feeds">
             <h2 class="roze-hub-title">Sinds je laatste bezoek</h2>
             <p class="roze-hub-lead">Wat er veranderde terwijl je weg was.</p>
@@ -43,5 +44,6 @@
                 @endforeach
             </div>
         </section>
+        @endif
     </div>
 </x-roze-hub>

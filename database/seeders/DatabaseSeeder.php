@@ -55,6 +55,10 @@ class DatabaseSeeder extends Seeder
         // rides, in varied counts and orientations.
         $this->call(ChapterRideGallerySeeder::class);
 
+        // Fill the roze-hesje hub of the demo chapter (Schaarbeek): per-ride galleries,
+        // draft rides, and a roster timeline with one genuinely new member.
+        $this->call(RozeHesjeDemoSeeder::class);
+
         $this->command->newLine();
         $this->task('Cleanup temporary media (if requested)', function () {
             MediaSeeder::cleanup();

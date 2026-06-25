@@ -76,6 +76,17 @@ class ChapterRideGallerySeeder extends Seeder
             return false;
         }
 
+        return $this->seedRide($ride, $count, $offset);
+    }
+
+    /**
+     * Attach $count sample photos to one ride's `gallery` collection, starting $offset
+     * photos into the (varied-orientation) source set. Idempotent: clears that ride's
+     * gallery first. Returns false when there are no source photos. Shared by the demo
+     * seeders that dress several rides of one chapter.
+     */
+    public function seedRide(Activity $ride, int $count, int $offset = 0): bool
+    {
         // Run conversions in-process (no queue worker during seeding) and give GD
         // room for the full-size photography — mirrors SeedGroupGalleryCommand.
         config(['media-library.queue_conversions_by_default' => false]);
@@ -100,7 +111,7 @@ class ChapterRideGallerySeeder extends Seeder
                 ->toMediaCollection('gallery');
         }
 
-        $this->command?->info("Seeded {$count} ride photos onto '{$group->name}'.");
+        $this->command?->info("Seeded {$count} ride photos onto ride #{$ride->id}.");
 
         return true;
     }
