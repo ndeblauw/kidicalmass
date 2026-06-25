@@ -98,6 +98,7 @@
     .steun-proof__deck {
         display: flex;
         flex-direction: column;
+        align-items: stretch; /* all stacked cards share the same column width */
         gap: 1.5rem;
         margin-top: 2.25rem;
     }

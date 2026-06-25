@@ -159,6 +159,8 @@
         font-family: var(--font-heading);
         font-weight: 800;
         color: var(--color-kidical-ink);
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
 
     /* Fluid display tiers: max == the original token, so desktop (≥1024px) is
