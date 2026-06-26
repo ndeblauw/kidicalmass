@@ -31,6 +31,31 @@ test('the site layout falls back to the marketing header with no navbar slot', f
         ->toContain('BODY');
 });
 
+test('the site layout renders a supplied footer slot instead of the marketing footer', function () {
+    $obLevel = ob_get_level();
+
+    $html = Blade::render(
+        '<x-layouts::site><x-slot:footer>SLIMFOOT</x-slot:footer>BODY</x-layouts::site>',
+    );
+
+    while (ob_get_level() > $obLevel) {
+        ob_end_clean();
+    }
+
+    expect($html)
+        ->toContain('SLIMFOOT')
+        ->toContain('BODY')
+        ->not->toContain('site-footer__main');
+});
+
+test('the site layout falls back to the marketing footer with no footer slot', function () {
+    $html = Blade::render('<x-layouts::site>BODY</x-layouts::site>');
+
+    expect($html)
+        ->toContain('site-footer__main')
+        ->toContain('BODY');
+});
+
 test('roze-hub renders the chapter name in the app-shell bar, not a hero', function () {
     $group = Group::factory()->create(['name' => 'Kidical Mass Schaarbeek']);
 

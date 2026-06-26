@@ -1,8 +1,9 @@
 @props([
-    'icon',           // Flux (Heroicons) icon name, e.g. "clock"
-    'title',          // rendered as the card's heading
-    'color' => 'red', // chip colour: red | blue | orange | ink | green | violet | coral
-    'size' => 'lg',   // lg = full feature card (default) · md = compact (roze-hesjes hub)
+    'icon',            // Flux (Heroicons) icon name, e.g. "clock"
+    'title',           // rendered as the card's heading
+    'color' => 'red',  // chip colour: red | blue | orange | ink | green | violet | coral
+    'size' => 'lg',    // lg = full feature card (default) · md = compact (roze-hesjes hub)
+    'heading' => 'h3', // heading level for the title (h3 default; pass h4 when nested under an h3)
 ])
 
 {{-- Feature card: an icon chip + title + body. The single source of truth for the
@@ -15,19 +16,22 @@
 @php
     $isCompact = $size === 'md';
     $wrapperClass = $isCompact
-        ? 'flex flex-col gap-4 bg-white rounded-card p-6 shadow-card'
+        ? 'flex flex-col gap-4 bg-white rounded-tile p-5 shadow-card'
         : 'feature-card flex flex-col gap-[1.125rem] bg-white rounded-card p-10 shadow-card [&_a]:text-kidical-blue [&_a]:font-bold [&_a]:bg-none [&_a:hover]:underline';
     $iconSizeClass = $isCompact ? 'size-6' : 'size-[2.4rem]';
-    // Compact uses the shared .roze-card-title face (Nunito Sans 800); the full
-    // card lets the <h3> inherit the Caprasimo display face from @layer base.
+    // Compact pairs the shared .roze-card-title face (Nunito Sans 800, text-xl)
+    // with the hub's default Body copy (inherited var(--text-xl)) — the same size the
+    // stepper and WhatsApp cards on the same page use, so every card reads at one size
+    // and weight (not size) separates title from copy. The full card lets the <h3>
+    // inherit the Caprasimo display face from @layer base, over a larger lead body.
     $titleClass = $isCompact ? 'roze-card-title' : 'text-kidical-ink';
-    $bodyClass = $isCompact ? 'text-kidical-ink/75' : 'text-[1.3125rem] leading-[1.6] text-kidical-ink/75';
+    $bodyClass = $isCompact ? 'leading-relaxed text-kidical-ink/75' : 'text-[1.3125rem] leading-[1.6] text-kidical-ink/75';
 @endphp
 
 <div {{ $attributes->merge(['class' => $wrapperClass]) }}>
     <x-icon-chip :color="$color" :size="$isCompact ? 'md' : 'lg'">
         <flux:icon name="{{ $icon }}" variant="solid" class="{{ $iconSizeClass }} text-white" aria-hidden="true" />
     </x-icon-chip>
-    <h3 class="{{ $titleClass }}">{{ $title }}</h3>
+    <{{ $heading }} class="{{ $titleClass }}">{{ $title }}</{{ $heading }}>
     <p class="{{ $bodyClass }}">{{ $slot }}</p>
 </div>

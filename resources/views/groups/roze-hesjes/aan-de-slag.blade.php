@@ -13,29 +13,33 @@
 
         <h3 class="roze-onboarding__sub">Wat doet een roze hesje?</h3>
         <div class="roze-onboarding__cards">
-            <x-roze-card icon="users" title="Je rijdt mee met de groep" color="red">
+            <x-roze-card heading="h4" icon="users" title="Je rijdt mee met de groep" color="red">
                 Je fietst naast de kinderen en houdt ze samen. Geen kopwerk, gewoon meerijden en mee opletten.
             </x-roze-card>
-            <x-roze-card icon="sparkles" title="Je brengt rust en goeie energie" color="orange">
-                Een vrolijke, kalme aanwezigheid op de weg doet meer dan je denkt. Dat ben jij.
+            <x-roze-card heading="h4" icon="sparkles" title="Je brengt rust en goeie energie" color="orange">
+                Een vrolijke, kalme aanwezigheid op de weg betekent veel. Dat ben jij.
             </x-roze-card>
-            <x-roze-card icon="eye" title="Goed zichtbaar zijn is genoeg" color="blue">
+            <x-roze-card heading="h4" icon="eye" title="Goed zichtbaar zijn is genoeg" color="blue">
                 Een fluo hesje en een glimlach. Meer heb je niet nodig om het verschil te maken.
             </x-roze-card>
-            <x-roze-card icon="academic-cap" title="Geen verkeersopleiding nodig" color="green">
+            <x-roze-card heading="h4" icon="academic-cap" title="Geen verkeersopleiding nodig" color="green">
                 Dat leer je vanzelf, samen met het team. Je staat er nooit alleen voor.
             </x-roze-card>
         </div>
 
-        {{-- Begeleidingsvideo — embedded inline (privacy-friendly nocookie host). --}}
-        <figure class="roze-video">
-            <iframe
-                src="https://www.youtube-nocookie.com/embed/i9YQxJ-ChNM"
-                title="Veilig begeleiden als roze hesje"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-            ></iframe>
+        {{-- Begeleidingsvideo — embedded inline (privacy-friendly nocookie host), with a
+             Dutch caption so the page frames it (the YouTube overlay is English). --}}
+        <figure class="roze-video-figure">
+            <div class="roze-video">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/i9YQxJ-ChNM"
+                    title="Veilig begeleiden als roze hesje"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                ></iframe>
+            </div>
+            <figcaption class="roze-video__caption">Zo ziet een rit eruit: rustig, samen en op kindertempo.</figcaption>
         </figure>
 
         <h3 class="roze-onboarding__sub">Je eerste rit, stap voor stap</h3>
@@ -63,10 +67,11 @@
     <section class="chapter-body roze-whatsapp">
         <div class="roze-whatsapp__inner">
             <div>
-                <strong class="roze-whatsapp__title roze-card-title">De WhatsApp-groep van {{ $gemeente }}</strong>
+                <h2 class="roze-whatsapp__title roze-card-title">De WhatsApp-groep van {{ $gemeente }}</h2>
                 <p class="roze-whatsapp__body">Voor het dagelijkse gepraat, snelle vragen en "wie kan er zondag mee".</p>
             </div>
-            <a href="#" class="roze-whatsapp__btn" aria-disabled="true">Naar WhatsApp →</a>
+            {{-- No live URL yet (Nico #37): an honest "binnenkort" control, not a button to nowhere. --}}
+            <span class="roze-whatsapp__btn roze-whatsapp__btn--soon">Naar WhatsApp <small>(binnenkort)</small></span>
         </div>
     </section>
 </x-roze-hub>

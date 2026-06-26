@@ -23,8 +23,19 @@ class RozeHesjeController extends Controller
 
     public function overview(string $locale, Group $group): View
     {
+        // The next published ride (own chapter + its region/country lineage) anchors
+        // the front door with something live every visit, not just the welcome block.
+        $nextRide = Activity::query()
+            ->published()
+            ->with(['author', 'groups'])
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $this->lineageIds($group)))
+            ->where('begin_date', '>=', now())
+            ->orderBy('begin_date')
+            ->first();
+
         return view('groups.roze-hesjes.overzicht', [
             ...$this->hubContext($group),
+            'nextRide' => $nextRide,
             'feed' => $this->feed($group),
         ]);
     }
@@ -88,9 +99,16 @@ class RozeHesjeController extends Controller
 
     public function groep(string $locale, Group $group): View
     {
+        // Everyone is visible to fellow hesjes, but ordered and labelled honestly:
+        // captains lead, then pink vests who ride, then interested members (no role
+        // yet) — each alphabetical, so a newcomer finds the lead first.
+        $rank = ['captain' => '0', 'pinkvest' => '1'];
+
         return view('groups.roze-hesjes.groep', [
             ...$this->hubContext($group),
-            'roster' => $group->users->sortBy('name')->values(),
+            'roster' => $group->users
+                ->sortBy(fn ($member) => ($rank[$member->pivot->role] ?? '2').'_'.$member->name)
+                ->values(),
             'newMemberCutoff' => now()->subWeeks(self::ROZE_WELCOME_WEEKS),
         ]);
     }

@@ -101,15 +101,18 @@ test('roze materiaal marks besloten downloads and still shows the public ones', 
         ->assertSee('Posters');         // a public download, shown here too
 });
 
-test('roze page greets a first-time visitor with a welcome block', function () {
+test('roze page sets the welcome-window cookie but shows no welcome block', function () {
     $group = rozeChapter();
     $member = User::factory()->create();
     $group->users()->attach($member);
 
+    // The welcome banner was removed; the welcome-window cookie still rides along
+    // because it drives the sub-nav (Aan de slag floats up for new members).
     actingAs($member)
         ->get(route('groups.roze-hesjes', $group))
         ->assertOk()
-        ->assertSee('Welkom bij de roze hesjes')
+        ->assertDontSee('Welkom bij de roze hesjes')
+        ->assertDontSee('Fijn dat je meerijdt')
         ->assertCookie('roze_welcome_'.$group->id);
 });
 

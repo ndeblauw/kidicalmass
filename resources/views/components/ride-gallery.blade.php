@@ -121,7 +121,7 @@
                 {{-- Title + the shared calendar tear-off (same lockup as the agenda),
                      red accent, clustered top-right over the photo scrim. --}}
                 <div class="ride-gallery__feature-head">
-                    <h2 class="ride-gallery__feature-title">{{ $title }}</h2>
+                    <p class="ride-gallery__feature-title">{{ $title }}</p>
 
                     @if ($rideRail)
                         <div
@@ -159,7 +159,7 @@
                 >
                     <img
                         src="{{ $media->getUrl('card') }}"
-                        alt="{{ $commune ? 'Foto van de laatste rit in ' . $commune : 'Foto van de rit' }}"
+                        alt=""
                         loading="lazy"
                         class="ride-gallery__img"
                     >

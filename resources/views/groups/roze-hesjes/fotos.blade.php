@@ -16,10 +16,11 @@
                 <h2 class="roze-hub-title">Foto's van {{ $gemeente }}</h2>
                 <p class="roze-hub-lead">Het gedeelde album van {{ $gemeente }}, rit per rit. Hier komen de foto's van onze tochten samen.</p>
             </div>
-            <button type="button" class="roze-gallery__upload" disabled aria-disabled="true">
-                <flux:icon name="arrow-up-tray" variant="micro" class="size-4" /> Foto's toevoegen (binnenkort)
-            </button>
         </div>
+        {{-- Quiet, honest "binnenkort" affordance, below the intro so the title leads cleanly. --}}
+        <button type="button" class="roze-gallery__upload" disabled aria-disabled="true">
+            <flux:icon name="arrow-up-tray" variant="micro" class="size-4" /> Foto's toevoegen (binnenkort)
+        </button>
 
         @if ($rides->isEmpty())
             <div class="roze-gallery__empty">
@@ -33,7 +34,8 @@
                     <div class="roze-gallery__select-wrap">
                         <select id="roze-gallery-ride" x-model="ride" class="roze-gallery__select">
                             @foreach ($rides as $ride)
-                                <option value="{{ $ride->id }}">{{ ucfirst($ride->date_full) }} &middot; {{ $ride->getMedia('gallery')->count() }} foto's</option>
+                                @php $photoCount = $ride->getMedia('gallery')->count(); @endphp
+                                <option value="{{ $ride->id }}">{{ ucfirst($ride->date_full) }} &middot; {{ trans_choice(':count foto|:count foto\'s', $photoCount, ['count' => $photoCount]) }}</option>
                             @endforeach
                         </select>
                         <flux:icon name="chevron-down" class="roze-gallery__select-chev size-4" aria-hidden="true" />

@@ -76,6 +76,7 @@ test('roster marks a member who joined within the window as new', function () {
 
 test('roster shows the real pivot role label', function () {
     [$group, $member] = rozeChapterWithMember();
+    $group->users()->updateExistingPivot($member->id, ['role' => 'pinkvest']);
     $captain = User::factory()->create(['name' => 'Katrien Peeters']);
     $group->users()->attach($captain, ['role' => 'captain']);
 

@@ -56,9 +56,10 @@ it('renders the compact md size with the roze-card title face and tighter paddin
 
     expect($html)
         ->toContain('roze-card-title')   // compact title face
-        ->toContain('p-6')               // compact padding
+        ->toContain('p-5')               // compact padding
         ->toContain('size-6')            // compact icon
         ->not->toContain('p-10')         // not the full-size card
+        ->not->toContain('text-sm')      // body sits at the default body size, not the small tier
         ->not->toContain('feature-card'); // compact drops the identity hook
 });
 
@@ -72,6 +73,6 @@ it('roze-card is a thin alias for the compact feature-card', function () {
         ->toContain('samen op pad')
         ->toContain('roze-card-title')
         ->toContain('bg-kidical-orange')
-        ->toContain('p-6')
+        ->toContain('p-5')
         ->toContain('size-6');
 });

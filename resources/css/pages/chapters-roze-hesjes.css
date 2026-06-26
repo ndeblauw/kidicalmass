@@ -1,12 +1,12 @@
 @layer components {
     /* 3 · AGENDA — empty-state note for the "al vastgelegd" list */
     .roze-agenda__note {
-        margin-top: 0.5rem;
+        margin-top: var(--roze-gap-xs);
         color: var(--color-text-body);
         background-color: var(--color-kidical-light-yellow);
-        border-radius: var(--radius-card);
-        padding: 0.85rem 1.1rem;
-        font-weight: 700;
+        border-radius: var(--radius-tile);
+        padding: var(--roze-pad-row);
+        line-height: 1.5;
     }
 
     /* 4 · ROZE ROSTER — the full team */
@@ -16,18 +16,23 @@
         padding: 0;
         display: grid;
         grid-template-columns: 1fr;
-        gap: 0.75rem;
+        gap: var(--roze-gap-sm);
     }
     @media (min-width: 640px) { .roze-roster { grid-template-columns: repeat(2, 1fr); } }
+    /* Card style matches its tappable siblings (hairline border); the warmth comes
+       from the per-person avatar accent, not a one-off pink frame. */
     .roze-roster__member {
         display: flex;
         align-items: center;
-        gap: 0.85rem;
+        gap: var(--roze-gap-sm);
         background-color: white;
-        border: 1px solid color-mix(in oklab, var(--color-kidical-red), white 75%);
+        border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-tile);
-        padding: 0.7rem 0.9rem;
+        padding: var(--roze-pad-row-sm);
     }
+    /* Per-person accent (set inline, cycled in the view) brings warmth to what
+       was six identical red circles. The palette is all dark enough for the
+       white, bold, large initials to clear contrast. */
     .roze-roster__avatar {
         display: flex;
         align-items: center;
@@ -36,13 +41,14 @@
         width: 2.75rem;
         height: 2.75rem;
         border-radius: var(--radius-pill);
-        background-color: var(--color-kidical-red);
+        background-color: var(--avatar-accent, var(--color-kidical-red));
         color: white;
         font-family: var(--font-heading);
         font-weight: 800;
     }
     .roze-roster__name { display: block; line-height: 1.2; }
     .roze-roster__role { font-size: var(--text-sm); color: var(--color-text-body); }
+    .roze-roster__role--lead { font-weight: 700; color: color-mix(in oklab, var(--color-kidical-red), var(--color-kidical-ink) 25%); }
 
     /* 5 · VOOR JE EERSTE RIT — permanent onboarding (light-blue). "wat doet een hesje"
        reuses the shared <x-feature-card>; the stepper is local. */
@@ -57,46 +63,65 @@
         margin: 2rem 0 1rem;
     }
     .roze-onboarding__sub:first-of-type { margin-top: 0; }
-    .roze-onboarding__cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .roze-onboarding__cards { display: grid; grid-template-columns: 1fr; gap: var(--roze-gap-lg); margin-bottom: var(--roze-gap-lg); }
     @media (min-width: 768px) { .roze-onboarding__cards { grid-template-columns: repeat(2, 1fr); } }
-    .roze-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; max-width: 48rem; }
-    .roze-step { display: flex; gap: 1rem; align-items: flex-start; background-color: white; border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 1.25rem; }
+    .roze-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--roze-gap-md); max-width: 48rem; }
+    .roze-step { display: flex; gap: var(--roze-gap-md); align-items: flex-start; background-color: white; border-radius: var(--radius-tile); box-shadow: var(--shadow-card); padding: var(--roze-pad-block); }
     .roze-step__num { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-pill); background-color: var(--color-kidical-blue); color: white; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); }
-    .roze-step__title { display: block; margin-bottom: 0.25rem; }
+    .roze-step__title { display: block; margin-bottom: var(--roze-gap-2xs); }
     .roze-step__body { color: var(--color-text-body); line-height: 1.5; }
 
     /* Begeleidingsvideo — responsive 16:9 embed, aligned to the steps column width. */
-    .roze-video {
-        margin: 0 0 0.5rem;
+    .roze-video-figure {
+        margin: 0 0 var(--roze-gap-xs);
         max-width: 48rem;
+    }
+    .roze-video {
+        margin: 0;
         aspect-ratio: 16 / 9;
-        border-radius: var(--radius-card);
+        border-radius: var(--radius-tile);
         overflow: hidden;
         box-shadow: var(--shadow-card);
         background-color: var(--color-kidical-ink);
     }
     .roze-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .roze-video__caption {
+        margin-top: var(--roze-gap-xs);
+        font-size: var(--text-sm);
+        color: var(--color-text-body);
+    }
 
     /* 6 · MATERIAAL — token-backed tiles with a visibility badge */
     .roze-materials {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: var(--roze-gap-md);
     }
     @media (min-width: 640px) { .roze-materials { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { .roze-materials { grid-template-columns: repeat(3, 1fr); } }
     .roze-material {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: var(--roze-gap-xs);
         background-color: white;
         border: 1px solid var(--color-kidical-hairline);
-        border-radius: var(--radius-card);
-        padding: 1.25rem;
+        border-radius: var(--radius-tile);
+        padding: var(--roze-pad-block);
         box-shadow: var(--shadow-float);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
     .roze-material:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    /* Not-yet-available material: an honest preview, not a clickable download. No hover
+       lift (it doesn't navigate), and a quiet "Binnenkort" chip carries the state. */
+    .roze-material--soon { cursor: default; }
+    .roze-material--soon:hover { transform: none; box-shadow: var(--shadow-float); }
+    .roze-material__soon {
+        font-size: var(--text-xs); font-weight: 800;
+        text-transform: uppercase; letter-spacing: 0.04em;
+        padding: var(--roze-pad-pill); border-radius: var(--radius-pill);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
+    }
     .roze-material__icon {
         display: flex;
         align-items: center;
@@ -109,87 +134,110 @@
     }
     .roze-material__icon--besloten { background-color: var(--color-kidical-red); }
     .roze-material__icon--publiek { background-color: var(--color-kidical-blue); }
+    .roze-materials__note { margin: 0 0 1rem; font-size: var(--text-sm); color: var(--color-text-body); }
+    .roze-material__title { margin: 0; }
     .roze-material__desc { color: var(--color-text-body); font-size: var(--text-sm); line-height: 1.4; }
-    .roze-material__tags { display: flex; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
-    .roze-material__tag { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%); }
+    .roze-material__tags { display: flex; align-items: center; flex-wrap: wrap; gap: var(--roze-gap-xs); margin-top: auto; padding-top: var(--roze-gap-xs); }
+    .roze-material__tag { white-space: nowrap; font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%); }
     .roze-material__badge {
+        white-space: nowrap;
         font-size: var(--text-xs);
         font-weight: 800;
-        padding: 0.15rem 0.55rem;
+        padding: var(--roze-pad-pill);
         border-radius: var(--radius-pill);
     }
-    .roze-material__badge--besloten { background-color: color-mix(in oklab, var(--color-kidical-red), white 82%); color: var(--color-kidical-red); }
-    .roze-material__badge--publiek { background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%); color: var(--color-kidical-blue); }
+    /* Text deepened toward ink so the badge label clears WCAG AA on its pale tint
+       (plain accent was 3.2:1 besloten / 4.2:1 publiek at text-xs). */
+    .roze-material__badge--besloten { background-color: color-mix(in oklab, var(--color-kidical-red), white 82%); color: color-mix(in oklab, var(--color-kidical-red), var(--color-kidical-ink) 42%); }
+    .roze-material__badge--publiek { background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%); color: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-ink) 35%); }
 
     /* ROSTER — "Nieuw" marker */
     .roze-roster__member { position: relative; }
     .roze-roster__new {
         margin-left: auto; align-self: center;
         font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.03em;
-        padding: 0.15rem 0.55rem; border-radius: var(--radius-pill);
-        background-color: var(--color-kidical-red); color: white;
+        padding: var(--roze-pad-pill); border-radius: var(--radius-pill);
+        /* Red deepened toward ink so the white label clears WCAG AA (plain red is ~4.0:1 at text-xs). */
+        background-color: color-mix(in oklab, var(--color-kidical-red), var(--color-kidical-ink) 25%); color: white;
     }
 
-    /* IN VOORBEREIDING — draft cards (agenda + overview feed target) */
-    .roze-draft {
-        display: flex; flex-direction: column; gap: 0.2rem;
-        background-color: white;
-        border: 1px dashed color-mix(in oklab, var(--color-kidical-red), white 55%);
-        border-radius: var(--radius-card); padding: 1rem 1.25rem;
-        transition: border-color 0.15s ease, transform 0.15s ease;
+    /* Branded keyboard focus for the overview + agenda + materiaal cards, matching
+       the chrome + gallery-select convention. */
+    .roze-tile:focus-visible,
+    .roze-feed:focus-visible,
+    .roze-next:focus-visible,
+    .roze-agenda-row:focus-visible,
+    .roze-material:focus-visible {
+        outline: 2px solid var(--color-kidical-red);
+        outline-offset: 2px;
     }
-    .roze-draft:hover { transform: translateY(-2px); border-color: var(--color-kidical-red); }
-    .roze-draft__flag {
-        align-self: flex-start; font-size: var(--text-xs); font-weight: 800;
-        text-transform: uppercase; letter-spacing: 0.04em;
-        color: var(--color-kidical-red);
-        background-color: color-mix(in oklab, var(--color-kidical-red), white 86%);
-        padding: 0.1rem 0.5rem; border-radius: var(--radius-pill); margin-bottom: 0.25rem;
+
+    @media (prefers-reduced-motion: reduce) {
+        .roze-agenda-row,
+        .roze-material { transition: none; }
     }
-    .roze-draft__when { font-size: var(--text-sm); color: var(--color-text-body); }
-    .roze-draft__hint { font-size: var(--text-sm); color: var(--color-kidical-red); font-weight: 700; margin-top: 0.15rem; }
 
     /* 3 · AGENDA — drafts lead, confirmed rides follow as a lean list */
     .roze-agenda { display: flex; flex-direction: column; }
     .roze-agenda .roze-hub-lead { margin: 0.375rem 0 0; }
-    .roze-agenda__block { margin-top: 1.75rem; }
+    .roze-agenda__block { margin-top: var(--roze-gap-lg); }
+    /* Divisions within the Agenda section ("In voorbereiding" / "Al vastgelegd") —
+       the same h3 sub-heading level as .roze-onboarding__sub, so they share its
+       default treatment (Caprasimo 800, text-xl, ink); only the margin is local. */
     .roze-agenda__label {
-        font-size: var(--text-sm); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%); margin-bottom: 0.75rem;
+        font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl);
+        line-height: 1.2; color: var(--color-kidical-ink); margin: 0 0 var(--roze-gap-sm);
     }
-    .roze-agenda__drafts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
-
-    .roze-agenda__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.625rem; }
+    .roze-agenda__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--roze-gap-sm); }
+    /* Accent lives on the date rail + type badge (both --ride-accent); no side-stripe
+       (a banned pattern). Full hairline border keeps the row calm and bounded. */
     .roze-agenda-row {
-        display: flex; align-items: center; gap: 1rem;
+        display: flex; align-items: center; gap: var(--roze-gap-md);
         background-color: white;
         border: 1px solid var(--color-kidical-hairline);
-        border-left: 4px solid var(--ride-accent, var(--color-kidical-red));
         border-radius: var(--radius-tile);
         box-shadow: var(--shadow-float);
-        padding: 0.7rem 1rem;
+        padding: var(--roze-pad-row-sm);
+        transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
+    .roze-agenda-row:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
     .roze-agenda-row__date {
         flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center;
         width: 3rem; line-height: 1;
-        color: var(--ride-accent, var(--color-kidical-red));
+        /* Accent deepened toward ink so the date clears contrast on white even for
+           the lighter ride types (plain green/orange were ~2.5:1). */
+        color: color-mix(in oklab, var(--ride-accent, var(--color-kidical-red)), var(--color-kidical-ink) 30%);
     }
     .roze-agenda-row__num { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl); }
     .roze-agenda-row__mon { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
     .roze-agenda-row__body { flex: 1; min-width: 0; }
     .roze-agenda-row__title { display: block; line-height: 1.2; }
-    .roze-agenda-row__meta { display: block; font-size: var(--text-sm); color: var(--color-text-body); margin-top: 0.1rem; }
+    .roze-agenda-row__meta { display: block; font-size: var(--text-sm); color: var(--color-text-body); margin-top: var(--roze-gap-2xs); }
     .roze-agenda-row__type {
         flex: none; align-self: center;
         font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.03em;
-        padding: 0.2rem 0.6rem; border-radius: var(--radius-pill);
-        color: var(--ride-accent, var(--color-kidical-red));
+        padding: var(--roze-pad-pill); border-radius: var(--radius-pill);
+        /* Label deepened toward ink so it clears WCAG AA on its own pale tint
+           (plain accent text was 2.2:1 green / 3.4:1 red at text-xs). */
+        color: color-mix(in oklab, var(--ride-accent, var(--color-kidical-red)), var(--color-kidical-ink) 42%);
         background-color: color-mix(in oklab, var(--ride-accent, var(--color-kidical-red)), white 86%);
     }
 
-    .roze-agenda__foot { margin-top: 1.25rem; }
+    /* IN VOORBEREIDING — the same row, softened: a draft a hesje can watch take
+       shape. Dashed frame + muted rail read as "not fixed yet"; the chip says so
+       in words, and the row links to the live preview, not a public page. */
+    .roze-agenda-row--draft {
+        border-style: dashed;
+        border-color: color-mix(in oklab, var(--color-kidical-red), white 55%);
+        box-shadow: none;
+    }
+    .roze-agenda-row--draft:hover { box-shadow: none; border-color: var(--color-kidical-red); }
+    .roze-agenda-row--draft .roze-agenda-row__date {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    }
 
-    /* RIDE PREVIEW page */
+    /* RIDE PREVIEW page — standalone (outside .roze-hub-body, so spacing tokens
+       don't reach it); values are snapped to the same 4px scale by hand. */
     .roze-preview { max-width: 44rem; }
     .roze-preview__back { font-weight: 700; color: var(--color-kidical-red); }
     .roze-preview__flag {
@@ -202,9 +250,9 @@
     .roze-preview__status {
         background-color: color-mix(in oklab, var(--color-kidical-red), white 90%);
         border: 1px solid color-mix(in oklab, var(--color-kidical-red), white 72%);
-        border-radius: var(--radius-card); padding: 1.25rem 1.5rem;
+        border-radius: var(--radius-tile); padding: 1.25rem;
     }
-    .roze-preview__status-title { display: block; margin-bottom: 0.35rem; }
+    .roze-preview__status-title { display: block; margin-bottom: 0.25rem; }
     .roze-preview__status-body { color: var(--color-text-body); line-height: 1.5; }
     .roze-preview__foot { margin-top: 1.5rem; font-size: var(--text-sm); color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%); }
 
@@ -214,14 +262,14 @@
     .roze-gallery__head .roze-hub-lead { margin-top: 0.375rem; }
     .roze-gallery__upload {
         flex: none;
-        display: inline-flex; align-items: center; gap: 0.4rem;
+        display: inline-flex; align-items: center; gap: var(--roze-gap-xs);
         font-size: var(--text-sm); font-weight: 700;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
         background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
-        border-radius: var(--radius-pill); padding: 0.45rem 0.9rem; cursor: not-allowed;
+        border-radius: var(--radius-pill); padding: 0.5rem 1rem; cursor: not-allowed;
     }
 
-    .roze-gallery__picker { display: flex; flex-direction: column; gap: 0.4rem; margin: 1.25rem 0 1.5rem; }
+    .roze-gallery__picker { display: flex; flex-direction: column; gap: var(--roze-gap-xs); margin: 1.25rem 0 1.5rem; }
     .roze-gallery__picker label {
         font-size: var(--text-sm); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
@@ -230,15 +278,15 @@
     .roze-gallery__select {
         appearance: none; -webkit-appearance: none;
         width: 100%;
-        font-family: var(--font-heading); font-weight: 700; font-size: var(--text-base);
+        font-family: var(--font-sans); font-weight: 700; font-size: var(--text-base);
         color: var(--color-kidical-ink);
         background-color: white;
         border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-pill);
         box-shadow: var(--shadow-float);
-        padding: 0.65rem 2.5rem 0.65rem 1.1rem;
+        padding: 0.625rem 2.5rem 0.625rem 1rem;
         cursor: pointer;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        transition: border-color 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
     .roze-gallery__select:hover { border-color: color-mix(in oklab, var(--color-kidical-red), white 50%); }
     .roze-gallery__select:focus-visible { outline: 2px solid var(--color-kidical-red); outline-offset: 2px; }
@@ -250,73 +298,116 @@
     .roze-gallery__empty {
         margin-top: 1.25rem;
         background-color: color-mix(in oklab, var(--color-kidical-red), white 90%);
-        border-radius: var(--radius-card);
-        padding: 2rem 1.75rem;
+        border-radius: var(--radius-tile);
+        padding: 1.5rem;
         color: var(--color-text-body);
     }
-    .roze-gallery__empty > .roze-row-title { color: var(--color-kidical-red); margin-bottom: 0.25rem; }
+    .roze-gallery__empty > .roze-row-title { color: var(--color-kidical-red); margin-bottom: var(--roze-gap-2xs); }
 
     /* WHATSAPP-DOORGANG — foot hand-off */
     .roze-whatsapp__inner {
         display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; flex-wrap: wrap;
         background-color: color-mix(in oklab, var(--color-kidical-blue), white 88%);
-        border-radius: var(--radius-card); padding: 1.5rem 1.75rem;
+        border-radius: var(--radius-tile); padding: 1.5rem;
     }
-    .roze-whatsapp__title { display: block; }
+    .roze-whatsapp__title { display: block; margin: 0; }
     .roze-whatsapp__body { color: var(--color-text-body); }
-    .roze-whatsapp__btn { flex-shrink: 0; font-weight: 800; color: white; background-color: var(--color-kidical-blue); padding: 0.6rem 1.1rem; border-radius: var(--radius-pill); }
+    .roze-whatsapp__link {
+        display: inline-block;
+        margin-top: var(--roze-gap-xs);
+        font-weight: 700;
+        color: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-ink) 12%);
+    }
+    .roze-whatsapp__btn { flex-shrink: 0; font-weight: 800; color: white; background-color: var(--color-kidical-blue); padding: 0.5rem 1rem; border-radius: var(--radius-pill); }
+    /* No live URL yet: render as a quiet "binnenkort" control, not a primary CTA to nowhere. */
+    .roze-whatsapp__btn--soon {
+        cursor: not-allowed;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+    }
+    .roze-whatsapp__btn--soon small { font-size: var(--text-xs); font-weight: 700; }
 
     /* === Roze-hub Overview ================================================= */
     /* Surface rule: tappable (tile, feed) = hairline border + shadow-float,
        hover lifts translateY(-2px) + shadow-hover; transient notice (welcome) =
-       flat tint. Radius: content card = --radius-card (2rem), compact = --radius-tile
-       (1rem). Header-group to content step = 0.75rem; section gap = --roze-overview gap. */
+       flat tint. Radius: --radius-tile (1rem) for every card and tile — one tier,
+       collapsed from the old card/tile split to the smaller, calmer radius. Header-group
+       to content step = --roze-gap-sm; section gap = --roze-gap-lg. */
     .roze-overview {
         display: flex;
         flex-direction: column;
-        gap: 1.375rem;
+        gap: var(--roze-gap-lg);
     }
 
-    .roze-hub-welcome {
-        background: color-mix(in oklab, var(--color-kidical-red), transparent 90%);
-        border-radius: var(--radius-card);
-        padding: 1rem 1.25rem;
+    /* Every overview section steps from its subtitle to its content by the same
+       --roze-gap-sm, so the heading rhythm reads identically down the page.
+       .roze-grab carries this on its own flex; .roze-next-section matches it here. */
+    .roze-next-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--roze-gap-sm);
     }
 
-    .roze-hub-welcome > h2 {
-        margin: 0 0 0.25rem;
-        color: var(--color-kidical-red);
-        font-size: var(--text-lg);
+    /* === Front-door anchor: the chapter's next confirmed ride ==============
+       Gives the overview something live every visit. Reuses the agenda
+       date-rail lockup. */
+    .roze-next {
+        display: flex;
+        align-items: center;
+        gap: var(--roze-gap-md);
+        text-decoration: none;
+        background: white;
+        border: 1px solid var(--color-kidical-hairline);
+        border-radius: var(--radius-tile);
+        box-shadow: var(--shadow-float);
+        padding: var(--roze-pad-row);
+        transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
 
-    .roze-hub-welcome p {
-        margin: 0;
-        font-size: var(--text-sm);
-        color: var(--color-text-body);
+    .roze-next:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .roze-next__date {
+        flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 3.25rem; line-height: 1;
+        color: color-mix(in oklab, var(--ride-accent, var(--color-kidical-red)), var(--color-kidical-ink) 30%);
+    }
+
+    .roze-next__num { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl); }
+    .roze-next__mon { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .roze-next__body { flex: 1; min-width: 0; }
+    .roze-next__title { display: block; }
+    .roze-next__meta { display: block; font-size: var(--text-sm); color: var(--color-text-body); margin-top: var(--roze-gap-2xs); }
+    .roze-next__chev { flex: none; color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); }
+
+    @media (prefers-reduced-motion: reduce) {
+        .roze-next { transition: none; }
     }
 
     .roze-grab {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: var(--roze-gap-sm);
     }
 
     .roze-grab__tiles {
         display: flex;
-        gap: 0.625rem;
+        gap: var(--roze-gap-sm);
     }
 
     .roze-tile {
         flex: 1;
         display: flex;
         align-items: center;
-        gap: 0.5625rem;
+        gap: var(--roze-gap-xs);
         text-decoration: none;
         background: white;
         border: 1px solid var(--color-kidical-hairline);
         border-radius: var(--radius-tile);
         box-shadow: var(--shadow-float);
-        padding: 0.75rem 1rem;
+        padding: var(--roze-pad-row-sm);
         transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
 
@@ -331,24 +422,24 @@
         gap: 0;
     }
 
-    .roze-feeds .roze-hub-lead { margin: 0.375rem 0 0.75rem; }
+    .roze-feeds .roze-hub-lead { margin: 0.375rem 0 var(--roze-gap-sm); }
 
     .roze-feeds__list {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: var(--roze-gap-sm);
     }
 
     .roze-feed {
         display: flex;
         align-items: center;
-        gap: 0.8125rem;
+        gap: var(--roze-gap-sm);
         text-decoration: none;
         background: white;
         border: 1px solid var(--color-kidical-hairline);
-        border-radius: var(--radius-card);
+        border-radius: var(--radius-tile);
         box-shadow: var(--shadow-float);
-        padding: 0.875rem 1rem;
+        padding: var(--roze-pad-row-sm);
         transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
     }
 
@@ -370,9 +461,9 @@
     .roze-feed__meta {
         display: block;
         font-family: var(--font-sans);
-        font-size: var(--text-xs);
+        font-size: var(--text-sm);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
-        margin-top: 0.1875rem;
+        margin-top: var(--roze-gap-2xs);
     }
 
     .roze-feed__chev {
@@ -381,12 +472,8 @@
     }
 
     @media (min-width: 48rem) {
-        .roze-overview {
-            gap: 1.5rem;
-        }
-
         .roze-feed {
-            padding: 1rem 1.25rem;
+            padding: var(--roze-pad-row);
         }
     }
 

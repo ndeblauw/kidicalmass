@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Activity;
 use App\Models\Group;
 use App\Models\User;
 
@@ -64,20 +65,16 @@ test('the Overview shows the Voor de rit tiles and the feed', function () {
         ->assertSee('rijdt nu mee als roze hesje');
 });
 
-test('the welcome panel shows on a first visit and hides afterwards', function () {
+test('the overview shows no welcome panel, even on a first visit', function () {
     $group = Group::factory()->create();
     $member = User::factory()->create();
     $group->users()->attach($member, ['role' => null]);
 
-    // First visit: no cookie yet -> welcome shown.
+    // The welcome banner was removed; a brand-new member (welcome window open,
+    // no cookie yet) lands straight on the content with no panel.
     actingAs($member)->get(hubUrl('groups.roze-hesjes', $group))
-        ->assertSee('Welkom bij de roze hesjes');
-
-    // Past the window: cookie dated long ago -> hidden.
-    actingAs($member)
-        ->withUnencryptedCookie('roze_welcome_'.$group->id, now()->subWeeks(4)->toIso8601String())
-        ->get(hubUrl('groups.roze-hesjes', $group))
-        ->assertDontSee('Welkom bij de roze hesjes');
+        ->assertDontSee('roze-hub-welcome', escape: false)
+        ->assertDontSee('Fijn dat je meerijdt');
 });
 
 test('the De Groep sub-page lists a roster member by name', function () {
@@ -156,3 +153,70 @@ test('the shell bar context label appears on every hub sub-page', function (stri
     'groups.roze-hesjes.groep',
     'groups.roze-hesjes.materiaal',
 ]);
+
+test('hub pages show the slim member footer, not the public marketing footer', function (string $name) {
+    $group = Group::factory()->create();
+    $member = User::factory()->create();
+    $group->users()->attach($member, ['role' => null]);
+
+    actingAs($member)->get(hubUrl($name, $group))
+        ->assertSee('roze-foot', escape: false)          // slim member footer chrome
+        ->assertSee('Terug naar de website')             // calm way back to the public site
+        ->assertSee('Hulp nodig?')
+        ->assertDontSee('site-footer__main', escape: false); // no carnival/Steun marketing footer
+})->with(hubRoutes());
+
+test('materiaal previews not-yet-available items as Binnenkort instead of dead links', function () {
+    $group = Group::factory()->create();
+    $member = User::factory()->create();
+    $group->users()->attach($member, ['role' => null]);
+
+    actingAs($member)->get(hubUrl('groups.roze-hesjes.materiaal', $group))
+        ->assertSee('Binnenkort')                          // honest availability marker
+        ->assertSee('roze-material--soon', escape: false)  // non-interactive preview styling
+        ->assertSee('Besloten');                           // still previews the access split
+});
+
+test('the agenda renders drafts and confirmed rides through the one shared row', function () {
+    $group = Group::factory()->create();
+    $member = User::factory()->create();
+    $group->users()->attach($member, ['role' => null]);
+
+    $confirmed = Activity::factory()->create([
+        'published' => true,
+        'title_nl' => 'Vastgelegde rit',
+        'begin_date' => now()->addWeeks(2)->setTime(14, 0),
+    ]);
+    $confirmed->groups()->attach($group);
+
+    $draft = Activity::factory()->create([
+        'published' => false,
+        'title_nl' => 'Rit in wording',
+        'begin_date' => now()->addWeeks(3)->setTime(14, 0),
+    ]);
+    $draft->groups()->attach($group);
+
+    actingAs($member)->get(hubUrl('groups.roze-hesjes.agenda', $group))
+        ->assertOk()
+        ->assertSee('Vastgelegde rit')
+        ->assertSee('Rit in wording')
+        ->assertSee('Nog niet vast')                         // the draft state chip
+        ->assertSee('roze-agenda-row', escape: false)        // both lists share the one row
+        ->assertSee('roze-agenda-row--draft', escape: false) // the draft is that row, softened
+        // The draft links to the live preview; the confirmed ride to its public page.
+        ->assertSee(route('groups.ride-preview', [$group, 'ride' => $draft->id]), escape: false)
+        ->assertSee(route('activities.show', $confirmed), escape: false)
+        // The bespoke draft card is retired.
+        ->assertDontSee('roze-draft__flag', escape: false);
+});
+
+test('the aan-de-slag WhatsApp hand-off reads as binnenkort, not a button to nowhere', function () {
+    $group = Group::factory()->create();
+    $member = User::factory()->create();
+    $group->users()->attach($member, ['role' => null]);
+
+    actingAs($member)->get(hubUrl('groups.roze-hesjes.aan-de-slag', $group))
+        ->assertSee('WhatsApp')
+        ->assertSee('binnenkort')
+        ->assertSee('roze-whatsapp__btn--soon', escape: false);
+});

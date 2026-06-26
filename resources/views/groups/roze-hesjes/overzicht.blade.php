@@ -1,14 +1,28 @@
 <x-roze-hub :group="$group" active="overzicht" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl">
+    @php
+        $nextRail = $nextRide ? \App\Support\RideDate::rail($nextRide->begin_date) : null;
+    @endphp
+
     <div class="roze-overview">
-        @if ($showWelcome)
-            <div class="roze-hub-welcome">
-                <h2>Welkom bij de roze hesjes van {{ $group->name }}</h2>
-                <p>Fijn dat je meerijdt. Begin bij <a href="{{ route('groups.roze-hesjes.aan-de-slag', $group) }}">Aan de slag</a> om je weg te vinden. Dit bericht verdwijnt vanzelf na je eerste weken.</p>
-            </div>
+        @if ($nextRide)
+            <section class="roze-next-section">
+                <h2 class="roze-hub-subtitle">Je volgende rit</h2>
+                <a href="{{ route('activities.show', $nextRide) }}" class="roze-next" style="--ride-accent: {{ $nextRide->activity_type->accentColor() }};">
+                    <time class="roze-next__date" datetime="{{ $nextRide->begin_date->toDateString() }}">
+                        <span class="roze-next__num">{{ $nextRail['num'] }}</span>
+                        <span class="roze-next__mon">{{ $nextRail['month'] }}</span>
+                    </time>
+                    <span class="roze-next__body">
+                        <strong class="roze-next__title roze-row-title">{{ $nextRide->title }}</strong>
+                        <span class="roze-next__meta">{{ ucfirst($nextRide->weekday_label) }} &middot; {{ $nextRide->time_label }}@if (filled($nextRide->location)) &middot; {{ $nextRide->location }}@endif</span>
+                    </span>
+                    <svg class="roze-next__chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                </a>
+            </section>
         @endif
 
         <section class="roze-grab">
-            <h2 class="roze-hub-title">Voor de rit</h2>
+            <h2 class="roze-hub-subtitle">Voor de rit</h2>
             <div class="roze-grab__tiles">
                 <a href="{{ route('groups.roze-hesjes.materiaal', $group) }}" class="roze-tile">
                     <x-icon-chip color="orange" size="sm" :shadow="true">
@@ -28,7 +42,7 @@
 
         @if (count($feed) > 0)
         <section class="roze-feeds">
-            <h2 class="roze-hub-title">Sinds je laatste bezoek</h2>
+            <h2 class="roze-hub-subtitle">Sinds je laatste bezoek</h2>
             <p class="roze-hub-lead">Wat er veranderde terwijl je weg was.</p>
             <div class="roze-feeds__list">
                 @foreach ($feed as $item)

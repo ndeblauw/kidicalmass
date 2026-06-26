@@ -112,6 +112,13 @@
     .ride-gallery__feature-media:focus-visible .ride-gallery__feature-bg {
         transform: scale(1.04);
     }
+    /* Branded keyboard focus ring on the photo buttons (the scale alone reads as
+       hover, not focus). Offset so it sits clear of the rounded tile. */
+    .ride-gallery__feature-media:focus-visible,
+    .ride-gallery__tile:focus-visible {
+        outline: 0.15rem solid var(--color-kidical-red);
+        outline-offset: 0.25rem;
+    }
     .ride-gallery__feature-media::after {
         content: "";
         position: absolute;
@@ -155,7 +162,7 @@
         margin-top: 0;
     }
     .ride-gallery__feature-cal .ride-day__rail {
-        box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
+        box-shadow: 0 6px 18px color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
     }
     .ride-gallery__tile {
         position: relative;
@@ -180,14 +187,16 @@
         justify-content: center;
         gap: 0.2em;
         text-align: center;
-        background: color-mix(in srgb, var(--color-kidical-ink) 64%, transparent);
+        /* Scrim deep enough that the white "+N / Bekijk alle foto's" label keeps
+           AA contrast even over a bright photo (64% could fall below 4.5:1). */
+        background: color-mix(in srgb, var(--color-kidical-ink) 74%, transparent);
         color: white;
         font-family: var(--font-sans);
         transition: background 0.3s ease;
     }
     .ride-gallery__tile:hover .ride-gallery__more,
     .ride-gallery__tile:focus-visible .ride-gallery__more {
-        background: color-mix(in srgb, var(--color-kidical-ink) 74%, transparent);
+        background: color-mix(in srgb, var(--color-kidical-ink) 82%, transparent);
     }
     .ride-gallery__more-count {
         font-size: var(--text-2xl);

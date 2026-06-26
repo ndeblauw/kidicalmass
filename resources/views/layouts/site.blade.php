@@ -35,7 +35,13 @@
         {{ $closing }}
     @endisset
 
-    <x-layouts::site.footer />
+    {{-- A page may supply its own footer (e.g. the roze-hesje hub's slim member
+         footer) in place of the public marketing footer, mirroring $navbar above. --}}
+    @isset($footer)
+        {{ $footer }}
+    @else
+        <x-layouts::site.footer />
+    @endisset
 
     @fluxScripts
     @stack('scripts')

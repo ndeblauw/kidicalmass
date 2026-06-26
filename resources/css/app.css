@@ -47,7 +47,7 @@
 
     /* Feature-card surface tokens (canonical = getting-started scale). */
     --radius-card: 2rem;
-    --radius-tile: 1rem;     /* compact tier: tiles, roster (content cards stay --radius-card) */
+    --radius-tile: 1rem;     /* compact tier: tiles, roster, the whole roze-hesjes hub (other pages' content cards stay --radius-card) */
     --radius-chip: 28%;
     --radius-pill: 9999px;   /* fully rounded: buttons, pills, badges, avatars */
     --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
