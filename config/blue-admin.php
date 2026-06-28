@@ -60,6 +60,12 @@ return [
             'link' => 'admin/groups',
             'icon' => 'fa-flag',
         ],
+        [
+            'title' => 'News Articles',
+            'color' => 'rose',
+            'link' => 'admin/articles',
+            'icon' => 'fa-newspaper',
+        ],
     ],
 
     'details_for' => 'Details for',
