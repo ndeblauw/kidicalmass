@@ -2,6 +2,7 @@
 
 use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Admin\ContactFormController;
 use App\Http\Controllers\Admin\YearStatController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
@@ -206,6 +207,9 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
 
     Route::resource('year-stats', YearStatController::class);
+
+    Route::resource('contact-forms', ContactFormController::class)
+        ->only(['index', 'show', 'destroy']);
 });
 
 require __DIR__.'/settings.php';

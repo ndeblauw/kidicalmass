@@ -36,6 +36,12 @@ return [
             'link' => 'admin/year-stats',
             'icon' => 'fa-chart-bar',
         ],
+        [
+            'title' => 'Contact Submissions',
+            'color' => 'rose',
+            'link' => 'admin/contact-forms',
+            'icon' => 'fa-envelope',
+        ],
     ],
 
     'details_for' => 'Details for',
