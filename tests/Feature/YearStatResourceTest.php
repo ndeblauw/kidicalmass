@@ -13,7 +13,7 @@ use App\Models\YearStat;
 use Illuminate\Support\Facades\Route;
 
 it('registers the year stats resource in the admin panel', function () {
-    expect(Route::has('filament.admin.resources.year-stats.index'))->toBeTrue();
+    expect(Route::has('admin.year-stats.index'))->toBeTrue();
 });
 
 it('persists an admin-entered year and participant count', function () {

@@ -30,6 +30,12 @@ return [
             'link' => 'admin',
             'icon' => 'fa-home',
         ],
+        [
+            'title' => 'Jaarcijfers',
+            'color' => 'sky',
+            'link' => 'admin/year-stats',
+            'icon' => 'fa-chart-bar',
+        ],
     ],
 
     'details_for' => 'Details for',

@@ -13,6 +13,10 @@ class AdminAccess
     {
         $user = $request->user();
 
+        if (! $user) {
+            return redirect()->guest(route('login'));
+        }
+
         if (! $user instanceof User || ! $user->canAccessFilament()) {
             abort(403);
         }

@@ -2,6 +2,7 @@
 
 use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Admin\YearStatController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
 use App\Http\Controllers\BuildDashboardController;
@@ -204,7 +205,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function (): void {
 Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function (): void {
     Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
 
-    // Resource routes are registered here, one commit per model.
+    Route::resource('year-stats', YearStatController::class);
 });
 
 require __DIR__.'/settings.php';
