@@ -42,6 +42,12 @@ return [
             'link' => 'admin/contact-forms',
             'icon' => 'fa-envelope',
         ],
+        [
+            'title' => 'Users',
+            'color' => 'blue',
+            'link' => 'admin/users',
+            'icon' => 'fa-user',
+        ],
     ],
 
     'details_for' => 'Details for',

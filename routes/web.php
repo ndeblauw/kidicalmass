@@ -3,6 +3,7 @@
 use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Admin\ContactFormController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\YearStatController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
@@ -210,6 +211,8 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
 
     Route::resource('contact-forms', ContactFormController::class)
         ->only(['index', 'show', 'destroy']);
+
+    Route::resource('users', UserController::class);
 });
 
 require __DIR__.'/settings.php';
