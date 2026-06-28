@@ -66,6 +66,12 @@ return [
             'link' => 'admin/articles',
             'icon' => 'fa-newspaper',
         ],
+        [
+            'title' => 'Press Articles',
+            'color' => 'blue',
+            'link' => 'admin/press-articles',
+            'icon' => 'fa-press',
+        ],
     ],
 
     'details_for' => 'Details for',
