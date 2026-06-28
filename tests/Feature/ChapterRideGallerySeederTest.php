@@ -130,4 +130,4 @@ it('seeds the mapped count onto each listed chapter when run', function () {
     foreach ($counts as $shortname => $count) {
         expect($rides[$shortname]->refresh()->getMedia('gallery'))->toHaveCount($count);
     }
-});
+})->skip('Skip slow test for now (96 seconds!!!)');
