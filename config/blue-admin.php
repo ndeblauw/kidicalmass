@@ -48,6 +48,12 @@ return [
             'link' => 'admin/users',
             'icon' => 'fa-user',
         ],
+        [
+            'title' => 'Partners',
+            'color' => 'violet',
+            'link' => 'admin/partners',
+            'icon' => 'fa-user-group',
+        ],
     ],
 
     'details_for' => 'Details for',
