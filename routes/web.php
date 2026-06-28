@@ -201,6 +201,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function (): void {
         ->name('admin.impersonate.stop');
 });
 
+Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function (): void {
+    Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
+
+    // Resource routes are registered here, one commit per model.
+});
+
 require __DIR__.'/settings.php';
 
 // Internal build-status dashboard — non-production only, unlinked (no nav/sitemap).
