@@ -54,6 +54,12 @@ return [
             'link' => 'admin/partners',
             'icon' => 'fa-user-group',
         ],
+        [
+            'title' => 'Chapters',
+            'color' => 'sky',
+            'link' => 'admin/groups',
+            'icon' => 'fa-flag',
+        ],
     ],
 
     'details_for' => 'Details for',

@@ -3,6 +3,7 @@
 use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Admin\ContactFormController;
+use App\Http\Controllers\Admin\GroupController as AdminGroupController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\YearStatController;
@@ -216,6 +217,8 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::resource('users', UserController::class);
 
     Route::resource('partners', PartnerController::class);
+
+    Route::resource('groups', AdminGroupController::class);
 });
 
 require __DIR__.'/settings.php';
