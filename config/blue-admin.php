@@ -72,6 +72,12 @@ return [
             'link' => 'admin/press-articles',
             'icon' => 'fa-press',
         ],
+        [
+            'title' => 'Activities',
+            'color' => 'rose',
+            'link' => 'admin/activities',
+            'icon' => 'fa-calendar',
+        ],
     ],
 
     'details_for' => 'Details for',

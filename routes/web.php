@@ -2,6 +2,7 @@
 
 use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\ContactFormController;
 use App\Http\Controllers\Admin\GroupController as AdminGroupController;
@@ -225,6 +226,8 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::resource('articles', AdminArticleController::class);
 
     Route::resource('press-articles', PressArticleController::class);
+
+    Route::resource('activities', AdminActivityController::class);
 });
 
 require __DIR__.'/settings.php';
