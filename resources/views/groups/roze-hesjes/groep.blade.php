@@ -1,4 +1,4 @@
-<x-roze-hub :group="$group" active="groep" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl">
+<x-roze-hub :group="$group" active="groep" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl" :own-heading="true">
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
@@ -12,7 +12,7 @@
     @endphp
 
     <section id="de-roze-hesjes">
-        <h2 class="roze-hub-title">De roze hesjes van {{ $gemeente }}</h2>
+        <h1 class="roze-hub-title">De roze hesjes van {{ $gemeente }}</h1>
         <p class="roze-hub-lead">De mensen achter de ritten in {{ $gemeente }}. Zij staan ook voor jou klaar.</p>
         <ul role="list" class="roze-roster">
             @forelse ($roster as $member)

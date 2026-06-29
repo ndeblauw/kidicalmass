@@ -1,4 +1,4 @@
-<x-roze-hub :group="$group" active="fotos" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl">
+<x-roze-hub :group="$group" active="fotos" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl" :own-heading="true">
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
@@ -13,7 +13,7 @@
     >
         <div class="roze-gallery__head">
             <div>
-                <h2 class="roze-hub-title">Foto's van {{ $gemeente }}</h2>
+                <h1 class="roze-hub-title">Foto's van {{ $gemeente }}</h1>
                 <p class="roze-hub-lead">Het gedeelde album van {{ $gemeente }}, rit per rit. Hier komen de foto's van onze tochten samen.</p>
             </div>
         </div>

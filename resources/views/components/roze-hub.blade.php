@@ -4,6 +4,9 @@
     'isCaptain' => false,
     'showWelcome' => false,
     'beheerUrl' => null,
+    // Subpages render their own visible <h1>; the overview has only sections, so
+    // it leans on this hidden page heading. Pass own-heading on pages that supply one.
+    'ownHeading' => false,
 ])
 
 @php
@@ -22,7 +25,9 @@
     </x-slot:navbar>
 
     <div class="roze-hub-body">
-        <h1 class="sr-only">Roze hesjes van {{ $place }}</h1>
+        @unless ($ownHeading)
+            <h1 class="sr-only">Roze hesjes van {{ $place }}</h1>
+        @endunless
         {{ $slot }}
     </div>
 

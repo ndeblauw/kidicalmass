@@ -174,7 +174,7 @@ test('materiaal previews not-yet-available items as Binnenkort instead of dead l
     actingAs($member)->get(hubUrl('groups.roze-hesjes.materiaal', $group))
         ->assertSee('Binnenkort')                          // honest availability marker
         ->assertSee('roze-material--soon', escape: false)  // non-interactive preview styling
-        ->assertSee('Besloten');                           // still previews the access split
+        ->assertSee('Voor de hesjes');                     // still previews the besloten group
 });
 
 test('the agenda renders drafts and confirmed rides through the one shared row', function () {

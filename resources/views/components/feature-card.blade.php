@@ -19,13 +19,13 @@
         ? 'flex flex-col gap-4 bg-white rounded-tile p-5 shadow-card'
         : 'feature-card flex flex-col gap-[1.125rem] bg-white rounded-card p-10 shadow-card [&_a]:text-kidical-blue [&_a]:font-bold [&_a]:bg-none [&_a:hover]:underline';
     $iconSizeClass = $isCompact ? 'size-6' : 'size-[2.4rem]';
-    // Compact pairs the shared .roze-card-title face (Nunito Sans 800, text-xl)
-    // with the hub's default Body copy (inherited var(--text-xl)) — the same size the
-    // stepper and WhatsApp cards on the same page use, so every card reads at one size
-    // and weight (not size) separates title from copy. The full card lets the <h3>
-    // inherit the Caprasimo display face from @layer base, over a larger lead body.
+    // Compact pairs the shared .roze-card-title face (Nunito Sans 800, text-xl) over the
+    // hub's Small body copy (var(--text-sm)) — the same description size the material tiles,
+    // roster, stepper and WhatsApp card use, so card copy reads at one calm size across the
+    // hub. The full card lets the <h3> inherit the Caprasimo display face from @layer base,
+    // over a larger lead body.
     $titleClass = $isCompact ? 'roze-card-title' : 'text-kidical-ink';
-    $bodyClass = $isCompact ? 'leading-relaxed text-kidical-ink/75' : 'text-[1.3125rem] leading-[1.6] text-kidical-ink/75';
+    $bodyClass = $isCompact ? 'text-sm leading-relaxed text-kidical-ink/75' : 'text-[1.3125rem] leading-[1.6] text-kidical-ink/75';
 @endphp
 
 <div {{ $attributes->merge(['class' => $wrapperClass]) }}>

@@ -392,6 +392,26 @@ select:focus[data-flux-control] {
     color: white;
 }
 
+/* Inside the roze-hesje hub shell the same trigger must read as a quiet
+   secondary control, not the marketing nav's blue primary. Scoped to the hub
+   account slot (the marketing header renders <x-account-menu> outside it, so it
+   stays blue) and kept unlayered + higher-specificity to beat the base above. */
+.roze-shell-bar__account .account-nav-btn {
+    height: 2.5rem;
+    width: 2.5rem;
+    background-color: transparent;
+    border: 1px solid var(--color-kidical-hairline);
+    border-radius: 0.75rem;
+    box-shadow: none;
+    color: var(--color-kidical-ink);
+}
+.roze-shell-bar__account .account-nav-btn:hover {
+    background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+}
+.roze-shell-bar__account .account-nav-btn svg {
+    color: var(--color-kidical-ink);
+}
+
 .mobile-menu-toggle {
     height: 3.5rem;
     width: 3.5rem;

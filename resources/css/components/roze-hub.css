@@ -148,6 +148,7 @@
                      --roze-gap-sm  .75  default list gap, header→content step
                      --roze-gap-md  1    row-card inner gap (date rail → body)
                      --roze-gap-lg  1.5  section gap, card grids
+                     --roze-gap-xl  2.5  space before a section title (page rhythm)
          Card pad    --roze-pad-block    1.25         vertical content cards
                      --roze-pad-row      1 1.25       row cards + notices
                      --roze-pad-row-sm   .75 1        compact rows (tile, roster)
@@ -159,12 +160,13 @@
         --roze-gap-sm: 0.75rem;
         --roze-gap-md: 1rem;
         --roze-gap-lg: 1.5rem;
+        --roze-gap-xl: 2.5rem;
         --roze-pad-block: 1.25rem;
         --roze-pad-row: 1rem 1.25rem;
         --roze-pad-row-sm: 0.75rem 1rem;
         --roze-pad-pill: 0.2rem 0.6rem;
 
-        padding: 1.25rem 1.125rem 1.5rem;
+        padding: 2rem 1.125rem 1.5rem;
     }
 
     /* ── Roze-hub type system ─────────────────────────────────────────────
@@ -175,14 +177,15 @@
        Exactly THREE title sizes and THREE body sizes hold across the whole hub
        — the chrome below folds into them too, no separate chrome scale.
 
-       Titles — three sizes, weight 800 (Caprasimo headings) or 700/800 (Nunito
+       Titles — four sizes, weight 800 (Caprasimo headings) or 700/800 (Nunito
        card/row titles); cards & rows read as workspace, not megaphone:
-         • Large   var(--text-2xl) — page/tab title .roze-hub-title; date numerals
-         • Medium  var(--text-xl)  — section heading one level below the page title
+         • XLarge  var(--text-3xl) — page/tab title .roze-hub-title
+         • Large   var(--text-2xl) — section heading one level below the page title
                                      (.roze-hub-subtitle, .roze-onboarding__sub,
-                                     .roze-agenda__label); card title .roze-card-title
-                                     (800 — matches the card's text-xl body, so weight
-                                     not size marks it as the title); step numeral
+                                     .roze-agenda__label); date numerals
+         • Medium  var(--text-xl)  — card title .roze-card-title (800 — matches the
+                                     card's text-xl body, so weight not size marks it
+                                     as the title); step numeral
          • Small   var(--text-base) — row title .roze-row-title (700), the gallery
                                       picker, and the shell place label
        Body — Nunito Sans, weight 400, three tiers (marketing's Lead/Body/Meta):
@@ -197,7 +200,7 @@
         font-weight: 800;
         line-height: 1.2;
         color: var(--color-kidical-ink);
-        font-size: var(--text-2xl);
+        font-size: var(--text-3xl);
     }
 
     /* One tier below the page title — for a page (like the overview) built from
@@ -208,7 +211,7 @@
         font-weight: 800;
         line-height: 1.2;
         color: var(--color-kidical-ink);
-        font-size: var(--text-xl);
+        font-size: var(--text-2xl);
     }
 
     .roze-hub-lead {

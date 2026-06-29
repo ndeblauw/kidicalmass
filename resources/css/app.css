@@ -148,6 +148,7 @@
     }
 
     header a,
+    .site-logo-anchor__link,
     footer ul a,
     .roze-chrome a,
     [popover] a {

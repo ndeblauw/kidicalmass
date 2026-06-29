@@ -87,7 +87,7 @@ test('roze page lists the upcoming ride in the typed agenda', function () {
         ->assertSee('Théâtre le Manège');
 });
 
-test('roze materiaal marks besloten downloads and still shows the public ones', function () {
+test('roze materiaal splits the besloten group from the shareable one', function () {
     $group = rozeChapter();
     $member = User::factory()->create();
     $group->users()->attach($member);
@@ -96,9 +96,11 @@ test('roze materiaal marks besloten downloads and still shows the public ones', 
         ->get(route('groups.roze-hesjes.materiaal', $group))
         ->assertOk()
         ->assertSee('Jouw materiaal')
-        ->assertSee('Afsprakencharter') // a besloten (hesje-only) document
-        ->assertSee('Besloten')         // the private marker
-        ->assertSee('Posters');         // a public download, shown here too
+        ->assertSee('Voor de hesjes')      // the besloten section title
+        ->assertSee('Afsprakencharter')    // a besloten (hesje-only) document
+        ->assertSee('Vrij om te delen')    // the public section title
+        ->assertSee('Playlist')            // now shareable, sits in the public group
+        ->assertSee('Posters');            // a public download
 });
 
 test('roze page sets the welcome-window cookie but shows no welcome block', function () {
