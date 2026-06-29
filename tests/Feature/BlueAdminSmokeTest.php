@@ -67,3 +67,11 @@ it('renders the blue-admin edit form for a sample record of every editable resou
     'press articles' => ['/admin/pressarticles', fn () => PressArticle::factory()->create()],
     'users' => ['/admin/users', fn () => User::factory()->create()],
 ]);
+
+it('renders the captain dashboard (show) for a group', function () {
+    $group = Group::create(['shortname' => 'demo', 'name' => 'Demo', 'started_at' => now()]);
+
+    actingAs($this->admin)
+        ->get('/admin/groups/'.$group->getKey())
+        ->assertOk();
+});
