@@ -3,7 +3,7 @@
 return [
     'fontawesomekit_url' => 'https://kit.fontawesome.com/0bde3bbac3.js',
 
-    'vite' => false,
+    'vite' => true,
     'livewire_v3' => false,
     'livewire_v4' => true,
 
@@ -33,13 +33,13 @@ return [
         [
             'title' => 'Jaarcijfers',
             'color' => 'sky',
-            'link' => 'admin/year-stats',
+            'link' => 'admin/yearstats',
             'icon' => 'fa-chart-bar',
         ],
         [
             'title' => 'Contact Submissions',
             'color' => 'rose',
-            'link' => 'admin/contact-forms',
+            'link' => 'admin/contactforms',
             'icon' => 'fa-envelope',
         ],
         [
@@ -69,7 +69,7 @@ return [
         [
             'title' => 'Press Articles',
             'color' => 'blue',
-            'link' => 'admin/press-articles',
+            'link' => 'admin/pressarticles',
             'icon' => 'fa-press',
         ],
         [

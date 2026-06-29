@@ -212,9 +212,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function (): void {
 Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function (): void {
     Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
 
-    Route::resource('year-stats', YearStatController::class);
+    Route::resource('yearstats', YearStatController::class);
 
-    Route::resource('contact-forms', ContactFormController::class)
+    Route::resource('contactforms', ContactFormController::class)
         ->only(['index', 'show', 'destroy']);
 
     Route::resource('users', UserController::class);
@@ -225,7 +225,7 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
 
     Route::resource('articles', AdminArticleController::class);
 
-    Route::resource('press-articles', PressArticleController::class);
+    Route::resource('pressarticles', PressArticleController::class);
 
     Route::resource('activities', AdminActivityController::class);
 });

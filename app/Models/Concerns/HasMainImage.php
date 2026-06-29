@@ -2,16 +2,10 @@
 
 namespace App\Models\Concerns;
 
-use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait HasMainImage
 {
-    public function gallery(): Collection
-    {
-        return $this->getMedia('gallery');
-    }
-
     public function mainImage(): ?Media
     {
         return $this->getFirstMedia('main');
