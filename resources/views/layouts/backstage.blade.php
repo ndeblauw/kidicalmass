@@ -18,7 +18,7 @@
     <link href="https://fonts.bunny.net/css?family=nunito-sans:400,400i,700%7Cpoppins:800%7Ccaprasimo:400" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen flex flex-col bg-kidical-light-yellow/40">
+<body class="min-h-screen flex flex-col bg-kidical-light-yellow/40 ba-site">
 
     {{-- Slim top bar --}}
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-kidical-ink/10">

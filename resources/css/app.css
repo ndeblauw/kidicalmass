@@ -131,8 +131,10 @@
 
     /* Two stacked underlines: the bottom layer is a 50% blue line at full width
        (the rest state); the top layer is full blue and wipes in left→right on
-       hover, rolling the line up to solid blue. No background fill. */
-    a {
+       hover, rolling the line up to solid blue. No background fill.
+       Scoped to .ba-site so it only applies on the public site and backstage,
+       NOT on blue-admin (/admin) or auth/Flux layouts. */
+    body.ba-site a {
         color: var(--color-text-link);
         text-decoration: none;
         background-image:
@@ -144,7 +146,7 @@
         transition: background-size 0.25s ease-out;
     }
 
-    a:hover {
+    body.ba-site a:hover {
         background-size: 100% 1px, 100% 1px;
     }
 
