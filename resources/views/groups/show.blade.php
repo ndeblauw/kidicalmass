@@ -390,7 +390,7 @@
                 {{-- HELP MEE — recruitment CTA. On-demand reveal: the band stays light,
                      the helper expands the group-specific form right under the button.
                      Auto-open via ?intent=volunteer. --}}
-                <div class="chapter-join scroll-mt-24" x-data="{ open: {{ request('intent') === 'volunteer' ? 'true' : 'false' }} }" @open-volunteer.window="open = true">
+                <div class="chapter-join scroll-mt-24" data-join-open="{{ request('intent') === 'volunteer' ? 'true' : 'false' }}" x-data="{ open: {{ request('intent') === 'volunteer' ? 'true' : 'false' }} }" @open-volunteer.window="open = true">
                     <div class="chapter-join__cta"
                          x-show="!open"
                          x-transition:leave="chapter-join__cta--leave"

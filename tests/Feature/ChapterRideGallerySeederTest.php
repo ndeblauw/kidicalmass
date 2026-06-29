@@ -125,9 +125,11 @@ it('seeds the mapped count onto each listed chapter when run', function () {
         return [$shortname => pastRide($group, now()->subWeek())];
     });
 
-    (new ChapterRideGallerySeeder)->run();
+    // Use the fake-photo seeder (tiny GD images) so run() stays fast — it overrides
+    // samplePhotoPaths(), so the whole orchestration runs without touching real photos.
+    seederWithFakePhotos(8)->run();
 
     foreach ($counts as $shortname => $count) {
         expect($rides[$shortname]->refresh()->getMedia('gallery'))->toHaveCount($count);
     }
-})->skip('Skip slow test for now (96 seconds!!!)');
+});

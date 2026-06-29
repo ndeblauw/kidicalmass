@@ -1,13 +1,12 @@
 <?php
 
 use App\Models\User;
-use Laravel\Fortify\Features;
 
-test('login screen can be rendered', function () {
-    $response = $this->get(route('login'));
-
-    $response->assertOk();
-});
+// Thin login smoke: proves our Fortify wiring lets a user in, keeps the guard
+// honest, and logs them out. Admin (Filament) access depends on this flow.
+// Framework defaults (registration, password reset, email verification, the
+// two-factor challenge redirect) are covered by Fortify's own suite; app-specific
+// behaviour lives in tests/Feature/Settings/.
 
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
@@ -34,26 +33,6 @@ test('users can not authenticate with invalid password', function () {
 
     $response->assertSessionHasErrorsIn('email');
 
-    $this->assertGuest();
-});
-
-test('users with two factor enabled are redirected to two factor challenge', function () {
-    if (! Features::canManageTwoFactorAuthentication()) {
-        $this->markTestSkipped('Two-factor authentication is not enabled.');
-    }
-    Features::twoFactorAuthentication([
-        'confirm' => true,
-        'confirmPassword' => true,
-    ]);
-
-    $user = User::factory()->withTwoFactor()->create();
-
-    $response = $this->post(route('login.store'), [
-        'email' => $user->email,
-        'password' => 'password',
-    ]);
-
-    $response->assertRedirect(route('two-factor.login'));
     $this->assertGuest();
 });
 

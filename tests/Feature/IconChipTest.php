@@ -2,28 +2,25 @@
 
 use Illuminate\Support\Facades\Blade;
 
-test('icon chip renders the chip square with mapped colour, size and tilt', function () {
+test('icon chip renders its slotted icon and reflects the colour and size variants', function () {
     $html = Blade::render('<x-icon-chip color="blue" size="md"><svg></svg></x-icon-chip>');
 
     expect($html)
-        ->toContain('bg-kidical-blue')
-        ->toContain('size-[2.75rem]')
-        ->toContain('rounded-chip')
-        ->toContain('-rotate-3')
-        ->toContain('<svg></svg>');
+        ->toContain('<svg></svg>')        // the icon slot renders
+        ->toContain('data-color="blue"')  // colour variant wired through
+        ->toContain('data-size="md"');    // size variant wired through
 });
 
-test('icon chip adds the float shadow only when requested', function () {
-    expect(Blade::render('<x-icon-chip :shadow="true">x</x-icon-chip>'))->toContain('shadow-float');
-    expect(Blade::render('<x-icon-chip>x</x-icon-chip>'))->not->toContain('shadow-float');
+test('icon chip flags the float shadow only when requested', function () {
+    expect(Blade::render('<x-icon-chip :shadow="true">x</x-icon-chip>'))->toContain('data-shadow');
+    expect(Blade::render('<x-icon-chip>x</x-icon-chip>'))->not->toContain('data-shadow');
 });
 
-test('feature card still renders an icon chip after refactor', function () {
+test('feature card embeds an icon chip carrying its colour', function () {
     $html = Blade::render('<x-feature-card icon="clock" title="Test" color="orange">Body</x-feature-card>');
 
     expect($html)
-        ->toContain('bg-kidical-orange')
-        ->toContain('size-[4.25rem]')
-        ->toContain('rounded-chip')
-        ->toContain('Test');
+        ->toContain('data-icon-chip')       // the chip is present after the refactor
+        ->toContain('data-color="orange"')  // feature card forwards its colour to the chip
+        ->toContain('Test');                // title renders
 });

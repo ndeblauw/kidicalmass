@@ -150,10 +150,11 @@
             {{-- Tiles past the fourth only show once there's room for them — the XL 4-column
                  wall fits eight in three rows; below that, only the first four show. --}}
             @php($isMoreTile = $loop->last && $hiddenCount > 0)
-            <li @class(['ride-gallery__cell', 'ride-gallery__cell--xl' => $loop->index >= 4])>
+            <li @class(['ride-gallery__cell', 'ride-gallery__cell--xl' => $loop->index >= 4]) @if ($loop->index >= 4) data-gallery-xl @endif>
                 <button
                     type="button"
                     class="ride-gallery__tile"
+                    data-gallery-tile
                     @click="open({{ $loop->index + 1 }}, $event)"
                     aria-label="{{ $isMoreTile ? "Bekijk alle foto's" : 'Bekijk foto ' . ($loop->iteration + 1) . ' groter' }}"
                 >

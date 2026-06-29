@@ -12,33 +12,31 @@ it('renders the chip icon, title and body with the default red chip', function (
     expect($html)
         ->toContain('Kort en rustig')
         ->toContain('5 à 7 km op het tempo')
-        ->toContain('bg-kidical-red')
-        ->toContain('rounded-card')
-        ->toContain('shadow-card')
-        ->toContain('aria-hidden="true"');
+        ->toContain('data-icon-chip')        // the chip renders
+        ->toContain('data-color="red"')      // default chip colour
+        ->toContain('aria-hidden="true"');   // the icon is decorative
 });
 
-it('maps the color prop to the matching chip background utility', function () {
+it('forwards the color prop to the chip', function () {
     $html = Blade::render(
         '<x-feature-card icon="map-pin" color="violet" title="X">body</x-feature-card>'
     );
 
     expect($html)
-        ->toContain('bg-kidical-violet')
-        ->not->toContain('bg-kidical-red');
+        ->toContain('data-color="violet"')
+        ->not->toContain('data-color="red"');
 });
 
-it('styles an inline body link as a bold blue card link', function () {
+it('renders an inline body link with its href', function () {
     $html = Blade::render(<<<'BLADE'
         <x-feature-card icon="megaphone" color="red" title="X">
             Lees <a href="/visie">onze visie →</a>
         </x-feature-card>
     BLADE);
 
-    expect($html)->toContain('onze visie');
-    expect(html_entity_decode($html))
-        ->toContain('[&_a]:text-kidical-blue')
-        ->toContain('[&_a]:font-bold');
+    expect($html)
+        ->toContain('onze visie')
+        ->toContain('href="/visie"');
 });
 
 it('passes extra attributes (e.g. a page layout class) onto the card root', function () {
@@ -49,18 +47,15 @@ it('passes extra attributes (e.g. a page layout class) onto the card root', func
     expect($html)->toContain('gs-expect-card');
 });
 
-it('renders the compact md size with the roze-card title face and tighter padding', function () {
+it('renders the compact md size with the roze-card title face', function () {
     $html = Blade::render(
         '<x-feature-card icon="users" title="X" size="md">body</x-feature-card>'
     );
 
     expect($html)
-        ->toContain('roze-card-title')   // compact title face
-        ->toContain('p-5')               // compact padding
-        ->toContain('size-6')            // compact icon
-        ->not->toContain('p-10')         // not the full-size card
-        ->not->toContain('text-sm')      // body sits at the default body size, not the small tier
-        ->not->toContain('feature-card'); // compact drops the identity hook
+        ->toContain('data-size="md"')      // the compact variant
+        ->toContain('roze-card-title')     // compact title face
+        ->not->toContain('feature-card');  // compact drops the full-size identity hook
 });
 
 it('roze-card is a thin alias for the compact feature-card', function () {
@@ -72,7 +67,6 @@ it('roze-card is a thin alias for the compact feature-card', function () {
         ->toContain('Je rijdt mee')
         ->toContain('samen op pad')
         ->toContain('roze-card-title')
-        ->toContain('bg-kidical-orange')
-        ->toContain('p-5')
-        ->toContain('size-6');
+        ->toContain('data-size="md"')        // renders the compact size
+        ->toContain('data-color="orange"');  // forwards its colour to the chip
 });

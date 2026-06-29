@@ -28,7 +28,7 @@
     $bodyClass = $isCompact ? 'text-sm leading-relaxed text-kidical-ink/75' : 'text-[1.3125rem] leading-[1.6] text-kidical-ink/75';
 @endphp
 
-<div {{ $attributes->merge(['class' => $wrapperClass]) }}>
+<div data-size="{{ $size }}" {{ $attributes->merge(['class' => $wrapperClass]) }}>
     <x-icon-chip :color="$color" :size="$isCompact ? 'md' : 'lg'">
         <flux:icon name="{{ $icon }}" variant="solid" class="{{ $iconSizeClass }} text-white" aria-hidden="true" />
     </x-icon-chip>

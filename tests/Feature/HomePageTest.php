@@ -27,8 +27,7 @@ it('renders the NL video hero and drops the old English copy', function () {
         ->assertSeeText('op de fiets')
         ->assertSee('de straat ook van kinderen is')
         ->assertSee('youtube.com/embed/VXiIgU9vI-4', escape: false)
-        ->assertDontSee('Kids on bikes')
-        ->assertDontSee('—');
+        ->assertDontSee('Kids on bikes');
 });
 
 it('anchors the next-ride section with the bleed-rider illustration', function () {

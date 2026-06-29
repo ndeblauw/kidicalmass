@@ -146,7 +146,7 @@
 
         // Measure actual card height after layout switches (cards are now position:absolute).
         const cardH   = cards[0].offsetHeight;
-        const CARD_GAP = 46; // px — matches the 2.875rem gap in CSS
+        const CARD_GAP = 46; // px, matches the 2.875rem gap in CSS
 
         // Size the stack to fit the final deck + one card height visible.
         stack.style.height = `${FINALS[0].y + cardH + 20}px`;

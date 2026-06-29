@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $subject }}</title>
 </head>
-<body style="margin:0; padding:0; background-color:{{ $theme['bg'] }}; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#281a39;">
+<body data-theme="{{ $color ?? 'blue' }}" style="margin:0; padding:0; background-color:{{ $theme['bg'] }}; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#281a39;">
 
     @if ($preheader)
     <div style="display:none; max-height:0; overflow:hidden; opacity:0;">{{ $preheader }}</div>
@@ -46,7 +46,7 @@
                             @if ($ctaUrl && $ctaLabel)
                             <table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0 0;">
                                 <tr>
-                                    <td style="background-color:{{ $theme['btn'] }}; border-radius:9999px;">
+                                    <td data-cta-button style="background-color:{{ $theme['btn'] }}; border-radius:9999px;">
                                         <a href="{{ $ctaUrl }}" style="display:inline-block; padding:15px 32px; font-size:17px; font-weight:700; color:{{ $theme['btnText'] }}; text-decoration:none;">{{ $ctaLabel }} →</a>
                                     </td>
                                 </tr>

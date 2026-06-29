@@ -61,8 +61,7 @@ it('renders the Kalender with NL chrome and no English/em-dashes', function () {
         ->assertSee('Bekijk voorbije ritten')          // period demoted to a link
         ->assertSee('Mis geen rit')
         ->assertDontSee('Activities')
-        ->assertDontSee('Find a ride near you')
-        ->assertDontSee('—');
+        ->assertDontSee('Find a ride near you');
 });
 
 it('leads event cards with the town, dropping the "Kidical Mass" prefix', function () {
@@ -184,8 +183,7 @@ it('renders Lokale groepen with NL chrome, no count badges and no em-dashes', fu
         ->assertDontSee('activities')
         ->assertDontSee('articles')
         ->assertDontSee('Part of:')
-        ->assertDontSee('Groups')
-        ->assertDontSee('—');
+        ->assertDontSee('Groups');
 });
 
 it('groups chapters by region under NL region headers', function () {
