@@ -6,5 +6,5 @@ when the real registry is edited.
 
 | ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | OK | Top gaps |
 |------|----------|------------|--------|----|------|------|--------|----|------|----|------------------------|
-| P-01 | **Home** | `/`        | static | 🟢 | 3    | 🟢   | ⚪      | 🟠 | 🔴   | 🔴 | Hero copy live [content] |
+| P-01 | **Home** | `/`        | static | 🟢 | 3    | 🟢   | ⚪      | 🟠 | 🔴   | 🟢 | Hero copy live [content] |
 | P-02 | Kalender | `/events`  | model  | 🟠 | 2    | 🟠   | ⚪      | 🔴 | 🔴   | 🔴 | Data wiring [strategy]   |

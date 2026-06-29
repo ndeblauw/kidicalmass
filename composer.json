@@ -70,6 +70,9 @@
             "@test:lint",
             "@php artisan test"
         ],
+        "test:mutate": [
+            "XDEBUG_MODE=coverage php vendor/bin/pest --mutate --covered-only --class=\"App\\Support\""
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",

@@ -68,3 +68,34 @@ expect($html)->toContain('data-color="blue"')->toContain('data-size="md"');
 
 Public routes live in one place: the `public routes` dataset in `tests/Pest.php`.
 Reuse it (`->with('public routes')`) rather than re-listing routes per file.
+
+## Mutation testing
+
+Mutation testing is the objective version of "does this test actually catch a
+regression?" Pest mutates the source (flips `&&`→`||`, `>=`→`>`, return values,
+etc.) and checks whether a test fails. An **untested** mutation is a line whose
+change no test notices — a missing assertion, not redundant code. The fix is to
+strengthen the test, *not* to delete it.
+
+```bash
+composer test:mutate        # scoped to App\Support business logic, covered lines only
+```
+
+Other scopes / a stricter gate:
+
+```bash
+XDEBUG_MODE=coverage php vendor/bin/pest --mutate --covered-only --class="App\Support\Build"
+XDEBUG_MODE=coverage php vendor/bin/pest --mutate --covered-only --class="App\Support" --min=70
+```
+
+- **Driver:** mutation testing needs Xdebug 3+ or PCOV. Locally, Herd already
+  bundles Xdebug; it's enabled at `~/Library/Application Support/Herd/config/php/84/xdebug.ini`
+  with `xdebug.mode=off` (≈no overhead — normal `php artisan test` stays fast),
+  and the `XDEBUG_MODE=coverage` prefix turns coverage on for just that run. That
+  ini is per-machine (not in the repo): another machine/CI needs its own driver
+  (PCOV is a fine CI choice; `XDEBUG_MODE` is harmless when it's absent).
+- **Speed:** runs are slow (each mutant re-runs its covering tests). Narrow with
+  `--class=…`, add `covers(SomeClass::class)` / `mutates(…)` at the top of a test
+  to target it, or pass `--parallel`.
+- **Baseline (2026-06-29):** `App\Support\Build` ≈ 58% (185 tested / 135 untested).
+  Use the untested list as a to-do for missing assertions; don't chase 100%.

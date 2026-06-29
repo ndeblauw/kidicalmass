@@ -27,6 +27,18 @@ it('partitions items into nearby and far, preserving input order', function () {
     expect($result['nearby']->first()['distance_km'])->toBe(0.0);
 });
 
+it('keeps an item sitting exactly on the radius (boundary is inclusive)', function () {
+    $origin = ['lat' => 50.8782, 'lng' => 4.3265];
+    $items = new Collection(['exactly_here']);
+
+    // Distance is exactly 0 km against a 0 km radius: an inclusive boundary (<=)
+    // keeps it nearby; an exclusive one (<) would wrongly drop it to far.
+    $result = Proximity::partitionByRadius($items, $origin, 0, fn () => $origin);
+
+    expect($result['nearby']->pluck('item')->all())->toBe(['exactly_here'])
+        ->and($result['far'])->toBeEmpty();
+});
+
 it('ranks the n nearest items by distance, dropping null-coord items', function () {
     $origin = ['lat' => 50.8782, 'lng' => 4.3265]; // Jette
     $coords = [

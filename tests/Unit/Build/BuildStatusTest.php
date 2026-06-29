@@ -26,8 +26,18 @@ describe('report assembled from fixture sources', function () {
         $home = $pages->firstWhere('id', 'P-01');
         expect($home['name'])->toBe('Home')
             ->and($home['slug'])->toBe('/')
-            ->and($home['confidence'])->toBe(3)
-            ->and($home['stages']['ux'])->toBeInstanceOf(Stage::class);
+            ->and($home['confidence'])->toBe(3);
+
+        // Assert the actual stage per column, not just "is a Stage" — otherwise a
+        // wrong column index (🟢/⚪/🟠/🔴 read off-by-one) parses silently.
+        expect($home['stages'])->toMatchArray([
+            'ux' => Stage::Good,            // 🟢
+            'wireframe' => Stage::Good,     // 🟢
+            'assets' => Stage::NotApplicable, // ⚪
+            'ui' => Stage::InProgress,      // 🟠
+            'back' => Stage::NotStarted,    // 🔴
+            'ok' => Stage::Good,            // 🟢
+        ]);
 
         expect($this->report['overview']['pagesTotal'])->toBe(2)
             ->and($this->report['overview']['avgConfidence'])->toBe(2.5);
