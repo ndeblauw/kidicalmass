@@ -243,7 +243,7 @@ class DatabaseSeeder extends Seeder
                 ['name' => 'Karim Haddad', 'email' => 'karim.haddad@example.com', 'phone' => null, 'message' => 'Mijn dochter (6) wil heel graag meefietsen. Moeten we vooraf inschrijven of komen we gewoon af?', 'page_url' => '/nl/events'],
                 ['name' => 'Lien De Smet', 'email' => 'lien.desmet@example.com', 'phone' => '0496 88 77 66', 'message' => 'Onze school wil meedoen met een rit langs de schoolomgeving. Kunnen we daarvoor samenwerken?', 'page_url' => '/nl/chapters/schaarbeek'],
                 ['name' => 'Tom Claes', 'email' => 'tom.claes@example.com', 'phone' => null, 'message' => 'Ik wil graag meehelpen als begeleider in het roze hesje. Waar schrijf ik me in?', 'page_url' => '/nl/help-mee'],
-                ['name' => 'Fatima Ouali', 'email' => 'fatima.ouali@example.com', 'phone' => '0471 22 33 44', 'message' => 'Is er een rit in Molenbeek deze maand? Ik vind de datum niet meteen terug op de site.', 'page_url' => '/nl/chapters/molenbeek'],
+                ['name' => 'Fatima Ouali', 'email' => 'fatima.ouali@example.com', 'phone' => '0471 22 33 44', 'message' => 'Is er een rit in Etterbeek deze maand? Ik vind de datum niet meteen terug op de site.', 'page_url' => '/nl/chapters/etterbeek'],
                 ['name' => 'Pieter Janssens', 'email' => 'pieter.janssens@example.com', 'phone' => null, 'message' => 'Wij zijn een fietswinkel en zouden jullie graag sponsoren. Met wie kan ik daarover praten?', 'page_url' => '/nl/about/partners'],
             ];
 
@@ -377,8 +377,8 @@ class DatabaseSeeder extends Seeder
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Citadelpark, Gent', 'postal_code' => '9000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'brussel-stad', 'week' => 3, 'time' => '15:00', 'title_nl' => 'Kidical Mass Brussel-Stad', 'title_fr' => 'Kidical Mass Bruxelles-Ville',
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Begijnhofplein, Brussel', 'postal_code' => '1000', 'distance' => '5 km', 'duration' => 60],
-            ['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
+            //['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
+            //    'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'schaarbeek', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Schaarbeek', 'title_fr' => 'Kidical Mass Schaerbeek',
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'antwerpen', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Antwerpen', 'title_fr' => 'Kidical Mass Anvers',
