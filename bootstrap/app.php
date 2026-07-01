@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminAccess;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\TrackLastActive;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'setlocale' => SetLocale::class,
+            'admin' => AdminAccess::class,
         ]);
         $middleware->replaceInGroup('web', Illuminate\Cookie\Middleware\EncryptCookies::class, EncryptCookies::class);
         $middleware->appendToGroup('web', TrackLastActive::class);

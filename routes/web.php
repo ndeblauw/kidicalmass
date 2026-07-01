@@ -2,6 +2,14 @@
 
 use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\ContactFormController;
+use App\Http\Controllers\Admin\GroupController as AdminGroupController;
+use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Admin\PressArticleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\YearStatController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
 use App\Http\Controllers\BuildDashboardController;
@@ -199,6 +207,27 @@ Route::middleware(['auth'])->prefix('admin')->group(function (): void {
         ->name('admin.impersonate.start');
     Route::post('impersonate/stop', [ImpersonateController::class, 'stop'])
         ->name('admin.impersonate.stop');
+});
+
+Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function (): void {
+    Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
+
+    Route::resource('yearstats', YearStatController::class);
+
+    Route::resource('contactforms', ContactFormController::class)
+        ->only(['index', 'show', 'destroy']);
+
+    Route::resource('users', UserController::class);
+
+    Route::resource('partners', PartnerController::class);
+
+    Route::resource('groups', AdminGroupController::class);
+
+    Route::resource('articles', AdminArticleController::class);
+
+    Route::resource('pressarticles', PressArticleController::class);
+
+    Route::resource('activities', AdminActivityController::class);
 });
 
 require __DIR__.'/settings.php';
