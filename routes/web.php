@@ -217,6 +217,9 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::resource('contactforms', ContactFormController::class)
         ->only(['index', 'show', 'destroy']);
 
+    Route::post('contactforms/{contactform}/convert-to-user', [ContactFormController::class, 'convertToUser'])
+        ->name('contactforms.convert-to-user');
+
     Route::resource('users', UserController::class);
 
     Route::resource('partners', PartnerController::class);

@@ -21,8 +21,7 @@ class ArticleRequest extends FormRequest
             'author_id' => ['required', 'integer', 'exists:users,id'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['integer', 'exists:groups,id'],
-            'main' => ['nullable', 'array'],
-            'main.*' => ['string'],
+            'main' => ['nullable', 'string'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['string'],
         ];

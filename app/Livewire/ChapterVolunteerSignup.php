@@ -118,6 +118,7 @@ class ChapterVolunteerSignup extends Component
             'phone' => null,
             'page_url' => $this->page_url,
             'honeypot' => $this->website ?: null,
+            'group_id' => $this->group->id,
         ]);
 
         try {
