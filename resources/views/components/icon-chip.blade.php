@@ -34,6 +34,11 @@
     $chipShadow = $shadow ? 'shadow-float' : '';
 @endphp
 
-<span {{ $attributes->merge(['class' => "flex items-center justify-center shrink-0 -rotate-3 rounded-chip {$chipText} {$chipBg} {$chipSize} {$chipShadow}"]) }}>
+<span
+    data-icon-chip
+    data-color="{{ $color }}"
+    data-size="{{ $size }}"
+    @if ($shadow) data-shadow @endif
+    {{ $attributes->merge(['class' => "flex items-center justify-center shrink-0 -rotate-3 rounded-chip {$chipText} {$chipBg} {$chipSize} {$chipShadow}"]) }}>
     {{ $slot }}
 </span>

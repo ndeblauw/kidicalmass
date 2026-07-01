@@ -1,4 +1,4 @@
-<x-roze-hub :group="$group" active="agenda" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl">
+<x-roze-hub :group="$group" active="agenda" :is-captain="$isCaptain" :show-welcome="$showWelcome" :beheer-url="$beheerUrl" :own-heading="true">
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
@@ -8,12 +8,12 @@
          rides follow as a lean list. Drafts = this chapter's unpublished rides; confirmed =
          the published rides on the public agenda. --}}
     <section class="roze-agenda">
-        <h2 class="roze-hub-title">Agenda van {{ $gemeente }}</h2>
+        <h1 class="roze-hub-title">Agenda van {{ $gemeente }}</h1>
         <p class="roze-hub-lead">Waar de kapiteins nu aan werken, en wat al vastligt.</p>
 
         @if ($drafts->isNotEmpty())
             <div class="roze-agenda__block">
-                <h3 class="roze-agenda__label">In voorbereiding</h3>
+                <h2 class="roze-agenda__label">In voorbereiding</h2>
                 <ul role="list" class="roze-agenda__list">
                     @foreach ($drafts as $draft)
                         <li><x-roze-agenda-row :activity="$draft" :group="$group" :draft="true" /></li>
@@ -23,7 +23,7 @@
         @endif
 
         <div class="roze-agenda__block">
-            <h3 class="roze-agenda__label">Al vastgelegd</h3>
+            <h2 class="roze-agenda__label">Al vastgelegd</h2>
 
             @if ($confirmed->isNotEmpty())
                 <ul role="list" class="roze-agenda__list">

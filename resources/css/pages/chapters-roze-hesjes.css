@@ -52,15 +52,15 @@
 
     /* 5 · VOOR JE EERSTE RIT — permanent onboarding (light-blue). "wat doet een hesje"
        reuses the shared <x-feature-card>; the stepper is local. */
-    /* Sub-headings sit one clean tier below the section titles (text-2xl): text-xl, same
-       weight + heading font, so the hierarchy reads H1 hero > H2 section > H3 sub. */
+    /* Section sub-headings sit one clean tier below the page title (text-3xl): text-2xl,
+       same weight + heading font, so the hierarchy reads H1 page title > H2 section > H3 card. */
     .roze-onboarding__sub {
         font-family: var(--font-heading);
         font-weight: 800;
-        font-size: var(--text-xl);
+        font-size: var(--text-2xl);
         line-height: 1.2;
         color: var(--color-kidical-ink);
-        margin: 2rem 0 1rem;
+        margin: var(--roze-gap-xl) 0 var(--roze-gap-md);
     }
     .roze-onboarding__sub:first-of-type { margin-top: 0; }
     .roze-onboarding__cards { display: grid; grid-template-columns: 1fr; gap: var(--roze-gap-lg); margin-bottom: var(--roze-gap-lg); }
@@ -69,7 +69,7 @@
     .roze-step { display: flex; gap: var(--roze-gap-md); align-items: flex-start; background-color: white; border-radius: var(--radius-tile); box-shadow: var(--shadow-card); padding: var(--roze-pad-block); }
     .roze-step__num { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-pill); background-color: var(--color-kidical-blue); color: white; font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); }
     .roze-step__title { display: block; margin-bottom: var(--roze-gap-2xs); }
-    .roze-step__body { color: var(--color-text-body); line-height: 1.5; }
+    .roze-step__body { color: var(--color-text-body); font-size: var(--text-sm); line-height: 1.5; }
 
     /* Begeleidingsvideo — responsive 16:9 embed, aligned to the steps column width. */
     .roze-video-figure {
@@ -91,7 +91,11 @@
         color: var(--color-text-body);
     }
 
-    /* 6 · MATERIAAL — token-backed tiles with a visibility badge */
+    /* 6 · MATERIAAL — token-backed tiles in two groups: besloten (voor de hesjes,
+       red icon) and publiek (vrij om te delen, blue icon). The section title carries
+       the split, so the tiles drop the per-tile visibility badge. */
+    .roze-materials-page { display: flex; flex-direction: column; gap: var(--roze-gap-xl); margin-top: var(--roze-gap-lg); }
+    .roze-materials-section { display: flex; flex-direction: column; gap: var(--roze-gap-sm); }
     .roze-materials {
         display: grid;
         grid-template-columns: 1fr;
@@ -139,17 +143,6 @@
     .roze-material__desc { color: var(--color-text-body); font-size: var(--text-sm); line-height: 1.4; }
     .roze-material__tags { display: flex; align-items: center; flex-wrap: wrap; gap: var(--roze-gap-xs); margin-top: auto; padding-top: var(--roze-gap-xs); }
     .roze-material__tag { white-space: nowrap; font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%); }
-    .roze-material__badge {
-        white-space: nowrap;
-        font-size: var(--text-xs);
-        font-weight: 800;
-        padding: var(--roze-pad-pill);
-        border-radius: var(--radius-pill);
-    }
-    /* Text deepened toward ink so the badge label clears WCAG AA on its pale tint
-       (plain accent was 3.2:1 besloten / 4.2:1 publiek at text-xs). */
-    .roze-material__badge--besloten { background-color: color-mix(in oklab, var(--color-kidical-red), white 82%); color: color-mix(in oklab, var(--color-kidical-red), var(--color-kidical-ink) 42%); }
-    .roze-material__badge--publiek { background-color: color-mix(in oklab, var(--color-kidical-blue), white 82%); color: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-ink) 35%); }
 
     /* ROSTER — "Nieuw" marker */
     .roze-roster__member { position: relative; }
@@ -180,12 +173,12 @@
     /* 3 · AGENDA — drafts lead, confirmed rides follow as a lean list */
     .roze-agenda { display: flex; flex-direction: column; }
     .roze-agenda .roze-hub-lead { margin: 0.375rem 0 0; }
-    .roze-agenda__block { margin-top: var(--roze-gap-lg); }
+    .roze-agenda__block { margin-top: var(--roze-gap-xl); }
     /* Divisions within the Agenda section ("In voorbereiding" / "Al vastgelegd") —
-       the same h3 sub-heading level as .roze-onboarding__sub, so they share its
-       default treatment (Caprasimo 800, text-xl, ink); only the margin is local. */
+       the same h2 section-heading level as .roze-onboarding__sub, so they share its
+       treatment (Caprasimo 800, text-2xl, ink); only the margin is local. */
     .roze-agenda__label {
-        font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl);
+        font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl);
         line-height: 1.2; color: var(--color-kidical-ink); margin: 0 0 var(--roze-gap-sm);
     }
     .roze-agenda__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--roze-gap-sm); }
@@ -305,13 +298,19 @@
     .roze-gallery__empty > .roze-row-title { color: var(--color-kidical-red); margin-bottom: var(--roze-gap-2xs); }
 
     /* WHATSAPP-DOORGANG — foot hand-off */
+    /* Sits in the onboarding flow (between the role cards and the stepper), so it
+       carries its own section break rather than .chapter-body's page-band padding. */
+    .roze-whatsapp { margin-top: var(--roze-gap-xl); }
     .roze-whatsapp__inner {
         display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; flex-wrap: wrap;
         background-color: color-mix(in oklab, var(--color-kidical-blue), white 88%);
         border-radius: var(--radius-tile); padding: 1.5rem;
     }
+    /* Lede = the green recognition chip + the title/body lockup, grouped so the
+       inner flex pushes only the CTA to the far edge. */
+    .roze-whatsapp__lede { display: flex; align-items: center; gap: var(--roze-gap-md); }
     .roze-whatsapp__title { display: block; margin: 0; }
-    .roze-whatsapp__body { color: var(--color-text-body); }
+    .roze-whatsapp__body { color: var(--color-text-body); font-size: var(--text-sm); }
     .roze-whatsapp__link {
         display: inline-block;
         margin-top: var(--roze-gap-xs);
@@ -336,7 +335,7 @@
     .roze-overview {
         display: flex;
         flex-direction: column;
-        gap: var(--roze-gap-lg);
+        gap: var(--roze-gap-xl);
     }
 
     /* Every overview section steps from its subtitle to its content by the same

@@ -18,7 +18,7 @@
         </div>
 
         <section class="home-hero">
-            <h1 class="home-hero__title"><span class="home-hero__title-line"><span class="home-hero__word">Het</span> <span class="home-hero__word">leukste</span> <span class="home-hero__word">uur</span> <span class="home-hero__word">op</span> <span class="home-hero__word">de</span> <span class="home-hero__word">fiets</span></span></h1>
+            <h1 class="home-hero__title"><span class="home-hero__title-ride"><span class="home-hero__title-line"><span class="home-hero__word">Het</span> <span class="home-hero__word">leukste</span> <span class="home-hero__word">uur</span><br><span class="home-hero__word">op</span> <span class="home-hero__word">de</span> <span class="home-hero__word">fiets</span></span></span></h1>
         </section>
 
         <section class="home-intro">
@@ -27,14 +27,6 @@
                     <p>Een vrolijke fietsparade bij jou in de buurt. <br>
                     Samen tonen we dat de straat ook van kinderen is.</p>
                 </x-intro-text>
-
-                <div class="home-intro__actions mb-8">
-                    <a href="#volgende-rit" class="home-intro__scroll" aria-label="Naar de volgende ritten">
-                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                </div>
             </div>
         </section>
     </div>
@@ -44,6 +36,15 @@
 
     {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
     <div class="page-panel page-panel--home">
+        {{-- Scroll cue that straddles the seam where the white panel meets the blue
+             band. Lives on the panel (not the band) so it rides up with the panel as
+             it scrolls over the fixed hero, staying on the seam. --}}
+        <a href="#volgende-rit" class="home-seam-cue" aria-label="Naar de volgende ritten">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+
         <div class="page-panel__inner container mx-auto px-4 space-y-16 md:space-y-20">
         {{-- ② DE VOLGENDE RIT BIJ JOU — location-aware rides (proof + utility).
              A right-facing rider (flag up, matching the "fietsparade" lead) anchors the
@@ -168,20 +169,41 @@
         <script src="https://www.youtube.com/iframe_api"></script>
         <script>
             function onYouTubeIframeAPIReady() {
-                new YT.Player('home-hero-player', {
+                var player = new YT.Player('home-hero-player', {
                     events: {
                         onReady: function (event) {
                             event.target.mute();
                             event.target.playVideo();
                         },
                         onStateChange: function (event) {
+                            // Pointer events are off, so the only way the player
+                            // leaves PLAYING is YouTube parking on its centre
+                            // play/pause overlay (a buffer, an autoplay hiccup, the
+                            // loop seek). Resume immediately so that button never
+                            // lingers; reset to the start when the clip ends.
                             if (event.data === YT.PlayerState.ENDED) {
                                 event.target.seekTo(0);
+                                event.target.playVideo();
+                            } else if (event.data === YT.PlayerState.PAUSED) {
                                 event.target.playVideo();
                             }
                         },
                     },
                 });
+
+                // Loop a beat *before* the clip actually ends, so the player never
+                // reaches YouTube's end screen - which is when the centre button is
+                // drawn and which controls=0 can't suppress. seekTo while playing
+                // keeps it playing, so there's no paused frame at the loop point.
+                setInterval(function () {
+                    if (typeof player.getDuration !== 'function') {
+                        return;
+                    }
+                    var duration = player.getDuration();
+                    if (duration > 0 && player.getCurrentTime() >= duration - 0.4) {
+                        player.seekTo(0);
+                    }
+                }, 250);
             }
         </script>
     @endpush

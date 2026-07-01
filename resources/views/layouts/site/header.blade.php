@@ -24,7 +24,7 @@
                 class="site-nav__logo w-auto"
             >
             @if ($navChapter?->zip)
-                <span class="site-nav__postcode">{{ $navChapter->zip }}</span>
+                <span class="site-nav__postcode" data-nav-postcode="{{ $navChapter->zip }}">{{ $navChapter->zip }}</span>
             @endif
         </a>
     </div>

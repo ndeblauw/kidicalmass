@@ -432,6 +432,17 @@ Project knowledge lives in `docs/`, organised with the **Cascade** playbook. Rea
 
 **Page conventions:** YAML frontmatter on every page (`title`, `tags`, `sources`, `phase`, `updated`). Filenames numbered in dependency order (`00` plan, `01` concerns, then `10`/`20`/…). Keep `index.md` and `log.md` current; history lives in `log.md` + git, not inline "was X now Y" notes.
 
+# Testing — what to assert
+
+Full rubric: [`docs/testing-conventions.md`](docs/testing-conventions.md). Read it before writing or editing tests. The short version:
+
+- **Write fewer, behaviour-focused tests.** One test should prove one observable behaviour. Resist generating a test per class/method or a battery of near-identical variants — coverage is not the goal, catching real regressions is.
+- **Assert what a user or browser can observe**, not how it's styled: rendered text (prefer `__('key')` over literal copy), attributes the browser acts on (`href`, `aria-*`, `srcset`, `data-*` hooks, form `name`/`type`), behaviour & state (conditional rendering, redirects, status codes, business logic), and stable semantic/BEM state hooks (`ride-row--featured`).
+- **Never assert** Tailwind utility classes (`p-5`, `bg-kidical-red`), raw hex/px, Alpine/JS source strings, SVG path coordinates, or exact long copy sentences. A visual refactor must not break a green test, and a broken page must not keep one green.
+- **No observable hook for a variant?** Add a `data-*` seam to the component that encodes *intent* (not styling), then assert the seam — don't reach for the utility class.
+- **Altitude:** pure logic → unit test (no DB); "it renders" → one smoke (reuse the `public routes` dataset in `tests/Pest.php`, don't re-list routes); real user flows → a few feature tests. Don't test the framework or Fortify defaults — only app-specific behaviour layered on top.
+- **Do NOT delete tests without approval** (Pest rule). Run `vendor/bin/pint --dirty --format agent` after PHP edits.
+
 ## Interface Copy
 
 When writing any interface copy for the public site — labels, CTAs, headings, empty states, error messages, onboarding text, tooltips — always follow the Tone of Voice guide at `docs/tone-of-voice.md`.

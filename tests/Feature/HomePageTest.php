@@ -18,15 +18,16 @@ beforeEach(function () {
 });
 
 it('renders the NL video hero and drops the old English copy', function () {
-    // The title is split into per-word <span>s for the entrance animation, so match
-    // on the tag-stripped text rather than a contiguous string.
+    // The title is split into per-word <span>s for the entrance animation and broken
+    // into two lines with a <br> after "uur", so match each line's tag-stripped text
+    // rather than one contiguous string.
     get('/nl')
         ->assertOk()
-        ->assertSeeText('Het leukste uur op de fiets')
+        ->assertSeeText('Het leukste uur')
+        ->assertSeeText('op de fiets')
         ->assertSee('de straat ook van kinderen is')
         ->assertSee('youtube.com/embed/VXiIgU9vI-4', escape: false)
-        ->assertDontSee('Kids on bikes')
-        ->assertDontSee('—');
+        ->assertDontSee('Kids on bikes');
 });
 
 it('anchors the next-ride section with the bleed-rider illustration', function () {

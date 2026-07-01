@@ -73,6 +73,10 @@ it('anchors the hero with the large date tile and the description as hero lead',
 });
 
 it('shows the full date under Wanneer, an always-on route, and a share panel beside the facts', function () {
+    // Freeze time so the ride below is reliably upcoming (the share panel shows the
+    // "Vrienden mee?" invite for future rides and the recap copy for past ones).
+    $this->travelTo(now()->setDate(2026, 6, 20)->setTime(9, 0));
+
     $group = Group::factory()->create(['name' => 'Kidical Mass Etterbeek', 'zip' => '1040']);
     $ride = makeRide([
         'begin_date' => now()->setDate(2026, 6, 28)->setTime(14, 0),
@@ -87,7 +91,7 @@ it('shows the full date under Wanneer, an always-on route, and a share panel bes
         ->assertSee('juni')                              // full date (not just the time) under Wanneer
         ->assertSee('activity-share', false)             // the in-context share panel beside the facts
         ->assertSee('Vrienden mee?');                    // upcoming-ride share copy
-})->skip('Failing test');
+});
 
 it('shows a compact real-volunteer row and no pink-vest recruitment CTA', function () {
     $group = Group::factory()->create(['name' => 'Kidical Mass Etterbeek', 'zip' => '1040']);
