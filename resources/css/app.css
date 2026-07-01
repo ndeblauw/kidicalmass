@@ -95,6 +95,10 @@
         border-color: var(--color-gray-200, currentColor);
     }
 
+    a {
+        text-decoration: none;
+    }
+
     /* Smooth in-page anchor scrolling (e.g. the hero scroll cue). */
     @media (prefers-reduced-motion: no-preference) {
         html {
@@ -150,9 +154,9 @@
         background-size: 100% 1px, 100% 1px;
     }
 
-    header a,
-    .site-logo-anchor__link,
-    footer ul a,
+    body.ba-site header a,
+    body.ba-site .site-logo-anchor__link,
+    body.ba-site footer ul a,
     .roze-chrome a,
     [popover] a {
         background-image: none;
