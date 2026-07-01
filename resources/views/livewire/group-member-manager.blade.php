@@ -15,6 +15,7 @@
                     <th class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase">Captain</th>
                     <th class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase">Public</th>
                     <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Last Active</th>
+                    <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
@@ -58,10 +59,13 @@
                         <td class="px-4 py-3 text-right text-sm text-gray-500">
                             {{ $user->last_active_on?->diffForHumans() ?: '—' }}
                         </td>
+                        <td class="px-4 py-3 text-right text-sm">
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-4 py-8 text-center text-sm text-gray-500">
+                        <td colspan="8" class="px-4 py-8 text-center text-sm text-gray-500">
                             No members found.
                         </td>
                     </tr>

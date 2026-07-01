@@ -49,7 +49,7 @@ return [
             'title' => 'Press Articles',
             'color' => 'blue',
             'link' => 'admin/pressarticles',
-            'icon' => 'fa-press',
+            'icon' => 'fa-tv-retro',
         ],
 
         [
@@ -86,7 +86,7 @@ return [
             'title' => 'Partners',
             'color' => 'violet',
             'link' => 'admin/partners',
-            'icon' => 'fa-user-group',
+            'icon' => 'fa-handshake',
         ],
     ],
 
