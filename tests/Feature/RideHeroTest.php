@@ -16,7 +16,7 @@ function rideOrganisedBy(Group $group): Activity
         'title_nl' => 'Kidical Mass parade',
         'content_nl' => 'Een rustige fietsparade voor gezinnen.',
         'begin_date' => now()->addWeeks(2)->setTime(14, 0),
-        'published' => true,
+        'is_published' => true,
     ]);
     $activity->groups()->attach($group);
 

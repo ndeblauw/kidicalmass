@@ -216,21 +216,21 @@ it('collects published upcoming activities within the look-ahead horizon', funct
     $soon = Activity::factory()->create([
         'author_id' => $this->author->id,
         'begin_date' => now()->addWeeks(2),
-        'published' => true,
+        'is_published' => true,
     ]);
     $this->group->activities()->attach($soon);
 
     $unpublished = Activity::factory()->create([
         'author_id' => $this->author->id,
         'begin_date' => now()->addWeeks(3),
-        'published' => false,
+        'is_published' => false,
     ]);
     $this->group->activities()->attach($unpublished);
 
     $tooFar = Activity::factory()->create([
         'author_id' => $this->author->id,
         'begin_date' => now()->addMonths(6),
-        'published' => true,
+        'is_published' => true,
     ]);
     $this->group->activities()->attach($tooFar);
 
@@ -246,7 +246,7 @@ it('does not let upcoming activities alone trigger hasAny', function () {
     $soon = Activity::factory()->create([
         'author_id' => $this->author->id,
         'begin_date' => now()->addWeeks(2),
-        'published' => true,
+        'is_published' => true,
         'created_at' => now()->subMonths(3),
         'updated_at' => now()->subMonths(3),
     ]);

@@ -33,7 +33,7 @@ it('shows the three live proof numbers when the data backs them', function () {
     Activity::factory()->count(3)->create([
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => '2025-05-01 14:00',
-        'published' => true,
+        'is_published' => true,
         'author_id' => User::factory(),
     ]);
 

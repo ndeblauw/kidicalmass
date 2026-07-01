@@ -47,6 +47,7 @@ class ActivityFactory extends Factory
             'duration_minutes' => $durationMinutes,
             'author_id' => User::factory(),
             'komoot_url' => null,
+            'is_published' => true,
         ];
     }
 
@@ -74,7 +75,7 @@ class ActivityFactory extends Factory
             'activity_type' => ActivityType::KIDICALMASS,
             'begin_date' => now()->subDays($days)->setTime(14, 0),
             'duration_minutes' => 90,
-            'published' => true,
+            'is_published' => true,
         ]);
     }
 

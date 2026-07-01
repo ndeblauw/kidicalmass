@@ -11,16 +11,20 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_published')->default(false);
             $table->string('title_nl');
             $table->string('title_fr');
-            $table->text('content_nl');
-            $table->text('content_fr');
+            $table->text('content_nl')->nullable();
+            $table->text('content_fr')->nullable();
             $table->enum('activity_type', array_keys(ActivityType::getOptionsArray()))->default(ActivityType::KIDICALMASS->value);
             $table->dateTime('begin_date');
-            $table->string('location');
+            $table->string('location')->nullable();
+            $table->string('distance')->nullable();
+            $table->string('komoot_url')->nullable();
+            $table->string('commute_link')->nullable();
+            $table->string('postal_code')->nullable();
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('organizer_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('commute_link')->nullable();
             $table->integer('duration_minutes')->nullable();
             $table->timestamps();
         });

@@ -59,7 +59,7 @@ class GetGroupChangesAction
         // first. The calendar is built at year-start, so this is not "what changed"
         // but "what is coming up" within the look-ahead horizon.
         $upcomingActivities = $this->group->activities()
-            ->where('activities.published', true)
+            ->where('activities.is_published', true)
             ->where('activities.begin_date', '>', $this->endDate)
             ->where('activities.begin_date', '<=', $this->upcomingUntil)
             ->orderBy('activities.begin_date')

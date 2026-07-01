@@ -28,7 +28,7 @@ function publishedRideOn(string $date): Activity
     return Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => $date,
-        'published' => true,
+        'is_published' => true,
         'author_id' => User::factory(),
     ]);
 }
@@ -57,7 +57,7 @@ it('counts only published rides in the reference year for the rides card', funct
     YearStat::factory()->create(['year' => 2025, 'participants' => 5500]);
     publishedRideOn('2025-04-01 14:00');
     publishedRideOn('2025-09-01 14:00');
-    Activity::factory()->create(['begin_date' => '2025-06-01 14:00', 'published' => false, 'author_id' => User::factory()]);
+    Activity::factory()->create(['begin_date' => '2025-06-01 14:00', 'is_published' => false, 'author_id' => User::factory()]);
     publishedRideOn('2024-05-01 14:00'); // other year
 
     $card = cardLabelled((new SupportStats)->cards(), 'ritten in');

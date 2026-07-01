@@ -183,14 +183,14 @@ test('the agenda renders drafts and confirmed rides through the one shared row',
     $group->users()->attach($member, ['role' => null]);
 
     $confirmed = Activity::factory()->create([
-        'published' => true,
+        'is_published' => true,
         'title_nl' => 'Vastgelegde rit',
         'begin_date' => now()->addWeeks(2)->setTime(14, 0),
     ]);
     $confirmed->groups()->attach($group);
 
     $draft = Activity::factory()->create([
-        'published' => false,
+        'is_published' => false,
         'title_nl' => 'Rit in wording',
         'begin_date' => now()->addWeeks(3)->setTime(14, 0),
     ]);

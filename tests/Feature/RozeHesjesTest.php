@@ -78,6 +78,7 @@ test('roze page lists the upcoming ride in the typed agenda', function () {
         'activity_type' => 'kidicalmass',
         'begin_date' => now()->addWeek(), 'duration_minutes' => 60,
         'location' => 'Théâtre le Manège', 'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $ride->groups()->attach($group);
 

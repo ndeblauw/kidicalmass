@@ -60,7 +60,7 @@ it('renders every block for a single group with full activity', function () {
         'begin_date' => now()->addWeeks(2),
         'location' => 'Josaphatpark',
         'activity_type' => 'workshop',
-        'published' => true,
+        'is_published' => true,
     ]);
 
     $pinkVests = collect(['Sofie Maes', 'Mehmet Yilmaz', 'Lars De Smet'])

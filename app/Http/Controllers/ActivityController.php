@@ -31,7 +31,7 @@ class ActivityController extends Controller
 
     private function authorizeAccess(Activity $activity): void
     {
-        if ($activity->published) {
+        if ($activity->is_published) {
             return;
         }
 
@@ -52,6 +52,7 @@ class ActivityController extends Controller
 
     public function ical(string $locale, Activity $activity): Response
     {
+        $this->authorizeAccess($activity);
         $summary = e($activity->title_nl);
         $location = e($activity->location);
         $start = $activity->begin_date->utc()->format('Ymd\THis\Z');
