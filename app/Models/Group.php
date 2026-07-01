@@ -122,6 +122,11 @@ class Group extends Model implements HasMedia
         return $this->morphToMany(PressArticle::class, 'press_articleable');
     }
 
+    public function contactForms(): HasMany
+    {
+        return $this->hasMany(ContactForm::class);
+    }
+
     public function scopeVisible(Builder $query): void
     {
         $query->where('invisible', false);

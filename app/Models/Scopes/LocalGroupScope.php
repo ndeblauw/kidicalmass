@@ -5,6 +5,7 @@ namespace App\Models\Scopes;
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,7 @@ class LocalGroupScope implements Scope
 {
     public function apply(Builder $builder, Model $model): void
     {
+        $builder->ray();
         if (! request()->is('admin*')) {
             return;
         }
@@ -32,7 +34,7 @@ class LocalGroupScope implements Scope
             ->exists();
 
         if (! $isCaptain) {
-            return;
+            abort(404);
         }
 
         // Scope the query to the captain's groups
@@ -45,8 +47,8 @@ class LocalGroupScope implements Scope
             $builder->whereKey($groupIds);
         } elseif (method_exists($model, 'groups')) {
             $builder->whereHas('groups', fn (Builder $q) => $q->whereKey($groupIds));
-        } elseif (property_exists($model, 'group_id')) {
-            $builder->whereIn('group_id', $groupIds);
+        } elseif ($model->isRelation('group') && $model->group() instanceof BelongsTo) {
+            $builder->whereIn($model->group()->getForeignKeyName(), $groupIds);
         }
     }
 }

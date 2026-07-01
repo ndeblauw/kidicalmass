@@ -5,13 +5,6 @@
 
     @php
         $group = $model;
-        $captains = $group->users()->wherePivot('role', 'captain')->count();
-        $pinkVests = $group->users()->wherePivot('role', 'pinkvest')->count();
-        $interested = $group->users()->whereNull('role')->count();
-        $totalMembers = $group->users()->count();
-        $upcomingActivities = $group->activities()->where('begin_date', '>=', now())->count();
-        $pastActivities = $group->activities()->where('begin_date', '<', now())->count();
-        $unpublished = $group->activities()->where('published', false)->count();
         $sixtyDaysAgo = now()->subDays(60);
 
         $recentActivities = $group->activities()
@@ -23,7 +16,7 @@
 
         $unpublishedActivities = $group->activities()
             ->with(['author', 'media', 'pressArticles'])
-            ->where('published', false)
+            ->drafts()
             ->orderByDesc('begin_date')
             ->get();
 
@@ -31,6 +24,12 @@
             ->with(['organizer', 'media'])
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')
+            ->get();
+
+        $recentSubmissions = $group->contactForms()
+            ->unhandled()
+            ->latest()
+            ->limit(10)
             ->get();
     @endphp
 
@@ -82,36 +81,60 @@
         </div>
     </div>
 
-    {{-- Stats Cards --}}
-    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 border-pink-400">
-            <p class="text-2xl font-bold text-pink-600">{{ $pinkVests }}</p>
-            <p class="text-xs text-gray-500">Pink Vests</p>
+    {{-- Member Management --}}
+    <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-3 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-base font-medium text-gray-900">Member Management</h3>
         </div>
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 border-amber-400">
-            <p class="text-2xl font-bold text-amber-600">{{ $captains }}</p>
-            <p class="text-xs text-gray-500">Captains</p>
+        <div class="px-4 py-3 text-xs text-gray-500 border-b border-gray-100">
+            Manage group members and their roles. Click a role radio button to assign or change a member's role.
         </div>
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 border-gray-400">
-            <p class="text-2xl font-bold text-gray-600">{{ $interested }}</p>
-            <p class="text-xs text-gray-500">Interested</p>
+        <div class="p-4">
+            @livewire('group-member-manager', ['group' => $group])
         </div>
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 border-emerald-400">
-            <p class="text-2xl font-bold text-emerald-600">{{ $totalMembers }}</p>
-            <p class="text-xs text-gray-500">Total Members</p>
+    </div>
+
+    {{-- Unhandled Contact Submissions --}}
+    <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-3 sm:px-6 flex justify-between bg-gray-50 border-b border-gray-200">
+            <h3 class="text-base font-medium text-gray-900">Recent Contact Submissions</h3>
+            <x-ba-admin-button href="{{ route('admin.contactforms.index') }}" class="py-1 bg-rose-500 text-xs">
+                View All
+            </x-ba-admin-button>
         </div>
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 border-sky-400">
-            <p class="text-2xl font-bold text-sky-600">{{ $upcomingActivities }}</p>
-            <p class="text-xs text-gray-500">Upcoming</p>
+        <div class="px-4 py-3 text-xs text-gray-500 border-b border-gray-100">
+            Unanswered submissions from your chapter's volunteer signup and contact forms.
         </div>
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 border-gray-400">
-            <p class="text-2xl font-bold text-gray-600">{{ $pastActivities }}</p>
-            <p class="text-xs text-gray-500">Past</p>
-        </div>
-        <div class="bg-white shadow rounded-lg px-4 py-5 border-l-4 {{ $unpublished > 0 ? 'border-red-400' : 'border-emerald-400' }}">
-            <p class="text-2xl font-bold {{ $unpublished > 0 ? 'text-red-600' : 'text-emerald-600' }}">{{ $unpublished }}</p>
-            <p class="text-xs text-gray-500">Unpublished</p>
-        </div>
+        @if($recentSubmissions->isEmpty())
+            <p class="px-4 py-4 text-sm text-gray-500">No unanswered submissions. All caught up!</p>
+        @else
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Received</th>
+                        <th class="px-4 py-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    @foreach($recentSubmissions as $submission)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $submission->name }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-500">
+                            <a href="mailto:{{ $submission->email }}" class="text-blue-600 hover:text-blue-800">{{ $submission->email }}</a>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-gray-500 max-w-xs truncate">{{ Str::limit($submission->message, 80) }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-500">{{ $submission->created_at->diffForHumans() }}</td>
+                        <td class="px-4 py-3 text-right text-sm">
+                            <a href="{{ route('admin.contactforms.show', $submission->getKey()) }}" class="text-blue-600 hover:text-blue-800">View</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 
     {{-- Unpublished Activities --}}
