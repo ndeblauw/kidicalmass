@@ -41,12 +41,14 @@ class Activity extends Model implements HasMedia
         ];
     }
 
-    public function scopeDrafts(Builder $query): void
+    #[Scope]
+    protected function drafts(Builder $query): void
     {
         $query->where('is_published', false);
     }
 
-    public function scopePublished(Builder $query): void
+    #[Scope]
+    protected function published(Builder $query): void
     {
         $query->where('is_published', true);
     }
@@ -211,11 +213,6 @@ class Activity extends Model implements HasMedia
     public function getDateMonthYearAttribute(): string
     {
         return RideDate::monthYear($this->begin_date);
-    }
-
-    public function scopePublished(Builder $query): void
-    {
-        $query->where('published', true);
     }
 
     public function isPast(): bool

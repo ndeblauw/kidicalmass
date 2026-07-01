@@ -71,7 +71,7 @@ class SupportStats
     {
         return Activity::query()
             ->where('activity_type', ActivityType::KIDICALMASS)
-            ->where('is_published', true)
+            ->published()
             ->whereYear('begin_date', $year)
             ->count();
     }

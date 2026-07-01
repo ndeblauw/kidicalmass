@@ -26,4 +26,4 @@
 <x-ba-mediafile name="gallery" label="Additional Images" multiple comment="Shown on the activity detail page." />
 
 <x-ba-divider subtitle="Visibility" />
-<x-ba-boolean name="published" label="Published" comment="Unpublished activities are hidden from the public site." />
+<x-ba-boolean name="is_published" label="Published" comment="Unpublished activities are hidden from the public site." />

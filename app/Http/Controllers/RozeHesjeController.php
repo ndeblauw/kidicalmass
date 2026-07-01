@@ -62,7 +62,7 @@ class RozeHesjeController extends Controller
         // Drafts are this chapter's own work-in-progress — never the region's — so a hesje
         // sees what their captains are preparing, not unrelated regional drafts.
         $drafts = Activity::query()
-            ->where('is_published', false)
+            ->drafts()
             ->with('groups')
             ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
             ->where('begin_date', '>=', now())
@@ -202,7 +202,7 @@ class RozeHesjeController extends Controller
         }
 
         $draft = Activity::query()
-            ->where('is_published', false)
+            ->drafts()
             ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')
