@@ -1,378 +1,315 @@
-<x-layouts::site title="{{ $activity->title_nl }}">
+<x-layouts::site title="{{ $activity->title_nl }}" :nav-chapter="$activity->groups->first()">
 
-@php($routeCoords = $activity->route_coordinates)
-@php($hasMap = count($routeCoords) > 0)
-@php($mainImage = $activity->getFirstMedia('main'))
+@php
+    $routeCoords = $activity->route_coordinates;
+    $hasMap = count($routeCoords) > 0;
+    $mainImage = $activity->getFirstMedia('main');
 
-    {{-- HERO — poster layout: dark blue bg, circular photo, angled title --}}
-    <section class="activity-hero">
+    // The organising group's public members, deduped across multiple groups. Members
+    // who opted out (is_public = false) are excluded. No per-ride volunteer roster
+    // exists yet (GitHub #37 / D-1); avatars are the deterministic brand illustrations,
+    // keyed by name so each person keeps the same one.
+    $volunteers = $activity->groups->flatMap->publicMembers->unique('id')->values();
 
-        {{-- Daisy: full bleed, right side, slightly cropped --}}
-        <img src="{{ asset('img/logos/logo-icon.png') }}"
-             alt=""
-             aria-hidden="true"
-             class="activity-hero__daisy">
+    $teamIllustrations = [
+        'waving-rider', 'relaxed-rider', 'rider-with-flag',
+        'volunteer-with-wrench', 'longtail-with-kid', 'cargo-bike-family',
+    ];
+    $illustrationFor = fn (string $name) => $teamIllustrations[crc32($name) % count($teamIllustrations)];
 
-        {{-- Content aligned to container --}}
-        <div class="container mx-auto px-4 activity-hero__inner">
+    // "Wat kan je verwachten" collage (upcoming rides). Same two snapshots the home
+    // "Nieuw hier?" block leads with; placement mirrors that collage's first beat.
+    $expectPhotos = [
+        ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => 'Kinderen fietsen samen over een kruispunt tijdens een rit.', 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 40%'],
+        ['src' => 'img/photography/cargo-bike-kidical-mass-brussels.webp', 'alt' => 'Bakfiets met het Kidical Mass-logo en zwaaiende kinderen onderweg.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 45%'],
+    ];
 
-            <div class="activity-hero__copy">
-                <h1>{{ $activity->title_nl }}</h1>
+    // "Dankzij buren zoals jij" collage — the self-organising crew in action:
+    // wegkapiteins in pink vests + the team celebrating a finished ride. Mirror of
+    // the "Wat kan je verwachten?" collage; here the photos lead on the left.
+    $teamPhotos = [
+        ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => 'Drie vrijwilligers in roze hesje, klaar om een rit te begeleiden.', 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
+        ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => 'Het organiserende team viert samen na een geslaagde rit.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 45%'],
+    ];
 
-                <p class="activity-hero__date">
-                    <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ \Illuminate\Support\Str::ucfirst($activity->begin_date->translatedFormat('l j F')) }}</time>
-                </p>
+    // Social-proof credit line: first two first names, then "en N anderen".
+    $volunteerNames = $volunteers->map(fn ($person) => \Illuminate\Support\Str::before(trim($person->name), ' '))->values();
+    $volunteerCount = $volunteerNames->count();
+    $volunteerCredit = match (true) {
+        $volunteerCount >= 3 => "{$volunteerNames[0]}, {$volunteerNames[1]} en ".($volunteerCount - 2).' anderen',
+        $volunteerCount === 2 => "{$volunteerNames[0]} en {$volunteerNames[1]}",
+        default => (string) ($volunteerNames[0] ?? ''),
+    };
+    $volunteerVerb = $volunteerCount === 1 ? 'maakt' : 'maken';
+@endphp
+@php($state = $activity->lifecycleState())
+@php($isPast = $state->isPastState())
+@php($primaryGroup = $activity->groups->first())
 
-                @if($activity->groups->isNotEmpty())
-                    <div class="activity-hero__chapter">
-                        <svg class="activity-hero__chapter-pin" viewBox="0 0 40 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M20 2C10.059 2 2 10.059 2 20C2 32 20 52 20 52C20 52 38 32 38 20C38 10.059 29.941 2 20 2Z" fill="var(--color-kidical-red)"/>
-                            <circle cx="20" cy="20" r="7.5" fill="rgba(0,0,0,0.25)"/>
-                            <circle cx="20" cy="20" r="4.5" fill="white"/>
-                        </svg>
-                        <div class="activity-hero__chapter-label">
-                            @foreach($activity->groups as $group)
-                                <span>{{ $group->name }}</span>
-                            @endforeach
-                        </div>
-                    </div>
+    {{-- HERO — blue band, tilted photo card dipping into the white below (new look) --}}
+    <header class="activity-head">
+        <div class="container mx-auto px-4 activity-head__inner">
+
+            <div class="activity-head__copy">
+                @if($isPast)
+                    <p class="activity-head__past">Voorbij</p>
                 @endif
-            </div>
 
-            <div class="activity-hero__visual">
-                @if($mainImage)
-                    <div class="activity-hero__photo">
-                        <img src="{{ $mainImage->getUrl() }}"
-                             alt="{{ $activity->title_nl }}"
-                             class="activity-hero__img">
-                    </div>
-                @endif
-            </div>
-
-        </div>
-
-    </section>
-
-    {{-- META + MAP — full-bleed two-column --}}
-    <section class="activity-info-map">
-
-        {{-- LEFT: yellow meta panel --}}
-        <div class="activity-info-map__meta">
-            <div class="activity-info-map__meta-inner">
-                <dl class="activity-info-list">
-                    <div class="activity-info-item">
-                        <div class="activity-info-item__icon-wrap">
-                            <flux:icon.clock variant="solid" class="activity-info-item__icon" aria-hidden="true" />
-                        </div>
-                        <div>
-                            <dt>Startuur</dt>
-                            <dd>
-                                <time datetime="{{ $activity->begin_date->toIso8601String() }}">{{ $activity->timeLabel }}</time>
-                            </dd>
-                        </div>
-                    </div>
-
-                    <div class="activity-info-item">
-                        <div class="activity-info-item__icon-wrap">
-                            <flux:icon.map-pin variant="solid" class="activity-info-item__icon" aria-hidden="true" />
-                        </div>
-                        <div>
-                            <dt>Vertrekpunt</dt>
-                            <dd>{!! nl2br(e($activity->location)) !!}</dd>
-                        </div>
-                    </div>
-
-                    @if($activity->distance)
-                        <div class="activity-info-item">
-                            <div class="activity-info-item__icon-wrap">
-                                <flux:icon.arrows-right-left variant="solid" class="activity-info-item__icon" aria-hidden="true" />
-                            </div>
-                            <div>
-                                <dt>Afstand</dt>
-                                <dd>{{ $activity->distance }}</dd>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if($activity->duration_label)
-                        <div class="activity-info-item">
-                            <div class="activity-info-item__icon-wrap">
-                                <flux:icon.clock variant="solid" class="activity-info-item__icon" aria-hidden="true" />
-                            </div>
-                            <div>
-                                <dt>Duur</dt>
-                                <dd>{{ $activity->duration_label }}</dd>
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="activity-info-item">
-                        <div class="activity-info-item__icon-wrap">
-                            <flux:icon.ticket variant="solid" class="activity-info-item__icon" aria-hidden="true" />
-                        </div>
-                        <div>
-                            <dt>Deelname</dt>
-                            <dd>Gratis &middot; Geen inschrijving nodig</dd>
-                        </div>
-                    </div>
-                </dl>
+                {{-- Date tear-off sits beside the title as the hero's date anchor. No
+                     date·time eyebrow: the tile carries the day, and the full date + time
+                     live in Praktisch (Startuur). The organising group is no longer
+                     repeated here either (its zip rides beside the nav logo, and it's
+                     credited in "Van en voor de buurt" below). The hero gives the tile a
+                     friendlier face (white number on a solid red header, soft shadow,
+                     no weekday line) via the .activity-head__date scope in activity.css. --}}
+                <div class="activity-head__headline">
+                    <x-ride-date-tile
+                        :date="$activity->begin_date"
+                        accent="var(--color-kidical-red)"
+                        :rotation="-3"
+                        size="lg"
+                        class="activity-head__date" />
+                    <h1 class="page-hero__title">{{ $activity->title_nl }}</h1>
+                </div>
 
                 @if($activity->content_nl)
-                    <div class="activity-info-description">
-                        {!! nl2br(e($activity->content_nl)) !!}
-                    </div>
+                    <x-intro-text class="activity-head__lead">{!! nl2br(e($activity->content_nl)) !!}</x-intro-text>
                 @endif
-
             </div>
+
+            <figure class="activity-head__media">
+                @if($mainImage)
+                    <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title_nl }}" class="activity-head__photo" fetchpriority="high">
+                @else
+                    <img src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="" aria-hidden="true" class="activity-head__photo" fetchpriority="high">
+                @endif
+            </figure>
+
         </div>
 
-        {{-- RIGHT: route map --}}
-        @if($hasMap)
-            <div class="activity-info-map__map">
-                <div id="activity-map"
-                     class="activity-info-map__route"
-                     data-coordinates="{{ json_encode($routeCoords) }}">
-                </div>
-                <div class="activity-map-info-strip">
-                    <div class="activity-map-info-strip__stats">
-                        <span class="activity-map-stat">
-                            <flux:icon.arrows-right-left class="activity-map-stat__icon" aria-hidden="true" />
-                            {{ $activity->distance ?? '—' }}
-                        </span>
-                        <span class="activity-map-stat">
-                            <flux:icon.clock class="activity-map-stat__icon" aria-hidden="true" />
-                            {{ $activity->duration_label ?? '—' }}
-                        </span>
-                    </div>
-                    @if($activity->komoot_url)
-                        <a href="{{ $activity->komoot_url }}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="activity-map-komoot-link">
-                            Bekijk op Komoot
-                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
-                    @endif
-                </div>
-            </div>
+        {{-- THE PARADE ROLLS IN — brand riders along the blue→white seam, so the
+             recognizable illustration style greets you up top (it mirrors the loved
+             closing band below). Purely decorative: aria-hidden, and the riders bob
+             in on load only when motion is welcome. --}}
+        <div class="container mx-auto px-4 activity-head__parade" aria-hidden="true">
+            <img src="{{ asset('img/illustrations/rider-with-flag.svg') }}" alt="" class="activity-head__rider">
+            <img src="{{ asset('img/illustrations/relaxed-rider.svg') }}" alt="" class="activity-head__rider activity-head__rider--flip">
+            <img src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" class="activity-head__rider">
+        </div>
+    </header>
+
+    {{-- BODY PANEL — opaque white sheet that rides up over the sticky hero and covers the
+         riders' wheels (the /events scroll-over pattern). Full-bleed panel, content
+         re-centred by the inner container. --}}
+    <div class="activity-stack">
+        <div class="activity-stack__inner container mx-auto px-4">
+
+        {{-- PHOTO BLOCK — recap leads with the gallery; just-past shows the nudge; upcoming has none --}}
+        @if($activity->isRecap())
+            <x-ride-gallery
+                :photos="$activity->getMedia('gallery')"
+                title="In beeld"
+                :date="$activity->begin_date"
+                :commune="$primaryGroup?->name" />
+        @elseif($activity->isAwaitingPhotos())
+            <x-ride-photo-nudge :activity="$activity" />
         @endif
 
-    </section>
+        {{-- PRAKTISCH — facts + route, paired with a "stay in the loop" card --}}
+        <section class="activity-praktisch">
+            @php($departure = \Illuminate\Support\Str::of($activity->location)->replace("\n", ', ')->trim())
+            <article class="activity-facts">
+                <div class="activity-facts__body">
+                    <div class="activity-facts__main">
+                        <dl class="activity-facts__meta">
+                            <div class="activity-facts__meta-item">
+                                <x-icon-chip color="red" size="sm" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+                                </x-icon-chip>
+                                <div>
+                                    <dt>Wanneer</dt>
+                                    <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->dateFull) }}, {{ $activity->timeLabel }}</time></dd>
+                                </div>
+                            </div>
 
-    {{-- FIXED PROMISES — always shown on every Kidical Mass ride --}}
-    <section class="activity-promises">
-        <div class="activity-promises__layout">
-            <div class="activity-promises__illustration">
-                <h2>Wat kun je verwachten?</h2>
-                <img src="{{ asset('img/illustrations/caterpillar-bike.svg') }}" alt="" aria-hidden="true" loading="lazy">
+                            @if($activity->distance)
+                                <div class="activity-facts__meta-item">
+                                    <x-icon-chip color="red" size="sm" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L4 11l4 4"/><path d="M4 11h16"/><path d="M16 17l4-4-4-4"/></svg>
+                                    </x-icon-chip>
+                                    <div>
+                                        <dt>Afstand</dt>
+                                        <dd>{{ $activity->distance }}</dd>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($activity->duration_label)
+                                <div class="activity-facts__meta-item">
+                                    <x-icon-chip color="red" size="sm" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                                    </x-icon-chip>
+                                    <div>
+                                        <dt>Duur</dt>
+                                        <dd>{{ $activity->duration_label }}</dd>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="activity-facts__meta-item">
+                                <x-icon-chip color="red" size="sm" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg>
+                                </x-icon-chip>
+                                <div>
+                                    <dt>Deelname</dt>
+                                    <dd>Gratis &middot; geen inschrijving nodig</dd>
+                                </div>
+                            </div>
+                        </dl>
+                    </div>
+
+                    {{-- Route — the real GPX track when present, else the stylised brand
+                         fallback (same dual logic as the chapter page's <x-next-ride>).
+                         On the real map the departure point is a popup pinned to the start
+                         marker (built by <x-route-map>); the <dl> below is the accessible,
+                         no-JS fallback. The faux map has no pin, so its <dl> is the visible
+                         corner chip. The Komoot link anchors into the map's bottom corner. --}}
+                    <div class="activity-facts__map">
+                        @if($hasMap)
+                            <x-route-map :coordinates="$routeCoords" :interactive="false" label="{{ $departure }}" eyebrow="Vertrekpunt" class="activity-facts__route" aria-hidden="true" />
+                            <dl class="activity-facts__map-label activity-facts__map-label--fallback">
+                                <dt>Vertrekpunt</dt>
+                                <dd>{{ $departure }}</dd>
+                            </dl>
+                        @else
+                            <div class="activity-facts__route-faux" aria-hidden="true">
+                                <svg viewBox="0 0 440 320" preserveAspectRatio="xMidYMid slice" class="activity-facts__route-svg">
+                                    <path class="activity-facts__route-line" d="M50 270 C 120 260, 150 210, 200 200 S 300 180, 330 120 400 75 405 45" fill="none"/>
+                                    <circle class="activity-facts__route-dot" cx="200" cy="200" r="5"/>
+                                    <circle class="activity-facts__route-dot" cx="330" cy="120" r="5"/>
+                                    <circle class="activity-facts__route-start" cx="50" cy="270" r="10"/>
+                                </svg>
+                            </div>
+                            <dl class="activity-facts__map-label">
+                                <dt>Vertrekpunt</dt>
+                                <dd>{{ $departure }}</dd>
+                            </dl>
+                        @endif
+
+                        @if($activity->komoot_url)
+                            <x-cta-button
+                                :href="$activity->komoot_url"
+                                variant="secondary"
+                                size="sm"
+                                icon="arrow"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="activity-facts__map-komoot"
+                            >Bekijk op Komoot</x-cta-button>
+                        @endif
+                    </div>
+                </div>
+            </article>
+
+            {{-- DEEL — a quiet, in-context share ask right beside the practical details. --}}
+            <aside class="activity-share">
+                <div class="activity-share__text">
+                    @if($isPast)
+                        <h2>Deel de herinnering</h2>
+                        <p class="activity-share__body">Laat anderen zien hoe fijn het was.</p>
+                    @else
+                        <h2>Vrienden mee?</h2>
+                        <p class="activity-share__body">Nodig anderen uit. Want samen fietsen is leuker.</p>
+                    @endif
+                </div>
+
+                <x-share-links
+                    :url="route('activities.show', $activity)"
+                    :title="$activity->title_nl"
+                    :date="$activity->begin_date->translatedFormat('l j F')" />
+            </aside>
+        </section>
+
+        {{-- WAT KAN JE VERWACHTEN — newcomer reassurance (mirrors the home "Nieuw hier?"
+             block: warm copy + a how-it-works CTA beside a lively photo collage),
+             only for upcoming rides --}}
+        @unless($isPast)
+        <section class="activity-expect">
+            <div class="activity-expect__copy">
+                <h2 class="text-kidical-ink">Wat kan je verwachten?</h2>
+                <p>Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.</p>
+                <p><x-cta-button :href="route('getting-started')" variant="secondary" disc="blue">Zo werkt een rit</x-cta-button></p>
             </div>
-            <ul class="activity-promises__col" role="list">
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.clock variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Op het tempo van het jongste kind</strong>
-                    <p>We wachten op iedereen. Geen kind blijft achter.</p>
-                </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.shield-check variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Roze hesjes voor en achter</strong>
-                    <p>Vrijwilligers begeleiden de groep en zorgen dat iedereen veilig aankomt.</p>
-                </li>
-            </ul>
-            <ul class="activity-promises__col" role="list">
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.musical-note variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Muziek onderweg</strong>
-                    <p>Een versierde bakfiets met geluid maakt van elke rit een feest.</p>
-                </li>
-                <li class="activity-promises__item">
-                    <div class="activity-promises__icon-wrap">
-                        <flux:icon.flag variant="solid" class="activity-promises__icon" aria-hidden="true" />
-                    </div>
-                    <strong>Korte verkeersbespreking aan de start</strong>
-                    <p>Zodat iedereen weet wat te doen — ook als het je eerste keer is.</p>
-                </li>
-            </ul>
-        </div>
-    </section>
 
-    {{-- ORGANIZERS + VOLUNTEER CTA --}}
-    <section class="activity-organizers">
-        <div class="activity-organizers__inner" x-data="{ open: false }">
+            <x-photo-collage
+                class="activity-expect__collage"
+                :photos="$expectPhotos" />
+        </section>
+        @endunless
 
-            {{-- Normal content --}}
-            <template x-if="!open"><div class="activity-organizers__content">
+        {{-- DANKZIJ BUREN ZOALS JIJ — the self-organising crew behind the ride: warm
+             copy + a social-proof face-stack beside a lively photo collage. A mirror
+             of "Wat kan je verwachten?" — here the photos lead on the left. --}}
+        @if($activity->groups->isNotEmpty())
+        <section class="activity-team">
+            <x-photo-collage
+                class="activity-team__collage"
+                :photos="$teamPhotos" />
 
-                <h2 class="activity-organizers__title">Van en voor de buurt</h2>
+            <div class="activity-team__copy">
+                <h2 class="text-kidical-ink">Dankzij buren zoals jij.</h2>
+                <p class="activity-team__lead">Zij plannen de ritten zelf en houden onderweg de kruispunten vrij, zodat iedereen veilig kan meefietsen.</p>
 
-                @if($activity->groups->isNotEmpty())
-                    <p class="activity-organizers__lead">
-                        Georganiseerd door vrijwilligers van Kidical Mass
-                        @foreach($activity->groups as $group)
-                            <a href="{{ route('groups.show', $group) }}">{{ $group->name }}</a>@if(!$loop->last), @endif
-                        @endforeach
-                    </p>
+                @if($volunteers->isNotEmpty())
+                    <div class="activity-team__proof">
+                        <ul class="activity-team__stack" role="list">
+                            @foreach($volunteers->take(5) as $person)
+                                <li class="activity-team__face">
+                                    <img src="{{ asset('img/illustrations/'.$illustrationFor($person->name).'.svg') }}" alt="" aria-hidden="true">
+                                </li>
+                            @endforeach
+                            @if($volunteers->count() > 5)
+                                <li class="activity-team__more">+{{ $volunteers->count() - 5 }}</li>
+                            @endif
+                        </ul>
+                        <p class="activity-team__names"><strong>{{ $volunteerCredit }}</strong> {{ $volunteerVerb }} deze ritten mogelijk.</p>
+                    </div>
                 @endif
 
-                <div class="activity-organizers__team">
-                    <div class="activity-organizers__person">
-                        <img src="https://i.pravatar.cc/128?img=47"
-                             alt="{{ Str::before($activity->author->name, ' ') }}"
-                             class="activity-organizers__avatar"
-                             loading="lazy">
-                        <div class="activity-organizers__person-info">
-                            <span class="activity-organizers__name">{{ Str::before($activity->author->name, ' ') }}</span>
-                            <span class="activity-organizers__role">Organisator</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="activity-organizers__volunteer">
-                    <h3>Roze hesje worden?</h3>
-                    <p>Als roze hesje begeleid je de groep en zorg je dat iedereen veilig aankomt. Je rijdt vooraan of achteraan, houdt kruispunten vrij en zorgt dat geen enkel kind achterblijft. <a href="{{ route('volunteer') }}" class="activity-organizers__volunteer-link">Lees hoe dat werkt.</a></p>
-                    <div class="activity-organizers__actions">
-                        <button x-on:click="open = true" class="activity-organizers__join-btn">
-                            Ik wil meedoen als roze hesje
-                        </button>
-                    </div>
-                </div>
-
-            </div></template>
-
-            {{-- Volunteer signup form (replaces content) --}}
-            <template x-if="open">
-                <div class="activity-organizers__content activity-organizers__signup">
-
-                    <button x-on:click="open = false" class="activity-organizers__back-btn">
-                        <flux:icon.arrow-left class="activity-organizers__back-icon" aria-hidden="true" />
-                        Terug
-                    </button>
-
-                    <h2 class="activity-organizers__title">Meld je aan</h2>
-                    <p class="activity-organizers__lead">We nemen zo snel mogelijk contact op met je als roze hesje.</p>
-
-                    <livewire:volunteer-signup />
-
-                </div>
-            </template>
-
-            <div class="activity-organizers__photo">
-                <img src="{{ asset('img/photography/volunteers/pink-vest-volunteer.jpg') }}" alt="Roze hesjes begeleiden de groep" loading="lazy">
+                @if($primaryGroup)
+                    <x-cta-button :href="route('groups.show', $primaryGroup)" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
+                @endif
             </div>
+        </section>
+        @endif
+
+        {{-- STEUN — contextual support ask, quiet & contained. Only on past rides: the
+             "steun de volgende rit" ask lands once someone has just ridden, not before. --}}
+        @if($isPast)
+            <x-support-callout variant="event" :contained="true" />
+        @endif
+
+        {{-- The share ask now lives in the Praktisch sidebar (activity-share), so the old
+             full-width share band is intentionally gone — no second, duplicate share row. --}}
 
         </div>
-    </section>
-
-    {{-- Support (PAT-10 contextual block) — the warm "just rode" moment --}}
-    <x-support-callout variant="event" />
-
-    @if($hasMap)
-        @push('scripts')
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.9/dist/leaflet.js"></script>
-        <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const el = document.getElementById('activity-map');
-            if (!el) return;
-
-            const coords = JSON.parse(el.dataset.coordinates || '[]');
-            if (!coords.length) return;
-
-            const brandRed = getComputedStyle(document.documentElement).getPropertyValue('--color-kidical-red').trim() || '#E63A7B';
-
-            const map = L.map(el, { zoomControl: true, scrollWheelZoom: false });
-
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 19,
-            }).addTo(map);
-
-            const polyline = L.polyline(coords, {
-                color: brandRed,
-                weight: 5,
-                opacity: 0.95,
-            }).addTo(map);
-
-            map.invalidateSize();
-            map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });
-
-            // Departure pin
-            const departureIcon = L.divIcon({
-                html: `<svg width="28" height="38" viewBox="0 0 28 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M14 1C6.82 1 1 6.82 1 14C1 24 14 37 14 37C14 37 27 24 27 14C27 6.82 21.18 1 14 1Z" fill="${brandRed}"/>
-                    <circle cx="14" cy="14" r="5.5" fill="rgba(0,0,0,0.2)"/>
-                    <circle cx="14" cy="14" r="3.5" fill="white"/>
-                </svg><span class="activity-map-label">Vertrekpunt</span>`,
-                className: 'activity-map-marker',
-                iconAnchor: [14, 37],
-                iconSize: [28, 38],
-            });
-
-            L.marker(coords[0], { icon: departureIcon }).addTo(map);
-        });
-        </script>
-        @endpush
-    @endif
-
-    @push('scripts')
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        const cards = document.querySelectorAll('.activity-promises__item');
-        cards.forEach((card, i) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = `opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)`;
-            card.style.transitionDelay = `${i * 90}ms`;
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.12 });
-
-        cards.forEach(card => observer.observe(card));
-    });
-    </script>
-    @endpush
-
-    {{-- FIXED ACTION BAR --}}
-    <div class="activity-actions-bar" x-data="{ copied: false, shareTitle: @js($activity->title_nl) }">
-        <flux:button href="{{ route('activities.ical', $activity) }}" icon="calendar-days" variant="ghost">
-            Bewaar in agenda
-        </flux:button>
-        <flux:button
-            icon="share"
-            variant="ghost"
-            x-on:click="
-                if (navigator.share) {
-                    navigator.share({ title: shareTitle, url: window.location.href })
-                } else {
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        copied = true
-                        setTimeout(() => copied = false, 2000)
-                    })
-                }
-            "
-        >Deel</flux:button>
-        <span x-show="copied" class="activity-actions-bar__copied">Gekopieerd!</span>
     </div>
 
     <x-slot:closing>
-        <x-closing-cta heading="Nog niet zeker hoe het werkt?"
-            :href="route('getting-started')" label="Lees hoe je meerijdt" />
+        @if($isPast && $primaryGroup)
+            <x-closing-cta
+                heading="Meer ritten van Kidical Mass {{ $primaryGroup->name }}?"
+                :href="route('groups.show', $primaryGroup)"
+                label="Ontdek de groep" />
+        @else
+            {{-- Upcoming: the "how it works" ask already lives above (Zo werkt een rit,
+                 beside the map's promises), so the closing band points elsewhere: stay
+                 in the loop for the next rides via the newsletter. --}}
+            <x-closing-cta
+                heading="{{ $primaryGroup ? 'Mis geen rit van Kidical Mass '.$primaryGroup->name : 'Geen rit missen?' }}"
+                :href="route('newsletter.show', ['locale' => app()->getLocale()])"
+                label="Schrijf je in voor updates" />
+        @endif
     </x-slot:closing>
 
 </x-layouts::site>

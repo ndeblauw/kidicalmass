@@ -21,9 +21,9 @@
             @endif
         </header>
 
-        @if ($article->getFirstMedia('main'))
+        @if ($mainMedia = $article->getFirstMedia('main'))
             <div class="aspect-[16/9] overflow-hidden rounded-xl">
-                <img src="{{ $article->getFirstMediaUrl('main') }}" alt="{{ $article->title_nl }}" class="h-full w-full object-cover">
+                <img src="{{ $mainMedia->getUrl() }}" @if ($mainMedia->getSrcset()) srcset="{{ $mainMedia->getSrcset() }}" sizes="(min-width: 768px) 720px, 100vw" @endif alt="{{ $article->title_nl }}" class="h-full w-full object-cover" fetchpriority="high">
             </div>
         @endif
 
@@ -37,7 +37,7 @@
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($article->getMedia('gallery') as $media)
                         <div class="aspect-[4/3] overflow-hidden rounded-xl">
-                            <img src="{{ $media->getUrl() }}" alt="{{ $article->title_nl }}" class="h-full w-full object-cover transition-transform duration-300 hover:scale-105">
+                            <img src="{{ $media->getUrl() }}" @if ($media->getSrcset()) srcset="{{ $media->getSrcset() }}" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" @endif alt="{{ $article->title_nl }}" class="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" decoding="async">
                         </div>
                     @endforeach
                 </div>

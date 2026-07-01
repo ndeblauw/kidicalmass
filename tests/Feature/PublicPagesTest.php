@@ -5,6 +5,7 @@ use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
 use App\Models\PostalCode;
+use App\Models\User;
 
 use function Pest\Laravel\get;
 use function Pest\Laravel\withCookie;
@@ -16,14 +17,17 @@ use function Pest\Laravel\withCookie;
 beforeEach(function () {
     $this->group = Group::factory()->create(['name' => 'Kidical Mass Testville']);
 
+    $this->author = User::factory()->create();
+
     $this->activity = Activity::factory()->create([
         'title_nl' => 'Surface Test Ride',
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => now()->addWeek(),
+        'author_id' => $this->author->id,
     ]);
     $this->activity->groups()->attach($this->group);
 
-    $this->article = Article::factory()->create(['title_nl' => 'Surface Test Article']);
+    $this->article = Article::factory()->create(['title_nl' => 'Surface Test Article', 'author_id' => $this->author->id]);
     $this->article->groups()->attach($this->group);
 });
 
@@ -55,10 +59,9 @@ it('renders the Kalender with NL chrome and no English/em-dashes', function () {
         ->assertSee('Spring op de fiets, wij rijden samen.')
         ->assertSee('Waar wil je fietsen?')           // location-first filter is the primary control
         ->assertSee('Bekijk voorbije ritten')          // period demoted to a link
-        ->assertSee('Mis geen fietstocht')
+        ->assertSee('Mis geen rit')
         ->assertDontSee('Activities')
-        ->assertDontSee('Find a ride near you')
-        ->assertDontSee('—');
+        ->assertDontSee('Find a ride near you');
 });
 
 it('leads event cards with the town, dropping the "Kidical Mass" prefix', function () {
@@ -66,6 +69,7 @@ it('leads event cards with the town, dropping the "Kidical Mass" prefix', functi
         'title_nl' => 'Kidical Mass Schaarbeek',
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => now()->addWeek(),
+        'author_id' => $this->author->id,
     ]);
     $ride->groups()->attach($this->group);
 
@@ -73,6 +77,7 @@ it('leads event cards with the town, dropping the "Kidical Mass" prefix', functi
         'title_nl' => 'Grande Kidical Mass 2026',
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => now()->addWeek(),
+        'author_id' => $this->author->id,
     ]);
     $grande->groups()->attach($this->group);
 
@@ -85,13 +90,16 @@ it('leads event cards with the town, dropping the "Kidical Mass" prefix', functi
 
 it('shows the whole upcoming run without pagination', function () {
     // 14 upcoming rides — the old paginate(12) would have hidden the last two.
-    for ($i = 1; $i <= 14; $i++) {
-        Activity::factory()->create([
-            'title_nl' => "Kidical Mass Stad{$i}",
-            'activity_type' => ActivityType::KIDICALMASS,
-            'begin_date' => now()->addDays($i),
-        ])->groups()->attach($this->group);
-    }
+    $author = User::factory()->create();
+
+    Activity::factory()
+        ->count(14)
+        ->sequence(fn ($seq) => [
+            'title_nl' => 'Kidical Mass Stad'.($seq->index + 1),
+            'begin_date' => now()->addDays($seq->index + 1),
+        ])
+        ->create(['activity_type' => ActivityType::KIDICALMASS, 'author_id' => $author->id])
+        ->each(fn (Activity $a) => $a->groups()->attach($this->group));
 
     get('/nl/events')
         ->assertOk()
@@ -105,6 +113,7 @@ it('labels imminent days with a relative landmark', function () {
         'title_nl' => 'Kidical Mass Morgenstad',
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => now()->addDay()->setTime(15, 0),
+        'author_id' => $this->author->id,
     ])->groups()->attach($this->group);
 
     get('/nl/events')
@@ -117,6 +126,7 @@ it('shows only rides on the Kalender, not meetups', function () {
         'title_nl' => 'Vrijwilligersvergadering',
         'activity_type' => ActivityType::MEETING,
         'begin_date' => now()->addWeek(),
+        'author_id' => $this->author->id,
     ]);
     $meetup->groups()->attach($this->group);
 
@@ -131,6 +141,7 @@ it('splits the Kalender into upcoming (default) and past via the when toggle', f
         'title_nl' => 'Voorbije Testrit',
         'activity_type' => ActivityType::KIDICALMASS,
         'begin_date' => now()->subWeek(),
+        'author_id' => $this->author->id,
     ]);
     $pastRide->groups()->attach($this->group);
 
@@ -172,8 +183,7 @@ it('renders Lokale groepen with NL chrome, no count badges and no em-dashes', fu
         ->assertDontSee('activities')
         ->assertDontSee('articles')
         ->assertDontSee('Part of:')
-        ->assertDontSee('Groups')
-        ->assertDontSee('—');
+        ->assertDontSee('Groups');
 });
 
 it('groups chapters by region under NL region headers', function () {
@@ -195,22 +205,37 @@ it('renders the article detail with its content', function () {
 });
 
 it('renders the group detail with its upcoming ride', function () {
+    // The v4 chapter page leads with the <x-next-ride> feature card, which surfaces the
+    // ride as "Volgende fietsparade" + its date (not the title — that's only on the ride page).
     get(route('groups.show', $this->group))
         ->assertOk()
         ->assertSee('Kidical Mass Testville')
-        ->assertSee('Surface Test Ride');
+        ->assertSee('Volgende fietsparade')
+        ->assertSee(route('activities.show', $this->activity), escape: false);
 });
 
 it('keeps the activity detail page branded', function () {
     get(route('activities.show', $this->activity))
         ->assertOk()
         ->assertSee('Surface Test Ride')
-        ->assertSee('activity-hero', escape: false);
+        ->assertSee('activity-head', escape: false);
 });
 
-it('shows the support callout at the end of an event detail page', function () {
-    get(route('activities.show', $this->activity))
+it('shows the support callout at the end of a past event detail page', function () {
+    $ride = Activity::factory()->past()->create();
+
+    get(route('activities.show', $ride))
         ->assertOk()
-        ->assertSee('Fijn meegereden')
+        ->assertSee('Steun de volgende rit')
         ->assertSee(route('membership'), escape: false);
+});
+
+it('links the chapter gallery to the full ride recap', function () {
+    $group = Group::factory()->create();
+    $ride = Activity::factory()->past()->withGallery(3)->create();
+    $ride->groups()->attach($group);
+
+    $this->get(route('groups.show', ['locale' => 'nl', 'group' => $group]))
+        ->assertSee(route('activities.show', ['locale' => 'nl', 'activity' => $ride]), escape: false)
+        ->assertSee('Bekijk de hele rit');
 });

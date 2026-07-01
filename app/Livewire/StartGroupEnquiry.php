@@ -28,7 +28,7 @@ class StartGroupEnquiry extends Component
      */
     public const PATH_OPTIONS = [
         'praten' => 'Ik praat eerst graag met iemand die het al deed',
-        'klaar' => 'Ik ben er klaar voor — neem gerust contact op',
+        'klaar' => 'Ik ben er klaar voor, neem gerust contact op',
     ];
 
     /**

@@ -10,84 +10,206 @@
 --}}
 <x-layouts::site title="Een lokale groep starten">
 
-    <x-page-hero eyebrow="Een lokale groep starten" title="Breng Kidical Mass naar jouw buurt" illustration="img/illustrations/cyclist-peace-sign.svg">
+    <x-page-hero
+        eyebrow="Een lokale groep starten"
+        title="Breng Kidical Mass naar jouw buurt"
+        photo="img/photography/team-kidical-mass.webp"
+        photo-alt="Vier vrijwilligers van het Kidical Mass team lachen met roze hesjes en blauwe vlaggen, naast een kartonnen figuur van twee kinderen op de fiets"
+        photo-tilt
+        caption="Foto © Marc Baert">
 
-        <x-slot:lead>
-            <p>Je hebt geen vereniging nodig en je hoeft geen fietsexpert te zijn. Een klein kernteam,
-            een vertrekpunt en wat goesting volstaan om te beginnen. De rest doen we samen.</p>
-        </x-slot:lead>
+        {{-- Intro opens the white panel, with the "start" CTA in a right column,
+             vertically centred to the intro copy (stacks below it on mobile). --}}
+        <div class="sg-intro">
+            <x-intro-text>
+                <p>Je hebt geen vereniging nodig en je hoeft geen fietsexpert te zijn. Een klein kernteam,
+                een vertrekpunt en wat goesting volstaan om te beginnen. De rest doen we samen.</p>
+            </x-intro-text>
+            <div class="sg-intro__action">
+                <x-cta-button href="#start" variant="secondary">Ik wil starten</x-cta-button>
+            </div>
+        </div>
 
-        <x-slot:controls>
-            <x-cta-button href="#start" variant="blue">Ik wil starten</x-cta-button>
-        </x-slot:controls>
+        {{-- DRIE SECTIES — simple alternating two-column lockups (collage + text),
+             vertically centred, height driven by the content. Order alternates:
+             collage-text, text-collage, collage-text. No sticky, no crossfade. --}}
+        <section class="sg-story">
+            <div class="sg-story__row">
+                <div class="sg-story__collage sg-story__collage--a">
+                    <figure class="sg-story__photo sg-story__photo--lead">
+                        <x-photo src="img/photography/volunteers-season-launch-meetup.webp"
+                                 alt="Een klein groepje vrijwilligers komt samen om het fietsseizoen voor te bereiden" />
+                    </figure>
+                    <figure class="sg-story__photo sg-story__photo--trail">
+                        <x-photo src="img/photography/cargo-bike-mother-two-kids-flag.webp"
+                                 alt="Een glimlachende vrouw rijdt op een cargobike met twee kinderen en een Kidical Mass vlag" />
+                    </figure>
+                </div>
+                <div class="sg-story__text">
+                    <x-titled-list-block title="Jij hebt al wat nodig is" variant="ask" level="h2">
+                        <li>Een kernteam van twee of drie mensen</li>
+                        <li>Kennis van je eigen buurt</li>
+                        <li>Een vertrekpunt en een route-idee</li>
+                        <li>Energie en goesting</li>
+                    </x-titled-list-block>
+                </div>
+            </div>
 
-        {{-- DE DEAL — dissolves "te groot een klus voor mij" --}}
-        <section class="sg-deal">
-            <h2 class="sg-deal__title">Je hoeft dit niet alleen te dragen</h2>
-            <div class="sg-deal__cols">
-                <x-titled-list-block title="Wat jij brengt">
-                    <li>Een kernteam van twee of drie mensen</li>
-                    <li>Kennis van je eigen buurt</li>
-                    <li>Een vertrekpunt en een route-idee</li>
-                    <li>Energie en goesting</li>
-                </x-titled-list-block>
+            <div class="sg-story__row sg-story__row--reverse">
+                <div class="sg-story__collage sg-story__collage--b">
+                    <figure class="sg-story__photo sg-story__photo--lead">
+                        <x-photo src="img/photography/volunteers-pink-vest-group-cobbles.webp"
+                                 alt="Een groep vrijwilligers in roze hesjes stapt samen op straat, klaar om de rit te begeleiden" />
+                    </figure>
+                    <figure class="sg-story__photo sg-story__photo--trail">
+                        <x-photo src="img/photography/volunteer-handing-stickers-to-kids.webp"
+                                 alt="Een vrijwilliger deelt Kidical Mass stickers uit aan kinderen" />
+                    </figure>
+                </div>
+                <div class="sg-story__text">
+                    <x-titled-list-block title="De rest doen we samen" variant="get" level="h2">
+                        <li>Het merk en al het materiaal, van flyers tot hesjes</li>
+                        <li>Opleiding rond veilige begeleiding en routeplanning</li>
+                        <li>Nationale zichtbaarheid en communicatie</li>
+                        <li>Coaching en een vast aanspreekpunt</li>
+                        <li>Contacten met gemeenten, partners en fietsbrigades</li>
+                        <li>Subsidieaanvragen voor de hele organisatie</li>
+                    </x-titled-list-block>
+                </div>
+            </div>
 
-                <x-titled-list-block title="Wat wij dragen">
-                    <li>Het merk en al het materiaal, van flyers tot hesjes</li>
-                    <li>Opleiding rond veilige begeleiding en routeplanning</li>
-                    <li>Nationale zichtbaarheid en communicatie</li>
-                    <li>Coaching en een vast aanspreekpunt</li>
-                    <li>Contacten met gemeenten, partners en fietsbrigades</li>
-                    <li>Subsidieaanvragen voor de hele organisatie</li>
-                </x-titled-list-block>
+            <div class="sg-story__row">
+                <div class="sg-story__collage sg-story__collage--c">
+                    <figure class="sg-story__photo sg-story__photo--lead">
+                        <x-photo src="img/photography/ride-trio-pink-vest-lei-portrait.webp"
+                                 alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" />
+                    </figure>
+                    <figure class="sg-story__photo sg-story__photo--trail">
+                        <x-photo src="img/photography/volunteer-pink-vest-blue-helmet.webp"
+                                 alt="Een begeleider in een roze hesje en blauwe helm houdt mee de rit veilig" />
+                    </figure>
+                </div>
+                <div class="sg-story__text">
+                    <div class="titled-list-block titled-list-block--ask">
+                        <h2 class="titled-list-block__title">Waar je ja tegen zegt</h2>
+                        <p class="sg-asks__lead">Eerlijk is eerlijk: een groep dragen is een engagement over een
+                        heel seizoen. Dit verwachten we van een lokale trekker.</p>
+                        <ul class="sg-asks__list" role="list">
+                            <li>Een paar ritten per jaar mee plannen en begeleiden</li>
+                            <li>Eén afgevaardigde naar de vier jaarlijkse Kidical-meetings</li>
+                            <li>Je scharen achter ons huishoudelijk reglement rond veiligheid en goede vibes</li>
+                            <li>Genoeg begeleiders verzamelen: minstens één roze hesje per tien deelnemers</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
-        {{-- WAT HET ÉCHT VRAAGT — the honest filter (fewer, higher-intent leads) --}}
-        <section class="sg-asks">
-            <h2 class="sg-asks__title">Wat het écht vraagt</h2>
-            <p class="sg-asks__lead">Eerlijk is eerlijk: een groep dragen is een engagement over een
-            heel seizoen. Dit verwachten we van een lokale trekker.</p>
-            <ul class="sg-asks__list" role="list">
-                <li>Een paar ritten per jaar mee plannen en begeleiden</li>
-                <li>Eén afgevaardigde naar de vier jaarlijkse Kidical-meetings</li>
-                <li>Je scharen achter ons huishoudelijk reglement rond veiligheid en goede vibes</li>
-                <li>Genoeg begeleiders verzamelen: minstens één roze hesje per tien deelnemers</li>
-            </ul>
-        </section>
-
-        {{-- ER IS ANIMO — proof, dissolves "is er wel animo hier?" --}}
+        {{-- ER IS ANIMO — proof the movement exists: the wide crowd photo beside the
+             light-blue animo card. Sits before the FAQ so the visual proof frames the
+             practical questions. --}}
         <section class="sg-proof">
-            <h2 class="sg-proof__title">Er is animo</h2>
-            <p class="sg-proof__lead">Kidical Mass groeit door heel België. Samen reden we in 2024 meer
-            dan 60 parades bij elkaar, en het netwerk telt intussen {{ $groupCount }} lokale groepen.
-            Jouw stad kan de volgende zijn.</p>
+            <div class="sg-proof__layout">
+                <figure class="sg-proof__photo">
+                    <x-photo src="img/photography/ride-park-crowd-cheering-namur.webp"
+                             alt="Een grote menigte gezinnen juicht met opgeheven armen op een zonnige verzamelplaats in Namen"
+                             sizes="(min-width: 768px) 55vw, 92vw" />
+                </figure>
+                <div class="sg-proof__animo-card">
+                    <h2>Er is animo</h2>
+                    <p>Kidical Mass groeit door heel België. Het netwerk telt intussen
+                    {{ $groupCount }} lokale groepen, van grote steden tot kleine gemeenten.
+                    Jouw stad kan de volgende zijn.</p>
+                    <x-cta-button href="#start" variant="secondary">Ik wil starten</x-cta-button>
+                </div>
+            </div>
         </section>
 
-        {{-- JE STAAT ER NIET ALLEEN VOOR — dissolves "wie steunt mij?" --}}
-        <section class="sg-support">
-            <h2 class="sg-support__title">Je staat er niet alleen voor</h2>
-            <ul class="sg-support__list" role="list">
-                <li>Een coördinatieduo dat je coacht en motiveert</li>
-                <li>Een materiaalbibliotheek: charters, draaiboeken, posters en flyers</li>
-                <li>Training voor jou en je begeleiders bij de start van het seizoen</li>
-                <li>En, als je wil, een trekker die het al deed om mee te sparren</li>
-            </ul>
+        {{-- VEELGESTELDE VRAGEN — practical lead objections, after the visual proof.
+             Full-bleed with the illustration sliding in from the right, matching the
+             getting-started FAQ pattern. --}}
+        <section class="sg-faq-section">
+            <div class="sg-faq-layout">
+                <div class="sg-faq-content">
+                    <h2 class="sg-faq__title">Veelgestelde vragen</h2>
+                    <x-faq>
+                        <x-faq.item question="Welke steun krijg ik van Kidical Mass?">
+                            <p>Je staat er nooit alleen voor. Je krijgt een coördinatieduo dat je coacht en
+                            motiveert, een materiaalbibliotheek met charters, draaiboeken, posters en flyers,
+                            en training voor jou en je begeleiders bij de start van het seizoen. Wil je sparren,
+                            dan brengen we je in contact met een trekker die het al deed. En wij dragen het merk,
+                            de opleiding rond veilige begeleiding, de nationale zichtbaarheid, de contacten met
+                            gemeenten en partners, en de subsidieaanvragen voor de hele organisatie.</p>
+                        </x-faq.item>
+                        <x-faq.item question="Heb ik een vereniging of vzw nodig?">
+                            <p>Nee. Een klein kernteam van twee of drie mensen, een vertrekpunt en wat goesting
+                            volstaan om te beginnen. De rest doen we samen.</p>
+                        </x-faq.item>
+                        <x-faq.item question="Moet ik een ervaren fietser zijn?">
+                            <p>Geen fietsexpert nodig. We rijden traag, op het tempo van het jongste kind. Wat telt
+                            is dat je je buurt kent en mensen warm krijgt om mee te fietsen. De opleiding rond
+                            veilige begeleiding en routeplanning krijg je van ons.</p>
+                        </x-faq.item>
+                        <x-faq.item question="Kan ik starten als ik nog geen team heb?">
+                            <p>Veel groepen starten klein, met één of twee enthousiastelingen. Je hoeft niet meteen
+                            een volledig team te hebben. Twijfel je, kies dan hieronder voor "eerst praten met
+                            iemand die het al deed", dan zoeken we samen verder.</p>
+                        </x-faq.item>
+                    </x-faq>
+                </div>
+
+                <div class="sg-faq-illustration">
+                    <img src="{{ asset('img/illustrations/cargo-bike-family.svg') }}" alt="" aria-hidden="true" loading="lazy">
+                </div>
+            </div>
         </section>
 
-        {{-- INTENT-FORM — the climax. One form, two comfort paths. --}}
-        <section class="sg-form" id="start">
-            <h2 class="sg-form__title">Zin om te beginnen?</h2>
-            <p class="sg-form__lead">Laat hieronder van je horen. Je kiest zelf hoe je eerste stap
-            eruitziet: eerst praten met iemand die het al deed, of meteen contact met het team.</p>
-            <livewire:start-group-enquiry />
-        </section>
+    @push('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const illustration = document.querySelector('.sg-faq-illustration');
+        if (!illustration) return;
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            illustration.classList.add('is-in');
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    illustration.classList.add('is-in');
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.25 });
+
+        observer.observe(illustration);
+    });
+    </script>
+    @endpush
 
     </x-page-hero>
 
+    {{-- INTENT-FORM — the climax. A white form card on the yellow closing band, with
+         room around it (no dip). Two columns at desktop: welcome text left, form right.
+         The #start anchor catches the hero's "Ik wil starten". --}}
     <x-slot:closing>
-        <x-closing-cta heading="Benieuwd welke steden al meefietsen?"
-            :href="route('groups.index')" label="Bekijk alle groepen" icon="arrow" />
+        <section class="sg-cta" id="start">
+            <div class="container mx-auto px-4">
+                <div class="sg-cta__panel">
+                    <div class="sg-cta__aside">
+                        <img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" class="sg-cta__mascot">
+                        <h2>Zin om te beginnen?</h2>
+                        <p>Laat van je horen. Je kiest zelf hoe je eerste stap eruitziet:
+                        eerst praten met iemand die het al deed, of meteen contact met het team.</p>
+                    </div>
+                    <div class="sg-cta__form-col">
+                        <livewire:start-group-enquiry />
+                    </div>
+                </div>
+            </div>
+        </section>
     </x-slot:closing>
 
 </x-layouts::site>

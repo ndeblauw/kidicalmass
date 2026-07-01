@@ -51,13 +51,21 @@
     .home-hero__video iframe {
         /* Cover: a 16:9 iframe scaled to fill any viewport, centred. */
         position: absolute;
-        top: 50%;
+        /* Anchored at 42% (not 50%) so the iframe's centre — where YouTube draws
+           its play/pause overlay — sits behind the title rather than below it,
+           lining the button up with the scrim's masking glow (same anchor). */
+        top: 42%;
         left: 50%;
         width: 177.78vh; /* 16/9 of viewport height */
         height: 56.25vw; /* 9/16 of viewport width */
         min-width: 100%;
         min-height: 100%;
-        transform: translate(-50%, -50%);
+        /* Overscan 30% past cover so YouTube's own chrome — the video title that
+           rides the top-left and the control bar at the bottom — is pushed beyond
+           the visible frame and clipped by the backdrop's overflow:hidden. The
+           overscan also leaves room to shift the centre up to 40% without baring
+           an edge (any gap falls in the blue band and reads as brand blue). */
+        transform: translate(-50%, -50%) scale(1.3);
         pointer-events: none;
     }
 
@@ -71,43 +79,70 @@
         }
     }
 
-    .home-hero::after {
-        /* Legibility scrim so the white title holds over any frame. Blue-tinted overlay
-           ties the hero into the brand instead of generic cinema-black. */
+    .home-backdrop::after {
+        /* Legibility scrim so the white title holds over any frame. Covers the whole
+           backdrop (the video now fills it), so there's no untinted seam below the
+           hero. Blue-tinted to tie into the brand instead of generic cinema-black.
+           The radial core masks YouTube's big play/pause overlay, which is drawn at
+           the iframe's centre during load/buffer and which controls=0 can't suppress.
+           A wide ellipse (≈2.5× wider than tall) centred on the title at 42% — matching
+           the title's broad shape and the iframe's shifted centre — so it reads as a
+           deliberate focal glow behind the heading rather than a patch below it. */
         content: "";
         position: absolute;
         inset: 0;
         z-index: -1;
-        background: linear-gradient(
-            to top,
-            color-mix(in oklab, var(--color-kidical-blue), transparent 22%),
-            color-mix(in oklab, var(--color-kidical-blue), transparent 48%) 50%,
-            color-mix(in oklab, var(--color-kidical-blue), transparent 35%)
-        );
+        background:
+            radial-gradient(
+                ellipse 475px 190px at 50% 42%,
+                var(--color-kidical-blue) 0%,
+                color-mix(in oklab, var(--color-kidical-blue), transparent 6%) 37%,
+                transparent 100%
+            ),
+            linear-gradient(
+                to top,
+                color-mix(in oklab, var(--color-kidical-blue), transparent 22%),
+                color-mix(in oklab, var(--color-kidical-blue), transparent 48%) 50%,
+                color-mix(in oklab, var(--color-kidical-blue), transparent 35%)
+            );
     }
 
     /* Sole focal point over the video; sized like the inner-page heroes. */
     .home-hero__title {
         max-width: 18ch;
         text-align: center;
-        color: #fff;
-        font-size: clamp(3.375rem, 6.75vw, 6.75rem);
-        line-height: 1.0;
-        /* Hard offset shadow (no blur) in 20% kidical-ink for a graphic, poster feel. */
-        text-shadow: 10px 10px 0 color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
+        color: white;
+        font-size: clamp(2.375rem, 4.75vw, 4.75rem);
+        /* Roomier than 1.0 so the per-line marker highlights below clear each other
+           rather than overlapping where the title wraps. */
+        line-height: 1.13;
     }
 
-    /* inline-block so transforms apply: the line rides in, each word pops. */
-    .home-hero__title-line,
+    /* inline-block so transforms apply: the ride wrapper slides the whole line in,
+       each word pops. The line itself stays inline (see below) so its highlight can
+       hug each wrapped line, so the ride-in lives on this extra wrapper. */
+    .home-hero__title-ride,
     .home-hero__word {
         display: inline-block;
+    }
+
+    /* Tight red marker behind the title: an inline run so box-decoration-break clones
+       the padded, rounded background onto every wrapped line (a true highlight) instead
+       of drawing one rectangle around the whole block. */
+    .home-hero__title-line {
+        display: inline;
+        background-color: var(--color-kidical-red);
+        padding: 0.06em 0.31em;
+        border-radius: 5px;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
     }
 
     /* Beat 1 — the title rides in from the left, and as it slides the words
        pop in reading order: a wave of emphasis travelling across the line
        while it arrives. */
     @media (prefers-reduced-motion: no-preference) {
-        .home-hero__title-line {
+        .home-hero__title-ride {
             animation: home-hero-ride-in 800ms cubic-bezier(0.16, 1, 0.3, 1) 250ms both;
         }
 
@@ -115,12 +150,14 @@
             animation: home-hero-word-pop 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        .home-hero__word:nth-child(1) { animation-delay: 450ms; }
-        .home-hero__word:nth-child(2) { animation-delay: 540ms; }
-        .home-hero__word:nth-child(3) { animation-delay: 630ms; }
-        .home-hero__word:nth-child(4) { animation-delay: 720ms; }
-        .home-hero__word:nth-child(5) { animation-delay: 810ms; }
-        .home-hero__word:nth-child(6) { animation-delay: 900ms; }
+        /* nth-of-type (not nth-child) so the forced <br> after "uur" doesn't shift
+           the reading-order stagger: it counts spans only, never the <br>. */
+        .home-hero__word:nth-of-type(1) { animation-delay: 450ms; }
+        .home-hero__word:nth-of-type(2) { animation-delay: 540ms; }
+        .home-hero__word:nth-of-type(3) { animation-delay: 630ms; }
+        .home-hero__word:nth-of-type(4) { animation-delay: 720ms; }
+        .home-hero__word:nth-of-type(5) { animation-delay: 810ms; }
+        .home-hero__word:nth-of-type(6) { animation-delay: 900ms; }
     }
 
     /* Fade (and gently lift) the title away as the white panel scrolls up over the
@@ -140,66 +177,69 @@
     .home-intro {
         flex: 0 0 auto;
         background: var(--color-kidical-blue);
-        color: #fff;
-        padding-block: clamp(1.75rem, 3vw, 2.75rem);
+        color: white;
+        /* Bottom padding carries an extra 2rem to offset the white panel's -2rem
+           overlap, so the *visible* blue block reads with equal padding above and
+           below the lead, and the seam cue clears the text. */
+        padding-top: clamp(1.75rem, 3vw, 2.75rem);
+        padding-bottom: calc(clamp(1.75rem, 3vw, 2.75rem) + 2rem);
     }
 
     .home-intro .intro-text {
         margin-block: 0;
         margin-inline: auto;
         max-width: 42ch;
-        color: #fff;
+        color: white;
     }
 
-    /* Beat 3 — the lead and scroll-cue fade up last, after a couple of seconds
-       on the video, inviting the scroll. The arrow's own bounce lives on its
-       svg, so this entrance on the link doesn't collide with it. */
+    /* Beat 3 — the lead and scroll-cue fade up last, now after the header has
+       revealed (logo then menu). Shifted +0.5s so the blue band lands ~0.5s behind
+       the menu. The arrow's own bounce lives on its svg, so this entrance on the
+       link doesn't collide with it. */
     @media (prefers-reduced-motion: no-preference) {
-        .home-intro .intro-text {
-            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2400ms both;
+        /* The band itself is transparent during the hold (video shows through where it
+           sits), then fades to brand blue in step with its copy rising. */
+        .home-intro {
+            animation: home-hero-band-in 600ms cubic-bezier(0.16, 1, 0.3, 1) 2900ms both;
         }
 
-        .home-intro__scroll {
-            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2600ms both;
+        .home-intro .intro-text {
+            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2900ms both;
         }
     }
 
-    .home-intro__actions {
-        margin-top: 1.5rem;
-        display: flex;
-        flex-wrap: wrap;
+    /* Scroll cue, styled as a quiet secondary button, straddling the seam between
+       the blue band and the white panel. Absolutely centred on the panel's top edge
+       so half sits in the blue, half in the white — a deliberate join rather than a
+       bare arrow floating in the band. */
+    .home-seam-cue {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 11;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 0.75rem 1.5rem;
-    }
-
-    .home-intro__link {
-        font-weight: 700;
-        color: #fff;
-    }
-
-    .home-intro__link:hover {
-        text-decoration: underline;
-        text-underline-offset: 4px;
-    }
-
-    /* Scroll cue: a bare down-arrow nudging you to the panel below. */
-    .home-intro__scroll {
-        display: inline-flex;
-        color: #fff;
-        line-height: 0;
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: var(--radius-pill);
+        background: white;
+        color: var(--color-kidical-blue);
+        box-shadow: var(--shadow-card);
         background-image: none;
-        transition: opacity 0.15s ease;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .home-intro__scroll svg {
-        width: 2.25rem;
-        height: 2.25rem;
+    .home-seam-cue svg {
+        width: 1.5rem;
+        height: 1.5rem;
         animation: scroll-cue-bounce 1.8s ease-in-out infinite;
     }
 
-    .home-intro__scroll:hover {
-        opacity: 0.7;
+    .home-seam-cue:hover {
+        transform: translate(-50%, -50%) scale(1.06);
+        box-shadow: var(--shadow-hover);
     }
 
     /* Reserves the backdrop's place in flow once it becomes fixed (md+). */
@@ -208,13 +248,17 @@
     }
 
     @media (min-width: 768px) {
+        /* Stop the fixed hero just short of a full viewport so the white panel's
+           rounded top — and the seam cue straddling it — sit near the bottom edge at
+           rest (a thin white strip, not a tall reveal). The spacer matches so the
+           panel lands on that seam. */
         .home-backdrop {
             position: fixed;
             inset: 0 0 auto 0;
             width: 100vw;
             margin-left: 0;
             margin-top: 0;
-            height: 100svh;
+            height: calc(100svh - 1rem);
         }
 
         .home-hero {
@@ -226,7 +270,7 @@
             width: 100vw;
             margin-left: calc(50% - 50vw);
             margin-top: calc(var(--spacing) * -28);
-            height: 100svh;
+            height: calc(100svh - 1rem);
         }
     }
 
@@ -243,6 +287,12 @@
        (.page-panel is shared chrome, so we scope the larger top padding here). */
     .page-panel.page-panel--home {
         padding-top: 4.375rem;
+        /* Horizontal clip lives here (the full-bleed 100vw panel) rather than on
+           .home-routes (inside the centered container), so a bike riding off
+           clips at the real viewport edge, not the container edge. `clip` not
+           `hidden`: hidden would create a scroll container and break the sticky
+           media's pinning. */
+        overflow-x: clip;
     }
 
     /* Extra air beneath the location line before the rides start. */
@@ -273,6 +323,32 @@
         }
     }
 
+    /* From lg up the art lane earns equal billing: a 50/50 split, with the
+       rider scaled up to fill the now-wider column so it reads as a hero
+       companion rather than a margin ornament. */
+    @media (min-width: 1024px) {
+        .home-nextride {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        .home-nextride__art img {
+            max-width: 30rem;
+        }
+    }
+
+    /* On very wide screens the 50/50 split over-stretches: the rider floats in a
+       half-empty art lane while the rides pack against the right edge. Cap the
+       pair at a comfortable width and centre it so the outer margins are even,
+       and let the content lane take the larger share so the rider sits beside
+       its rides rather than marooned in whitespace. */
+    @media (min-width: 1280px) {
+        .home-nextride {
+            max-width: 75rem;
+            margin-inline: auto;
+            grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+        }
+    }
+
     /* ─── Home — drie routes (scroll-sequence) ───
        The illustrations are bikes, so they RIDE rather than fade. The active bike
        parks in its lane; the next rolls in from the right; the one you leave bolts
@@ -281,11 +357,9 @@
        the left. Mobile: hide the sticky media column; each section shows its own
        inline illustration above the copy. */
 
-    /* Clip horizontally at the section so a bike riding off-screen never adds a
-       scrollbar. overflow-x: clip leaves the inner sticky frame working. */
-    .home-routes {
-        overflow-x: clip;
-    }
+    /* The horizontal clip that lets a bike ride off-screen now lives on
+       .page-panel--home (the full-bleed 100vw wrapper) so it clips at the
+       viewport edge, not this centered container's edge. */
 
     /* Lockup: give title, body and CTA room to breathe (both breakpoints). */
     .home-routes .scroll-sequence__block {
@@ -323,6 +397,10 @@
         object-fit: contain;
     }
 
+    /* The per-beat media is now an <x-photo-collage> (.home-routes__media); it
+       fills the square stage and crossfades by opacity (lg rules below). The
+       collage component styles the scattered, rounded, shadowed photos within. */
+
     /* Mobile-only inline illustration per section. */
     .home-routes__block-illu {
         display: block;
@@ -336,21 +414,70 @@
             display: none;
         }
 
-        /* Bikes spill horizontally to ride across the screen (the section clips
-           overflow-x so no scrollbar); vertically the frame clips, which hides the
-           block-3 helper below until it rises into view. */
+        /* Full-height sticky cell that vertically centres the square stage, so the
+           photo lines up with the centred text column. overflow stays visible so the
+           photo's drop-shadow and the illustration hanging off the bottom are never
+           clipped. Bikes still spill horizontally to ride across the screen —
+           .page-panel--home clips overflow-x at the viewport edge, so no scrollbar. */
         .home-routes .scroll-sequence__media-sticky {
-            overflow: visible clip;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
         }
 
-        /* Nothing fades: every illustration appears and leaves purely by moving. The
-           next bike waits off to the right tilted downhill and rolls in; the active
-           one parks level; the one you leave bolts off to the left, across the screen
-           and fully out, faster. The roll-in is delayed a touch so the outgoing bike
-           clears first and the two never overlap. */
-        .home-routes .home-routes__illu {
+        /* Stop the sticky travel short of the section's bottom so the last block's
+           illustration, which hangs below the photo, still lands on white instead of
+           being painted over by the next (newsletter) section. */
+        .home-routes .scroll-sequence__media {
+            padding-bottom: 8rem;
+        }
+
+        /* The square photo card: centred, breathing room on each side, never taller
+           than the cell. It's the positioning context for the photos (which fill it)
+           and the illustration (which hangs off its bottom edge). */
+        .home-routes__stage {
+            position: relative;
+            width: calc(100% - 4rem);
+            max-height: 100%;
+            aspect-ratio: 1;
+            /* The sticky cell clears the nav (top: 8rem) but only leaves a 4rem
+               gutter below, so its centre sits half that difference (2rem) low.
+               Pull the stage up by 2rem so the photo's centre lines up with the
+               vertically-centred text lockup. */
+            transform: translateY(-2rem);
+        }
+
+        /* Each beat's collage fills the stage and crossfades by opacity as the
+           block activates, with a subtle ken-burns settle (mirrors /help-out).
+           The collage component styles the scattered photos within. */
+        .home-routes__media {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 0.8s ease, transform 1.3s ease;
+        }
+
+        .home-routes__media.is-active {
             opacity: 1;
-            transform: translateX(120%) rotate(-2deg);
+            transform: scale(1);
+        }
+
+        /* Half-size illustration hanging off the photo's bottom edge so only its
+           top overlaps the photo. Rides in from beyond the right screen edge and
+           bolts past the left on exit; the panel clips at 100vw so it reads as
+           on/off the real screen. Sits above the photo (later in DOM). */
+        .home-routes .home-routes__illu {
+            /* object-fit: contain is inherited from the base .home-routes__illu
+               rule above (same specificity, earlier in source); don't redeclare it. */
+            position: absolute;
+            inset: auto auto -30% 6%;   /* hang below; only the top overlaps */
+            width: 52%;
+            height: 52%;
+            z-index: 1;
+            opacity: 1;
+            transform: translateX(70vw) rotate(-2deg);
             transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform;
         }
@@ -361,21 +488,8 @@
         }
 
         .home-routes .home-routes__illu.is-past {
-            transform: translateX(-220%) rotate(-2deg);
-            transition: transform 0.45s cubic-bezier(0.4, 0, 1, 1);
-        }
-
-        /* Block 3's helper is a standing figure, not a bike: it never rides off, so
-           it rises up from below the frame (clipped until it does) instead. No fade. */
-        .home-routes .home-routes__illu[data-seq-media="2"] {
-            opacity: 1;
-            transform: translateY(120%);
-            transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .home-routes .home-routes__illu[data-seq-media="2"].is-active {
-            transform: translateY(0);
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s;
+            transform: translateX(-120vw) rotate(-2deg);
+            transition: transform 0.55s cubic-bezier(0.4, 0, 1, 1);
         }
     }
 
@@ -396,16 +510,23 @@
             transition: none;
         }
 
-        .home-routes .home-routes__illu,
-        .home-routes .home-routes__illu[data-seq-media="2"] {
+        .home-routes .home-routes__illu {
             opacity: 0;
             transform: none;
             transition: opacity 0.2s ease;
         }
 
-        .home-routes .home-routes__illu.is-active,
-        .home-routes .home-routes__illu[data-seq-media="2"].is-active {
+        .home-routes .home-routes__illu.is-active {
             opacity: 1;
+            transform: none;
+        }
+
+        .home-routes__media {
+            transform: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .home-routes__media.is-active {
             transform: none;
         }
     }
@@ -459,5 +580,16 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Fades the lead band from clear (video showing through) to brand blue. The `from`
+   is blue at zero alpha so it interpolates within the same hue, no grey midpoint. */
+@keyframes home-hero-band-in {
+    from {
+        background-color: color-mix(in oklab, var(--color-kidical-blue), transparent 100%);
+    }
+    to {
+        background-color: var(--color-kidical-blue);
     }
 }

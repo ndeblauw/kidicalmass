@@ -9,8 +9,7 @@
             <x-filter-bar>
                 @if ($location)
                     <div class="filter-bar__radius">
-                        <span class="filter-bar__sep" aria-hidden="true">·</span>
-                        <span class="filter-bar__radius-label">Hoe ver</span>
+                        <span class="filter-bar__radius-label">Toon ritten</span>
                         <div class="filter-bar__tabs">
                             <button
                                 type="button"
@@ -85,13 +84,15 @@
 
             </div>{{-- /.kal-agenda --}}
 
-            {{-- Sticky sidebar (desktop only; hidden on mobile via CSS) --}}
+            {{-- Right-column lockup: opt-in card with the decorative sign tucked
+                 beneath it, overlapping the card's bottom edge. The lockup is
+                 bottom-aligned in its grid cell and dips into the yellow footer
+                 band below (see .kal-sidebar in calendar.css). --}}
             @if ($when !== 'voorbije')
                 <aside class="kal-sidebar">
-                    <div class="kal-sidebar__panel kal-sidebar__panel--newsletter">
-                        <h3 class="kal-sidebar__heading">Mis geen rit</h3>
-                        <p class="kal-sidebar__body">Één seintje per maand met ritten bij jou in de buurt. Geen spam, altijd uitschrijfbaar.</p>
-                        <button type="button" class="kal-sidebar__btn">Schrijf je in</button>
+                    <x-newsletter-optin />
+                    <div class="kal-illu" aria-hidden="true">
+                        <img src="{{ asset('img/illustrations/heart-30-sign.svg') }}" alt="" class="kal-illu__img">
                     </div>
                 </aside>
             @endif

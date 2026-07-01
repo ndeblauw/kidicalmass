@@ -14,6 +14,23 @@
         color: white;
         overflow: hidden;
     }
+    /* Pinned-hero scroll-over (md+): the hero sticks to the top of the viewport and
+       the .page-panel (z-index 10, opaque, rounded top) rides up over it — the same
+       reveal the homepage gives its backdrop, here for every inner page that uses
+       <x-page-hero>. The hero's sticky containing block is <main>, which stops before
+       the closing band and footer, so the pinned hero can never overlap them. Mobile
+       keeps the hero in normal flow (matching the homepage, which only pins from md).
+
+       The (min-height: 40rem) guard matches the hero's --page-hero-h floor: pin only
+       when the viewport can contain the band. On a shorter viewport a sticky hero
+       taller than the viewport would clip its own lower half behind the rising panel,
+       unreachable by scroll — so there we fall back to normal flow. */
+    @media (min-width: 768px) and (min-height: 40rem) {
+        .page-hero {
+            position: sticky;
+            top: 0;
+        }
+    }
     .page-hero__inner {
         position: relative;
         z-index: 1;                    /* keep copy above the artwork where they overlap */
@@ -56,10 +73,112 @@
         margin: 0;
         animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
+    /* Compact variant: a shorter band and smaller title for single-action pages
+       (e.g. the newsletter signup), so the panel/form sits right under the heading
+       as one unit instead of across a tall blue reveal. Setting --page-hero-h on the
+       element overrides the inherited :root floor; the nested query trims it further
+       on mobile. */
+    .page-hero--compact {
+        --page-hero-h: 24rem;
+    }
+    .page-hero--compact .page-hero__title {
+        font-size: clamp(2rem, 3.6vw, 3.4rem);
+        line-height: 1.1;
+    }
+    @media (max-width: 767px) {
+        .page-hero--compact {
+            --page-hero-h: 20rem;
+        }
+    }
     .page-hero__controls {
         margin-top: 1.75rem;
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
+    /* Photo variant: a rounded photo card lives INSIDE the hero beside the title
+       (no floating illustration). Mobile stacks the card under the title; from lg
+       it sits in a second column. Mirrors the chapter page's in-hero photo. */
+    .page-hero--has-photo .page-hero__inner {
+        padding-bottom: 4rem;
+    }
+    .page-hero__figure {
+        margin: 2rem 0 0;
+        width: 100%;
+        max-width: 34rem;
+    }
+    .page-hero__photo {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        object-fit: cover;
+        border-radius: var(--radius-card);
+        box-shadow: var(--shadow-card);
+        animation: hero-photo-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+    }
+    /* Compact photo credit, sat quietly in the blue band under the card. */
+    .page-hero__credit {
+        margin-top: 0.6rem;
+        font-size: var(--text-xs);
+        line-height: 1.4;
+        color: color-mix(in oklab, white, transparent 30%);
+    }
+    @media (min-width: 64rem) {
+        .page-hero--has-photo .page-hero__inner {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            column-gap: clamp(2.5rem, 4vw, 4rem);
+        }
+        /* In the two-column layout the copy no longer needs to dodge an absolute
+           illustration, so let it use its full grid column. */
+        .page-hero--has-photo .page-hero__copy {
+            max-width: none;
+        }
+        .page-hero--has-photo .page-hero__figure {
+            margin-top: 0;
+            width: clamp(26rem, 34vw, 34rem);
+        }
+    }
+
+    /* Tilted-photo variant — the chapter-page treatment: the card rotates and its
+       bottom-right corner dips out of the blue band, lapping over the white panel
+       below. This opts out of the pinned scroll-over: the hero drops its stacking
+       context (and its inner's) so the figure can paint above the panel (z-index 10),
+       while the panel still rounds over the band. position: static cancels the md
+       sticky so the dip reads in normal flow, like .chapter-head. */
+    .page-hero--photo-tilt {
+        position: static;
+        z-index: auto;
+        overflow: visible;
+        overflow-x: clip;
+    }
+    .page-hero--photo-tilt .page-hero__inner {
+        z-index: auto;
+    }
+    @media (min-width: 64rem) {
+        /* Band hugs the photo + paddings instead of a fixed floor — no dead blue
+           space above or below the card. */
+        .page-hero--photo-tilt {
+            min-height: 0;
+        }
+        .page-hero--photo-tilt .page-hero__inner {
+            align-items: start; /* top-anchor the photo → no gap above it */
+            padding-bottom: 5rem;
+        }
+        .page-hero--photo-tilt .page-hero__copy {
+            align-self: center; /* title centred against the photo */
+        }
+        .page-hero--photo-tilt .page-hero__figure {
+            position: relative;
+            z-index: 11; /* lap over the panel (z-index 10) that rounds up next */
+            /* pull the card down so its bottom-right corner dips ~2rem below the
+               band; the band follows the card. */
+            margin-bottom: -7rem;
+            transform: rotate(3deg);
+        }
+        .page-hero--photo-tilt .page-hero__photo {
+            aspect-ratio: 4 / 3; /* match the chapter card proportions */
+        }
+    }
+
     .page-hero__visual {
         display: none;
 

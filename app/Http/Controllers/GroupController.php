@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
 use App\Models\PostalCode;
 use App\Support\Location\CurrentLocation;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
 
 class GroupController extends Controller
@@ -90,7 +89,13 @@ class GroupController extends Controller
 
     public function show(string $locale, Group $group): View
     {
-        $group->load(['parent', 'children', 'users'])->loadCount(['articles', 'activities']);
+        // Region/country nodes (Belgium, Brussels, Flanders, Wallonia) are
+        // invisible grouping data, not public pages: they're excluded from the
+        // index, so the detail route must refuse them too rather than leak a
+        // half-built hub by direct URL.
+        abort_if($group->invisible, 404);
+
+        $group->load(['parent', 'children', 'users', 'media'])->loadCount(['articles', 'activities']);
 
         $groupIds = collect([$group->id]);
         $currentParent = $group->parent;
@@ -106,84 +111,64 @@ class GroupController extends Controller
             ->get();
 
         $activities = Activity::query()
+            ->published()
             ->with(['author', 'groups'])
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
             ->where('begin_date', '>=', now())
             ->orderBy('begin_date')
             ->get();
 
-        return view('groups.show', compact('group', 'articles', 'activities'));
-    }
+        $upcomingRides = $activities->where('activity_type', ActivityType::KIDICALMASS)->values();
+        $otherActivities = $activities->where('activity_type', '!=', ActivityType::KIDICALMASS)->values();
 
-    /**
-     * How long the compact welcome block stays visible to a roze hesje, measured from their
-     * first visit (stored in a per-group cookie). Tentative — easy to retune.
-     */
-    private const ROZE_WELCOME_WEEKS = 2;
-
-    /**
-     * The roze-hesje page — the logged-in-only surface for one chapter (replaces the old
-     * backstage). Membership-gated: a visitor must be a roze hesje of this chapter. The full
-     * roster + besloten materials are visible here, not on the public page.
-     */
-    public function rozeHesjes(string $locale, Group $group): View
-    {
-        $group->load(['users', 'children', 'parent']);
-
-        $user = request()->user();
-        abort_unless($user !== null && $group->users->contains('id', $user->id), 403);
-
-        // Typed upcoming agenda incl. the parent region's rides (mirrors show()).
-        $groupIds = collect([$group->id]);
-        $currentParent = $group->parent;
-        while ($currentParent) {
-            $groupIds->push($currentParent->id);
-            $currentParent = $currentParent->parent;
-        }
-
-        $activities = Activity::query()
-            ->with(['author', 'groups'])
+        $pastRidesCount = Activity::query()
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
-            ->where('begin_date', '>=', now())
-            ->orderBy('begin_date')
-            ->get();
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '<', now())
+            ->count();
 
-        $roster = $group->users->sortBy('name')->values();
-        $lead = $activities->first()?->author ?? $roster->first();
+        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name')->get();
+        $pressArticles = $group->pressArticles()->with('media')->latest('published_at')->get();
 
-        // A member is "nieuw" for the same window the welcome block uses (their first weeks).
-        // Real data: group_user.created_at exists via withTimestamps().
-        $newMemberCutoff = now()->subWeeks(self::ROZE_WELCOME_WEEKS);
+        // The gallery now follows the most recent ride that actually has photos
+        // (group's own rides + parent regions, like the agenda above), so the page
+        // always highlights the latest outing rather than a hand-curated wall.
+        $latestRide = Activity::query()
+            ->published()
+            ->with('media')
+            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->where('begin_date', '<', now())
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->first();
 
-        // Time-boxed welcome: show the compact welcome block only during a hesje's first weeks.
-        // A per-group cookie records the first visit; after the window the block auto-hides, but
-        // the permanent onboarding section keeps the same info findable. Per-browser for now;
-        // a per-user flag is a later backend concern (Nico).
-        $cookieKey = 'roze_welcome_'.$group->id;
-        $firstSeen = request()->cookie($cookieKey);
-
-        if ($firstSeen === null) {
-            $showWelcome = true;
-            // Persist well beyond the window so the block correctly hides (not resets) after it.
-            Cookie::queue($cookieKey, now()->toIso8601String(), 60 * 24 * 90);
-        } else {
-            $showWelcome = Carbon::parse($firstSeen)
-                ->greaterThan(now()->subWeeks(self::ROZE_WELCOME_WEEKS));
-        }
-
-        return view('groups.roze-hesjes', compact('group', 'activities', 'roster', 'lead', 'showWelcome', 'newMemberCutoff'));
+        return view('groups.show', compact(
+            'group', 'articles', 'activities', 'partners', 'pressArticles', 'latestRide',
+            'upcomingRides', 'otherActivities', 'pastRidesCount',
+        ));
     }
 
     /**
      * Read-only preview of a ride still in preparation. A hesje may look over the captains'
      * shoulder (this is the onboarding ladder: kijken → meedoen → kapitein) but cannot act.
-     * FAUX exemplar — no Activity lifecycle state exists yet (Nico #37).
+     * Reads a real draft (?ride=) when given; falls back to a faux exemplar otherwise. The
+     * "wat moet er nog gebeuren" status line stays prose — no Activity status field yet (Nico #37).
      */
     public function ridePreview(string $locale, Group $group): View
     {
         $user = request()->user();
         abort_unless($user !== null && $group->users->contains('id', $user->id), 403);
 
-        return view('groups.ride-preview', compact('group'));
+        $ride = null;
+        if ($rideId = request('ride')) {
+            $ride = Activity::query()
+                ->where('published', false)
+                ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
+                ->whereKey($rideId)
+                ->first();
+        }
+
+        return view('groups.ride-preview', compact('group', 'ride'));
     }
 }

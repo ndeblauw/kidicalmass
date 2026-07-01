@@ -25,32 +25,30 @@
      ("partner worden"), the "Ook ondersteund door" list, and partner categories
      live on /about/partners. --}}
 <aside class="partner-strip" aria-label="{{ __('partners.strip_label') }}">
-    <div class="container mx-auto px-4">
-        <div class="partner-strip__inner">
-            <span class="partner-strip__label">{{ __('partners.showcase_label') }}</span>
+    <div class="partner-strip__inner">
+        <span class="partner-strip__label">{{ __('partners.showcase_label') }}</span>
 
-            <div class="partner-strip__logos">
-                @foreach($partners as $partner)
-                    @php $logoUrl = $partner->getFirstMediaUrl('logo', 'partner'); @endphp
-                    @if($logoUrl)
-                        @if($partner->url)
-                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" title="{{ $partner->name }}" class="partner-strip__logo-link">
-                                <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo">
-                            </a>
-                        @else
-                            <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo">
-                        @endif
+        <div class="partner-strip__logos">
+            @foreach($partners as $partner)
+                @php $logoUrl = $partner->getFirstMediaUrl('logo', 'partner'); @endphp
+                @if($logoUrl)
+                    @if($partner->url)
+                        <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" title="{{ $partner->name }}" class="partner-strip__logo-link">
+                            <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
+                        </a>
                     @else
-                        @if($partner->url)
-                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="partner-strip__chip">{{ $partner->name }}</a>
-                        @else
-                            <span class="partner-strip__chip">{{ $partner->name }}</span>
-                        @endif
+                        <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
                     @endif
-                @endforeach
-            </div>
-
-            <a href="{{ route('about.partners') }}" class="partner-strip__more">{{ __('partners.see_all') }} →</a>
+                @else
+                    @if($partner->url)
+                        <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="partner-strip__chip">{{ $partner->name }}</a>
+                    @else
+                        <span class="partner-strip__chip">{{ $partner->name }}</span>
+                    @endif
+                @endif
+            @endforeach
         </div>
+
+        <a href="{{ route('about.partners') }}" class="partner-strip__more">{{ __('partners.see_all') }} →</a>
     </div>
 </aside>

@@ -1,24 +1,29 @@
 @layer components {
     .ride-day {
         display: grid;
-        grid-template-columns: 100px 1fr;
-        gap: 0 1.6rem;
+        grid-template-columns: 72px 1fr;
+        gap: 0 1.2rem;
         align-items: start;
     }
     .ride-day + .ride-day {
-        margin-top: 1.75rem;
-        padding-top: 1.75rem;
+        margin-top: 0.7rem;
+        padding-top: 0.7rem;
     }
 
     /* Calendar-page lockup — a flat illustrated tear-off: red header bar with ring
        binding, navy outline, flat coloured shadow, a stable readable tilt per date.
-       Order: full day name -> big date -> month. */
+       Order: big date -> 3-letter month (the weekday rides in the row's meta line). */
     /* Wrapper holds the tilt + the star, so the star rotates with the card but is not
        clipped by the card's overflow. */
     .ride-day__cal {
+        /* Accent reflects the event type (ride = red, workshop = green,
+           meeting = blue, other = orange); set per day in <x-ride-day>. */
+        --ride-accent: var(--color-kidical-red);
         position: relative;
-        width: 88px;
-        margin-top: calc(0.3rem + 15px);
+        width: 76px;
+        /* Centre the tear-off against a single row's two-line title+meta lockup
+           (the card is taller than the text, so a top-align would hang low). */
+        margin-top: calc(0.3rem + 3px);
         transform: rotate(var(--ride-day-rot, 0deg));
     }
     .ride-day__rail {
@@ -30,8 +35,9 @@
         border-radius: 6px;
         overflow: hidden;
     }
-    /* Grande marker — orange star with the navy illustration outline, poking past the
-       card's right edge next to the date. */
+    /* Grande marker — a solid yellow star poking past the card's edge to flag the
+       flagship ride. No outline; it sits on the wrapper (not the clipped rail) so it
+       is never cut off. */
     .ride-day__star {
         position: absolute;
         top: 46%;
@@ -39,14 +45,11 @@
         width: 26px;
         height: 26px;
         transform: translateY(-50%) rotate(-8deg);
-        fill: var(--color-kidical-orange);
-        stroke: var(--color-kidical-ink);
-        stroke-width: 1.5;
-        stroke-linejoin: round;
+        fill: var(--color-kidical-yellow);
     }
     .ride-day__bar {
         height: 13px;
-        background: var(--color-kidical-red);
+        background: var(--ride-accent);
     }
     .ride-day__body {
         display: flex;
@@ -56,6 +59,8 @@
         line-height: 1;
         padding: 7px 7px 9px;
     }
+    /* Weekday — only the ride gallery poster lockup (.ride-gallery__feature-cal) still
+       shows it; the agenda row moved its weekday to the meta line. */
     .ride-day__day {
         font-family: var(--font-sans);
         font-size: 0.55rem;
@@ -64,31 +69,114 @@
         letter-spacing: 0.06em;
         color: var(--color-zinc-500);
     }
+    /* Date number speaks in the title's voice — same heading font and size. */
     .ride-day__date {
-        font-family: var(--font-sans);
+        font-family: var(--font-heading);
         font-size: 1.75rem;
         font-weight: 800;
         line-height: 0.95;
-        letter-spacing: -0.02em;
-        color: var(--color-kidical-red);
+        letter-spacing: -0.01em;
+        color: var(--ride-accent);
         margin: 0.1em 0 0.05em;
     }
     .ride-day__month {
         font-family: var(--font-sans);
-        font-size: 0.68rem;
+        font-size: 0.96rem;
         font-weight: 700;
         text-transform: lowercase;
         color: var(--color-zinc-500);
     }
 
+    /* ── Agenda restyle — the friendlier tear-off, shrunk ──────────────────────────
+       The calendar list adopts the ride hero's face: white number on a solid coloured
+       header, uppercase month, rounded corners, soft shadow, no navy outline — at a
+       compact 58px. Scoped to the agenda section so the gallery poster
+       (.ride-gallery__feature-cal) keeps its flat outlined lockup. */
+    /* margin-top aligns the tile's top edge with the place name's text box
+       (the first row's 0.9rem padding-block), so the tear-off tops the day info. */
+    .ride-day .ride-day__cal {
+        width: 64px;
+        margin-top: 1rem;
+    }
+    .ride-day .ride-day__rail {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        box-shadow: 0 0.5rem 1.1rem color-mix(in oklab, var(--color-kidical-ink), transparent 78%);
+    }
+    .ride-day .ride-day__bar {
+        display: none;
+    }
+    .ride-day .ride-day__body {
+        padding: 0;
+    }
+    /* Number on the coloured header. Caprasimo numerals ride low, so a touch more
+       padding below than above reads optically centred. */
+    .ride-day .ride-day__date {
+        width: 100%;
+        margin: 0;
+        padding: 0.14em 0.2em 0.22em;
+        background: var(--ride-accent);
+        color: white;
+        font-size: 1.7rem;
+        line-height: 1;
+    }
+    /* Month on the white tear-off. All-caps rides high in its line box, so slightly
+       more padding above than below balances it. */
+    .ride-day .ride-day__month {
+        color: var(--color-kidical-ink);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 800;
+        font-size: 0.8rem;
+        line-height: 1;
+        padding: 0.5em 0 0.36em;
+    }
+    .ride-day .ride-day__star {
+        width: 23px;
+        height: 23px;
+    }
+
+    /* Large variant — the ride hero's date anchor (<x-ride-date-tile size="lg">). Every
+       dimension is the agenda tear-off's value times --lg-scale, so the whole lockup
+       grows as one unit; the hero runs it at 2x to hold its own beside the big title. */
+    .ride-day__cal--lg {
+        --lg-scale: 2;
+        width: calc(76px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__rail {
+        border-width: 2px;
+        border-radius: calc(6px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__bar {
+        height: calc(13px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__body {
+        padding: calc(7px * var(--lg-scale)) calc(7px * var(--lg-scale)) calc(9px * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__day {
+        font-size: calc(0.55rem * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__date {
+        font-size: calc(1.75rem * var(--lg-scale));
+    }
+    .ride-day__cal--lg .ride-day__month {
+        font-size: calc(0.96rem * var(--lg-scale));
+    }
+    /* Step the hero tile down a notch on phones so it doesn't crowd the title. */
     @media (max-width: 560px) {
-        .ride-day { grid-template-columns: 84px 1fr; gap: 0 1rem; }
-        .ride-day__rail { width: 74px; }
-        .ride-day__date { font-size: 1.45rem; }
+        .ride-day__cal--lg {
+            --lg-scale: 1.5;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .ride-day { grid-template-columns: 64px 1fr; gap: 0 1rem; }
+        .ride-day .ride-day__cal { width: 58px; }
+        .ride-day .ride-day__date { font-size: 1.55rem; }
     }
 
     .ride-day__rides {
-        container: ride-rows / inline-size;
         display: flex;
         flex-direction: column;
         min-width: 0;

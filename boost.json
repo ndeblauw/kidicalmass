@@ -9,7 +9,7 @@
     "mcp": true,
     "nightwatch": false,
     "packages": [
-        "filament/filament",
+        "ndeblauw/blue-admin",
         "spatie/laravel-ray",
         "spatie/laravel-medialibrary"
     ],
@@ -21,6 +21,7 @@
         "livewire-development",
         "pest-testing",
         "tailwindcss-development",
+        "blue-admin-backend",
         "medialibrary-development",
         "debugging-output-and-previewing-html-using-ray"
     ]

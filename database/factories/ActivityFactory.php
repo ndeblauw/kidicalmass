@@ -17,8 +17,6 @@ class ActivityFactory extends Factory
 {
     use AttachesMediaFromCache;
 
-    protected $model = Activity::class;
-
     public function definition(): array
     {
         $beginDate = Carbon::parse(fake()->dateTimeBetween('now', '+1 year'));
@@ -56,7 +54,36 @@ class ActivityFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Activity $activity) {
+            if (app()->environment('testing')) {
+                return;
+            }
+
             $this->attachImages($activity);
+        });
+    }
+
+    public function withMedia(): static
+    {
+        return $this->afterCreating(function (Activity $activity) {
+            $this->attachImages($activity);
+        });
+    }
+
+    public function past(int $days = 7): static
+    {
+        return $this->state(fn () => [
+            'activity_type' => ActivityType::KIDICALMASS,
+            'begin_date' => now()->subDays($days)->setTime(14, 0),
+            'duration_minutes' => 90,
+            'published' => true,
+        ]);
+    }
+
+    public function withGallery(int $count = 3): static
+    {
+        return $this->afterCreating(function (Activity $activity) use ($count): void {
+            $this->primeMediaCache('images', fn () => MediaSeeder::ensureImages(5));
+            $this->attachMultipleMedia($activity, 'gallery', $count, $count, 'images');
         });
     }
 

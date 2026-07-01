@@ -17,11 +17,10 @@ it('renders a closing CTA heading and button on a yellow band', function () {
 });
 
 dataset('pages with a closing CTA', [
-    ['home', 'Geef de straat terug aan kinderen'],
-    ['activities.index', 'Mis geen fietstocht'],
+    ['home', 'Krijg de nieuwste ritten in je mailbox'],
     ['getting-started', 'Klaar om mee te rijden?'],
     ['find-a-bike', 'Toch nog een vraag?'],
-    ['volunteer', 'Geef de straat terug aan kinderen'],
+    ['volunteer', 'Nog geen lokale groep in je buurt?'],
     ['articles.index', 'Zin gekregen om mee te rijden?'],
     ['about.partners', 'Samen op pad?'],
     ['about.press', 'Vragen van de pers?'],

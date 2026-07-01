@@ -1,6 +1,15 @@
 <?php
 
+use App\Actions\GroupChangesResult;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\ContactFormController;
+use App\Http\Controllers\Admin\GroupController as AdminGroupController;
+use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Admin\PressArticleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\YearStatController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BackstageController;
 use App\Http\Controllers\BuildDashboardController;
@@ -8,13 +17,19 @@ use App\Http\Controllers\DemoLoginController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImpersonateController;
+use App\Http\Controllers\RozeHesjeController;
 use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
+use App\Models\Article;
 use App\Models\Group;
+use App\Models\PressArticle;
+use App\Models\User;
+use App\Notifications\PinkVest\WelcomeNotification;
+use App\Support\SupportStats;
 use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
@@ -38,12 +53,17 @@ Route::prefix('{locale}')
         Route::get('chapters/start-een-groep', [GroupController::class, 'start'])->name('groups.start');
         Route::get('chapters/{group}', [GroupController::class, 'show'])->name('groups.show');
 
-        // Roze-hesje page — the logged-in-only chapter surface (replaces the old backstage).
-        // Lives in the public framework with a roze hero; gated on chapter membership.
-        // BackstageDemoAccess keeps the demo frictionless (auto-login outside production).
-        Route::get('chapters/{group}/roze-hesjes', [GroupController::class, 'rozeHesjes'])
-            ->middleware(BackstageDemoAccess::class)
-            ->name('groups.roze-hesjes');
+        // Roze-hesje hub — the logged-in-only chapter section (replaces the old backstage).
+        // Lives in the public framework with a compact roze hero + sub-nav; gated on chapter
+        // membership. BackstageDemoAccess keeps the demo frictionless (auto-login outside prod).
+        Route::middleware(BackstageDemoAccess::class)->group(function (): void {
+            Route::get('chapters/{group}/roze-hesjes', [RozeHesjeController::class, 'overview'])->name('groups.roze-hesjes');
+            Route::get('chapters/{group}/roze-hesjes/aan-de-slag', [RozeHesjeController::class, 'aanDeSlag'])->name('groups.roze-hesjes.aan-de-slag');
+            Route::get('chapters/{group}/roze-hesjes/agenda', [RozeHesjeController::class, 'agenda'])->name('groups.roze-hesjes.agenda');
+            Route::get('chapters/{group}/roze-hesjes/fotos', [RozeHesjeController::class, 'fotos'])->name('groups.roze-hesjes.fotos');
+            Route::get('chapters/{group}/roze-hesjes/groep', [RozeHesjeController::class, 'groep'])->name('groups.roze-hesjes.groep');
+            Route::get('chapters/{group}/roze-hesjes/materiaal', [RozeHesjeController::class, 'materiaal'])->name('groups.roze-hesjes.materiaal');
+        });
 
         // Read-only preview of a chapter ride that is still in preparation (draft). Membership-gated,
         // like the roze page. FAUX exemplar until Activity gains a draft/lifecycle state (Nico #37).
@@ -58,6 +78,10 @@ Route::prefix('{locale}')
         Route::view('getting-started', 'getting-started')->name('getting-started');
         Route::view('find-a-bike', 'find-a-bike')->name('find-a-bike');
 
+        // Newsletter.
+        Route::view('nieuwsbrief', 'nieuwsbrief')->name('newsletter.show');
+        Route::view('nieuwsbrief/bevestigd', 'newsletter.confirmed')->name('newsletter.confirmed');
+
         // About section.
         Route::view('about', 'about.index')->name('about');
         Route::view('about/mission', 'about.mission')->name('about.mission');
@@ -65,13 +89,23 @@ Route::prefix('{locale}')
         Route::view('about/organisation', 'about.organisation')->name('about.organisation');
         Route::get('about/news', [ArticleController::class, 'index'])->name('articles.index');
         Route::get('about/news/{article}', [ArticleController::class, 'show'])->name('articles.show');
-        Route::view('about/press', 'about.press')->name('about.press');
+        Route::get('about/press', function () {
+            $articles = PressArticle::query()
+                ->whereNotNull('published_at')
+                ->orderBy('published_at', 'desc')
+                ->get()
+                ->groupBy(fn ($article) => $article->published_at->year);
+
+            return view('about.press', ['articlesByYear' => $articles]);
+        })->name('about.press');
         Route::view('about/partners', 'about.partners')->name('about.partners');
 
         // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
         // `membership` (links use route('membership')). The old /membership path 301s
         // here so anything indexed from the old site keeps resolving.
-        Route::view('steun-ons', 'steun-ons')->name('membership');
+        Route::get('steun-ons', fn () => view('steun-ons', [
+            'proofCards' => (new SupportStats)->cards(),
+        ]))->name('membership');
         Route::get('membership', fn (string $locale) => redirect()->route('membership', ['locale' => $locale], 301))->name('membership.legacy');
 
         // Contact (national).
@@ -109,10 +143,63 @@ Route::middleware([BackstageDemoAccess::class])->prefix('backstage')->name('back
 if (! app()->isProduction()) {
     Route::get('prototype/mail/uitnodiging', function () {
         $group = Group::where('shortname', 'oudergem')->firstOrFail();
-        $volunteer = $group->users()->where('email', 'morgane@example.test')->firstOrFail();
+        $volunteer = $group->users()->firstOrFail();
 
         return new VolunteerInvite($volunteer, $group);
     })->name('prototype.mail.invite');
+
+    Route::get('prototype/mail/welkom-roze-hesje', function () {
+        // $group = Group::where('shortname', 'oudergem')->firstOrFail();
+        $volunteer = User::where('email', 'pinkvest@kidi.be')->firstOrFail();
+        $group = $volunteer->groups()->firstOrFail();
+
+        $volunteer->notify(new WelcomeNotification($group));
+
+        return (new WelcomeNotification($group))->toMail($volunteer);
+    })->name('prototype.mail.welcome');
+
+    // Monthly group-update digest (J1 #6). Demo group: Schaarbeek. Real recap rides
+    // and upcoming activities; faux pink vests + article so every block is visible.
+    Route::get('prototype/mail/groep-update', function () {
+        $group = Group::where('name', 'Schaarbeek')->firstOrFail();
+
+        $recentRidesWithPhotos = $group->activities()
+            ->where('begin_date', '<', now())
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->get();
+
+        $upcomingActivities = $group->activities()
+            ->where('published', true)
+            ->whereBetween('begin_date', [now(), now()->addMonths(3)])
+            ->orderBy('begin_date')
+            ->get();
+
+        $pinkVests = collect(['Sofie Maes', 'Mehmet Yilmaz', 'Lars De Smet'])
+            ->map(fn (string $name) => (new User)->forceFill(['name' => $name]));
+
+        $article = (new Article)->forceFill([
+            'title_nl' => 'Een massa kets kleurt de Haachtsesteenweg',
+            'content_nl' => 'De buurt liep uit voor de lenterit: muziek, bakfietsen en kinderen die de straat even helemaal voor zich hadden. De pers pikte het op.',
+        ]);
+
+        $result = new GroupChangesResult(
+            startDate: now()->subMonth(),
+            endDate: now(),
+            group: $group,
+            newActivities: collect(),
+            updatedActivities: collect(),
+            newCaptains: collect(),
+            newPinkVests: $pinkVests,
+            newInterested: collect(),
+            newArticles: collect([$article]),
+            updatedArticles: collect(),
+            recentRidesWithPhotos: $recentRidesWithPhotos,
+            upcomingActivities: $upcomingActivities,
+        );
+
+        return view('emails.group-update', ['changes' => collect([$result])]);
+    })->name('prototype.mail.group-update');
 }
 
 Route::middleware(['auth'])->prefix('admin')->group(function (): void {
@@ -120,6 +207,27 @@ Route::middleware(['auth'])->prefix('admin')->group(function (): void {
         ->name('admin.impersonate.start');
     Route::post('impersonate/stop', [ImpersonateController::class, 'stop'])
         ->name('admin.impersonate.stop');
+});
+
+Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function (): void {
+    Route::get('/', fn () => view('admin.dashboard'))->name('dashboard');
+
+    Route::resource('yearstats', YearStatController::class);
+
+    Route::resource('contactforms', ContactFormController::class)
+        ->only(['index', 'show', 'destroy']);
+
+    Route::resource('users', UserController::class);
+
+    Route::resource('partners', PartnerController::class);
+
+    Route::resource('groups', AdminGroupController::class);
+
+    Route::resource('articles', AdminArticleController::class);
+
+    Route::resource('pressarticles', PressArticleController::class);
+
+    Route::resource('activities', AdminActivityController::class);
 });
 
 require __DIR__.'/settings.php';

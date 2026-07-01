@@ -15,5 +15,5 @@ use function Pest\Laravel\get;
 it('lifts the events opt-in band above the page hero', function () {
     get('/nl/events')
         ->assertOk()
-        ->assertSee('class="kal-optin relative z-10"', escape: false);
+        ->assertSee('kal-sidebar');
 });

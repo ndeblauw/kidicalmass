@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ride page — herontwerp richting nieuwe look</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #281a39;
+    --yellow: #f9d924;
+    --red: #E63A7B;
+    --green: #5CB85C;
+    --orange: #F0803C;
+    --blue: #1d67cd;
+    --sky: #40c0f2;
+    --light-blue: #B7E7F0;
+    --light-yellow: #FEF3D5;
+    --font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Caprasimo', ui-sans-serif, system-ui, sans-serif;
+    --body: color-mix(in oklab, var(--ink), transparent 25%);
+    --muted: color-mix(in oklab, var(--ink), transparent 38%);
+    --faint: color-mix(in oklab, var(--ink), transparent 50%);
+    --hairline: color-mix(in oklab, var(--ink), transparent 88%);
+    --radius-card: 2rem;
+    --radius-tile: 1rem;
+    --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --container: 72rem;
+    --container-narrow: 46rem;
+    --page-bg: #fbfafc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: var(--font-sans); color: var(--body);
+    font-size: 1.125rem; line-height: 1.625; background: var(--page-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: var(--ink); line-height: 1.1; }
+  p { margin: 0 0 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ---------- prototype chrome ---------- */
+  .lede { max-width: var(--container); margin: 0 auto; padding: 2.5rem 1.5rem 0.5rem; }
+  .lede h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+  .lede p { font-size: 0.95rem; color: var(--faint); margin: 0; max-width: 78ch; }
+  .bar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+    max-width: var(--container); margin: 1rem auto 0; padding: 0.7rem 1.5rem;
+    background: color-mix(in oklab, var(--page-bg), transparent 6%);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--hairline);
+  }
+  .bar button {
+    font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700;
+    padding: 0.45rem 0.85rem; border-radius: 999px;
+    border: 1.5px solid var(--hairline); background: white; color: var(--body);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .bar button:hover { border-color: var(--blue); color: var(--blue); }
+  .bar button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: white; }
+  .bar .spacer { flex: 1; }
+  .bar .tag { font-size: 0.7rem; color: var(--faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .view { display: none; }
+  .view.is-active { display: block; }
+
+  .stage-note {
+    max-width: var(--container); margin: 1.5rem auto 0; padding: 0 1.5rem;
+  }
+  .stage-note .vlabel { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.3rem; }
+  .stage-note h2 { font-size: 1.5rem; margin: 0 0 0.4rem; }
+  .stage-note p { font-size: 0.95rem; color: var(--muted); margin: 0; max-width: 70ch; }
+
+  /* ---------- shared mockup primitives ---------- */
+  .mock { margin: 1.5rem auto 5rem; background: white; box-shadow: 0 1px 0 var(--hairline), var(--shadow-card); border-radius: 1.25rem; overflow: hidden; max-width: 1180px; }
+  .mock--full { /* mockups that use full-bleed bands within the frame */ }
+
+  .container { max-width: var(--container); margin: 0 auto; padding-inline: clamp(1.25rem, 4vw, 3rem); }
+  .container--narrow { max-width: var(--container-narrow); }
+
+  .band { width: 100%; }
+  .band--blue { background: var(--blue); color: white; }
+  .band--sky { background: var(--sky); }
+  .band--light-blue { background: var(--light-blue); }
+  .band--light-yellow { background: var(--light-yellow); }
+  .band--yellow { background: var(--yellow); }
+  .band--white { background: white; }
+
+  .eyebrow { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.6rem; }
+
+  /* photo placeholders */
+  .photo { position: relative; background:
+      radial-gradient(120% 120% at 20% 10%, color-mix(in oklab, var(--sky), white 30%), transparent 55%),
+      radial-gradient(120% 120% at 90% 90%, color-mix(in oklab, var(--yellow), white 20%), transparent 55%),
+      linear-gradient(135deg, color-mix(in oklab, var(--light-blue), white 10%), color-mix(in oklab, var(--light-yellow), white 5%));
+    overflow: hidden; }
+  .photo::after { content: "foto"; position: absolute; left: 0.7rem; bottom: 0.5rem; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in oklab, var(--ink), transparent 55%); }
+  .photo--circle { border-radius: 50%; aspect-ratio: 1; }
+  .photo--card { border-radius: var(--radius-card); aspect-ratio: 4 / 3; box-shadow: var(--shadow-card); }
+  .photo--tilt { transform: rotate(3deg); }
+
+  /* chips (light meta pills, chapter style) */
+  .chips { display: flex; flex-direction: column; gap: 1rem; margin: 0; }
+  .chip { display: flex; align-items: center; gap: 0.85rem; }
+  .chip__icon { flex: none; width: 2.6rem; height: 2.6rem; border-radius: var(--radius-tile); background: var(--light-blue); display: grid; place-items: center; }
+  .chip__icon svg { width: 1.3rem; height: 1.3rem; color: var(--blue); }
+  .chip__text dt { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+  .chip__text dd { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+
+  /* faux route map */
+  .routemap { position: relative; background: #eef2f6; border-radius: var(--radius-tile); overflow: hidden; min-height: 100%; }
+  .routemap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .routemap__line { fill: none; stroke: var(--red); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 4 6; }
+  .routemap__pin { fill: var(--red); }
+
+  .cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); font-weight: 800; font-size: 1rem; padding: 0.85rem 1.6rem; border-radius: 999px; border: none; cursor: pointer; text-decoration: none; }
+  .cta-btn--blue { background: var(--blue); color: white; }
+  .cta-btn--red { background: var(--red); color: white; }
+  .cta-btn--ink { background: var(--ink); color: white; }
+  .cta-btn--ghost { background: white; color: var(--ink); border: 2px solid var(--ink); }
+
+  .lead { font-size: 1.35rem; line-height: 1.45; color: var(--ink); font-weight: 400; }
+
+  /* hero (shared) */
+  .hero { color: white; padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(3rem, 7vw, 5rem); position: relative; }
+  .hero__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .hero h1 { color: white; font-size: clamp(2.4rem, 5vw, 3.6rem); margin: 0 0 0.6rem; }
+  .hero__date { font-family: var(--font-heading); color: var(--yellow); font-size: 1.4rem; margin: 0 0 1rem; }
+  .hero__pin { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .hero__pin span { background: var(--light-blue); color: var(--ink); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.3rem 0.7rem; border-radius: 0.5rem; transform: rotate(-3deg); }
+  .hero__pin svg { width: 1.4rem; height: 1.4rem; color: var(--yellow); }
+
+  /* feature card (chapter next-ride style) */
+  .feature-card { background: white; border: 1px solid var(--hairline); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+  .feature-card__body { display: grid; gap: 0; }
+  .feature-card__text { padding: clamp(1.75rem, 3vw, 2.5rem); }
+  .feature-card__text h2 { color: var(--red); font-size: 1.9rem; margin: 0 0 1.25rem; }
+  .feature-card__map { position: relative; min-height: 16rem; }
+  .feature-card__map .cta-btn { position: absolute; right: 1rem; bottom: 1rem; box-shadow: var(--shadow-card); }
+
+  /* promise card (soft, chapter style) */
+  .promise { background: white; border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 1.6rem 1.6rem 1.4rem; }
+  .promise__icon { width: 3rem; height: 3rem; border-radius: var(--radius-tile); background: var(--red); display: grid; place-items: center; margin-bottom: 0.9rem; }
+  .promise__icon svg { width: 1.5rem; height: 1.5rem; color: white; }
+  .promise h3 { font-size: 1.25rem; margin: 0 0 0.4rem; }
+  .promise p { font-size: 0.98rem; color: var(--muted); margin: 0; }
+
+  /* sticker promise (old/hybrid loud version) */
+  .promise--sticker { box-shadow: 0 4px 18px rgb(0 0 0 / 0.12); }
+  .promise--sticker:nth-child(odd) { transform: rotate(-1.2deg); }
+  .promise--sticker:nth-child(even) { transform: rotate(1deg); }
+
+  /* team row */
+  .team-row { display: flex; align-items: center; gap: 1rem; }
+  .team-row .photo--circle { width: 4rem; height: 4rem; }
+  .team-row__name { font-weight: 800; color: var(--ink); font-size: 1.05rem; }
+  .team-row__role { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+
+  .closing { padding: clamp(3rem, 6vw, 4.5rem) 0; text-align: center; }
+  .closing h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 1.25rem; }
+
+  hr.hair { border: none; border-top: 1px solid var(--hairline); margin: 2rem 0; }
+
+  /* ============ COMPARISON VIEW ============ */
+  .cmp { max-width: var(--container); margin: 1.5rem auto 4rem; padding: 0 1.5rem; }
+  .cmp__grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+  @media (min-width: 60rem) { .cmp__grid { grid-template-columns: 1fr 1fr; } }
+  .cmp__col h3 { font-size: 1.25rem; margin: 0 0 0.2rem; }
+  .cmp__col .tagline { font-size: 0.85rem; color: var(--muted); margin: 0 0 1rem; }
+  .frame { border: 1px solid var(--hairline); border-radius: 1rem; overflow: hidden; background: white; }
+
+  /* old: stack of saturated full-bleed bands */
+  .skel-band { padding: 0.9rem 1rem; color: white; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.03em; display: flex; justify-content: space-between; align-items: center; }
+  .skel-band small { font-weight: 700; opacity: 0.85; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .skel-band.b { background: var(--blue); }
+  .skel-band.y { background: var(--yellow); color: var(--ink); }
+  .skel-band.s { background: var(--sky); color: var(--ink); }
+  .skel-band.w { background: white; color: var(--ink); }
+  .skel-band.lb { background: var(--light-blue); color: var(--ink); }
+  .skel-band.ly { background: var(--light-yellow); color: var(--ink); }
+  .skel-band.tall { padding-block: 1.6rem; }
+
+  /* new: white page, colored caps, contained cards */
+  .skel-new { background: var(--page-bg); padding-bottom: 0; }
+  .skel-new .cap { padding: 1.4rem 1rem; color: white; font-size: 0.78rem; font-weight: 800; }
+  .skel-new .cap.b { background: var(--blue); }
+  .skel-new .cap.y { background: var(--yellow); color: var(--ink); }
+  .skel-new .inner { padding: 1.2rem 1.6rem 1.6rem; }
+  .skel-new .ey { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.5rem; }
+  .skel-card { background: white; border: 1px solid var(--hairline); border-radius: 0.75rem; box-shadow: 0 4px 16px rgb(0 0 0 / 0.05); padding: 0.85rem 1rem; margin-bottom: 0.7rem; font-size: 0.74rem; font-weight: 700; color: var(--muted); }
+  .skel-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+
+  .takeaways { max-width: var(--container); margin: 0 auto 5rem; padding: 0 1.5rem; }
+  .takeaways__box { background: white; border: 1px solid var(--hairline); border-radius: 1rem; padding: 1.5rem 1.75rem; box-shadow: var(--shadow-card); }
+  .takeaways h3 { font-size: 1.2rem; margin: 0 0 0.9rem; }
+  .takeaways ul { margin: 0; padding-left: 1.1rem; }
+  .takeaways li { margin-bottom: 0.55rem; font-size: 0.98rem; color: var(--body); }
+  .takeaways li b { color: var(--ink); }
+
+  /* utility */
+  .stack-lg > * + * { margin-top: clamp(3rem, 6vw, 4.5rem); }
+  .grid-2 { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+  @media (min-width: 48rem) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+  .grid-facts { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 48rem) { .grid-facts { grid-template-columns: 1fr 1fr; } }
+  .body-pad { padding-block: clamp(3rem, 6vw, 4.5rem); }
+</style>
+</head>
+<body>
+
+<div class="lede">
+  <h1>Ride page — herontwerp</h1>
+  <p>De ride page was de eerste pagina die ontworpen werd. De look-and-feel is sindsdien gedrift: ze leunt op intense kleur en full-width blokken, terwijl recente pagina's (zoals een hoofdstukpagina) rustiger zijn, meer wit gebruiken en binnen een vaste container blijven. Hieronder eerst de vergelijking, daarna drie richtingen om de ride page dichter bij de nieuwe aanpak te brengen.</p>
+</div>
+
+<div class="bar" role="tablist">
+  <button data-target="compare" aria-pressed="true">Vergelijking</button>
+  <button data-target="dir1" aria-pressed="false">1 · Chapter-trouw</button>
+  <button data-target="dir2" aria-pressed="false">2 · Editorial</button>
+  <button data-target="dir3" aria-pressed="false">3 · Hybride</button>
+  <span class="spacer"></span>
+  <span class="tag">prototype</span>
+</div>
+
+<!-- ================= COMPARISON ================= -->
+<section class="view is-active" data-view="compare">
+  <div class="stage-note">
+    <p class="vlabel">De twee aanpakken naast elkaar</p>
+    <h2>Luide bandenstapel vs. rustige container</h2>
+    <p>Links de huidige ride page: zeven full-bleed kleurbanden onder elkaar, alles van rand tot rand. Rechts de nieuwe aanpak: een witte pagina binnen een vaste container, met kleur enkel als accent bovenaan en onderaan.</p>
+  </div>
+
+  <div class="cmp">
+    <div class="cmp__grid">
+      <!-- OLD -->
+      <div class="cmp__col">
+        <h3>Huidige ride page</h3>
+        <p class="tagline">7 full-bleed kleurbanden · geen witte leeskolom · sticker-kaartjes</p>
+        <div class="frame">
+          <div class="skel-band b tall">Hero <small>blauw · full-bleed</small></div>
+          <div class="skel-band y tall">Info + kaart <small>geel · 50/50 full-bleed</small></div>
+          <div class="skel-band s tall">Wat kun je verwachten? <small>lichtblauw · full-bleed</small></div>
+          <div class="skel-band w">Van en voor de buurt <small>wit · 3fr/2fr</small></div>
+          <div class="skel-band lb">Steun <small>lichtblauw</small></div>
+          <div class="skel-band ly">Deel <small>lichtgeel</small></div>
+          <div class="skel-band y tall">Slot-CTA <small>geel · fused footer</small></div>
+        </div>
+      </div>
+      <!-- NEW -->
+      <div class="cmp__col">
+        <h3>Nieuwe look (hoofdstukpagina)</h3>
+        <p class="tagline">Witte container · zachte kaarten · kleur enkel bovenaan + onderaan</p>
+        <div class="frame skel-new">
+          <div class="cap b">Hero <span style="font-weight:700;opacity:.8;font-size:.66rem">blauw + gekantelde foto</span></div>
+          <div class="inner">
+            <p class="ey">In de container</p>
+            <div class="skel-card" style="padding:1.1rem 1rem">Feature-kaart · feiten + kaart</div>
+            <div class="skel-card">Beschrijving (tekstkolom)</div>
+            <p class="ey" style="margin-top:1rem">Wat kun je verwachten?</p>
+            <div class="skel-row2">
+              <div class="skel-card" style="margin:0">Belofte</div>
+              <div class="skel-card" style="margin:0">Belofte</div>
+              <div class="skel-card" style="margin:0">Belofte</div>
+              <div class="skel-card" style="margin:0">Belofte</div>
+            </div>
+            <div class="skel-card" style="margin-top:1rem">Van en voor de buurt</div>
+          </div>
+          <div class="cap y">Slot-CTA <span style="font-weight:700;opacity:.8;font-size:.66rem">geel · fused footer</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways__box">
+      <h3>Wat verschuift er</h3>
+      <ul>
+        <li><b>Container i.p.v. full-bleed.</b> De inhoud krijgt een vaste, gecentreerde leeskolom; kleurbanden blijven over voor hero en slot.</li>
+        <li><b>Wit als adem.</b> De witte body geeft rust en een duidelijke leesrichting in plaats van zeven concurrerende kleurvlakken.</li>
+        <li><b>Zachte kaarten i.p.v. sticker-kaartjes.</b> <code>--radius-card</code> + <code>--shadow-card</code>, geen gekantelde plakkers.</li>
+        <li><b>Kleur als accent.</b> Eén gekantelde foto in de hero, lichte icon-chips, rustige uppercase eyebrows. Kleur punctueert, ze draagt niet de hele pagina.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIRECTION 1: CHAPTER-FAITHFUL ================= -->
+<section class="view" data-view="dir1">
+  <div class="stage-note">
+    <p class="vlabel">Richting 1</p>
+    <h2>Chapter-trouw</h2>
+    <p>De structuur van de hoofdstukpagina, één-op-één toegepast. Blauwe hero met gekantelde foto, daarna een rustige witte container: een feature-kaart draagt de feiten + kaart, beschrijving als tekst, beloftes als zachte kaarten, team in de container. Full-bleed kleur enkel bij hero en slot.</p>
+  </div>
+
+  <div class="mock">
+    <!-- hero -->
+    <div class="band--blue hero">
+      <div class="container">
+        <div class="hero__grid" style="grid-template-columns: 1.1fr 0.9fr;">
+          <div>
+            <div class="hero__pin" style="margin-bottom:1rem"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Kidical Mass Gent</span></div>
+            <h1>Lentefietsparade door Gent</h1>
+            <p class="hero__date">Zondag 21 juni 2026</p>
+            <p style="color:rgba(255,255,255,.85); max-width:34ch;">Een vrolijke, autovrije fietstocht voor gezinnen, op het tempo van het jongste kind.</p>
+          </div>
+          <div><div class="photo photo--card photo--tilt" style="aspect-ratio:4/3"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- white body -->
+    <div class="band--white body-pad">
+      <div class="container stack-lg">
+
+        <!-- feature card: facts + map -->
+        <div class="feature-card">
+          <div class="feature-card__body" style="grid-template-columns: 1fr 41%;">
+            <div class="feature-card__text">
+              <h2>Praktisch</h2>
+              <dl class="chips">
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="chip__text"><dt>Startuur</dt><dd>14:00</dd></div></div>
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div class="chip__text"><dt>Vertrekpunt</dt><dd>Sint-Pietersplein</dd></div></div>
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 12l4-4M21 12l-4 4"/></svg></div><div class="chip__text"><dt>Afstand</dt><dd>6 km</dd></div></div>
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="chip__text"><dt>Deelname</dt><dd>Gratis · geen inschrijving</dd></div></div>
+              </dl>
+            </div>
+            <div class="feature-card__map routemap">
+              <svg viewBox="0 0 200 200" preserveAspectRatio="none"><path class="routemap__line" d="M20 170 C60 120 40 80 90 70 S160 90 175 30"/><circle class="routemap__pin" cx="20" cy="170" r="5"/><circle class="routemap__pin" cx="175" cy="30" r="5"/></svg>
+              <a class="cta-btn cta-btn--blue" href="#">Bekijk op Komoot</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- description -->
+        <div style="max-width: 58ch;">
+          <p class="lead">We rijden in groep door de stad, met roze hesjes voor en achter en muziek onderweg. Geen prestatie, wel een feestje op wielen waar de straat even van de kinderen is.</p>
+        </div>
+
+        <!-- promises -->
+        <div>
+          <p class="eyebrow">Wat kun je verwachten?</p>
+          <div class="grid-2">
+            <div class="promise"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19l3-9 4 3 4-7 3 13z"/></svg></div><h3>Op het tempo van het jongste kind</h3><p>Niemand wordt achtergelaten. We rijden traag en samen.</p></div>
+            <div class="promise"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20v-6a8 8 0 0 1 16 0v6"/><path d="M4 20h16"/></svg></div><h3>Roze hesjes voor en achter</h3><p>Vrijwilligers begeleiden de stoet en houden kruispunten veilig.</p></div>
+            <div class="promise"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3>Muziek onderweg</h3><p>Een fietsende boombox zorgt voor sfeer van start tot finish.</p></div>
+            <div class="promise"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h3>Korte verkeersbespreking</h3><p>Aan de start leggen we kort uit hoe alles veilig verloopt.</p></div>
+          </div>
+        </div>
+
+        <!-- team -->
+        <div>
+          <p class="eyebrow">Van en voor de buurt</p>
+          <h2 style="font-size:2rem; margin:0 0 1rem;">Kidical Mass Gent organiseert</h2>
+          <p style="max-width:54ch; color:var(--muted)">Een groepje buurtouders trekt deze parades. Zin om mee te helpen als roze hesje?</p>
+          <div style="display:flex; flex-wrap:wrap; gap:2rem; align-items:center; margin-top:1.5rem;">
+            <div class="team-row"><div class="photo photo--circle"></div><div><div class="team-row__name">Leticia</div><div class="team-row__role">Organisator</div></div></div>
+            <a class="cta-btn cta-btn--red" href="#">Ik wil meedoen als roze hesje</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- closing band -->
+    <div class="band--yellow closing">
+      <div class="container">
+        <h2>Nog niet zeker hoe het werkt?</h2>
+        <a class="cta-btn cta-btn--blue" href="#">Lees hoe je meerijdt</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIRECTION 2: EDITORIAL ================= -->
+<section class="view" data-view="dir2">
+  <div class="stage-note">
+    <p class="vlabel">Richting 2</p>
+    <h2>Editorial</h2>
+    <p>De rustigste optie en de grootste breuk met vandaag. Eén smalle leeskolom, maximaal wit, minimale chrome. Feiten als één nette lijst, beloftes als een hairline-gescheiden lijst in plaats van kaarten. Kleur bijna volledig weggehaald op de hero na.</p>
+  </div>
+
+  <div class="mock">
+    <!-- simpler hero -->
+    <div class="band--blue hero" style="padding-block: clamp(2.5rem,5vw,4rem);">
+      <div class="container container--narrow" style="text-align:center;">
+        <div class="hero__pin" style="justify-content:center; margin-bottom:1rem"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Kidical Mass Gent</span></div>
+        <h1 style="margin:0 auto 0.6rem;">Lentefietsparade door Gent</h1>
+        <p class="hero__date" style="margin-bottom:0;">Zondag 21 juni 2026 · 14:00</p>
+      </div>
+    </div>
+
+    <div class="band--white body-pad">
+      <div class="container container--narrow">
+
+        <!-- intro prose -->
+        <p class="lead" style="margin-bottom:2rem;">Een vrolijke, autovrije fietstocht voor gezinnen. We rijden in groep door de stad, op het tempo van het jongste kind, met roze hesjes voor en achter en muziek onderweg.</p>
+
+        <!-- facts as one quiet list -->
+        <dl style="display:grid; grid-template-columns: auto 1fr; gap:0.4rem 1.5rem; margin:0; padding:1.25rem 0; border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline);">
+          <dt style="font-weight:800; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.05em; color:var(--muted); align-self:center;">Startuur</dt><dd style="margin:0; font-weight:700; color:var(--ink);">14:00</dd>
+          <dt style="font-weight:800; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.05em; color:var(--muted); align-self:center;">Vertrekpunt</dt><dd style="margin:0; font-weight:700; color:var(--ink);">Sint-Pietersplein</dd>
+          <dt style="font-weight:800; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.05em; color:var(--muted); align-self:center;">Afstand</dt><dd style="margin:0; font-weight:700; color:var(--ink);">6 km · ±1u15</dd>
+          <dt style="font-weight:800; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.05em; color:var(--muted); align-self:center;">Deelname</dt><dd style="margin:0; font-weight:700; color:var(--ink);">Gratis · geen inschrijving nodig</dd>
+        </dl>
+
+        <!-- map -->
+        <div class="routemap" style="aspect-ratio: 16/7; margin: 2rem 0;">
+          <svg viewBox="0 0 200 90" preserveAspectRatio="none"><path class="routemap__line" d="M15 75 C60 60 50 25 100 30 S170 55 188 18"/><circle class="routemap__pin" cx="15" cy="75" r="4"/><circle class="routemap__pin" cx="188" cy="18" r="4"/></svg>
+          <a class="cta-btn cta-btn--blue" href="#" style="position:absolute; right:0.8rem; bottom:0.8rem; padding:0.6rem 1.1rem; font-size:0.85rem;">Bekijk op Komoot</a>
+        </div>
+
+        <h2 style="font-size:1.8rem; margin:2.5rem 0 1rem;">Wat kun je verwachten?</h2>
+        <ul style="list-style:none; margin:0; padding:0;">
+          <li style="display:flex; gap:1rem; padding:1rem 0; border-top:1px solid var(--hairline);"><span style="flex:none; color:var(--red); font-weight:800;">01</span><div><b style="color:var(--ink)">Op het tempo van het jongste kind.</b> Niemand wordt achtergelaten.</div></li>
+          <li style="display:flex; gap:1rem; padding:1rem 0; border-top:1px solid var(--hairline);"><span style="flex:none; color:var(--red); font-weight:800;">02</span><div><b style="color:var(--ink)">Roze hesjes voor en achter.</b> Vrijwilligers houden kruispunten veilig.</div></li>
+          <li style="display:flex; gap:1rem; padding:1rem 0; border-top:1px solid var(--hairline);"><span style="flex:none; color:var(--red); font-weight:800;">03</span><div><b style="color:var(--ink)">Muziek onderweg.</b> Een fietsende boombox zorgt voor sfeer.</div></li>
+          <li style="display:flex; gap:1rem; padding:1rem 0; border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline);"><span style="flex:none; color:var(--red); font-weight:800;">04</span><div><b style="color:var(--ink)">Korte verkeersbespreking aan de start.</b> Zodat alles veilig verloopt.</div></li>
+        </ul>
+
+        <!-- team quiet -->
+        <h2 style="font-size:1.8rem; margin:2.5rem 0 1rem;">Van en voor de buurt</h2>
+        <p style="color:var(--muted)">Kidical Mass Gent wordt getrokken door buurtouders. Zin om mee te helpen als roze hesje?</p>
+        <div class="team-row" style="margin:1.25rem 0;"><div class="photo photo--circle"></div><div><div class="team-row__name">Leticia</div><div class="team-row__role">Organisator</div></div></div>
+        <a class="cta-btn cta-btn--red" href="#">Ik wil meedoen als roze hesje</a>
+
+        <hr class="hair" style="margin:2.5rem 0;">
+
+        <!-- quiet closing (no full-bleed) -->
+        <div style="background:var(--light-yellow); border-radius:var(--radius-card); padding:2rem; text-align:center;">
+          <h2 style="font-size:1.6rem; margin:0 0 1rem;">Nog niet zeker hoe het werkt?</h2>
+          <a class="cta-btn cta-btn--blue" href="#">Lees hoe je meerijdt</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIRECTION 3: HYBRID ================= -->
+<section class="view" data-view="dir3">
+  <div class="stage-note">
+    <p class="vlabel">Richting 3</p>
+    <h2>Hybride</h2>
+    <p>Grotendeels de rustige container, maar met één bewust luid moment: de "Wat kun je verwachten?"-sectie blijft een full-bleed lichtblauwe band met speelse sticker-kaartjes. Zo behoudt de pagina een vleugje van het oude plezier zonder steriel te worden.</p>
+  </div>
+
+  <div class="mock">
+    <!-- hero -->
+    <div class="band--blue hero">
+      <div class="container">
+        <div class="hero__grid" style="grid-template-columns: 1.1fr 0.9fr;">
+          <div>
+            <div class="hero__pin" style="margin-bottom:1rem"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Kidical Mass Gent</span></div>
+            <h1>Lentefietsparade door Gent</h1>
+            <p class="hero__date">Zondag 21 juni 2026</p>
+            <p style="color:rgba(255,255,255,.85); max-width:34ch;">Een vrolijke, autovrije fietstocht voor gezinnen, op het tempo van het jongste kind.</p>
+          </div>
+          <div><div class="photo photo--card photo--tilt" style="aspect-ratio:4/3"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- contained: facts + description -->
+    <div class="band--white body-pad" style="padding-bottom: clamp(2.5rem,5vw,4rem);">
+      <div class="container stack-lg">
+        <div class="feature-card">
+          <div class="feature-card__body" style="grid-template-columns: 1fr 41%;">
+            <div class="feature-card__text">
+              <h2>Praktisch</h2>
+              <dl class="chips">
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="chip__text"><dt>Startuur</dt><dd>14:00</dd></div></div>
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div class="chip__text"><dt>Vertrekpunt</dt><dd>Sint-Pietersplein</dd></div></div>
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 12l4-4M21 12l-4 4"/></svg></div><div class="chip__text"><dt>Afstand</dt><dd>6 km · ±1u15</dd></div></div>
+                <div class="chip"><div class="chip__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="chip__text"><dt>Deelname</dt><dd>Gratis · geen inschrijving</dd></div></div>
+              </dl>
+            </div>
+            <div class="feature-card__map routemap">
+              <svg viewBox="0 0 200 200" preserveAspectRatio="none"><path class="routemap__line" d="M20 170 C60 120 40 80 90 70 S160 90 175 30"/><circle class="routemap__pin" cx="20" cy="170" r="5"/><circle class="routemap__pin" cx="175" cy="30" r="5"/></svg>
+              <a class="cta-btn cta-btn--blue" href="#">Bekijk op Komoot</a>
+            </div>
+          </div>
+        </div>
+        <div style="max-width:58ch;"><p class="lead">We rijden in groep door de stad, met roze hesjes voor en achter en muziek onderweg. Geen prestatie, wel een feestje op wielen waar de straat even van de kinderen is.</p></div>
+      </div>
+    </div>
+
+    <!-- the one loud moment: full-bleed sky band with sticker cards -->
+    <div class="band--sky" style="padding-block: clamp(3rem,6vw,4.5rem);">
+      <div class="container">
+        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem); margin:0 0 1.75rem;">Wat kun je verwachten?</h2>
+        <div class="grid-2" style="gap:1.75rem;">
+          <div class="promise promise--sticker"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19l3-9 4 3 4-7 3 13z"/></svg></div><h3>Op het tempo van het jongste kind</h3><p>Niemand wordt achtergelaten. We rijden traag en samen.</p></div>
+          <div class="promise promise--sticker"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20v-6a8 8 0 0 1 16 0v6"/><path d="M4 20h16"/></svg></div><h3>Roze hesjes voor en achter</h3><p>Vrijwilligers begeleiden de stoet en houden kruispunten veilig.</p></div>
+          <div class="promise promise--sticker"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3>Muziek onderweg</h3><p>Een fietsende boombox zorgt voor sfeer van start tot finish.</p></div>
+          <div class="promise promise--sticker"><div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><h3>Korte verkeersbespreking</h3><p>Aan de start leggen we kort uit hoe alles veilig verloopt.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- back to contained: team -->
+    <div class="band--white body-pad">
+      <div class="container">
+        <p class="eyebrow">Van en voor de buurt</p>
+        <h2 style="font-size:2rem; margin:0 0 1rem;">Kidical Mass Gent organiseert</h2>
+        <p style="max-width:54ch; color:var(--muted)">Een groepje buurtouders trekt deze parades. Zin om mee te helpen als roze hesje?</p>
+        <div style="display:flex; flex-wrap:wrap; gap:2rem; align-items:center; margin-top:1.5rem;">
+          <div class="team-row"><div class="photo photo--circle"></div><div><div class="team-row__name">Leticia</div><div class="team-row__role">Organisator</div></div></div>
+          <a class="cta-btn cta-btn--red" href="#">Ik wil meedoen als roze hesje</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- closing band -->
+    <div class="band--yellow closing">
+      <div class="container">
+        <h2>Nog niet zeker hoe het werkt?</h2>
+        <a class="cta-btn cta-btn--blue" href="#">Lees hoe je meerijdt</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const buttons = document.querySelectorAll('.bar button[data-target]');
+  const views = document.querySelectorAll('.view');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      views.forEach(v => v.classList.toggle('is-active', v.dataset.view === target));
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+  });
+</script>
+</body>
+</html>

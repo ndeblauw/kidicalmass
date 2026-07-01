@@ -5,6 +5,7 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@source '../../vendor/ndeblauw/blue-admin/**/*.blade.php';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -47,14 +48,30 @@
 
     /* Feature-card surface tokens (canonical = getting-started scale). */
     --radius-card: 2rem;
+    --radius-tile: 1rem;     /* compact tier: tiles, roster, the whole roze-hesjes hub (other pages' content cards stay --radius-card) */
     --radius-chip: 28%;
+    --radius-pill: 9999px;   /* fully rounded: buttons, pills, badges, avatars */
     --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
+    /* Hard small shadow — no blur, solid edge, plus a 1px inner hairline for
+       definition. Used by the nav button cluster. */
+    --shadow-hard-sm: 0 0.2rem 0 0 color-mix(in oklab, var(--color-kidical-ink), transparent 82%),
+        inset 0 0 0 1px color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
+
+    /* Roze-hub motion + surface language (hub Overview + shared chrome). */
+    --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+    --shadow-float: 0 4px 20px rgb(0 0 0 / 0.08);
+    --shadow-hover: 0 14px 30px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+    --color-kidical-hairline: color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
 
     /* Body prose = ink at 75% (alpha, so it composites on white and on colour bands
        alike). This is the one body-text colour; Lead/Body differ in size & weight,
        not hue. Matches <x-feature-card>'s text-kidical-ink/75. */
     --color-text-body: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
     --color-text-link: var(--color-kidical-blue);
+    /* Text-link underline: a half-strength blue line at rest that rolls into a
+       full blue one on hover. Opt out anywhere with `background-image: none`. */
+    --color-link-underline: color-mix(in oklab, var(--color-kidical-blue), transparent 50%);
+    --color-link-underline-hover: var(--color-kidical-blue);
 
     --color-accent: var(--color-kidical-yellow);
     --color-accent-content: var(--color-kidical-yellow);
@@ -103,26 +120,41 @@
         /* Caprasimo (headers) is single-weight; never fake a bold for it. Nunito Sans has a
            real 400 + 700, so body bold is unaffected. */
         font-synthesis: none;
+        /* Full-bleed bands across the site use `width: 100vw; margin: calc(50% - 50vw)`.
+           `100vw` counts the vertical-scrollbar gutter, but the content box doesn't — so
+           on systems with classic (space-consuming) scrollbars every band is scrollbar-width
+           too wide and the page gains a phantom horizontal scrollbar. Clip that overflow here.
+           `clip` (not `hidden`) does NOT create a scroll container, so the pinned/sticky heroes
+           still pin to the viewport. */
+        overflow-x: clip;
     }
 
-    a {
+    /* Two stacked underlines: the bottom layer is a 50% blue line at full width
+       (the rest state); the top layer is full blue and wipes in left→right on
+       hover, rolling the line up to solid blue. No background fill.
+       Scoped to .ba-site so it only applies on the public site and backstage,
+       NOT on blue-admin (/admin) or auth/Flux layouts. */
+    body.ba-site a {
         color: var(--color-text-link);
         text-decoration: none;
         background-image:
-            linear-gradient(var(--color-kidical-yellow), var(--color-kidical-yellow)),
-            linear-gradient(color-mix(in oklab, var(--color-kidical-yellow), transparent 30%), color-mix(in oklab, var(--color-kidical-yellow), transparent 30%));
+            linear-gradient(var(--color-link-underline-hover), var(--color-link-underline-hover)),
+            linear-gradient(var(--color-link-underline), var(--color-link-underline));
         background-repeat: no-repeat;
-        background-position: left center, left bottom;
-        background-size: 0% 100%, 100% 1px;
+        background-position: left bottom, left bottom;
+        background-size: 0% 1px, 100% 1px;
         transition: background-size 0.25s ease-out;
     }
 
-    a:hover {
-        background-size: 100% 100%, 100% 1px;
+    body.ba-site a:hover {
+        background-size: 100% 1px, 100% 1px;
     }
 
     header a,
-    footer ul a {
+    .site-logo-anchor__link,
+    footer ul a,
+    .roze-chrome a,
+    [popover] a {
         background-image: none;
         transition: none;
     }
@@ -131,11 +163,15 @@
         font-family: var(--font-heading);
         font-weight: 800;
         color: var(--color-kidical-ink);
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
 
-    h1 { font-size: var(--text-6xl); line-height: 1.05; }
-    h2 { font-size: var(--text-5xl); line-height: 1.1; }
-    h3 { font-size: var(--text-3xl); line-height: 1.25; }
+    /* Fluid display tiers: max == the original token, so desktop (≥1024px) is
+       pixel-identical; phones step down. h4–h6 are body-adjacent, left fixed. */
+    h1 { font-size: clamp(2.5rem, 1.8rem + 3vw,   var(--text-6xl)); line-height: 1.05; }
+    h2 { font-size: clamp(2rem,   1.4rem + 2.5vw, var(--text-5xl)); line-height: 1.1; }
+    h3 { font-size: clamp(1.5rem, 1.3rem + 0.9vw, var(--text-3xl)); line-height: 1.25; }
     h4 { font-size: var(--text-2xl); line-height: 1.35; }
     h5 { font-size: var(--text-xl);  line-height: 1.4; }
     h6 { font-size: var(--text-lg);  line-height: 1.5; }
@@ -160,9 +196,14 @@
 /* Role-based partials — see docs/superpowers/specs/2026-06-06-css-partials-architecture-design.md */
 @import './components/closing-cta.css';
 @import './components/cta-button.css';
+@import './components/envelope-chips.css';
 @import './components/ride-row.css';
 @import './components/ride-day.css';
+@import './components/ride-pill.css';
+@import './components/other-activity.css';
+@import './components/next-ride.css';
 @import './components/location-picker.css';
+@import './components/newsletter-cta.css';
 @import './components/filter-bar.css';
 @import './components/page-hero.css';
 @import './components/partners.css';
@@ -170,11 +211,17 @@
 @import './components/intro-text.css';
 @import './components/section-heading.css';
 @import './components/pull-quote.css';
+@import './components/roze-hub.css';
 @import './components/numbered-item.css';
 @import './components/person-card.css';
 @import './components/info-card.css';
+@import './components/faq.css';
 @import './components/titled-list-block.css';
 @import './components/scroll-sequence.css';
+@import './components/photo-collage.css';
+@import './components/ride-gallery.css';
+@import './components/ride-photo-nudge.css';
+@import './components/share-band.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';
@@ -184,6 +231,7 @@
 @import './pages/help-out.css';
 @import './pages/home.css';
 @import './pages/local-groups.css';
+@import './pages/nieuwsbrief.css';
 @import './pages/start-een-groep.css';
 @import './pages/partners.css';
 @import './pages/steun.css';

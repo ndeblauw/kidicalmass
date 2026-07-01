@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
 
 class MediaSeeder extends Seeder
 {
@@ -16,21 +14,8 @@ class MediaSeeder extends Seeder
 
     public static function ensureImages(int $count): array
     {
-        return static::downloadBatch(
-            $count,
-            storage_path('app/temp-images'),
-            'image',
-            fn (int $index): string => "https://picsum.photos/800/600?random={$index}"
-        );
-    }
+        $directory = storage_path('app/temp-images');
 
-    public static function cleanup(): void
-    {
-        // File::deleteDirectory(storage_path('app/temp-images'));
-    }
-
-    private static function downloadBatch(int $count, string $directory, string $prefix, callable $urlResolver): array
-    {
         File::ensureDirectoryExists($directory);
 
         $files = collect(File::files($directory))->map(fn ($file) => $file->getPathname())->values()->all();
@@ -41,27 +26,53 @@ class MediaSeeder extends Seeder
 
         while (count($files) < $count) {
             $index = count($files) + 1;
-            $path = $directory."/{$prefix}-{$index}.jpg";
+            $path = $directory."/image-{$index}.jpg";
 
             if (! File::exists($path)) {
-                try {
-                    $url = $urlResolver($index);
-                    /** @var Response $response */
-                    $response = Http::timeout(15)->get($url);
-
-                    if ($response->successful() && strlen($response->body()) > 1000) {
-                        File::put($path, $response->body());
-                        $files[] = $path;
-                        usleep(100000);
-                    }
-                } catch (\Exception $e) {
-                    continue;
-                }
+                static::generateImage($path);
+                $files[] = $path;
             } else {
                 $files[] = $path;
             }
         }
 
         return $files;
+    }
+
+    public static function cleanup(): void
+    {
+        // File::deleteDirectory(storage_path('app/temp-images'));
+    }
+
+    private static function generateImage(string $path): void
+    {
+        $width = 800;
+        $height = 600;
+
+        $img = imagecreatetruecolor($width, $height);
+
+        $bg = imagecolorallocate($img, mt_rand(0, 200), mt_rand(0, 200), mt_rand(0, 200));
+        imagefill($img, 0, 0, $bg);
+
+        $textColor = imagecolorallocate($img, 255, 255, 255);
+        $text = pathinfo($path, PATHINFO_FILENAME);
+        $fontSize = 5;
+        $textWidth = imagefontwidth($fontSize) * strlen($text);
+        $x = (int) (($width - $textWidth) / 2);
+        $y = (int) (($height - imagefontheight($fontSize)) / 2);
+        imagestring($img, $fontSize, $x, $y, $text, $textColor);
+
+        // Add some decorative rectangles
+        $accent = imagecolorallocate($img, 255, 255, 255);
+        for ($i = 0; $i < 5; $i++) {
+            $rx = mt_rand(0, $width - 100);
+            $ry = mt_rand(0, $height - 100);
+            $rw = mt_rand(20, 80);
+            $rh = mt_rand(20, 80);
+            imagefilledrectangle($img, $rx, $ry, $rx + $rw, $ry + $rh, $accent);
+        }
+
+        imagejpeg($img, $path, 30);
+        imagedestroy($img);
     }
 }

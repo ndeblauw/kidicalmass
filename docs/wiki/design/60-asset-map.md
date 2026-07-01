@@ -3,12 +3,12 @@ title: Image Map — Asset Catalogue
 tags: [assets, images, design]
 sources: [docs/raw/assets/]
 phase: design
-updated: 2026-04-13
+updated: 2026-06-18
 ---
 
 # Image Map — Asset Catalogue
 
-Catalogue of all usable assets in `docs/raw/assets/`. Organised into four sections matching the folder structure. Cross-reference with `public/img/` for what is already live on the new site.
+Catalogue of all usable assets. **Photography** is now optimised and live in `public/img/photography/` (see that section); Illustrations, Posters and Logos below catalogue `docs/raw/assets/` with notes on what is already in `public/img/`.
 
 See [Asset Slots — per-page map](61-asset-slots.md) for the per-page slot mapping.
 
@@ -36,48 +36,98 @@ Brand characters and decorative elements. The nine named characters are already 
 
 ## Photography
 
-36 photos. Entries marked ↑ were upgraded from a lower-resolution Wix thumbnail to the full-resolution original.
+**59 ride / volunteer / team photos**, all optimised to **WebP** (long edge ≤ 1600 px, q80, ~62 MB → ~13 MB) and live in **`public/img/photography/`**. A few pre-existing files stay as `.jpg` / `.avif` because templates already reference them (kept to avoid breaking links): `kids-thumbsup-at-ride.jpg`, `ride-cinquantenaire-crowd.jpg`, and the seven under `volunteers/`.
 
-| Filename | Description | Dimensions | Orientation | People visible | Quality | In use | Source |
-|----------|-------------|------------|-------------|----------------|---------|--------|--------|
-| `ride-brussels-cinquantenaire-crowd.jpg` | Very large crowd of cyclists in front of the Triumphal Arch (Cinquantenaire), Brussels; sunny autumn day; colourful helmets; professional | 5472×3648 | Landscape | Yes | ★★★ | No | `kidical-mass-photo-02.jpg` |
-| `ride-brussels-palais-crowd.jpg` | Huge crowd at a Brussels public square/neoclassical building; orange-vested riders, family atmosphere; bright autumn light | 5472×3648 | Landscape | Yes | ★★★ | No | `kidical-mass-photo-04.jpg` |
-| `ride-child-purple-bike-sunglasses.jpg` | Young child on a purple Woom bike with round sunglasses, riding on a road; cool, candid; very high res | 8688×5792 | Landscape | Yes | ★★★ | No | `kidical-mass-photo-05.jpg` |
-| `ride-brussels-kids-from-behind.jpg` | Group of 5–6 children cycling from behind on a Brussels city street; colourful helmets; no faces; very high res | 8688×5792 | Landscape | No (backs) | ★★★ | No | `kidical-mass-13 (1).jpg` |
-| `ride-child-thumbsup-red-helmet.jpg` | Child giving a big thumbs-up, beaming smile, red Melon helmet; event/village atmosphere behind | 8688×5792 | Landscape | Yes | ★★★ | No | `kidical-mass-14.jpg` |
-| `ride-girl-pink-jacket-crossing.jpg` | Young girl in pink jacket on small bike crossing a Brussels street junction; focused expression; high res | 8688×5792 | Landscape | Yes | ★★★ | No | `kidical-mass-15.jpg` |
-| `volunteers-park-gathering.jpg` | Group of volunteers in pink vests at an outdoor park gathering; butterfly balloon prop; festive atmosphere | 8688×5792 | Landscape | Yes | ★★ | No | `kidical-mass-photo-06.jpg` |
-| `ride-brussels-two-boys-at-start.jpg` | Two boys in hi-vis vests and helmets at a ride start; Brussels neoclassical building behind; golden side light | 5472×3648 | Landscape | Yes | ★★★ | No | `kidical-mass-01.jpg` |
-| `ride-brussels-boulevard-crowd.jpg` ↑ | Dense crowd of cyclists on a wide Brussels boulevard; sunny summer day; trees, lamp post; replaced with high-res version | 1960×1192 | Landscape | Yes | ★★★ | No | `cf0153_439fb129cb4f4fe3bd41d9bdc4aad44c~mv2.jpg` |
-| `ride-brussels-street-crowd.png` | Dense crowd on a Brussels city street; bike lane marking; overcast light | 740×490 | Landscape | Yes | ★★★ | No | `cf0153_7a70705b62da4987a9336455f5d5c082~mv2.png` |
-| `ride-brussels-street-crowd-portrait.avif` | Crowd of cyclists on a Brussels street, portrait format; slightly elevated angle; overcast | 1100×1466 | Portrait | Yes | ★★★ | No | `cf0153_1abf967a6ef34860b4249aa35b9bed98~mv2.avif` |
-| `ride-girl-with-plants-on-bike.jpg` | Young girl cycling, bike decorated with fresh plants; summer; genuine candid | 980×477 | Landscape | Yes | ★★★ | No | `cf0153_ee9cad6703414090b5d757ac3186b322~mv2.jpg` |
-| `ride-girl-smiling-on-bike.jpg` | Young girl smiling directly at camera, riding in group, autumn trees; very natural | 1384×922 | Landscape | Yes | ★★★ | No | `kidical-mass-03.jpg` |
-| `ride-brussels-street-sunset.jpg` | Cyclists on a Brussels residential street; golden sunset/dusk light backlighting the scene; bike lane visible; portrait | 1536×2048 | Portrait | Yes | ★★★ | No | `kidical-mass-photo-11.jpg` |
-| `ride-brussels-boulevard-kidical-flag.jpg` | Kidical Mass flag held up against sky; large crowd on a Brussels boulevard behind; movement and energy | 1170×845 | Landscape | Yes | ★★ | No | `kidical-mass-18 (1).jpg` |
-| `ride-group-celebration-station.jpg` | Large group of families with bikes cheering in front of a brick train station / heritage building; arms raised | 1920×1224 | Landscape | Yes | ★★★ | No | `kidical-mass-23.jpg` |
-| `ride-crowd-intersection.jpg` | Crowd of cyclists at a busy city intersection; pink vests visible; Haussmann-style buildings | 2048×1536 | Landscape | Yes | ★★ | No | `kidical-mass-24 (1).jpg` |
-| `ride-group-photo-bandstand.png` | Group photo of ±60 people in front of a Brussels bandstand/kiosk; Kidical Mass cargo bike and balloons in foreground | 1960×1432 | Landscape | Yes | ★★★ | No | `cf0153_2ff37ed9150e4e30ac9a8b721570a7b7~mv2.png` |
-| `ride-dj-on-boombox-bike.avif` | DJ performing on a giant boombox-style bike trailer at a sunny outdoor event; unique and joyful | 1100×1466 | Portrait | Yes | ★★★ | No | `cf0153_0d584b88641040a584419b573075f87a~mv2.avif` |
-| `ride-brussels-pump-track.jpg` | Three children at a Brussels pump track; brick art nouveau building; sunny; action | 773×515 | Landscape | Yes | ★★★ | No | `IMG_0803-2048x1365.jpg` |
-| `ride-namur-town-square.jpg` | Children on bikes in Namur town square; balloon animals; cheerful | 450×600 | Portrait | Yes | ★★★ | No | `cf0153_1fdbf0c7d8fe4fcb90c487cca74611e6~mv2.jpg` |
-| `ride-namur-waterfront.jpg` | Crowd at Namur waterfront with large "NAMUR" letters; sunny blue sky | 980×477 | Landscape | Yes | ★★ | No | `cf0153_d382146cbf05417e987cdd52135fbb74~mv2.jpg` |
-| `ride-young-child-on-bike.jpg` | Young child (±4 years) on small bike; KM mascot cut-out visible behind | 400×605 | Portrait | Yes | ★★★ | No | `3O4A2731.jpg` |
-| `ride-protest-sign.jpg` | Bike trailer with "Plus de pistes cyclables sécurisées / Meer veilige fietspaden" sign | 313×304 | Square | Yes | ★★ | No | `3O4A2662.jpg` |
-| `kid-at-bike-shop.jpg` | Child peering at a colourful bike through wheel spokes; warm edited colours | 745×471 | Landscape | Yes | ★★ | No | `20221109_131558.jpg` |
-| `kids-thumbsup-at-ride.jpg` | Two young children giving thumbs up at a winter ride; hi-vis vests | 517×388 | Landscape | Yes | ★★ | No | `cf0153_b3c3614490e84c0e9db4cb59f8e3599d~mv2.jpg` |
-| `volunteer-pink-vest.jpg` ↑ | Volunteer from behind in bright pink "Kidical mass" hi-vis vest; street setting; already in `public/img/` | 1200×1600 | Portrait | No (back view) | ★★★ | Yes — `public/img/pink-vest-volunteer.jpg` | `kidical-mass-19 (1).jpg` |
-| `volunteer-pink-vest-blue-helmet.avif` | Male volunteer in pink vest and blue cycle helmet with round sunglasses, smiling; Brussels square background | 1782×1188 | Landscape | Yes | ★★★ | No | `cf0153_3429fa9c45a040e6bf7706cb5eb0248e~mv2.avif` |
-| `volunteer-selfie-stop-sign.jpg` | Volunteer selfie with pink vest and "GOGO" helmet holding a STOP sign; suburban street; energetic | 1200×1600 | Portrait | Yes | ★★★ | No | `kidical-mass-16.jpg` |
-| `volunteers-pink-vests-with-flag.jpg` | Group of pink-vested volunteers celebrating with a Kidical Mass flag; street / parking area; portrait | 1536×2048 | Portrait | Yes | ★★★ | No | `kidical-mass-photo-10.jpg` |
-| `volunteers-pink-vests-cinquantenaire.jpg` | Five volunteers in pink vests, group selfie; Cinquantenaire Arch clearly visible behind; sunny | 1600×985 | Landscape | Yes | ★★★ | No | `kidical-mass-25.jpg` |
-| `volunteers-group-pink-vests-park.avif` | Group of ~30 volunteers in pink vests at a park start point; event infrastructure behind | 1782×1188 | Landscape | Yes | ★★★ | No | `cf0153_df7c68961d3744dd8b64a48bb174c1c6~mv2.avif` |
-| `volunteers-orange-vests-selfie.jpg` | Group selfie of ~10 volunteers in orange hi-vis vests; energetic; outdoors | 313×304 | Square | Yes | ★★ | No | `3O4A2338.jpg` |
-| `cargo-bike-kidical-mass-brussels.jpg` | Kidical Mass branded cargo bike on Brussels bridge; Brussels rooftops and church in background | 313×304 | Square | Yes | ★★★ | No | `3O4A2591.jpg` |
-| `team-blue-sweatshirts-celebration.jpg` | Team of ~15 in blue "More Kids on Bikes" sweatshirts, celebratory group photo with bike; indoor/venue | 1536×942 | Landscape | Yes | ★★★ | No | `kidical-mass-photo-08.jpg` |
-| `team-more-kids-on-bikes-sweatshirts.jpg` | Two team members showing the back of blue "More Kids on Bikes — since 2020 — BXL" sweatshirts; indoor event | 1536×1152 | Landscape | No (backs) | ★★ | No | `kidical-mass-09 (1).jpg` |
+Grouped by theme for fast page-matching. **Best for** suggests pages from the public IA (`home`, `kalender`, `lokale-groepen`, `start-een-groep`, `steun`, `over-ons`, `roze-hesjes`). **O** = orientation (L landscape · P portrait · S square). **Q**: ★★★ strong / hero-ready · ★★ usable at small sizes (lower-res or awkward crop). Paths are relative to `public/img/photography/`.
 
-**Note on 3O4A series:** `volunteers-orange-vests-selfie.jpg`, `cargo-bike-kidical-mass-brussels.jpg`, `ride-protest-sign.jpg`, and `ride-young-child-on-bike.jpg` are Wix-scaled thumbnails. Originals at full resolution may exist with the photographer.
+### A. Big rides, crowds & atmosphere — wide hero shots
+
+| File | Description | Best for | O | Q |
+|------|-------------|----------|---|---|
+| `ride-park-crowd-cheering-namur.webp` | Large family crowd cheering with arms raised at a sunny park gathering point; flag, sunburst flare (Namur) | home, kalender, lokale-groepen | L | ★★★ |
+| `ride-brussels-boulevard-crowd.webp` | Dense crowd of families with bikes on a sunny tree-lined Brussels boulevard, grand stone building behind | home, kalender, lokale-groepen | L | ★★★ |
+| `ride-brussels-boulevard-kidical-flag.webp` | Big yellow Kidical Mass flag flying over a dense crowd riding down a Brussels boulevard | home, kalender, over-ons | L | ★★ |
+| `ride-cinquantenaire-crowd.jpg` | Crowd of families crossing the esplanade in front of the Cinquantenaire/Jubelpark triumphal arch — iconic landmark | home, kalender, over-ons | L | ★★★ |
+| `ride-brussels-palais-crowd.webp` | Wide crowd massed in front of the colonnaded Palais at the Cinquantenaire; orange/yellow vests, autumn sun | home, kalender, over-ons | L | ★★★ |
+| `ride-brussels-street-crowd-portrait.webp` | Long column of cyclists filling a Brussels street, two orange stewards leading; overcast | kalender, roze-hesjes, over-ons | P | ★★★ |
+| `ride-brussels-street-crowd.webp` | Front-on row of kids at a closed-street ride start, steward with flag, painted bike logo on the road | home, kalender, lokale-groepen | L | ★★★ |
+| `ride-brussels-street-sunset.webp` | From behind a yellow-vest steward riding into a low golden sun, long shadows — cinematic | home, over-ons, kalender | P | ★★★ |
+| `ride-crowd-intersection.webp` | From behind two pink-vest stewards overlooking a big crowd at a tree-lined intersection | home, kalender, roze-hesjes | L | ★★★ |
+| `ride-dj-on-boombox-bike.webp` | DJ mixing on a giant vintage boombox built onto a cargo tricycle in a green park — unique, joyful | home, kalender, steun | P | ★★★ |
+| `ride-group-celebration-station.webp` | Dozens of families in hi-vis cheering, arms raised, in front of an ornate red-brick station/museum | home, kalender, over-ons | L | ★★★ |
+| `ride-group-photo-bandstand.webp` | Big group photo (±60) cheering around a town-square bandstand; KM cargo banner and balloons | home, over-ons, lokale-groepen | L | ★★★ |
+| `ride-namur-town-square.webp` | Children riding through Namur's town square (La Bourse building), balloon trailing, blue sky | home, kalender, lokale-groepen | P | ★★ |
+| `ride-namur-waterfront.webp` | Large group posed behind giant white "NAMUR" letters on the riverside, citadel hill behind | home, lokale-groepen, over-ons | L | ★★ |
+
+### B. Kids — close-ups & action
+
+| File | Description | Best for | O | Q |
+|------|-------------|----------|---|---|
+| `kids-dancing-drummer-park.webp` | Teen drummer with a marching bass drum as two small kids run/dance toward the camera; autumn park | home, kalender, lokale-groepen | L | ★★★ |
+| `child-yellow-helmet-peace-signs.webp` | Smiling boy in a yellow helmet and round glasses throwing peace signs over his handlebars; flag behind | home, kalender, lokale-groepen | P | ★★★ |
+| `kids-soundbike-flag-obelisk.webp` | Two kids in vests + sunglasses, thumbs-up at a KM sound bike under a big blue flag by an obelisk (Namur) | home, kalender, lokale-groepen | P | ★★★ |
+| `kid-at-bike-shop.webp` | Boy concentrating with a screwdriver on a bike's chainring in a repair workshop; warm HDR edit | steun, lokale-groepen, over-ons | L | ★★ |
+| `kids-thumbsup-at-ride.jpg` | Two young kids in yellow vests give a thumbs-up; red cargo bike with a third child behind; winter | home, lokale-groepen, kalender | L | ★★ |
+| `ride-brussels-kids-from-behind.webp` | Row of ~6 children riding from behind along a city street, colourful helmets, no faces | lokale-groepen, start-een-groep, kalender | L | ★★★ |
+| `ride-brussels-pump-track.webp` | Children riding a curving asphalt pump track in front of a red-brick heritage building; sunny | lokale-groepen, start-een-groep, home | L | ★★★ |
+| `ride-brussels-two-boys-at-start.webp` | Warm close-up of two boys arm-in-arm with their bikes and green helmets at a ride start; sunny | home, lokale-groepen, start-een-groep | L | ★★★ |
+| `ride-child-purple-bike-sunglasses.webp` | Cool young child on a purple Woom bike with pink heart sunglasses, crossing a street | home, lokale-groepen, kalender | L | ★★★ |
+| `ride-child-thumbsup-red-helmet.webp` | Beaming boy gives a big thumbs-up in a red Melon helmet on a cobbled plaza | home, kalender, roze-hesjes | L | ★★★ |
+| `ride-girl-pink-jacket-crossing.webp` | Young girl in a pink jacket riding her small bike toward the camera, two kids alongside | home, kalender, start-een-groep | L | ★★★ |
+| `ride-girl-smiling-on-bike.webp` | Grinning girl in a pink helmet riding in a group, soft autumn background | home, kalender, start-een-groep | L | ★★★ |
+| `ride-girl-with-plants-on-bike.webp` | Girl leading a pack with leafy plants bundled on her bike; strong summer shadows | home, kalender, lokale-groepen | L | ★★ (letterbox crop) |
+| `ride-young-child-on-bike.webp` | Toddler on a small grey bike passing a cartoon frog-on-a-bike cut-out; sunny | home, kalender, start-een-groep | P | ★★ |
+
+### C. Cargo bikes & families
+
+| File | Description | Best for | O | Q |
+|------|-------------|----------|---|---|
+| `cargo-bike-mother-two-kids-flag.webp` | Smiling woman in a coral vest rides a cargo bike with two helmeted kids in the box and a KM flag; blue sky | home, start-een-groep, lokale-groepen | P | ★★★ |
+| `cargo-bike-kidical-mass-brussels.webp` | Man on a blue KM-branded cargo bike carrying two waving kids along a Brussels overlook, skyline behind | home, lokale-groepen, kalender | S | ★★ |
+
+### D. Pink-vest volunteers (roze hesjes), stewards & community
+
+| File | Description | Best for | O | Q |
+|------|-------------|----------|---|---|
+| `ride-trio-pink-vest-lei-portrait.webp` | Three adults pose mid-ride on a park road — one in a pink vest and flower lei, another flashing a peace sign; kids behind | home, steun, roze-hesjes | L | ★★★ |
+| `volunteers-pink-vest-group-cobbles.webp` | ~8 volunteers in bright pink vests posing playfully on a cobbled square, thumbs-up and waving; winter | steun, roze-hesjes, over-ons | L | ★★★ |
+| `volunteers-orange-vest-celebration-group.webp` | Packed group of orange-vest volunteers celebrating with peace signs, pink wigs and hats; blue sky | steun, over-ons, home | L | ★★★ |
+| `volunteers-season-launch-meetup.webp` | Indoor "Apéro des Gilets Roses" season-launch meetup, people chatting in front of a projected KM slide | roze-hesjes, over-ons, steun | P | ★★★ |
+| `volunteer-fistbump-kids-park.webp` | Volunteer crouches to fist-bump a small child amid kids on bikes in a green park; sunny | home, lokale-groepen, roze-hesjes | P | ★★★ |
+| `volunteers-police-pink-vests-portrait.webp` | Friendly portrait of a police cyclist, two pink-vest women and a child at a gathering point | roze-hesjes, over-ons, steun | L | ★★★ |
+| `volunteer-handing-stickers-to-kids.webp` | Volunteer in a blue KM tee hands stickers/goodies from a box to a cluster of helmeted kids; sunny | home, lokale-groepen, roze-hesjes | L | ★★★ |
+| `volunteers-unfurling-flags-street.webp` | Volunteer in a "More Kids on Bikes" sweater unfurls two big sky-blue KM flags, a man holding the pole | home, over-ons, steun | L | ★★★ |
+| `volunteer-pink-vest-blue-helmet.webp` | Bearded man in a pink steward vest, round sunglasses and a blue felt party hat (despite the name, *not* a helmet) walks his bike; govt building | roze-hesjes, home, over-ons | L | ★★★ |
+| `volunteer-pink-vest.webp` | Back view of a steward's bright pink "Kidical mass" vest over a yellow jacket; park crowd blurred behind | roze-hesjes, home, start-een-groep | P | ★★★ |
+| `volunteers/volunteer-selfie-stop-sign.jpg` | Young steward in a pink vest + pink helmet takes a selfie holding up a red stop paddle; sunny Namur street | roze-hesjes, home, start-een-groep | P | ★★★ |
+| `volunteers/pink-vest-volunteer.jpg` | Steward in a pink "GOGO" helmet and pink sunglasses selfies while raising a red stop paddle; kids and a red tandem behind | roze-hesjes, home, start-een-groep | S | ★★★ |
+| `volunteers/volunteers-group-pink-vests-park.avif` | Large group of pink/orange-vest stewards cheering at a 5th-anniversary finish point, gold balloons | over-ons, home, steun | L | ★★★ |
+| `volunteers/volunteers-orange-vests-selfie.jpg` | Tight joyful selfie of orange-vest volunteers in pink tinsel wigs, peace signs; blue sky | home, over-ons, steun | L | ★★ |
+| `volunteers/volunteers-park-gathering.jpg` | Child in inflatable butterfly wings + orange vest watches a busy pre-ride park gathering; KM QR cargo box | home, kalender, lokale-groepen | L | ★★★ |
+| `volunteers/volunteers-pink-vests-cinquantenaire.jpg` | Women stewards in pink vests laughing and waving as a ride passes under the Cinquantenaire arch | home, kalender, roze-hesjes | L | ★★★ |
+| `volunteers/volunteers-pink-vests-with-flag.jpg` | Stewards cheering and high-fiving along a Brussels street, one perched on a longtail bike, blue flag | home, roze-hesjes, lokale-groepen | P | ★★★ |
+
+### E. Team & organisers
+
+| File | Description | Best for | O | Q |
+|------|-------------|----------|---|---|
+| `team-kidical-mass.webp` | Four team members in pink vests behind a hand-painted cardboard cut-out of a child on a bike, holding KM flags; church + park | home, over-ons, start-een-groep | L | ★★★ |
+| `team-blue-sweatshirts-celebration.webp` | ~15 organisers in matching teal "More Kids on Bikes" sweatshirts cheering at dusk under festoon lights | over-ons, home, steun | L | ★★★ |
+| `team-more-kids-on-bikes-sweatshirts.webp` | Two members from behind showing the "More Kids on Bikes — since 2020 — BXL" sweatshirt print; evening | over-ons, home | L | ★★ |
+| `team-growfunding-poster-group-brussels.webp` | Team and families pose with colourful KM campaign posters in front of a Brussels growfunding storefront | over-ons, home, steun | L | ★★★ |
+| `team-merch-stand-tshirts-portrait.webp` | Bearded man in a blue KM cap by a rack of pink/blue branded t-shirts at an indoor market merch stand | steun, over-ons | P | ★★★ |
+
+### F. Signs, stickers, merch & print collateral
+
+| File | Description | Best for | O | Q |
+|------|-------------|----------|---|---|
+| `ride-trailer-protest-sign-fietspaden.webp` | Bike trailer carrying a hand-painted "Meer veilige fietspaden / Plus de pistes cyclables" sign + balloons as families ride away | over-ons, home, kalender | P | ★★★ |
+| `ride-protest-sign.webp` | Close-up of the bilingual "more safe cycle paths" protest sign on a balloon-decorated trailer | over-ons, steun, home | S | ★★ |
+| `flyer-2026-agenda-front-back.webp` | Hands holding the illustrated 2026 KM flyer (front + bilingual back), "Family bike rides for safer streets" | kalender, over-ons, steun | P | ★★★ |
+| `gilets-roses-mascot-sticker-bike.webp` | Holographic "I love Gilets Roses" mascot sticker applied to a sky-blue bike frame; bright sun | roze-hesjes, over-ons, steun | P | ★★★ |
+| `child-holds-bike-repair-sticker.webp` | Child's hands holding a glittery "Bike Repair / ABC Check #SafetyFirst" mascot sticker over a scooter | roze-hesjes, lokale-groepen, steun | P | ★★★ |
+| `sticker-gilets-roses-holographic.webp` | Detail of a holographic "I love Gilets Roses" sticker (helmeted character + dog in basket) | steun, roze-hesjes | P | ★★★ (niche) |
+| `sticker-radical-kindness-holographic.webp` | Detail of a holographic "Radical Kindness / Kidical Mass" sticker (character in a Belgian-flag cap) | steun, over-ons | P | ★★★ (niche) |
 
 ---
 

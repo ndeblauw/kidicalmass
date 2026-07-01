@@ -1,0 +1,361 @@
+@layer components {
+    /* RIDE GALLERY — a photo wall with an inline Alpine lightbox. Extracted from the chapter
+       page's "In beeld" section to be shared between the chapter page and the ride recap.
+       Class names: .ride-gallery* (grid + lightbox) and .ride-gallery__feature* (poster cell).
+
+       Up to md: two columns (the poster + optional slot pair cleanly, tiles stay generous).
+       Three columns from 64rem; four on the XL wall. The minmax(0, 1fr) tracks let
+       columns shrink below intrinsic width so a wide photo crops to fill instead of blowing
+       past the container. */
+    .ride-gallery__grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: calc(var(--spacing) * 5);
+        grid-auto-flow: row dense;
+    }
+    @media (min-width: 64rem) {
+        .ride-gallery__grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+    /* Two extra photos earn their place only on the wider XL wall. */
+    .ride-gallery__cell--xl {
+        display: none;
+    }
+    @media (min-width: 80rem) {
+        .ride-gallery__grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        .ride-gallery__cell--xl {
+            display: block;
+        }
+    }
+    /* Each photo tile is a square cell; images crop to fill it (object-fit). The poster
+       feature is taller, spanning two rows so it anchors the wall like an editorial lead. */
+    .ride-gallery__cell {
+        margin: 0;
+        aspect-ratio: 1 / 1;
+    }
+    .ride-gallery__cell--feature {
+        aspect-ratio: auto;
+        grid-row: span 2;
+    }
+    /* The optional in-grid slot (card slot), set into the wall: one column wide, a compact
+       square among the photo squares. On the XL wall it pins to the top-right corner (col 4). */
+    .ride-gallery__optin {
+        grid-column: span 1;
+        /* own stacking context so the daisy can tuck behind the card (z-index: -1)
+           without slipping behind the page itself */
+        position: relative;
+        z-index: 0;
+    }
+    /* The brand daisy peeking over the sky box: anchored to the card's top edge and lifted
+       so ~80% rises above it while ~20% stays behind the card. Shown only on the XL wall. */
+    .ride-gallery__sun {
+        display: none;
+    }
+    @media (min-width: 80rem) {
+        .ride-gallery__cell--feature {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
+        .ride-gallery__optin {
+            grid-column: 4;
+            grid-row: 1;
+        }
+        .ride-gallery__sun {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 2.5rem;
+            width: 13.2rem;
+            transform: translateY(-80%) rotate(12deg);
+            z-index: -1;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+    }
+
+    /* The poster — a full-bleed photo leading the wall. The ride's first photo fills the
+       tall feature cell (cropped to fill, clickable into the lightbox). A big title sits
+       top-right; the calendar tear-off (date it was) sits just beneath it. Scrims top and
+       bottom keep both clusters legible. */
+    .ride-gallery__feature {
+        position: relative;
+        height: 100%;
+        border-radius: var(--radius-card);
+    }
+    /* The photo — a button so the whole poster opens the lightbox; ::after is the scrim. */
+    .ride-gallery__feature-media {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: var(--radius-card);
+    }
+    .ride-gallery__feature-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .ride-gallery__feature-media:hover .ride-gallery__feature-bg,
+    .ride-gallery__feature-media:focus-visible .ride-gallery__feature-bg {
+        transform: scale(1.04);
+    }
+    /* Branded keyboard focus ring on the photo buttons (the scale alone reads as
+       hover, not focus). Offset so it sits clear of the rounded tile. */
+    .ride-gallery__feature-media:focus-visible,
+    .ride-gallery__tile:focus-visible {
+        outline: 0.15rem solid var(--color-kidical-red);
+        outline-offset: 0.25rem;
+    }
+    .ride-gallery__feature-media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(
+                to bottom,
+                color-mix(in oklab, var(--color-kidical-ink), transparent 35%) 0%,
+                transparent 32%
+            ),
+            linear-gradient(
+                to top,
+                color-mix(in oklab, var(--color-kidical-ink), transparent 8%) 0%,
+                color-mix(in oklab, var(--color-kidical-ink), transparent 45%) 30%,
+                transparent 62%
+            );
+    }
+    /* Title + calendar tear-off, clustered top-right over the scrim. */
+    .ride-gallery__feature-head {
+        position: absolute;
+        inset: calc(var(--spacing) * 5) calc(var(--spacing) * 5) auto;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: calc(var(--spacing) * 3);
+        pointer-events: none;
+    }
+    /* The title — a real heading, in the display face. */
+    .ride-gallery__feature-title {
+        margin: 0;
+        color: white;
+        text-align: right;
+        /* Hard offset shadow (no blur) in kidical-ink so the white title lifts off
+           the photo with a graphic, poster feel (same idiom as .home-hero__title). */
+        text-shadow: 3px 3px 0 color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+    }
+    /* Reuse the agenda's .ride-day__cal lockup; only add a drop shadow so the white
+       tear-off stays legible over the photo (the agenda sits on white and needs none). */
+    .ride-gallery__feature-cal {
+        margin-top: 0;
+    }
+    .ride-gallery__feature-cal .ride-day__rail {
+        box-shadow: 0 6px 18px color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+    }
+    .ride-gallery__tile {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: var(--radius-card);
+    }
+    /* "+N, all photos" overlay on the last tile when the wall is capped — signals the
+       gallery is a doorway to the full set. The whole tile is already a lightbox trigger. */
+    .ride-gallery__more {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2em;
+        text-align: center;
+        /* Scrim deep enough that the white "+N / Bekijk alle foto's" label keeps
+           AA contrast even over a bright photo (64% could fall below 4.5:1). */
+        background: color-mix(in srgb, var(--color-kidical-ink) 74%, transparent);
+        color: white;
+        font-family: var(--font-sans);
+        transition: background 0.3s ease;
+    }
+    .ride-gallery__tile:hover .ride-gallery__more,
+    .ride-gallery__tile:focus-visible .ride-gallery__more {
+        background: color-mix(in srgb, var(--color-kidical-ink) 82%, transparent);
+    }
+    .ride-gallery__more-count {
+        font-size: var(--text-2xl);
+        font-weight: 800;
+        line-height: 1;
+    }
+    .ride-gallery__more-label {
+        font-size: var(--text-sm);
+        font-weight: 600;
+    }
+    /* The photo crops to fill its square cell so the grid stays even. */
+    .ride-gallery__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .ride-gallery__tile:hover .ride-gallery__img,
+    .ride-gallery__tile:focus-visible .ride-gallery__img { transform: scale(1.04); }
+
+    /* "Bekijk de hele rit" link — shown when the gallery is embedded in a context that has
+       a dedicated ride recap page (e.g. the chapter wall). Token-backed blue link. */
+    .ride-gallery__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-top: calc(var(--spacing) * 5);
+        font-size: var(--text-base);
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+        background-image: none;
+        transition: opacity 0.15s ease;
+
+        &:hover {
+            opacity: 0.75;
+            background-image: none;
+        }
+    }
+
+    /* Lightbox overlay — above the fixed site header (z-index 60). */
+    .ride-gallery__lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: calc(var(--spacing) * 4);
+        background-color: color-mix(in srgb, var(--color-kidical-ink) 92%, transparent);
+        animation: lb-fade-in 0.2s ease-out;
+        /* Per-photo accent (rotates through the brand palette, set inline by Alpine)
+           and the directional slide distance for navigation. */
+        --lb-accent: var(--color-kidical-yellow);
+        --lb-slide: 1.75rem;
+    }
+    /* Launches from the clicked tile (origin set inline by Alpine), then settles. */
+    .ride-gallery__lb-figure {
+        margin: 0;
+        max-width: min(90vw, 60rem);
+        max-height: 86vh;
+        transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.34s ease-out;
+    }
+    .ride-gallery__lb-img {
+        width: 100%;
+        height: 100%;
+        max-height: 86vh;
+        object-fit: contain;
+        border-radius: var(--radius-card);
+        display: block;
+        /* Directional slide on next/prev — the parade rolling past. */
+        transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease-out;
+    }
+
+    /* Controls — circular, high-contrast hit areas (≥44px) that survive any
+       photo behind them; prev/next pinned to the edges so the image runs full
+       width instead of sharing a flex row. */
+    .ride-gallery__lb-close,
+    .ride-gallery__lb-nav {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: calc(var(--spacing) * 12);
+        height: calc(var(--spacing) * 12);
+        border: 0;
+        border-radius: 50%;
+        color: var(--color-kidical-ink);
+        background-color: var(--color-kidical-yellow);
+        cursor: pointer;
+        transition: background-color 0.18s ease-out, color 0.18s ease-out, transform 0.18s ease-out;
+        /* Arrive just after the photo on open (re-runs only when the overlay shows). */
+        animation: lb-pop-in 0.3s ease-out 0.08s both;
+    }
+    .ride-gallery__lb-close svg,
+    .ride-gallery__lb-nav svg {
+        width: calc(var(--spacing) * 6);
+        height: calc(var(--spacing) * 6);
+    }
+    .ride-gallery__lb-close {
+        top: calc(var(--spacing) * 4);
+        right: calc(var(--spacing) * 4);
+    }
+    .ride-gallery__lb-close:hover,
+    .ride-gallery__lb-close:focus-visible {
+        background-color: var(--color-kidical-red);
+        color: white;
+        transform: scale(1.1);
+    }
+    .ride-gallery__lb-nav {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .ride-gallery__lb-nav--prev { left: calc(var(--spacing) * 4); }
+    .ride-gallery__lb-nav--next { right: calc(var(--spacing) * 4); }
+    .ride-gallery__lb-nav:hover,
+    .ride-gallery__lb-nav:focus-visible {
+        background-color: var(--color-kidical-red);
+        color: white;
+        transform: translateY(-50%) scale(1.1);
+    }
+    /* Brand-yellow keyboard ring, distinct from the pink active fill. */
+    .ride-gallery__lb-close:focus-visible,
+    .ride-gallery__lb-nav:focus-visible {
+        outline: 0.15rem solid var(--lb-accent);
+        outline-offset: 0.2rem;
+    }
+
+    /* Counter — a yellow-on-ink pill, echoing the badge / date-rail language. */
+    .ride-gallery__lb-counter {
+        position: absolute;
+        bottom: calc(var(--spacing) * 5);
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 4);
+        background-color: color-mix(in srgb, var(--color-kidical-ink) 85%, transparent);
+        border-radius: var(--radius-card);
+        color: var(--lb-accent);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        transition: color 0.26s ease-out;
+    }
+
+    @keyframes lb-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes lb-pop-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .ride-gallery__img,
+        .ride-gallery__lightbox,
+        .ride-gallery__lb-figure,
+        .ride-gallery__lb-img { animation: none; transition: none; }
+        .ride-gallery__lb-close,
+        .ride-gallery__lb-nav { animation: none; transition: none; }
+    }
+}

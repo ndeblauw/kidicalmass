@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class GroupFactory extends Factory
 {
-    protected $model = Group::class;
-
     public function definition(): array
     {
         $startedAt = fake()->dateTimeBetween('2020-01-01', 'now');

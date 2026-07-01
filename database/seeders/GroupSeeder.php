@@ -31,7 +31,7 @@ class GroupSeeder extends Seeder
                 ['shortname' => 'brussel-stad', 'name' => 'Brussel Stad', 'zip' => '1000', 'started' => 2020],
                 ['shortname' => 'vorst', 'name' => 'Vorst', 'zip' => '1190', 'started' => 2021],
                 ['shortname' => 'anderlecht', 'name' => 'Anderlecht', 'zip' => '1070', 'started' => 2021],
-                ['shortname' => 'molenbeek', 'name' => 'Molenbeek', 'zip' => '1080', 'started' => 2021],
+                // ['shortname' => 'molenbeek', 'name' => 'Molenbeek', 'zip' => '1080', 'started' => 2021],
                 ['shortname' => 'jette', 'name' => 'Jette', 'zip' => '1090', 'started' => 2022],
                 ['shortname' => 'etterbeek', 'name' => 'Etterbeek', 'zip' => '1040', 'started' => 2022],
                 ['shortname' => 'ukkel', 'name' => 'Ukkel', 'zip' => '1180', 'started' => 2022],

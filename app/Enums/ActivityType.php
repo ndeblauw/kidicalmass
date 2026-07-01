@@ -19,6 +19,47 @@ enum ActivityType: string
         };
     }
 
+    /**
+     * Whether this activity is a family bike parade. Drives the activity-detail
+     * split: rides get the full ride layout (route map, pace promises, pink-vest
+     * ask); every other type gets the lighter "basic activity" page.
+     */
+    public function isRide(): bool
+    {
+        return $this === self::KIDICALMASS;
+    }
+
+    /**
+     * Public-site (NL) label for an activity type, used by the chapter page's
+     * "Ook in {gemeente}" chips. `label()` stays English for Filament/admin and
+     * form option arrays; this mirrors the NL fallbacks in <x-ride-row>.
+     */
+    public function labelNl(): string
+    {
+        return match ($this) {
+            self::KIDICALMASS => 'Fietsparade',
+            self::MEETING => 'Vergadering',
+            self::WORKSHOP => 'Workshop',
+            self::OTHER => 'Activiteit',
+        };
+    }
+
+    /**
+     * Accent colour for the calendar lockup (<x-ride-day>): rides read red,
+     * workshops green, meetings blue, anything else orange. Returns a CSS
+     * custom-property reference so it can be dropped straight into an inline
+     * `--ride-accent` declaration.
+     */
+    public function accentColor(): string
+    {
+        return match ($this) {
+            self::WORKSHOP => 'var(--color-kidical-green)',
+            self::MEETING => 'var(--color-kidical-blue)',
+            self::OTHER => 'var(--color-kidical-orange)',
+            self::KIDICALMASS => 'var(--color-kidical-red)',
+        };
+    }
+
     public function badgeColor(): string
     {
         return match ($this) {

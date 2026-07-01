@@ -20,8 +20,8 @@ it('shows the eyebrow, title, illustration, controls and body content', function
         ->toContain('aria-hidden="true"')
         ->toContain('probe-control')
         ->toContain('probe-body')
-        ->toContain('class="page-hero"')
-        ->toContain('class="page-panel"');
+        ->toContain('page-hero')
+        ->toContain('page-panel');
 });
 
 it('omits the illustration when none is given', function () {

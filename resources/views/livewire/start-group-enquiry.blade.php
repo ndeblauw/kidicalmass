@@ -62,10 +62,12 @@
                 @error('path')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
             </fieldset>
 
-            <button type="submit" class="about-cta__btn about-cta__btn--primary" wire:loading.attr="disabled" wire:target="submit">
+            <x-cta-button variant="blue" icon="arrow" block
+                          wire:click="submit"
+                          wire:loading.attr="disabled"
+                          wire:target="submit">
                 Verstuur
-                <span aria-hidden="true">→</span>
-            </button>
+            </x-cta-button>
 
             <p class="sg-form__reassure">Een echt mens leest dit en antwoordt je persoonlijk. Geen automatische mailbox.</p>
         </form>

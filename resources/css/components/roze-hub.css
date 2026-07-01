@@ -1,0 +1,367 @@
+@layer components {
+    /* The shell bar + sub-nav travel together and pin to the top on scroll. */
+    .roze-chrome {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: white;
+    }
+
+    /* === App-shell top bar ================================================ */
+    /* Calm white bar (NOT red) — a logged-in member workspace, not the
+       marketing megaphone. Red survives only as the role accent. */
+    .roze-shell-bar {
+        background: white;
+    }
+
+    .roze-shell-bar__inner {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.125rem;
+    }
+
+    .roze-shell-bar__logo {
+        flex: none;
+        display: inline-flex;
+    }
+
+    .roze-shell-bar__mark {
+        width: 2rem;
+        height: 2rem;
+        object-fit: contain;
+    }
+
+    .roze-shell-bar__context {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.4rem;
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: inherit;
+    }
+
+    .roze-shell-switch {
+        cursor: pointer;
+    }
+
+    .roze-shell-bar__place {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: var(--text-base);
+        letter-spacing: -0.01em;
+        color: var(--color-kidical-ink);
+    }
+
+    .roze-shell-bar__role {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        /* Brand red deepened toward ink so the text-sm/700 label clears WCAG AA
+           on white (plain --color-kidical-red is only ~3.9:1). Mirrors the
+           active sub-nav tab. */
+        color: color-mix(in oklab, var(--color-kidical-red), var(--color-kidical-ink) 25%);
+    }
+
+    .roze-shell-bar__account {
+        margin-left: auto;
+    }
+
+    /* === Hub sub-nav ====================================================== */
+    .roze-subnav {
+        background: white;
+        border-bottom: 1px solid var(--color-kidical-hairline);
+    }
+
+    .roze-subnav__list {
+        display: flex;
+        gap: 0.4375rem;
+        padding: 0.6875rem 1.125rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        list-style: none;
+        margin: 0;
+    }
+
+    .roze-subnav__list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .roze-subnav__tab {
+        flex: none;
+        white-space: nowrap;
+        text-decoration: none;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        padding: 0.375rem 0.8125rem;
+        border-radius: var(--radius-pill);
+        /* ink 65% — clears WCAG AA (4.5:1) for the text-sm/700 label on white. */
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        transition: color 0.18s var(--ease-brand), background 0.18s var(--ease-brand);
+    }
+
+    .roze-subnav__tab--active {
+        /* Brand red deepened toward ink so the label clears AA on its pale-pink
+           pill (plain --color-kidical-red on this tint is only ~3.5:1). */
+        color: color-mix(in oklab, var(--color-kidical-red), var(--color-kidical-ink) 25%);
+        background: color-mix(in oklab, var(--color-kidical-red), transparent 88%);
+    }
+
+    /* Branded keyboard focus for the chrome controls — matches the gallery
+       select + ride-gallery convention so the whole hub focuses consistently. */
+    .roze-subnav__tab:focus-visible,
+    .roze-subnav__beheer:focus-visible,
+    .roze-foot__home:focus-visible,
+    .roze-foot__help:focus-visible {
+        outline: 2px solid var(--color-kidical-red);
+        outline-offset: 2px;
+        border-radius: var(--radius-pill);
+    }
+
+    .roze-subnav__beheer {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        white-space: nowrap;
+        text-decoration: none;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        padding: 0.4375rem 0.9375rem;
+        border-radius: var(--radius-pill);
+        color: var(--color-kidical-ink);
+        background: color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
+    }
+
+    /* === Hub body ========================================================= */
+    /* ── Hub spacing rhythm ───────────────────────────────────────────────
+       Spacing is the one dimension the design system never tokenised, so every
+       hub card used to invent its own padding/gap (≈30 off-grid values). These
+       tokens make it a real scale — snapped to 4px steps, scoped to the hub
+       content (the chrome above keeps its own compact scale). Pick a role;
+       never hand-write an off-scale rem.
+         Gaps        --roze-gap-2xs .25  title→meta inside a lockup
+                     --roze-gap-xs  .5   icon gaps, tag rows, tight stacks
+                     --roze-gap-sm  .75  default list gap, header→content step
+                     --roze-gap-md  1    row-card inner gap (date rail → body)
+                     --roze-gap-lg  1.5  section gap, card grids
+                     --roze-gap-xl  2.5  space before a section title (page rhythm)
+         Card pad    --roze-pad-block    1.25         vertical content cards
+                     --roze-pad-row      1 1.25       row cards + notices
+                     --roze-pad-row-sm   .75 1        compact rows (tile, roster)
+         Pills/badges --roze-pad-pill    .2 .6        every caps-label chip
+       ───────────────────────────────────────────────────────────────────── */
+    .roze-hub-body {
+        --roze-gap-2xs: 0.25rem;
+        --roze-gap-xs: 0.5rem;
+        --roze-gap-sm: 0.75rem;
+        --roze-gap-md: 1rem;
+        --roze-gap-lg: 1.5rem;
+        --roze-gap-xl: 2.5rem;
+        --roze-pad-block: 1.25rem;
+        --roze-pad-row: 1rem 1.25rem;
+        --roze-pad-row-sm: 0.75rem 1rem;
+        --roze-pad-pill: 0.2rem 0.6rem;
+
+        padding: 2rem 1.125rem 1.5rem;
+    }
+
+    /* ── Roze-hub type system ─────────────────────────────────────────────
+       Mirrors the marketing scale (few sizes, few weights, one role each),
+       but the hub is a calm member workspace, so it splits headings across
+       two faces instead of one. Pick a role below; never invent a font-size.
+
+       Exactly THREE title sizes and THREE body sizes hold across the whole hub
+       — the chrome below folds into them too, no separate chrome scale.
+
+       Titles — four sizes, weight 800 (Caprasimo headings) or 700/800 (Nunito
+       card/row titles); cards & rows read as workspace, not megaphone:
+         • XLarge  var(--text-3xl) — page/tab title .roze-hub-title
+         • Large   var(--text-2xl) — section heading one level below the page title
+                                     (.roze-hub-subtitle, .roze-onboarding__sub,
+                                     .roze-agenda__label); date numerals
+         • Medium  var(--text-xl)  — card title .roze-card-title (800 — matches the
+                                     card's text-xl body, so weight not size marks it
+                                     as the title); step numeral
+         • Small   var(--text-base) — row title .roze-row-title (700), the gallery
+                                      picker, and the shell place label
+       Body — Nunito Sans, weight 400, three tiers (marketing's Lead/Body/Meta):
+         • Body/Lead       inherited var(--text-xl) — prose, .roze-hub-lead
+         • Small           var(--text-sm) — captions, roles, hints, descriptions,
+                                            and the shell/sub-nav chrome labels
+         • Micro           var(--text-xs) — caps labels, badges, flags
+       Weights are 400, 700, or 800 only — never 500/600.
+       ───────────────────────────────────────────────────────────────────── */
+    .roze-hub-title {
+        margin: 0;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+        font-size: var(--text-3xl);
+    }
+
+    /* One tier below the page title — for a page (like the overview) built from
+       several sections rather than a single titled tab. Same face + margin as
+       .roze-hub-title so section spacing is unchanged; only the size steps down. */
+    .roze-hub-subtitle {
+        margin: 0;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+        font-size: var(--text-2xl);
+    }
+
+    .roze-hub-lead {
+        margin: 0.375rem 0 1.25rem;
+        max-width: 48rem;
+        line-height: 1.5;
+        color: var(--color-text-body);
+    }
+
+    .roze-card-title {
+        font-family: var(--font-sans);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+    }
+
+    .roze-row-title {
+        display: block;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: var(--text-base);
+        line-height: 1.2;
+        color: var(--color-kidical-ink);
+    }
+
+    /* Desktop: slim text row sub-nav + centered single column. */
+    @media (min-width: 48rem) {
+        .roze-subnav__list {
+            max-width: 47.5rem;
+            margin: 0 auto;
+            height: 3.5rem;
+            gap: 1.75rem;
+            padding: 0 1.5rem;
+            overflow-x: visible;
+            align-items: stretch;
+        }
+
+        .roze-shell-bar__inner {
+            max-width: 47.5rem;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .roze-subnav__tab {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 0.125rem;
+            border-radius: 0;
+            background: none;
+            border-bottom: 3px solid transparent;
+            /* ink 65% — clears AA for the text-sm/700 desktop label. */
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        }
+
+        .roze-subnav__tab:hover {
+            color: var(--color-kidical-red);
+        }
+
+        .roze-subnav__tab--active {
+            color: var(--color-kidical-ink);
+            background: none;
+            border-bottom-color: var(--color-kidical-yellow);
+        }
+
+        .roze-subnav__beheer {
+            margin-left: auto;
+            align-self: center;
+        }
+
+        .roze-hub-body {
+            max-width: 47.5rem;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .roze-subnav__tab {
+            transition: none;
+        }
+    }
+
+    /* === Slim member footer ===============================================
+       Replaces the public marketing footer on hub pages (via the layout's
+       $footer slot). A calm way back to the public site + a help hand-off —
+       no carnival band, no "Steun ons" megaphone for already-joined hesjes.
+       No margin-top: the layout's flex-1 <main> already pins this to the
+       viewport bottom on short pages, and an extra margin would overflow it. */
+    .roze-foot {
+        border-top: 1px solid var(--color-kidical-hairline);
+        background: white;
+    }
+
+    .roze-foot__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+        max-width: 47.5rem;
+        margin: 0 auto;
+        padding: 1.25rem 1.125rem;
+        font-size: var(--text-sm);
+    }
+
+    .roze-foot__home {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        color: var(--color-kidical-ink);
+    }
+
+    .roze-foot__home svg {
+        flex: none;
+        color: var(--color-kidical-red);
+        transition: transform 0.18s var(--ease-brand);
+    }
+
+    .roze-foot__home:hover svg {
+        transform: translateX(-3px);
+    }
+
+    .roze-foot__meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.85rem;
+    }
+
+    .roze-foot__place {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 38%);
+    }
+
+    .roze-foot__help {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        color: var(--color-kidical-ink);
+    }
+
+    @media (min-width: 48rem) {
+        .roze-foot__inner {
+            padding: 1.5rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .roze-foot__home svg {
+            transition: none;
+        }
+    }
+}

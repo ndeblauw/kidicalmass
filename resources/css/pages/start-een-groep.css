@@ -7,77 +7,340 @@
  */
 
 @layer components {
-    /* DE DEAL — jij brengt / wij dragen, side by side on wide viewports. */
-    .sg-deal {
-        margin-block: 4rem;
-    }
-
-    .sg-deal__title {
-        margin-bottom: 2rem;
-    }
-
-    .sg-deal__cols {
+    /* INTRO — opening copy with the "start" CTA beside it. On mobile the button
+       stacks under the copy; from md it moves into a second column, centred (both
+       axes) in that empty column next to the intro text. */
+    .sg-intro {
         display: grid;
-        gap: 2rem;
+        gap: 1.5rem;
     }
 
-    @media (min-width: 768px) {
-        .sg-deal__cols {
+    .sg-intro__action {
+        justify-self: center;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-intro {
             grid-template-columns: 1fr 1fr;
-            align-items: start;
+            align-items: center;
+            column-gap: clamp(2rem, 5vw, 4rem);
+        }
+
+        .sg-intro__action {
+            place-self: center;
         }
     }
 
-    /* WAT HET ÉCHT VRAAGT — the honest filter. Plain, calm, no card. */
-    .sg-asks {
+    /* DRIE SECTIES — simple alternating two-column lockups (collage + text),
+       vertically centred, height driven by the content. Order alternates
+       collage-text / text-collage / collage-text via the --reverse modifier.
+       Static scattered collage (1:1 stage, percentage-placed rotated photos);
+       no sticky, no crossfade. */
+    .sg-story {
+        display: grid;
+        gap: clamp(3rem, 7vw, 5.5rem);
         margin-block: 4rem;
     }
 
+    .sg-story__row {
+        display: grid;
+        gap: 2.5rem;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-story__row {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: clamp(2.5rem, 5vw, 4.5rem);
+        }
+
+        /* alternate: the reverse row places the text left, collage right */
+        .sg-story__row--reverse .sg-story__collage { order: 2; }
+        .sg-story__row--reverse .sg-story__text { order: 1; }
+    }
+
+    .sg-story__collage {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        /* let the rotated photos spill slightly past the square stage */
+        overflow: visible;
+    }
+
+    /* Each photo is centred on its (x,y) via `translate`, leaving `transform`
+       free for the resting rotation. */
+    .sg-story__photo {
+        position: absolute;
+        top: var(--photo-y);
+        left: var(--photo-x);
+        width: var(--photo-w);
+        margin: 0;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        box-shadow: 0 18px 45px -14px color-mix(in oklab, var(--color-kidical-ink), transparent 52%);
+        translate: -50% -50%;
+        transform: rotate(var(--photo-r));
+    }
+
+    .sg-story__photo img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: center 30%;
+    }
+
+    /* Three distinct scatters so the sections don't read as the same frame thrice. */
+    .sg-story__collage--a .sg-story__photo--lead  { --photo-w: 52%; --photo-x: 31%; --photo-y: 26%; --photo-r: -6deg; z-index: 1; }
+    .sg-story__collage--a .sg-story__photo--trail { --photo-w: 48%; --photo-x: 74%; --photo-y: 45%; --photo-r: 6deg;  z-index: 2; }
+    .sg-story__collage--b .sg-story__photo--lead  { --photo-w: 50%; --photo-x: 68%; --photo-y: 29%; --photo-r: 5deg;  z-index: 2; }
+    .sg-story__collage--b .sg-story__photo--trail { --photo-w: 53%; --photo-x: 36%; --photo-y: 56%; --photo-r: -7deg; z-index: 1; }
+    .sg-story__collage--c .sg-story__photo--lead  { --photo-w: 50%; --photo-x: 33%; --photo-y: 30%; --photo-r: 5deg;  z-index: 2; }
+    .sg-story__collage--c .sg-story__photo--trail { --photo-w: 50%; --photo-x: 70%; --photo-y: 53%; --photo-r: -6deg; z-index: 1; }
+
+    /* WAT HET ÉCHT VRAAGT — slide 3 lead + list (honest filter). */
     .sg-asks__lead {
         max-width: 42rem;
         margin-bottom: 1.5rem;
     }
 
-    .sg-asks__list,
-    .sg-support__list {
+    /* Red chevron bullets = something expected of you — the same "ask" chip as the
+       Deal's "Wat jij brengt" column (<x-titled-list-block variant="ask">), so the
+       page speaks one bullet language. */
+    .sg-asks__list {
         display: grid;
-        gap: 0.75rem;
-        padding-left: 1.25rem;
-        list-style: disc;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
     }
 
-    /* ER IS ANIMO — proof band on the brand light-blue. */
+    .sg-asks__list li {
+        position: relative;
+        padding-left: 2.9rem;
+        line-height: 1.4;
+    }
+
+    .sg-asks__list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.1em;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 32%;
+        transform: rotate(-4deg);
+        background-color: var(--color-kidical-red);
+        background-size: 64%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6l6 6-6 6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    /* ER IS ANIMO — the wide crowd photo beside the light-blue animo card.
+       Replaces the editorial gallery; sits before the FAQ. */
     .sg-proof {
-        margin-block: 4rem;
-        padding: 3rem 2rem;
-        border-radius: var(--radius-card);
+        margin-block: 4rem 3rem;
+    }
+
+    .sg-proof__layout {
+        display: grid;
+        gap: calc(var(--spacing) * 3);
+        align-items: stretch;
+    }
+
+    @media (min-width: 48rem) {
+        .sg-proof__layout {
+            grid-template-columns: 7fr 5fr;
+            gap: calc(var(--spacing) * 4);
+        }
+    }
+
+    .sg-proof__photo {
+        margin: 0;
+        overflow: hidden;
+        border-radius: calc(var(--radius-card) - 0.25rem);
+    }
+
+    .sg-proof__photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+    }
+
+    /* The animo card is now itself the light-blue block. */
+    .sg-proof__animo-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        height: 100%;
         background-color: var(--color-kidical-light-blue);
-        text-align: center;
+        border-radius: calc(var(--radius-card) - 0.25rem);
     }
 
-    .sg-proof__lead {
-        max-width: 44rem;
-        margin-inline: auto;
+    /* VEELGESTELDE VRAGEN — stays inside the page container so the content's left
+       edge lines up with every other section (no full-bleed gutter). The
+       illustration sits in a capped right column and slides in from the right. */
+    .sg-faq-section {
+        margin-block: 4rem 0;
+        padding-block: clamp(3rem, 6vw, 5rem);
+    }
+
+    .sg-faq-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+
+    .sg-faq__title {
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--color-kidical-red);
+        margin-bottom: 1.5rem;
+    }
+
+    .sg-faq-illustration {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .sg-faq-layout {
+            grid-template-columns: minmax(0, 38rem) minmax(0, 20rem);
+            justify-content: space-between;
+            column-gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
+        }
+
+        .sg-faq-illustration {
+            display: block;
+            /* clip the slide-in horizontally only, so a negative top margin can lift
+               the artwork up past its box without being cut off */
+            overflow-x: clip;
+        }
+
+        .sg-faq-illustration img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 463 / 445;
+            object-fit: contain;
+            transform: translateX(135%);
+            opacity: 0;
+            transition:
+                transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.5s ease;
+            will-change: transform;
+        }
+
+        .sg-faq-illustration.is-in img {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* From lg the illustration fills more of its column and lifts up a touch so it
+       slightly overlaps the light-blue "Er is animo" box above. */
+    @media (min-width: 64rem) {
+        .sg-faq-layout {
+            grid-template-columns: minmax(0, 36rem) minmax(0, 30rem);
+            align-items: start;
+        }
+
+        .sg-faq-illustration {
+            margin-top: -6rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sg-faq-illustration img {
+            transform: none;
+            opacity: 1;
+            transition: none;
+        }
+    }
+
+    /* INTENT-FORM — the climax. Full-bleed yellow band fused with the footer
+       (rendered in the layout's `closing` slot). A white card floats on it;
+       two columns on desktop, welcome text left (vertically centred), form right. */
+    .sg-cta {
+        position: relative;
+        z-index: 10;
+        background-color: var(--color-kidical-yellow);
+        padding-block: clamp(4rem, 7vw, 6.5rem);
+        scroll-margin-top: 6rem;
+    }
+
+    .sg-cta__aside h2 {
+        font-size: clamp(var(--text-4xl), 3.5vw, var(--text-5xl));
+        line-height: 1.1;
+    }
+
+    .sg-cta__aside p {
         margin-top: 1rem;
+        max-width: 36ch;
     }
 
-    /* JE STAAT ER NIET ALLEEN VOOR */
-    .sg-support {
-        margin-block: 4rem;
+    /* The form (and its success state) is the white floating card on the yellow. */
+    .sg-cta .volunteer-signup__form,
+    .sg-cta .volunteer-signup__success {
+        background: white;
+        border-radius: var(--radius-card);
+        padding: clamp(1.5rem, 3.5vw, 2.25rem);
+        box-shadow: 0 22px 50px -28px color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
 
-    .sg-support__list {
-        margin-top: 1.5rem;
+    @media (min-width: 64rem) {
+        .sg-cta__panel {
+            display: grid;
+            grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+            gap: clamp(2rem, 4vw, 3.5rem);
+            align-items: center;
+        }
+
+        .sg-cta__aside {
+            order: 1;
+        }
+
+        .sg-cta__form-col {
+            order: 2;
+        }
     }
 
-    /* INTENT-FORM — the climax. */
-    .sg-form {
-        margin-block: 4rem 2rem;
-        max-width: 40rem;
+    .sg-cta__secondary {
+        margin-top: 2rem;
+        text-align: center;
+        font-size: var(--text-sm);
     }
 
-    .sg-form__lead {
-        margin-block: 1rem 2rem;
+    /* Volunteer mascot — sits directly above the "Zin om te beginnen?" title and
+       pulls the eye down into it. In normal flow above the heading (title ~5rem
+       below), but lifted with a negative top margin so it dips up out of the yellow
+       band into the white above. */
+    .sg-cta__mascot {
+        display: block;
+        width: clamp(16rem, 24vw, 24rem);
+        height: auto;
+        margin-top: -7rem;
+        margin-bottom: 5rem;
+        transform: rotate(-8deg);
+        pointer-events: none;
+    }
+
+    @media (min-width: 64rem) {
+        /* Top-anchor the aside so the mascot rides at the band's top edge (and dips
+           into the white), rather than floating mid-band against the tall form. */
+        .sg-cta__aside {
+            align-self: start;
+        }
+
+        .sg-cta__mascot {
+            margin-top: -9rem;
+        }
     }
 
     /* Two-path comfort choice (radio group). */

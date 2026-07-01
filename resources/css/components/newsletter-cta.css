@@ -1,0 +1,116 @@
+@layer components {
+    /* Rounded shoulder: the band lifts into the white section above, giving the chips
+       a ledge to sit on instead of a hard seam. */
+    .newsletter-cta {
+        border-start-start-radius: 2.75rem;
+        border-start-end-radius: 2.75rem;
+    }
+
+    /* The shoulder's corner notches expose whatever sits behind the band. On the home
+       page that's a fixed blue backdrop (the hero parallax), so the corners would bleed
+       blue. A square white filler behind the band's top edge keeps the shoulder reading
+       against white on every page, whatever the backdrop. */
+    .newsletter-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 2.75rem;
+        background: white;
+        z-index: -1;
+    }
+
+    /* A little fleet of envelope chips clustered on the shoulder, centred on the band's
+       top edge so each one straddles the white/yellow seam. */
+    .newsletter-cta__chips {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        /* Sit the cluster astride the seam: centred on the top edge, then nudged down so
+           a good half of each chip rests on the yellow. */
+        transform: translate(-50%, calc(-50% + 1.9rem));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .newsletter-cta__chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: var(--radius-chip);
+        color: white;
+        box-shadow: var(--shadow-card);
+        transform: rotate(var(--chip-rotate, 0deg));
+        transition:
+            transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .newsletter-cta__chip svg {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    /* Slight overlap so they read as one cheerful pile, with the centre chip popped up
+       and a touch larger as the hero of the cluster. */
+    .newsletter-cta__chip:not(:first-child) {
+        margin-left: -0.65rem;
+    }
+
+    .newsletter-cta__chip--green {
+        --chip-rotate: -10deg;
+        background: var(--color-kidical-green);
+    }
+
+    .newsletter-cta__chip--red {
+        --chip-rotate: 3deg;
+        background: var(--color-kidical-red);
+        width: 5rem;
+        height: 5rem;
+        margin-top: -0.7rem;
+        z-index: 1;
+    }
+
+    .newsletter-cta__chip--blue {
+        --chip-rotate: 11deg;
+        background: var(--color-kidical-blue);
+    }
+
+    /* Gentle settle-in: each chip rises and fades as the band scrolls into view,
+       staggered left to right. Gated on is-ready so the chips are always visible
+       without JS; neutralised for reduced motion below. */
+    .newsletter-cta.is-ready .newsletter-cta__chip {
+        opacity: 0;
+        transform: translateY(1.1rem) scale(0.9) rotate(var(--chip-rotate, 0deg));
+    }
+
+    .newsletter-cta.is-ready.is-inview .newsletter-cta__chip {
+        opacity: 1;
+        transform: rotate(var(--chip-rotate, 0deg));
+    }
+
+    .newsletter-cta.is-ready.is-inview .newsletter-cta__chip:nth-child(2) {
+        transition-delay: 90ms;
+    }
+
+    .newsletter-cta.is-ready.is-inview .newsletter-cta__chip:nth-child(3) {
+        transition-delay: 180ms;
+    }
+
+    .newsletter-cta__lead {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    }
+}
+
+/* Quiet for motion-sensitive users: the chips simply sit at rest, no rise or fade. */
+@media (prefers-reduced-motion: reduce) {
+    .newsletter-cta.is-ready .newsletter-cta__chip {
+        opacity: 1;
+        transform: rotate(var(--chip-rotate, 0deg));
+        transition: none;
+    }
+}

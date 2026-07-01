@@ -30,5 +30,5 @@ it('points the home closing-CTA at membership, not the groups index', function (
 
     $response->assertOk();
     $response->assertSee(route('membership'), false);
-    $response->assertSee('Word lid');
+    $response->assertSee('Steun ons');
 });

@@ -1,11 +1,6 @@
 {{--
     Over ons / Pers — /about/press (P-19)
-    Built 2026-06-03 to the DESIGN.md kit. A credibility leaf, built contact-forward and
-    HONEST: there is no Press model/table yet and the legacy outlet URLs are unverified, so
-    we ship the press contact + an honest empty state rather than fabricating coverage
-    (see D-11 / about-journey.md). Register a notch more serious (ToV).
     Colour story: blue → white → light-blue → white. Structure only.
-    Plan: docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md
 --}}
 <x-layouts::site title="Pers">
 
@@ -31,8 +26,7 @@
             </x-info-card>
         </div>
 
-        {{-- Eerder in de media — alleen waarheidsgetrouwe titelnamen, geen verzonnen
-             links of koppen. Het gelinkte archief volgt met een Press-model (zie D-11). --}}
+        {{-- Eerder in de media --}}
         <div class="about-press__outlets">
             <span class="about-press__outlets-label">Eerder verschenen in</span>
             <ul role="list">
@@ -46,13 +40,50 @@
         </div>
     </section>
 
-    {{-- PERSOVERZICHT — honest empty state (no Press model yet, see D-11) --}}
+    {{-- PERSOVERZICHT --}}
     <section class="about-band about-band--light-blue">
         <div class="container mx-auto px-4">
-            <div class="about-empty">
-                <h2 class="about-empty__title">We bouwen aan een persoverzicht</h2>
-                <p>Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via <a href="mailto:bike@kidicalmass.be">bike@kidicalmass.be</a>.</p>
-            </div>
+            @if ($articlesByYear->isNotEmpty())
+                @foreach ($articlesByYear as $year => $articles)
+                    <h2 class="about-press__year">{{ $year }}</h2>
+                    <ul class="about-press__list" role="list">
+                        @foreach ($articles as $article)
+                            <li class="about-press__item">
+                                <span class="about-press__item-outlet">{{ $article->outlet }}</span>
+                                <span class="about-press__item-date">— {{ $article->published_at->isoFormat('D MMMM YYYY') }}</span>
+                                @if ($article->url)
+                                    <a href="{{ $article->url }}" target="_blank" rel="noopener noreferrer" class="about-press__item-title">
+                                @else
+                                    <span class="about-press__item-title">
+                                @endif
+                                    {{ $article->title }}
+                                @if ($article->url)
+                                    </a>
+                                @else
+                                    </span>
+                                @endif
+                                @if ($article->getFirstMedia('document'))
+                                    <a href="{{ $article->getFirstMediaUrl('document') }}" target="_blank" class="about-press__item-document" rel="noopener noreferrer">
+                                        {{-- PDF / scan indicator --}}
+                                        <svg class="about-press__item-document-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                            <polyline points="14 2 14 8 20 8"/>
+                                            <line x1="16" y1="13" x2="8" y2="13"/>
+                                            <line x1="16" y1="17" x2="8" y2="17"/>
+                                        </svg>
+                                        Artikel
+                                    </a>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @endforeach
+            @else
+                <div class="about-empty">
+                    <h2 class="about-empty__title">We bouwen aan een persoverzicht</h2>
+                    <p>Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via <a href="mailto:bike@kidicalmass.be">bike@kidicalmass.be</a>.</p>
+                </div>
+            @endif
         </div>
     </section>
 

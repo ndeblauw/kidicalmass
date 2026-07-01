@@ -15,8 +15,6 @@ class ArticleFactory extends Factory
 {
     use AttachesMediaFromCache;
 
-    protected $model = Article::class;
-
     public function definition(): array
     {
         return [
@@ -31,6 +29,10 @@ class ArticleFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Article $article) {
+            if (app()->environment('testing')) {
+                return;
+            }
+
             $this->attachImages($article);
         });
     }

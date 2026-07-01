@@ -18,7 +18,7 @@
 
         {{-- PROVIDERS --}}
         <section class="space-y-4">
-            <ul role="list" class="grid gap-6 sm:grid-cols-2">
+            <ul role="list" class="grid gap-8 sm:grid-cols-2">
                 <li class="space-y-1">
                     <h2>Kidical Mouse</h2>
                     <p><small>Sommige Brusselse ritten</small></p>

@@ -48,3 +48,41 @@ function something()
 {
     // ..
 }
+
+/*
+|--------------------------------------------------------------------------
+| Datasets
+|--------------------------------------------------------------------------
+*/
+
+// Every no-parameter public (NL) page. The route list lives here once and feeds
+// both the 200-smoke test and the tone-of-voice guard.
+$publicRoutes = [
+    '/nl',
+    '/nl/events',
+    '/nl/chapters',
+    '/nl/help-out',
+    '/nl/getting-started',
+    '/nl/find-a-bike',
+    '/nl/about',
+    '/nl/about/mission',
+    '/nl/about/vision',
+    '/nl/about/organisation',
+    '/nl/about/news',
+    '/nl/about/press',
+    '/nl/about/partners',
+    '/nl/steun-ons',
+    '/nl/contact',
+    '/nl/privacy',
+    '/nl/nieuwsbrief',
+    '/nl/nieuwsbrief/bevestigd',
+];
+
+dataset('public routes', $publicRoutes);
+
+// Pages still served by the <x-stub> placeholder are intentionally unfinished and
+// carry the "Stub —" banner, so the finished-page tone guard skips them. Drop a
+// route from this list once its real content lands.
+$stubRoutes = ['/nl/contact', '/nl/privacy'];
+
+dataset('finished public routes', array_values(array_diff($publicRoutes, $stubRoutes)));

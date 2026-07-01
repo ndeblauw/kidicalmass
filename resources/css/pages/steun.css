@@ -66,52 +66,39 @@
         margin-bottom: 0.5rem;
         animation: check-pop 0.45s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
-    .steun-mission {
-        max-width: 48rem;
+    /* ── Body type: exactly three tiers across this page ──────────────
+       Tier 1 · intro  — the mission opener (intro-text scale)
+       Tier 2 · body   — readable paragraphs (proof, ask, funds, cta sub)  → --text-lg / 1.6
+       Tier 3 · meta   — fine print (credits, notes)                       → --text-sm / 1.55
+       Headings keep the @layer base scale; only the colour adapts to the band. */
+    .steun-story {
         margin-top: clamp(2.5rem, 5vw, 4rem);
     }
-    .steun-mission__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
-        line-height: 1.1;
-        color: var(--color-kidical-ink);
+    /* The mission lead and the proof text are one column: same left edge, same
+       width, stacked with a generous gap between them. */
+    .steun-story__text {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(2rem, 5vw, 3.5rem);
     }
     .steun-mission__body {
-        margin-top: 1rem;
-        font-size: var(--text-lg);
-        line-height: 1.6;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
+        font-size: clamp(var(--text-xl), 2.25vw, var(--text-3xl));
+        line-height: 1.55;
+        color: var(--color-text-body);
     }
-    .steun-proof {
-        margin-top: clamp(3rem, 6vw, 5rem);
-    }
-    .steun-proof__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
-        line-height: 1.1;
-        color: var(--color-kidical-ink);
-    }
-    .steun-proof__body {
+    .steun-story__body {
         margin-top: 1rem;
         max-width: 46rem;
-        font-size: var(--text-lg);
+        font-size: var(--text-xl);
         line-height: 1.6;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 8%);
-    }
-
-    .steun-proof__credit {
-        margin-top: 2.25rem;
-        font-size: var(--text-sm);
-        line-height: 1.6;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 32%);
+        color: var(--color-text-body);
     }
 
     /* Stat-card deck — mobile: a slightly tilted vertical list. */
     .steun-proof__deck {
         display: flex;
         flex-direction: column;
+        align-items: stretch; /* all stacked cards share the same column width */
         gap: 1.5rem;
         margin-top: 2.25rem;
     }
@@ -122,33 +109,43 @@
         .steun-proof__card:nth-child(3) { transform: rotate(-1deg); }
     }
 
-    /* lg+: two columns; the cards become an overlapping, fanned deck on the right. */
+    /* lg+: text column on the left, the fanned stat deck top-aligned on the right. */
     @media (min-width: 64rem) {
-        .steun-proof {
+        .steun-story {
             display: grid;
             grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
             gap: clamp(2.5rem, 5vw, 4.5rem);
-            align-items: center;
+            align-items: start;
         }
 
         .steun-proof__deck {
             position: relative;
             display: block;
-            height: 40.5rem;
+            height: 29rem;
             margin-top: 0;
         }
 
+        /* Give every card a known height so the step below clears its label —
+           no number or caption is ever covered. */
+        .steun-proof__card {
+            min-height: 10rem;
+        }
+
+        /* Fanned deck: each card steps down AND to the right so its top-left
+           number stays clear of the card below it — all three values read. */
         .steun-proof__card {
             position: absolute;
             top: 0;
             left: 0;
-            width: min(100%, 27.5rem);
+            width: min(100%, 19rem);
             transform: translate(var(--cx), var(--cy)) rotate(var(--cr));
         }
 
-        .steun-proof__card:nth-child(1) { --cx: 1rem; --cy: 0;       --cr: -2deg;  z-index: 1; }
-        .steun-proof__card:nth-child(2) { --cx: 2rem; --cy: 8.25rem; --cr: 1.5deg; z-index: 2; }
-        .steun-proof__card:nth-child(3) { --cx: 0;    --cy: 16.5rem; --cr: -1deg;  z-index: 3; }
+        /* Steps: red→green clears the red card's two-line label; green→blue can
+           be tighter because "ritten per jaar" is a single line. */
+        .steun-proof__card:nth-child(1) { --cx: 0;    --cy: 0;       --cr: -4deg; z-index: 1; }
+        .steun-proof__card:nth-child(2) { --cx: 3rem; --cy: 10.5rem; --cr: 2deg;  z-index: 2; }
+        .steun-proof__card:nth-child(3) { --cx: 6rem; --cy: 18.5rem; --cr: -2deg; z-index: 3; }
 
         /* One-shot reveal: start a touch lower + faded, settle into the deck on scroll-in. */
         .steun-proof__deck--anim .steun-proof__card {
@@ -177,6 +174,17 @@
         margin-top: 0.5rem;
         animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
     }
+    .steun-hero__cta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 1rem;
+    }
+    .steun-hero__cta-note {
+        font-size: var(--text-sm);
+        line-height: 1.55;
+        color: var(--color-kidical-light-blue);
+    }
     .steun-hero__circle {
         background-color: var(--color-kidical-light-blue);
         display: flex;
@@ -188,135 +196,30 @@
         height: 80%;
         object-fit: contain;
     }
-    .steun-funds__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
-        color: var(--color-kidical-ink);
-        margin-bottom: 2rem;
+    /* Wat jouw steun mogelijk maakt — content left, organiser collage right.
+       Single column on mobile (content, then collage); two columns from lg. */
+    .steun-funds {
+        margin-top: clamp(2.5rem, 5vw, 4rem);
     }
-    .steun-funds__grid {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .steun-funds__inner {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-
-        @media (min-width: 768px) {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-    .steun-funds__grid .activity-promises__item:nth-child(3) {
-        transform: rotate(-1deg);
-    }
-    .steun-ask {
-        margin-top: clamp(3rem, 6vw, 5rem);
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-
-        @media (min-width: 768px) {
-            grid-template-columns: 1.5fr 1fr;
-            gap: 2rem;
-            align-items: stretch;
-        }
-    }
-    .steun-ask__card {
-        padding: 2.25rem;
-        border-radius: 1.5rem;
-        background-color: white;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transform: rotate(-1deg);
-    }
-    .steun-ask__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-2xl);
-        color: var(--color-kidical-ink);
-    }
-    .steun-ask__body {
-        margin-top: 0.5rem;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 15%);
-    }
-    .steun-ask__cta {
-        margin-top: 1.5rem;
-        display: inline-flex;
+        gap: clamp(2.5rem, 5vw, 4rem);
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.95rem 1.75rem;
-        border-radius: 9999px;
-        background-color: var(--color-kidical-yellow);
-        background-image: none;
-        color: var(--color-kidical-ink);
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        transition: transform 0.2s, filter 0.2s;
-
-        &:hover {
-            background-image: none;
-            filter: brightness(1.05);
-            transform: translateY(-1px);
+    }
+    @media (min-width: 64rem) {
+        .steun-funds__inner {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
         }
     }
-    .steun-ask__cta-icon {
-        width: 1.2rem;
-        height: 1.2rem;
-        color: var(--color-kidical-red);
-    }
-    .steun-ask__cta-ext {
-        width: 1rem;
-        height: 1rem;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
-    }
-    .steun-ask__where {
-        margin-top: 1.25rem;
-        font-size: var(--text-sm);
-        line-height: 1.55;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-    }
-    .steun-ask__note {
-        margin-top: 0.75rem;
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
-    }
-    .steun-ask__tiers {
-        display: inline-block;
-        margin-top: 1rem;
-        font-weight: 700;
-        color: var(--color-kidical-blue);
-        background-image: none;
-
-        &:hover {
-            background-image: none;
-            text-decoration: underline;
-        }
-    }
-    .steun-ask__free {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 2.25rem;
-        border-radius: 1.5rem;
-        background-color: var(--color-kidical-light-blue);
-        transform: rotate(1deg);
-    }
-    .steun-ask__free-title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-ink);
-    }
-    .steun-ask__free-body {
-        margin-top: 0.5rem;
-        color: var(--color-kidical-ink);
-    }
+    /* Two organiser photos, offset and overlapping like the other collages. */
+    .steun-funds__collage .photo-collage__photo:nth-child(1) { --pc-x: 38%; --pc-y: 33%; --pc-w: 42%; --pc-r: -5deg; }
+    .steun-funds__collage .photo-collage__photo:nth-child(2) { --pc-x: 63%; --pc-y: 66%; --pc-w: 39.9%; --pc-r: 4deg; }
+    /* Closing donate band — rendered in the layout's `closing` slot (outside the
+       white panel), so it spans full width and butts straight onto the footer. */
     .steun-cta {
         width: 100vw;
         margin-left: calc(50% - 50vw);
-        margin-top: clamp(3rem, 6vw, 5rem);
-        margin-bottom: calc(var(--spacing) * -8);
         background: var(--color-kidical-yellow);
         overflow: hidden;
     }
@@ -329,8 +232,17 @@
         margin-bottom: 1rem;
     }
     .steun-cta__sub {
+        font-size: var(--text-lg);
+        line-height: 1.6;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-        font-weight: 700;
         margin-bottom: 1.75rem;
+    }
+    /* Fine print folded in from the old white card: the Growfunding disclaimer,
+       readable on the yellow band. */
+    .steun-cta__note {
+        margin-top: 1.25rem;
+        font-size: var(--text-sm);
+        line-height: 1.55;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
     }
 }

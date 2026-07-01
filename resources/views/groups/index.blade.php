@@ -89,7 +89,7 @@
 
     <x-slot:closing>
         <x-closing-cta heading="Staat jouw stad er nog niet bij?"
-            :href="route('volunteer')" label="Zo begin je" />
+            :href="route('groups.start')" label="Zo begin je" />
     </x-slot:closing>
 
     @push('scripts')

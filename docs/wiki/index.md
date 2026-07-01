@@ -39,6 +39,8 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 | [Scope (plane 2)](design/10-scope.md) | MVP in / won't-have, functional specs, content requirements | design |
 | [Structure (plane 3)](design/20-structure.md) | Navigation, sitemap, content-model table | design |
 | [Journey Palette](design/journey-palette.md) | Shared colour language (4 persona/journey colours + tokens) reused by the sitemaps and A5 cards | design |
+| [Demo journeys — arc & gaps](design/demo-journeys.md) | 3 demo journeys (J1 rider · J2 roze-hesje · J3 captain) as a tick-off arc; only open gaps stand out + one build-checklist. Print view: [`.html`](design/demo-journeys.html) | design |
+| [Demo runbook](design/demo-runbook.md) | One-pager: who demos what (Frederik frontstage / Nico backstage) + where to frame "we bouwen dit nog" | design |
 | [Sitemap — AS-IS](design/21-sitemap-as-is.md) | Visual sitemap of the current Wix site; 4 journeys drawn in signature colour, each breaking — client presentation | design |
 | [Sitemap — TO-BE · Public](design/22-sitemap-to-be-public.md) | Visual sitemap of the new public site; nav-ordered, family + volunteer routes in signature colour — client presentation | design |
 | [Sitemap — TO-BE · Private](design/23-sitemap-to-be-private.md) | Visual sitemap of the login-gated zone (logged-in volunteers + organiser back-office) — client presentation | design |

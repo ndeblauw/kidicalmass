@@ -4,6 +4,7 @@ use App\Enums\ActivityType;
 use App\Livewire\RideCalendar;
 use App\Models\Activity;
 use App\Models\PostalCode;
+use App\Models\User;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -12,12 +13,15 @@ beforeEach(function () {
         ['zip' => '9000', 'name' => 'Gent', 'latitude' => 51.0543, 'longitude' => 3.7174, 'created_at' => now(), 'updated_at' => now()],
     ]);
 
+    $this->author = User::factory()->create();
+
     // ~0 km from Jette (same zip)
     $this->near = Activity::factory()->create([
         'activity_type' => ActivityType::KIDICALMASS,
         'title_nl' => 'Kidical Mass Jette',
         'postal_code' => '1090',
         'begin_date' => now()->addDays(3),
+        'author_id' => $this->author->id,
     ]);
 
     // ~54 km from Jette
@@ -26,6 +30,7 @@ beforeEach(function () {
         'title_nl' => 'Kidical Mass Gent',
         'postal_code' => '9000',
         'begin_date' => now()->addDays(5),
+        'author_id' => $this->author->id,
     ]);
 });
 
@@ -59,6 +64,7 @@ it('shows rides within 30km when radius is regio', function () {
         'title_nl' => 'Kidical Mass Brussel',
         'postal_code' => '1000',
         'begin_date' => now()->addDays(4),
+        'author_id' => $this->author->id,
     ]);
 
     Livewire::withCookie('kcm_location', json_encode([

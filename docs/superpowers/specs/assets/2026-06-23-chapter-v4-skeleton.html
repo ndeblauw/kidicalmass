@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Chapter v4 — greybox skeleton</title>
+<style>
+  /* GREYBOX ONLY. No surface polish. Prominence is expressed via block size,
+     not colour/type. Band-colour intent and role/beat are written as labels. */
+  :root{
+    --ink:#2b2b2b; --mut:#7a7a7a; --line:#cfcfcf;
+    --g0:#fafafa; --g1:#f0f0f0; --g2:#e4e4e4; --g3:#d6d6d6; --g4:#c4c4c4;
+    --rail:#9a9a9a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#eaeaea;color:var(--ink);
+       font:15px/1.5 -apple-system,Segoe UI,Roboto,sans-serif}
+  .page{max-width:1180px;margin:32px auto;background:#fff;
+        box-shadow:0 1px 0 #ddd, 0 24px 60px rgba(0,0,0,.08)}
+  /* a section = label rail (role/beat/weight) + the greybox block */
+  .sec{display:grid;grid-template-columns:170px 1fr;border-bottom:1px dashed #d9d9d9}
+  .rail{padding:14px 12px;border-right:1px dashed #d9d9d9;background:#fcfcfc}
+  .rail .band{font:600 10px/1.4 ui-monospace,monospace;letter-spacing:.04em;
+              color:var(--mut);text-transform:uppercase}
+  .rail .role{display:inline-block;margin:6px 4px 0 0;padding:1px 6px;border:1px solid var(--line);
+              border-radius:10px;font:600 10px/1.5 ui-monospace,monospace;color:#555;background:#fff}
+  .rail .beat{margin-top:8px;font:11px/1.4 ui-monospace,monospace;color:#8a8a8a}
+  .rail .wt{margin-top:10px;font:700 10px/1 ui-monospace,monospace;color:#666}
+  .rail .wt b{display:inline-block;margin-left:4px;color:#333}
+  .body{padding:18px 20px}
+  .lbl{font:700 11px/1 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;
+       color:#8a8a8a;margin:0 0 10px}
+  .box{background:var(--g1);border:1px solid var(--line);border-radius:8px}
+  .ph{background:repeating-linear-gradient(135deg,#e0e0e0 0 10px,#e8e8e8 10px 20px);
+      border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;
+      justify-content:center;color:#9a9a9a;font:600 11px/1 ui-monospace,monospace;text-align:center}
+  h1.g{font-size:30px;margin:.1em 0;line-height:1.1}
+  h2.g{font-size:20px;margin:.2em 0}
+  h3.g{font-size:15px;margin:.2em 0}
+  .mut{color:var(--mut)}
+  .small{font-size:13px}
+  .tiny{font-size:11px;color:#9a9a9a}
+  .row{display:flex;gap:12px}
+  .pill{display:inline-block;padding:8px 14px;background:var(--g3);border:1px solid var(--line);
+        border-radius:20px;font-weight:700;font-size:13px}
+  .pill.sub{background:#fff;font-weight:500}
+  .chip{display:inline-block;padding:3px 9px;background:var(--g2);border:1px solid var(--line);
+        border-radius:6px;font-size:12px;margin:2px 3px 0 0}
+  hr.soft{border:0;border-top:1px dashed #ddd;margin:14px 0}
+  .note{font:11px/1.4 ui-monospace,monospace;color:#b06a00;background:#fff7e9;
+        border:1px solid #f0dcae;border-radius:6px;padding:4px 8px;display:inline-block;margin-top:8px}
+  .title-bar{background:#333;color:#fff;padding:10px 20px;font:600 12px/1 ui-monospace,monospace;
+             display:flex;justify-content:space-between}
+  .navph{height:34px;background:#3a3a3a}
+  .footph{height:120px;background:#3a3a3a;color:#aaa;display:flex;align-items:center;justify-content:center;
+          font:600 11px/1 ui-monospace,monospace}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="title-bar"><span>CHAPTER PAGE · v4 greybox · Schaarbeek</span><span>RUNG 1 · pass 3 — parade split-screen · hero de-dried</span></div>
+  <div class="navph"></div>
+
+  <!-- 1 · HERO -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ blauwe band ]</div>
+      <span class="role">A newcomer</span><span class="role">C member</span>
+      <div class="beat">beat: WHAT IS THIS</div>
+      <div class="wt">weight:<b>HERO</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">1 · Identity hero</p>
+      <div class="row">
+        <div style="flex:1.4">
+          <h1 class="g">Kidical Mass Schaarbeek</h1>
+          <p class="small">Wij fietsen samen met kinderen door Schaarbeek — veilig, vrolijk, op kindertempo.</p>
+          <span class="note">mission intro only — no micro-proof (felt dry), no next-parade line, no press · move fast to the ride</span>
+        </div>
+        <div class="ph" style="flex:1;min-height:120px">foto van een rit in Schaarbeek</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 · DE VOLGENDE PARADE -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ accent / wit ]</div>
+      <span class="role">B parent</span>
+      <div class="beat">beat: WHEN / WHERE NEXT<br>+ WHAT IF I CAN'T</div>
+      <div class="wt">weight:<b>★ DOMINANT</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">2 · De volgende parade — split-screen, the page's gravity</p>
+      <div class="row">
+        <!-- LEFT: the parade -->
+        <div class="box" style="flex:1.2;padding:22px">
+          <h2 class="g" style="font-size:24px">ZONDAG 28 JUNI · 15:00</h2>
+          <p class="small">Verzamelen: <b>Place Colignon</b> &nbsp;·&nbsp; ± 3 km &nbsp;·&nbsp; rustig tempo, kinderen voorop</p>
+          <span class="pill">Kom mee →</span>
+          <hr class="soft">
+          <p class="small mut" style="margin:0">Kan je er niet bij? &nbsp;<span class="pill sub">Geef me een seintje voor de volgende →</span></p>
+          <span class="note">LEFT: parade details + Kom mee + built-in subscribe CTA · NO map/route visual</span>
+        </div>
+        <!-- RIGHT: social proof + cards -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+          <div class="ph" style="height:96px">foto vorige parade</div>
+          <div class="row">
+            <div class="box" style="flex:1;padding:12px;text-align:center">
+              <h3 class="g" style="font-size:20px;margin:0">12</h3><p class="tiny">ritten sinds 2023</p>
+            </div>
+            <div class="box" style="flex:1;padding:12px;text-align:center">
+              <h3 class="g" style="font-size:20px;margin:0">± 80</h3><p class="tiny">gezinnen vorige keer</p>
+            </div>
+          </div>
+          <span class="note">RIGHT: social proof + cards (photo · stat cards). The hero's micro-proof lives BETTER here, beside the parade.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 · ALLE PARADES -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ wit ]</div>
+      <span class="role">B parent</span><span class="role">C member</span>
+      <div class="beat">beat: CADENCE / RHYTHM</div>
+      <div class="wt">weight:<b>compact strip</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">3 · Alle parades</p>
+      <div class="row" style="align-items:center">
+        <span class="chip">zo 26 jul · 15:00</span>
+        <span class="chip">zo 30 aug · 15:00</span>
+        <span class="chip">zo 27 sep · 15:00</span>
+        <span class="small mut" style="margin-left:auto">alle ritten (ook voorbije) →</span>
+      </div>
+      <span class="note">compact strip, paired directly under the parade card — reads as one unit</span>
+    </div>
+  </div>
+
+  <!-- 4 · OOK IN GEMEENTE -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ sky band ]</div>
+      <span class="role">B parent</span><span class="role">D volunteer</span><span class="role">C member</span>
+      <div class="beat">secondary programming</div>
+      <div class="wt">weight:<b>BIG (own band)</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">4 · Ook in Schaarbeek — workshops &amp; filmavonden</p>
+      <div class="box" style="padding:18px;background:var(--g0)">
+        <div class="row">
+          <div class="ph" style="flex:1;height:120px">Fietscheck-workshop<br>wo 10 jul</div>
+          <div class="ph" style="flex:1;height:120px">Filmavond<br>vr 19 jul</div>
+          <div class="ph" style="flex:1;height:120px">Repair-café<br>za 24 aug</div>
+        </div>
+      </div>
+      <span class="note">its own BIG "sky" band · card approach kept (Frederik: fun) — revisit how it scales when there are many</span>
+    </div>
+  </div>
+
+  <!-- 5 · ZO ZIET HET ERUIT -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ wit ]</div>
+      <span class="role">C member</span><span class="role">B parent</span>
+      <div class="beat">beat: WILL WE FIT IN<br>(proof + pride)</div>
+      <div class="wt">weight:<b>large</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">5 · Zo ziet het eruit in Schaarbeek</p>
+      <div class="row">
+        <div class="ph" style="flex:2;height:150px">foto-wall + lightbox (recentste parade poster + tegels)</div>
+        <div class="box" style="flex:1;padding:14px;display:flex;gap:12px;align-items:center">
+          <div class="ph" style="width:64px;height:84px">preview</div>
+          <div>
+            <h3 class="g">Kleurplaat voor onderweg ↓</h3>
+            <p class="tiny">KEEP? family delight. If kept: pretty, with a download-preview thumbnail on the link.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 · WIE ZIJN WIJ -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ wit ]</div>
+      <span class="role">A newcomer</span><span class="role">B parent</span><span class="role">C member</span>
+      <div class="beat">beat: WHO ARE THESE PEOPLE<br>(orientation + reassurance)</div>
+      <div class="wt">weight:<b>medium</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">6 · Wie zijn wij</p>
+      <p class="small">Wij zwaaien je welkom aan de start. <span class="tiny">← the warm welcome line, surfaced HERE for everyone (not gated behind recruitment)</span></p>
+      <div class="row">
+        <div class="ph" style="width:90px;height:90px">Sofie</div>
+        <div class="ph" style="width:90px;height:90px">Marc</div>
+        <div class="ph" style="width:90px;height:90px">Lena</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 · HELP MEE -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ gele band ]</div>
+      <span class="role">D volunteer</span>
+      <div class="beat">the ask — now EARNED</div>
+      <div class="wt">weight:<b>medium (reveal)</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">7 · Help mee in Schaarbeek</p>
+      <div class="box" style="padding:18px;background:var(--g2)">
+        <h2 class="g">Help mee in Schaarbeek</h2>
+        <p class="small mut">Een paar uur per maand, samen met Sofie, Marc &amp; Lena. Je hoeft geen fietsexpert te zijn.</p>
+        <span class="pill">Ja, ik wil meehelpen →</span>
+        <span class="pill sub">Meer over meehelpen</span>
+        <span class="note">on-demand reveal: form opens under the button (?intent=volunteer auto-opens)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 · VOOR PERS & DELEN -->
+  <div class="sec">
+    <div class="rail">
+      <div class="band">[ wit / quiet ]</div>
+      <span class="role">D volunteer</span>
+      <div class="beat">resources, demoted</div>
+      <div class="wt">weight:<b>quiet</b></div>
+    </div>
+    <div class="body">
+      <p class="lbl">8 · Affiches &amp; vrienden van de groep</p>
+      <div class="row">
+        <div style="flex:1">
+          <h3 class="g small">Affiches &amp; flyers</h3>
+          <div class="row">
+            <div class="ph" style="width:48px;height:64px">affiche</div>
+            <div class="ph" style="width:48px;height:64px">flyer</div>
+            <span class="tiny" style="align-self:center">thumbnails (spreader tool)</span>
+          </div>
+        </div>
+        <div style="flex:1">
+          <h3 class="g small">Met dank aan</h3>
+          <p class="tiny">Fietsersbond · buurthuis · lokale handelaars …</p>
+        </div>
+      </div>
+      <span class="note">PRESS REMOVED → channel-wide Press page (live since 2023). Sponsors / "met dank aan" CONFIRMED kept here (Frederik). Affiches alongside, optional. hide-if-empty.</span>
+    </div>
+  </div>
+
+  <!-- CLOSING HAND-BACK -->
+  <div class="sec" style="grid-template-columns:170px 1fr">
+    <div class="rail"><div class="band">[ gele footer-naad ]</div><div class="beat">hand-back</div></div>
+    <div class="body" style="text-align:center;padding:22px">
+      <p class="small"><b>Deze groep is van jou.</b> &nbsp; ← Alle lokale groepen</p>
+    </div>
+  </div>
+
+  <div class="footph">FOOTER</div>
+
+</div>
+</body>
+</html>

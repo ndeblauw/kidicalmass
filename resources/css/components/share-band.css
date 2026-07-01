@@ -1,0 +1,108 @@
+@layer components {
+    .share-band {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-bottom: calc(var(--spacing) * -8);
+        background-color: var(--color-kidical-light-yellow);
+        padding-block: clamp(2.5rem, 5vw, 3.5rem);
+    }
+    /* Quiet contained variant — a rounded panel inside the page container rather than
+       a full-bleed band (used on the ride page). */
+    .share-band--contained {
+        width: auto;
+        margin-left: 0;
+        margin-bottom: 0;
+        border-radius: var(--radius-card);
+        padding: clamp(1.75rem, 4vw, 2.75rem);
+    }
+
+    .share-band__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2.5rem;
+        }
+    }
+
+    .share-band__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-2xl);
+        line-height: 1.15;
+        color: var(--color-kidical-ink);
+        max-width: 22ch;
+    }
+
+    .share-band__body {
+        margin-top: 0.5rem;
+        max-width: 32rem;
+        color: var(--color-text-body);
+    }
+
+    .share-band__channels {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    /* Copy-link pill */
+    .share-band__copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.125rem;
+        border-radius: var(--radius-pill);
+        background-color: white;
+        color: var(--color-kidical-ink);
+        font-weight: 600;
+        box-shadow: var(--shadow-float);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        cursor: pointer;
+    }
+
+    .share-band__copy:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .share-band__copy-icon {
+        width: 1.125rem;
+        height: 1.125rem;
+        color: var(--color-kidical-blue);
+    }
+
+    /* Circular icon buttons */
+    .share-band__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: var(--radius-pill);
+        background-color: white;
+        box-shadow: var(--shadow-float);
+        background-image: none; /* opt out of the global text-link underline */
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .share-band__icon:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .share-band__icon svg {
+        width: 1.375rem;
+        height: 1.375rem;
+    }
+
+    .share-band__icon--whatsapp { color: var(--color-kidical-green); }
+    .share-band__icon--facebook { color: var(--color-kidical-blue); }
+    .share-band__icon--email    { color: var(--color-kidical-red); }
+}

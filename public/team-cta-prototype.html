@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team CTA card — "Jij?" exploration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #281a39;
+    --yellow: #f9d924;
+    --red: #E63A7B;
+    --green: #5CB85C;
+    --orange: #F0803C;
+    --blue: #1d67cd;
+    --light-blue: #B7E7F0;
+    --light-yellow: #FEF3D5;
+    --font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Caprasimo', ui-sans-serif, system-ui, sans-serif;
+    --body: color-mix(in oklab, var(--ink), transparent 25%);
+    --muted: color-mix(in oklab, var(--ink), transparent 32%);
+    --faint: color-mix(in oklab, var(--ink), transparent 45%);
+    --hairline: color-mix(in oklab, var(--ink), transparent 88%);
+    --radius-tile: 1rem;
+    --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: var(--font-sans); color: var(--body);
+    font-size: 1.25rem; line-height: 1.6; background: #fbfafc;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 { font-family: var(--font-heading); font-weight: 400; color: var(--ink); }
+
+  /* ---- prototype chrome ---- */
+  .lede { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 0.5rem; }
+  .lede h1 { font-size: 2rem; margin: 0 0 0.4rem; line-height: 1.1; }
+  .lede p { font-size: 0.95rem; color: var(--faint); margin: 0; max-width: 70ch; }
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+    max-width: 1100px; margin: 1rem auto 0; padding: 0.7rem 1.5rem;
+    background: color-mix(in oklab, #fbfafc, transparent 6%);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--hairline);
+  }
+  .bar button {
+    font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700;
+    padding: 0.4rem 0.8rem; border-radius: 999px;
+    border: 1.5px solid var(--hairline); background: white; color: var(--body);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .bar button:hover { border-color: var(--blue); color: var(--blue); }
+  .bar button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: white; }
+  .bar .spacer { flex: 1; }
+
+  .stage { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.5rem 6rem; }
+  .vlabel { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin: 0 0 0.2rem; }
+  .vnote { font-size: 0.85rem; color: var(--muted); margin: 0 0 1.2rem; max-width: 60ch; }
+  .variant { display: none; }
+  .variant.is-on { display: block; }
+  .compare .variant { display: block; padding: 1.6rem 0; border-top: 1px dashed var(--hairline); }
+  .compare .variant:first-of-type { border-top: 0; }
+
+  /* ---- the real section header ---- */
+  .team-head { margin-bottom: 0.5rem; }
+  .team-head h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin: 0 0 0.6rem; max-width: 20ch; }
+  .team-head p { margin: 0; font-size: 1.1rem; color: var(--body); max-width: 46ch; }
+
+  /* ---- card row ---- */
+  .row { display: flex; gap: 1.9rem; padding: 1.4rem 0 1.7rem; overflow-x: auto; scrollbar-width: none; }
+  .row::-webkit-scrollbar { display: none; }
+
+  .card {
+    flex: 0 0 auto; width: 13.5rem; background: white;
+    padding: 0.75rem 0.75rem 1.1rem; border-radius: var(--radius-tile);
+    text-align: center; box-shadow: var(--shadow-card);
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease);
+  }
+  /* Hand-laid tilt across the row (like the help-out carousel) — organic, not strict odd/even. */
+  .row .card:nth-child(4n+1) { --tilt: -1.8deg; }
+  .row .card:nth-child(4n+2) { --tilt: 1.2deg; }
+  .row .card:nth-child(4n+3) { --tilt: -1deg; }
+  .row .card:nth-child(4n)   { --tilt: 2deg; }
+  .photo {
+    display: grid; place-items: center; width: 100%; aspect-ratio: 1 / 1;
+    border-radius: 0.5rem; overflow: hidden; margin-bottom: 0.7rem;
+    background: var(--light-yellow);
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .name { display: block; font-weight: 800; color: var(--ink); line-height: 1.1; font-size: 1.15rem; }
+  .role { display: block; margin-top: 0.2rem; font-size: 1rem; color: var(--body); }
+  .card:nth-child(2) .photo { background: var(--light-blue); }
+  .card:nth-child(3) .photo { background: color-mix(in oklab, var(--red), white 80%); }
+
+  /* ===== CTA CARD — shared ===== */
+  .cta { text-decoration: none; cursor: pointer; display: block; }
+  .cta:hover { transform: rotate(var(--tilt, 0deg)) translateY(-5px) scale(1.02); box-shadow: 0 16px 34px -10px color-mix(in oklab, var(--ink) 30%, transparent), var(--shadow-card); }
+  .cta:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-sans); font-weight: 800; font-size: 0.95rem;
+    padding: 0.5rem 0.95rem; border-radius: 999px; border: 0;
+    margin-top: 0.7rem; transition: gap 0.2s var(--ease);
+  }
+  .cta:hover .pill { gap: 0.65rem; }
+  .pill.blue { background: var(--blue); color: white; }
+  .pill.yellow { background: var(--yellow); color: var(--ink); }
+  .pill.white { background: white; color: var(--ink); }
+  .pill.ink { background: var(--ink); color: white; }
+  .arrow { transition: transform 0.2s var(--ease); }
+  .cta:hover .arrow { transform: translateX(3px); }
+
+  /* ===== A — quiet, dashed invite ===== */
+  .a-photo { background: var(--light-yellow); border: 2px dashed color-mix(in oklab, var(--ink), transparent 60%); transition: border-color 0.2s, background 0.2s; }
+  .cta:hover .a-photo { border-color: var(--orange); background: color-mix(in oklab, var(--yellow), white 55%); }
+  .a-plus { font-family: var(--font-heading); font-size: 2.6rem; color: color-mix(in oklab, var(--ink), transparent 45%); transition: transform 0.25s var(--ease), color 0.2s; }
+  .cta:hover .a-plus { transform: rotate(90deg); color: var(--orange); }
+  .a-link { display: inline-block; margin-top: 0.5rem; font-weight: 800; font-size: 0.95rem; color: var(--blue); }
+
+  /* ===== B — quiet, silhouette mirror ===== */
+  .b-photo { background: var(--light-blue); position: relative; }
+  .b-photo .illo { width: 100%; height: 100%; object-fit: cover; transform: scale(1.5); transform-origin: 34% 16%; transition: transform 0.3s var(--ease); }
+  .cta:hover .b-photo .illo { transform: scale(1.56); transform-origin: 34% 16%; }
+  .b-badge { position: absolute; right: 0.5rem; bottom: 0.5rem; width: 2.1rem; height: 2.1rem; border-radius: 999px; background: var(--blue); color: white; display: grid; place-items: center; box-shadow: 0 4px 12px rgb(0 0 0 / 0.2); }
+  .b-badge svg { width: 1.1rem; height: 1.1rem; color: white; }
+
+  /* ===== C — bold yellow action card ===== */
+  .c-card { background: var(--yellow); }
+  .c-badge { width: 100%; aspect-ratio: 1/1; border-radius: 0.5rem; margin-bottom: 0.7rem; display: grid; place-items: center; background: color-mix(in oklab, var(--yellow), white 35%); }
+  .c-badge .ring { width: 4.6rem; height: 4.6rem; border-radius: 999px; background: white; display: grid; place-items: center; box-shadow: 0 6px 16px rgb(0 0 0 / 0.12); }
+  .c-badge .ring span { font-family: var(--font-heading); font-size: 2.4rem; color: var(--ink); line-height: 1; }
+  .c-name { font-family: var(--font-heading); color: var(--ink); font-size: 1.6rem; display: block; line-height: 1; }
+
+  /* ===== D — hybrid: white frame, loud button ===== */
+  .d-photo { background: var(--blue); position: relative; overflow: hidden; }
+  .d-photo .raise { width: 56%; height: 56%; color: white; }
+  .d-photo::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 70% 20%, rgb(255 255 255 / 0.18), transparent 55%); }
+
+  /* ===== E — bold blue, heart (matches destination button) ===== */
+  .e-card { background: var(--blue); }
+  .e-badge { width: 100%; aspect-ratio: 1/1; border-radius: 0.5rem; margin-bottom: 0.7rem; display: grid; place-items: center; background: color-mix(in oklab, var(--blue), white 12%); }
+  .e-badge .ring { width: 4.6rem; height: 4.6rem; border-radius: 999px; background: white; display: grid; place-items: center; }
+  .e-badge .ring svg { width: 2.3rem; height: 2.3rem; color: var(--red); }
+  .e-name { font-family: var(--font-heading); color: white; font-size: 1.6rem; display: block; line-height: 1; }
+  .e-role { color: color-mix(in oklab, white, transparent 25%); }
+
+  /* ===== mock #aanmelden destination band ===== */
+  .band { width: 100%; background: var(--yellow); margin-top: 3rem; border-radius: 1.5rem; padding: clamp(2rem, 4vw, 3rem); transition: box-shadow 0.4s; }
+  .band.flash { box-shadow: 0 0 0 6px color-mix(in oklab, var(--orange), transparent 40%); }
+  .band h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); margin: 0 0 0.4rem; }
+  .band p { margin: 0; color: var(--ink); }
+  .band .cta-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.2rem;
+    font-family: var(--font-sans); font-weight: 800; font-size: 1.05rem;
+    padding: 0.75rem 1.4rem; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--blue); color: white;
+  }
+  .band .form { margin-top: 1.6rem; background: white; border-radius: 1rem; padding: 1.5rem; display: none; }
+  .band.open .form { display: block; }
+  .band .form h3 { margin: 0 0 0.3rem; font-family: var(--font-heading); font-weight: 400; color: var(--ink); }
+  .band .form .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem; }
+  .band .form input { padding: 0.7rem 0.9rem; border-radius: 0.6rem; border: 1.5px solid var(--hairline); font: inherit; font-size: 1rem; }
+  .band .form input:last-child { grid-column: 1 / -1; }
+  .hint { font-size: 0.82rem; color: var(--faint); margin: 0.4rem 0 0; }
+</style>
+</head>
+<body>
+
+<div class="lede">
+  <h1>Team-CTA — de "Jij?"-kaart</h1>
+  <p>Vervangt de losse zin "Kom je bij hen staan?" door een vierde kaart in de teamrij die de bezoeker uitnodigt en doorstuurt naar het inschrijfformulier verderop. De drie echte kaarten tonen nu foto's (dummy headshots) — zo ziet het eruit als het dynamisch is. Klik op een "Jij?"-kaart om het gedrag te zien: hij scrollt naar de gele band en opent het formulier.</p>
+</div>
+
+<div class="bar" role="tablist">
+  <button data-v="A" aria-pressed="false">A · stil — streepjes</button>
+  <button data-v="B" aria-pressed="true">B · stil — vrijwilliger</button>
+  <button data-v="C" aria-pressed="false">C · luid — geel</button>
+  <button data-v="D" aria-pressed="false">D · hybride — knop</button>
+  <button data-v="E" aria-pressed="false">E · luid — blauw/hart</button>
+  <span class="spacer"></span>
+  <button id="cmp" aria-pressed="false">Vergelijk alles</button>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- A -->
+  <section class="variant" data-v="A">
+    <p class="vlabel">A · stil — streepjes-uitnodiging</p>
+    <p class="vnote">Blendt mee in de rij: zelfde kaartvorm, een streepjes-fotovak met een "+". Fluistert de uitnodiging. Risico: leest misschien niet meteen als klikbaar.</p>
+    <div class="team-head">
+      <h2>Wij zwaaien je welkom aan de start</h2>
+      <p>De trekkers en roze hesjes die elke parade laten rollen.</p>
+    </div>
+    <div class="row">
+      <!--REAL-->
+      <a class="card cta" href="#aanmelden" data-jump>
+        <span class="photo a-photo"><span class="a-plus">+</span></span>
+        <span class="name">Jij?</span>
+        <span class="role">de volgende trekker</span>
+        <span class="a-link">Doe mee →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="variant is-on" data-v="B">
+    <p class="vlabel">B · stil — vrijwilliger-illustratie</p>
+    <p class="vnote">De gekozen richting: zelfde kaartvorm als de teamleden, maar met een illustratie van een vrijwilliger (cyclist-peace-sign, medium shot) in het fotovak en een klein blauw ＋-badge dat "voeg jezelf toe" signaleert. Blijft ingetogen, leest als "een van ons word je zo". De kaarten staan licht gekanteld, zoals de meehelpen-carrousel.</p>
+    <div class="team-head">
+      <h2>Wij zwaaien je welkom aan de start</h2>
+      <p>De trekkers en roze hesjes die elke parade laten rollen.</p>
+    </div>
+    <div class="row">
+      <!--REAL-->
+      <a class="card cta" href="#aanmelden" data-jump>
+        <span class="photo b-photo">
+          <img class="illo" src="img/illustrations/cyclist-peace-sign.svg" alt="" aria-hidden="true">
+          <span class="b-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        </span>
+        <span class="name">Jij?</span>
+        <span class="role">kom erbij</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="variant" data-v="C">
+    <p class="vlabel">C · luid — gele actiekaart</p>
+    <p class="vnote">Een gele kaart die meteen als actie leest. Pop tegen de witte kaarten, met een echte knop. Risico: kan de echte teamleden visueel overstemmen.</p>
+    <div class="team-head">
+      <h2>Wij zwaaien je welkom aan de start</h2>
+      <p>De trekkers en roze hesjes die elke parade laten rollen.</p>
+    </div>
+    <div class="row">
+      <!--REAL-->
+      <a class="card cta c-card" href="#aanmelden" data-jump>
+        <span class="c-badge"><span class="ring"><span>+</span></span></span>
+        <span class="c-name">Jij?</span>
+        <span class="role">kom erbij</span>
+        <span class="pill ink">Doe mee <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- D -->
+  <section class="variant" data-v="D">
+    <p class="vlabel">D · hybride — wit kader, luide knop</p>
+    <p class="vnote">Wit kaartkader (blijft in het ritme van de rij), maar het fotovak is een vol blauw tegel met een "hand omhoog" en eronder een echte knop. De knop is het onmiskenbare aanknooppunt.</p>
+    <div class="team-head">
+      <h2>Wij zwaaien je welkom aan de start</h2>
+      <p>De trekkers en roze hesjes die elke parade laten rollen.</p>
+    </div>
+    <div class="row">
+      <!--REAL-->
+      <a class="card cta" href="#aanmelden" data-jump>
+        <span class="photo d-photo">
+          <svg class="raise" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 11V4a1.5 1.5 0 0 1 3 0v7"/><path d="M15 11V6.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6h-1.5a5 5 0 0 1-4.3-2.4L4 14a1.6 1.6 0 0 1 2.6-1.8L9 15"/></svg>
+        </span>
+        <span class="name">Jij?</span>
+        <span class="role">word trekker</span>
+        <span class="pill blue">Doe mee <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- E -->
+  <section class="variant" data-v="E">
+    <p class="vlabel">E · luid — blauw met hart</p>
+    <p class="vnote">Blauw met een hart-badge — dezelfde taal als de "Ja, ik wil meehelpen"-knop op de bestemming, dus de kaart en het formulier voelen als één gebaar.</p>
+    <div class="team-head">
+      <h2>Wij zwaaien je welkom aan de start</h2>
+      <p>De trekkers en roze hesjes die elke parade laten rollen.</p>
+    </div>
+    <div class="row">
+      <!--REAL-->
+      <a class="card cta e-card" href="#aanmelden" data-jump>
+        <span class="e-badge"><span class="ring"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.3-8.7C1 8.8 2.7 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.3 0 5 3.3 3.3 6.8C19 16.5 12 21 12 21Z"/></svg></span></span>
+        <span class="e-name">Jij?</span>
+        <span class="role e-role">kom erbij</span>
+        <span class="pill yellow">Meehelpen <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- mock destination -->
+  <section class="band" id="aanmelden">
+    <h2>Doe je mee in Schaarbeek?</h2>
+    <p>Een paar uur per maand, je hoeft geen fietsexpert te zijn.</p>
+    <button class="cta-btn" id="openForm"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.3-8.7C1 8.8 2.7 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.3 0 5 3.3 3.3 6.8C19 16.5 12 21 12 21Z"/></svg> Ja, ik wil meehelpen</button>
+    <div class="form">
+      <h3>Fijn dat je wil meehelpen!</h3>
+      <p style="margin:0;font-size:0.95rem;color:var(--muted)">Laat je gegevens achter, dan nemen we snel contact op.</p>
+      <div class="fields">
+        <input placeholder="Je naam" />
+        <input placeholder="E-mail" />
+        <input placeholder="Telefoon (optioneel)" />
+      </div>
+      <p class="hint">↑ Dit formulier is wat de "Jij?"-kaart opent — dat is de verbinding die we leggen.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Diverse adult dummy headshots seeded into the 3 real cards (randomuser portraits).
+  const FACES = [
+    { src: 'https://randomuser.me/api/portraits/women/65.jpg', name: 'Lena', role: 'trekker' },
+    { src: 'https://randomuser.me/api/portraits/men/52.jpg',   name: 'Samir', role: 'roze hesje' },
+    { src: 'https://randomuser.me/api/portraits/women/29.jpg', name: 'Imane', role: 'trekker' },
+  ];
+  const realHTML = FACES.map(f =>
+    `<div class="card"><span class="photo"><img src="${f.src}" alt=""></span><span class="name">${f.name}</span><span class="role">${f.role}</span></div>`
+  ).join('');
+  document.querySelectorAll('.row').forEach(row => {
+    row.innerHTML = realHTML + row.innerHTML.replace('<!--REAL-->', '');
+  });
+
+  // Variant toggling
+  const btns = [...document.querySelectorAll('.bar button[data-v]')];
+  const cmp = document.getElementById('cmp');
+  const stage = document.getElementById('stage');
+  function show(v) {
+    cmp.setAttribute('aria-pressed', 'false');
+    stage.classList.remove('compare');
+    document.querySelectorAll('.variant').forEach(s => s.classList.toggle('is-on', s.dataset.v === v));
+    btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+  }
+  btns.forEach(b => b.addEventListener('click', () => show(b.dataset.v)));
+  cmp.addEventListener('click', () => {
+    const on = cmp.getAttribute('aria-pressed') === 'true';
+    cmp.setAttribute('aria-pressed', String(!on));
+    stage.classList.toggle('compare', !on);
+    btns.forEach(b => b.setAttribute('aria-pressed', 'false'));
+    document.querySelectorAll('.variant').forEach(s => s.classList.remove('is-on'));
+  });
+
+  // Behavior demo: CTA card -> scroll to band, open form, flash
+  const band = document.getElementById('aanmelden');
+  function openBand() {
+    band.classList.add('open');
+    band.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    band.classList.add('flash');
+    setTimeout(() => band.classList.remove('flash'), 1200);
+  }
+  document.addEventListener('click', e => {
+    const jump = e.target.closest('[data-jump]');
+    if (jump) { e.preventDefault(); openBand(); }
+  });
+  document.getElementById('openForm').addEventListener('click', () => band.classList.add('open'));
+</script>
+</body>
+</html>

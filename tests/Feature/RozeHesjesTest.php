@@ -32,8 +32,7 @@ test('roze page renders for a logged-in chapter member', function () {
     actingAs($member)
         ->get(route('groups.roze-hesjes', $group))
         ->assertOk()
-        ->assertSee('Kidical Mass Mons')
-        ->assertSee('Op de agenda in Mons');
+        ->assertSee('Kidical Mass Mons');
 });
 
 test('roze page rejects a logged-in non-member', function () {
@@ -60,7 +59,7 @@ test('roze page shows the full roster, not just the public opt-ins', function ()
     $group->users()->attach($hidden, ['is_public' => false]);
 
     actingAs($lead)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.groep', $group))
         ->assertOk()
         ->assertSee('De roze hesjes van Mons')
         ->assertSee('Violette')
@@ -83,47 +82,51 @@ test('roze page lists the upcoming ride in the typed agenda', function () {
     $ride->groups()->attach($group);
 
     actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.agenda', $group))
         ->assertOk()
         ->assertSee('Théâtre le Manège');
 });
 
-test('roze materiaal marks besloten downloads and still shows the public ones', function () {
+test('roze materiaal splits the besloten group from the shareable one', function () {
     $group = rozeChapter();
     $member = User::factory()->create();
     $group->users()->attach($member);
 
     actingAs($member)
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.materiaal', $group))
         ->assertOk()
         ->assertSee('Jouw materiaal')
-        ->assertSee('Afsprakencharter') // a besloten (hesje-only) document
-        ->assertSee('Besloten')         // the private marker
-        ->assertSee('Posters');         // a public download, shown here too
+        ->assertSee('Voor de hesjes')      // the besloten section title
+        ->assertSee('Afsprakencharter')    // a besloten (hesje-only) document
+        ->assertSee('Vrij om te delen')    // the public section title
+        ->assertSee('Playlist')            // now shareable, sits in the public group
+        ->assertSee('Posters');            // a public download
 });
 
-test('roze page greets a first-time visitor with a welcome block', function () {
+test('roze page sets the welcome-window cookie but shows no welcome block', function () {
     $group = rozeChapter();
     $member = User::factory()->create();
     $group->users()->attach($member);
 
+    // The welcome banner was removed; the welcome-window cookie still rides along
+    // because it drives the sub-nav (Aan de slag floats up for new members).
     actingAs($member)
         ->get(route('groups.roze-hesjes', $group))
         ->assertOk()
-        ->assertSee('Welkom bij de roze hesjes')
+        ->assertDontSee('Welkom bij de roze hesjes')
+        ->assertDontSee('Fijn dat je meerijdt')
         ->assertCookie('roze_welcome_'.$group->id);
 });
 
-test('roze page hides the welcome block after the window but keeps the onboarding info', function () {
+test('aan de slag shows the onboarding info', function () {
     $group = rozeChapter();
     $member = User::factory()->create();
     $group->users()->attach($member);
 
     actingAs($member)
         ->withUnencryptedCookie('roze_welcome_'.$group->id, now()->subWeeks(3)->toIso8601String())
-        ->get(route('groups.roze-hesjes', $group))
+        ->get(route('groups.roze-hesjes.aan-de-slag', $group))
         ->assertOk()
-        ->assertDontSee('Welkom bij de roze hesjes')
         ->assertSee('Voor je eerste rit')
         ->assertSee('kindertempo');
 });

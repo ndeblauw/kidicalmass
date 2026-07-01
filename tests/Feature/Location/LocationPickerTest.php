@@ -43,3 +43,25 @@ it('resolves the nearest postcode from geolocation coords', function () {
 
     expect(Cookie::hasQueued(config('location.cookie')))->toBeTrue();
 });
+
+it('dispatches location-selected and does not redirect in reactive mode', function () {
+    Livewire::test(LocationPicker::class, ['reactive' => true])
+        ->call('choose', '9000')
+        ->assertDispatched('location-selected')
+        ->assertNoRedirect();
+
+    expect(Cookie::hasQueued(config('location.cookie')))->toBeTrue();
+});
+
+it('dispatches a null payload on clear in reactive mode without redirecting', function () {
+    Livewire::test(LocationPicker::class, ['reactive' => true])
+        ->call('clear')
+        ->assertDispatched('location-selected')
+        ->assertNoRedirect();
+});
+
+it('still redirects on choose in default (non-reactive) mode', function () {
+    Livewire::test(LocationPicker::class)
+        ->call('choose', '1090')
+        ->assertRedirect();
+});

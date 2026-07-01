@@ -32,6 +32,12 @@ class RideDate
         return self::localized($date)->isoFormat('dddd D MMMM');
     }
 
+    /** Weekday name only: "zondag" / "dimanche". Lowercase — casing is a CSS concern. */
+    public static function weekday(Carbon|string $date): string
+    {
+        return self::localized($date)->isoFormat('dddd');
+    }
+
     /** Month grouping header: "juni 2026" / "juin 2026". */
     public static function monthYear(Carbon|string $date): string
     {
@@ -39,10 +45,11 @@ class RideDate
     }
 
     /**
-     * Parts for the calendar-page lockup: full day name, date number, month, plus a
-     * stable readable tilt. Rendered in the order day -> num -> month.
+     * Parts for the calendar-page lockup: big date number and a 3-letter month, plus a
+     * stable readable tilt. Rendered in the order num -> month; the weekday now rides in
+     * the row's meta line (see RideDate::weekday()), not the lockup.
      *
-     * @return array{num: string, month: string, day: string, rotation: float}
+     * @return array{num: string, month: string, rotation: float}
      */
     public static function rail(Carbon|string $date): array
     {
@@ -50,8 +57,7 @@ class RideDate
 
         return [
             'num' => $carbon->isoFormat('D'),
-            'month' => $carbon->isoFormat('MMMM'),
-            'day' => $carbon->isoFormat('dddd'),
+            'month' => rtrim($carbon->isoFormat('MMM'), '.'),
             'rotation' => self::railRotation($date),
         ];
     }

@@ -21,9 +21,21 @@
         <div class="gs-expect-pin">
 
             <div class="gs-expect-left">
-                <x-intro-text size="lead">
+                <x-intro-text>
                     <p>Elke rit is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.</p>
                 </x-intro-text>
+                @php
+                    // Placement (scatter, sizing, FAQ tuck) lives in getting-started.css
+                    // so it can adapt per breakpoint; here we only choose the photos.
+                    $expectPhotos = [
+                        ['src' => 'img/photography/child-yellow-helmet-peace-signs.webp', 'alt' => 'Lachende jongen met een gele helm steekt twee vredestekens op boven zijn stuur tijdens een rit.'],
+                        ['src' => 'img/photography/kids-soundbike-flag-obelisk.webp', 'alt' => 'Twee kinderen met hesjes en zonnebril steken hun duim op bij een geluidsfiets onder een grote blauwe vlag.'],
+                        ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => 'Meisje in een roze jas fietst lachend naar de camera, met twee kinderen naast haar.'],
+                    ];
+                @endphp
+                <x-photo-collage
+                    class="gs-expect-collage"
+                    :photos="$expectPhotos" />
             </div>
 
             <div class="gs-expect-right">
@@ -59,68 +71,44 @@
         </div>
     </section>
 
-    {{-- VEELGESTELDE VRAGEN — illustration left + accordion right --}}
+    {{-- VEELGESTELDE VRAGEN — accordion left + illustration riding in from the right --}}
     <section class="gs-faq-section">
         <div class="gs-faq-layout">
-
-        <div class="gs-faq-illustration">
-            <img src="{{ asset('img/illustrations/relaxed-rider.svg') }}" alt="" aria-hidden="true" loading="lazy">
-        </div>
 
         <div class="gs-faq-content">
         <h2 class="gs-section__title">Veelgestelde vragen</h2>
 
-        <div class="gs-faq">
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Moet ik me inschrijven?</summary>
-                <div class="gs-faq__a">
-                    <p>Nee. Gewoon opdagen op het vertrekpunt op het aangegeven tijdstip. Geen ticket, geen lijst. Je hoeft niets op voorhand te regelen.</p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Vanaf welke leeftijd?</summary>
-                <div class="gs-faq__a">
-                    <p>Vanaf een jaar of 3. Kinderen rijden op hun eigen fiets (loopfietsen zijn niet geschikt voor de weg), in een bakfiets of op een kinderzitje. Ouders blijven altijd verantwoordelijk voor de veiligheid van hun kind.</p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Moet ik goed kunnen fietsen?</summary>
-                <div class="gs-faq__a">
-                    <p>Helemaal niet. We rijden op het tempo van het jongste kind, trager dan je denkt. Veel ouders fietsen voor het eerst in het verkeer tijdens een Kidical Mass. Je staat er niet alleen voor, en niemand haast je.</p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Is het veilig in het verkeer?</summary>
-                <div class="gs-faq__a">
-                    <p>Daar draait alles om. We rijden traag, op kindertempo, met opgeleide begeleiders rond de groep die elke kruising vrijhouden. Waar nodig stemmen de organisatoren de route vooraf af met de lokale politie.</p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Wat als het regent?</summary>
-                <div class="gs-faq__a">
-                    <p>De rit gaat door bij zowat elk weer. Een beetje regen houdt ons niet tegen. Bij écht extreme omstandigheden wordt het die ochtend aangekondigd op het Facebook-event of de pagina van je afdeling.</p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Wat moeten we meebrengen?</summary>
-                <div class="gs-faq__a">
-                    <p>Een helm is aangeraden maar niet verplicht. Neem wat water mee. Dat is echt alles. Geen speciale uitrusting, geen voorbereiding nodig.</p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Wat als we geen fiets hebben?</summary>
-                <div class="gs-faq__a">
-                    <p>Geen fiets is geen reden om thuis te blijven. Soms staat er zelfs een bakfiets klaar aan de start, en er zijn verschillende manieren om er een te lenen of te huren. <a href="{{ route('find-a-bike') }}">Bekijk de opties →</a></p>
-                </div>
-            </details>
-            <details class="gs-faq__item">
-                <summary class="gs-faq__q">Is het echt gratis?</summary>
-                <div class="gs-faq__a">
-                    <p>Ja, helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraagd. Kom zoals je bent.</p>
-                </div>
-            </details>
-        </div>
+        <x-faq>
+            <x-faq.item question="Moet ik me inschrijven?">
+                <p>Nee. Gewoon opdagen op het vertrekpunt op het aangegeven tijdstip. Geen ticket, geen lijst. Je hoeft niets op voorhand te regelen.</p>
+            </x-faq.item>
+            <x-faq.item question="Vanaf welke leeftijd?">
+                <p>Vanaf een jaar of 3. Kinderen rijden op hun eigen fiets (loopfietsen zijn niet geschikt voor de weg), in een bakfiets of op een kinderzitje. Ouders blijven altijd verantwoordelijk voor de veiligheid van hun kind.</p>
+            </x-faq.item>
+            <x-faq.item question="Moet ik goed kunnen fietsen?">
+                <p>Helemaal niet. We rijden op het tempo van het jongste kind, trager dan je denkt. Veel ouders fietsen voor het eerst in het verkeer tijdens een Kidical Mass. Je staat er niet alleen voor, en niemand haast je.</p>
+            </x-faq.item>
+            <x-faq.item question="Is het veilig in het verkeer?">
+                <p>Daar draait alles om. We rijden traag, op kindertempo, met opgeleide begeleiders rond de groep die elke kruising vrijhouden. Waar nodig stemmen de organisatoren de route vooraf af met de lokale politie.</p>
+            </x-faq.item>
+            <x-faq.item question="Wat als het regent?">
+                <p>De rit gaat door bij zowat elk weer. Een beetje regen houdt ons niet tegen. Bij écht extreme omstandigheden wordt het die ochtend aangekondigd op het Facebook-event of de pagina van je afdeling.</p>
+            </x-faq.item>
+            <x-faq.item question="Wat moeten we meebrengen?">
+                <p>Een helm is aangeraden maar niet verplicht. Neem wat water mee. Dat is echt alles. Geen speciale uitrusting, geen voorbereiding nodig.</p>
+            </x-faq.item>
+            <x-faq.item question="Wat als we geen fiets hebben?">
+                <p>Geen fiets is geen reden om thuis te blijven. Soms staat er zelfs een bakfiets klaar aan de start, en er zijn verschillende manieren om er een te lenen of te huren. <a href="{{ route('find-a-bike') }}">Bekijk de opties →</a></p>
+            </x-faq.item>
+            <x-faq.item question="Is het echt gratis?">
+                <p>Ja, helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraagd. Kom zoals je bent.</p>
+            </x-faq.item>
+        </x-faq>
         </div>{{-- /gs-faq-content --}}
+
+        <div class="gs-faq-illustration">
+            <img src="{{ asset('img/illustrations/relaxed-rider.svg') }}" alt="" aria-hidden="true" loading="lazy">
+        </div>
 
         </div>{{-- /gs-faq-layout --}}
     </section>
@@ -153,12 +141,12 @@
         const scrollPerCard = window.innerHeight * 0.1;
         const totalExtra    = N * scrollPerCard;
 
-        section.style.height = `calc(100dvh + ${totalExtra}px)`;
         section.classList.add('gs-expect-scroll--ready');
+        section.style.height = `calc(100dvh + ${totalExtra}px)`;
 
         // Measure actual card height after layout switches (cards are now position:absolute).
         const cardH   = cards[0].offsetHeight;
-        const CARD_GAP = 46; // px — matches the 2.875rem gap in CSS
+        const CARD_GAP = 46; // px, matches the 2.875rem gap in CSS
 
         // Size the stack to fit the final deck + one card height visible.
         stack.style.height = `${FINALS[0].y + cardH + 20}px`;
@@ -193,6 +181,30 @@
         }, { passive: true });
 
         render();
+    });
+    </script>
+
+    {{-- FAQ illustration rides in from the right when it scrolls into view --}}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const illustration = document.querySelector('.gs-faq-illustration');
+        if (!illustration) return;
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            illustration.classList.add('is-in');
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    illustration.classList.add('is-in');
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.25 });
+
+        observer.observe(illustration);
     });
     </script>
     @endpush

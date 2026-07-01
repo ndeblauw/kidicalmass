@@ -363,7 +363,7 @@
         font-size: var(--text-base);
         color: var(--color-kidical-ink);
         padding: 0.3rem 0.85rem;
-        border-radius: 9999px;
+        border-radius: var(--radius-pill);
         background: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
     }
     .about-empty {

@@ -1,14 +1,14 @@
 {{-- Yellow footer zone: one continuous kidical-yellow field holding the partner
      card, the footerbunch illustration, and the inset dark footer card. The page's
      closing CTA (rendered by the layout just above this) shares the same yellow. --}}
-<div class="site-footer-zone relative z-10 bg-kidical-yellow">
+<div class="site-footer-zone relative z-10 bg-kidical-yellow pt-12">
 
     {{-- Partner recognition — a white card floating on the yellow (showcase routes only) --}}
     <x-partners />
 
     {{-- Footerbunch illustration, on the yellow, leading into the dark card --}}
-    <figure class="mx-auto max-w-5xl px-4 -mb-px" aria-hidden="true">
-        <img src="{{ asset('img/illustrations/footerbunch-yellow.png') }}" alt="" class="block w-full">
+    <figure class="relative z-20 mx-auto max-w-5xl px-4" aria-hidden="true">
+        <img src="{{ asset('img/illustrations/footerbunch.svg') }}" alt="" class="block w-full -mb-[2%]" loading="lazy" decoding="async">
     </figure>
 
     {{-- Dark footer card — inset + rounded-top (styling in .site-footer) --}}
@@ -19,7 +19,7 @@
 
             {{-- Brand + persistent membership CTA --}}
             <div>
-                <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo">
+                <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo" loading="lazy" decoding="async">
                 <p class="site-footer__tagline">{{ __('footer.tagline') }}</p>
                 <x-cta-button :href="route('membership')" icon="heart" size="sm" class="mt-5">{{ __('footer.membership_cta') }}</x-cta-button>
             </div>
@@ -66,7 +66,7 @@
         {{-- Funder acknowledgment — quiet, site-wide --}}
         <div class="site-footer__funder">
             <span>{{ __('partners.funder_credit') }}</span>
-            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo">
+            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo" loading="lazy" decoding="async">
         </div>
 
         {{-- Bottom bar — utilities --}}

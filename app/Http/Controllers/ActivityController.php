@@ -17,16 +17,41 @@ class ActivityController extends Controller
 
     public function show(string $locale, Activity $activity): View
     {
-        abort_if(! $activity->is_published, 404);
+        $this->authorizeAccess($activity);
 
-        $activity->load(['author', 'groups']);
+        $activity->load(['author', 'groups.users']);
 
-        return view('activities.show', compact('activity'));
+        // Rides get the full ride layout (route map, pace promises, pink-vest ask);
+        // every other type (workshop/meeting/other) gets the lighter, description-led
+        // "basic activity" page. One route, two faces — split per D-2.
+        $view = $activity->activity_type->isRide() ? 'activities.show' : 'activities.show-basic';
+
+        return view($view, compact('activity'));
+    }
+
+    private function authorizeAccess(Activity $activity): void
+    {
+        if ($activity->published) {
+            return;
+        }
+
+        $user = auth()->user();
+
+        if (! $user) {
+            abort(404);
+        }
+
+        $isMemberOfGroup = $activity->groups()
+            ->whereHas('users', fn ($q) => $q->whereKey($user))
+            ->exists();
+
+        if (! $isMemberOfGroup) {
+            abort(404);
+        }
     }
 
     public function ical(string $locale, Activity $activity): Response
     {
-        abort_if(! $activity->is_published, 404);
         $summary = e($activity->title_nl);
         $location = e($activity->location);
         $start = $activity->begin_date->utc()->format('Ymd\THis\Z');

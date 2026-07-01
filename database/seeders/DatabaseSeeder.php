@@ -9,6 +9,7 @@ use App\Models\ContactForm;
 use App\Models\Group;
 use App\Models\Partner;
 use App\Models\User;
+use App\Models\YearStat;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -24,6 +25,9 @@ class DatabaseSeeder extends Seeder
     /** Coordinator/author users, rotated across content. */
     private Collection $authors;
 
+    /** Shared sample GPX track, generated once and reused for every ride. */
+    private ?string $sampleGpx = null;
+
     public function run(): void
     {
         $this->call(PostalCodeSeeder::class);
@@ -35,11 +39,25 @@ class DatabaseSeeder extends Seeder
 
         $this->seedUsers();
         $this->seedActivities();
+        $this->seedHistoricalRides();
+        $this->seedYearStats();
         $this->seedArticles();
         $this->seedPartners();
         $this->seedContactForms();
 
         $this->call(DemoUserSeeder::class);
+
+        // Dress specific chapters into deliberate content variations (press,
+        // chapter-scoped partners, hero cover, full agenda) for eyeballing P-11.
+        $this->call(ChapterShowcaseSeeder::class);
+
+        // Fill the "In beeld" wall: attach sample photos to three chapters' latest
+        // rides, in varied counts and orientations.
+        $this->call(ChapterRideGallerySeeder::class);
+
+        // Fill the roze-hesje hub of the demo chapter (Schaarbeek): per-ride galleries,
+        // draft rides, and a roster timeline with one genuinely new member.
+        $this->call(RozeHesjeDemoSeeder::class);
 
         $this->command->newLine();
         $this->task('Cleanup temporary media (if requested)', function () {
@@ -110,7 +128,63 @@ class DatabaseSeeder extends Seeder
                 if (! empty($data['photo'])) {
                     $this->attachRealPhoto($activity, 'main');
                 }
+
+                $this->attachSampleGpx($activity);
             }
+        });
+    }
+
+    /**
+     * A believable 2025 ride archive so the "Steun ons" proof deck can count a
+     * real "ritten in 2025" figure (App\Support\SupportStats). Lightweight on
+     * purpose: plain creates, no media or GPX, spread across local chapters and
+     * the calendar year. These also populate the calendar's "voorbije" tab.
+     */
+    private function seedHistoricalRides(): void
+    {
+        $this->task('Seeding 2025 ride archive', function () {
+            $blurbNl = 'Een rustige, feestelijke fietstocht op kindermaat door de buurt. We reden traag, met muziek voorop, langs veilige straten en pleintjes.';
+            $blurbFr = "Une parade à vélo joyeuse et tranquille, à hauteur d'enfant, dans le quartier. On a roulé lentement, en musique, le long de rues sûres.";
+
+            $names = Group::pluck('name', 'shortname');
+            $shortnames = array_keys($this->groupIds);
+            $postals = ['1000', '1030', '1050', '1070', '1080', '1090', '1180', '1200', '5000', '7000', '9000', '2000'];
+
+            $start = Carbon::create(2025, 1, 11, 14, 0);
+
+            // 62 rides -> matches the "meer dan 60 parades" story, all within 2025.
+            foreach (range(0, 61) as $i) {
+                $shortname = $shortnames[$i % count($shortnames)];
+                $name = $names[$shortname] ?? 'Kidical Mass';
+
+                $activity = Activity::create([
+                    'title_nl' => 'Kidical Mass '.$name,
+                    'title_fr' => 'Kidical Mass '.$name,
+                    'content_nl' => $blurbNl,
+                    'content_fr' => $blurbFr,
+                    'activity_type' => ActivityType::KIDICALMASS,
+                    'begin_date' => (clone $start)->addDays($i * 5),
+                    'location' => $name,
+                    'postal_code' => $postals[$i % count($postals)],
+                    'duration_minutes' => 60,
+                    'published' => true,
+                    'author_id' => $this->authors[$i % $this->authors->count()]->id,
+                ]);
+
+                $activity->groups()->attach($this->groupIds[$shortname]);
+            }
+        });
+    }
+
+    /**
+     * The curated per-year impact figure the admin edits (year_stats). There is
+     * no attendance tracking to derive this from, so the participant count is
+     * seeded by hand to match the current copy.
+     */
+    private function seedYearStats(): void
+    {
+        $this->task('Seeding year stats', function () {
+            YearStat::updateOrCreate(['year' => 2025], ['participants' => 5500]);
         });
     }
 
@@ -169,7 +243,7 @@ class DatabaseSeeder extends Seeder
                 ['name' => 'Karim Haddad', 'email' => 'karim.haddad@example.com', 'phone' => null, 'message' => 'Mijn dochter (6) wil heel graag meefietsen. Moeten we vooraf inschrijven of komen we gewoon af?', 'page_url' => '/nl/events'],
                 ['name' => 'Lien De Smet', 'email' => 'lien.desmet@example.com', 'phone' => '0496 88 77 66', 'message' => 'Onze school wil meedoen met een rit langs de schoolomgeving. Kunnen we daarvoor samenwerken?', 'page_url' => '/nl/chapters/schaarbeek'],
                 ['name' => 'Tom Claes', 'email' => 'tom.claes@example.com', 'phone' => null, 'message' => 'Ik wil graag meehelpen als begeleider in het roze hesje. Waar schrijf ik me in?', 'page_url' => '/nl/help-mee'],
-                ['name' => 'Fatima Ouali', 'email' => 'fatima.ouali@example.com', 'phone' => '0471 22 33 44', 'message' => 'Is er een rit in Molenbeek deze maand? Ik vind de datum niet meteen terug op de site.', 'page_url' => '/nl/chapters/molenbeek'],
+                ['name' => 'Fatima Ouali', 'email' => 'fatima.ouali@example.com', 'phone' => '0471 22 33 44', 'message' => 'Is er een rit in Etterbeek deze maand? Ik vind de datum niet meteen terug op de site.', 'page_url' => '/nl/chapters/etterbeek'],
                 ['name' => 'Pieter Janssens', 'email' => 'pieter.janssens@example.com', 'phone' => null, 'message' => 'Wij zijn een fietswinkel en zouden jullie graag sponsoren. Met wie kan ik daarover praten?', 'page_url' => '/nl/about/partners'],
             ];
 
@@ -202,6 +276,59 @@ class DatabaseSeeder extends Seeder
 
         $model->clearMediaCollection($collection);
         $model->addMedia($path)->preservingOriginal()->toMediaCollection($collection);
+    }
+
+    /**
+     * Give every ride a GPX route so its detail page renders a route map. Only actual
+     * rides get one (a meeting or workshop has no route). Skipped in the testing
+     * environment (mirrors ActivityFactory) and when one already exists.
+     */
+    private function attachSampleGpx(Activity $activity): void
+    {
+        if (app()->environment('testing')) {
+            return;
+        }
+
+        if ($activity->activity_type !== ActivityType::KIDICALMASS) {
+            return;
+        }
+
+        if ($activity->getFirstMedia('gpx')) {
+            return;
+        }
+
+        $activity->addMediaFromString($this->sampleRouteGpx())
+            ->usingFileName('route.gpx')
+            ->usingName('route')
+            ->toMediaCollection('gpx');
+    }
+
+    /**
+     * A believable ~1.5 km loop through central Brussels, reused for every seeded ride.
+     * Enough points for a convincing route line and a departure pin. Built once, cached.
+     */
+    private function sampleRouteGpx(): string
+    {
+        if ($this->sampleGpx !== null) {
+            return $this->sampleGpx;
+        }
+
+        $lat = 50.8467;
+        $lng = 4.3499;
+        $steps = 32;
+        $points = [];
+
+        for ($i = 0; $i <= $steps; $i++) {
+            $angle = ($i / $steps) * 2 * M_PI;
+            $pointLat = $lat + (0.009 * sin($angle)) + (0.0018 * sin(3 * $angle));
+            $pointLng = $lng + (0.013 * cos($angle)) + (0.0026 * cos(2 * $angle));
+            $points[] = sprintf('<trkpt lat="%.5f" lon="%.5f"/>', $pointLat, $pointLng);
+        }
+
+        return $this->sampleGpx = '<?xml version="1.0" encoding="UTF-8"?>'
+            .'<gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1"><trk><trkseg>'
+            .implode('', $points)
+            .'</trkseg></trk></gpx>';
     }
 
     /**
@@ -250,8 +377,8 @@ class DatabaseSeeder extends Seeder
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Citadelpark, Gent', 'postal_code' => '9000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'brussel-stad', 'week' => 3, 'time' => '15:00', 'title_nl' => 'Kidical Mass Brussel-Stad', 'title_fr' => 'Kidical Mass Bruxelles-Ville',
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Begijnhofplein, Brussel', 'postal_code' => '1000', 'distance' => '5 km', 'duration' => 60],
-            ['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
+            //['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
+            //    'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'schaarbeek', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Schaarbeek', 'title_fr' => 'Kidical Mass Schaerbeek',
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'antwerpen', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Antwerpen', 'title_fr' => 'Kidical Mass Anvers',

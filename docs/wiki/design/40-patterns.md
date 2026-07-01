@@ -3,7 +3,7 @@ title: Patterns Library
 tags: [design, patterns]
 sources: [wiki/design/30-skeleton]
 phase: design
-updated: 2026-06-05
+updated: 2026-06-18
 ---
 
 # Patterns Library
@@ -33,6 +33,7 @@ Shared UI patterns with stable IDs. Per-page briefs in [`30-skeleton/`](30-skele
 | **PAT-17** | **News preview / article feed** | List of recent articles with author + date. | Home (preview), About/News (feed) | [`30-skeleton/about.md`](30-skeleton/about.md). |
 | ~~**PAT-18**~~ | ~~**"I'm coming" attendance**~~ | **RETIRED** — per-event attendance cut (Alexandre/J3, 2026-06-05; [`D-1`](01-concerns.md)). Volunteers confirm turnout via WhatsApp polls; no site toggle. Replaced by PAT-19. | — | Do not build. The `Attendance` relation is dropped from the [content model](20-structure.md). |
 | **PAT-19** | **Volunteer roster** | A standing **per-chapter** list of volunteers. **Opt-in public** entries show on the chapter page; the **full roster** is visible to **logged-in volunteers only**. Not per-event. | Chapter page (public, opted-in), back-office / [My activities](30-skeleton/my-activities.md) (full) | Backed by `group_user.is_public` — **no** volunteer↔activity relation ([content model](20-structure.md)). New (D-1, Alexandre/J3). |
+| **PAT-20** | **Photo-collage media** | An organic collage of 2–3 photos scattered on a square stage at slight angles, optional fixed brand doodle anchored in a corner, with a staggered "settle" entrance. Standalone, or inside scroll-sequence where beats crossfade. | Help out (`.ho-deal`, two beats); reuse candidates: chapter pages, About | Source of truth + reuse/extraction recipe: [`specs/2026-06-18-photo-collage-media-design.md`](../../superpowers/specs/2026-06-18-photo-collage-media-design.md). Custom-property scatter (`--ho-photo-x/y/w/r`); **extract to a component on the 2nd page that uses it**. |
 
 ## Gaps / to confirm
 

@@ -1,0 +1,47 @@
+@layer components {
+    .envelope-chips {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .envelope-chips__chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: var(--radius-chip);
+        color: white;
+        box-shadow: var(--shadow-card);
+        transform: rotate(var(--chip-rotate, 0deg));
+    }
+
+    .envelope-chips__chip svg {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .envelope-chips__chip:not(:first-child) {
+        margin-left: -0.65rem;
+    }
+
+    .envelope-chips__chip--green {
+        --chip-rotate: -10deg;
+        background: var(--color-kidical-green);
+    }
+
+    .envelope-chips__chip--red {
+        --chip-rotate: 3deg;
+        background: var(--color-kidical-red);
+        width: 5rem;
+        height: 5rem;
+        z-index: 1;
+    }
+
+    .envelope-chips__chip--blue {
+        --chip-rotate: 11deg;
+        background: var(--color-kidical-blue);
+    }
+}

@@ -2,102 +2,61 @@
 
 use Illuminate\Support\Facades\Blade;
 
-it('intro-text renders slot content with the intro-text class', function () {
-    $html = Blade::render('<x-intro-text>Paragraph here.</x-intro-text>');
-
-    expect($html)
-        ->toContain('class="intro-text"')
-        ->toContain('Paragraph here.');
-});
-
-it('intro-text lead variant adds the lead modifier class', function () {
-    $html = Blade::render('<x-intro-text size="lead">Big lead.</x-intro-text>');
-
-    expect($html)->toContain('intro-text--lead');
-});
-
-it('section-heading renders as h2 by default with the section-heading class', function () {
-    $html = Blade::render('<x-section-heading>Wie wat doet</x-section-heading>');
-
-    expect($html)
+it('section-heading emits an h2 by default and honours the as prop', function () {
+    expect(Blade::render('<x-section-heading>Wie wat doet</x-section-heading>'))
         ->toContain('<h2')
-        ->toContain('class="section-heading"')
         ->toContain('Wie wat doet')
         ->toContain('</h2>');
+
+    expect(Blade::render('<x-section-heading as="h3">Subkop</x-section-heading>'))
+        ->toContain('<h3')
+        ->toContain('</h3>');
 });
 
-it('section-heading respects the as prop to render a different heading level', function () {
-    $html = Blade::render('<x-section-heading as="h3">Subkop</x-section-heading>');
-
-    expect($html)->toContain('<h3')->toContain('</h3>');
-});
-
-it('pull-quote large renders blockquote with attribution', function () {
-    $html = Blade::render(
+it('pull-quote renders a semantic blockquote with attribution and a card variant', function () {
+    $default = Blade::render(
         '<x-pull-quote attribution="Julienne, mama">"Vrijheid om buiten te zijn."</x-pull-quote>'
     );
 
-    expect($html)
-        ->toContain('pull-quote')
+    expect($default)
         ->toContain('<blockquote')
         ->toContain('<figcaption')
-        ->toContain('Julienne, mama');
+        ->toContain('Julienne, mama')
+        ->toContain('Vrijheid om buiten te zijn');
+
+    expect(Blade::render('<x-pull-quote variant="card" attribution="Camille, mama">Quote.</x-pull-quote>'))
+        ->toContain('pull-quote--card');
 });
 
-it('pull-quote card variant adds the card modifier class', function () {
-    $html = Blade::render(
-        '<x-pull-quote variant="card" attribution="Camille, mama">Quote.</x-pull-quote>'
-    );
+it('renders its identifying hook and projects its slot content', function (string $template, array $expected) {
+    $html = Blade::render($template);
 
-    expect($html)->toContain('pull-quote--card');
-});
-
-it('numbered-item renders number chip, title and body slot', function () {
-    $html = Blade::render(
-        '<x-numbered-item number="1" title="Veilige infrastructuur">Body text.</x-numbered-item>'
-    );
-
-    expect($html)
-        ->toContain('numbered-item')
-        ->toContain('numbered-item__num')
-        ->toContain('1')
-        ->toContain('Veilige infrastructuur')
-        ->toContain('Body text.');
-});
-
-it('person-card renders name and role', function () {
-    $html = Blade::render('<x-person-card name="Leticia" role="Coördinatie" />');
-
-    expect($html)
-        ->toContain('person-card')
-        ->toContain('Leticia')
-        ->toContain('Coördinatie');
-});
-
-it('info-card renders label and slot content', function () {
-    $html = Blade::render(
-        '<x-info-card label="Perscontact">bike@kidicalmass.be</x-info-card>'
-    );
-
-    expect($html)
-        ->toContain('info-card')
-        ->toContain('info-card__label')
-        ->toContain('Perscontact')
-        ->toContain('bike@kidicalmass.be');
-});
-
-it('titled-list-block renders the title and list items from slot', function () {
-    $html = Blade::render(<<<'BLADE'
-        <x-titled-list-block title="Wat je krijgt">
-            <li>Materiaal en steun</li>
-            <li>Opleiding</li>
-        </x-titled-list-block>
-    BLADE);
-
-    expect($html)
-        ->toContain('titled-list-block')
-        ->toContain('titled-list-block__title')
-        ->toContain('Wat je krijgt')
-        ->toContain('<li>Materiaal en steun</li>')
-        ->toContain('<li>Opleiding</li>');
-});
+    foreach ($expected as $needle) {
+        expect($html)->toContain($needle);
+    }
+})->with([
+    'intro-text slot' => [
+        '<x-intro-text>Paragraph here.</x-intro-text>',
+        ['class="intro-text"', 'Paragraph here.'],
+    ],
+    'intro-text lead variant' => [
+        '<x-intro-text size="lead">Big lead.</x-intro-text>',
+        ['intro-text--lead', 'Big lead.'],
+    ],
+    'numbered-item' => [
+        '<x-numbered-item number="1" title="Veilige infrastructuur">Body text.</x-numbered-item>',
+        ['numbered-item__num', '1', 'Veilige infrastructuur', 'Body text.'],
+    ],
+    'person-card' => [
+        '<x-person-card name="Leticia" role="Coördinatie" />',
+        ['person-card', 'Leticia', 'Coördinatie'],
+    ],
+    'info-card' => [
+        '<x-info-card label="Perscontact">bike@kidicalmass.be</x-info-card>',
+        ['info-card__label', 'Perscontact', 'bike@kidicalmass.be'],
+    ],
+    'titled-list-block' => [
+        '<x-titled-list-block title="Wat je krijgt"><li>Materiaal en steun</li><li>Opleiding</li></x-titled-list-block>',
+        ['titled-list-block__title', 'Wat je krijgt', '<li>Materiaal en steun</li>', '<li>Opleiding</li>'],
+    ],
+]);

@@ -11,55 +11,51 @@
         flex: 0 1 auto;
         min-width: 0;
     }
-    .filter-bar__sep {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        width: auto;
-        height: auto;
-        background: none;
-        margin: 0;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
-        font-size: var(--text-base);
-    }
     .filter-bar__radius {
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0.35rem;
+        /* 18px here + each tab's 4px inner padding == the 14px tabs gap + 2×4px
+           padding, so the visual space label→first link equals link→link. */
+        gap: 18px;
+        margin-left: 1rem;
         flex-shrink: 0;
     }
     .filter-bar__radius-label {
         font-family: var(--font-sans);
         font-size: var(--text-xl);
         font-weight: 400;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+        color: var(--color-text-body);
         flex-shrink: 0;
     }
     .filter-bar__tabs {
         display: flex;
-        gap: 4px;
+        gap: 14px;
     }
     .filter-bar__tab {
-        padding: 0.45rem 1.1rem;
+        padding: 2px 4px;
         font-family: var(--font-sans);
         font-size: var(--text-xl);
-        font-weight: 700;
-        border-radius: 8px;
+        font-weight: 400;
+        border-radius: 0;
         color: var(--color-kidical-blue);
-        background: var(--color-kidical-light-blue);
+        background: transparent;
         cursor: pointer;
-        transition: background 0.15s, color 0.15s;
+        transition: color 0.15s, text-decoration-color 0.15s;
         border: none;
     }
     .filter-bar__tab:hover {
-        background: color-mix(in oklab, var(--color-kidical-light-blue), var(--color-kidical-blue) 15%);
-        color: var(--color-kidical-blue);
+        color: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-ink) 35%);
     }
     .filter-bar__tab--active,
     .filter-bar__tab--active:hover {
-        background: var(--color-kidical-red);
-        color: white;
+        color: var(--color-kidical-ink);
+        font-weight: 700;
+        background: transparent;
+        text-decoration: underline;
+        text-decoration-color: var(--color-kidical-red);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 5px;
     }
 
     @media (max-width: 767px) {
@@ -69,11 +65,9 @@
             padding: 0.75rem 1rem;
             margin: 0 -1rem;
         }
-        .filter-bar__sep {
-            display: none;
-        }
         .filter-bar__radius {
             flex-wrap: wrap;
+            margin-left: 0;
         }
         .filter-bar__tabs {
             flex-wrap: wrap;

@@ -100,8 +100,8 @@ it('filament admin returns 403 for pinkvest', function () {
         ->assertForbidden();
 });
 
-it('filament admin redirects to login for guest', function () {
-    get('/admin')->assertRedirect(route('filament.admin.auth.login'));
+it('admin redirects to login for guest', function () {
+    get('/admin')->assertRedirect(route('login'));
 });
 
 it('captain passes middleware via canAccessFilament', function () {

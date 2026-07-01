@@ -47,13 +47,13 @@ class ImpersonateController extends Controller
         if (! $originalUser) {
             Auth::logout();
 
-            return redirect()->route('filament.admin.auth.login')->with('error', 'Original user account not found.');
+            return redirect()->route('login')->with('error', 'Original user account not found.');
         }
 
         // Flash message before switching users
         session()->flash('success', 'You have stopped impersonating.');
         Auth::login($originalUser);
 
-        return redirect()->route('filament.admin.pages.dashboard');
+        return redirect()->route('admin.dashboard');
     }
 }

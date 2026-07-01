@@ -3,29 +3,29 @@
 namespace App\Models;
 
 use App\Enums\ActivityType;
+use App\Enums\RideLifecycleState;
+use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+#[Unguarded]
 #[ScopedBy([LocalGroupScope::class])]
 class Activity extends Model implements HasMedia
 {
     use HasFactory;
+    use HasMainImage;
     use InteractsWithMedia;
-
-    protected $guarded = [];
-
-    protected $attributes = [
-        'is_published' => false,
-    ];
 
     protected function casts(): array
     {
@@ -33,6 +33,7 @@ class Activity extends Model implements HasMedia
             'begin_date' => 'datetime',
             'activity_type' => ActivityType::class,
             'is_published' => 'boolean',
+            'published' => 'boolean',
         ];
     }
 
@@ -66,12 +67,14 @@ class Activity extends Model implements HasMedia
         $this
             ->addMediaCollection('main')
             ->singleFile()
+            ->withResponsiveImages()
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
 
         $this
             ->addMediaCollection('gallery')
+            ->withResponsiveImages()
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
@@ -113,6 +116,11 @@ class Activity extends Model implements HasMedia
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function pressArticles(): MorphToMany
+    {
+        return $this->morphToMany(PressArticle::class, 'press_articleable');
     }
 
     public function getEffectiveOrganizerAttribute(): ?User
@@ -186,6 +194,11 @@ class Activity extends Model implements HasMedia
         return RideDate::short($this->begin_date);
     }
 
+    public function getWeekdayLabelAttribute(): string
+    {
+        return RideDate::weekday($this->begin_date);
+    }
+
     public function getDateFullAttribute(): string
     {
         return RideDate::full($this->begin_date);
@@ -194,5 +207,116 @@ class Activity extends Model implements HasMedia
     public function getDateMonthYearAttribute(): string
     {
         return RideDate::monthYear($this->begin_date);
+    }
+
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('published', true);
+    }
+
+    public function isPast(): bool
+    {
+        $end = $this->end_date;
+
+        return $end !== null && $end->isPast();
+    }
+
+    public function hasEnded(): bool
+    {
+        $end = $this->end_date ?? $this->begin_date;
+
+        return $end !== null && $end->isPast();
+    }
+
+    public function lifecycleState(): RideLifecycleState
+    {
+        if (! $this->hasEnded()) {
+            return RideLifecycleState::Upcoming;
+        }
+
+        return $this->hasGallery()
+            ? RideLifecycleState::Recap
+            : RideLifecycleState::AwaitingPhotos;
+    }
+
+    public function isUpcoming(): bool
+    {
+        return $this->lifecycleState() === RideLifecycleState::Upcoming;
+    }
+
+    public function isAwaitingPhotos(): bool
+    {
+        return $this->lifecycleState() === RideLifecycleState::AwaitingPhotos;
+    }
+
+    public function isRecap(): bool
+    {
+        return $this->lifecycleState() === RideLifecycleState::Recap;
+    }
+
+    public function hasMainImage(): bool
+    {
+        return $this->getFirstMedia('main') !== null;
+    }
+
+    public function hasGallery(): bool
+    {
+        return $this->getMedia('gallery')->isNotEmpty();
+    }
+
+    public function hasPressCoverage(): bool
+    {
+        return $this->pressArticles()->exists();
+    }
+
+    public function hasRoute(): bool
+    {
+        return filled($this->commute_link)
+            || filled($this->komoot_url)
+            || $this->getFirstMedia('gpx') !== null;
+    }
+
+    public function missingFields(): array
+    {
+        $missing = [];
+
+        if (! filled($this->title_nl)) {
+            $missing[] = 'title_nl';
+        }
+
+        if (! filled($this->title_fr)) {
+            $missing[] = 'title_fr';
+        }
+
+        if (! filled($this->content_nl) && ! filled($this->content_fr)) {
+            $missing[] = 'content';
+        }
+
+        if (! $this->hasMainImage()) {
+            $missing[] = 'main_image';
+        }
+
+        if (! $this->hasRoute()) {
+            $missing[] = 'route';
+        }
+
+        if (! filled($this->location)) {
+            $missing[] = 'location';
+        }
+
+        if (! $this->organizer_id) {
+            $missing[] = 'organizer';
+        }
+
+        if ($this->begin_date === null) {
+            $missing[] = 'begin_date';
+        }
+
+        return $missing;
+    }
+
+    public function isComplete(): bool
+    {
+        return empty($this->missingFields());
     }
 }

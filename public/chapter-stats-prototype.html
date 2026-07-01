@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samen al — stat cards, white variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #281a39;
+    --red: #E63A7B;
+    --orange: #F0803C;
+    --blue: #1d67cd;
+    --light-blue: #B7E7F0;
+    --light-yellow: #FEF3D5;
+    --font-sans: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Caprasimo', ui-sans-serif, system-ui, sans-serif;
+    --body: color-mix(in oklab, var(--ink), transparent 25%);
+    --muted: color-mix(in oklab, var(--ink), transparent 32%);
+    --faint: color-mix(in oklab, var(--ink), transparent 45%);
+    --hairline: color-mix(in oklab, var(--ink), transparent 88%);
+    --radius-card: 2rem;
+    --radius-tile: 1rem;
+    --radius-chip: 28%;
+    --shadow-card: 0 6px 30px rgb(0 0 0 / 0.1);
+    --shadow-float: 0 4px 20px rgb(0 0 0 / 0.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: var(--font-sans); color: var(--body);
+    font-size: 1.25rem; line-height: 1.6; background: #fbfafc;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { font-family: var(--font-heading); font-weight: 400; color: var(--ink); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 1.5rem 8rem; }
+
+  .lede { padding: 2.75rem 0 0.5rem; }
+  .lede h1 { font-size: 2rem; margin: 0 0 0.4rem; line-height: 1.1; }
+  .lede p { font-size: 0.95rem; color: var(--faint); margin: 0; max-width: 60ch; }
+
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+    padding: 0.7rem 0; margin: 1rem 0 0.5rem;
+    background: color-mix(in oklab, #fbfafc, transparent 8%);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--hairline);
+  }
+  .bar button {
+    font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700;
+    padding: 0.4rem 0.8rem; border-radius: 999px;
+    border: 1.5px solid var(--hairline); background: white; color: var(--body);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .bar button:hover { border-color: var(--blue); color: var(--blue); }
+  .bar button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: white; }
+  #compareBtn { margin-left: auto; }
+
+  .variant { display: none; padding-top: 1.5rem; }
+  .variant.active { display: block; }
+  body.compare .variant { display: block; border-bottom: 1px dashed var(--hairline); padding-bottom: 3rem; margin-bottom: 1rem; }
+  body.compare .bar button:not(#compareBtn) { opacity: 0.5; }
+
+  .variant > .tag {
+    display: inline-flex; align-items: baseline; gap: 0.6rem;
+    font-size: 0.75rem; font-weight: 800; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--blue); margin: 0 0 0.3rem;
+  }
+  .variant > .note { font-size: 0.85rem; color: var(--faint); margin: 0 0 1.6rem; max-width: 64ch; }
+
+  /* eyebrow above each band, as on the live page */
+  .eyebrow {
+    font-family: var(--font-sans); font-size: 0.8125rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint);
+    margin: 0 0 0.9rem;
+  }
+
+  /* shared chip motif (icon-chip) */
+  .chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: none; color: white; transform: rotate(-3deg);
+    border-radius: var(--radius-chip);
+  }
+  .chip.blue { background: var(--blue); }
+  .chip.red  { background: var(--red); }
+  .chip svg { width: 60%; height: 60%; }
+
+  .grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+  .num { font-family: var(--font-heading); font-weight: 400; color: var(--ink); line-height: 1; }
+  .label { font-weight: 700; color: var(--muted); line-height: 1.3; }
+
+  /* ============ CURRENT (reference) ============ */
+  .v-current .card {
+    flex: 1 1 16rem; display: flex; align-items: center; gap: 1rem;
+    background: var(--light-yellow); border-radius: var(--radius-card);
+    padding: 1.4rem 1.6rem;
+  }
+  .v-current .chip { width: 2.25rem; height: 2.25rem; }
+  .v-current .num { font-size: 2rem; }
+  .v-current .label { font-size: 1.0625rem; }
+
+  /* ============ A · white surface, horizontal ============ */
+  .v-a .card {
+    flex: 1 1 16rem; display: flex; align-items: center; gap: 1.1rem;
+    background: white; border-radius: var(--radius-card);
+    padding: 1.4rem 1.7rem; box-shadow: var(--shadow-card);
+  }
+  .v-a .chip { width: 2.6rem; height: 2.6rem; }
+  .v-a .num { font-size: 2.1rem; }
+  .v-a .label { font-size: 1.0625rem; }
+
+  /* ============ B · white, stacked mini feature-card ============ */
+  .v-b .card {
+    flex: 1 1 15rem; display: flex; flex-direction: column; gap: 0.85rem;
+    background: white; border-radius: var(--radius-card);
+    padding: 1.6rem 1.7rem 1.5rem; box-shadow: var(--shadow-card);
+  }
+  .v-b .chip { width: 2.75rem; height: 2.75rem; }
+  .v-b .num { font-size: 2.4rem; }
+  .v-b .label { font-size: 1.0625rem; }
+
+  /* ============ C · quiet hairline tile ============ */
+  .v-c .card {
+    flex: 1 1 15rem; display: flex; align-items: center; gap: 0.9rem;
+    background: white; border-radius: var(--radius-tile);
+    padding: 1.1rem 1.3rem;
+    box-shadow: inset 0 0 0 1px var(--hairline);
+  }
+  .v-c .chip { width: 2.1rem; height: 2.1rem; }
+  .v-c .num { font-size: 1.7rem; }
+  .v-c .label { font-size: 1rem; color: var(--faint); }
+
+  /* ============ D · number-forward, chip inline ============ */
+  .v-d .card {
+    flex: 1 1 15rem; display: flex; flex-direction: column; gap: 0.5rem;
+    background: white; border-radius: var(--radius-card);
+    padding: 1.5rem 1.7rem; box-shadow: var(--shadow-card);
+  }
+  .v-d .num { font-size: 2.9rem; }
+  .v-d .meta { display: flex; align-items: center; gap: 0.6rem; }
+  .v-d .chip { width: 1.8rem; height: 1.8rem; transform: rotate(-3deg); }
+  .v-d .label { font-size: 1.0625rem; }
+
+  /* lead-in word reused by the one-line variants */
+  .lead {
+    font-family: var(--font-sans); font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--faint); font-size: 0.8125rem; flex: none;
+  }
+
+  /* ============ E · one line, run-on ============ */
+  .v-e .line {
+    display: flex; align-items: baseline; flex-wrap: wrap;
+    gap: 0.55rem 1.4rem;
+  }
+  .v-e .lead { align-self: baseline; }
+  .v-e .stat { display: inline-flex; align-items: baseline; gap: 0.7rem; }
+  /* chip is a box, so it can't sit on the text baseline — centre it to the line instead */
+  .v-e .chip { width: 2rem; height: 2rem; align-self: center; }
+  .v-e .chip svg { width: 50%; height: 50%; }
+  .v-e .num.hero {
+    font-family: var(--font-heading); font-weight: 400;
+    font-size: 1.6rem; color: var(--ink); line-height: 1;
+  }
+  .v-e .label { font-size: 1.0625rem; color: var(--faint); font-weight: 600; line-height: 1; }
+  .v-e .sep { align-self: center; color: var(--hairline); font-size: 1.4rem; line-height: 1; }
+
+  /* ============ F · one white pill, dividers ============ */
+  .v-f .pill {
+    display: inline-flex; align-items: center; flex-wrap: wrap;
+    gap: 0.85rem 1.25rem; background: white; border-radius: 999px;
+    padding: 0.7rem 1.5rem; box-shadow: var(--shadow-card);
+  }
+  .v-f .lead { color: var(--blue); }
+  .v-f .stat { display: inline-flex; align-items: center; gap: 0.55rem; }
+  .v-f .chip { width: 1.85rem; height: 1.85rem; }
+  .v-f .num { font-family: var(--font-heading); font-size: 1.35rem; }
+  .v-f .label { font-size: 1rem; color: var(--faint); font-weight: 600; }
+  .v-f .divider { width: 1px; align-self: stretch; background: var(--hairline); margin: 0.15rem 0; }
+
+  /* ============ G · eyebrow + two compact chip-pills inline ============ */
+  .v-g .row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.7rem; }
+  .v-g .lead { margin-right: 0.3rem; }
+  .v-g .stat {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: white; border-radius: 999px; padding: 0.5rem 1rem 0.5rem 0.6rem;
+    box-shadow: inset 0 0 0 1px var(--hairline);
+  }
+  .v-g .chip { width: 1.9rem; height: 1.9rem; }
+  .v-g .num { font-family: var(--font-heading); font-size: 1.2rem; }
+  .v-g .label { font-size: 0.95rem; color: var(--faint); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lede">
+    <h1>“Samen al” — witte kaarten</h1>
+    <p>Vier richtingen voor het track-record bandje op de chapterpagina, allemaal wit en leunend op het icon-chip + kaart-motief. Schakel met de knoppen, of zet alles naast elkaar.</p>
+  </div>
+
+  <div class="bar" id="bar">
+    <button data-v="current" aria-pressed="false">Huidig (geel)</button>
+    <button data-v="a" aria-pressed="false">A · Horizontaal</button>
+    <button data-v="b" aria-pressed="false">B · Gestapeld</button>
+    <button data-v="c" aria-pressed="false">C · Stil (lijntje)</button>
+    <button data-v="d" aria-pressed="false">D · Cijfer voorop</button>
+    <button data-v="e" aria-pressed="true">E · Eén lijn</button>
+    <button data-v="f" aria-pressed="false">F · Eén pil</button>
+    <button data-v="g" aria-pressed="false">G · Lijn + chip-pillen</button>
+    <button id="compareBtn" aria-pressed="false">Vergelijk alles</button>
+  </div>
+
+  <!-- CURRENT -->
+  <section class="variant v-current" data-v="current">
+    <p class="tag">Huidig</p>
+    <p class="note">Wat er nu staat: botergele grond, chip links, cijfer + label rechts. Referentie.</p>
+    <p class="eyebrow">Samen al</p>
+    <div class="grid">
+      <div class="card">
+        <span class="chip blue" data-i="flag"></span>
+        <span><span class="num">sinds 2020</span><br><span class="label">op pad in Schaarbeek</span></span>
+      </div>
+      <div class="card">
+        <span class="chip red" data-i="bike"></span>
+        <span><span class="num">2 parades</span><br><span class="label">samen gereden</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- A -->
+  <section class="variant v-a" data-v="a">
+    <p class="tag">A · Horizontaal wit</p>
+    <p class="note">Dezelfde compacte rij, maar nu witte kaart met de standaard card-schaduw. De directe “maak het wit”-versie — chip iets groter, leest als één familie met de feature-cards.</p>
+    <p class="eyebrow">Samen al</p>
+    <div class="grid">
+      <div class="card">
+        <span class="chip blue" data-i="flag"></span>
+        <span><span class="num">sinds 2020</span><br><span class="label">op pad in Schaarbeek</span></span>
+      </div>
+      <div class="card">
+        <span class="chip red" data-i="bike"></span>
+        <span><span class="num">2 parades</span><br><span class="label">samen gereden</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="variant v-b" data-v="b">
+    <p class="tag">B · Gestapeld (mini feature-card)</p>
+    <p class="note">Verticaal zoals de feature-cards: chip bovenaan, dan het cijfer, dan het label. Geeft het cijfer meer lucht; voelt het meest “onderdeel van het systeem”.</p>
+    <p class="eyebrow">Samen al</p>
+    <div class="grid">
+      <div class="card">
+        <span class="chip blue" data-i="flag"></span>
+        <span class="num">sinds 2020</span>
+        <span class="label">op pad in Schaarbeek</span>
+      </div>
+      <div class="card">
+        <span class="chip red" data-i="bike"></span>
+        <span class="num">2 parades</span>
+        <span class="label">samen gereden</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="variant v-c" data-v="c">
+    <p class="tag">C · Stil (haarlijn)</p>
+    <p class="note">Witte tegel met enkel een haarlijntje, geen schaduw, kleinere chip en cijfer. De rustigste optie — het bandje treedt op de achtergrond en laat het team erboven het werk doen.</p>
+    <p class="eyebrow">Samen al</p>
+    <div class="grid">
+      <div class="card">
+        <span class="chip blue" data-i="flag"></span>
+        <span><span class="num">sinds 2020</span><br><span class="label">op pad in Schaarbeek</span></span>
+      </div>
+      <div class="card">
+        <span class="chip red" data-i="bike"></span>
+        <span><span class="num">2 parades</span><br><span class="label">samen gereden</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- D -->
+  <section class="variant v-d" data-v="d">
+    <p class="tag">D · Cijfer voorop</p>
+    <p class="note">Het cijfer is de held (groot Caprasimo), met een kleine chip inline naast het label eronder. Compact en zelfverzekerd — leest als een echte stat.</p>
+    <p class="eyebrow">Samen al</p>
+    <div class="grid">
+      <div class="card">
+        <span class="num">sinds 2020</span>
+        <span class="meta"><span class="chip blue" data-i="flag"></span><span class="label">op pad in Schaarbeek</span></span>
+      </div>
+      <div class="card">
+        <span class="num">2 parades</span>
+        <span class="meta"><span class="chip red" data-i="bike"></span><span class="label">samen gereden</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- E -->
+  <section class="variant v-e active" data-v="e">
+    <p class="tag">E · Eén lijn, geen kaart</p>
+    <p class="note">Alles op één regel achter het woord “Samen al”: chip + cijfer + label, gescheiden door een stippeltje. Geen kaart, geen vlak — het minst zwaar. Loopt netjes door naar twee regels op smal scherm.</p>
+    <div class="line">
+      <span class="lead">Samen al</span>
+      <span class="stat"><span class="chip blue" data-i="flag"></span><span class="num hero">sinds 2020</span><span class="label">op pad in Schaarbeek</span></span>
+      <span class="sep">·</span>
+      <span class="stat"><span class="chip red" data-i="bike"></span><span class="num hero">2 parades</span><span class="label">samen gereden</span></span>
+    </div>
+  </section>
+
+  <!-- F -->
+  <section class="variant v-f" data-v="f">
+    <p class="tag">F · Eén witte pil</p>
+    <p class="note">Eén compacte witte pil met de standaard kaart-schaduw. “Samen al” voorop, dan de twee feiten met een fijn verticaal lijntje ertussen. Eén object i.p.v. twee losse kaarten.</p>
+    <div class="pill">
+      <span class="lead">Samen al</span>
+      <span class="stat"><span class="chip blue" data-i="flag"></span><span class="num">sinds 2020</span><span class="label">in Schaarbeek</span></span>
+      <span class="divider"></span>
+      <span class="stat"><span class="chip red" data-i="bike"></span><span class="num">2 parades</span><span class="label">gereden</span></span>
+    </div>
+  </section>
+
+  <!-- G -->
+  <section class="variant v-g" data-v="g">
+    <p class="tag">G · Lijn + chip-pillen</p>
+    <p class="note">“Samen al” als lead-in, daarna twee compacte chip-pilletjes met enkel een haarlijntje. Tussenweg tussen E en F: één regel, maar elk feit blijft een herkenbaar object.</p>
+    <div class="row">
+      <span class="lead">Samen al</span>
+      <span class="stat"><span class="chip blue" data-i="flag"></span><span class="num">sinds 2020</span><span class="label">in Schaarbeek</span></span>
+      <span class="stat"><span class="chip red" data-i="bike"></span><span class="num">2 parades</span><span class="label">gereden</span></span>
+    </div>
+  </section>
+</div>
+
+<script>
+  const FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>';
+  const BIKE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>';
+  document.querySelectorAll('.chip[data-i]').forEach(c => { c.innerHTML = c.dataset.i === 'flag' ? FLAG : BIKE; });
+
+  const bar = document.getElementById('bar');
+  const compareBtn = document.getElementById('compareBtn');
+  bar.querySelectorAll('button[data-v]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.body.classList.remove('compare');
+      compareBtn.setAttribute('aria-pressed', 'false');
+      bar.querySelectorAll('button[data-v]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      document.querySelectorAll('.variant').forEach(v => v.classList.toggle('active', v.dataset.v === btn.dataset.v));
+    });
+  });
+  compareBtn.addEventListener('click', () => {
+    const on = !document.body.classList.contains('compare');
+    document.body.classList.toggle('compare', on);
+    compareBtn.setAttribute('aria-pressed', String(on));
+  });
+</script>
+</body>
+</html>

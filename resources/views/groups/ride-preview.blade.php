@@ -2,19 +2,26 @@
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
+
+        $title = $ride?->title ?? "Een rit door {$gemeente}";
+        $when = $ride
+            ? 'Mogelijk ' . $ride->date_full . ', datum nog te bevestigen.'
+            : 'Mogelijk zondag 12 juli, datum nog te bevestigen.';
+        $whenIso = $ride?->begin_date?->toDateString() ?? '2026-07-12';
     @endphp
 
-    {{-- FAUX exemplar draft ride. Replace with a real draft Activity once lifecycle state
-         lands (Nico #37). The status line is read-only for hesjes, the captains' working line. --}}
+    {{-- Read-only preview of a draft ride. Shows a real unpublished Activity when one is
+         passed (?ride=), else a faux exemplar. The status line stays prose — there is no
+         Activity status field yet (Nico #37) — and is read-only for hesjes. --}}
     <section class="chapter-body roze-preview">
-        <a href="{{ route('groups.roze-hesjes', $group) }}" class="roze-preview__back link-plain">← Terug naar {{ $gemeente }}</a>
+        <a href="{{ route('groups.roze-hesjes.agenda', $group) }}" class="roze-preview__back link-plain">&larr; Terug naar de agenda</a>
 
         <p class="roze-preview__flag">Nog niet vast</p>
-        <h1>Een rit door {{ $gemeente }}</h1>
-        <p class="roze-preview__when">Mogelijk <time datetime="2026-07-12">zondag 12 juli</time>, datum nog te bevestigen.</p>
+        <h1>{{ $title }}</h1>
+        <p class="roze-preview__when"><time datetime="{{ $whenIso }}">{{ $when }}</time></p>
 
         <div class="roze-preview__status">
-            <strong class="roze-preview__status-title">Wat moet er nog gebeuren</strong>
+            <strong class="roze-preview__status-title roze-card-title">Wat moet er nog gebeuren</strong>
             <p class="roze-preview__status-body">De route is gekozen, maar de communicatiekaart is nog niet ingevuld. Zodra die klaar is, kondigen de kapiteins de rit aan.</p>
         </div>
 

@@ -38,6 +38,20 @@
     50%      { transform: translateY(0.3rem); }
 }
 
+/* The chapter team carousel: each rider drifts in from the right with a slight
+   lean + drop, then settles. The from-offset reads per-card custom properties
+   (set in chapters.css) so the row arrives organically, not as a rigid sweep. */
+@keyframes team-card-in {
+    from {
+        opacity: 0;
+        transform: translateX(var(--enter-x, 4rem)) translateY(var(--enter-y, 0.5rem)) rotate(var(--enter-r, 2deg)) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(0) rotate(var(--tilt, 0deg)) scale(1);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .home-intro__scroll svg { animation: none; }
 }
@@ -60,9 +74,9 @@
         animation: none;
     }
 
-    .gs-faq__item::details-content,
-    .gs-faq__q::before,
-    .gs-faq__q::after {
+    .faq__item::details-content,
+    .faq__q::before,
+    .faq__q::after {
         transition: none;
     }
 }
@@ -102,6 +116,16 @@
     .location-picker__input,
     .location-picker__geo,
     .location-picker__change {
+        transition: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .chapter-join__aside,
+    .chapter-join__form-col {
+        animation: none;
+    }
+    .chapter-join__cta--leave {
         transition: none;
     }
 }

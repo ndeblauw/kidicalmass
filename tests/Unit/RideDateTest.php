@@ -37,16 +37,21 @@ it('returns lowercase output so casing stays a CSS concern', function () {
     expect($full)->toBe(mb_strtolower($full));
 });
 
-it('builds the calendar-lockup parts with the full day name', function () {
+it('builds the calendar-lockup parts with a 3-letter month and no weekday', function () {
     app()->setLocale('nl');
     $rail = RideDate::rail('2026-06-14');
     expect($rail['num'])->toBe('14');
-    expect($rail['month'])->toBe('juni');
-    expect($rail['day'])->toBe('zondag');
+    expect($rail['month'])->toBe('jun');     // 3-letter abbreviation, trailing period trimmed
+    expect($rail)->not->toHaveKey('day');    // the weekday now lives in the meta line
     expect($rail['rotation'])->toBeFloat();
+});
+
+it('exposes the weekday name on its own per locale', function () {
+    app()->setLocale('nl');
+    expect(RideDate::weekday('2026-06-14'))->toBe('zondag');
 
     app()->setLocale('fr');
-    expect(RideDate::rail('2026-06-14')['day'])->toBe('dimanche');
+    expect(RideDate::weekday('2026-06-14'))->toBe('dimanche');
 });
 
 it('seeds a stable, readable rotation per date', function () {

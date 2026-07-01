@@ -1,8 +1,9 @@
 @props([
     'href' => null,
-    'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | secondary (outlined, quiet) | ghost (text-only)
+    'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | pink (roze-hesje actions) | secondary (outlined, quiet) | ghost (text-only)
     'icon' => 'arrow',     // arrow (a "go" action) | back (a "return" action) | heart (support / membership)
     'size' => 'md',        // md | sm (nav + footer)
+    'disc' => null,        // disc colour: red (default) | green | orange | blue
     'disabled' => false,   // inert, dimmed — no navigation, no hover animation
     'loading' => false,    // inert, shows a spinner (state set server-side)
     'block' => false,      // full-width
@@ -27,6 +28,16 @@
         $loading ? 'cta-button--loading' : null,
     ])->filter()->implode(' ');
 
+    // The disc colour is a CSS custom property the stylesheet reads, defaulting
+    // to red when unset. Whitelisted to brand tokens so it can't inject styles.
+    $discStyle = match ($disc) {
+        'green' => '--cta-disc-color: var(--color-kidical-green);',
+        'orange' => '--cta-disc-color: var(--color-kidical-orange);',
+        'blue' => '--cta-disc-color: var(--color-kidical-blue);',
+        'red' => '--cta-disc-color: var(--color-kidical-red);',
+        default => null,
+    };
+
     // Icons use currentColor so the disc can recolour per variant (white on the
     // primary red disc, muted ink on the quiet secondary/ghost disc).
     $iconSvg = match ($icon) {
@@ -37,13 +48,13 @@
 @endphp
 
 @if ($isButton)
-<button type="button" {{ $attributes->merge(['class' => $classes]) }}>
+<button type="button" {{ $attributes->merge(['class' => $classes, 'style' => $discStyle]) }}>
 @else
 <a
     @unless ($isInert) href="{{ $href }}" @endunless
     @if ($isInert) aria-disabled="true" tabindex="-1" @endif
     @if ($loading) aria-busy="true" @endif
-    {{ $attributes->merge(['class' => $classes]) }}
+    {{ $attributes->merge(['class' => $classes, 'style' => $discStyle]) }}
 >
 @endif
     @if ($loading)
