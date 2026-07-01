@@ -41,6 +41,7 @@ function pastRideFor(Group $group, string $title, CarbonInterface $when, int $ph
         'duration_minutes' => 60,
         'location' => 'Place Colignon',
         'author_id' => User::factory()->create()->id,
+        'is_published' => true,
     ]);
     $ride->groups()->attach($group);
 
@@ -209,6 +210,7 @@ test('group show mixes parent and direct content with correct ordering', functio
         'duration_minutes' => 60,
         'location' => 'Parent place',
         'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $laterActivity->groups()->attach($parent);
 
@@ -222,6 +224,7 @@ test('group show mixes parent and direct content with correct ordering', functio
         'duration_minutes' => 60,
         'location' => 'Child place',
         'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $nearestActivity->groups()->attach($child);
 
@@ -235,6 +238,7 @@ test('group show mixes parent and direct content with correct ordering', functio
         'duration_minutes' => 60,
         'location' => 'Past place',
         'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $pastActivity->groups()->attach($child);
 
@@ -289,6 +293,7 @@ test('chapter home leads with the next ride in NL, not metadata', function () {
         'duration_minutes' => 60,
         'location' => 'Place Colignon',
         'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $next->groups()->attach($group);
 
@@ -375,6 +380,7 @@ test('chapter agenda labels a workshop as a workshop, never as a ride', function
         'activity_type' => 'workshop',
         'begin_date' => now()->addDays(3), 'duration_minutes' => 120,
         'location' => 'Cyclo werkplaats', 'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $workshop->groups()->attach($group);
 
@@ -399,6 +405,7 @@ test('chapter agenda accents a meeting blue on its calendar lockup', function ()
         'activity_type' => 'meeting',
         'begin_date' => now()->addDays(2), 'duration_minutes' => 90,
         'location' => 'Mundo-B', 'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $meeting->groups()->attach($group);
 
@@ -724,9 +731,9 @@ test('controller buckets upcoming rides and other activities separately', functi
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->subYears(3)]);
 
-    $ride = Activity::create(['title_nl' => 'Parade juni', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
-    $workshop = Activity::create(['title_nl' => 'Sleutelworkshop', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'workshop', 'begin_date' => now()->addDays(3), 'duration_minutes' => 90, 'location' => 'Werkplaats', 'author_id' => $author->id]);
-    $pastRide = Activity::create(['title_nl' => 'Parade mei', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->subMonth(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $ride = Activity::create(['title_nl' => 'Parade juni', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id, 'is_published' => true]);
+    $workshop = Activity::create(['title_nl' => 'Sleutelworkshop', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'workshop', 'begin_date' => now()->addDays(3), 'duration_minutes' => 90, 'location' => 'Werkplaats', 'author_id' => $author->id, 'is_published' => true]);
+    $pastRide = Activity::create(['title_nl' => 'Parade mei', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->subMonth(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id, 'is_published' => true]);
     $ride->groups()->attach($group);
     $workshop->groups()->attach($group);
     $pastRide->groups()->attach($group);
@@ -744,10 +751,10 @@ test('chapter shows the real track-record line (sinds + parades), no fake number
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'sb', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->setDate(2023, 1, 1)]);
     foreach ([now()->subMonths(2), now()->subMonth()] as $when) {
-        $r = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => $when, 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+        $r = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => $when, 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id, 'is_published' => true]);
         $r->groups()->attach($group);
     }
-    $next = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $next = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id, 'is_published' => true]);
     $next->groups()->attach($group);
 
     get(route('groups.show', $group))
@@ -763,7 +770,7 @@ test('the track-record stats sit under the team carousel as the crew accomplishm
     $author = User::factory()->create();
     $group = Group::create(['shortname' => 'sbt', 'name' => 'Kidical Mass Schaarbeek', 'zip' => '1030', 'invisible' => false, 'started_at' => now()->setDate(2021, 1, 1)]);
     $group->users()->attach(User::factory()->create(['name' => 'Sofie Maes']));
-    $past = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->subMonth(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id]);
+    $past = Activity::create(['title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'x', 'content_fr' => 'x', 'activity_type' => 'kidicalmass', 'begin_date' => now()->subMonth(), 'duration_minutes' => 60, 'location' => 'Place Colignon', 'author_id' => $author->id, 'is_published' => true]);
     $past->groups()->attach($group);
 
     get(route('groups.show', $group))
@@ -781,6 +788,7 @@ test('the §2 ride card is a single affordance, with no subscribe line nested or
         'title_nl' => 'Parade', 'title_fr' => 'x', 'content_nl' => 'Een rustige lus.', 'content_fr' => 'x',
         'activity_type' => 'kidicalmass', 'begin_date' => now()->addWeek(), 'duration_minutes' => 60,
         'location' => 'Gemeenteplein Colignon', 'distance' => '3 km', 'author_id' => $author->id,
+        'is_published' => true,
     ]);
     $ride->groups()->attach($group);
 

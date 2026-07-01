@@ -12,9 +12,9 @@ class Activity extends BlueAdminModel
 
     public $title_field = 'title_nl';
 
-    public $indexTableColumns = ['title_nl', 'title_fr', 'activity_type', 'begin_date', 'location', 'published'];
+    public $indexTableColumns = ['title_nl', 'title_fr', 'activity_type', 'begin_date', 'location', 'is_published'];
 
-    public $attributesToShow = ['title_nl', 'title_fr', 'activity_type', 'begin_date', 'location', 'postal_code', 'distance', 'duration_minutes', 'commute_link', 'komoot_url', 'author_id', 'organizer_id', 'published'];
+    public $attributesToShow = ['title_nl', 'title_fr', 'activity_type', 'begin_date', 'location', 'postal_code', 'distance', 'duration_minutes', 'commute_link', 'komoot_url', 'author_id', 'organizer_id', 'is_published'];
 
     public $filepond = ['main', 'gallery', 'gpx'];
 

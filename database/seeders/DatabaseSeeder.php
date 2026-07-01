@@ -167,7 +167,7 @@ class DatabaseSeeder extends Seeder
                     'location' => $name,
                     'postal_code' => $postals[$i % count($postals)],
                     'duration_minutes' => 60,
-                    'published' => true,
+                    'is_published' => true,
                     'author_id' => $this->authors[$i % $this->authors->count()]->id,
                 ]);
 

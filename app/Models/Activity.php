@@ -7,6 +7,7 @@ use App\Enums\RideLifecycleState;
 use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,13 +28,16 @@ class Activity extends Model implements HasMedia
     use HasMainImage;
     use InteractsWithMedia;
 
+    protected $attributes = [
+        'is_published' => false,
+    ];
+
     protected function casts(): array
     {
         return [
             'begin_date' => 'datetime',
             'activity_type' => ActivityType::class,
             'is_published' => 'boolean',
-            'published' => 'boolean',
         ];
     }
 

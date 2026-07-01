@@ -113,7 +113,7 @@ class RozeHesjeDemoSeeder extends Seeder
                     'begin_date' => $draft['begin_date'],
                     'location' => $draft['location'],
                     'author_id' => $author?->id,
-                    'published' => false,
+                    'is_published' => false,
                 ],
             );
 

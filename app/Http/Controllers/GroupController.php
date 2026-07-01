@@ -163,7 +163,7 @@ class GroupController extends Controller
         $ride = null;
         if ($rideId = request('ride')) {
             $ride = Activity::query()
-                ->where('published', false)
+                ->where('is_published', false)
                 ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
                 ->whereKey($rideId)
                 ->first();

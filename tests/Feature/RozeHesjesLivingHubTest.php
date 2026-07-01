@@ -22,7 +22,7 @@ function rozePastRideWithPhotos(Group $group, User $author, string $title, int $
         'begin_date' => now()->subWeeks(2),
         'location' => 'Mortsel',
         'author_id' => $author->id,
-        'published' => true,
+        'is_published' => true,
     ]);
     $ride->groups()->attach($group->id);
 
@@ -125,7 +125,7 @@ test('agenda leads with a real in-voorbereiding draft linking to its preview', f
         'begin_date' => now()->addWeeks(2),
         'location' => 'Mortsel',
         'author_id' => $member->id,
-        'published' => false, // a draft never reaches the public agenda
+        'is_published' => false, // a draft never reaches the public agenda
     ]);
     $draft->groups()->attach($group->id);
 

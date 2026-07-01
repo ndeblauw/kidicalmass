@@ -30,7 +30,7 @@ class ActivityRequest extends FormRequest
             'komoot_url' => ['nullable', 'url', 'max:500'],
             'author_id' => ['required', 'integer', 'exists:users,id'],
             'organizer_id' => ['nullable', 'integer', 'exists:users,id'],
-            'published' => ['boolean'],
+            'is_published' => ['boolean'],
             'groups' => ['nullable', 'array'],
             'groups.*' => ['integer', 'exists:groups,id'],
             'main' => ['nullable', 'array'],

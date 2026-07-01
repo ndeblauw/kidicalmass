@@ -70,6 +70,7 @@ test('chapter page shows the localised opt-in teaser, with and without a ride', 
         'activity_type' => 'kidicalmass',
         'begin_date' => now()->addWeek(), 'duration_minutes' => 60,
         'location' => 'Place Colignon', 'author_id' => $author->id,
+        'is_published' => true,
     ])->groups()->attach($group);
 
     // v4: with an upcoming ride, §2 leads with the next-ride card and the empty-state
