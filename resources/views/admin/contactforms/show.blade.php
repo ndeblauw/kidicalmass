@@ -13,9 +13,9 @@
                 @if($model->group_id)
                     <form action="{{ route('admin.contactforms.convert-to-user', $model) }}" method="POST" class="inline">
                         @csrf
-                        <x-ba-admin-button type="submit" class="py-1 bg-emerald-500">
+                        <x-ba-button type="submit" class="py-1 bg-emerald-500">
                             Convert to Interested User
-                        </x-ba-admin-button>
+                        </x-ba-button>
                     </form>
                 @endif
                 <x-ba-delete-button action="{{$config->getDestroyUrl($model->getKey()) }}" />
