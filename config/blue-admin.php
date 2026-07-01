@@ -31,10 +31,29 @@ return [
             'icon' => 'fa-home',
         ],
         [
-            'title' => 'Jaarcijfers',
-            'color' => 'sky',
-            'link' => 'admin/yearstats',
-            'icon' => 'fa-chart-bar',
+            'header' => 'Activities & news',
+        ],
+        [
+            'title' => 'Activities',
+            'color' => 'rose',
+            'link' => 'admin/activities',
+            'icon' => 'fa-calendar',
+        ],
+        [
+            'title' => 'News Articles',
+            'color' => 'rose',
+            'link' => 'admin/articles',
+            'icon' => 'fa-newspaper',
+        ],
+        [
+            'title' => 'Press Articles',
+            'color' => 'blue',
+            'link' => 'admin/pressarticles',
+            'icon' => 'fa-press',
+        ],
+
+        [
+            'header' => 'People & communication',
         ],
         [
             'title' => 'Contact Submissions',
@@ -49,10 +68,7 @@ return [
             'icon' => 'fa-user',
         ],
         [
-            'title' => 'Partners',
-            'color' => 'violet',
-            'link' => 'admin/partners',
-            'icon' => 'fa-user-group',
+            'header' => 'General',
         ],
         [
             'title' => 'Chapters',
@@ -61,22 +77,16 @@ return [
             'icon' => 'fa-flag',
         ],
         [
-            'title' => 'News Articles',
-            'color' => 'rose',
-            'link' => 'admin/articles',
-            'icon' => 'fa-newspaper',
+            'title' => 'Jaarcijfers',
+            'color' => 'sky',
+            'link' => 'admin/yearstats',
+            'icon' => 'fa-chart-bar',
         ],
         [
-            'title' => 'Press Articles',
-            'color' => 'blue',
-            'link' => 'admin/pressarticles',
-            'icon' => 'fa-press',
-        ],
-        [
-            'title' => 'Activities',
-            'color' => 'rose',
-            'link' => 'admin/activities',
-            'icon' => 'fa-calendar',
+            'title' => 'Partners',
+            'color' => 'violet',
+            'link' => 'admin/partners',
+            'icon' => 'fa-user-group',
         ],
     ],
 
