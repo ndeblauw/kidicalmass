@@ -377,7 +377,7 @@ class DatabaseSeeder extends Seeder
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Citadelpark, Gent', 'postal_code' => '9000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'brussel-stad', 'week' => 3, 'time' => '15:00', 'title_nl' => 'Kidical Mass Brussel-Stad', 'title_fr' => 'Kidical Mass Bruxelles-Ville',
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Begijnhofplein, Brussel', 'postal_code' => '1000', 'distance' => '5 km', 'duration' => 60],
-            //['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
+            // ['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
             //    'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'schaarbeek', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Schaarbeek', 'title_fr' => 'Kidical Mass Schaerbeek',
                 'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
