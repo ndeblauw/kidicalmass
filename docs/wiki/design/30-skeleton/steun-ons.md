@@ -3,7 +3,7 @@ title: Steun Kidical Mass / Spacefunding — page brief
 tags: [design, skeleton]
 sources: [wiki/design/10-scope, wiki/strategy/10-organisation-goals, https://growfunding.be/fr/projects/kidicalmassbelgique]
 phase: design
-updated: 2026-06-02
+updated: 2026-07-03
 ---
 
 # Steun Kidical Mass / Spacefunding — page brief
@@ -24,12 +24,12 @@ updated: 2026-06-02
 - Explain what **Spacefunding** is (recurring monthly/annual support) and **why** (independence, what it funds).
 - **Lead the ask with the plain act and price: "Steun vanaf €3 per maand."** You're just *supporting* — no coined entry-term in the headline. The **t-shirt** is the **visible token of support ("draag je steun")**, a thank-you line *beneath* the act, not the lead. "Kidi Buddy" stays the tier's name on Growfunding; it does **not** front the card (too specialised — Frederik 2026-06-02).
 - A single primary CTA **out to the Growfunding campaign** (the site does **not** process payments).
-- A **secondary, discreet one-off path** ("liever één keer?") — **provisional, pending Leticia** ([D-9](../01-concerns.md)); most likely the BE72… transfer or a one-off gift. Do not publish an IBAN until confirmed.
 - A secondary **"see all tiers"** link (tiers live on Growfunding).
 - **Reassurance via movement scale, not a backer count** — e.g. "elke maand rijden honderden gezinnen mee". **No "X mensen steunen" count** (Frederik 2026-06-02: a small number undercuts; it's also the stale-stats trap). Plus the **riding-stays-free** line.
 
 **Out (won't-have):**
 - On-site payment or checkout.
+- A **one-off donation path** — cut ([D-9](../01-concerns.md) Closed, Frederik 2026-07-03); monthly-only, **no IBAN on-site**.
 - Reproducing/maintaining the full 6-tier ladder on-site (link out instead).
 - A separate web store — **the t-shirt is a thank-you/token**, not merchandise.
 - The word **"lid" / "lidmaatschap" / "member"** anywhere public.
@@ -41,9 +41,8 @@ updated: 2026-06-02
 1. **Hero** — "Steun Kidical Mass" + the one-line frame ("Iedereen fietst gratis mee. Jij zorgt dat dat zo blijft."). Warm, not corporate.
 2. **What your support funds** — 2–3 concrete points (keeps it non-abstract; tone of voice).
 3. **The ask (primary)** — headline **"Steun vanaf €3 per maand"**; t-shirt as the token beneath ("je krijgt een t-shirt: draag je steun"); primary CTA → Growfunding. Paired with the **riding-stays-free reassurance**.
-4. **One-off (secondary)** — "Liever één keer?" → bank transfer / one-off gift (provisional, D-9).
-5. **All tiers** — one line + "Bekijk alle tiers op Growfunding" link.
-6. **Reassurance / movement scale** — lead on participation ("honderden gezinnen elke maand"), **not a backer count**. Pull live if shown; avoid stale stats.
+4. **All tiers** — one line + "Bekijk alle tiers op Growfunding" link.
+5. **Reassurance / movement scale** — lead on participation ("honderden gezinnen elke maand"), **not a backer count**. Pull live if shown; avoid stale stats.
 
 ## Skeleton (desktop)
 
@@ -66,7 +65,6 @@ updated: 2026-06-02
 │ │ [ Steun maandelijks ↗ ]      │ │  blijven, voor      │
 │ │   (opent Growfunding)        │ │  iedereen.          │
 │ └──────────────────────────────┘ │                     │
-│  Liever één keer? → eenmalige gift  (overschrijving; D-9)│
 ├──────────────────────────────────────────────────────┤
 │ ALLE TIERS   "Meer geven? Bekijk alle tiers ↗"         │
 │              (zakelijke tiers €20+ → Over/Partners)    │
@@ -76,7 +74,7 @@ updated: 2026-06-02
 └──────────────────────────────────────────────────────┘
 ```
 
-Mobile: hero → funds → ask card → reassurance → one-off → tiers link → social proof (stacked).
+Mobile: hero → funds → ask card → reassurance → tiers link → social proof (stacked).
 
 ### Contextual "Steun" block ([PAT-10](../40-patterns.md)) — one partial, two copy variants
 
@@ -102,8 +100,8 @@ EVENT-DETAIL (end) variant — the warmest moment:
 
 ## Notes / open
 
-- **One-off path = [D-9](../01-concerns.md)** — confirm with Leticia + capture the IBAN (Notion, not the public repo).
+- **One-off path = [D-9](../01-concerns.md) — Closed (Frederik 2026-07-03): cut from v1.** Monthly-only stands; no IBAN on-site. Account details stay in Notion if it ever returns.
 - **No backer count** (dropped 2026-06-02). If any live number is shown, use **participation scale** ("honderden gezinnen elke maand"), pulled live — never a hardcoded "X steunen" (small + stale-stats trap).
 - Glossary: **Growfunding** = platform; **Spacefunding** = the recurring model; **Kidi Buddy** = entry tier. Public verb = **steun**. Use each correctly.
-- **Built 2026-06-03** (P-04 Wire/UI 🟠, render-verified, no screenshot — Frederik critique pending): `resources/views/steun-ons.blade.php`, `<x-support-callout>` (Home + event-detail), `♥ Steun ons` nav CTA (login → footer), footer CTA relabelled, copy in `lang/nl/support.php`, route `/steun-ons` (name kept `membership`, old `/membership` 301s here), CSS in `app.css` (`.nav-support` / `.support-callout` / `.steun-*`). Growfunding link is locale-aware (`/{locale}/projects/kidicalmassbelgique`, both nl + fr verified 200). One-off path omitted pending D-9.
+- **Built 2026-06-03** (P-04 Wire/UI 🟠, render-verified, no screenshot — Frederik critique pending): `resources/views/steun-ons.blade.php`, `<x-support-callout>` (Home + event-detail), `♥ Steun ons` nav CTA (login → footer), footer CTA relabelled, copy in `lang/nl/support.php`, route `/steun-ons` (name kept `membership`, old `/membership` 301s here), CSS in `app.css` (`.nav-support` / `.support-callout` / `.steun-*`). Growfunding link is locale-aware (`/{locale}/projects/kidicalmassbelgique`, both nl + fr verified 200). One-off path omitted pending D-9 (since Closed: cut).
 - **Normalized 2026-06-03** (`/critique` + `/normalize`) to the ride/show kit per [`DESIGN.md`](../../../../DESIGN.md): hero reuses `.activity-hero*` (daisy, circular illustration, red "Steun ons" badge, −3° H1); funds reuse `.activity-promises*` (sky band, white tilted cards, canonical red Flux-icon chips); ask on contained white; closing **yellow CTA band** (movement scale + a second Growfunding shot). Colour story blue → sky → white → yellow. **CTA consistency:** the support pill is the **yellow token** on nav/footer/callout/ask; the closing band uses the blue band-button (kit convention, can't be yellow on yellow). The bespoke `.steun-hero`/`.steun-funds__chip`/`.steun-scale` one-offs were removed; `.steun-*` is now thin deltas. FR copy (`lang/fr/support.php`) follows when the FR layer lands.

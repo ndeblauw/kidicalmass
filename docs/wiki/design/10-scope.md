@@ -3,7 +3,7 @@ title: Design — Scope (plane 2)
 tags: [design]
 sources: [wiki/ux-planning, notion]
 phase: design
-updated: 2026-06-05
+updated: 2026-07-03
 ---
 
 # Design — Scope (plane 2)
@@ -52,7 +52,7 @@ updated: 2026-06-05
 - **Terminology (Frederik):** the public verb is **"steun" / "steun Kidical Mass"**, the giver **"steunt mee"** — **never "lid"/"member"**. Everyone rides for free; you support so it *stays* free. "Spacefunding" + "Kidi Buddy" survive only as the *name of the model / entry tier*, not the public verb. Retires "Word lid"/"Lid worden" sitewide.
 - **Lead the ask with the plain act: "Steun vanaf €3 per maand"** — you're just *supporting*. The **t-shirt** is the **visible token ("draag je steun")**, a thank-you beneath the act; **"Kidi Buddy" does not front the card** (too specialised — Frederik 2026-06-02), it stays the tier name on Growfunding. 6 tiers total (€3–€500/mo); €20+ add logo/social placement (cross-ref Partners).
 - **No backer count** on the page — reassure via **movement/participation scale** ("honderden gezinnen elke maand"), not "X mensen steunen" (small + stale-stats trap; Frederik 2026-06-02).
-- **Recurring is the lead** (monthly via Growfunding); a **discreet one-off path is provisionally back in scope** (reverses the v1 "recurring-only" cut) — pending Leticia + the mechanism (the dropped BE72… transfer or a one-off gift). See [design concern `D-9`](01-concerns.md).
+- **Recurring only** (monthly via Growfunding); the one-off path is **out of v1** — the provisional reinstatement was cut (Frederik 2026-07-03), no IBAN on-site. See [design concern `D-9`](01-concerns.md) (Closed).
 - The site **links out** to Growfunding — it does **not** process payments. Offer a "see all tiers" link as the secondary path.
 - **Prominence (elevated 2026-06-02):** a **"Steun" CTA button in the primary nav** (top-right, replacing login → login moves to the footer), **contextual "Steun" blocks** on **Home + end of event-detail** (the warm "just rode / believer" moments), **and** the persistent footer CTA. All asks route to `/steun-ons`. Supersedes the earlier quiet-footer-only call ([PAT-10](40-patterns.md); [org-goals trade-off](../strategy/10-organisation-goals.md)).
 - The t-shirt is a **thank-you/token**, not merchandise — no separate web store. Prefer recurring over grant dossiers.

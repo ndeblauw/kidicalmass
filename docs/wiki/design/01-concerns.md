@@ -3,7 +3,7 @@ title: Design — concerns register
 tags: [design, concerns]
 sources: [wiki/strategy/01-concerns, wiki/design]
 phase: design
-updated: 2026-06-05
+updated: 2026-07-03
 ---
 
 # Design — concerns register
@@ -14,11 +14,11 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 | State | Count | IDs |
 |---|---|---|
-| Open | 4 | `D-10`, `D-11`, `D-12`, `D-13` |
-| Partly | 4 | `D-1`, `D-3`, `D-7`, `D-9` |
-| Closed | 2 | `D-2`, `D-4` |
+| Open | 3 | `D-10`, `D-12`, `D-13` |
+| Partly | 3 | `D-1`, `D-7`, `D-11` |
+| Closed | 4 | `D-2`, `D-3`, `D-4`, `D-9` |
 
-**Conclusion gate:** **four fully-Open design concerns: `D-10` (page metadata / SEO / social share previews — never addressed), `D-11` (About credibility leaves have no real data — Partners + Press), `D-12` (volunteer-enquiry follow-up / ownership — new, Alexandre/J3 2026-06-05), and `D-13` (About stats are hardcoded — 2026-06-08).** `D-2` (meetups public, chapter pages only) and `D-4` (tokens live + documented) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (**evidence gate closed by Alexandre/J3 2026-06-05** — back-office content brief now concrete, per-event attendance cut, replaced by the volunteer roster), `D-3` (Grande KM, confirm with Leticia) and `D-9` (one-off support path, confirm with Leticia) carry decided directions with named remainders.
+**Conclusion gate:** **three fully-Open design concerns: `D-10` (page metadata / SEO / social share previews — never addressed), `D-12` (volunteer-enquiry follow-up / ownership — new, Alexandre/J3 2026-06-05), and `D-13` (About stats are hardcoded — 2026-06-08).** `D-2` (meetups public, chapter pages only), `D-3` (Grande KM = featured event — confirmed Frederik 2026-07-03, no further client gate), `D-4` (tokens live + documented) and `D-9` (one-off support path — cut, Frederik 2026-07-03) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (**evidence gate closed by Alexandre/J3 2026-06-05** — back-office content brief now concrete, per-event attendance cut, replaced by the volunteer roster) and `D-11` (Partners data layer live since 2026-06-25; content + Press remainders named) carry decided directions with named remainders.
 
 ---
 
@@ -31,16 +31,6 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
   - **Design / content** — the title pattern, a per-page description written in voice ([`tone-of-voice.md`](../../tone-of-voice.md)), and an **OG-image strategy per page type** (events especially want their own hero/route image; a branded default for the rest).
 - **Safe to:** keep shipping pages now; this is additive `<head>` work that doesn't block the surface pass. Do **not** call the site launch-ready until it's resolved — bare share previews are launch-visible.
 - **Next step:** decide title pattern + default OG image with Frederik; spec the per-page-type description/OG plan; build the head partial when Build opens.
-
-### `D-11` — About credibility leaves have no real data *(Partners + Press)* — **Open** (flagged 2026-06-03)
-- **Problem:** the two About leaves whose *whole job* is credibility/social proof have no usable data behind them. **Partners:** the `partners` table holds only faker/lorem-ipsum rows with **no cleared logo assets**, **no national records** (all 15 seeded rows carry a `group_id`, i.e. chapter-local), and **no institutional/in-kind category column**, so it can't drive a real Partners page. **This is now launch-visible site-wide:** the slim `partner-strip` ([PAT-5](40-patterns.md), every page above the footer) reads the model for **national** logos and currently finds none, so it renders only the hardcoded Brussel Mobiliteit logo — **we need real national-partner records + cleared logos to populate it.** **Press:** there is **no Press model/table at all**, and the outlet URLs in the spec ([`about-content.md`](30-skeleton/about-content.md)) are unverified. These pages exist to prove the movement is real — so faking them is self-defeating.
-- **Decided handling (this build):** ship both honestly. **Partners** is built from **curated static NL copy** (the two categories + named partners from the spec) — looks real because the *names* are real, no lorem. **Press** ships **contact-forward** (hero + "journalisten, we praten graag" + `bike@kidicalmass.be`) with an **honest empty state** — no fabricated coverage. Structure is launch-ready; the data is not.
-- **To reach Back 🟢:**
-  - **Partners** — real partner records + cleared logos + a category field (institutional / movement-ally / in-kind), then bind `/about/partners` to the model; reconcile with the site-wide `partner-strip` (which already reads the model for logos). **Acquisition flow:** the Sponsorformules + Partnercharter PDFs exist (a *KM Brussels* tier ladder €100–2.500/yr + a charter) and become an on-page summary + downloadable docs + routed form ([`partners.md` § conversion flow](30-skeleton/partners.md#become-a-partner-conversion-flow--plan-2026-06-03)). **Before the prices go live:** Leticia confirms the tiers apply *nationally*, and the PDFs are re-hosted off Wix (ideally the confirmed national versions).
-  - **Press** — a `Press` model (`outlet, headline, url, date, language, media_type, is_featured, is_archived, chapter_id`) + a curated, **verified** item list (priority: RTBF, BX1 video), incl. the 2020–2021 dead-link "archived" rule.
-- **Couples to:** the all-Brussels partner list (national-scope pass with Leticia) and the `bike@kidicalmass.be` vs dedicated `pers@`/`partners@` question — both in [`about-journey.md` § Open questions](30-skeleton/about-journey.md).
-- **Safe to:** ship the pages now; do **not** call them Back/OK until the data lands.
-- **Next step:** confirm the real partner + press lists with the coordination duo; size the Press model for Build.
 
 ### `D-13` — About stats are hardcoded — **Open** (flagged 2026-06-08)
 - **Problem:** the three impact stats on `/about` (gemeenten, fietsparades, vrijwilligers) are static strings in the Blade template ([`about/index.blade.php`](../../../resources/views/about/index.blade.php), line ~112). They were updated to 20 / 200+ / 300+ on 2026-06-08 but will drift as the network grows.
@@ -57,6 +47,14 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 ## Partly
 
+### `D-11` — About credibility leaves lack real data *(Partners + Press)* — **Partly** (flagged 2026-06-03; partner data layer live 2026-06-25)
+- **Done (2026-06-25):** the partner **data layer is live** — real `partners` records (19, NL/FR), Spatie-media logos, admin resource with `show_logo`/`visible` toggles; the site-wide `partner-strip` ([PAT-5](40-patterns.md)) **binds to the model** and renders ~7 cleared national logos (Brussel Mobiliteit sits in the footer funder line by design, excluded from the strip).
+- **Still open — Partners:** ~6 partners lack cleared logos (admin content entry); no category field (institutional / movement-ally / in-kind); `/about/partners` (P-20) is still a static `Route::view`, not bound to the model. **Acquisition flow:** the Sponsorformules + Partnercharter PDFs exist (a *KM Brussels* tier ladder €100–2.500/yr + a charter) and become an on-page summary + downloadable docs + routed form ([`partners.md` § conversion flow](30-skeleton/partners.md#become-a-partner-conversion-flow--plan-2026-06-03)). **Before the prices go live:** Leticia confirms the tiers apply *nationally*, and the PDFs are re-hosted off Wix (ideally the confirmed national versions).
+- **Still open — Press:** there is **no Press model/table at all**; needs a `Press` model (`outlet, headline, url, date, language, media_type, is_featured, is_archived, chapter_id`) + a curated, **verified** item list (priority: RTBF, BX1 video), incl. the 2020–2021 dead-link "archived" rule. Until then the page ships **contact-forward** (hero + "journalisten, we praten graag" + `bike@kidicalmass.be`) with an honest empty state — no fabricated coverage.
+- **Couples to:** the all-Brussels partner list (national-scope pass with Leticia) and the `bike@kidicalmass.be` vs dedicated `pers@`/`partners@` question — both in [`about-journey.md` § Open questions](30-skeleton/about-journey.md).
+- **Safe to:** ship the pages now; do **not** call them Back/OK until the data lands.
+- **Next step:** confirm the national partner + press lists with the coordination duo; bind `/about/partners` to the model; size the Press model for Build.
+
 ### `D-1` — Private organiser back-office *(was strategy `S-3`)* — **evidence gate CLOSED (Alexandre/J3, 2026-06-05); content brief now concrete**
 - **Evidence gate closed (Alexandre/J3, 2026-06-05):** this interview was the planned evidence gate — "the biggest item gating build." Outcome: the **back-office is confirmed IN for v1**, its content brief is now fillable, and its purpose is reframed. Mature chapters (Schaerbeek) publish self-sufficiently; the real jam is **material retrieval/distribution** (promo + posters, owned by Leticia; pink-vest docs lost in WhatsApp) and **hand-holding new/small chapters**. So the back-office = a **material library** whose **primary beneficiary is new/small chapters + organiser onboarding**, not the convenience of mature chapters (serves org-goal #5).
 - **Content brief — a material library in three layers:**
@@ -69,19 +67,8 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 - **Light account, driver = material access (Decision F):** volunteers (pink vests) get a **light, mostly read-only, invite-only** account; its reason to exist is **reliable cross-device access to materials + the roster**, explicitly **not** RSVP. (A cookie-only approach is too fragile across laptop + phone — hence login.)
 - **Multi-chapter affordance (Decision D):** a volunteer account is **not** constrained to a single chapter — `group_user` is already many-to-many, so the "a pink vest helps in more than one municipality" affordance exists at schema level; keep it. Surfacing multi-chapter membership in the **UI** is a **later call**, not v1-blocking.
 - **Foolproof self-management, no HQ QC gate (Decision E):** local partners and local press are **chapter-admin editable without coordination-duo involvement** and **no approval gate** — design must be impossible to get wrong (reinforces `D3` and "Template over approval"; see [`00-design-plan.md`](00-design-plan.md)).
-- **Structural boundary (unchanged, Frederik 2026-06-02):** the back-office is a **separate branded frontend surface** (`/backstage/[postal-code]`, read-mostly), **not** the Filament `/admin` panel — rank-and-file volunteers (P4) never touch Filament. Accounts are **invite-only** (leads provision in `/admin`; no public Register). Post-login landing = [My activities](20-structure.md). Locked in [Structure](20-structure.md).
+- **Structural boundary (unchanged, Frederik 2026-06-02):** the back-office is a **separate branded frontend surface** (`/backstage/[postal-code]`, read-mostly), **not** the `/admin` panel (BlueAdmin) — rank-and-file volunteers (P4) never touch `/admin`. Accounts are **invite-only** (leads provision in `/admin`; no public Register). Post-login landing = [My activities](20-structure.md). Locked in [Structure](20-structure.md).
 - **Remainder (now small):** spec the three-layer content in detail for Build; surface the **volunteer growth-path** content (typical ways to contribute more, with the harder how-to — commune contact, route planning — explained there). Volunteer-enquiry follow-up/ownership is split out as [`D-12`](#d-12--volunteer-enquiry-follow-up--ownership--open-flagged-2026-06-05-alexandrej3).
-
-### `D-3` — Grande Kidical Mass as a featured event *(was strategy `S-5`)*
-- **Remainder:** migration normalises the annual flagship into Events as a *featured* event (no hand-built yearly page). Not explicitly confirmed with Leticia.
-- **Operational coordination is OUT of v1 (Alexandre/J3, 2026-06-05 — Decision G):** Alexandre's biggest stress point is the cross-chapter coordination of the Grande KM, but that is an **org process across all chapters together, not a website job.** The site **features** the annual event; it does **not** orchestrate its organisation. Keep cross-chapter coordination out of v1 unless a specific, concrete website hook emerges.
-- **Safe to:** design against; confirm before retiring the yearly-page pattern.
-
-### `D-9` — One-off support path *(funding)* — **decided direction, pending Leticia** (2026-06-02)
-- **Context:** the support flow was reworked (term "steun" not "lid"; prominence elevated) — see [`10-scope.md` § Support](10-scope.md) and [`30-skeleton/steun-ons.md`](30-skeleton/steun-ons.md). Growfunding/Spacefunding is **recurring-only**; v1 had **dropped** a one-off path.
-- **Decided direction (Frederik 2026-06-02):** **reinstate a discreet one-off option** on `/steun-ons`, secondary to the monthly lead — most likely the **BE72… bank transfer** that was dropped, or a one-off Growfunding gift if the platform allows.
-- **Remainder:** confirm with **Leticia** that a one-off is wanted in v1, and pin the **mechanism + account/IBAN** (the live BE-number was never re-captured here per the public-repo guardrail — lives in Notion).
-- **Safe to:** design the page with a secondary "liever één keer?" slot; do not publish an IBAN until confirmed.
 
 ### `D-7` — Redirect map *(launch)* — **drafted** (2026-06-02)
 - **Resolved:** old Wix URLs → new routes documented in [`26-redirect-map.md`](26-redirect-map.md); all `301`. **Language rule decided:** redirects target neutral paths, a locale middleware resolves `/nl/`|`/fr/` (Accept-Language → cookie → geo, fallback NL).
@@ -90,6 +77,14 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 ---
 
 ## Closed
+
+### `D-3` — Grande Kidical Mass as a featured event *(was strategy `S-5`)* — **Closed** (Frederik 2026-07-03)
+- **Decided & locked:** migration normalises the annual flagship into Events as a **featured** event — same system, extra prominence, **no hand-built yearly page** (see [Structure](20-structure.md)). Confirmed by Frederik 2026-07-03; no further client gate — the yearly-page pattern is retired.
+- **Operational coordination stays OUT of v1 (Alexandre/J3, 2026-06-05 — Decision G):** the cross-chapter coordination of the Grande KM is an **org process, not a website job**. The site **features** the annual event; it does **not** orchestrate its organisation. Revisit only if a specific, concrete website hook emerges.
+
+### `D-9` — One-off support path *(funding)* — **Closed** (Frederik 2026-07-03: no one-off in v1)
+- **Decided:** `/steun-ons` stays **monthly-only** (Growfunding); the provisionally-reinstated discreet one-off slot ("liever één keer?") is **cut** and the page ships as built — **no IBAN on-site**. This reverses the 2026-06-02 provisional direction and re-confirms the original v1 "recurring-only" cut.
+- **If it ever returns:** mechanism + account details live in Notion (public-repo guardrail); reopening would need Leticia + a pinned mechanism (bank transfer or a one-off Growfunding gift).
 
 ### `D-2` — Meetup visibility breadth *(was strategy `S-4`)* — **Closed** (Frederik 2026-06-02)
 - **Decided & locked:** meetups (`meeting`/`workshop`/`other`) are **fully public** — visible to non-logged-in visitors, **all details** (incl. meeting point), **all groups (cross-group)** — as a traction/recruitment signal showing the movement's momentum. **Login gates the back-office + volunteer roster, not viewing.** This **revises `D-8`** (which previously login-gated meetups) and is treated as **locked**: it diverges from Leticia's earlier "strong local communities" stance, accepted as the decided direction with no further client gate.

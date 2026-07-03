@@ -119,7 +119,7 @@
          panel, flush to the footer. The €3 framing, the t-shirt, the disclaimer and
          all live here (the duplicate white card was removed). No
          ride-oriented closing CTA: it would split intent at the decision.
-         One-off path (D-9) still omitted until Leticia confirms mechanism + IBAN. --}}
+         One-off path cut (D-9 Closed 2026-07-03): monthly Growfunding only, no IBAN on-site. --}}
     <x-slot:closing>
         <section class="steun-cta">
             <div class="container mx-auto px-4 steun-cta__inner">
