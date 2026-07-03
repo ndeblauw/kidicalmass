@@ -1,4 +1,4 @@
-<x-layouts::site title="Nieuwsbrief">
+<x-layouts::site title="Nieuwsbrief" :description="__('meta.newsletter')">
     {{-- Standard brand-blue hero so the fixed header logo keeps its dark backdrop,
          like every other inner page. Below it, a yellow band: reassurance list on
          the left, the form card on the right pulled up so it dips into the blue. --}}

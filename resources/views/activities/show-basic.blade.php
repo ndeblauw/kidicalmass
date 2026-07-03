@@ -13,7 +13,7 @@
     volunteers, no family CTA, no broadcast share. NL, on the public site kit. Structure
     here; appearance in resources/css/pages/activity.css (.activity-basic*).
 --}}
-<x-layouts::site title="{{ $activity->title_nl }}">
+<x-layouts::site title="{{ $activity->title_nl }}" :description="$activity->metaDescription()" :og-image="$activity->ogImageUrl()">
     @php
         $type = $activity->activity_type;
         $isMeeting = $type === \App\Enums\ActivityType::MEETING;

@@ -1,4 +1,4 @@
-<x-layouts::site title="Je bent erbij">
+<x-layouts::site title="Je bent erbij" :description="__('meta.newsletter')">
     <section class="flex flex-col items-center gap-6 text-center max-w-2xl mx-auto py-16">
         <x-envelope-chips />
 

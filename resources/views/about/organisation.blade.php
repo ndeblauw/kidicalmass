@@ -8,7 +8,7 @@
     Colour story: blue → white → white(organigram) → sky → white → yellow. Structure only.
     Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
 --}}
-<x-layouts::site title="Organisatie">
+<x-layouts::site title="Organisatie" :description="__('meta.organisation')">
 
     <x-page-hero
         eyebrow="Organisatie"

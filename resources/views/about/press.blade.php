@@ -2,7 +2,7 @@
     Over ons / Pers — /about/press (P-19)
     Colour story: blue → white → light-blue → white. Structure only.
 --}}
-<x-layouts::site title="Pers">
+<x-layouts::site title="Pers" :description="__('meta.press')">
 
     <x-page-hero
         eyebrow="Pers"

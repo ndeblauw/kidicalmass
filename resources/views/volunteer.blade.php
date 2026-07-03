@@ -11,7 +11,7 @@
     page: motivates and ROUTES (form on the chapter page, ?intent=volunteer#aanmelden).
     Plan: docs/wiki/design/30-skeleton/help-out.md
 --}}
-<x-layouts::site title="Meehelpen">
+<x-layouts::site title="Meehelpen" :description="__('meta.help_out')">
 
     <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet." illustration="img/illustrations/volunteer-with-wrench.svg">
 

@@ -4,7 +4,7 @@
     intentional, not broken (DESIGN.md / about-content.md). Reuses x-article-card.
     Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
 --}}
-<x-layouts::site title="Nieuws">
+<x-layouts::site title="Nieuws" :description="__('meta.news')">
     <div class="mx-auto max-w-5xl space-y-10">
         <header class="space-y-3">
             <h1>Nieuws</h1>

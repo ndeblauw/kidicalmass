@@ -10,7 +10,7 @@
     Colour story: blue → white → sky → white → yellow. Structure only; appearance in app.css.
     Copy: lang/nl/support.php. Plan: docs/wiki/design/30-skeleton/steun-ons.md
 --}}
-<x-layouts::site :title="__('support.title')">
+<x-layouts::site :title="__('support.title')" :description="__('meta.support')">
 
     @php
         $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';

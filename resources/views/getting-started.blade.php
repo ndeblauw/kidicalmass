@@ -9,7 +9,7 @@
     - CTA is a full-bleed yellow band.
     Structure only; appearance lives in app.css.
 --}}
-<x-layouts::site title="Voor het eerst mee">
+<x-layouts::site title="Voor het eerst mee" :description="__('meta.getting_started')">
 
     <x-page-hero
         eyebrow="Voor het eerst"

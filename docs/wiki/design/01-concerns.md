@@ -14,23 +14,15 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 | State | Count | IDs |
 |---|---|---|
-| Open | 3 | `D-10`, `D-12`, `D-13` |
-| Partly | 3 | `D-1`, `D-7`, `D-11` |
+| Open | 2 | `D-12`, `D-13` |
+| Partly | 4 | `D-1`, `D-7`, `D-10`, `D-11` |
 | Closed | 4 | `D-2`, `D-3`, `D-4`, `D-9` |
 
-**Conclusion gate:** **three fully-Open design concerns: `D-10` (page metadata / SEO / social share previews — never addressed), `D-12` (volunteer-enquiry follow-up / ownership — new, Alexandre/J3 2026-06-05), and `D-13` (About stats are hardcoded — 2026-06-08).** `D-2` (meetups public, chapter pages only), `D-3` (Grande KM = featured event — confirmed Frederik 2026-07-03, no further client gate), `D-4` (tokens live + documented) and `D-9` (one-off support path — cut, Frederik 2026-07-03) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (**evidence gate closed by Alexandre/J3 2026-06-05** — back-office content brief now concrete, per-event attendance cut, replaced by the volunteer roster) and `D-11` (Partners data layer live since 2026-06-25; content + Press remainders named) carry decided directions with named remainders.
+**Conclusion gate:** **two fully-Open design concerns: `D-12` (volunteer-enquiry follow-up / ownership — new, Alexandre/J3 2026-06-05) and `D-13` (About stats are hardcoded — 2026-06-08).** `D-2` (meetups public, chapter pages only), `D-3` (Grande KM = featured event — confirmed Frederik 2026-07-03, no further client gate), `D-4` (tokens live + documented) and `D-9` (one-off support path — cut, Frederik 2026-07-03) are Closed; `D-7` (redirect map) is drafted with build fill-ins named; `D-1` (**evidence gate closed by Alexandre/J3 2026-06-05** — back-office content brief now concrete, per-event attendance cut, replaced by the volunteer roster), `D-10` (head baseline shipped 2026-07-03; designed og-default card + hreflang + JSON-LD + sitemap remain) and `D-11` (Partners data layer live since 2026-06-25; content + Press remainders named) carry decided directions with named remainders.
 
 ---
 
 ## Open
-
-### `D-10` — Page metadata, SEO & social share previews — **Open** (flagged 2026-06-03)
-- **Problem:** the public `<head>` ([`layouts/site.blade.php`](../../../resources/views/layouts/site.blade.php)) is a stub. Page titles are passed bare and unsuffixed (e.g. Help-out is just **"Meehelpen"**, with no `· Kidical Mass` pattern); the `<meta name="description">` is **hardcoded, English, and site-wide** (wrong language for the NL site, identical on every page); and there are **no Open Graph / Twitter Card tags, no canonical URL, and no `hreflang`/locale alternates** at all. Shared links (WhatsApp/Facebook/Instagram — on a ~75 %-mobile, heavily-shared audience) render with no preview title, copy, or image. This affects **every P-row**, so it is tracked here as a cross-cutting concern rather than per page.
-- **Two sides:**
-  - **Build mechanism** — a `<head>` metadata partial driven by per-page props (`$title`, `$description`, `$ogImage`, canonical) with a single title pattern; locale-aware `hreflang` alternates once the `/nl`·`/fr` middleware lands (couples to [`D-7`](#d-7--redirect-map-launch--drafted-2026-06-02)); favicon/touch-icon stack. Graduates to `build/01-concerns.md` when Build opens (coding days 2026-06-16/17).
-  - **Design / content** — the title pattern, a per-page description written in voice ([`tone-of-voice.md`](../../tone-of-voice.md)), and an **OG-image strategy per page type** (events especially want their own hero/route image; a branded default for the rest).
-- **Safe to:** keep shipping pages now; this is additive `<head>` work that doesn't block the surface pass. Do **not** call the site launch-ready until it's resolved — bare share previews are launch-visible.
-- **Next step:** decide title pattern + default OG image with Frederik; spec the per-page-type description/OG plan; build the head partial when Build opens.
 
 ### `D-13` — About stats are hardcoded — **Open** (flagged 2026-06-08)
 - **Problem:** the three impact stats on `/about` (gemeenten, fietsparades, vrijwilligers) are static strings in the Blade template ([`about/index.blade.php`](../../../resources/views/about/index.blade.php), line ~112). They were updated to 20 / 200+ / 300+ on 2026-06-08 but will drift as the network grows.
@@ -46,6 +38,12 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 ---
 
 ## Partly
+
+### `D-10` — Page metadata, SEO & social share previews — **Partly** (flagged 2026-06-03; head baseline shipped 2026-07-03)
+- **Done (2026-07-03):** the public `<head>` rebuilt as [`partials/site-head.blade.php`](../../../resources/views/partials/site-head.blade.php): title pattern (`{Page} · Kidical Mass België`), per-page NL descriptions ([`lang/nl/meta.php`](../../../lang/nl/meta.php)), canonical URL, OG/Twitter baseline, two-tier OG images (branded default + activity/article hero `og` conversion, 1200×630 jpg), favicons, theme-color, webmanifest.
+- **Still open:** the designed `og-default.jpg` card (Frederik), `hreflang` alternates once the `/nl`·`/fr` middleware lands (couples to [`D-7`](#d-7--redirect-map-launch--drafted-2026-06-02)), JSON-LD, and the sitemap.
+- **Safe to:** call the head baseline shipped; do **not** call SEO fully closed until the remainder lands.
+- **Next step:** Frederik designs the og-default card; JSON-LD, sitemap and hreflang land with the wider audit follow-ups.
 
 ### `D-11` — About credibility leaves lack real data *(Partners + Press)* — **Partly** (flagged 2026-06-03; partner data layer live 2026-06-25)
 - **Done (2026-06-25):** the partner **data layer is live** — real `partners` records (19, NL/FR), Spatie-media logos, admin resource with `show_logo`/`visible` toggles; the site-wide `partner-strip` ([PAT-5](40-patterns.md)) **binds to the model** and renders ~7 cleared national logos (Brussel Mobiliteit sits in the footer funder line by design, excluded from the strip).

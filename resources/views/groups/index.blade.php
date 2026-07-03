@@ -5,7 +5,7 @@
     location-picker owns postcode search + geolocation; the map reacts to the
     resolved location on load. Spec: docs/superpowers/specs/2026-06-15-lokale-groepen-list-map-finder-design.md
 --}}
-<x-layouts::site title="Lokale groepen">
+<x-layouts::site title="Lokale groepen" :description="__('meta.chapters')">
 
     <x-page-hero
         eyebrow="Lokale groepen"

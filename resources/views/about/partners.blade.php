@@ -9,7 +9,7 @@
     section — not the secondary "operationele partners". Imagery: crowd photo + logo wall.
     Plan: docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md + partners.md
 --}}
-<x-layouts::site title="Partners & sponsors">
+<x-layouts::site title="Partners & sponsors" :description="__('meta.partners')">
 <div class="partners-page">
 
     <x-page-hero

@@ -1,0 +1,10 @@
+{
+    "name": "Kidical Mass België",
+    "short_name": "Kidical Mass",
+    "icons": [
+        { "src": "/apple-touch-icon.png", "sizes": "166x166", "type": "image/png" }
+    ],
+    "theme_color": "#1d67cd",
+    "background_color": "#ffffff",
+    "display": "browser"
+}

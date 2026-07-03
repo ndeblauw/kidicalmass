@@ -6,7 +6,7 @@
     Getting Started (2026-06-02) to keep that page's reassure → CTA path clean.
     Content source: docs/wiki/design/30-skeleton/getting-started-content.md
 --}}
-<x-layouts::site title="Geen fiets? Geen probleem">
+<x-layouts::site title="Geen fiets? Geen probleem" :description="__('meta.find_a_bike')">
 
     <div class="mx-auto max-w-4xl space-y-10">
 

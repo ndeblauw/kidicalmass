@@ -8,7 +8,7 @@
     Colour story: blue → white → sky → light-blue → white → yellow. Structure only;
     appearance in app.css. Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
 --}}
-<x-layouts::site title="Missie">
+<x-layouts::site title="Missie" :description="__('meta.mission')">
 
     <x-page-hero
         eyebrow="Missie"

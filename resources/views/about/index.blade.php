@@ -6,7 +6,7 @@
     the shared closing CTA. Colour story: blue → white → light-blue → yellow.
     Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
 --}}
-<x-layouts::site title="Over ons">
+<x-layouts::site title="Over ons" :description="__('meta.about')">
 
     <x-page-hero
         eyebrow="Over ons"

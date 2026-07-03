@@ -19,7 +19,7 @@
     Plan: docs/superpowers/plans/2026-06-23-chapter-page-v4.md ·
     Design: docs/wiki/design/30-skeleton/chapters.md (§ Critique v4).
 --}}
-<x-layouts::site title="{{ $group->name }}">
+<x-layouts::site title="{{ $group->name }}" :description="__('meta.chapter', ['name' => $group->name])">
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;

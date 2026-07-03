@@ -1,4 +1,4 @@
-<x-layouts::site title="Kidical Mass Belgium">
+<x-layouts::site>
     {{-- ① HERO BACKDROP — fixed and one viewport tall from md up; the white panel
          scrolls up over it. The video + title fill the top, a brand-blue band
          carries the lead and the two entry links. --}}

@@ -1,4 +1,4 @@
-<x-layouts::site title="{{ $article->title_nl }}">
+<x-layouts::site title="{{ $article->title_nl }}" :description="$article->metaDescription()" :og-image="$article->ogImageUrl()" og-type="article">
     <article class="mx-auto max-w-3xl space-y-8">
         <a href="{{ route('articles.index') }}" class="inline-block font-semibold text-kidical-blue hover:underline">← Back to articles</a>
 

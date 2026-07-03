@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-03] build | SEO head baseline (D-10 → Partly)
+
+Public head rebuilt as `partials/site-head.blade.php`: `{Page} · Kidical Mass België` titles, per-page NL descriptions (`lang/nl/meta.php`), canonical, OG/Twitter baseline, two-tier OG images (branded default + activity/article hero `og` conversion, 1200×630 jpg), favicons, theme-color, webmanifest. Prototype HTML moved out of `public/`. Follow-ups: designed og-default card (Frederik), `php artisan media-library:regenerate` on production after deploy, then items 10+ of the audit (sitemap, JSON-LD, slugs, Wix redirects).
+
 ## [2026-07-03] design | Concerns pass — D-3 + D-9 Closed, D-11 register text caught up, D-1 de-Filamented
 
 Walked the design concerns register with Frederik (D-10 handled in a parallel thread). **D-3 Closed:** Grande KM as a *featured* event in the regular system is confirmed (Frederik, no further client gate); the yearly-page pattern is retired. **D-9 Closed:** the provisionally-reinstated one-off support path is **cut** — `/steun-ons` stays monthly-only as built, no IBAN on-site; reverses the 2026-06-02 provisional direction. Propagated to `10-scope.md`, `30-skeleton/steun-ons.md` (scope/structure/wireframe) and the `steun-ons.blade.php` comment. **D-11:** the register still described the pre-2026-06-25 state (lorem partners, strip empty); rewrote it as **Partly** to match the 2026-06-25 correction (data layer live, ~7 cleared national logos in the strip; remainders: ~6 logos, category field, model-bind `/about/partners`, Press model + verified list). **D-1:** structural-boundary wording updated Filament → BlueAdmin (admin swapped 2026-07-03). Register tally now Open 3 (D-10, D-12, D-13) · Partly 3 (D-1, D-7, D-11) · Closed 4 (D-2, D-3, D-4, D-9). Still open and unowned: D-12 needs a coordination-duo decision (mailbox vs status-tracking); D-13 is an hour of Build work (wire counts + year_stats).

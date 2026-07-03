@@ -5,7 +5,7 @@
     agenda. Structure only; appearance in app.css.
     Plan: docs/wiki/design/30-skeleton/events-overview.md
 --}}
-<x-layouts::site title="Kalender">
+<x-layouts::site title="Kalender" :description="__('meta.calendar')">
 
     <livewire:ride-calendar />
 

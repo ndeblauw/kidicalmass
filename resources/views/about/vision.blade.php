@@ -8,7 +8,7 @@
     Merges the legacy /nos-revendications + /what-we-want pages.
     Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
 --}}
-<x-layouts::site title="Visie">
+<x-layouts::site title="Visie" :description="__('meta.vision')">
 
     <x-page-hero
         eyebrow="Visie"

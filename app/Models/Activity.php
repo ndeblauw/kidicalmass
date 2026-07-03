@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Str;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -76,6 +78,10 @@ class Activity extends Model implements HasMedia
             ->withResponsiveImages()
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
+
+                $this->addMediaConversion('og')
+                    ->fit(Fit::Crop, 1200, 630)
+                    ->format('jpg');
             });
 
         $this
@@ -258,6 +264,16 @@ class Activity extends Model implements HasMedia
     public function hasMainImage(): bool
     {
         return $this->getFirstMedia('main') !== null;
+    }
+
+    public function metaDescription(): string
+    {
+        return Str::limit(Str::squish(strip_tags($this->content_nl ?? '')), 155);
+    }
+
+    public function ogImageUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('main', 'og') ?: null;
     }
 
     public function hasGallery(): bool

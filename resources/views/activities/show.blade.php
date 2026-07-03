@@ -1,4 +1,4 @@
-<x-layouts::site title="{{ $activity->title_nl }}" :nav-chapter="$activity->groups->first()">
+<x-layouts::site title="{{ $activity->title_nl }}" :nav-chapter="$activity->groups->first()" :description="$activity->metaDescription()" :og-image="$activity->ogImageUrl()">
 
 @php
     $routeCoords = $activity->route_coordinates;
