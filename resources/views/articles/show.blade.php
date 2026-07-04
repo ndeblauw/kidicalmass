@@ -1,6 +1,6 @@
 <x-layouts::site title="{{ $article->title_nl }}" :description="$article->metaDescription()" :og-image="$article->ogImageUrl()" og-type="article">
     <article class="mx-auto max-w-3xl space-y-8">
-        <a href="{{ route('articles.index') }}" class="inline-block font-semibold text-kidical-blue hover:underline">← Back to articles</a>
+        <a href="{{ route('articles.index') }}" class="inline-block font-semibold text-kidical-blue hover:underline">← {{ __('about.news_back') }}</a>
 
         <header class="space-y-4">
             <h1>{{ $article->title_nl }}</h1>
@@ -8,7 +8,7 @@
                 @if ($article->author)
                     {{ $article->author->name }} ·
                 @endif
-                <time datetime="{{ ($article->published_at ?? $article->created_at)->format('Y-m-d') }}">{{ ($article->published_at ?? $article->created_at)->format('j F Y') }}</time>
+                <time datetime="{{ ($article->published_at ?? $article->created_at)->format('Y-m-d') }}">{{ ($article->published_at ?? $article->created_at)->isoFormat('D MMMM YYYY') }}</time>
             </p>
             @if ($article->groups->isNotEmpty())
                 <div class="flex flex-wrap gap-2">
@@ -32,8 +32,7 @@
         </div>
 
         @if ($article->getMedia('gallery')->count() > 0)
-            <section class="space-y-4">
-                <h2 class="text-2xl text-kidical-ink">Gallery</h2>
+            <section class="space-y-4" aria-label="{{ __('about.news_gallery') }}">
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($article->getMedia('gallery') as $media)
                         <div class="aspect-[4/3] overflow-hidden rounded-xl">

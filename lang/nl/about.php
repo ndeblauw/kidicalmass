@@ -85,6 +85,11 @@ return [
     'organisation_closing_heading' => 'Een afdeling starten of vervoegen?',
     'organisation_closing_label' => 'Zo begin je',
 
+    // Nieuws (P-18). The feed itself is admin content (Article); only the
+    // page chrome lives here.
+    'news_back' => 'Terug naar nieuws',
+    'news_gallery' => 'Foto\'s',
+
     // Pers (P-19). Structure: one contact section (offer folded into a sentence,
     // background link inline) + the year-grouped archive. No outlet strip (the
     // archive shows the outlets), no closing CTA (the page IS the contact).

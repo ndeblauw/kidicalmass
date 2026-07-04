@@ -23,11 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
+                const el = entry.target;
+                el.style.opacity = '1';
                 @if ($transform)
-                    entry.target.style.transform = 'translateY(0)';
+                    el.style.transform = 'translateY(0)';
                 @endif
-                observer.unobserve(entry.target);
+                {{-- Clear the inline props once settled: a leftover inline
+                     transform/transition overrides the cards' CSS :hover
+                     lift/tilt for the rest of the page's life. --}}
+                el.addEventListener('transitionend', () => {
+                    ['opacity', 'transform', 'transition', 'transition-delay'].forEach((p) => el.style.removeProperty(p));
+                }, { once: true });
+                observer.unobserve(el);
             }
         });
     }, { threshold: 0.12 });

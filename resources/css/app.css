@@ -168,7 +168,10 @@
         font-weight: 800;
         color: var(--color-kidical-ink);
         overflow-wrap: break-word;
-        hyphens: auto;
+        /* No auto-hyphenation in display type: it mid-word-breaks Dutch even at
+           desktop widths ("duide-lijke"). Balance evens the rag instead. */
+        hyphens: manual;
+        text-wrap: balance;
     }
 
     /* Fluid display tiers: max == the original token, so desktop (≥1024px) is
@@ -226,6 +229,7 @@
 @import './components/ride-gallery.css';
 @import './components/ride-photo-nudge.css';
 @import './components/share-band.css';
+@import './components/press-archive.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';

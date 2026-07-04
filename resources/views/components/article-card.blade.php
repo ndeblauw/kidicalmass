@@ -28,7 +28,7 @@
             @if ($article->author)
                 {{ $article->author->name }} ·
             @endif
-            <time datetime="{{ ($article->published_at ?? $article->created_at)->format('Y-m-d') }}">{{ ($article->published_at ?? $article->created_at)->format('j M Y') }}</time>
+            <time datetime="{{ ($article->published_at ?? $article->created_at)->format('Y-m-d') }}">{{ ($article->published_at ?? $article->created_at)->isoFormat('D MMM YYYY') }}</time>
         </p>
 
         <p class="mt-2 text-sm">{{ Str::limit(strip_tags($article->content_nl), 140) }}</p>

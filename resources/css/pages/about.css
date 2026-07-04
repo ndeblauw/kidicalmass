@@ -196,6 +196,16 @@
 
         @media (min-width: 768px) { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     }
+    .about-demand-grid > li {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    /* Tilt alternation keyed on the grid slot: inside each <li> the
+       numbered-item is always :first-child and its quote :nth-child(2), so
+       the components' own odd/even rules would tilt every demand the same way. */
+    .about-demand-grid > li:nth-child(even) .numbered-item { transform: rotate(0.75deg); }
+    .about-demand-grid > li:nth-child(even) .pull-quote--card { transform: rotate(-1deg); }
     .about-partners__intro {
         max-width: 52ch;
         margin-bottom: 2rem;

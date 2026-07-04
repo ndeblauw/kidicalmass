@@ -94,6 +94,7 @@ Route::prefix('{locale}')
         Route::get('about/press', function () {
             $articles = PressArticle::query()
                 ->whereNotNull('published_at')
+                ->with('media')
                 ->orderBy('published_at', 'desc')
                 ->get()
                 ->groupBy(fn ($article) => $article->published_at->year);

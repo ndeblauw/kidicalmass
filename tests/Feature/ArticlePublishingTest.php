@@ -33,6 +33,19 @@ it('renders rich-text content as HTML and legacy plain text with line breaks', f
     get(route('articles.show', $plain))->assertOk()->assertSee("Regel een.<br />\nRegel twee.", escape: false);
 });
 
+it('renders article chrome in Dutch, never English', function () {
+    $article = Article::factory()->create(['published_at' => '2026-03-05 12:00:00']);
+
+    get(route('articles.show', $article))
+        ->assertOk()
+        ->assertSee(__('about.news_back'))
+        ->assertSee('5 maart 2026')
+        ->assertDontSee('March')
+        ->assertDontSee('Back to articles');
+
+    get('/nl/about/news')->assertOk()->assertSee('5 mrt. 2026');
+});
+
 it('renders a published article without a publish date instead of crashing', function () {
     $article = Article::factory()->create(['title_nl' => 'Bericht zonder datum', 'published_at' => null]);
 
