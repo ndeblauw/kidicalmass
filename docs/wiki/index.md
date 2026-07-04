@@ -58,3 +58,4 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 | Page | Summary | Phase |
 |------|---------|-------|
 | [Build plan & status](build/00-build-plan.md) | What's already on `main`; what the phase will need (DESIGN.md, redirect map) | build |
+| [About-section handoff](build/20-about-section-handoff.md) | Open work after the 2026-07-04 normalize pass: admin track, distill/polish leftovers, Nico backlog, client gates, thread-sized bundles | build |
