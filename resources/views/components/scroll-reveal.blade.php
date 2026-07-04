@@ -1,9 +1,10 @@
 @props(['selector', 'transform' => false])
 
-{{-- Scroll-reveal stagger shared by the About leaves (mirrors the ride/show +
-     steun-ons script). transform defaults to false: the .activity-promises__item
-     cards carry a CSS tilt, so we animate opacity only to avoid flattening them.
-     Pass :transform="true" for upright elements. Honours prefers-reduced-motion. --}}
+{{-- Scroll-reveal stagger (mirrors the ride/show + steun-ons script). Applies
+     to CARD GRIDS ONLY -- never to prose sections or single blocks. transform
+     defaults to false: elements that carry a CSS tilt animate opacity only, to
+     avoid flattening them. Pass :transform="true" for upright elements.
+     Honours prefers-reduced-motion. --}}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

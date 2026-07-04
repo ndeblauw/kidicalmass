@@ -25,30 +25,25 @@
         <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op nationaal of regionaal niveau, via financiering, infrastructuur of een gedeeld pleidooi.</p>
         <ul class="about-partner-grid" role="list">
             @foreach ($partners as $partner)
-                <li class="about-partner-card" data-partner-category="{{ $partner->category->value }}">
-                    <strong>{{ $partner->name }}</strong>
-                    @if ($partner->description_nl)
-                        <p>{{ $partner->description_nl }}</p>
-                    @endif
-                </li>
+                <x-partner-card :name="$partner->name" data-partner-category="{{ $partner->category->value }}">{{ $partner->description_nl }}</x-partner-card>
             @endforeach
         </ul>
         <figure class="partner-logo-wall">
             <img src="{{ asset('img/partners/partner-logos-2024.png') }}" alt="Logo's van de vele partners en bondgenoten van Kidical Mass, waaronder Brussel Mobiliteit, Pro Velo, Cyclo, GRACQ, Fietsersbond, Bruzz en vele anderen" loading="lazy">
             <figcaption>En vele anderen die Kidical Mass mee mogelijk maken.</figcaption>
         </figure>
-        <p class="about-partners__note">Op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Geen fiets? <a href="{{ route('find-a-bike') }}">Bekijk de opties →</a></p>
+        <p class="about-partners__note">Op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Geen fiets? <a href="{{ route('find-a-bike') }}" class="more-link">Bekijk de opties →</a></p>
     </section>
 
     {{-- WAAROM PARTNER WORDEN — benefit hook (from the Sponsorformules "waarom steunen") --}}
     <section class="about-section about-section--wide">
         <x-section-heading>Waarom partner of sponsor worden?</x-section-heading>
         <p class="about-partners__intro">Als partner steun je een beweging die elke maand honderden gezinnen veilig op de fiets krijgt. En je bouwt mee aan een stad op maat van kinderen.</p>
-        <ul class="about-press__offer" role="list">
+        <x-check-list>
             <li>Je draagt bij aan kindvriendelijke, veilige straten in elke buurt.</li>
             <li>Je ondersteunt burgerparticipatie en duurzame mobiliteit.</li>
             <li>Je krijgt positieve zichtbaarheid bij gezinnen, buurtbewoners en beleidsmakers.</li>
-        </ul>
+        </x-check-list>
     </section>
 
     {{-- ONZE FORMULES — on-page summary of the two tracks; prices live in the
@@ -75,7 +70,7 @@
             </div>
         </div>
         <p class="about-partners__note">
-            <a href="{{ asset('downloads/kidical-mass-sponsorformules.pdf') }}" target="_blank" rel="noopener noreferrer">Bekijk alle formules en tarieven (pdf) →</a>
+            <a href="{{ asset('downloads/kidical-mass-sponsorformules.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">Bekijk alle formules en tarieven (pdf) →</a>
         </p>
     </section>
 
@@ -84,7 +79,7 @@
         <x-section-heading>Wat we van partners vragen</x-section-heading>
         <p class="about-partners__intro">Kidical Mass is een burgerbeweging, geen reclamebord. We werken samen met partners die onze waarden delen: kindvriendelijkheid, veiligheid, duurzaamheid en inclusie. Je steun komt zonder voorwaarden die onze werking of onze boodschap sturen, en we blijven onafhankelijk en niet-commercieel.</p>
         <p class="about-partners__note">
-            <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer">Lees ons volledige sponsor- en partnercharter (pdf) →</a>
+            <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">Lees ons volledige sponsor- en partnercharter (pdf) →</a>
         </p>
     </section>
 
@@ -96,8 +91,8 @@
                 <h2 class="about-band__title">Interesse? Laten we praten.</h2>
                 <p>Vul kort in wie je bent en waar je interesse naar uitgaat. We nemen snel contact op om samen de juiste formule te vinden. Je verbindt je tot niets.</p>
                 <p class="partner-enquiry__fallback">Liever rechtstreeks?<br>
-                    <a href="mailto:bike@kidicalmass.be">bike@kidicalmass.be</a><br>
-                    <a href="tel:+32495812795">0495 81 27 95</a>
+                    <a href="mailto:bike@kidicalmass.be" class="more-link">bike@kidicalmass.be</a><br>
+                    <a href="tel:+32495812795" class="more-link">0495 81 27 95</a>
                 </p>
             </div>
             <div class="partner-enquiry__form">
@@ -110,7 +105,7 @@
 
 </div>
     @push('scripts')
-    <x-about-reveal selector=".about-partner-card" :transform="true" />
+    <x-scroll-reveal selector=".partner-card" :transform="true" />
     @endpush
 
     <x-slot:closing>

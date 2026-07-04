@@ -30,11 +30,11 @@ it('keeps stub scaffolding and lorem placeholder off every finished page', funct
         ->assertDontSee('lorem');
 })->with('finished public routes');
 
-it('renders the About hub: six nav cards plus an intention strip to the right exits', function () {
+it('renders the About hub: four nav cards plus an intention strip to the right exits', function () {
     get('/nl/about')
         ->assertOk()
         ->assertSee('Over ons')
-        // The 6 nav cards route to every leaf.
+        // The 4 nav cards cover the read path; Pers + Partners route via the intent strip.
         ->assertSee(route('about.mission'), escape: false)
         ->assertSee(route('about.vision'), escape: false)
         ->assertSee(route('about.organisation'), escape: false)
@@ -49,7 +49,8 @@ it('renders the About hub: six nav cards plus an intention strip to the right ex
         ->assertSee(__('nav.mission'))
         ->assertSee(__('nav.vision'))
         ->assertSee(__('nav.organisation'))
-        ->assertSee('data-stats-source="about-stats"', escape: false);
+        // The stats deck lives on Wat we doen alone; the hub carries no stats band.
+        ->assertDontSee('data-stats-source="about-stats"', escape: false);
 });
 
 it('renders Wat we doen as one story with live stats, welcome fold-in and a chained CTA', function () {

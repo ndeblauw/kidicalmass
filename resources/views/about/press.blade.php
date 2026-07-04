@@ -13,11 +13,11 @@
 
     {{-- CONTACT — one section: pitch, background link, perscontact card --}}
     <section class="about-section about-section--wide">
-        <div class="about-press">
-            <div class="about-press__intro">
+        <div class="press-contact">
+            <div class="press-contact__intro">
                 <x-section-heading>{{ __('about.press_contact_title') }}</x-section-heading>
                 <p>{{ __('about.press_contact_body') }}</p>
-                <p class="about-section__link"><a href="{{ route('about.mission') }}">{{ __('about.press_background_link') }}</a></p>
+                <p><a href="{{ route('about.mission') }}" class="more-link">{{ __('about.press_background_link') }}</a></p>
             </div>
             <x-info-card :label="__('about.press_contact_label')">
                 <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
@@ -32,10 +32,9 @@
             @if ($articlesByYear->isNotEmpty())
                 <x-press-archive :articles-by-year="$articlesByYear" />
             @else
-                <div class="about-empty">
-                    <h2 class="about-empty__title">{{ __('about.press_empty_title') }}</h2>
-                    <p>{{ __('about.press_empty_body') }}</p>
-                </div>
+                <x-empty-state :heading="__('about.press_empty_title')">
+                    {{ __('about.press_empty_body') }}
+                </x-empty-state>
             @endif
         </div>
     </section>

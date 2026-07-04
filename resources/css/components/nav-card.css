@@ -1,0 +1,63 @@
+/* Nav card — white display card that routes to a subpage (about hub grid).
+   The hover lift+tilt is a navigation affordance and stays; decorative card
+   tilt was removed section-wide in the normalize pass. */
+@layer components {
+    .nav-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        height: 100%;
+        padding: 1.75rem;
+        border-radius: var(--radius-card);
+        background: white;
+        border: 1px solid var(--color-kidical-hairline);
+        box-shadow: var(--shadow-float);
+        background-image: none;
+        transition: transform 0.2s var(--ease-brand), box-shadow 0.2s;
+    }
+    .nav-card:hover {
+        transform: translateY(-3px) rotate(-1deg);
+        box-shadow: var(--shadow-hover);
+        background-image: none;
+    }
+    .nav-card__chip {
+        margin-bottom: 0.25rem;
+    }
+    /* Title inherits the heading face/weight/colour from @layer base; only the
+       in-card size is the component's concern. */
+    .nav-card__title {
+        font-size: var(--text-2xl);
+        line-height: 1.25;
+        margin: 0;
+    }
+    .nav-card__desc {
+        font-size: var(--text-base);
+        color: var(--color-text-body);
+        margin: 0;
+    }
+    .nav-card__arrow {
+        margin-top: auto;
+        padding-top: 0.5rem;
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-xl);
+        color: var(--color-kidical-red);
+        transition: transform 0.2s var(--ease-brand);
+    }
+    .nav-card:hover .nav-card__arrow {
+        transform: translateX(0.35rem);
+    }
+
+    /* Single-column stacking makes the auto-margin arrow balloon each card:
+       trim padding and pin the arrow close to the description. */
+    @media (max-width: 767px) {
+        .nav-card {
+            padding: 1.25rem;
+            gap: 0.5rem;
+        }
+        .nav-card__arrow {
+            margin-top: 0.5rem;
+        }
+    }
+}

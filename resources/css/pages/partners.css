@@ -1,4 +1,21 @@
 @layer components {
+    .about-partner-grid {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+        gap: 1.25rem;
+    }
+    .about-partners__intro {
+        max-width: 52ch;
+        margin-bottom: 2rem;
+        color: var(--color-text-body);
+    }
+    .about-partners__note {
+        margin-top: 2rem;
+        color: var(--color-kidical-ink);
+    }
     .partner-formules {
         display: grid;
         grid-template-columns: 1fr;
@@ -49,9 +66,6 @@
         margin-top: 1.5rem;
         font-weight: 700;
         line-height: 1.7;
-
-        a { color: var(--color-kidical-blue); background-image: none; }
-        a:hover { text-decoration: underline; background-image: none; }
     }
     .partner-enquiry__form {
         background: white;

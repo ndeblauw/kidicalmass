@@ -1,3 +1,8 @@
+/* About section — shared page scaffolding for the Over-ons leaves (hub,
+   mission, vision, organisation, press, partners). Reusable card looks live
+   in components/ (nav-card, intent-card, partner-card, check-list, info-card,
+   numbered-item, pull-quote, person-card); this file keeps the section
+   rhythm, bands and page-only grids. */
 @layer components {
     .about-band {
         width: 100vw;
@@ -26,43 +31,6 @@
             grid-template-columns: repeat(3, 1fr);
         }
     }
-    .about-stats {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        background: var(--color-kidical-light-blue);
-        padding-block: clamp(2.75rem, 5vw, 4rem);
-        margin-block: calc(var(--spacing) * 4);
-    }
-    .about-stats__grid {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem 1rem;
-        text-align: center;
-
-        @media (min-width: 768px) {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-    .about-stat {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-    }
-    .about-stat__num {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
-        line-height: 1;
-        color: var(--color-kidical-blue);
-    }
-    .about-stat__label {
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
-    }
     .about-section {
         max-width: 48rem;
         margin-block: calc(var(--spacing) * 12);
@@ -71,13 +39,6 @@
         gap: 1rem;
     }
     .about-section--wide { max-width: 72rem; }
-    .about-section__link a {
-        font-weight: 700;
-        color: var(--color-kidical-blue);
-        background-image: none;
-
-        &:hover { background-image: none; text-decoration: underline; }
-    }
     /* styleguide only — no production page uses this grid anymore */
     .about-voices {
         display: grid;
@@ -95,6 +56,7 @@
         flex-wrap: wrap;
         gap: 1rem;
     }
+    /* Hub browse grid — 4 nav cards, 2x2 from the sm edge. */
     .about-nav {
         list-style: none;
         padding: 0;
@@ -104,61 +66,19 @@
         gap: 1.25rem;
 
         @media (min-width: 600px) { grid-template-columns: repeat(2, 1fr); }
-        @media (min-width: 900px) { grid-template-columns: repeat(3, 1fr); }
     }
-    .about-nav-card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        height: 100%;
-        padding: 1.75rem;
-        border-radius: var(--radius-card);
-        background: white;
-        border: 1px solid var(--color-kidical-hairline);
-        box-shadow: var(--shadow-float);
-        background-image: none;
-        transition: transform 0.2s var(--ease-brand), box-shadow 0.2s;
-    }
-    .about-nav-card:hover {
-        transform: translateY(-3px) rotate(-1deg);
-        box-shadow: var(--shadow-hover);
-        background-image: none;
-    }
-    .about-nav-card__chip {
-        width: 3.25rem;
-        height: 3.25rem;
-        background: var(--color-kidical-red);
-        border-radius: var(--radius-chip);
-        transform: rotate(-3deg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0.25rem;
-    }
-    .about-nav-card__icon { width: 1.7rem; height: 1.7rem; color: white; }
-    .about-nav-card__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-2xl);
-        color: var(--color-kidical-ink);
+    /* Hub intent strip — 2-up grid of intent-cards. */
+    .about-intent {
+        list-style: none;
+        padding: 0;
         margin: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    .about-nav-card__desc {
-        font-size: var(--text-base);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 12%);
-        margin: 0;
+    @media (min-width: 560px) {
+        .about-intent { grid-template-columns: repeat(2, 1fr); }
     }
-    .about-nav-card__arrow {
-        margin-top: auto;
-        padding-top: 0.5rem;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-red);
-        transition: transform 0.2s var(--ease-brand);
-    }
-    .about-nav-card:hover .about-nav-card__arrow { transform: translateX(0.35rem); }
     .about-demand-grid {
         list-style: none;
         padding: 0;
@@ -178,50 +98,8 @@
        other card in the section sits upright by decision (normalize pass). */
     [data-stats-source='about-stats'] > .stat-card:nth-child(odd) { transform: rotate(-1deg); }
     [data-stats-source='about-stats'] > .stat-card:nth-child(even) { transform: rotate(1deg); }
-    .about-partners__intro {
-        max-width: 52ch;
-        margin-bottom: 2rem;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-    }
-    .about-band--light-blue .about-partners__intro { color: var(--color-kidical-ink); }
-    .about-partner-grid {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-        gap: 1.25rem;
-    }
-    .about-partner-card {
-        background: white;
-        border-radius: var(--radius-card);
-        padding: 1.5rem;
-        box-shadow: var(--shadow-float);
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .about-partner-card strong {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        color: var(--color-kidical-ink);
-        line-height: 1.2;
-    }
-    .about-partner-card p {
-        font-size: var(--text-sm);
-        line-height: 1.5;
-        margin: 0;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 28%);
-    }
-    .about-partners__note {
-        margin-top: 2rem;
-        color: var(--color-kidical-ink);
-
-        a { font-weight: 700; color: var(--color-kidical-blue); background-image: none; }
-        a:hover { background-image: none; text-decoration: underline; }
-    }
-    .about-press {
+    /* Press contact grid — pitch column + perscontact card. */
+    .press-contact {
         display: grid;
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -229,30 +107,7 @@
 
         @media (min-width: 768px) { grid-template-columns: 1.6fr 1fr; gap: 3rem; }
     }
-    .about-press__offer {
-        list-style: none;
-        margin: 1.5rem 0 0;
-        padding: 0;
-        display: grid;
-        gap: 0.7rem;
-    }
-    .about-press__offer li {
-        position: relative;
-        padding-left: 1.9rem;
-        line-height: 1.5;
-        color: var(--color-kidical-ink);
-    }
-    .about-press__offer li::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0.18em;
-        width: 1.25rem;
-        height: 1.25rem;
-        background-color: var(--color-kidical-green);
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 13l4 4L19 7' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-    }
+    /* articles/index only — migrate to <x-empty-state> in the news pass, then delete. */
     .about-empty {
         max-width: 46rem;
         text-align: center;
@@ -265,54 +120,11 @@
 
         a { font-weight: 700; color: var(--color-kidical-blue); }
     }
+    /* articles/index only — migrate in the news pass, then delete. */
     .about-feed__lead {
         font-size: clamp(var(--text-lg), 1.5vw, var(--text-xl));
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 20%);
     }
-    .about-intent {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    @media (min-width: 560px) {
-        .about-intent { grid-template-columns: repeat(2, 1fr); }
-    }
-    .about-intent-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        height: 100%;
-        padding: 1.25rem 1.5rem;
-        border-radius: var(--radius-tile);
-        background: var(--color-kidical-light-blue);
-        background-image: none;
-        transition: transform 0.2s var(--ease-brand), box-shadow 0.2s;
-    }
-    .about-intent-card:hover {
-        transform: translateY(-2px) rotate(-0.75deg);
-        box-shadow: var(--shadow-hover);
-        background-image: none;
-    }
-    .about-intent-card__label {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        color: var(--color-kidical-ink);
-        line-height: 1.2;
-    }
-    .about-intent-card__arrow {
-        flex-shrink: 0;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-xl);
-        color: var(--color-kidical-red);
-        transition: transform 0.2s var(--ease-brand);
-    }
-    .about-intent-card:hover .about-intent-card__arrow { transform: translateX(0.35rem); }
 
     @media (max-width: 767px) {
         /* Tighten section rhythm — 48px margins feel cavernous at 390px. */
@@ -324,16 +136,6 @@
            Drop to text-xl so the pitch reads cleanly without consuming the viewport. */
         .page-panel .intro-text {
             font-size: var(--text-xl);
-        }
-
-        /* Nav cards: single-column stacking makes the auto-margin arrow balloon
-           each card to ~237px. Trim padding and pin the arrow close to the desc. */
-        .about-nav-card {
-            padding: 1.25rem;
-            gap: 0.5rem;
-        }
-        .about-nav-card__arrow {
-            margin-top: 0.5rem;
         }
 
         /* Band padding: clamp so it never towers on short phones. */

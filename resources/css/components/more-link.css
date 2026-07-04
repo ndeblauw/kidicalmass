@@ -1,0 +1,15 @@
+/* More-link — the ONE inline "read more" link treatment: 700-weight body-face
+   blue. Opts out of the global gradient underline; hover restores a plain
+   underline. Any in-copy forward link (…→) should carry this class. */
+@layer components {
+    .more-link {
+        font-weight: 700;
+        color: var(--color-text-link);
+        background-image: none;
+
+        &:hover {
+            background-image: none;
+            text-decoration: underline;
+        }
+    }
+}

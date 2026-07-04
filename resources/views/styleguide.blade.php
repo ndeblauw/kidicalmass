@@ -221,7 +221,7 @@
                 <x-styleguide.entry name="partners" props="(geen — DB + route-gated)"
                     note="Rendert alleen op home + about-pagina's en bevraagt de Partner-tabel. Niet los te tonen." />
 
-                <x-styleguide.entry name="about-reveal" props="selector, transform=false"
+                <x-styleguide.entry name="scroll-reveal" props="selector, transform=false"
                     note="Alleen een <script> voor scroll-reveal. Geen visuele weergave." />
 
                 <x-styleguide.entry name="contact-form" props="(geen)"

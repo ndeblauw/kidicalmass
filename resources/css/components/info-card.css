@@ -15,11 +15,12 @@
         letter-spacing: 0.08em;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
+    /* Same 700 body-face link treatment as .more-link, kept at the card's
+       larger size so the contact line stays the card's focal point. */
     .info-card__link {
-        font-family: var(--font-heading);
-        font-weight: 800;
+        font-weight: 700;
         font-size: var(--text-xl);
-        color: var(--color-kidical-blue);
+        color: var(--color-text-link);
         background-image: none;
         word-break: break-word;
 

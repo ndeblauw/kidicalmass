@@ -1,9 +1,9 @@
 {{--
     Over ons — /about (P-14)
     Built 2026-06-03 to the DESIGN.md kit. A navigational hub for "deciders & deepeners":
-    orient ("what's in this section?") and route ("where should I go?"). Reuses
-    .activity-hero* (blue) + a 6-card nav grid (red Flux-icon chips) + a mini stat bar +
-    the shared closing CTA. Colour story: blue → white → light-blue → yellow.
+    orient ("what's in this section?") and route ("where should I go?"). Intent strip
+    routes the act-exits (including Pers + Partners); a 2x2 nav grid covers the read
+    path. The stats deck lives on Wat we doen (mission) — the hub carries none.
     Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
 --}}
 <x-layouts::site title="Over ons" :description="__('meta.about')">
@@ -23,101 +23,43 @@
     <section class="about-section about-section--wide">
         <x-section-heading>Waar ben je naar op zoek?</x-section-heading>
         <ul class="about-intent" role="list">
-            <li>
-                <a href="{{ route('volunteer') }}" class="about-intent-card link-plain">
-                    <span class="about-intent-card__label">Een groep starten of meehelpen</span>
-                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('about.press') }}" class="about-intent-card link-plain">
-                    <span class="about-intent-card__label">Ik ben pers</span>
-                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('about.partners') }}" class="about-intent-card link-plain">
-                    <span class="about-intent-card__label">Partner of sponsor worden</span>
-                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('membership') }}" class="about-intent-card link-plain">
-                    <span class="about-intent-card__label">De beweging steunen</span>
-                    <span class="about-intent-card__arrow" aria-hidden="true">→</span>
-                </a>
-            </li>
+            <li><x-intent-card :href="route('volunteer')" label="Een groep starten of meehelpen" /></li>
+            <li><x-intent-card :href="route('about.press')" label="Ik ben pers" /></li>
+            <li><x-intent-card :href="route('about.partners')" label="Partner of sponsor worden" /></li>
+            <li><x-intent-card :href="route('membership')" label="De beweging steunen" /></li>
         </ul>
     </section>
 
-    {{-- SUBPAGINA'S — the browse path (6 nav cards) --}}
+    {{-- SUBPAGINA'S — the browse path (4 nav cards; Pers + Partners route via the
+         intent strip above). --}}
     <section class="about-section about-section--wide">
         <x-section-heading>Of lees meer over de beweging</x-section-heading>
         <ul class="about-nav" role="list">
             <li>
-                <a href="{{ route('about.mission') }}" class="about-nav-card link-plain">
-                    <span class="about-nav-card__chip"><flux:icon.flag variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">{{ __('nav.mission') }}</h2>
-                    <p class="about-nav-card__desc">Fietsparades, lokale groepen en de weg naar veilige straten.</p>
-                    <span class="about-nav-card__arrow" aria-hidden="true">→</span>
-                </a>
+                <x-nav-card :href="route('about.mission')" icon="flag" :title="__('nav.mission')">
+                    Fietsparades, lokale groepen en de weg naar veilige straten.
+                </x-nav-card>
             </li>
             <li>
-                <a href="{{ route('about.vision') }}" class="about-nav-card link-plain">
-                    <span class="about-nav-card__chip"><flux:icon.eye variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">{{ __('nav.vision') }}</h2>
-                    <p class="about-nav-card__desc">Vier duidelijke vragen aan steden en gemeenten.</p>
-                    <span class="about-nav-card__arrow" aria-hidden="true">→</span>
-                </a>
+                <x-nav-card :href="route('about.vision')" icon="eye" :title="__('nav.vision')">
+                    Vier duidelijke vragen aan steden en gemeenten.
+                </x-nav-card>
             </li>
             <li>
-                <a href="{{ route('about.organisation') }}" class="about-nav-card link-plain">
-                    <span class="about-nav-card__chip"><flux:icon.building-office-2 variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">{{ __('nav.organisation') }}</h2>
-                    <p class="about-nav-card__desc">Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.</p>
-                    <span class="about-nav-card__arrow" aria-hidden="true">→</span>
-                </a>
+                <x-nav-card :href="route('about.organisation')" icon="building-office-2" :title="__('nav.organisation')">
+                    Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.
+                </x-nav-card>
             </li>
             <li>
-                <a href="{{ route('articles.index') }}" class="about-nav-card link-plain">
-                    <span class="about-nav-card__chip"><flux:icon.newspaper variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">Nieuws</h2>
-                    <p class="about-nav-card__desc">Updates uit het netwerk.</p>
-                    <span class="about-nav-card__arrow" aria-hidden="true">→</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('about.press') }}" class="about-nav-card link-plain">
-                    <span class="about-nav-card__chip"><flux:icon.megaphone variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">Pers</h2>
-                    <p class="about-nav-card__desc">Kidical Mass in de media.</p>
-                    <span class="about-nav-card__arrow" aria-hidden="true">→</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('about.partners') }}" class="about-nav-card link-plain">
-                    <span class="about-nav-card__chip"><flux:icon.user-group variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">Partners</h2>
-                    <p class="about-nav-card__desc">Wie de beweging mee mogelijk maakt.</p>
-                    <span class="about-nav-card__arrow" aria-hidden="true">→</span>
-                </a>
+                <x-nav-card :href="route('articles.index')" icon="newspaper" :title="__('nav.news')">
+                    Updates uit het netwerk.
+                </x-nav-card>
             </li>
         </ul>
     </section>
 
-    {{-- MINI STATBAR — full-bleed light-blue band --}}
-    <section class="about-stats" aria-label="Kidical Mass in cijfers">
-        <div class="container mx-auto px-4">
-            <ul class="about-stats__grid" role="list" data-stats-source="about-stats">
-                @foreach (app(\App\Support\AboutStats::class)->cards() as $card)
-                    <li class="about-stat"><span class="about-stat__num">{{ $card['value'] }}</span><span class="about-stat__label">{{ $card['label'] }}</span></li>
-                @endforeach
-            </ul>
-        </div>
-    </section>
-
     @push('scripts')
-    <x-about-reveal selector=".about-intent-card, .about-nav-card" :transform="true" />
+    <x-scroll-reveal selector=".intent-card, .nav-card" :transform="true" />
     @endpush
 
     </x-page-hero>

@@ -24,7 +24,7 @@
             <section class="about-section">
                 <x-section-heading>{{ __('about.mission_welcome_title') }}</x-section-heading>
                 <p>{{ __('about.mission_welcome_body') }}</p>
-                <p class="about-section__link"><a href="{{ route('getting-started') }}">{{ __('about.mission_welcome_link') }}</a></p>
+                <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.mission_welcome_link') }}</a></p>
             </section>
 
             <x-pull-quote :attribution="__('about.mission_quote_attribution')">
@@ -64,7 +64,7 @@
     </section>
 
     @push('scripts')
-    <x-about-reveal selector=".about-band .about-card-grid > li" />
+    <x-scroll-reveal selector=".about-band .about-card-grid > li" :transform="true" />
     @endpush
 
     </x-page-hero>

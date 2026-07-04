@@ -68,7 +68,7 @@
     </section>
 
     @push('scripts')
-    <x-about-reveal selector=".about-demand-grid > li" :transform="true" />
+    <x-scroll-reveal selector=".about-demand-grid > li" :transform="true" />
     @endpush
 
     </x-page-hero>
