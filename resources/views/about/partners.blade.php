@@ -88,7 +88,7 @@
     <section class="about-band about-band--light-blue">
         <div class="container mx-auto px-4 partner-enquiry">
             <div class="partner-enquiry__intro">
-                <h2 class="about-band__title">Interesse? Laten we praten.</h2>
+                <x-section-heading class="mb-4">Interesse? Laten we praten.</x-section-heading>
                 <p>Vul kort in wie je bent en waar je interesse naar uitgaat. We nemen snel contact op om samen de juiste formule te vinden. Je verbindt je tot niets.</p>
                 <p class="partner-enquiry__fallback">Liever rechtstreeks?<br>
                     <a href="mailto:bike@kidicalmass.be" class="more-link">bike@kidicalmass.be</a><br>
@@ -107,10 +107,5 @@
     @push('scripts')
     <x-scroll-reveal selector=".partner-card" :transform="true" />
     @endpush
-
-    <x-slot:closing>
-        <x-closing-cta heading="Samen op pad?"
-            :href="route('contact')" label="Neem contact op" />
-    </x-slot:closing>
 
 </x-layouts::site>

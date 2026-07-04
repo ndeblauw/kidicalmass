@@ -1,12 +1,12 @@
 @props(['articlesByYear'])
 
 {{-- Year-grouped press archive (PressArticle, admin-maintained), used on the
-     Pers page's light-blue band. Year labels stay <h2> for the outline but are
-     styled down in press-archive.css: they group the archive, they don't head
-     a section. --}}
+     Pers page's light-blue band under its "Persoverzicht" section heading.
+     Year labels are <h3>: they group the archive under that h2, they don't
+     head a section themselves. Sized in press-archive.css. --}}
 <div class="press-archive">
     @foreach ($articlesByYear as $year => $articles)
-        <h2 class="press-archive__year">{{ $year }}</h2>
+        <h3 class="press-archive__year">{{ $year }}</h3>
         <ul class="press-archive__list" role="list">
             @foreach ($articles as $article)
                 <li class="press-archive__item">

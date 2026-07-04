@@ -30,6 +30,7 @@
     <section class="about-band about-band--light-blue">
         <div class="container mx-auto px-4">
             @if ($articlesByYear->isNotEmpty())
+                <x-section-heading class="mb-8">{{ __('about.press_overview_title') }}</x-section-heading>
                 <x-press-archive :articles-by-year="$articlesByYear" />
             @else
                 <x-empty-state :heading="__('about.press_empty_title')">

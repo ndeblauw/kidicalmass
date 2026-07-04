@@ -42,7 +42,7 @@
     {{-- DRIE DINGEN DIE WE DOEN — unchanged axes on the sky band --}}
     <section class="about-band about-band--sky">
         <div class="container mx-auto px-4">
-            <h2 class="about-band__title">{{ __('about.mission_axes_title') }}</h2>
+            <x-section-heading class="mb-8">{{ __('about.mission_axes_title') }}</x-section-heading>
             <ul class="about-card-grid" role="list">
                 <li>
                     <x-feature-card icon="rocket-launch" color="red" :title="__('about.mission_axis1_title')">

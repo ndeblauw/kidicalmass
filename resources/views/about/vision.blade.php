@@ -27,7 +27,7 @@
     {{-- VIER EISEN — parent voices nested under the demand they speak to --}}
     <section class="about-band about-band--light-blue">
         <div class="container mx-auto px-4">
-            <h2 class="about-band__title">{{ __('about.vision_demands_title') }}</h2>
+            <x-section-heading class="mb-8">{{ __('about.vision_demands_title') }}</x-section-heading>
             <ol class="about-demand-grid">
                 <li>
                     <x-numbered-item number="1" :title="__('about.vision_demand1_title')">

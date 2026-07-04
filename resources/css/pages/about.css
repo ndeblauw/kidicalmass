@@ -12,13 +12,10 @@
     }
     .about-band--sky { background: var(--color-kidical-sky); }
     .about-band--light-blue { background: var(--color-kidical-light-blue); }
-    .about-band__title {
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: clamp(var(--text-2xl), 3vw, var(--text-4xl));
-        color: var(--color-kidical-ink);
-        margin-bottom: 2rem;
-    }
+    /* A band that closes a page sits flush on the panel edge: no trailing
+       band margin, no leftover panel padding beneath it. */
+    .page-panel__inner > .about-band:last-child { margin-block-end: 0; }
+    .page-panel:has(.page-panel__inner > .about-band:last-child) { padding-bottom: 0; }
     .about-card-grid {
         list-style: none;
         padding: 0;

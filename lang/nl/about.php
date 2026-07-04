@@ -99,6 +99,7 @@ return [
     'press_background_link' => 'Achtergrond en cijfers: lees wat we doen →',
     'press_contact_label' => 'Perscontact',
     'press_contact_note' => 'We antwoorden zo snel als vrijwilligers dat kunnen.',
+    'press_overview_title' => 'Persoverzicht',
     'press_empty_title' => 'We bouwen aan een persoverzicht',
     'press_empty_body' => 'Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via bike@kidicalmass.be.',
     'press_document_label' => 'Artikel',

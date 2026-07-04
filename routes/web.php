@@ -25,13 +25,11 @@ use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
-use App\Models\Article;
 use App\Models\Group;
 use App\Models\Partner;
 use App\Models\PressArticle;
 use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
-use App\Support\AboutStats;
 use App\Support\SupportStats;
 use Illuminate\Support\Facades\Route;
 
@@ -264,14 +262,6 @@ if (! app()->isProduction()) {
     // Internal styleguide — live component overview + extraction audit.
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
-
-    // Internal design-choices prototype — live variant picker for the about "normalize" pass.
-    Route::get('/design-choices', function () {
-        return view('design-choices', [
-            'statCards' => app(AboutStats::class)->cards(),
-            'articles' => Article::published()->with(['media', 'author'])->orderByDesc('published_at')->take(5)->get(),
-        ]);
-    })->name('design.choices');
 
     // Internal design-choices prototype — Pers-pagina arrange/polish/distill pass.
     Route::get('/design-choices-pers', function () {
