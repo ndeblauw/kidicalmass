@@ -23,7 +23,6 @@ dataset('pages with a closing CTA', [
     ['volunteer', 'Nog geen lokale groep in je buurt?'],
     ['articles.index', 'Zin gekregen om mee te rijden?'],
     ['about.partners', 'Samen op pad?'],
-    ['about.press', 'Vragen van de pers?'],
 ]);
 
 it('renders the page-specific closing CTA', function (string $route, string $heading) {

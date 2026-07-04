@@ -25,6 +25,7 @@ class StyleguideController extends Controller
         ]);
         $article->id = 1;
         $article->created_at = Carbon::parse('2026-05-18');
+        $article->published_at = Carbon::parse('2026-05-18');
         $article->setRelation('author', new User(['name' => 'Leticia']));
 
         // year => group count, as group-statistics expects.

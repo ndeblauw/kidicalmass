@@ -184,6 +184,8 @@ test('group show mixes parent and direct content with correct ordering', functio
         'content_nl' => 'Older parent article',
         'content_fr' => 'Older parent article',
         'author_id' => $author->id,
+        'is_published' => true,
+        'published_at' => now()->subDays(3),
         'created_at' => now()->subDays(3),
         'updated_at' => now()->subDays(3),
     ]);
@@ -195,6 +197,8 @@ test('group show mixes parent and direct content with correct ordering', functio
         'content_nl' => 'Newer child article',
         'content_fr' => 'Newer child article',
         'author_id' => $author->id,
+        'is_published' => true,
+        'published_at' => now()->subDay(),
         'created_at' => now()->subDay(),
         'updated_at' => now()->subDay(),
     ]);

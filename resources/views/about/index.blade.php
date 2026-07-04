@@ -57,24 +57,24 @@
             <li>
                 <a href="{{ route('about.mission') }}" class="about-nav-card link-plain">
                     <span class="about-nav-card__chip"><flux:icon.flag variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">Missie</h2>
-                    <p class="about-nav-card__desc">Wat we doen en waarom.</p>
+                    <h2 class="about-nav-card__title">{{ __('nav.mission') }}</h2>
+                    <p class="about-nav-card__desc">Fietsparades, lokale groepen en de weg naar veilige straten.</p>
                     <span class="about-nav-card__arrow" aria-hidden="true">→</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('about.vision') }}" class="about-nav-card link-plain">
                     <span class="about-nav-card__chip"><flux:icon.eye variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">Visie</h2>
-                    <p class="about-nav-card__desc">Waarvoor we staan.</p>
+                    <h2 class="about-nav-card__title">{{ __('nav.vision') }}</h2>
+                    <p class="about-nav-card__desc">Vier duidelijke vragen aan steden en gemeenten.</p>
                     <span class="about-nav-card__arrow" aria-hidden="true">→</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('about.organisation') }}" class="about-nav-card link-plain">
                     <span class="about-nav-card__chip"><flux:icon.building-office-2 variant="solid" class="about-nav-card__icon" aria-hidden="true" /></span>
-                    <h2 class="about-nav-card__title">Organisatie</h2>
-                    <p class="about-nav-card__desc">Hoe we werken.</p>
+                    <h2 class="about-nav-card__title">{{ __('nav.organisation') }}</h2>
+                    <p class="about-nav-card__desc">Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.</p>
                     <span class="about-nav-card__arrow" aria-hidden="true">→</span>
                 </a>
             </li>
@@ -108,11 +108,10 @@
     {{-- MINI STATBAR — full-bleed light-blue band --}}
     <section class="about-stats" aria-label="Kidical Mass in cijfers">
         <div class="container mx-auto px-4">
-            <ul class="about-stats__grid about-stats__grid--three" role="list">
-                {{-- TODO [concern]: Stats are hardcoded. Make dynamic: gemeenten = count(active groups), fietsparades = count(past activities), vrijwilligers = from a config/CMS field. See concerns register. --}}
-                <li class="about-stat"><span class="about-stat__num">20</span><span class="about-stat__label">gemeenten in heel België</span></li>
-                <li class="about-stat"><span class="about-stat__num">200+</span><span class="about-stat__label">fietsparades sinds 2020</span></li>
-                <li class="about-stat"><span class="about-stat__num">300+</span><span class="about-stat__label">actieve vrijwilligers</span></li>
+            <ul class="about-stats__grid" role="list" data-stats-source="about-stats">
+                @foreach (app(\App\Support\AboutStats::class)->cards() as $card)
+                    <li class="about-stat"><span class="about-stat__num">{{ $card['value'] }}</span><span class="about-stat__label">{{ $card['label'] }}</span></li>
+                @endforeach
             </ul>
         </div>
     </section>

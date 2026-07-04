@@ -159,8 +159,8 @@ page **Back 🟢 / OK**. Page-specific items also live in each leaf's "Open Ques
 5. **[content] Organigram.** Spec says "reuse the legacy SVG"; that asset isn't in-repo, so
    a lightweight semantic CSS organigram (3 levels) is built. Swap/restyle if the duo wants
    the original.
-6. **[asset] Manifesto PDF link is a legacy Wix URL** (`kidicalmass.be/_files/ugd/…`) that
-   dies when Wix is decommissioned — re-host on the new site. Couples to `D-7` redirect map.
+6. **[asset] Manifesto PDF** is re-hosted at `public/downloads/kidical-mass-manifest.pdf`
+   (`D-7` closed 2026-07-03), no longer pointing at the legacy Wix URL.
 7. **[content] Press/partner contact = `bike@kidicalmass.be`** used throughout; confirm
    this is the intended press + partnership address (a dedicated `pers@`/`partners@` may
    read cleaner).

@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\GroupChangesResult;
+use App\Enums\PartnerCategory;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
@@ -26,6 +27,7 @@ use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Mail\VolunteerInvite;
 use App\Models\Article;
 use App\Models\Group;
+use App\Models\Partner;
 use App\Models\PressArticle;
 use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
@@ -98,7 +100,24 @@ Route::prefix('{locale}')
 
             return view('about.press', ['articlesByYear' => $articles]);
         })->name('about.press');
-        Route::view('about/partners', 'about.partners')->name('about.partners');
+        Route::get('about/partners', function () {
+            $categoryOrder = [
+                PartnerCategory::INSTITUTIONEEL->value,
+                PartnerCategory::BONDGENOOT->value,
+            ];
+
+            $partners = Partner::query()
+                ->whereNull('group_id')
+                ->where('visible', true)
+                ->whereIn('category', $categoryOrder)
+                ->get()
+                ->sortBy([
+                    fn ($a, $b) => array_search($a->category->value, $categoryOrder) <=> array_search($b->category->value, $categoryOrder),
+                    fn ($a, $b) => strcmp($a->name, $b->name),
+                ]);
+
+            return view('about.partners', ['partners' => $partners]);
+        })->name('about.partners');
 
         // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
         // `membership` (links use route('membership')). The old /membership path 301s

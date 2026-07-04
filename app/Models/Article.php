@@ -4,13 +4,16 @@ namespace App\Models;
 
 use App\Models\Concerns\HasMainImage;
 use App\Models\Scopes\LocalGroupScope;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -24,6 +27,39 @@ class Article extends Model implements HasMedia
     use HasFactory;
     use HasMainImage;
     use InteractsWithMedia;
+
+    protected function casts(): array
+    {
+        return [
+            'is_published' => 'boolean',
+            'published_at' => 'datetime',
+        ];
+    }
+
+    #[Scope]
+    protected function drafts(Builder $query): void
+    {
+        $query->where('is_published', false);
+    }
+
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->where('is_published', true);
+    }
+
+    /**
+     * Body HTML for the public page: rich-text (TinyMCE) content renders as-is,
+     * legacy plain-text content keeps its escaped nl2br rendering.
+     */
+    protected function getContentHtmlAttribute(): HtmlString
+    {
+        $content = (string) $this->content_nl;
+
+        return str_contains($content, '<p')
+            ? new HtmlString($content)
+            : new HtmlString(nl2br(e($content)));
+    }
 
     public function registerMediaConversions(?Media $media = null): void
     {

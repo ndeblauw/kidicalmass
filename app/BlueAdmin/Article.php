@@ -12,9 +12,9 @@ class Article extends BlueAdminModel
 
     public $title_field = 'title_nl';
 
-    public $indexTableColumns = ['title_nl', 'title_fr'];
+    public $indexTableColumns = ['title_nl', 'is_published', 'published_at'];
 
-    public $attributesToShow = ['title_nl', 'title_fr', 'author_id', 'created_at'];
+    public $attributesToShow = ['title_nl', 'title_fr', 'is_published', 'published_at', 'author_id', 'created_at'];
 
     public $filepond = ['main', 'gallery'];
 

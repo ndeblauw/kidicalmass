@@ -24,22 +24,14 @@
         <x-section-heading>Onze partners en bondgenoten</x-section-heading>
         <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op nationaal of regionaal niveau, via financiering, infrastructuur of een gedeeld pleidooi.</p>
         <ul class="about-partner-grid" role="list">
-            <li class="about-partner-card">
-                <strong>Brussel Mobiliteit</strong>
-                <p>Gewestelijke mobiliteitsdienst van Brussel. Met de steun van Brussel Mobiliteit.</p>
-            </li>
-            <li class="about-partner-card">
-                <strong>Brussel Stad</strong>
-                <p>Stadsbestuur van Brussel, partner op lokaal niveau.</p>
-            </li>
-            <li class="about-partner-card">
-                <strong>Gemeente Schaarbeek</strong>
-                <p>Gemeentebestuur, partner van de lokale afdeling.</p>
-            </li>
-            <li class="about-partner-card">
-                <strong>Clean Cities Campaign</strong>
-                <p>Europese campagne voor propere, kindvriendelijke mobiliteit. Samen achter #StreetsForKids.</p>
-            </li>
+            @foreach ($partners as $partner)
+                <li class="about-partner-card" data-partner-category="{{ $partner->category->value }}">
+                    <strong>{{ $partner->name }}</strong>
+                    @if ($partner->description_nl)
+                        <p>{{ $partner->description_nl }}</p>
+                    @endif
+                </li>
+            @endforeach
         </ul>
         <figure class="partner-logo-wall">
             <img src="{{ asset('img/partners/partner-logos-2024.png') }}" alt="Logo's van de vele partners en bondgenoten van Kidical Mass, waaronder Brussel Mobiliteit, Pro Velo, Cyclo, GRACQ, Fietsersbond, Bruzz en vele anderen" loading="lazy">

@@ -1,2 +1,3 @@
 <x-ba-text type="number" name="year" label="Jaar" required comment="Het kalenderjaar waarop dit cijfer slaat." />
 <x-ba-text type="number" name="participants" label="Deelnemers" comment="Aantal kinderen en ouders dat dat jaar meefietste. Wordt op de steunpagina getoond." />
+<x-ba-text type="number" name="volunteers" label="Vrijwilligers" comment="Aantal actieve vrijwilligers dat jaar. Wordt op de Over ons-pagina's getoond." />

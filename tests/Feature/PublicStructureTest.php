@@ -45,65 +45,84 @@ it('renders the About hub: six nav cards plus an intention strip to the right ex
         ->assertSee('Waar ben je naar op zoek?')
         ->assertSee('Of lees meer over de beweging')
         ->assertSee(route('volunteer'), escape: false)
-        ->assertSee(route('membership'), escape: false);
+        ->assertSee(route('membership'), escape: false)
+        ->assertSee(__('nav.mission'))
+        ->assertSee(__('nav.vision'))
+        ->assertSee(__('nav.organisation'))
+        ->assertSee('data-stats-source="about-stats"', escape: false);
 });
 
-it('renders the Mission leaf with its key NL sections, forward links and the peak-intent Steun ask', function () {
+it('renders Wat we doen as one story with live stats, welcome fold-in and a chained CTA', function () {
     get('/nl/about/mission')
         ->assertOk()
-        ->assertSee('Drie dingen die we doen')
-        ->assertSee('Iedereen is welkom')
-        ->assertSee('Samen maken we straten veiliger')
-        // The corridor must hand the visitor forward.
+        ->assertSee(__('nav.mission'))
+        ->assertSee(__('about.mission_axes_title'))
+        ->assertSee(__('about.mission_welcome_title'))
+        ->assertSee(__('about.mission_quote_attribution'))
+        // Live stats deck replaces the hardcoded band.
+        ->assertSee('data-stats-source="about-stats"', escape: false)
+        ->assertDontSee('150+')
+        // The corridor hands the visitor forward: welcome link + chained closing.
         ->assertSee(route('getting-started'), escape: false)
         ->assertSee(route('about.vision'), escape: false)
-        // Post-stats peak-intent moment: the free-rides line + Steun/Help exits.
-        ->assertSee('Al onze ritten zijn gratis')
-        ->assertSee(route('membership'), escape: false)
-        ->assertSee(route('volunteer'), escape: false);
+        ->assertSee(__('about.mission_closing_heading'))
+        // The peak-intent Steun ask moved to Steun-ons; no membership exit here.
+        ->assertDontSee('Al onze ritten zijn gratis');
 });
 
-it('renders the Vision leaf with its four demands, parent voices and closing actions', function () {
+it('renders Wat we vragen with voiced demands, a manifest card and a chained CTA', function () {
     get('/nl/about/vision')
         ->assertOk()
-        ->assertSee('Wat we vragen')
-        ->assertSee('Veilige fietsinfrastructuur voor kinderen en gezinnen')
-        ->assertSee('het manifest')
-        // Closing actions: Help mee + Steun.
-        ->assertSee(route('volunteer'), escape: false)
-        ->assertSee(route('membership'), escape: false);
+        ->assertSee(__('about.vision_demands_title'))
+        ->assertSee(__('about.vision_demand1_title'))
+        // Parent voices nest under the demand they speak to.
+        ->assertSee(__('about.vision_quote_fatima_attribution'))
+        ->assertSee(__('about.vision_quote_camille_attribution'))
+        // The manifest is a self-hosted download, not a Wix URL.
+        ->assertSee('downloads/kidical-mass-manifest.pdf', escape: false)
+        ->assertDontSee('_files/ugd', escape: false)
+        // Chain: Wat we vragen → Hoe we werken.
+        ->assertSee(route('about.organisation'), escape: false)
+        ->assertSee(__('about.vision_closing_heading'));
 });
 
-it('renders the Organisation leaf with the named coordination duo and the no-paid-staff Steun ask', function () {
+it('renders Hoe we werken with the two who-does-what lists and the duo carrying safety', function () {
     get('/nl/about/organisation')
         ->assertOk()
-        ->assertSee('Wie wat doet')
+        ->assertSee(__('about.organisation_who_title'))
+        ->assertSee(__('about.organisation_national_title'))
+        ->assertSee(__('about.organisation_local_title'))
         ->assertSee('Leticia')
-        ->assertSee('Veiligheid en routes')
+        ->assertSee('Cecilia')
+        // Safety folded into the duo's text, not a separate section.
+        ->assertSee(__('about.organisation_duo_title'))
         ->assertSee(route('getting-started'), escape: false)
-        // Steun ask lands right after the money model.
-        ->assertSee('Geen hoofdkantoor, geen betaald personeel')
-        ->assertSee(route('membership'), escape: false);
+        // The paid-staff claim is gone on purpose (mirrors the Steun-ons copy decision).
+        ->assertDontSee('geen betaald personeel')
+        ->assertSee(__('about.organisation_closing_heading'));
 });
 
-it('renders the Partners leaf with curated partners and a contact CTA', function () {
+it('renders the Partners leaf with the logo wall, find-a-bike pointer and enquiry contact', function () {
     get('/nl/about/partners')
         ->assertOk()
-        // Merged "who backs us": named institutional anchors + the breadth logo wall.
         ->assertSee('Onze partners en bondgenoten')
         ->assertSee('En vele anderen die Kidical Mass mee mogelijk maken')
-        // In-kind partners fold into a one-line find-a-bike pointer (no dedicated cards).
         ->assertSee('Loopz')
         ->assertSee('bike@kidicalmass.be')
         ->assertSee(route('find-a-bike'), escape: false);
 });
 
-it('renders the Press leaf contact-forward with an honest empty state', function () {
+it('renders Pers as contact plus archive, without outlet strip or closing CTA', function () {
     get('/nl/about/press')
         ->assertOk()
-        ->assertSee('Journalisten, we praten graag')
+        ->assertSee(__('about.press_contact_title'))
         ->assertSee('bike@kidicalmass.be')
-        ->assertSee('We bouwen aan een persoverzicht');
+        // Background link folded into the contact section.
+        ->assertSee(route('about.mission'), escape: false)
+        // The hardcoded outlet strip is gone; the archive carries the outlets.
+        ->assertDontSee('Eerder verschenen in')
+        // No closing CTA: the page IS the contact.
+        ->assertDontSee('Vragen van de pers?');
 });
 
 it('renders the News feed in NL', function () {

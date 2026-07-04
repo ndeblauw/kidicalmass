@@ -1,78 +1,67 @@
 {{--
-    Over ons / Missie — /about/mission (P-15)
-    Built 2026-06-03 to the ride/show layout system (DESIGN.md). The first About leaf:
-    grounds the "why" for deciders & deepeners (chapter leads, partners, press, proud
-    families). Reuses .activity-hero* (blue) + the .activity-promises* idiom (sky band,
-    white tilted cards, red Flux-icon chips) for the three axes; stats on a light-blue
-    band; inclusivity → Getting Started; a parent pull-quote; closing yellow CTA.
-    Colour story: blue → white → sky → light-blue → white → yellow. Structure only;
-    appearance in app.css. Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
+    Over ons / Wat we doen — /about/mission (P-15)
+    Restructured 2026-07 to the Steun-ons pattern (spec: 2026-07-03-about-section-
+    content-design.md, variant A): one story column (intro + welkom + quote) with
+    the live stat deck beside it, the three axes, and a closing CTA chained to
+    Wat we vragen. Copy: lang/nl/about.php (mission_*). Structure only.
 --}}
-<x-layouts::site title="Missie" :description="__('meta.mission')">
+<x-layouts::site :title="__('nav.mission')" :description="__('meta.mission')">
 
     <x-page-hero
-        eyebrow="Missie"
-        title="Veilige straten, voor elk kind."
+        :eyebrow="__('nav.mission')"
+        :title="__('about.mission_title')"
         illustration="img/illustrations/rider-with-flag.svg">
 
-    {{-- WAT KIDICAL MASS IS — contained intro --}}
-    <x-intro-text>
-        <p>Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en zijn ondertussen actief in meer dan zestien gemeenten in Brussel, Wallonië en Vlaanderen. En we blijven groeien.</p>
-        <p>Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen, en vaak ook voor de ouders.</p>
-    </x-intro-text>
+    {{-- STORY — intro, welkom and the parent voice as ONE column; the live
+         AboutStats deck sits beside it (Steun-ons stramien). --}}
+    <section class="grid gap-10 lg:grid-cols-[1fr_20rem] lg:gap-14">
+        <div class="max-w-prose">
+            <x-intro-text>
+                <p>{{ __('about.mission_intro_1') }}</p>
+                <p>{{ __('about.mission_intro_2') }}</p>
+            </x-intro-text>
 
-    {{-- DRIE DINGEN DIE WE DOEN — reuses the promises card idiom on a sky band --}}
+            <section class="about-section">
+                <x-section-heading>{{ __('about.mission_welcome_title') }}</x-section-heading>
+                <p>{{ __('about.mission_welcome_body') }}</p>
+                <p class="about-section__link"><a href="{{ route('getting-started') }}">{{ __('about.mission_welcome_link') }}</a></p>
+            </section>
+
+            <x-pull-quote :attribution="__('about.mission_quote_attribution')">
+                {{ __('about.mission_quote') }}
+            </x-pull-quote>
+        </div>
+
+        <div class="grid content-start gap-4" role="list" data-stats-source="about-stats">
+            @foreach (app(\App\Support\AboutStats::class)->cards() as $card)
+                <x-stat-card role="listitem" :value="$card['value']" :label="$card['label']" :color="$card['color']" />
+            @endforeach
+        </div>
+    </section>
+
+    {{-- DRIE DINGEN DIE WE DOEN — unchanged axes on the sky band --}}
     <section class="about-band about-band--sky">
         <div class="container mx-auto px-4">
-            <h2 class="about-band__title">Drie dingen die we doen</h2>
+            <h2 class="about-band__title">{{ __('about.mission_axes_title') }}</h2>
             <ul class="about-card-grid" role="list">
                 <li>
-                    <x-feature-card icon="rocket-launch" color="red" title="Gemeenschappen helpen starten">
-                        Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale fietsparade op te starten, van de eerste vergadering tot de eerste rit.
+                    <x-feature-card icon="rocket-launch" color="red" :title="__('about.mission_axis1_title')">
+                        {{ __('about.mission_axis1_body') }}
                     </x-feature-card>
                 </li>
                 <li>
-                    <x-feature-card icon="lifebuoy" color="red" title="Bestaande groepen ondersteunen">
-                        Lokale groepen staan er niet alleen voor. We bieden vorming, coördinatiemiddelen, materiaal en nationale zichtbaarheid, zodat elke groep zich kan richten op wat telt: mensen samenbrengen.
+                    <x-feature-card icon="lifebuoy" color="red" :title="__('about.mission_axis2_title')">
+                        {{ __('about.mission_axis2_body') }}
                     </x-feature-card>
                 </li>
                 <li>
-                    <x-feature-card icon="megaphone" color="red" title="Pleiten voor kindvriendelijke straten">
-                        Vrolijke fietsparades zijn een begin, geen eindpunt. We werken samen met steden en regio's voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen. <a href="{{ route('about.vision') }}">Lees onze visie →</a>
+                    <x-feature-card icon="megaphone" color="red" :title="__('about.mission_axis3_title')">
+                        {{ __('about.mission_axis3_body') }} <a href="{{ route('about.vision') }}">{{ __('about.mission_axis3_link') }}</a>
                     </x-feature-card>
                 </li>
             </ul>
         </div>
     </section>
-
-    {{-- IMPACT IN CIJFERS — full-bleed light-blue band --}}
-    <section class="about-stats" aria-label="Impact in cijfers">
-        <div class="container mx-auto px-4">
-            <ul class="about-stats__grid" role="list">
-                <li class="about-stat"><span class="about-stat__num">150+</span><span class="about-stat__label">fietsparades sinds 2020</span></li>
-                <li class="about-stat"><span class="about-stat__num">5.500+</span><span class="about-stat__label">deelnemers</span></li>
-                <li class="about-stat"><span class="about-stat__num">120</span><span class="about-stat__label">actieve vrijwilligers</span></li>
-                <li class="about-stat"><span class="about-stat__num">16+</span><span class="about-stat__label">gemeenten in heel België</span></li>
-            </ul>
-        </div>
-    </section>
-
-    {{-- STEUN — contextual ask at the peak-intent moment, right after the impact stats --}}
-    <x-support-callout
-        title="Al onze ritten zijn gratis"
-        body="Voor elk gezin, in elke buurt. Jouw steun zorgt dat dat zo blijft, en dat er nieuwe buurten bijkomen." />
-
-    {{-- IEDEREEN IS WELKOM — contained --}}
-    <section class="about-section">
-        <x-section-heading>Iedereen is welkom</x-section-heading>
-        <p>Je hoeft geen ervaren fietser te zijn. Nog nooit in het verkeer gefietst? Dat geeft niets. Voor veel ouders is een rit de eerste keer op de baan, en onze begeleiders zorgen dat niemand er alleen voor staat. Je hoeft geen fiets te hebben. Je hoeft niet uit de buurt te komen. Kidical Mass is gemaakt om de volledige diversiteit van elke gemeente te weerspiegelen, en om elke drempel weg te nemen die een gezin kan tegenhouden.</p>
-        <p class="about-section__link"><a href="{{ route('getting-started') }}">Geen fiets of nog nooit meegereden? Voor het eerst mee →</a></p>
-    </section>
-
-    {{-- OUDER AAN HET WOORD — pull-quote --}}
-    <x-pull-quote attribution=”Julienne, mama van twee kinderen (2 en 5 jaar)”>
-        “Wat hij zo leuk vindt aan fietsen, denk ik, is die vrijheid om buiten te zijn, lucht te hebben, er alleen op uit te trekken. Hij wil altijd ver gaan, iets nieuws ontdekken.”
-    </x-pull-quote>
 
     @push('scripts')
     <x-about-reveal selector=".about-band .about-card-grid > li" />
@@ -81,8 +70,8 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Samen maken we straten veiliger"
-            :href="route('activities.index')" label="Vind een rit" />
+        <x-closing-cta :heading="__('about.mission_closing_heading')"
+            :href="route('about.vision')" :label="__('about.mission_closing_label')" />
     </x-slot:closing>
 
 </x-layouts::site>

@@ -1,46 +1,32 @@
 {{--
     Over ons / Pers — /about/press (P-19)
-    Colour story: blue → white → light-blue → white. Structure only.
+    Restructured 2026-07 (spec: 2026-07-03-about-section-content-design.md,
+    variant B): one contact section + the year-grouped PressArticle archive.
+    Outlet strip and closing CTA cut (the archive shows the outlets; the page
+    IS the contact). Copy: lang/nl/about.php (press_*). Structure only.
 --}}
-<x-layouts::site title="Pers" :description="__('meta.press')">
+<x-layouts::site :title="__('nav.press')" :description="__('meta.press')">
 
     <x-page-hero
-        eyebrow="Pers"
-        title="Het verhaal van de beweging.">
+        :eyebrow="__('nav.press')"
+        :title="__('about.press_title')">
 
-    {{-- INTRO + CONTACT --}}
+    {{-- CONTACT — one section: pitch, background link, perscontact card --}}
     <section class="about-section about-section--wide">
         <div class="about-press">
             <div class="about-press__intro">
-                <x-section-heading>Journalisten, we praten graag</x-section-heading>
-                <p>We brengen je in contact met lokale trekkers, delen cijfers, regelen een fotomoment bij een volgende fietsparade of geven achtergrond bij de beweging.</p>
-                <ul class="about-press__offer" role="list">
-                    <li>Contact met lokale afdelingen en gezinnen</li>
-                    <li>Cijfers en achtergrond over de beweging</li>
-                    <li>Een fotomoment bij een aankomende rit</li>
-                </ul>
+                <x-section-heading>{{ __('about.press_contact_title') }}</x-section-heading>
+                <p>{{ __('about.press_contact_body') }}</p>
+                <p class="about-section__link"><a href="{{ route('about.mission') }}">{{ __('about.press_background_link') }}</a></p>
             </div>
-            <x-info-card label="Perscontact">
+            <x-info-card :label="__('about.press_contact_label')">
                 <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
-                <p class="info-card__note">We antwoorden zo snel als vrijwilligers dat kunnen.</p>
+                <p class="info-card__note">{{ __('about.press_contact_note') }}</p>
             </x-info-card>
-        </div>
-
-        {{-- Eerder in de media --}}
-        <div class="about-press__outlets">
-            <span class="about-press__outlets-label">Eerder verschenen in</span>
-            <ul role="list">
-                <li>RTBF</li>
-                <li>BX1</li>
-                <li>BRUZZ</li>
-                <li>La DH</li>
-                <li>HLN</li>
-                <li>Het Nieuwsblad</li>
-            </ul>
         </div>
     </section>
 
-    {{-- PERSOVERZICHT --}}
+    {{-- PERSOVERZICHT — year-grouped archive (PressArticle, admin-maintained) --}}
     <section class="about-band about-band--light-blue">
         <div class="container mx-auto px-4">
             @if ($articlesByYear->isNotEmpty())
@@ -64,14 +50,13 @@
                                 @endif
                                 @if ($article->getFirstMedia('document'))
                                     <a href="{{ $article->getFirstMediaUrl('document') }}" target="_blank" class="about-press__item-document" rel="noopener noreferrer">
-                                        {{-- PDF / scan indicator --}}
-                                        <svg class="about-press__item-document-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <svg class="about-press__item-document-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                             <polyline points="14 2 14 8 20 8"/>
                                             <line x1="16" y1="13" x2="8" y2="13"/>
                                             <line x1="16" y1="17" x2="8" y2="17"/>
                                         </svg>
-                                        Artikel
+                                        {{ __('about.press_document_label') }}
                                     </a>
                                 @endif
                             </li>
@@ -80,23 +65,13 @@
                 @endforeach
             @else
                 <div class="about-empty">
-                    <h2 class="about-empty__title">We bouwen aan een persoverzicht</h2>
-                    <p>Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via <a href="mailto:bike@kidicalmass.be">bike@kidicalmass.be</a>.</p>
+                    <h2 class="about-empty__title">{{ __('about.press_empty_title') }}</h2>
+                    <p>{{ __('about.press_empty_body') }}</p>
                 </div>
             @endif
         </div>
     </section>
 
-    {{-- ACHTERGROND --}}
-    <section class="about-section">
-        <p class="about-section__link"><a href="{{ route('about.mission') }}">Achtergrond en cijfers: lees onze missie →</a></p>
-    </section>
-
     </x-page-hero>
-
-    <x-slot:closing>
-        <x-closing-cta heading="Vragen van de pers?"
-            :href="route('contact')" label="Neem contact op" />
-    </x-slot:closing>
 
 </x-layouts::site>

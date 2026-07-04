@@ -24,6 +24,6 @@ it('still renders the dark footer bottom bar site-wide', function () {
 it('replaces the about-cta card with the new closing CTA on about pages', function () {
     get(route('about.mission'))
         ->assertOk()
-        ->assertSee('Samen maken we straten veiliger', escape: false)
+        ->assertSee(__('about.mission_closing_heading'))
         ->assertDontSee('about-cta__content', escape: false);
 });

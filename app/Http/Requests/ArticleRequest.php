@@ -24,6 +24,8 @@ class ArticleRequest extends FormRequest
             'main' => ['nullable', 'string'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['string'],
+            'is_published' => ['boolean'],
+            'published_at' => ['nullable', 'date'],
         ];
     }
 }

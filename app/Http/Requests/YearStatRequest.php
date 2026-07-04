@@ -17,6 +17,7 @@ class YearStatRequest extends FormRequest
         return [
             'year' => ['required', 'integer', 'min:2020', 'max:2100', Rule::unique('year_stats', 'year')->ignore($this->yearstat)],
             'participants' => ['nullable', 'integer', 'min:0'],
+            'volunteers' => ['nullable', 'integer', 'min:0'],
         ];
     }
 }

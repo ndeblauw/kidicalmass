@@ -23,7 +23,14 @@ class ArticleFactory extends Factory
             'content_nl' => fake()->paragraphs(6, true),
             'content_fr' => fake()->paragraphs(6, true),
             'author_id' => User::factory(),
+            'is_published' => true,
+            'published_at' => fake()->dateTimeBetween('-1 year'),
         ];
+    }
+
+    public function draft(): static
+    {
+        return $this->state(fn () => ['is_published' => false, 'published_at' => null]);
     }
 
     public function configure(): static

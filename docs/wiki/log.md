@@ -4,6 +4,19 @@
 
 Leticia's demo feedback ("UI could use more delight") turned into a moment-aware Overview, per [`2026-07-03-roze-hub-delight-pass-design.md`](../superpowers/specs/2026-07-03-roze-hub-delight-pass-design.md). One lead moment per visit (welcome > recap > pre-ride > default, new `App\Support\RozeHub\OverviewMoment`): greeting h1 by first name with per-moment lead line, Monday-after **recap card** (last ride's album leads for 5 days, one big photo), "nog X nachtjes slapen" **countdown** on the next-ride card (rides only), **celebrating feed card** for a new hesje (`data-celebrate`, chip-pop, weekday hello-nudge), staggered fade-up entrance. All reduced-motion guarded; tests behaviour-only (`OverviewMomentTest` + `RozeHubDelightTest`, 67/67 targeted). Backlog notes for #37: DST truncation can under-count one night on the spring switchover; a solo new member sees their own hello-nudge card (pre-existing feed selection). **Pending Frederik:** chip-pop beat timing (0.7s, reviewer suggests 0.9s fully clears the stagger) + his critique pass. **Page registry:** no stage emoji changed — UI advance offered but Wire/UI 🟢 stays gated on Frederik's critique.
 
+## [2026-07-03] build | About-section content pass
+
+Renamed the story pages to plain language (Wat we doen / Wat we vragen / Hoe we
+werken; URLs unchanged), restructured all four content pages onto the Steun-ons
+pattern (fewer content types, copy in lang/nl/about.php), unified impact stats
+behind App\Support\AboutStats + a curated volunteers figure on Jaarcijfers
+(closes D-13), chained the closing CTAs through the section, bound the Partners
+cards to the partners table via a new category field (advances D-11), added
+draft state + publish date + rich text to news articles, imported the 23-entry
+historic press archive from the Wix scrape, and re-hosted the manifest +
+persbericht PDFs off Wix (closes D-7). Spec:
+docs/superpowers/specs/2026-07-03-about-section-content-design.md.
+
 ## [2026-07-03] build | SEO head baseline (D-10 → Partly)
 
 Public head rebuilt as `partials/site-head.blade.php`: `{Page} · Kidical Mass België` titles, per-page NL descriptions (`lang/nl/meta.php`), canonical, OG/Twitter baseline, two-tier OG images (branded default + activity/article hero `og` conversion, 1200×630 jpg), favicons, theme-color, webmanifest. Prototype HTML moved out of `public/`. Follow-ups: designed og-default card (Frederik), `php artisan media-library:regenerate` on production after deploy, then items 10+ of the audit (sitemap, JSON-LD, slugs, Wix redirects).

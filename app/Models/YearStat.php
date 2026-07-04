@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * A curated, per-year impact figure for the "Steun ons" proof deck. Only the
- * participant count is stored here: local-group and ride totals are derived live
+ * participant and volunteer counts are stored here: local-group and ride totals are derived live
  * from their own tables. One row per calendar year.
  */
 class YearStat extends Model
@@ -19,6 +19,7 @@ class YearStat extends Model
     protected $fillable = [
         'year',
         'participants',
+        'volunteers',
     ];
 
     /**
@@ -29,6 +30,7 @@ class YearStat extends Model
         return [
             'year' => 'integer',
             'participants' => 'integer',
+            'volunteers' => 'integer',
         ];
     }
 }

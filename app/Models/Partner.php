@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PartnerCategory;
 use App\Models\Scopes\LocalGroupScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
@@ -24,6 +25,7 @@ class Partner extends Model implements HasMedia
         return [
             'show_logo' => 'boolean',
             'visible' => 'boolean',
+            'category' => PartnerCategory::class,
         ];
     }
 

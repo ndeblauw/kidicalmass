@@ -95,7 +95,10 @@ class GroupController extends Controller
         // half-built hub by direct URL.
         abort_if($group->invisible, 404);
 
-        $group->load(['parent', 'children', 'users', 'media'])->loadCount(['articles', 'activities']);
+        $group->load(['parent', 'children', 'users', 'media'])->loadCount([
+            'articles' => fn ($query) => $query->published(),
+            'activities',
+        ]);
 
         $groupIds = collect([$group->id]);
         $currentParent = $group->parent;
@@ -105,9 +108,10 @@ class GroupController extends Controller
         }
 
         $articles = Article::query()
+            ->published()
             ->with('author')
             ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
-            ->latest()
+            ->orderByDesc('published_at')
             ->get();
 
         $activities = Activity::query()

@@ -8,7 +8,7 @@
                 @if ($article->author)
                     {{ $article->author->name }} ·
                 @endif
-                <time datetime="{{ $article->created_at->format('Y-m-d') }}">{{ $article->created_at->format('j F Y') }}</time>
+                <time datetime="{{ ($article->published_at ?? $article->created_at)->format('Y-m-d') }}">{{ ($article->published_at ?? $article->created_at)->format('j F Y') }}</time>
             </p>
             @if ($article->groups->isNotEmpty())
                 <div class="flex flex-wrap gap-2">
@@ -28,7 +28,7 @@
         @endif
 
         <div class="text-lg leading-relaxed text-kidical-ink">
-            {!! nl2br(e($article->content_nl)) !!}
+            {!! $article->content_html !!}
         </div>
 
         @if ($article->getMedia('gallery')->count() > 0)

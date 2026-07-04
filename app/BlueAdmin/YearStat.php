@@ -12,7 +12,7 @@ class YearStat extends BlueAdminModel
 
     public $title_field = 'year';
 
-    public $indexTableColumns = ['year', 'participants'];
+    public $indexTableColumns = ['year', 'participants', 'volunteers'];
 
-    public $attributesToShow = ['year', 'participants'];
+    public $attributesToShow = ['year', 'participants', 'volunteers'];
 }

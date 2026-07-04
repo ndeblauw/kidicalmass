@@ -244,7 +244,7 @@ Children are experts on their own neighbourhoods. They should be consulted — g
 
 **Body:** We put our full vision in writing. Read the manifesto — co-signed by a coalition of Belgian associations — and share it.
 
-**Link:** Download the manifesto (PDF) → `https://www.kidicalmass.be/_files/ugd/cf0153_2b074cb919ea46698c1732a2f55b26eb.pdf`
+**Link:** Download the manifesto (PDF) → `public/downloads/kidical-mass-manifest.pdf` (re-hosted, `D-7` closed 2026-07-03)
 
 > **FR:** "Nous avons mis notre vision complète par écrit. Lisez le manifeste — co-signé par une coalition d'associations belges — et partagez-le."
 > **NL:** "We hebben onze volledige visie op papier gezet. Lees het manifest — mede ondertekend door een coalitie van Belgische verenigingen — en deel het."
@@ -261,7 +261,7 @@ Children are experts on their own neighbourhoods. They should be consulted — g
 *(NL: Kidical Mass pleit voor straten die veilig en uitnodigend zijn voor kinderen. Dit is waarvoor we staan en waarom.)*
 
 - The four demands are adapted from the raw manifesto (`what-we-want.md`) and the revendications page. The EN phrasing above is a ToV rewrite — not a literal translation.
-- The manifesto PDF link should be re-hosted on the new site rather than pointing to the legacy Wix URL. Flag as technical dependency.
+- The manifesto PDF is re-hosted at `public/downloads/kidical-mass-manifest.pdf` (`D-7` closed 2026-07-03), no longer pointing to the legacy Wix URL.
 
 ---
 ---
