@@ -14,7 +14,8 @@
 
     <x-page-hero
         eyebrow="Partners & sponsors"
-        title="Samen sterker voor veilige straten.">
+        title="Samen sterker voor veilige straten."
+        size="compact">
 
     {{-- WIE ONS STEUNT — named institutional anchors (depth) + the full logo wall (breadth)
          in ONE section. The in-kind/bike-provision partners (Loopz, Kidical Mouse, My Kids
