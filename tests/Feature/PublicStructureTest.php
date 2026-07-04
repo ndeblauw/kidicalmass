@@ -102,6 +102,8 @@ it('renders Wat we vragen with voiced demands, a manifest card and a chained CTA
         // split their attribution into name + detail parts).
         ->assertSee(Str::before(__('about.vision_quote_fatima_attribution'), ', '))
         ->assertSee(Str::before(__('about.vision_quote_camille_attribution'), ', '))
+        // A closing line rounds off the demands before the CTA.
+        ->assertSee(__('about.vision_demands_closing'))
         // The manifest is a self-hosted download, not a Wix URL.
         ->assertSee('downloads/kidical-mass-manifest.pdf', escape: false)
         ->assertDontSee('_files/ugd', escape: false)

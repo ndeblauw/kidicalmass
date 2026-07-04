@@ -79,6 +79,7 @@
                         {{-- Iconen, maat, states --}}
                         <div class="flex flex-wrap items-center gap-4">
                             <x-cta-button href="#" variant="blue" icon="heart">Word lid</x-cta-button>
+                            <x-cta-button href="#" variant="blue" icon="download">Download</x-cta-button>
                             <x-cta-button href="#" variant="blue" size="sm">Klein</x-cta-button>
                             <x-cta-button href="#" variant="blue" :disabled="true">Uitgeschakeld</x-cta-button>
                             <x-cta-button href="#" variant="blue" :loading="true">Bezig…</x-cta-button>
