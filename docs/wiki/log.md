@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-04] build | Error pages (404/403/419/500/503)
+
+Branded errorpagina's vervangen de Laravel-defaults, per [`2026-07-04-error-pages-design.md`](../superpowers/specs/2026-07-04-error-pages-design.md). 404/403/419 op de site-layout via een gedeelde `x-error-page`-shell (`data-error-page` als testseam): de 404 zet `heart-30-sign` als scène en wijst met nav-cards naar Kalender/Lokale groepen/Voor het eerst mee (vangnet voor dode Wix-links), de 403 nodigt begeleiders uit om in te loggen, de 419 biedt "ga terug en probeer opnieuw". 500/503 zijn bewust standalone (geen site-layout, geen @vite, geen DB) met `volunteer-with-wrench`. Preview via `/preview/errors/{code}` (non-prod, unlinked). Tests: `ErrorPagesTest` (11), alle vijf screenshot-geverifieerd. Geen registry-wijziging: errorpagina's zijn geen P-nn-pagina.
+
 ## [2026-07-04] build | Find a bike (P-22) dropped from scope
 
 `/find-a-bike` removed on Frederik's call: route, view, meta description, build-config entry and registry row deleted. Inbound references rewritten to be self-contained — the Getting Started no-bike FAQ item now closes with the bakfiets-at-the-start + Loopz/My Kids Bikes reassurance (no link out), and the Partners in-kind note lost its "Bekijk de opties" pointer. Tests updated: `/nl/find-a-bike` out of the public-routes dataset, its render test and closing-CTA dataset row removed, Partners/Getting Started assertions adjusted. Provider copy (Loopz, Fietsbieb, Kidical Mouse, My Kids Bikes, Cyclo) stays in `getting-started-content.md` as reference material only. Registry roll-up now counts 23 rows.
