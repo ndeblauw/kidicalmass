@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Group;
+use App\Models\User;
+
 it('shows the branded 404 with routes back into the site', function () {
     $response = $this->get('/nl/deze-pagina-bestaat-niet');
 
@@ -8,4 +11,23 @@ it('shows the branded 404 with routes back into the site', function () {
     $response->assertSee(route('activities.index'), false);
     $response->assertSee(route('groups.index'), false);
     $response->assertSee(route('getting-started'), false);
+});
+
+it('shows the branded 403 with a login action on member-only pages', function () {
+    $group = Group::factory()->create();
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get(route('groups.roze-hesjes', $group));
+
+    $response->assertForbidden();
+    $response->assertSee('data-error-page="403"', false);
+    $response->assertSee(route('login'), false);
+});
+
+it('renders the session-expired page with a retry action', function () {
+    $html = view('errors.419')->render();
+
+    expect($html)
+        ->toContain('data-error-page="419"')
+        ->toContain('history.back()');
 });
