@@ -54,8 +54,10 @@ off the error path; can be layered on later.
 - `resources/views/errors/{500,503}.blade.php`: full HTML documents that depend on
   **nothing**: no site layout, no `@vite`, no DB, no lang files. Inline `<style>`
   (token values copied in as literals; this is the one sanctioned place raw values
-  appear, because the token pipeline itself may be down), logo, inlined
-  `volunteer-with-wrench.svg`, one line of copy.
+  appear, because the token pipeline itself may be down), the illustration as a
+  root-relative static `<img>` (`/img/illustrations/volunteer-with-wrench.svg`,
+  30 KB, too heavy to inline twice; static files are served by the web server
+  even when PHP is down, so the dependency story is identical), one line of copy.
 - 500: "Er ging iets mis bij ons, niet bij jou. We sleutelen eraan."-register.
 - 503: "We zijn even aan het sleutelen. Zo terug!"-register.
 - The two files may share markup via a plain `@include('errors.partials.minimal')`

@@ -31,3 +31,11 @@ it('renders the session-expired page with a retry action', function () {
         ->toContain('data-error-page="419"')
         ->toContain('history.back()');
 });
+
+it('renders the standalone 500 and 503 pages without app asset dependencies', function (string $code) {
+    $html = view('errors.'.$code)->render();
+
+    expect($html)
+        ->toContain('data-error-page="'.$code.'"')
+        ->not->toContain('vite');
+})->with(['500', '503']);
