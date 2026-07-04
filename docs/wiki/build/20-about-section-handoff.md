@@ -24,12 +24,12 @@ at the time of writing). Check `git log`/working tree before touching press file
 
 | # | Item | Effort | Notes |
 |---|------|--------|-------|
-| 1 | **`TeamMember` model + BlueAdmin resource** (organisation duo) | M | name, role, bio, sort, photo via Medialibrary; mirror `app/BlueAdmin/Partner.php`. `x-person-card` needs a `bio` prop + a designed photo-less state (initial-letter disc) — today the duo renders as two placeholder chips. Duo photos + bios are pending client content anyway. |
+| 1 | ~~**`TeamMember` model + BlueAdmin resource**~~ **✅ done 2026-07-04** | M | Landed as planned (Teamleden admin, photo via Medialibrary, `x-person-card` row variant + initial-disc fallback, duo renders from DB). Duo photos + bios still pending client content (section 5). |
 | 2 | **Formule single source** (partners) | S/M | Tier names + descriptions live in 3 places: `about/partners.blade.php`, `PartnerEnquiry::FORMULE_OPTIONS`, and the sponsorformules PDF. One enum/config array feeding page + form; tiers are provisional pending Leticia, so single-sourcing before the rename saves a triple edit. |
 | 3 | **Logo wall from `Partner` records** (partners) | M | Static 1x PNG (`public/img/partners/partner-logos-2024.png`) defeats the admin-editable model; soft on retina, sideways-scroll strip on mobile. Blocked-ish: ~6 partners lack cleared logos (D-11). Interim: 2x export + wrap instead of scroll. |
-| 4 | **Quotes/voices table** | M | 3 parent quotes across mission + vision are rotating testimonial content; a small BlueAdmin table (quote, attribution, optional page slot) rendered through `x-pull-quote`, lang strings as fallback. |
-| 5 | **Manifest PDF via Medialibrary + compress** (vision) | S | Hardcoded `asset()` to an **8.3 MB** binary in the public repo; admin-upload + compress (<2 MB) + file size in the link text. |
-| 6 | **Contact single source** | S | Press email + partner phone hardcoded in `about/press.blade.php`, `lang/nl/about.php` (`press_empty_body`), partner-enquiry fallback. Add `contact.email/phone` to `config/kidicalmass.php` (social URLs already moved there in the news pass — same pattern). |
+| 4 | ~~**Quotes/voices table**~~ **✅ done 2026-07-04** | M | Landed as `Quote` + Citaten admin, fixed slots (`mission`/`vision-1`/`-2`), lang fallback per slot; mission quote now uses the quiet `--column` treatment. |
+| 5 | ~~**Manifest PDF via Medialibrary + compress**~~ **✅ done 2026-07-04 (reduced)** | S | Frederik dropped the Medialibrary half — stays a static asset, replaced manually. Compressed 7.9→1.1 MB (ghostscript /ebook, 16 pp verified), size in the link text. |
+| 6 | ~~**Contact single source**~~ **✅ done 2026-07-04** | S | `kidicalmass.contact` (email/phone/phone_e164) in config; press card, press empty state (`:email`), partner fallback and styleguide all read from it. |
 | 7 | **Hub lang-key hygiene** | S | Hub is the only about page with copy fully in Blade (intro sentence, nav-card descriptions, closing CTA strings). Move to `about.php` keys per the file's own header convention. |
 
 Explicitly **not** CMS-worthy (decided during critique): mission axes, vision demands,
