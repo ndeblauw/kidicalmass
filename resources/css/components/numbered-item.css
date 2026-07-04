@@ -1,15 +1,14 @@
 @layer components {
+    /* Display-tier card: sits upright (tilt is reserved for stat cards). */
     .numbered-item {
         background: white;
-        border-radius: 1.5rem;
+        border-radius: var(--radius-card);
         padding: 1.75rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        box-shadow: var(--shadow-card);
         display: flex;
         flex-direction: column;
         gap: 0.6rem;
     }
-    .numbered-item:nth-child(odd)  { transform: rotate(-1deg); }
-    .numbered-item:nth-child(even) { transform: rotate(0.75deg); }
     .numbered-item__num {
         font-family: var(--font-heading);
         font-weight: 800;

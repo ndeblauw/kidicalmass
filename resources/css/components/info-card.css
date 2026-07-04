@@ -1,12 +1,12 @@
 @layer components {
+    /* Note-tier card: upright (tilt is reserved for stat cards). */
     .info-card {
         background: var(--color-kidical-light-yellow);
-        border-radius: 1.25rem;
+        border-radius: var(--radius-tile);
         padding: 1.75rem;
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
-        transform: rotate(-1deg);
     }
     .info-card__label {
         font-size: var(--text-xs);

@@ -4,7 +4,7 @@
         flex-direction: column;
         gap: 0.1rem;
         padding: 0.85rem 1.5rem;
-        border-radius: 0.85rem;
+        border-radius: var(--radius-tile);
         background: var(--color-kidical-light-yellow);
     }
     .person-card__photo {

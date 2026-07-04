@@ -26,9 +26,6 @@
             grid-template-columns: repeat(3, 1fr);
         }
     }
-    .about-card-grid > li:nth-child(1) { transform: rotate(-1.5deg); }
-    .about-card-grid > li:nth-child(2) { transform: rotate(1deg);    }
-    .about-card-grid > li:nth-child(3) { transform: rotate(-1deg);   }
     .about-stats {
         width: 100vw;
         margin-left: calc(50% - 50vw);
@@ -116,23 +113,23 @@
         gap: 0.6rem;
         height: 100%;
         padding: 1.75rem;
-        border-radius: 1.5rem;
+        border-radius: var(--radius-card);
         background: white;
-        border: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 90%);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        border: 1px solid var(--color-kidical-hairline);
+        box-shadow: var(--shadow-float);
         background-image: none;
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s;
+        transition: transform 0.2s var(--ease-brand), box-shadow 0.2s;
     }
     .about-nav-card:hover {
         transform: translateY(-3px) rotate(-1deg);
-        box-shadow: 0 14px 30px -12px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        box-shadow: var(--shadow-hover);
         background-image: none;
     }
     .about-nav-card__chip {
         width: 3.25rem;
         height: 3.25rem;
         background: var(--color-kidical-red);
-        border-radius: 28%;
+        border-radius: var(--radius-chip);
         transform: rotate(-3deg);
         display: flex;
         align-items: center;
@@ -159,7 +156,7 @@
         font-weight: 800;
         font-size: var(--text-xl);
         color: var(--color-kidical-red);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: transform 0.2s var(--ease-brand);
     }
     .about-nav-card:hover .about-nav-card__arrow { transform: translateX(0.35rem); }
     .about-demand-grid {
@@ -177,11 +174,10 @@
         flex-direction: column;
         gap: 1.25rem;
     }
-    /* Tilt alternation keyed on the grid slot: inside each <li> the
-       numbered-item is always :first-child and its quote :nth-child(2), so
-       the components' own odd/even rules would tilt every demand the same way. */
-    .about-demand-grid > li:nth-child(even) .numbered-item { transform: rotate(0.75deg); }
-    .about-demand-grid > li:nth-child(even) .pull-quote--card { transform: rotate(-1deg); }
+    /* Stat deck (mission) — the about section's ONE playful tilt accent; every
+       other card in the section sits upright by decision (normalize pass). */
+    [data-stats-source='about-stats'] > .stat-card:nth-child(odd) { transform: rotate(-1deg); }
+    [data-stats-source='about-stats'] > .stat-card:nth-child(even) { transform: rotate(1deg); }
     .about-partners__intro {
         max-width: 52ch;
         margin-bottom: 2rem;
@@ -198,9 +194,9 @@
     }
     .about-partner-card {
         background: white;
-        border-radius: 1.5rem;
+        border-radius: var(--radius-card);
         padding: 1.5rem;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        box-shadow: var(--shadow-float);
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -291,14 +287,14 @@
         gap: 1rem;
         height: 100%;
         padding: 1.25rem 1.5rem;
-        border-radius: 1rem;
+        border-radius: var(--radius-tile);
         background: var(--color-kidical-light-blue);
         background-image: none;
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s;
+        transition: transform 0.2s var(--ease-brand), box-shadow 0.2s;
     }
     .about-intent-card:hover {
         transform: translateY(-2px) rotate(-0.75deg);
-        box-shadow: 0 12px 26px -14px color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        box-shadow: var(--shadow-hover);
         background-image: none;
     }
     .about-intent-card__label {
@@ -314,7 +310,7 @@
         font-weight: 800;
         font-size: var(--text-xl);
         color: var(--color-kidical-red);
-        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: transform 0.2s var(--ease-brand);
     }
     .about-intent-card:hover .about-intent-card__arrow { transform: translateX(0.35rem); }
 

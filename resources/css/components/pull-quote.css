@@ -22,15 +22,14 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
 
-    /* Card: tilted light-yellow tile, used in grids */
+    /* Card: light-yellow note tile, used in grids. Upright by decision —
+       tilt is reserved for stat cards. */
     .pull-quote--card {
         margin: 0;
         padding: 1.75rem;
-        border-radius: 1.25rem;
+        border-radius: var(--radius-tile);
         background: var(--color-kidical-light-yellow);
     }
-    .pull-quote--card:nth-child(odd)  { transform: rotate(-1deg); }
-    .pull-quote--card:nth-child(even) { transform: rotate(1deg); }
     .pull-quote--card blockquote { margin: 0; }
     .pull-quote--card blockquote p {
         font-size: var(--text-lg);
