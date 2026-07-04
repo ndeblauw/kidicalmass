@@ -33,6 +33,7 @@ use App\Models\PressArticle;
 use App\Models\TeamMember;
 use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
+use App\Support\Quotes;
 use App\Support\SupportStats;
 use Illuminate\Support\Facades\Route;
 
@@ -87,8 +88,13 @@ Route::prefix('{locale}')
 
         // About section.
         Route::view('about', 'about.index')->name('about');
-        Route::view('about/mission', 'about.mission')->name('about.mission');
-        Route::view('about/vision', 'about.vision')->name('about.vision');
+        Route::get('about/mission', fn (Quotes $quotes) => view('about.mission', [
+            'missionQuote' => $quotes->forSlot('mission'),
+        ]))->name('about.mission');
+        Route::get('about/vision', fn (Quotes $quotes) => view('about.vision', [
+            'visionQuote1' => $quotes->forSlot('vision-1'),
+            'visionQuote2' => $quotes->forSlot('vision-2'),
+        ]))->name('about.vision');
         Route::get('about/organisation', fn () => view('about.organisation', [
             'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->get(),
         ]))->name('about.organisation');

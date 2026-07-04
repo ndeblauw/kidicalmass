@@ -3,6 +3,7 @@
 use App\Models\Activity;
 use App\Models\Group;
 use App\Models\PressArticle;
+use App\Models\Quote;
 use App\Models\TeamMember;
 
 use function Pest\Laravel\get;
@@ -71,6 +72,21 @@ it('renders Wat we doen as one story with live stats, welcome fold-in and a chai
         ->assertSee(__('about.mission_closing_heading'))
         // The peak-intent Steun ask moved to Steun-ons; no membership exit here.
         ->assertDontSee('Al onze ritten zijn gratis');
+});
+
+it('prefers an admin-entered quote over the lang fallback', function () {
+    get('/nl/about/mission')->assertSee(__('about.mission_quote_attribution'));
+
+    Quote::factory()->create([
+        'slot' => 'mission',
+        'quote' => 'Fietsen samen voelt als een klein feest.',
+        'attribution' => 'Testouder, Gent',
+    ]);
+
+    get('/nl/about/mission')
+        ->assertSee('Fietsen samen voelt als een klein feest.')
+        ->assertSee('Testouder, Gent')
+        ->assertDontSee(__('about.mission_quote_attribution'));
 });
 
 it('renders Wat we vragen with voiced demands, a manifest card and a chained CTA', function () {

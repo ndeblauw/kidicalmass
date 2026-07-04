@@ -27,8 +27,8 @@
                 <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.mission_welcome_link') }}</a></p>
             </section>
 
-            <x-pull-quote :attribution="__('about.mission_quote_attribution')">
-                {{ __('about.mission_quote') }}
+            <x-pull-quote variant="column" :attribution="$missionQuote?->attribution ?? __('about.mission_quote_attribution')">
+                {{ $missionQuote?->quote ?? __('about.mission_quote') }}
             </x-pull-quote>
         </div>
 
