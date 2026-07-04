@@ -1,57 +1,50 @@
 {{--
     Design-choices prototype — /design-choices (non-production only, unlinked).
-    RONDE 2 van de quote-normalisatie: richting C (markeerstift) is gekozen,
-    met als notities "iets meer airy" en "behoud van een grote rode curly
-    quote". Deze ronde toont vier variaties binnen die richting; de attributie
-    (naam + detail) is het belangrijkste speelveld. Elke variatie staat weer
-    in beide echte contexten (missie-verhaalkolom op wit, visie-eisen-grid op
-    de lichtblauwe band). Quote-aanhalingstekens zitten in het rode teken, dus
-    de kopij is overal gestript.
+    RONDE 3 van de quote-normalisatie: de quote zelf ligt vast (C2 uit ronde 2:
+    hangend rood teken, zachte lichtgele streep, rood streepje als anker).
+    Frederiks notitie: de afzender-sectie mist typografische verfijning, naam
+    en detail zijn nu "te veel hetzelfde". Deze ronde toont drie
+    afzender-behandelingen onder exact dezelfde quote, weer in beide contexten.
     Throwaway page — verwijderd zodra de keuze in de component landt.
 --}}
 @php
     $stripMarks = fn (string $q): string => str_replace(['“', '”'], '', $q);
-    /** @return array{name: string, detail: string} */
+    /** @return array{name: string, detail: string, parts: list<string>} */
     $splitAttribution = function (string $full): array {
         $parts = explode(', ', $full, 2);
 
-        return ['name' => $parts[0], 'detail' => $parts[1] ?? ''];
+        return [
+            'name' => $parts[0],
+            'detail' => $parts[1] ?? '',
+            'parts' => $parts[1] ?? '' ? explode(', ', $parts[1]) : [],
+        ];
     };
 
     $julienne = ['text' => $stripMarks(__('about.mission_quote'))] + $splitAttribution(__('about.mission_quote_attribution'));
     $fatima = ['text' => $stripMarks(__('about.vision_quote_fatima'))] + $splitAttribution(__('about.vision_quote_fatima_attribution'));
     $camille = ['text' => $stripMarks(__('about.vision_quote_camille'))] + $splitAttribution(__('about.vision_quote_camille_attribution'));
 
-    /** @var array<string, array{label: string, desc: string, class: string, attr: string}> $variants */
+    /** @var array<string, array{label: string, desc: string, attr: string}> $variants */
     $variants = [
-        'C1' => [
-            'label' => 'Anker — stille naam',
-            'desc' => 'De rechte mix: rood teken als blok boven de quote, volle gele streep, ruime interlinie en marges. Attributie zoals in ronde 1: een stille gedempte regel.',
-            'class' => 'pqx',
-            'attr' => 'plain',
+        'F1' => [
+            'label' => 'Twee regels',
+            'desc' => 'Het rode streepje ankert de naam (vet, vol ink); het detail zakt naar een tweede regel, licht en gedempt, uitgelijnd onder de naam. De afzender wordt een klein blokje met eigen hiërarchie.',
+            'attr' => 'lines',
         ],
-        'C2' => [
-            'label' => 'Hangend teken — zachte streep, rood streepje',
-            'desc' => 'Het rode teken hangt links naast de tekst in plaats van erboven, en de streep is de zachtere lichtgele toon. De attributie krijgt een kort rood streepje als anker.',
-            'class' => 'pqx pqx--hang',
-            'attr' => 'rule',
+        'F2' => [
+            'label' => 'Kleinkapitaal naam',
+            'desc' => 'De naam als klein kapitaal met letterspatiëring (het eyebrow-register van de site), het detail erachter in gewone zetting, licht en gedempt. Eén regel, maar duidelijk twee stemmen.',
+            'attr' => 'caps',
         ],
-        'C3' => [
-            'label' => 'Rode naam',
-            'desc' => 'Zelfde opbouw als C1, maar de attributie splitst: de voornaam in kidical-rood en vet, het detail (mama van…, gemeente) gedempt en licht. De naam wordt zo een tweede rood accent naast het teken.',
-            'class' => 'pqx',
-            'attr' => 'redname',
-        ],
-        'C4' => [
-            'label' => 'Afzender met initiaal-disc',
-            'desc' => 'De attributie als afzender: een rode disc met de initiaal in Caprasimo, daarnaast naam (vet) en detail (gedempt) op twee regels. Het meest "dit is een echte persoon".',
-            'class' => 'pqx',
-            'attr' => 'disc',
+        'F3' => [
+            'label' => 'Naam met rode middots',
+            'desc' => 'Eén regel: naam vet in vol ink, de detaildelen gescheiden door rode middots in plaats van komma\'s. De middots echoën het rode streepje en het teken.',
+            'attr' => 'dots',
         ],
     ];
 @endphp
 
-<x-layouts::site title="Design-keuzes — quote-normalisatie · ronde 2">
+<x-layouts::site title="Design-keuzes — quote-normalisatie · ronde 3">
 
     {{-- Internal non-prod prototype: bespoke demo CSS only. Deliberately NOT
          part of the site's CSS architecture; this page never ships. --}}
@@ -66,17 +59,22 @@
         /* In het eisen-grid regelt de li-gap de ruimte, niet de quote zelf. */
         .dc-vision .pqx { margin-block: 0.75rem 0; }
 
-        /* ── Gedeelde basis: markeerstift + groot rood teken, airy ──────── */
+        /* ── Vaste quote (C2): hangend teken, zachte streep, airy ───────── */
         .pqx { margin-block: calc(var(--spacing) * 14); }
-        .pqx blockquote { margin: 0; }
+        .pqx blockquote {
+            margin: 0;
+            position: relative;
+            padding-left: clamp(3.25rem, 5vw, 4rem);
+        }
         .pqx blockquote::before {
             content: '\201C';
-            display: block;
+            position: absolute;
+            left: 0;
+            top: 0.05em;
             font-family: var(--font-heading);
-            font-size: clamp(3.5rem, 5vw, 4.5rem);
+            font-size: clamp(2.75rem, 4vw, 3.5rem);
             line-height: 0.75;
             color: var(--color-kidical-red);
-            margin-bottom: 1rem;
         }
         .pqx blockquote p {
             display: inline;
@@ -85,37 +83,19 @@
             font-weight: 700;
             line-height: 1.8;
             color: var(--color-kidical-ink);
-            background: var(--color-kidical-yellow);
+            background: var(--color-kidical-light-yellow);
             padding: 0.15em 0.5em;
             -webkit-box-decoration-break: clone;
             box-decoration-break: clone;
         }
         .pqx figcaption {
             margin-top: 1.5rem;
+            padding-left: clamp(3.25rem, 5vw, 4rem);
             font-size: var(--text-sm);
             font-weight: 700;
             color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
         }
-
-        /* C2 — teken hangt links, zachtere lichtgele streep, rood streepje. */
-        .pqx--hang blockquote {
-            position: relative;
-            padding-left: clamp(3.25rem, 5vw, 4rem);
-        }
-        .pqx--hang blockquote::before {
-            position: absolute;
-            left: 0;
-            top: 0.05em;
-            margin: 0;
-            font-size: clamp(2.75rem, 4vw, 3.5rem);
-        }
-        .pqx--hang blockquote p {
-            background: var(--color-kidical-light-yellow);
-        }
-        .pqx--hang figcaption {
-            padding-left: clamp(3.25rem, 5vw, 4rem);
-        }
-        .pqx--hang figcaption::before {
+        .pqx figcaption::before {
             content: '';
             display: inline-block;
             width: 1.75rem;
@@ -125,66 +105,70 @@
             margin-right: 0.6rem;
             vertical-align: 0.25em;
         }
-
-        /* C3 — voornaam in rood, detail gedempt en licht. */
-        .pq-name {
-            color: var(--color-kidical-red);
-            font-weight: 700;
-        }
+        /* Gedeeld: detail licht en gedempt, naam vol ink. */
         .pqx figcaption .pq-detail {
             font-weight: 400;
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        }
+        .pqx figcaption strong {
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 10%);
         }
 
-        /* C4 — afzender: initiaal-disc + naam/detail op twee regels. */
-        .pqx figcaption.pq-sender {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-top: 1.25rem;
-        }
-        .pq-disc {
+        /* F1 — twee regels: streepje + naam op regel 1, detail eronder. */
+        .pq-attr-lines {
             display: grid;
-            place-items: center;
-            width: 2.75rem;
-            height: 2.75rem;
-            border-radius: 50%;
-            background: var(--color-kidical-red);
-            color: var(--color-white);
-            font-family: var(--font-heading);
-            font-size: var(--text-xl);
-            flex-shrink: 0;
+            grid-template-columns: auto 1fr;
+            column-gap: 0.6rem;
         }
-        .pq-sender-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.35;
+        .pq-attr-lines::before {
+            margin-right: 0;
+            align-self: center;
         }
-        .pq-sender-text strong { color: var(--color-kidical-ink); }
+        .pq-attr-lines .pq-detail {
+            grid-column: 2;
+            line-height: 1.4;
+        }
+
+        /* F2 — naam als klein kapitaal met letterspatiëring. */
+        .pq-name-caps {
+            text-transform: uppercase;
+            font-size: var(--text-xs);
+            letter-spacing: 0.08em;
+            color: color-mix(in oklab, var(--color-kidical-ink), transparent 10%);
+            margin-right: 0.35rem;
+        }
+
+        /* F3 — rode middots tussen de detaildelen. */
+        .pq-sep {
+            color: var(--color-kidical-red);
+            font-weight: 700;
+            margin-inline: 0.4rem;
+        }
     </style>
 
     <script>
         window.designChoices = function () {
             return {
                 options: @js(collect($variants)->map(fn (array $v) => $v['label'])),
-                choice: 'C1',
+                choice: 'F1',
                 notes: '',
                 copied: false,
                 init() {
                     try {
-                        const saved = JSON.parse(localStorage.getItem('design-choices-quotes-r2') ?? 'null');
+                        const saved = JSON.parse(localStorage.getItem('design-choices-quotes-r3') ?? 'null');
                         if (saved) {
-                            this.choice = saved.choice ?? 'C1';
+                            this.choice = saved.choice ?? 'F1';
                             this.notes = saved.notes ?? '';
                         }
                     } catch (e) { /* corrupt storage: keep defaults */ }
                 },
                 save() {
-                    localStorage.setItem('design-choices-quotes-r2', JSON.stringify({ choice: this.choice, notes: this.notes }));
+                    localStorage.setItem('design-choices-quotes-r3', JSON.stringify({ choice: this.choice, notes: this.notes }));
                 },
                 summary() {
                     const lines = [
-                        'Quote-normalisatie · ronde 2 (markeerstift-variaties)',
-                        `Q1 variatie: ${this.choice} — ${this.options[this.choice]}`,
+                        'Quote-normalisatie · ronde 3 (afzender-verfijning)',
+                        `Q1 afzender: ${this.choice} — ${this.options[this.choice]}`,
                     ];
                     if (this.notes.trim() !== '') {
                         lines.push('', 'Notities: ' + this.notes.trim());
@@ -207,10 +191,10 @@
     <div x-data="designChoices()" class="flex flex-col gap-16 pb-16">
 
         <header class="flex flex-col gap-4">
-            <p class="text-sm font-semibold uppercase tracking-widest text-kidical-ink/50">Intern · niet zichtbaar in productie · ronde 2</p>
-            <h1>Quote-normalisatie · markeerstift-variaties</h1>
-            <p class="max-w-2xl">Richting gekozen: markeerstift, airy, met een grote rode curly quote.
-                Vier variaties binnen die richting; het grootste verschil zit in de attributie.
+            <p class="text-sm font-semibold uppercase tracking-widest text-kidical-ink/50">Intern · niet zichtbaar in productie · ronde 3</p>
+            <h1>Quote-normalisatie · afzender-verfijning</h1>
+            <p class="max-w-2xl">De quote ligt vast (C2: hangend rood teken, zachte streep). Drie
+                afzender-behandelingen met meer typografisch onderscheid tussen naam en detail.
                 Kies onderaan, noteer mengvormen en kopieer de samenvatting terug naar de chat.</p>
         </header>
 
@@ -230,24 +214,19 @@
                         </p>
                         <div class="max-w-prose p-6">
                             <p>{{ __('about.mission_welcome_body') }}</p>
-                            @foreach ([$julienne] as $quote)
-                                <figure class="pull-quote {{ $variant['class'] }}">
-                                    <blockquote><p>{{ $quote['text'] }}</p></blockquote>
-                                    @if ($variant['attr'] === 'disc')
-                                        <figcaption class="pq-sender">
-                                            <span class="pq-disc" aria-hidden="true">{{ mb_substr($quote['name'], 0, 1) }}</span>
-                                            <span class="pq-sender-text">
-                                                <strong>{{ $quote['name'] }}</strong>
-                                                <span class="pq-detail">{{ $quote['detail'] }}</span>
-                                            </span>
-                                        </figcaption>
-                                    @elseif ($variant['attr'] === 'redname')
-                                        <figcaption><span class="pq-name">{{ $quote['name'] }},</span> <span class="pq-detail">{{ $quote['detail'] }}</span></figcaption>
-                                    @else
-                                        <figcaption>{{ $quote['name'] }}, {{ $quote['detail'] }}</figcaption>
-                                    @endif
-                                </figure>
-                            @endforeach
+                            <figure class="pull-quote pqx">
+                                <blockquote><p>{{ $julienne['text'] }}</p></blockquote>
+                                @if ($variant['attr'] === 'lines')
+                                    <figcaption class="pq-attr-lines">
+                                        <strong>{{ $julienne['name'] }}</strong>
+                                        <span class="pq-detail">{{ $julienne['detail'] }}</span>
+                                    </figcaption>
+                                @elseif ($variant['attr'] === 'caps')
+                                    <figcaption><span class="pq-name-caps">{{ $julienne['name'] }}</span> <span class="pq-detail">{{ $julienne['detail'] }}</span></figcaption>
+                                @else
+                                    <figcaption><strong>{{ $julienne['name'] }}</strong>@foreach ($julienne['parts'] as $part)<span class="pq-sep" aria-hidden="true">·</span><span class="pq-detail">{{ $part }}</span>@endforeach</figcaption>
+                                @endif
+                            </figure>
                             <p>{{ __('about.mission_axis1_body') }}</p>
                         </div>
                     </div>
@@ -266,20 +245,17 @@
                                             <x-numbered-item :number="$demand['nr']" :title="$demand['title']">
                                                 {{ $demand['body'] }}
                                             </x-numbered-item>
-                                            <figure class="pull-quote {{ $variant['class'] }}">
+                                            <figure class="pull-quote pqx">
                                                 <blockquote><p>{{ $demand['quote']['text'] }}</p></blockquote>
-                                                @if ($variant['attr'] === 'disc')
-                                                    <figcaption class="pq-sender">
-                                                        <span class="pq-disc" aria-hidden="true">{{ mb_substr($demand['quote']['name'], 0, 1) }}</span>
-                                                        <span class="pq-sender-text">
-                                                            <strong>{{ $demand['quote']['name'] }}</strong>
-                                                            <span class="pq-detail">{{ $demand['quote']['detail'] }}</span>
-                                                        </span>
+                                                @if ($variant['attr'] === 'lines')
+                                                    <figcaption class="pq-attr-lines">
+                                                        <strong>{{ $demand['quote']['name'] }}</strong>
+                                                        <span class="pq-detail">{{ $demand['quote']['detail'] }}</span>
                                                     </figcaption>
-                                                @elseif ($variant['attr'] === 'redname')
-                                                    <figcaption><span class="pq-name">{{ $demand['quote']['name'] }},</span> <span class="pq-detail">{{ $demand['quote']['detail'] }}</span></figcaption>
+                                                @elseif ($variant['attr'] === 'caps')
+                                                    <figcaption><span class="pq-name-caps">{{ $demand['quote']['name'] }}</span> <span class="pq-detail">{{ $demand['quote']['detail'] }}</span></figcaption>
                                                 @else
-                                                    <figcaption>{{ $demand['quote']['name'] }}, {{ $demand['quote']['detail'] }}</figcaption>
+                                                    <figcaption><strong>{{ $demand['quote']['name'] }}</strong>@foreach ($demand['quote']['parts'] as $part)<span class="pq-sep" aria-hidden="true">·</span><span class="pq-detail">{{ $part }}</span>@endforeach</figcaption>
                                                 @endif
                                             </figure>
                                         </li>
@@ -296,8 +272,8 @@
         <section class="flex flex-col gap-5 rounded-card border border-kidical-ink/10 bg-white p-8 shadow-card">
             <h2>Jouw keuze</h2>
             <fieldset class="m-0 border-0 p-0">
-                <legend class="sr-only">Keuze markeerstift-variatie</legend>
-                <div class="grid gap-3 md:grid-cols-2">
+                <legend class="sr-only">Keuze afzender-behandeling</legend>
+                <div class="grid gap-3 md:grid-cols-3">
                     @foreach ($variants as $key => $variant)
                         <label class="flex cursor-pointer items-start gap-3 rounded-tile border-2 border-kidical-ink/10 bg-white px-4 py-3 transition-colors has-[:checked]:border-kidical-blue has-[:checked]:bg-kidical-light-blue">
                             <input type="radio" name="q1" value="{{ $key }}" x-model="choice" @change="save()" class="mt-1 accent-kidical-blue">
