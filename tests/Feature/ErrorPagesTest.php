@@ -32,6 +32,13 @@ it('renders the session-expired page with a retry action', function () {
         ->toContain('history.back()');
 });
 
+it('ships the Livewire/Alpine runtime on error responses so the site nav works', function () {
+    // Livewire only auto-injects its scripts into 200 responses; without this
+    // the mobile menu (Alpine x-show) renders stuck open on error pages.
+    $this->get('/nl/deze-pagina-bestaat-niet')
+        ->assertSee('livewire.js', false);
+});
+
 it('renders the standalone 500 and 503 pages without app asset dependencies', function (string $code) {
     $html = view('errors.'.$code)->render();
 
