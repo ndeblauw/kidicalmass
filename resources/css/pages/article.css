@@ -31,7 +31,9 @@
         color: white;
         transition: border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 
-        &:hover { border-color: white; }
+        /* Only linked chips (visible chapters) get the hover invite; region
+           nodes render as static spans. */
+        &:is(a):hover { border-color: white; }
     }
 
     /* Sidebar rail — "Meer nieuws" as a quiet hairline list: the heading sits

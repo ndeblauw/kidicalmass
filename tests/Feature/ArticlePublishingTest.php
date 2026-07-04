@@ -2,6 +2,7 @@
 
 use App\Models\Article;
 use App\Models\Group;
+use App\Models\User;
 
 use function Pest\Laravel\get;
 
@@ -29,7 +30,7 @@ it('orders the feed by publish date, newest first, with the newest in the featur
 
     // The newest article fills the feature slot (data-article-feature seam);
     // the older one stays in the grid, and the feature never repeats there.
-    preg_match('/<a[^>]*data-article-feature[\s\S]*?<\/a>/', $html, $feature);
+    preg_match('/<article[^>]*data-article-feature[\s\S]*?<\/article>/', $html, $feature);
     expect($feature[0] ?? '')->toContain('Verser bericht')->not->toContain('Ouder bericht');
     expect(substr_count($html, 'Verser bericht'))->toBe(1);
 });
@@ -109,6 +110,46 @@ it('links neighbouring published articles under Meer nieuws, skipping drafts', f
     preg_match('/<nav[^>]*data-article-neighbours[\s\S]*?<\/nav>/', $html, $rail);
     expect($rail[0] ?? '')->toContain(route('articles.show', $middle));
     expect(substr_count($rail[0] ?? '', '<li>'))->toBe(1);
+});
+
+it('shows the group on feed cards, linked to its chapter page, instead of the author', function () {
+    $chapter = Group::factory()->create(['name' => 'Kidical Mass Testegem', 'invisible' => false]);
+    $feature = Article::factory()->create(['published_at' => now()]);
+    $gridArticle = Article::factory()
+        ->for(User::factory()->create(['name' => 'Zeldzame Schrijfnaam']), 'author')
+        ->create(['published_at' => now()->subDay()]);
+    $feature->groups()->attach($chapter);
+    $gridArticle->groups()->attach($chapter);
+
+    $html = get('/nl/about/news')->assertOk()->getContent();
+
+    // Both the feature slot and a grid card carry the chapter chip as a link.
+    expect(substr_count($html, 'Kidical Mass Testegem'))->toBe(2)
+        ->and(substr_count($html, route('groups.show', $chapter)))->toBe(2)
+        ->and($html)->not->toContain('Zeldzame Schrijfnaam');
+});
+
+it('labels national news Heel België and never links invisible region nodes', function () {
+    // Invisible groups (Belgium, regions) are grouping data whose chapter page
+    // 404s, so their chips must render as plain text; the country root reads
+    // as "national" news.
+    $national = Group::factory()->create(['name' => 'Belgium', 'invisible' => true, 'parent_id' => null]);
+    $region = Group::factory()->withParent($national)->create(['name' => 'Regio Testland', 'invisible' => true]);
+    Article::factory()->create(['published_at' => now()])->groups()->attach($national);
+    $regionArticle = Article::factory()->create(['published_at' => now()->subDay()]);
+    $regionArticle->groups()->attach($region);
+
+    get('/nl/about/news')
+        ->assertOk()
+        ->assertSee(__('about.news_national'))
+        ->assertSee('Regio Testland')
+        ->assertDontSee(route('groups.show', $national))
+        ->assertDontSee(route('groups.show', $region));
+
+    get(route('articles.show', $regionArticle))
+        ->assertOk()
+        ->assertSee('Regio Testland')
+        ->assertDontSee(route('groups.show', $region));
 });
 
 it('renders the branded paginator once the feed exceeds one page', function () {

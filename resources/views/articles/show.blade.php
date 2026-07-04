@@ -27,9 +27,15 @@
                 <time datetime="{{ $date->format('Y-m-d') }}">{{ $date->isoFormat('D MMMM YYYY') }}</time>
             </p>
             @if ($article->groups->isNotEmpty())
+                {{-- Invisible groups (Belgium, regions) have no public page,
+                     so only visible chapters render as links. --}}
                 <div class="article-hero__chips">
                     @foreach ($article->groups as $group)
-                        <a href="{{ route('groups.show', $group) }}" class="link-plain article-hero__chip">{{ $group->name }}</a>
+                        @if ($group->hasPublicPage())
+                            <a href="{{ route('groups.show', $group) }}" class="link-plain article-hero__chip">{{ $group->publicLabel() }}</a>
+                        @else
+                            <span class="article-hero__chip">{{ $group->publicLabel() }}</span>
+                        @endif
                     @endforeach
                 </div>
             @endif

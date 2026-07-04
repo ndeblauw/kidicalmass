@@ -74,6 +74,29 @@ class Group extends Model implements HasMedia
         return $this->users->filter(fn (User $user): bool => (bool) $user->pivot->is_public)->values();
     }
 
+    /**
+     * The invisible country root (Belgium): articles attached to it are
+     * national news rather than a chapter's.
+     */
+    public function isNationalRoot(): bool
+    {
+        return $this->invisible && $this->parent_id === null;
+    }
+
+    /**
+     * Invisible groups (country/region nodes) have no public chapter page —
+     * groups.show 404s them — so UI must never link to them.
+     */
+    public function hasPublicPage(): bool
+    {
+        return ! $this->invisible;
+    }
+
+    public function publicLabel(): string
+    {
+        return $this->isNationalRoot() ? __('about.news_national') : $this->name;
+    }
+
     public function changes(?CarbonInterface $startDate = null, ?CarbonInterface $endDate = null): GroupChangesResult
     {
         return (new GetGroupChangesAction($this, $startDate, $endDate))->execute();

@@ -44,7 +44,7 @@
     </div>
 
     @push('scripts')
-    <x-scroll-reveal selector="[data-article-grid] > a" :transform="true" />
+    <x-scroll-reveal selector="[data-article-grid] > article" :transform="true" />
     @endpush
 
     </x-page-hero>
