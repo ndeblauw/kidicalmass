@@ -77,7 +77,6 @@ Route::prefix('{locale}')
 
         // Getting started.
         Route::view('getting-started', 'getting-started')->name('getting-started');
-        Route::view('find-a-bike', 'find-a-bike')->name('find-a-bike');
 
         // Newsletter.
         Route::view('nieuwsbrief', 'nieuwsbrief')->name('newsletter.show');

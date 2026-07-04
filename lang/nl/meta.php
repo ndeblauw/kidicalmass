@@ -8,7 +8,6 @@ return [
     'chapter' => 'Kidical Mass :name: vrolijke fietsparades voor kinderen en hun ouders in :name. Bekijk de volgende rit en fiets mee.',
     'help_out' => 'Help mee met Kidical Mass: als vrijwilliger maak jij de fietsparades in jouw buurt mogelijk. Ontdek hoe je kan bijdragen.',
     'getting_started' => 'Voor het eerst mee met Kidical Mass? Zo verloopt een rit, dit breng je mee en zo maak je er met je kinderen een feest van.',
-    'find_a_bike' => 'Geen fiets? Geen probleem. Zo vind je een fiets, deelfiets of bakfiets om mee te rijden met Kidical Mass.',
     'about' => 'Wie er achter Kidical Mass België zit en waarom we samen met kinderen fietsen voor veilige straten.',
     'mission' => 'Onze missie: straten waar elk kind veilig kan fietsen. Daarom organiseren we fietsparades in heel België.',
     'vision' => 'Onze visie op kindvriendelijke straten en hoe fietsparades daaraan bijdragen.',

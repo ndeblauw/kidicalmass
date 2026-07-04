@@ -19,10 +19,8 @@ it('renders a closing CTA heading and button on a yellow band', function () {
 dataset('pages with a closing CTA', [
     ['home', 'Krijg de nieuwste ritten in je mailbox'],
     ['getting-started', 'Klaar om mee te rijden?'],
-    ['find-a-bike', 'Toch nog een vraag?'],
     ['volunteer', 'Nog geen lokale groep in je buurt?'],
     ['articles.index', 'Zin gekregen om mee te rijden?'],
-    ['about.partners', 'Samen op pad?'],
 ]);
 
 it('renders the page-specific closing CTA', function (string $route, string $heading) {

@@ -186,7 +186,7 @@ Ja — helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraa
 
 ## Don't have a bike? (4 resource cards + note)
 
-> **Moved 2026-06-02:** this section no longer lives on Getting Started. It is now the **standalone Find a bike page** (`/find-a-bike`, P-22, view `find-a-bike.blade.php`), reached from a single Getting Started FAQ item ("Wat als we geen fiets hebben?"). The copy below is the source for that page — keep maintaining it here.
+> **Moved 2026-06-02, page dropped 2026-07-04:** this section no longer lives on Getting Started. It briefly became a standalone Find a bike page (`/find-a-bike`, P-22), but that page was cut from scope on 2026-07-04 — the site now carries only the one reassuring FAQ item ("Wat als we geen fiets hebben?") plus the Partners note. The provider copy below is retained as reference material only.
 
 **Section heading:** Geen fiets? Geen probleem
 

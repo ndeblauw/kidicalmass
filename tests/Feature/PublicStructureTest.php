@@ -104,14 +104,13 @@ it('renders Hoe we werken with the two who-does-what lists and the duo carrying 
         ->assertSee(__('about.organisation_closing_heading'));
 });
 
-it('renders the Partners leaf with the logo wall, find-a-bike pointer and enquiry contact', function () {
+it('renders the Partners leaf with the logo wall and enquiry contact', function () {
     get('/nl/about/partners')
         ->assertOk()
         ->assertSee('Onze partners en bondgenoten')
         ->assertSee('En vele anderen die Kidical Mass mee mogelijk maken')
         ->assertSee('Loopz')
-        ->assertSee('bike@kidicalmass.be')
-        ->assertSee(route('find-a-bike'), escape: false);
+        ->assertSee('bike@kidicalmass.be');
 });
 
 it('renders Pers as archive plus perscontact card, without outlet strip or closing CTA', function () {
@@ -152,22 +151,9 @@ it('renders the Getting Started page with its key NL sections', function () {
         // Safety reassurance sourced from the volunteer ROI + Jorge interview.
         ->assertSee('Is het veilig in het verkeer?')
         ->assertSee('lokale politie')
-        // No-bike detail moved to its own page (2026-06-02); FAQ folds + links out.
+        // No-bike reassurance folds into the FAQ (standalone page dropped 2026-07-04).
         ->assertSee('Wat als we geen fiets hebben?')
-        ->assertSee(route('find-a-bike'), escape: false)
         ->assertDontSee('KIDICALMASS');
-});
-
-it('renders the find-a-bike resource page with the providers', function () {
-    get('/nl/find-a-bike')
-        ->assertOk()
-        ->assertSee('Geen fiets? Geen probleem', escape: false)
-        ->assertSee('Kidical Mouse')
-        ->assertSee('KIDICALMASS')
-        ->assertSee('€30/jaar', escape: false)
-        ->assertSee('Cyclo')
-        // Resource content only — none of the first-ride FAQ leaks onto it.
-        ->assertDontSee('Is het veilig in het verkeer?');
 });
 
 it('renders the Help out orientation page with its key NL sections', function () {

@@ -19,8 +19,8 @@
 
     {{-- WIE ONS STEUNT — named institutional anchors (depth) + the full logo wall (breadth)
          in ONE section. The in-kind/bike-provision partners (Loopz, Kidical Mouse, My Kids
-         Bikes) live in the wall + a one-line find-a-bike pointer — no dedicated cards: that
-         is a family/resource story, not sponsor credibility. (arrange 2026-06-03, Frederik) --}}
+         Bikes) live in the wall + a one-line note — no dedicated cards: that is a
+         family/resource story, not sponsor credibility. (arrange 2026-06-03, Frederik) --}}
     <section class="about-section about-section--wide">
         <x-section-heading>Onze partners en bondgenoten</x-section-heading>
         <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op nationaal of regionaal niveau, via financiering, infrastructuur of een gedeeld pleidooi.</p>
@@ -33,7 +33,7 @@
             <img src="{{ asset('img/partners/partner-logos-2024.png') }}" alt="Logo's van de vele partners en bondgenoten van Kidical Mass, waaronder Brussel Mobiliteit, Pro Velo, Cyclo, GRACQ, Fietsersbond, Bruzz en vele anderen" loading="lazy">
             <figcaption>En vele anderen die Kidical Mass mee mogelijk maken.</figcaption>
         </figure>
-        <p class="about-partners__note">Op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Geen fiets? <a href="{{ route('find-a-bike') }}" class="more-link">Bekijk de opties →</a></p>
+        <p class="about-partners__note">Op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets.</p>
     </section>
 
     {{-- WAAROM PARTNER WORDEN — benefit hook (from the Sponsorformules "waarom steunen") --}}

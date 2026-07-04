@@ -60,7 +60,6 @@ return [
         '/chapters/[postal-code]' => ['view' => 'resources/views/groups/show.blade.php', 'route' => 'chapters/{group}'],
         '/chapters/[postal-code]/roze-hesjes' => ['view' => 'resources/views/groups/roze-hesjes/overzicht.blade.php', 'route' => 'chapters/{group}/roze-hesjes'],
         '/getting-started' => ['view' => null, 'route' => 'getting-started'],
-        '/find-a-bike' => ['view' => 'resources/views/find-a-bike.blade.php', 'route' => 'find-a-bike'],
         '/help-out' => ['view' => null, 'route' => 'help-out'],
         '/about' => ['view' => null, 'route' => 'about'],
         '/about/mission' => ['view' => null, 'route' => 'about/mission'],

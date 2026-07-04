@@ -50,7 +50,7 @@ A family reads this page and thinks: "OK, we can do this." Then they click the C
 **Must have:**
 - What to expect at a ride (pace, duration, vibe, safety)
 - Practical FAQ (age, gear, weather, registration, **safety**, **no-bike**)
-- ~~Don't have a bike? (Loopz, Fietsbieb, Kidical Mouse, My Kids Bikes)~~ → **moved to the standalone Find a bike page (`/find-a-bike`, P-22)**, reached from the no-bike FAQ item. Content detail in this file is the source for that page.
+- ~~Don't have a bike? (Loopz, Fietsbieb, Kidical Mouse, My Kids Bikes)~~ → briefly a standalone Find a bike page (P-22), **dropped 2026-07-04**: the no-bike FAQ item is now self-contained (bakfiets at the start + partner mention, no link out). Provider detail below retained as reference only.
 
 **Should have:**
 - ~~Other bike activities for kids in Belgium (ProVelo, Cyclo, Ride Your Future)~~ — **removed from this page in the 2026-06-02 distill** (sent first-timers away at the conversion moment). Content retained in the content file for relocation to a resources/chapter spot.
@@ -82,7 +82,7 @@ Single page. Story arc: "Here's what happens" → "Common worries answered" → 
 2. What to expect at a ride
 3. Practical FAQ
 4. **CTA to /events** ← lifted to the "yes" moment, right after the FAQ
-5. ~~Don't have a bike? section~~ — **folded into one FAQ item** ("Wat als we geen fiets hebben?") that links out to the standalone **Find a bike** page (`/find-a-bike`, P-22). The provider detail no longer sits on this page at all.
+5. ~~Don't have a bike? section~~ — **folded into one FAQ item** ("Wat als we geen fiets hebben?"). It briefly linked out to a standalone Find a bike page (P-22), dropped 2026-07-04; the FAQ item is now self-contained.
 
 > **Distill note (2026-06-02, Frederik critique):** the page was carrying too much between intent and the CTA. Changes: the CTA moved up to directly after the FAQ (the natural conversion moment); **"Other ways to cycle with your kids" was removed** (it pointed first-timers *away* at the decision moment — content retained in the content file for a later resources/chapter spot); and, in a follow-up, **"Don't have a bike?" was folded into a single FAQ item that links to a new standalone page, [Find a bike](getting-started-content.md) (`/find-a-bike`, P-22)** — the brand promise stays on-page as one reassuring line, the provider detail (Loopz/Fietsbieb/Kidical Mouse/My Kids Bikes/Cyclo) lives on the dedicated page. The desktop/mobile ASCII below predates these changes and still shows the original 6-section order.
 

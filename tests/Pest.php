@@ -63,7 +63,6 @@ $publicRoutes = [
     '/nl/chapters',
     '/nl/help-out',
     '/nl/getting-started',
-    '/nl/find-a-bike',
     '/nl/about',
     '/nl/about/mission',
     '/nl/about/vision',

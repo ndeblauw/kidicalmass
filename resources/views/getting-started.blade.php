@@ -98,7 +98,7 @@
                 <p>Een helm is aangeraden maar niet verplicht. Neem wat water mee. Dat is echt alles. Geen speciale uitrusting, geen voorbereiding nodig.</p>
             </x-faq.item>
             <x-faq.item question="Wat als we geen fiets hebben?">
-                <p>Geen fiets is geen reden om thuis te blijven. Soms staat er zelfs een bakfiets klaar aan de start, en er zijn verschillende manieren om er een te lenen of te huren. <a href="{{ route('find-a-bike') }}">Bekijk de opties →</a></p>
+                <p>Geen fiets is geen reden om thuis te blijven. Soms staat er zelfs een bakfiets klaar aan de start, en op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Vraag er gerust naar bij je lokale groep.</p>
             </x-faq.item>
             <x-faq.item question="Is het echt gratis?">
                 <p>Ja, helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraagd. Kom zoals je bent.</p>
