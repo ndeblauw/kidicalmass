@@ -60,10 +60,9 @@
                 @error('message')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
             </div>
 
-            <button type="submit" class="about-cta__btn about-cta__btn--primary" wire:loading.attr="disabled" wire:target="submit">
+            <x-cta-button type="submit" variant="blue" wire:loading.attr="disabled" wire:target="submit">
                 Verstuur je aanvraag
-                <span aria-hidden="true">→</span>
-            </button>
+            </x-cta-button>
         </form>
     @endif
 </div>

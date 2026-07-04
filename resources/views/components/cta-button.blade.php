@@ -1,5 +1,6 @@
 @props([
     'href' => null,
+    'type' => 'button',    // button | submit — only applies when it renders a <button> (no href)
     'variant' => 'yellow', // yellow (dark/blue grounds) | blue (yellow bands) | pink (roze-hesje actions) | secondary (outlined, quiet) | ghost (text-only)
     'icon' => 'arrow',     // arrow (a "go" action) | back (a "return" action) | heart (support / membership)
     'size' => 'md',        // md | sm (nav + footer)
@@ -48,7 +49,7 @@
 @endphp
 
 @if ($isButton)
-<button type="button" {{ $attributes->merge(['class' => $classes, 'style' => $discStyle]) }}>
+<button type="{{ $type }}" {{ $attributes->merge(['class' => $classes, 'style' => $discStyle]) }}>
 @else
 <a
     @unless ($isInert) href="{{ $href }}" @endunless

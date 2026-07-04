@@ -1,29 +1,4 @@
 @layer components {
-    .about-hero__lead {
-        color: var(--color-kidical-yellow);
-        font-size: clamp(var(--text-xl), 2.2vw, var(--text-3xl));
-        font-weight: 700;
-        line-height: 1.4;
-        max-width: 34ch;
-        margin-top: 0.5rem;
-        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
-    }
-    .about-hero__circle {
-        background-color: var(--color-kidical-light-blue);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .about-hero__circle img {
-        width: 80%;
-        height: 80%;
-        object-fit: contain;
-    }
-    .about-hero__circle--photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
     .about-band {
         width: 100vw;
         margin-left: calc(50% - 50vw);
@@ -106,6 +81,7 @@
 
         &:hover { background-image: none; text-decoration: underline; }
     }
+    /* styleguide only — no production page uses this grid anymore */
     .about-voices {
         display: grid;
         grid-template-columns: 1fr;
@@ -249,14 +225,6 @@
         a { font-weight: 700; color: var(--color-kidical-blue); background-image: none; }
         a:hover { background-image: none; text-decoration: underline; }
     }
-    button.about-cta__btn {
-        border: none;
-        cursor: pointer;
-    }
-    button.about-cta__btn:disabled {
-        opacity: 0.6;
-        cursor: wait;
-    }
     .about-press {
         display: grid;
         grid-template-columns: 1fr;
@@ -304,49 +272,6 @@
     .about-feed__lead {
         font-size: clamp(var(--text-lg), 1.5vw, var(--text-xl));
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 20%);
-    }
-    .about-cta__btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.625rem;
-        padding: 0.875rem 1.25rem 0.875rem 1.625rem;
-        border-radius: 100px;
-        font-family: var(--font-heading);
-        font-weight: 800;
-        font-size: var(--text-lg);
-        text-decoration: none;
-        transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .about-cta__btn--primary {
-        background: var(--color-kidical-blue);
-        color: white;
-    }
-    .about-cta__btn--primary:hover {
-        transform: translateY(-2px);
-        background: color-mix(in oklab, var(--color-kidical-blue), black 10%);
-    }
-    .about-cta__btn--ink {
-        background: var(--color-kidical-ink);
-        color: white;
-    }
-    .about-cta__btn--ink:hover {
-        background: color-mix(in oklab, var(--color-kidical-ink), white 8%);
-    }
-    .about-cta__btn__disc {
-        width: 1.875rem;
-        height: 1.875rem;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-        font-family: var(--font-sans);
-        font-size: 0.8125rem;
-        font-weight: 400;
-        flex-shrink: 0;
-        
-        background: color-mix(in oklab, var(--color-kidical-yellow), var(--color-kidical-ink) 55%);
-        color: var(--color-kidical-yellow);
     }
     .about-intent {
         list-style: none;
