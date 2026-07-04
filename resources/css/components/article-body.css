@@ -1,9 +1,10 @@
 /* Article body — admin-authored (TinyMCE) rich text on the news detail page.
    The markup arrives class-less, so the prose defaults live here: heading
-   steps, list bullets, quote framing, image rounding. Measure/size stay on
-   the wrapping element in the view (text-lg). Inline links keep the site's
-   base gradient-underline treatment; we only give them the 700 weight the
-   in-copy link register (.more-link) uses. */
+   steps, list bullets, quote framing, image rounding. Size/colour inherit the
+   base Body tier (text-xl, text-body); the measure stays on the wrapping
+   element in the view. Inline links keep the site's base gradient-underline
+   treatment; we only give them the 700 weight the in-copy link register
+   (.more-link) uses. */
 @layer components {
     .article-body {
         /* Sanctioned in-component heading sizing: the admin's h2/h3 must step

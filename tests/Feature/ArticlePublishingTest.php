@@ -55,7 +55,6 @@ it('renders article chrome in Dutch, never English', function () {
 
     get(route('articles.show', $article))
         ->assertOk()
-        ->assertSee(__('about.news_back'))
         ->assertSee('5 maart 2026')
         ->assertDontSee('March')
         ->assertDontSee('Back to articles');
@@ -104,11 +103,12 @@ it('links neighbouring published articles under Meer nieuws, skipping drafts', f
         ->assertSee(route('articles.show', $newest))
         ->assertDontSee('Kladversie ertussen');
 
-    // The newest article has no newer neighbour, only an older one.
-    get(route('articles.show', $newest))
-        ->assertOk()
-        ->assertDontSee(__('about.news_more_newer'))
-        ->assertSee(route('articles.show', $middle));
+    // The newest article has no newer neighbour: its rail (the
+    // data-article-neighbours seam) lists exactly one link, the older one.
+    $html = get(route('articles.show', $newest))->assertOk()->getContent();
+    preg_match('/<nav[^>]*data-article-neighbours[\s\S]*?<\/nav>/', $html, $rail);
+    expect($rail[0] ?? '')->toContain(route('articles.show', $middle));
+    expect(substr_count($rail[0] ?? '', '<li>'))->toBe(1);
 });
 
 it('renders the branded paginator once the feed exceeds one page', function () {

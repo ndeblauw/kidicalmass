@@ -92,11 +92,8 @@ return [
     'news_lead' => 'Updates van de beweging: nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
     'news_empty_title' => 'De eerste verhalen komen eraan',
     'news_empty_body' => 'We zijn nog maar net begonnen met schrijven. Kom binnenkort eens terug, of volg ons op :instagram en :facebook voor nieuws zodra het er is.',
-    'news_back' => 'Terug naar nieuws',
     'news_gallery' => 'Foto\'s',
     'news_more_title' => 'Meer nieuws',
-    'news_more_newer' => 'Nieuwer',
-    'news_more_older' => 'Ouder',
 
     // Pers (P-19). Structure: the year-grouped archive left, a sticky
     // perscontact card right (its label replaces a contact heading). No outlet
