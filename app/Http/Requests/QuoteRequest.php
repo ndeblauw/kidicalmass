@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class QuoteRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class QuoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slot' => ['required', 'string', 'max:255'],
+            'slot' => ['required', 'string', 'max:255', Rule::unique('quotes', 'slot')->ignore($this->quote)],
             'quote' => ['required', 'string'],
             'attribution' => ['required', 'string', 'max:255'],
             'visible' => ['boolean'],
