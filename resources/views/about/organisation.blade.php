@@ -11,7 +11,7 @@
     <x-page-hero
         :eyebrow="__('nav.organisation')"
         :title="__('about.organisation_title')"
-        illustration="img/illustrations/heart-30-sign.svg">
+        size="compact">
 
     {{-- HOE WE GEORGANISEERD ZIJN — the intro tells the whole three-tier story --}}
     <x-intro-text>

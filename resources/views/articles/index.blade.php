@@ -9,7 +9,8 @@
 
     <x-page-hero
         :eyebrow="__('nav.news')"
-        :title="__('about.news_title')">
+        :title="__('about.news_title')"
+        size="compact">
 
     <div class="space-y-10">
         <div class="max-w-prose">

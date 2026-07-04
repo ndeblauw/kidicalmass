@@ -5,7 +5,7 @@
     'photo' => null,
     'photoAlt' => '',
     'caption' => null,
-    'size' => 'default',   // 'default' | 'compact' — compact = shorter band + smaller title, for single-action pages (e.g. the newsletter signup)
+    'size' => 'default',   // 'default' | 'compact' — compact = shorter band + smaller title, for single-action pages (newsletter) and text-first pages without artwork (about leaves, pers, nieuws)
     'panelClass' => '',
     'photoTilt' => false,  // tilt the photo card and let it dip out of the blue band (chapter-page treatment); opts the hero out of the pinned scroll-over
 ])
@@ -14,8 +14,10 @@
      so the heading never clips. .page-panel overlaps its bottom edge; the floating
      nav pill (site header) sits above this. Pass `photo` to swap the floating
      illustration for a rounded photo card beside the title (with an optional
-     `caption` credit), the same in-hero treatment the chapter page uses. --}}
-<header class="page-hero {{ $photo ? 'page-hero--has-photo' : '' }} {{ $photoTilt ? 'page-hero--photo-tilt' : '' }} {{ $size === 'compact' ? 'page-hero--compact' : '' }}">
+     `caption` credit), the same in-hero treatment the chapter page uses.
+     Without illustration AND photo the hero is 'bare': the copy-width caps
+     exist only to dodge artwork, so the title spans the full container. --}}
+<header class="page-hero {{ $photo ? 'page-hero--has-photo' : '' }} {{ $photoTilt ? 'page-hero--photo-tilt' : '' }} {{ $size === 'compact' ? 'page-hero--compact' : '' }} {{ ! $illustration && ! $photo ? 'page-hero--bare' : '' }}">
     <div class="page-hero__inner container mx-auto px-4">
         <div class="page-hero__copy">
             <p class="page-hero__eyebrow">{{ $eyebrow }}</p>

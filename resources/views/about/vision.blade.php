@@ -16,7 +16,7 @@
     <x-page-hero
         :eyebrow="__('nav.vision')"
         :title="__('about.vision_title')"
-        illustration="img/illustrations/zone-30-sign.svg">
+        size="compact">
 
     {{-- POSITIESTATEMENT --}}
     <x-intro-text size="lead">

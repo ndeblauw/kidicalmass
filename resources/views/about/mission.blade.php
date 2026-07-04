@@ -10,7 +10,7 @@
     <x-page-hero
         :eyebrow="__('nav.mission')"
         :title="__('about.mission_title')"
-        illustration="img/illustrations/rider-with-flag.svg">
+        size="compact">
 
     {{-- STORY — intro, welkom and the parent voice as ONE column; the live
          AboutStats deck sits beside it (Steun-ons stramien). --}}

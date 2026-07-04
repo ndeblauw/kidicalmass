@@ -21,15 +21,19 @@ it('shows the eyebrow, title, illustration, controls and body content', function
         ->toContain('probe-control')
         ->toContain('probe-body')
         ->toContain('page-hero')
-        ->toContain('page-panel');
+        ->toContain('page-panel')
+        // Artwork present, so the copy keeps its width caps.
+        ->not->toContain('page-hero--bare');
 });
 
-it('omits the illustration when none is given', function () {
+it('omits the illustration and goes bare (full-width copy) when none is given', function () {
     $html = Blade::render(<<<'BLADE'
         <x-page-hero eyebrow="Meehelpen" title="Jouw handen maken de stoet.">
             <p>body</p>
         </x-page-hero>
     BLADE);
 
-    expect($html)->not->toContain('page-hero__visual');
+    expect($html)
+        ->not->toContain('page-hero__visual')
+        ->toContain('page-hero--bare');
 });

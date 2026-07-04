@@ -9,7 +9,8 @@
 
     <x-page-hero
         :eyebrow="__('nav.press')"
-        :title="__('about.press_title')">
+        :title="__('about.press_title')"
+        size="compact">
 
     <section class="about-section about-section--wide">
         <div class="grid items-start gap-10 md:grid-cols-[1.6fr_1fr] md:gap-16">
