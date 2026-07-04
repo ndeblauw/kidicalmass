@@ -263,10 +263,6 @@ if (! app()->isProduction()) {
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
 
-    // Internal design-choices prototype — perskaart typeset pass (kop + tekstmaat).
-    Route::view('/design-choices-perskaart', 'design-choices-perskaart')
-        ->name('design.choices.perskaart');
-
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)
         ->name('login.as');

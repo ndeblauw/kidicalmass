@@ -25,7 +25,7 @@
             </div>
             <div class="flex flex-col gap-4 md:sticky md:top-28">
                 <x-info-card :label="__('about.press_contact_label')">
-                    <p class="info-card__note">{{ __('about.press_contact_body') }}</p>
+                    <p>{{ __('about.press_contact_body') }}</p>
                     <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
                     <p class="info-card__note">{{ __('about.press_contact_note') }}</p>
                 </x-info-card>

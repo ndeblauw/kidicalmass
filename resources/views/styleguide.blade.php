@@ -167,10 +167,11 @@
                     <x-ride-month :period-key="$monthPeriodKey" :rides="$monthRides" />
                 </x-styleguide.entry>
 
-                <x-styleguide.entry name="info-card" props="label">
+                <x-styleguide.entry name="info-card" props="label, as">
                     <x-info-card label="Perscontact">
+                        <p>We brengen je graag in contact met lokale trekkers en gezinnen.</p>
                         <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
-                        <p class="info-card__note">We antwoorden zo snel als vrijwilligers dat kunnen.</p>
+                        <p class="info-card__note">Je hoort snel van ons.</p>
                     </x-info-card>
                 </x-styleguide.entry>
 
