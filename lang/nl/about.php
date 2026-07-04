@@ -106,6 +106,6 @@ return [
     'press_contact_note' => 'Je hoort snel van ons.',
     'press_overview_title' => 'In de pers',
     'press_empty_title' => 'We bouwen aan een persoverzicht',
-    'press_empty_body' => 'Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via bike@kidicalmass.be.',
+    'press_empty_body' => 'Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via :email.',
     'press_document_label' => 'Artikel',
 ];

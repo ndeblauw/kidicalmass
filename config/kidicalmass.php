@@ -27,6 +27,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Contact details
+    |--------------------------------------------------------------------------
+    | One source for the public contact email + phone (press card, partner
+    | enquiry fallback, press empty state). phone is the display format,
+    | phone_e164 feeds tel: hrefs.
+    */
+
+    'contact' => [
+        'email' => 'bike@kidicalmass.be',
+        'phone' => '0495 81 27 95',
+        'phone_e164' => '+32495812795',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Default images
     |--------------------------------------------------------------------------
     | Fallback images used when a model has no main image uploaded.

@@ -92,8 +92,8 @@
                 <x-section-heading class="mb-4">Interesse? Laten we praten.</x-section-heading>
                 <p>Vul kort in wie je bent en waar je interesse naar uitgaat. We nemen snel contact op om samen de juiste formule te vinden. Je verbindt je tot niets.</p>
                 <p class="partner-enquiry__fallback">Liever rechtstreeks?<br>
-                    <a href="mailto:bike@kidicalmass.be" class="more-link">bike@kidicalmass.be</a><br>
-                    <a href="tel:+32495812795" class="more-link">0495 81 27 95</a>
+                    <a href="mailto:{{ config('kidicalmass.contact.email') }}" class="more-link">{{ config('kidicalmass.contact.email') }}</a><br>
+                    <a href="tel:{{ config('kidicalmass.contact.phone_e164') }}" class="more-link">{{ config('kidicalmass.contact.phone') }}</a>
                 </p>
             </div>
             <div class="partner-enquiry__form">

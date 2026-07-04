@@ -110,7 +110,9 @@ it('renders the Partners leaf with the logo wall and enquiry contact', function 
         ->assertSee('Onze partners en bondgenoten')
         ->assertSee('En vele anderen die Kidical Mass mee mogelijk maken')
         ->assertSee('Loopz')
-        ->assertSee('bike@kidicalmass.be');
+        ->assertSee('bike@kidicalmass.be')
+        ->assertSee(config('kidicalmass.contact.email'))
+        ->assertSee(config('kidicalmass.contact.phone'));
 });
 
 it('renders Pers as archive plus perscontact card, without outlet strip or closing CTA', function () {
@@ -122,6 +124,7 @@ it('renders Pers as archive plus perscontact card, without outlet strip or closi
         ->assertSee(__('about.press_overview_title'))
         ->assertSee(__('about.press_contact_label'))
         ->assertSee('bike@kidicalmass.be')
+        ->assertSee(config('kidicalmass.contact.email'))
         // Background link folded into the contact column.
         ->assertSee(route('about.mission'), escape: false)
         // The chatty contact heading and the volunteer claim are gone on purpose.

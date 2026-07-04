@@ -20,14 +20,14 @@
                     <x-press-archive :articles-by-year="$articlesByYear" />
                 @else
                     <x-empty-state :heading="__('about.press_empty_title')">
-                        {{ __('about.press_empty_body') }}
+                        {{ __('about.press_empty_body', ['email' => config('kidicalmass.contact.email')]) }}
                     </x-empty-state>
                 @endif
             </div>
             <div class="flex flex-col gap-4 md:sticky md:top-28">
                 <x-info-card :label="__('about.press_contact_label')">
                     <p>{{ __('about.press_contact_body') }}</p>
-                    <a href="mailto:bike@kidicalmass.be" class="info-card__link">bike@kidicalmass.be</a>
+                    <a href="mailto:{{ config('kidicalmass.contact.email') }}" class="info-card__link">{{ config('kidicalmass.contact.email') }}</a>
                     <p class="info-card__note">{{ __('about.press_contact_note') }}</p>
                 </x-info-card>
                 <p class="m-0"><a href="{{ route('about.mission') }}" class="more-link">{{ __('about.press_background_link') }}</a></p>
