@@ -31,6 +31,7 @@ use App\Models\Partner;
 use App\Models\PressArticle;
 use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
+use App\Support\AboutStats;
 use App\Support\SupportStats;
 use Illuminate\Support\Facades\Route;
 
@@ -263,6 +264,14 @@ if (! app()->isProduction()) {
     // Internal styleguide — live component overview + extraction audit.
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
+
+    // Internal design-choices prototype — live variant picker for the about "normalize" pass.
+    Route::get('/design-choices', function () {
+        return view('design-choices', [
+            'statCards' => app(AboutStats::class)->cards(),
+            'articles' => Article::published()->with(['media', 'author'])->orderByDesc('published_at')->take(5)->get(),
+        ]);
+    })->name('design.choices');
 
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)
