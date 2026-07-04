@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ContactFormController;
 use App\Http\Controllers\Admin\GroupController as AdminGroupController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\PressArticleController;
+use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\YearStatController;
 use App\Http\Controllers\ArticleController;
@@ -241,6 +242,8 @@ Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function ()
     Route::resource('users', UserController::class);
 
     Route::resource('partners', PartnerController::class);
+
+    Route::resource('teammembers', TeamMemberController::class);
 
     Route::resource('groups', AdminGroupController::class);
 

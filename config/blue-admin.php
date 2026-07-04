@@ -88,6 +88,12 @@ return [
             'link' => 'admin/partners',
             'icon' => 'fa-handshake',
         ],
+        [
+            'title' => 'Teamleden',
+            'color' => 'violet',
+            'link' => 'admin/teammembers',
+            'icon' => 'fa-people-group',
+        ],
     ],
 
     'details_for' => 'Details for',
