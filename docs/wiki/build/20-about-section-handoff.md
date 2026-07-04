@@ -20,6 +20,15 @@ until Frederik's critique of the new surface ([registry](../design/30-skeleton/0
 arrange/polish/distill pass on **Pers (P-19)** (press-archive rows restyled, uncommitted
 at the time of writing). Check `git log`/working tree before touching press files.
 
+> **✅ Update 2026-07-04 (distill + polish thread):** sections 2 and 3 are done
+> (`ca8b889` distill + `2407c29` polish; every decision picked by Frederik via
+> option rounds — see the log entry). Pers items landed via the parallel pers
+> thread (`0c81161`). **Still open on this page:** admin items 1.2 (formule
+> single source), 1.3 (logo wall) and 1.7 (hub lang keys); the hub hero-pills
+> design idea (section 2, parked); the 16:9-crop admin note (section 3 →
+> belongs with the admin surfaces work); all of section 4 (Nico) and
+> section 5 (content gates).
+
 ## 1. Admin track (the "easier to update" goal) — ranked
 
 | # | Item | Effort | Notes |
