@@ -1,8 +1,16 @@
 # Wiki Log
 
+## [2026-07-04] build | Afsluitende CTA's Over ons: brug in plaats van slogan (P-15, P-17)
+
+/clarify-pas over de closing-CTA's van de Over ons-sectie. Missie sloot af op "Feest op wielen, met een duidelijke vraag": een samenvattende slogan, geen brug, en "vraag" leest eerst als question. Nu "Wat willen we veranderen?", die de knop "Lees wat we vragen" letterlijk beantwoordt. Hoe we werken stuurde "Een afdeling starten of vervoegen?" met "Zo begin je" naar Voor het eerst mee (deelnemerspagina, beantwoordt geen van beide intenties): de knop heet nu "Zo doe je mee" en landt op Meehelpen, dat zelf doorlinkt naar start-een-groep. De ketting leest nu missie → visie → werking → meehelpen; landing ("Rij mee met de buurt") en visie ("Wie maakt dit waar?") waren al goed, en "Zo begin je" blijft exclusief voor Lokale groepen → start-een-groep. Chain-assertion toegevoegd in `PublicStructureTest`. Geen registry-wijziging.
+
 ## [2026-07-04] build | Nieuws-afzender: groepschips op feed en detail (P-18)
 
 Critique van het nieuwsoverzicht vertaald naar een afzender-pass. Nieuwe `x-group-chip` (stille pill, ijsblauw): kaarten en feature tonen nu groep + datum in plaats van auteur (auteur blijft op detail); de titel draagt een stretched link zodat chips zelfstandig klikbaar zijn zonder geneste anchors. Nationaal-conventie vastgelegd: een artikel aan de invisible root "Belgium" is nationaal nieuws, chip leest "Heel België" (botergeel); `Group` kreeg `isNationalRoot`/`hasPublicPage`/`publicLabel`. Chips linken alleen naar zichtbare chapters; dat fixt meteen de detail-hero die voor 7/9 artikels naar de 404'ende regiopagina (Brussels Capital Region) linkte. Voor Nico: verplichte groepskoppeling in het artikel-adminformulier, en de losse `ray()`-debugcall in `LocalGroupScope`.
+
+## [2026-07-04] build | Launch runway — pre-launch initiative board
+
+New wiki page [`build/30-launch-runway.md`](build/30-launch-runway.md) (+ rendered `.html`): a state-of-play snapshot (stage tallies across the 23 registry pages; Wire/UI mostly green-or-orange, Back half-live, Client OK 0/22) and a weighed board of 22 pre-launch initiatives in four lanes — launch blockers (Wix redirects build, newsletter backend, Privacy/Contact stubs, hosting & cutover plan), reveal polish (About critique, D-10 SEO tail, cookieless analytics, a11y + perf passes), people & content (Leticia decision batch, content-confidence push, chapter-lead onboarding, admin handoff, ops safety net, reveal runbook), and post-launch (FR call, #37 bundle, SEO ops, P-08). Sourced from the page registry, both concerns registers, migration + redirect plans, demo-journeys, and a codebase audit (routes/head/forms/lang/public/CI). No registry change.
 
 ## [2026-07-04] build | About distill + polish (P-14–P-18, P-20)
 

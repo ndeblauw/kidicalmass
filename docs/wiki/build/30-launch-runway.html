@@ -1,0 +1,563 @@
+<title>Kidical Mass NL · Launch runway</title>
+<style>
+  :root {
+    --ink: #281a39;
+    --paper: #fdfcf7;
+    --card: #ffffff;
+    --text: color-mix(in oklab, #281a39, transparent 12%);
+    --text-body: color-mix(in oklab, #281a39, transparent 28%);
+    --text-muted: color-mix(in oklab, #281a39, transparent 48%);
+    --hairline: color-mix(in oklab, #281a39, transparent 86%);
+    --hairline-soft: color-mix(in oklab, #281a39, transparent 92%);
+    --pink: #E63A7B;
+    --pink-deep: #D42E6F;
+    --yellow: #f9d924;
+    --yellow-soft: #FEF3D5;
+    --blue: #1d67cd;
+    --st-done: #2E8B3F;
+    --st-busy: #DA6A1E;
+    --st-missing: #D42E6F;
+    --st-nvt: #a3a3a3;
+    --st-done-bg: color-mix(in oklab, #2E8B3F, var(--paper) 88%);
+    --header-ink: #281a39;
+    --header-text: #fdf9ee;
+    --shadow-hard: 0 0.2rem 0 0 color-mix(in oklab, #281a39, transparent 82%),
+      inset 0 0 0 1px color-mix(in oklab, #281a39, transparent 90%);
+    --shadow-card: 0 4px 18px rgb(40 26 57 / 0.07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #eee8f4;
+      --paper: #1d1230;
+      --card: #2a1c40;
+      --text: #f0eaf6;
+      --text-body: color-mix(in oklab, #f0eaf6, transparent 18%);
+      --text-muted: color-mix(in oklab, #f0eaf6, transparent 42%);
+      --hairline: color-mix(in oklab, #f0eaf6, transparent 84%);
+      --hairline-soft: color-mix(in oklab, #f0eaf6, transparent 91%);
+      --pink: #f0629c;
+      --pink-deep: #dd4d85;
+      --blue: #6ea8f0;
+      --st-done: #3aa14e;
+      --st-busy: #cd7020;
+      --st-missing: #dd4d85;
+      --st-nvt: #776f85;
+      --st-done-bg: color-mix(in oklab, #3aa14e, var(--paper) 84%);
+      --header-ink: #150c24;
+      --header-text: #f5f0e6;
+      --shadow-hard: 0 0.2rem 0 0 rgb(0 0 0 / 0.45), inset 0 0 0 1px rgb(255 255 255 / 0.07);
+      --shadow-card: 0 4px 18px rgb(0 0 0 / 0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #eee8f4;
+    --paper: #1d1230;
+    --card: #2a1c40;
+    --text: #f0eaf6;
+    --text-body: color-mix(in oklab, #f0eaf6, transparent 18%);
+    --text-muted: color-mix(in oklab, #f0eaf6, transparent 42%);
+    --hairline: color-mix(in oklab, #f0eaf6, transparent 84%);
+    --hairline-soft: color-mix(in oklab, #f0eaf6, transparent 91%);
+    --pink: #f0629c;
+    --pink-deep: #dd4d85;
+    --blue: #6ea8f0;
+    --st-done: #3aa14e;
+    --st-busy: #cd7020;
+    --st-missing: #dd4d85;
+    --st-nvt: #776f85;
+    --st-done-bg: color-mix(in oklab, #3aa14e, var(--paper) 84%);
+    --header-ink: #150c24;
+    --header-text: #f5f0e6;
+    --shadow-hard: 0 0.2rem 0 0 rgb(0 0 0 / 0.45), inset 0 0 0 1px rgb(255 255 255 / 0.07);
+    --shadow-card: 0 4px 18px rgb(0 0 0 / 0.3);
+  }
+  :root[data-theme="light"] {
+    --ink: #281a39;
+    --paper: #fdfcf7;
+    --card: #ffffff;
+    --text: color-mix(in oklab, #281a39, transparent 12%);
+    --text-body: color-mix(in oklab, #281a39, transparent 28%);
+    --text-muted: color-mix(in oklab, #281a39, transparent 48%);
+    --hairline: color-mix(in oklab, #281a39, transparent 86%);
+    --hairline-soft: color-mix(in oklab, #281a39, transparent 92%);
+    --pink: #E63A7B;
+    --pink-deep: #D42E6F;
+    --blue: #1d67cd;
+    --st-done: #2E8B3F;
+    --st-busy: #DA6A1E;
+    --st-missing: #D42E6F;
+    --st-nvt: #a3a3a3;
+    --st-done-bg: color-mix(in oklab, #2E8B3F, var(--paper) 88%);
+    --header-ink: #281a39;
+    --header-text: #fdf9ee;
+    --shadow-hard: 0 0.2rem 0 0 color-mix(in oklab, #281a39, transparent 82%),
+      inset 0 0 0 1px color-mix(in oklab, #281a39, transparent 90%);
+    --shadow-card: 0 4px 18px rgb(40 26 57 / 0.07);
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--text-body);
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px 80px; }
+  h1, h2, h3 {
+    font-family: 'Caprasimo', 'Arial Rounded MT Bold', ui-rounded, 'Nunito Sans', system-ui, sans-serif;
+    color: var(--text);
+    line-height: 1.15;
+    text-wrap: balance;
+    font-weight: 700;
+  }
+  p { margin: 0 0 0.9em; max-width: 68ch; }
+  a { color: var(--blue); }
+
+  /* ---------- header ---------- */
+  header.hero {
+    background: var(--header-ink);
+    color: var(--header-text);
+    padding: 52px 24px 56px;
+  }
+  .hero-inner { max-width: 1060px; margin: 0 auto; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: color-mix(in oklab, #f5f0e6, transparent 30%);
+    margin: 0 0 14px;
+  }
+  .eyebrow .dot { color: #f9d924; }
+  header.hero h1 {
+    color: #fdf9ee;
+    font-size: clamp(30px, 5vw, 46px);
+    margin: 0 0 16px;
+    max-width: 21ch;
+  }
+  header.hero h1 mark {
+    background: linear-gradient(transparent 58%, #f9d924 58%, #f9d924 96%, transparent 96%);
+    color: inherit;
+    padding: 0 2px;
+  }
+  header.hero .lede {
+    max-width: 62ch;
+    font-size: 17.5px;
+    color: color-mix(in oklab, #f5f0e6, transparent 16%);
+    margin: 0;
+  }
+
+  /* ---------- stat tiles ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin: -34px 0 0;
+    position: relative;
+  }
+  .stat {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--hairline-soft);
+    padding: 16px 18px 14px;
+  }
+  .stat .num {
+    font-family: 'Caprasimo', 'Arial Rounded MT Bold', ui-rounded, system-ui, sans-serif;
+    font-size: 30px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .stat .num small { font-size: 17px; color: var(--text-muted); font-family: inherit; }
+  .stat .lbl { font-size: 12.5px; color: var(--text-muted); margin-top: 6px; line-height: 1.35; }
+  .stat.flag .num { color: var(--pink-deep); }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 56px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .sec-head h2 { font-size: clamp(22px, 3vw, 28px); margin: 0; }
+  .sec-kicker {
+    font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800;
+    color: var(--pink-deep); margin: 0 0 6px;
+  }
+  .sec-note { color: var(--text-muted); font-size: 14.5px; margin: 4px 0 22px; max-width: 72ch; }
+
+  /* ---------- stage bars ---------- */
+  .chart-card {
+    background: var(--card); border: 1px solid var(--hairline-soft); border-radius: 16px;
+    box-shadow: var(--shadow-card); padding: 22px 24px 18px; overflow-x: auto;
+  }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 11px; height: 11px; border-radius: 3.5px; display: inline-block; }
+  .bar-row { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 14px; margin-bottom: 10px; min-width: 460px; }
+  .bar-row:last-of-type { margin-bottom: 4px; }
+  .bar-label { font-size: 13.5px; font-weight: 700; color: var(--text); text-align: right; }
+  .bar-label small { display: block; font-weight: 400; color: var(--text-muted); font-size: 11.5px; }
+  .bar { display: flex; gap: 2px; height: 30px; }
+  .seg {
+    border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums;
+    min-width: 8px; transition: filter .12s ease;
+  }
+  .seg:hover { filter: brightness(1.12); }
+  .seg.done { background: var(--st-done); }
+  .seg.busy { background: var(--st-busy); }
+  .seg.missing { background: var(--st-missing); }
+  .seg.nvt { background: var(--st-nvt); }
+  .chart-foot { font-size: 12.5px; color: var(--text-muted); margin-top: 14px; }
+  details.tbl { margin-top: 10px; font-size: 13px; }
+  details.tbl summary { cursor: pointer; color: var(--text-muted); }
+  details.tbl table { border-collapse: collapse; margin-top: 10px; }
+  details.tbl th, details.tbl td { border: 1px solid var(--hairline); padding: 5px 12px; text-align: right; font-variant-numeric: tabular-nums; }
+  details.tbl th:first-child, details.tbl td:first-child { text-align: left; }
+
+  /* ---------- two-column state ---------- */
+  .state-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 18px; }
+  .state-col { background: var(--card); border: 1px solid var(--hairline-soft); border-radius: 16px; box-shadow: var(--shadow-card); padding: 20px 22px; }
+  .state-col h3 { font-size: 16px; margin: 0 0 12px; display: flex; align-items: center; gap: 9px; }
+  .state-col h3 .pip { width: 12px; height: 12px; border-radius: 4px; flex: none; }
+  .state-col ul { margin: 0; padding: 0 0 0 2px; list-style: none; font-size: 14.5px; }
+  .state-col li { padding: 6px 0 6px 20px; position: relative; border-top: 1px solid var(--hairline-soft); }
+  .state-col li:first-child { border-top: 0; }
+  .state-col li::before { content: ''; position: absolute; left: 2px; top: 13px; width: 7px; height: 7px; border-radius: 50%; }
+  .state-col.good li::before { background: var(--st-done); }
+  .state-col.gap li::before { background: var(--st-missing); }
+  .state-col li strong { color: var(--text); }
+
+  /* ---------- initiative lanes ---------- */
+  .lane { margin-top: 46px; }
+  .lane-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .lane-head h3 { font-size: 21px; margin: 0; }
+  .lane-chip {
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+    border-radius: 9999px; padding: 4px 12px; white-space: nowrap;
+  }
+  .lane-chip.blocker { background: var(--st-missing); color: #fff; }
+  .lane-chip.reveal { background: var(--yellow); color: #281a39; }
+  .lane-chip.people { background: var(--blue); color: #fff; }
+  .lane-chip.later { background: var(--st-nvt); color: #fff; }
+  .lane-sub { font-size: 14px; color: var(--text-muted); margin: 2px 0 18px; max-width: 74ch; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--hairline-soft); border-radius: 16px;
+    box-shadow: var(--shadow-card); padding: 18px 20px 16px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .card h4 { margin: 0; font-size: 16px; color: var(--text); font-weight: 800; line-height: 1.3; }
+  .card p { font-size: 14px; margin: 0; color: var(--text-body); }
+  .card .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 10px; }
+  .impact { display: inline-flex; gap: 4px; align-items: center; margin-right: 2px; }
+  .impact i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--pink); display: inline-block; }
+  .impact i.on { background: var(--pink); }
+  .chip {
+    font-size: 11.5px; font-weight: 800; border-radius: 9999px; padding: 3px 11px;
+    border: 1px solid var(--hairline); color: var(--text-muted); background: transparent; white-space: nowrap;
+  }
+  .chip.effort { box-shadow: var(--shadow-hard); border: 0; color: var(--text); background: var(--paper); }
+  .chip.owner-nico { border-color: color-mix(in oklab, var(--blue), transparent 50%); color: var(--blue); }
+  .chip.owner-fred { border-color: color-mix(in oklab, var(--pink), transparent 50%); color: var(--pink-deep); }
+  .chip.owner-client { background: var(--yellow-soft); border-color: transparent; color: #7a5d00; }
+  :root[data-theme="dark"] .chip.owner-client { background: color-mix(in oklab, #f9d924, transparent 82%); color: #f3d95a; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .chip.owner-client { background: color-mix(in oklab, #f9d924, transparent 82%); color: #f3d95a; }
+  }
+  .card.hot { border: 1.5px solid color-mix(in oklab, var(--pink), transparent 55%); }
+
+  /* ---------- five things ---------- */
+  .five {
+    background: var(--st-done-bg); border-radius: 20px; padding: 26px 28px 20px;
+    border: 1px solid color-mix(in oklab, var(--st-done), transparent 75%);
+  }
+  .five h2 { margin: 0 0 6px; font-size: 22px; }
+  .five ol { margin: 12px 0 4px; padding-left: 0; list-style: none; counter-reset: five; }
+  .five li {
+    counter-increment: five; position: relative; padding: 9px 0 9px 44px; font-size: 15px;
+    border-top: 1px solid color-mix(in oklab, var(--st-done), transparent 82%);
+  }
+  .five li:first-child { border-top: 0; }
+  .five li::before {
+    content: counter(five); position: absolute; left: 0; top: 8px;
+    width: 28px; height: 28px; border-radius: 50%; background: var(--st-done); color: #fff;
+    font-family: 'Caprasimo', 'Arial Rounded MT Bold', ui-rounded, system-ui, sans-serif;
+    font-size: 14px; display: flex; align-items: center; justify-content: center;
+  }
+  .five li strong { color: var(--text); }
+
+  footer { margin-top: 56px; font-size: 12.5px; color: var(--text-muted); border-top: 1px solid var(--hairline); padding-top: 18px; max-width: none; }
+  footer p { max-width: none; }
+
+  @media (max-width: 560px) {
+    .bar-row { grid-template-columns: 84px 1fr; }
+    header.hero { padding: 40px 20px 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .seg { transition: none; }
+  }
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Kidical Mass België <span class="dot">●</span> NL site <span class="dot">●</span> 4 juli 2026</p>
+    <h1>The pages are landing. The <mark>launch runway</mark> is what's left.</h1>
+    <p class="lede">Where the rebuild stands today, and a weighed board of everything that typically happens between "the design is done" and "the client saw it live on kidicalmass.be". Weights: impact dots (how much it moves launch), effort S/M/L, and who holds the pen.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="stats" role="list" aria-label="Key numbers">
+    <div class="stat" role="listitem"><div class="num">23</div><div class="lbl">pages in the registry (P-22 cut this week)</div></div>
+    <div class="stat" role="listitem"><div class="num">10<small>/23</small></div><div class="lbl">Wire + UI green, Frederik-approved</div></div>
+    <div class="stat" role="listitem"><div class="num">8<small>/23</small></div><div class="lbl">backends live &amp; verified (auth, finder, news, press, stats…)</div></div>
+    <div class="stat flag" role="listitem"><div class="num">2.3<small>/5</small></div><div class="lbl">avg. content confidence: client material is the long pole</div></div>
+    <div class="stat flag" role="listitem"><div class="num">0<small>/22</small></div><div class="lbl">client sign-offs (OK column): the reveal starts this clock</div></div>
+  </div>
+
+  <section aria-labelledby="state-h">
+    <p class="sec-kicker">State of play</p>
+    <div class="sec-head"><h2 id="state-h">Design is ~90% there; what separates you from launch is plumbing, paperwork and people</h2></div>
+    <p class="sec-note">Stage progress across all 23 registry pages. The shape tells the story: the front of the pipeline (design, surface) is nearly done, the back of the pipeline (backends, sign-off) is where the runway is. Hover a segment for detail.</p>
+
+    <div class="chart-card">
+      <div class="legend" aria-hidden="true">
+        <span><i class="swatch" style="background:var(--st-done)"></i> done / approved</span>
+        <span><i class="swatch" style="background:var(--st-busy)"></i> in progress</span>
+        <span><i class="swatch" style="background:var(--st-missing)"></i> not started</span>
+        <span><i class="swatch" style="background:var(--st-nvt)"></i> n.v.t. / shape open</span>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-label">Wire<small>structure renders</small></div>
+        <div class="bar" role="img" aria-label="Wire: 10 done, 8 in progress, 4 not started, 1 not applicable">
+          <div class="seg done" style="flex-grow:10" title="10 pages wire-approved by Frederik">10</div>
+          <div class="seg busy" style="flex-grow:8" title="8 built, awaiting Frederik's critique (About section + roze-hub)">8</div>
+          <div class="seg missing" style="flex-grow:4" title="4 stubs: Contact, Privacy, Login view, My activities">4</div>
+          <div class="seg nvt" style="flex-grow:1" title="Admin panel: exempt from the public pipeline">1</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">UI<small>brand surface</small></div>
+        <div class="bar" role="img" aria-label="UI: 9 done, 9 in progress, 4 not started, 1 not applicable">
+          <div class="seg done" style="flex-grow:9" title="9 pages surface-approved">9</div>
+          <div class="seg busy" style="flex-grow:9" title="9 in progress: Steun surface port + About critique pass">9</div>
+          <div class="seg missing" style="flex-grow:4" title="4 stubs: Contact, Privacy, Login view, My activities">4</div>
+          <div class="seg nvt" style="flex-grow:1" title="Admin panel: exempt">1</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Back<small>data &amp; CMS</small></div>
+        <div class="bar" role="img" aria-label="Backend: 8 live, 7 partly faux, 1 fully missing, 7 not applicable or shape open">
+          <div class="seg done" style="flex-grow:8" title="8 live &amp; verified: auth, chapters finder, mission stats, vision quotes, organisation, news, press, admin">8</div>
+          <div class="seg busy" style="flex-grow:7" title="7 partly faux: home, events, event detail, chapter page, partners, roze-hub, start-een-groep">7</div>
+          <div class="seg missing" style="flex-grow:1" title="1 fully missing: newsletter signup (no model, no POST handler)">1</div>
+          <div class="seg nvt" style="flex-grow:7" title="7 n.v.t. (links out / static) or shape still open (Contact, Privacy, My activities)">7</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Client OK<small>sign-off</small></div>
+        <div class="bar" role="img" aria-label="Client sign-off: 0 done, 22 not started, 1 not applicable">
+          <div class="seg missing" style="flex-grow:22" title="No page has client sign-off yet; the reveal is the moment this column starts moving">22</div>
+          <div class="seg nvt" style="flex-grow:1" title="Admin panel: exempt">1</div>
+        </div>
+      </div>
+
+      <p class="chart-foot">Source: page registry (<code>docs/wiki/design/30-skeleton/00-page-registry.md</code>), tallied 2026-07-04. ❓ (shape open) counted with n.v.t.</p>
+      <details class="tbl">
+        <summary>View as table</summary>
+        <table>
+          <thead><tr><th scope="col">Stage</th><th scope="col">Done</th><th scope="col">In progress</th><th scope="col">Not started</th><th scope="col">N.v.t. / open</th></tr></thead>
+          <tbody>
+            <tr><td>Wire</td><td>10</td><td>8</td><td>4</td><td>1</td></tr>
+            <tr><td>UI</td><td>9</td><td>9</td><td>4</td><td>1</td></tr>
+            <tr><td>Back</td><td>8</td><td>7</td><td>1</td><td>7</td></tr>
+            <tr><td>Client OK</td><td>0</td><td>0</td><td>22</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </div>
+
+    <div class="state-cols">
+      <div class="state-col good">
+        <h3><span class="pip" style="background:var(--st-done)"></span>Already banked (don't redo these)</h3>
+        <ul>
+          <li><strong>SEO &amp; social share baseline</strong> shipped 07-03: titles, NL descriptions, canonical, OG/Twitter cards, favicons, webmanifest (D-10 → Partly).</li>
+          <li><strong>Branded error pages</strong> (404/403/419/500/503) with tests; dead Wix links at least fail gracefully.</li>
+          <li><strong>110 test files + CI</strong> (Pest + Pint on GitHub Actions) and a cross-cutting mobile pass (20 pages, zero overflow).</li>
+          <li><strong>Admin with role scoping</strong> live &amp; tested; duo + chapter-lead access model works.</li>
+          <li><strong>Real data on real pages:</strong> chapters finder (27 pins), press archive (23 entries), about-stats, quotes/team CMS, partner strip.</li>
+          <li><strong>Redirect map designed</strong> (D-7 closed) and a demo runbook (<code>demo-journeys.md</code>) that already audits real vs faux.</li>
+        </ul>
+      </div>
+      <div class="state-col gap">
+        <h3><span class="pip" style="background:var(--st-missing)"></span>Open flanks (nothing exists yet)</h3>
+        <ul>
+          <li><strong>No Wix redirects built.</strong> The map exists on paper; <code>routes/web.php</code> only has internal 301s. Old links, including every Facebook <code>/agenda</code> link, hit a 404 today.</li>
+          <li><strong>Newsletter is a stage prop.</strong> Signup forms live on 4+ pages; no subscriber model, no double opt-in, no send path.</li>
+          <li><strong>No analytics, no error monitoring, no uptime check.</strong> Launch would be flying blind.</li>
+          <li><strong>Privacy and national Contact are stubs</strong>, while forms already collect personal data (GDPR clock is real).</li>
+          <li><strong>No hosting / DNS / cutover plan anywhere</strong> in the wiki; queue worker, mail deliverability and backups undecided.</li>
+          <li><strong>FR locale unbuilt</strong> despite the v1 "NL + FR routed" strategy promise; middleware and <code>lang/fr</code> don't exist.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="board-h">
+    <p class="sec-kicker">The weighed board</p>
+    <div class="sec-head"><h2 id="board-h">22 initiatives, four lanes, weighed</h2></div>
+    <p class="sec-note">Lanes are ordered by when they bite. Impact dots = how much the item moves launch or protects it (●●● = launch fails or embarrasses without it). Effort is calendar-honest: S = a session, M = a thread or two, L = a real project. Pink-bordered cards are the ones I'd argue can't slip.</p>
+
+    <div class="lane">
+      <div class="lane-head"><h3>Can't cut over without</h3><span class="lane-chip blocker">Launch blockers</span></div>
+      <p class="lane-sub">The site can be revealed without these, but it cannot replace kidicalmass.be without them. All five are known, scoped, and mostly Nico-shaped.</p>
+      <div class="cards">
+        <div class="card hot">
+          <h4>Build the Wix redirect map</h4>
+          <p>The design side is done (<code>26-redirect-map.md</code>). Still to build: the routes themselves, the locale middleware the map assumes, slugs for the Grande KM redirects, and a post-launch crawl. <code>/agenda</code> → <code>/events</code> carries every old Facebook link.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">M</span><span class="chip owner-nico">Nico</span></div>
+        </div>
+        <div class="card hot">
+          <h4>Wire the newsletter backend</h4>
+          <p>Subscriber model + double opt-in + the glue mailable. The hard parts already exist and are tested (per-group change computation, themed mail template); what's missing is the join. Until then, four live-looking forms silently drop email addresses.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">M</span><span class="chip owner-nico">Nico</span></div>
+        </div>
+        <div class="card hot">
+          <h4>Privacy page (P-06)</h4>
+          <p>A stub today, but GDPR-mandatory: the site already collects names, emails and chapter choices via the enquiry and opt-in forms. Needs legal text more than design; a cookieless analytics choice (see below) keeps it banner-free.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">S–M</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+        <div class="card">
+          <h4>National contact page (P-05)</h4>
+          <p>The press/partnership front door has a route and nothing else, and Press/Partners pages point at it. The contact backend (form → duo inbox) already works, so this is a UX + copy job, not a build job.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">M</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+        <div class="card hot">
+          <h4>Hosting, deploy &amp; cutover plan</h4>
+          <p>The wiki's one true blank page. Production env, DNS switch, queue worker (opt-in mails need one), <code>media-library:regenerate</code> on prod, SPF/DKIM so form mail lands, backups, and the open migration question: parallel-run Wix or hard switch?</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">M</span><span class="chip owner-nico">Nico</span><span class="chip owner-fred">+ Frederik</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lane-head"><h3>Make the reveal land</h3><span class="lane-chip reveal">Before the demo</span></div>
+      <p class="lane-sub">Cheap relative to their first-impression value. This is the lane the SEO/social-share pass came from; these are its siblings.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>About critique pass</h4>
+          <p>Seven built pages (P-14 t/m P-20) wait on your own critique to go Wire/UI green. It's the largest block of orange on the board and the section a client reads first.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">M</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+        <div class="card">
+          <h4>Finish the SEO tail (D-10)</h4>
+          <p>Head baseline is live; still open: a designed <code>og-default</code> share card (current default may not even exist as a file), <code>sitemap.xml</code> + robots reference, JSON-LD for events. hreflang waits on FR, park it there.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-fred">Frederik</span><span class="chip owner-nico">+ Nico</span></div>
+        </div>
+        <div class="card">
+          <h4>Analytics, cookieless</h4>
+          <p>Nothing is measured today. Plausible or Fathom needs no consent banner, keeps the privacy page simple, and means the client gets launch-week numbers instead of anecdotes.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-nico">Nico</span></div>
+        </div>
+        <div class="card">
+          <h4>Accessibility pass</h4>
+          <p>No skip link, no main landmark id, ARIA is thin. For a movement about inclusion this is brand-adjacent, not a checkbox. One focused audit before content freezes.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+        <div class="card">
+          <h4>Performance pass</h4>
+          <p>Uploaded media is already responsive; static photography isn't: several 300–700&nbsp;KB images ship raw from <code>public/img</code>. Compress, resize, one Lighthouse round, done.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+        <div class="card">
+          <h4>Clear the board strays</h4>
+          <p>Steun surface port (UI 🟠) and a branded login view (backend done, view is a stub). Small, visible, and they make the registry read "finished" instead of "almost".</p>
+          <div class="meta"><span class="impact" aria-label="Impact 1 of 3"><i class="on"></i><i></i><i></i></span><span class="chip effort">S</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lane-head"><h3>People &amp; content</h3><span class="lane-chip people">The human runway</span></div>
+      <p class="lane-sub">The registry's weakest number is content confidence (2.3/5), and none of it is code. This lane runs on other people's calendars, so it starts earliest even though it finishes last.</p>
+      <div class="cards">
+        <div class="card hot">
+          <h4>The Leticia decision batch</h4>
+          <p>Six blockers, one structured session: mission + one-liner sign-off (S-1/S-2), trekker consent (flagged BLOKKEREND), one-off support + IBAN, the national partner pass, enquiry ownership (D-12), press dates. Highest impact-per-hour item on this page.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">S</span><span class="chip owner-client">Leticia</span><span class="chip owner-fred">+ Frederik</span></div>
+        </div>
+        <div class="card">
+          <h4>Content confidence push</h4>
+          <p>Duo photos + bios, ~6 uncleared partner logos, per-event photos and Komoot embeds, the hero MP4, two quote translations. The chase list already exists per page in the registry's Top gaps; turn it into one client-facing checklist.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">M–L</span><span class="chip owner-client">Client</span><span class="chip owner-fred">+ Frederik</span></div>
+        </div>
+        <div class="card hot">
+          <h4>Chapter-lead onboarding</h4>
+          <p>The migration plan's own words: the biggest transition risk. ~13 Brussels chapter pages launch near-empty; leads need an authoring guide, a session, and a decided moment to stop editing Wix. This is a launch feature, not documentation.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">M</span><span class="chip owner-fred">Frederik</span><span class="chip owner-client">+ leads</span></div>
+        </div>
+        <div class="card">
+          <h4>Admin handoff for the duo</h4>
+          <p>News, press, partners, quotes, team, year stats are all admin-editable now; nobody but you two knows that. Short screencasts beat a manual, and they double as reveal material ("you can change this yourselves").</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S–M</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+        <div class="card">
+          <h4>Ops safety net</h4>
+          <p>Error monitoring (Flare fits the Laravel stack), an uptime ping, and a verified backup before real users arrive. An hour of setup that decides whether the first production bug is an email or a rumour.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-nico">Nico</span></div>
+        </div>
+        <div class="card">
+          <h4>Reveal runbook</h4>
+          <p>Adapt <code>demo-journeys.md</code> from the volunteer demo into a client-reveal script: which journeys to walk, what's real vs faux (say it before they find it), and how feedback gets captured into the OK column instead of a WhatsApp thread.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-fred">Frederik</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lane-head"><h3>After the reveal</h3><span class="lane-chip later">Post-launch / v1.x</span></div>
+      <p class="lane-sub">Real work, wrong week. Naming it now protects the launch from scope creep; the FR call is the one that needs an honest conversation rather than a default.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>FR locale: decide, then build</h4>
+          <p>Strategy promises NL + FR routed in v1; nothing FR exists (middleware, <code>lang/fr</code>, per-page copy, hreflang). Either it blocks the cutover or it's an announced fast-follow. Deciding beats drifting: it also unblocks the redirect middleware and hreflang.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">L</span><span class="chip owner-fred">Frederik</span><span class="chip owner-nico">+ Nico</span></div>
+        </div>
+        <div class="card">
+          <h4>The #37 backend bundle</h4>
+          <p>Per-chapter enquiry routing (waits on the D-12 ownership call), roze-hub real features (gallery upload, change feed, materials), per-group intro/cover fields. Volunteers-facing, not visitor-facing, so it can trail the public launch.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">L</span><span class="chip owner-nico">Nico</span></div>
+        </div>
+        <div class="card">
+          <h4>Post-launch SEO ops</h4>
+          <p>Search Console + sitemap submission, crawl the redirect-critical set (301 → 200), watch the 404 log for unmapped Wix paths for a month, run the media regenerate. The redirect map explicitly asks for this verification pass.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-nico">Nico</span></div>
+        </div>
+        <div class="card">
+          <h4>My activities + volunteer growth path</h4>
+          <p>P-08 is still a provisional spec, and D-1's remainder (the three-layer material library) needs specing. Clean v1.1 scope: the volunteer loop, deepened.</p>
+          <div class="meta"><span class="impact" aria-label="Impact 1 of 3"><i class="on"></i><i></i><i></i></span><span class="chip effort">M–L</span><span class="chip owner-fred">Both</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="five-h">
+    <div class="five">
+      <h2 id="five-h">If only five things happen this month</h2>
+      <p style="font-size:14.5px; color:var(--text-muted); margin:0;">Ranked by launch-risk removed per unit of effort.</p>
+      <ol>
+        <li><strong>Book the Leticia session</strong> — six sign-offs in one afternoon; everything content-shaped queues behind it.</li>
+        <li><strong>Newsletter backend + redirect routes</strong> — the two Nico builds that turn stage props into a real site.</li>
+        <li><strong>Write the cutover plan</strong> — one wiki page: hosting, DNS, queue, mail, backups, Wix parallel-run yes/no.</li>
+        <li><strong>Privacy + Contact pages</strong> — the last two stubs a visitor can actually hit.</li>
+        <li><strong>Make the FR call explicit</strong> — launch-blocking or announced fast-follow, but decided and written down.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <p>Compiled 2026-07-04 from the page registry (<code>00-page-registry.md</code>), concerns registers (S-1/S-2 · D-1/D-10/D-11/D-12), the content-migration plan (<code>25-content-migration.md</code>), redirect map (<code>26-redirect-map.md</code>), <code>demo-journeys.md</code>, <code>log.md</code>, and a codebase audit (routes, head partial, forms, lang/, public/, CI). Status colors validated for contrast and color-vision safety in both themes.</p>
+  </footer>
+</div>

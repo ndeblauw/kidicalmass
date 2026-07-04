@@ -59,3 +59,4 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 |------|---------|-------|
 | [Build plan & status](build/00-build-plan.md) | What's already on `main`; what the phase will need (DESIGN.md, redirect map) | build |
 | [About-section handoff](build/20-about-section-handoff.md) | Open work after the 2026-07-04 normalize pass: admin track, distill/polish leftovers, Nico backlog, client gates, thread-sized bundles | build |
+| [Launch runway](build/30-launch-runway.md) | 2026-07-04 snapshot + weighed pre-launch board: 4 lanes (blockers · reveal polish · people & content · post-launch), 22 initiatives with impact/effort/owner. Visual: [`.html`](build/30-launch-runway.html) | build |
