@@ -18,12 +18,10 @@
         :title="__('about.vision_title')"
         size="compact">
 
-    {{-- POSITIESTATEMENT — the belief at lead volume, the "niet radicaal"
-         grounding a step down (distill 2026-07-04) --}}
-    <x-intro-text size="lead">
-        <p>{{ __('about.vision_statement_1') }}</p>
-    </x-intro-text>
+    {{-- POSITIESTATEMENT — standard intro treatment (the lead variant read as
+         a bold wall; dropped 2026-07-04, Frederik) --}}
     <x-intro-text>
+        <p>{{ __('about.vision_statement_1') }}</p>
         <p>{{ __('about.vision_statement_2') }}</p>
     </x-intro-text>
 
