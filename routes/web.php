@@ -262,6 +262,9 @@ if (! app()->isProduction()) {
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
 
+    // Internal design-choices prototype — person-card + quote variants for the about admin pass.
+    Route::view('/design-choices', 'design-choices')->name('design.choices');
+
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)
         ->name('login.as');
