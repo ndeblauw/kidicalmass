@@ -123,6 +123,8 @@ it('renders Hoe we werken with the two who-does-what lists and the duo carrying 
         ->assertSee(route('getting-started'), escape: false)
         // The paid-staff claim is gone on purpose (mirrors the Steun-ons copy decision).
         ->assertDontSee('geen betaald personeel')
+        // Chain: Hoe we werken → Meehelpen (starten of vervoegen? → doe mee).
+        ->assertSee(route('volunteer'), escape: false)
         ->assertSee(__('about.organisation_closing_heading'));
 });
 

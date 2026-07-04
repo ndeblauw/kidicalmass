@@ -28,7 +28,7 @@ return [
     'mission_axis2_body' => 'Lokale groepen krijgen vorming, materiaal en nationale zichtbaarheid, zodat zij zich kunnen richten op wat telt: mensen samenbrengen.',
     'mission_axis3_title' => 'We pleiten voor kindvriendelijke straten',
     'mission_axis3_body' => 'Vrolijke parades zijn een begin, geen eindpunt. Samen met steden en regio\'s werken we aan veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen.',
-    'mission_closing_heading' => 'Feest op wielen, met een duidelijke vraag',
+    'mission_closing_heading' => 'Wat willen we veranderen?',
     'mission_closing_label' => 'Lees wat we vragen',
 
     // Wat we vragen (P-16). Structure: tightened statement, 4 demands with
@@ -60,7 +60,7 @@ return [
     // Hoe we werken (P-17). Structure: two-paragraph intro (lokaal-eerst +
     // no-HQ; the national/local detail lives in the lists, distill 2026-07-04),
     // two titled lists (nationaal | lokaal), the duo (safety folded into their
-    // text), closing to getting-started. No bespoke components (variant A).
+    // text), closing to Meehelpen. No bespoke components (variant A).
     'organisation_title' => 'Buren die de straat op trekken',
     'organisation_intro_1' => 'Kidical Mass Belgium is zo opgebouwd dat het overal echt lokaal blijft. Geen nationale campagne met lokale filialen, maar een netwerk van groepen die elk hun eigen buurt kennen.',
     'organisation_intro_2' => 'Er is geen hoofdkantoor: Kidical Mass draait op vrijwilligers, gedragen door mensen zoals jij.',
@@ -84,7 +84,7 @@ return [
     'organisation_duo_body_2' => 'Alle afdelingen werken daarvoor met dezelfde veiligheidsafspraken en routerichtlijnen: elke route loopt langs parken, speelpleinen en veilige infrastructuur, en waar nodig stemmen organisatoren de route vooraf af met de lokale politie.',
     'organisation_duo_link' => 'Hoe een rit praktisch verloopt: Voor het eerst mee →',
     'organisation_closing_heading' => 'Een afdeling starten of vervoegen?',
-    'organisation_closing_label' => 'Zo begin je',
+    'organisation_closing_label' => 'Zo doe je mee',
 
     // Nieuws (P-18). The feed itself is admin content (Article); only the
     // page chrome lives here. The empty body carries :instagram/:facebook
