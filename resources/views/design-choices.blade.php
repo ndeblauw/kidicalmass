@@ -15,16 +15,16 @@
             'nr' => 'D1', 'slug' => 'person-card', 'title' => 'Persoonskaart: portret-stack of horizontale rij?',
             'context' => 'Het coördinatieduo krijgt straks een foto en een korte bio. Twee lay-outrichtingen, elk met de disc-fallback voor wie (nog) geen foto aanlevert.',
             'options' => [
-                'A' => 'Portrait stack — foto/disc boven, tekst eronder (huidige richting)',
-                'B' => 'Horizontal row — foto/disc links, naam/rol/bio rechts',
+                'A' => 'Portrait stack: foto/disc boven, tekst eronder (huidige richting)',
+                'B' => 'Horizontal row: foto/disc links, naam/rol/bio rechts',
             ],
         ],
         'd2' => [
             'nr' => 'D2', 'slug' => 'quote', 'title' => 'Pull-quote: groot en gecentreerd, of rustige kolom?',
             'context' => 'De missie-quote van Julienne staat vandaag als grote gecentreerde uitspraak (--large). Een alternatief: een stillere kolombehandeling met een randlijn, dichter bij het verhaal.',
             'options' => [
-                'A' => 'Baseline — groot, gecentreerd, huidige --large',
-                'B' => 'Rustige kolom — links uitgelijnd met randlijn, --column',
+                'A' => 'Baseline: groot, gecentreerd, huidige --large',
+                'B' => 'Rustige kolom: links uitgelijnd met randlijn, --column',
             ],
         ],
     ];
@@ -37,20 +37,12 @@
     ]);
 @endphp
 
-<x-layouts::site title="Design-keuzes — about admin pass">
+<x-layouts::site title="Design-keuzes: about admin pass">
 
     {{-- Internal non-prod prototype: bespoke demo CSS only, per Task 1 brief.
          Deliberately NOT part of the site's CSS architecture; this page
          never ships to production. --}}
     <style>
-        /* Full-bleed bands (100vw trick) must stay inside their demo frame. */
-        .dc-frame .about-band {
-            width: 100%;
-            margin-left: 0;
-            margin-block: 0;
-            padding-block: 2.5rem;
-        }
-
         /* D1 — initial-letter disc fallback for the person-card. */
         .person-card__disc {
             display: grid;
@@ -135,7 +127,7 @@
                 },
                 pickLabel(id) {
                     const d = this.decisions[id];
-                    return `${d.nr} ${d.slug}: ${this.choices[id]} — ${d.options[this.choices[id]]}`;
+                    return `${d.nr} ${d.slug}: ${this.choices[id]}: ${d.options[this.choices[id]]}`;
                 },
                 summary() {
                     const lines = ['About admin pass · design-keuzes'];
