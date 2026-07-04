@@ -94,6 +94,12 @@ return [
             'link' => 'admin/teammembers',
             'icon' => 'fa-people-group',
         ],
+        [
+            'title' => 'Citaten',
+            'color' => 'violet',
+            'link' => 'admin/quotes',
+            'icon' => 'fa-quote-left',
+        ],
     ],
 
     'details_for' => 'Details for',
