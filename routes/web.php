@@ -29,6 +29,7 @@ use App\Mail\VolunteerInvite;
 use App\Models\Group;
 use App\Models\Partner;
 use App\Models\PressArticle;
+use App\Models\TeamMember;
 use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
 use App\Support\SupportStats;
@@ -87,7 +88,9 @@ Route::prefix('{locale}')
         Route::view('about', 'about.index')->name('about');
         Route::view('about/mission', 'about.mission')->name('about.mission');
         Route::view('about/vision', 'about.vision')->name('about.vision');
-        Route::view('about/organisation', 'about.organisation')->name('about.organisation');
+        Route::get('about/organisation', fn () => view('about.organisation', [
+            'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->get(),
+        ]))->name('about.organisation');
         Route::get('about/news', [ArticleController::class, 'index'])->name('articles.index');
         Route::get('about/news/{article}', [ArticleController::class, 'show'])->name('articles.show');
         Route::get('about/press', function () {

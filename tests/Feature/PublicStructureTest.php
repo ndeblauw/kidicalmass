@@ -3,6 +3,7 @@
 use App\Models\Activity;
 use App\Models\Group;
 use App\Models\PressArticle;
+use App\Models\TeamMember;
 
 use function Pest\Laravel\get;
 
@@ -94,14 +95,23 @@ it('renders Hoe we werken with the two who-does-what lists and the duo carrying 
         ->assertSee(__('about.organisation_who_title'))
         ->assertSee(__('about.organisation_national_title'))
         ->assertSee(__('about.organisation_local_title'))
-        ->assertSee('Leticia')
-        ->assertSee('Cecilia')
         // Safety folded into the duo's text, not a separate section.
         ->assertSee(__('about.organisation_duo_title'))
         ->assertSee(route('getting-started'), escape: false)
         // The paid-staff claim is gone on purpose (mirrors the Steun-ons copy decision).
         ->assertDontSee('geen betaald personeel')
         ->assertSee(__('about.organisation_closing_heading'));
+});
+
+it('renders the coordination duo from the database, hiding invisible members', function () {
+    TeamMember::factory()->create(['name' => 'Zichtbaar Teamlid', 'bio_nl' => 'Fietst elke week met de kinderen.', 'visible' => true]);
+    TeamMember::factory()->create(['name' => 'Verborgen Teamlid', 'visible' => false]);
+
+    get('/nl/about/organisation')
+        ->assertOk()
+        ->assertSee('Zichtbaar Teamlid')
+        ->assertSee('Fietst elke week met de kinderen.')
+        ->assertDontSee('Verborgen Teamlid');
 });
 
 it('renders the Partners leaf with the logo wall and enquiry contact', function () {

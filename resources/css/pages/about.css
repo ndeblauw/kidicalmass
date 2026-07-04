@@ -45,12 +45,14 @@
 
         @media (min-width: 768px) { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
+    /* person-card is the row variant (photo/disc left, text right), so the
+       duo list stacks the two cards vertically rather than side by side. */
     .about-duo {
         list-style: none;
         padding: 0;
         margin: 1rem 0 0;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 1rem;
     }
     /* Hub browse grid — 4 nav cards, 2x2 from the sm edge. */

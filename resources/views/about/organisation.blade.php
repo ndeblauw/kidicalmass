@@ -43,11 +43,19 @@
         <x-section-heading>{{ __('about.organisation_duo_title') }}</x-section-heading>
         <p>{{ __('about.organisation_duo_body') }}</p>
         <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.organisation_duo_link') }}</a></p>
-        {{-- Foto's + persoonlijke bio's nog aan te leveren door het duo. --}}
-        <ul class="about-duo" role="list">
-            <li><x-person-card name="Leticia" role="Coördinatie" /></li>
-            <li><x-person-card name="Cecilia" role="Coördinatie" /></li>
-        </ul>
+        @if ($teamMembers->isNotEmpty())
+            <ul class="about-duo" role="list">
+                @foreach ($teamMembers as $member)
+                    <li>
+                        <x-person-card
+                            :name="$member->name"
+                            :role="$member->role"
+                            :bio="$member->bio_nl"
+                            :photo="$member->getFirstMediaUrl('photo', 'thumb') ?: null" />
+                    </li>
+                @endforeach
+            </ul>
+        @endif
     </section>
 
     </x-page-hero>

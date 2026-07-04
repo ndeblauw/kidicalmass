@@ -25,4 +25,39 @@
         font-weight: 600;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
+    .person-card__disc {
+        display: grid;
+        place-items: center;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background: var(--color-kidical-red);
+        color: var(--color-white);
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-size: var(--text-2xl);
+        margin-bottom: 0.5rem;
+    }
+    .person-card__bio {
+        margin: 0.5rem 0 0;
+        font-size: var(--text-sm);
+        line-height: 1.5;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
+    }
+    .person-card--row {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: 1.25rem 1.5rem;
+    }
+    .person-card--row .person-card__photo,
+    .person-card--row .person-card__disc {
+        flex-shrink: 0;
+        margin-bottom: 0;
+    }
+    .person-card__text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+    }
 }
