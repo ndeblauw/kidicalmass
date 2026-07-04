@@ -39,3 +39,14 @@ it('renders the standalone 500 and 503 pages without app asset dependencies', fu
         ->toContain('data-error-page="'.$code.'"')
         ->not->toContain('vite');
 })->with(['500', '503']);
+
+it('previews every error page on the non-production preview route', function (string $code) {
+    $response = $this->get('/preview/errors/'.$code);
+
+    $response->assertStatus((int) $code);
+    $response->assertSee('data-error-page="'.$code.'"', false);
+})->with(['404', '403', '419', '500', '503']);
+
+it('rejects unknown codes on the preview route', function () {
+    $this->get('/preview/errors/418')->assertNotFound();
+});

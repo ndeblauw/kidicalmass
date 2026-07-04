@@ -268,4 +268,11 @@ if (! app()->isProduction()) {
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)
         ->name('login.as');
+
+    // Error-page previews — 500/503 can't be reached by URL otherwise.
+    Route::get('preview/errors/{code}', function (string $code) {
+        abort_unless(in_array($code, ['404', '403', '419', '500', '503'], true), 404);
+
+        return response()->view('errors.'.$code, [], (int) $code);
+    })->name('preview.errors');
 }
