@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\ContactForm;
 use App\Models\Group;
 use App\Models\Partner;
+use App\Models\TeamMember;
 use App\Models\User;
 use App\Models\YearStat;
 use Carbon\Carbon;
@@ -41,6 +42,7 @@ class DatabaseSeeder extends Seeder
         $this->seedActivities();
         $this->seedHistoricalRides();
         $this->seedYearStats();
+        $this->seedTeamMembers();
         $this->seedArticles();
         $this->seedPartners();
         $this->seedContactForms();
@@ -185,6 +187,18 @@ class DatabaseSeeder extends Seeder
     {
         $this->task('Seeding year stats', function () {
             YearStat::updateOrCreate(['year' => 2025], ['participants' => 5500]);
+        });
+    }
+
+    /**
+     * The national coordination duo shown on "Hoe we werken". Bios and photos
+     * are pending client content, so name + role is deliberately all there is.
+     */
+    private function seedTeamMembers(): void
+    {
+        $this->task('Seeding team members', function () {
+            TeamMember::updateOrCreate(['name' => 'Leticia'], ['role' => 'Coördinatie', 'sort' => 1]);
+            TeamMember::updateOrCreate(['name' => 'Cecilia'], ['role' => 'Coördinatie', 'sort' => 2]);
         });
     }
 
