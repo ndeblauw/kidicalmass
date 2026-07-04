@@ -1,69 +1,47 @@
-/* Press archive — year-grouped PressArticle list on the Pers page.
-   Row anatomy: meta column (outlet + date) | title link | optional PDF chip.
-   Register is serious (press page), so rows stay quiet: hairline separators,
-   no cards, no tilt. */
+/* Press archive — year-grouped PressArticle list, the left column of the Pers
+   page. Distilled rows (2026-07 pers pass): the title is the link, with a
+   muted 'outlet · short date' meta line under it; whitespace separates rows,
+   no hairlines. Register stays quiet: no cards, no tilt, links underline
+   only on hover. */
 @layer components {
     .press-archive__year {
         font-size: var(--text-2xl);
         line-height: 1.2;
-        margin: 0 0 1rem;
+        margin: 0 0 1.25rem;
     }
-    .press-archive__year:not(:first-child) { margin-top: 3rem; }
+    .press-archive__year:not(:first-child) { margin-top: 3.5rem; }
     .press-archive__list {
         list-style: none;
         margin: 0;
         padding: 0;
+        display: grid;
+        gap: 1.5rem;
     }
     .press-archive__item {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.3rem 1.5rem;
-        padding-block: 0.85rem;
-        border-block-end: 1px solid var(--color-kidical-hairline);
-
-        @media (min-width: 768px) {
-            grid-template-columns: 11rem minmax(0, 1fr) auto;
-            align-items: baseline;
-        }
-    }
-    .press-archive__item:last-child { border-block-end: none; }
-    .press-archive__meta {
-        display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
-    }
-    .press-archive__outlet {
-        font-weight: 800;
-        font-size: var(--text-sm);
-        color: var(--color-kidical-ink);
-    }
-    .press-archive__date {
-        font-size: var(--text-sm);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
+        gap: 0.25rem;
     }
     .press-archive__title {
         font-weight: 700;
         line-height: 1.4;
     }
     span.press-archive__title { color: var(--color-kidical-ink); }
-    .press-archive__document {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        white-space: nowrap;
-        font-size: var(--text-sm);
-        font-weight: 700;
-        justify-self: start;
+    /* Quiet links: no gradient underline at rest, a plain one on hover so the
+       row still reads as clickable. */
+    .press-archive a {
+        background-image: none;
+        transition: none;
 
-        @media (min-width: 768px) { justify-self: end; }
+        &:hover { text-decoration: underline; text-underline-offset: 3px; }
     }
-    .press-archive__document::before {
-        content: "";
-        width: 1rem;
-        height: 1rem;
-        flex-shrink: 0;
-        background-color: currentColor;
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3C/svg%3E") center / contain no-repeat;
+    .press-archive__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 0.45rem;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
+    .press-archive__outlet { font-weight: 700; }
+    .press-archive__document { font-weight: 700; }
 }

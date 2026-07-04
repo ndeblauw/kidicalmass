@@ -263,18 +263,6 @@ if (! app()->isProduction()) {
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
 
-    // Internal design-choices prototype — Pers-pagina arrange/polish/distill pass.
-    Route::get('/design-choices-pers', function () {
-        return view('design-choices-pers', [
-            'articlesByYear' => PressArticle::query()
-                ->whereNotNull('published_at')
-                ->with('media')
-                ->orderBy('published_at', 'desc')
-                ->get()
-                ->groupBy(fn ($article) => $article->published_at->year),
-        ]);
-    })->name('design.choices.pers');
-
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)
         ->name('login.as');

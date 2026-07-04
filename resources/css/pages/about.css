@@ -95,15 +95,6 @@
        other card in the section sits upright by decision (normalize pass). */
     [data-stats-source='about-stats'] > .stat-card:nth-child(odd) { transform: rotate(-1deg); }
     [data-stats-source='about-stats'] > .stat-card:nth-child(even) { transform: rotate(1deg); }
-    /* Press contact grid — pitch column + perscontact card. */
-    .press-contact {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        align-items: start;
-
-        @media (min-width: 768px) { grid-template-columns: 1.6fr 1fr; gap: 3rem; }
-    }
     @media (max-width: 767px) {
         /* Tighten section rhythm — 48px margins feel cavernous at 390px. */
         .about-section {

@@ -95,16 +95,16 @@ return [
     'news_back' => 'Terug naar nieuws',
     'news_gallery' => 'Foto\'s',
 
-    // Pers (P-19). Structure: one contact section (offer folded into a sentence,
-    // background link inline) + the year-grouped archive. No outlet strip (the
-    // archive shows the outlets), no closing CTA (the page IS the contact).
+    // Pers (P-19). Structure: the year-grouped archive left, a sticky
+    // perscontact card right (its label replaces a contact heading). No outlet
+    // strip (the archive shows the outlets), no closing CTA (the page IS the
+    // contact).
     'press_title' => 'Het verhaal van de beweging.',
-    'press_contact_title' => 'Journalisten, we praten graag',
     'press_contact_body' => 'We brengen je in contact met lokale trekkers en gezinnen, delen cijfers en achtergrond bij de beweging, en regelen een fotomoment bij een volgende fietsparade.',
     'press_background_link' => 'Achtergrond en cijfers: lees wat we doen →',
     'press_contact_label' => 'Perscontact',
-    'press_contact_note' => 'We antwoorden zo snel als vrijwilligers dat kunnen.',
-    'press_overview_title' => 'Persoverzicht',
+    'press_contact_note' => 'Je hoort snel van ons.',
+    'press_overview_title' => 'In de pers',
     'press_empty_title' => 'We bouwen aan een persoverzicht',
     'press_empty_body' => 'Kidical Mass kwam de afgelopen jaren in heel wat kranten, radio en tv. We brengen die berichtgeving binnenkort samen op één plek. Schreef je over Kidical Mass en wil je dat je artikel hier verschijnt? Laat het ons weten via bike@kidicalmass.be.',
     'press_document_label' => 'Artikel',

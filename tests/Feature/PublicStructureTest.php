@@ -2,6 +2,7 @@
 
 use App\Models\Activity;
 use App\Models\Group;
+use App\Models\PressArticle;
 
 use function Pest\Laravel\get;
 
@@ -113,13 +114,20 @@ it('renders the Partners leaf with the logo wall, find-a-bike pointer and enquir
         ->assertSee(route('find-a-bike'), escape: false);
 });
 
-it('renders Pers as contact plus archive, without outlet strip or closing CTA', function () {
+it('renders Pers as archive plus perscontact card, without outlet strip or closing CTA', function () {
+    PressArticle::factory()->create();
+
     get('/nl/about/press')
         ->assertOk()
-        ->assertSee(__('about.press_contact_title'))
+        // Archive left under its own heading; the card label is the only contact heading.
+        ->assertSee(__('about.press_overview_title'))
+        ->assertSee(__('about.press_contact_label'))
         ->assertSee('bike@kidicalmass.be')
-        // Background link folded into the contact section.
+        // Background link folded into the contact column.
         ->assertSee(route('about.mission'), escape: false)
+        // The chatty contact heading and the volunteer claim are gone on purpose.
+        ->assertDontSee('Journalisten, we praten graag')
+        ->assertDontSee('zo snel als vrijwilligers')
         // The hardcoded outlet strip is gone; the archive carries the outlets.
         ->assertDontSee('Eerder verschenen in')
         // No closing CTA: the page IS the contact.
