@@ -52,7 +52,7 @@ return [
     'vision_quote_camille_attribution' => 'Camille, mama van twee kinderen, Sint-Gillis',
     'vision_manifest_label' => 'Het manifest',
     'vision_manifest_body' => 'Onze volledige visie op papier, mee ondertekend door een coalitie van Belgische verenigingen. Lees het en deel het.',
-    'vision_manifest_link' => 'Download het manifest (PDF)',
+    'vision_manifest_link' => 'Download het manifest (PDF, 1,1 MB)',
     'vision_closing_heading' => 'Wie maakt dit waar?',
     'vision_closing_label' => 'Ontdek hoe we werken',
 
