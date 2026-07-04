@@ -15,7 +15,7 @@ class QuoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slot' => ['required', 'string', 'max:255', Rule::unique('quotes', 'slot')->ignore($this->quote)],
+            'slot' => ['required', 'string', 'max:255', Rule::unique('quotes', 'slot')->ignore($this->route('quote'))],
             'quote' => ['required', 'string'],
             'attribution' => ['required', 'string', 'max:255'],
             'visible' => ['boolean'],

@@ -96,7 +96,7 @@ Route::prefix('{locale}')
             'visionQuote2' => $quotes->forSlot('vision-2'),
         ]))->name('about.vision');
         Route::get('about/organisation', fn () => view('about.organisation', [
-            'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->get(),
+            'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->with('media')->get(),
         ]))->name('about.organisation');
         Route::get('about/news', [ArticleController::class, 'index'])->name('articles.index');
         Route::get('about/news/{article}', [ArticleController::class, 'show'])->name('articles.show');
@@ -276,6 +276,9 @@ if (! app()->isProduction()) {
     // Internal styleguide — live component overview + extraction audit.
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
+
+    // Internal design-choices prototype — missie-assen als lopende tekst onder de quote.
+    Route::view('/design-choices-missie', 'design-choices-missie')->name('design.choices.missie');
 
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)

@@ -33,6 +33,7 @@ return [
     ],
     'required' => 'Vul :attribute in.',
     'string' => ':attribute moet tekst zijn.',
+    'unique' => ':Attribute is al in gebruik.',
 
     /*
     |--------------------------------------------------------------------------
