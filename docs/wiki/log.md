@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-04] build | Roze-hub delight pass — moment-aware Overview (P-09)
+
+Leticia's demo feedback ("UI could use more delight") turned into a moment-aware Overview, per [`2026-07-03-roze-hub-delight-pass-design.md`](../superpowers/specs/2026-07-03-roze-hub-delight-pass-design.md). One lead moment per visit (welcome > recap > pre-ride > default, new `App\Support\RozeHub\OverviewMoment`): greeting h1 by first name with per-moment lead line, Monday-after **recap card** (last ride's album leads for 5 days, one big photo), "nog X nachtjes slapen" **countdown** on the next-ride card (rides only), **celebrating feed card** for a new hesje (`data-celebrate`, chip-pop, weekday hello-nudge), staggered fade-up entrance. All reduced-motion guarded; tests behaviour-only (`OverviewMomentTest` + `RozeHubDelightTest`, 67/67 targeted). Backlog notes for #37: DST truncation can under-count one night on the spring switchover; a solo new member sees their own hello-nudge card (pre-existing feed selection). **Pending Frederik:** chip-pop beat timing (0.7s, reviewer suggests 0.9s fully clears the stagger) + his critique pass. **Page registry:** no stage emoji changed — UI advance offered but Wire/UI 🟢 stays gated on Frederik's critique.
+
 ## [2026-07-03] build | SEO head baseline (D-10 → Partly)
 
 Public head rebuilt as `partials/site-head.blade.php`: `{Page} · Kidical Mass België` titles, per-page NL descriptions (`lang/nl/meta.php`), canonical, OG/Twitter baseline, two-tier OG images (branded default + activity/article hero `og` conversion, 1200×630 jpg), favicons, theme-color, webmanifest. Prototype HTML moved out of `public/`. Follow-ups: designed og-default card (Frederik), `php artisan media-library:regenerate` on production after deploy, then items 10+ of the audit (sitemap, JSON-LD, slugs, Wix redirects).
