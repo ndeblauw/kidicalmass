@@ -1,9 +1,11 @@
 {{--
     Over ons / Wat we doen — /about/mission (P-15)
     Restructured 2026-07 to the Steun-ons pattern (spec: 2026-07-03-about-section-
-    content-design.md, variant A): one story column (intro + welkom + quote) with
-    the live stat deck beside it, the three axes, and a closing CTA chained to
-    Wat we vragen. Copy: lang/nl/about.php (mission_*). Structure only.
+    content-design.md, variant A): one story column (intro + welkom + quote +
+    the three axes as subtitled body text) with the live stat deck beside it,
+    and a closing CTA chained to Wat we vragen. The axes lost their sky band +
+    feature-cards 2026-07-04 (design-choices pick: variant C met subtitels).
+    Copy: lang/nl/about.php (mission_*). Structure only.
 --}}
 <x-layouts::site :title="__('nav.mission')" :description="__('meta.mission')">
 
@@ -30,6 +32,19 @@
             <x-pull-quote variant="column" :attribution="$missionQuote?->attribution ?? __('about.mission_quote_attribution')">
                 {{ $missionQuote?->quote ?? __('about.mission_quote') }}
             </x-pull-quote>
+
+            {{-- DRIE DINGEN DIE WE DOEN — the axes continue the story as
+                 subtitled body text (h3 + paragraph per axis). --}}
+            <section class="about-section">
+                <x-section-heading>{{ __('about.mission_axes_title') }}</x-section-heading>
+                <h3 class="mt-4">{{ __('about.mission_axis1_title') }}</h3>
+                <p>{{ __('about.mission_axis1_body') }}</p>
+                <h3 class="mt-4">{{ __('about.mission_axis2_title') }}</h3>
+                <p>{{ __('about.mission_axis2_body') }}</p>
+                <h3 class="mt-4">{{ __('about.mission_axis3_title') }}</h3>
+                <p>{{ __('about.mission_axis3_body') }}</p>
+                <p><a href="{{ route('about.vision') }}" class="more-link">{{ __('about.mission_axis3_link') }}</a></p>
+            </section>
         </div>
 
         <div class="grid content-start gap-4" role="list" data-stats-source="about-stats">
@@ -38,34 +53,6 @@
             @endforeach
         </div>
     </section>
-
-    {{-- DRIE DINGEN DIE WE DOEN — unchanged axes on the sky band --}}
-    <section class="about-band about-band--sky">
-        <div class="container mx-auto px-4">
-            <x-section-heading class="mb-8">{{ __('about.mission_axes_title') }}</x-section-heading>
-            <ul class="about-card-grid" role="list">
-                <li>
-                    <x-feature-card icon="rocket-launch" color="red" :title="__('about.mission_axis1_title')">
-                        {{ __('about.mission_axis1_body') }}
-                    </x-feature-card>
-                </li>
-                <li>
-                    <x-feature-card icon="lifebuoy" color="red" :title="__('about.mission_axis2_title')">
-                        {{ __('about.mission_axis2_body') }}
-                    </x-feature-card>
-                </li>
-                <li>
-                    <x-feature-card icon="megaphone" color="red" :title="__('about.mission_axis3_title')">
-                        {{ __('about.mission_axis3_body') }} <a href="{{ route('about.vision') }}">{{ __('about.mission_axis3_link') }}</a>
-                    </x-feature-card>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    @push('scripts')
-    <x-scroll-reveal selector=".about-band .about-card-grid > li" :transform="true" />
-    @endpush
 
     </x-page-hero>
 

@@ -10,8 +10,9 @@ return [
     'stat_volunteers' => 'actieve vrijwilligers',
     'stat_participants' => 'deelnemers in :year',
 
-    // Wat we doen (P-15). Structure: story column (intro + welkom + quote) with
-    // the stat deck beside it, then the three axes, then a chained closing CTA.
+    // Wat we doen (P-15). Structure: story column (intro + welkom + quote +
+    // the three axes as subtitled body text) with the stat deck beside it,
+    // then a chained closing CTA.
     'mission_title' => 'Veilige straten, voor elk kind',
     'mission_intro_1' => 'Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en groeien nog elk jaar, in Brussel, Wallonië en Vlaanderen.',
     'mission_intro_2' => 'Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen, en vaak ook voor de ouders.',
@@ -21,12 +22,12 @@ return [
     'mission_quote' => '“Wat hij zo leuk vindt aan fietsen, denk ik, is die vrijheid om buiten te zijn, lucht te hebben, er alleen op uit te trekken. Hij wil altijd ver gaan, iets nieuws ontdekken.”',
     'mission_quote_attribution' => 'Julienne, mama van twee kinderen (2 en 5 jaar)',
     'mission_axes_title' => 'Drie dingen die we doen',
-    'mission_axis1_title' => 'Gemeenschappen helpen starten',
-    'mission_axis1_body' => 'Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. We helpen nieuwe groepen een lokale fietsparade op te starten, van de eerste vergadering tot de eerste rit.',
-    'mission_axis2_title' => 'Bestaande groepen ondersteunen',
-    'mission_axis2_body' => 'Lokale groepen staan er niet alleen voor. We bieden vorming, coördinatiemiddelen, materiaal en nationale zichtbaarheid, zodat elke groep zich kan richten op wat telt: mensen samenbrengen.',
-    'mission_axis3_title' => 'Pleiten voor kindvriendelijke straten',
-    'mission_axis3_body' => 'Vrolijke fietsparades zijn een begin, geen eindpunt. We werken samen met steden en regio\'s voor veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen.',
+    'mission_axis1_title' => 'We helpen nieuwe groepen starten',
+    'mission_axis1_body' => 'Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. Wij begeleiden hen van de eerste vergadering tot de eerste rit.',
+    'mission_axis2_title' => 'We ondersteunen wie al rijdt',
+    'mission_axis2_body' => 'Lokale groepen krijgen vorming, materiaal en nationale zichtbaarheid, zodat zij zich kunnen richten op wat telt: mensen samenbrengen.',
+    'mission_axis3_title' => 'We pleiten voor kindvriendelijke straten',
+    'mission_axis3_body' => 'Vrolijke parades zijn een begin, geen eindpunt. Samen met steden en regio\'s werken we aan veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen.',
     'mission_axis3_link' => 'Lees wat we vragen →',
     'mission_closing_heading' => 'Feest op wielen, met een duidelijke vraag',
     'mission_closing_label' => 'Lees wat we vragen',

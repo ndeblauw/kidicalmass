@@ -277,9 +277,6 @@ if (! app()->isProduction()) {
     Route::get('/styleguide', StyleguideController::class)
         ->name('styleguide');
 
-    // Internal design-choices prototype — missie-assen als lopende tekst onder de quote.
-    Route::view('/design-choices-missie', 'design-choices-missie')->name('design.choices.missie');
-
     // Demo login-as shortcuts — auto-login as specific role presets (seeded by DemoUserSeeder).
     Route::get('login/as/{role}', DemoLoginController::class)
         ->name('login.as');
