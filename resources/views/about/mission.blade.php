@@ -17,7 +17,7 @@
     {{-- STORY — intro, welkom and the parent voice as ONE column; the live
          AboutStats deck sits beside it (Steun-ons stramien). --}}
     <section class="grid gap-10 lg:grid-cols-[1fr_20rem] lg:gap-14">
-        <div class="max-w-prose">
+        <div class="about-story max-w-prose">
             <x-intro-text>
                 <p>{{ __('about.mission_intro_1') }}</p>
                 <p>{{ __('about.mission_intro_2') }}</p>
@@ -46,7 +46,7 @@
             </section>
         </div>
 
-        <div class="grid content-start gap-4" role="list" data-stats-source="about-stats">
+        <div class="grid grid-cols-2 content-start gap-4 lg:grid-cols-1" role="list" data-stats-source="about-stats">
             @foreach (app(\App\Support\AboutStats::class)->cards() as $card)
                 <x-stat-card role="listitem" :value="$card['value']" :label="$card['label']" :color="$card['color']" />
             @endforeach

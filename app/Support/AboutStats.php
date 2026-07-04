@@ -22,10 +22,12 @@ class AboutStats
      */
     public function cards(): array
     {
+        /* Colour order blue, red, green, red: adjacent cards always differ and
+           the deck never bookends the same colour (polish 2026-07-04). */
         $cards = [[
             'value' => $this->format(Group::visible()->count()),
             'label' => __('about.stat_groups'),
-            'color' => 'red',
+            'color' => 'blue',
         ]];
 
         $rides = Activity::query()
@@ -37,7 +39,7 @@ class AboutStats
             $cards[] = [
                 'value' => $this->format($rides),
                 'label' => __('about.stat_rides'),
-                'color' => 'green',
+                'color' => 'red',
             ];
         }
 
@@ -47,7 +49,7 @@ class AboutStats
             $cards[] = [
                 'value' => $this->format($latest->volunteers),
                 'label' => __('about.stat_volunteers'),
-                'color' => 'blue',
+                'color' => 'green',
             ];
         }
 

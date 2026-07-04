@@ -93,6 +93,12 @@
         flex-direction: column;
         gap: 1.25rem;
     }
+    /* Mission story column: the long-read body runs text-lg (article-body
+       precedent) to soften the intro-to-body type cliff. Scoped to the inner
+       sections so intro-text keeps its own scale. */
+    .about-story .about-section p {
+        font-size: var(--text-lg);
+    }
     /* Stat deck (mission) — the about section's ONE playful tilt accent; every
        other card in the section sits upright by decision (normalize pass). */
     [data-stats-source='about-stats'] > .stat-card:nth-child(odd) { transform: rotate(-1deg); }

@@ -53,7 +53,7 @@
         <x-section-heading>Onze formules</x-section-heading>
         <p class="about-partners__intro">We werken met formules op maat, in twee sporen. Je kiest zelf hoe zichtbaar je wil zijn: van een vermelding op sociale media tot je logo op onze website, flyers en banners.</p>
         <div class="partner-formules">
-            <div class="partner-formule-track">
+            <div class="partner-formule-track partner-formule-track--vzw">
                 <h3>Voor vzw's en verenigingen</h3>
                 <ul>
                     <li><strong>Supporter</strong>: vermelding op sociale media</li>
@@ -61,7 +61,7 @@
                     <li><strong>Community Partner</strong>: logo op de website, sociale media en flyers van een event</li>
                 </ul>
             </div>
-            <div class="partner-formule-track">
+            <div class="partner-formule-track partner-formule-track--bedrijf">
                 <h3>Voor bedrijven</h3>
                 <ul>
                     <li><strong>Friend</strong>: logo op de website + sociale media</li>
@@ -91,7 +91,7 @@
             <div class="partner-enquiry__intro">
                 <x-section-heading class="mb-4">Interesse? Laten we praten.</x-section-heading>
                 <p>Vul kort in wie je bent en waar je interesse naar uitgaat. We nemen snel contact op om samen de juiste formule te vinden. Je verbindt je tot niets.</p>
-                <p class="partner-enquiry__fallback">Liever rechtstreeks?<br>
+                <p class="partner-enquiry__fallback"><span class="partner-enquiry__fallback-lead">Liever rechtstreeks?</span><br>
                     <a href="mailto:{{ config('kidicalmass.contact.email') }}" class="more-link">{{ config('kidicalmass.contact.email') }}</a><br>
                     <a href="tel:{{ config('kidicalmass.contact.phone_e164') }}" class="more-link">{{ config('kidicalmass.contact.phone') }}</a>
                 </p>

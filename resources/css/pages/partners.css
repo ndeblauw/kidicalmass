@@ -1,10 +1,13 @@
 @layer components {
+    /* Capped auto-fit: cards keep a natural width instead of stretching to
+       fill the 72rem row while only a couple of partners are live. */
     .about-partner-grid {
         list-style: none;
         padding: 0;
         margin: 0;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(13rem, 18rem));
+        justify-content: start;
         gap: 1.25rem;
     }
     .about-partners__intro {
@@ -27,6 +30,13 @@
             gap: 2.5rem;
         }
     }
+    /* Accent border per track so the two lists stay distinct when stacked. */
+    .partner-formule-track {
+        border-left: 3px solid;
+        padding-left: 1.25rem;
+    }
+    .partner-formule-track--vzw { border-color: var(--color-kidical-blue); }
+    .partner-formule-track--bedrijf { border-color: var(--color-kidical-green); }
     .partner-formule-track h3 {
         font-size: var(--text-xl);
         color: var(--color-kidical-ink);
@@ -64,8 +74,10 @@
     }
     .partner-enquiry__fallback {
         margin-top: 1.5rem;
-        font-weight: 700;
         line-height: 1.7;
+    }
+    .partner-enquiry__fallback-lead {
+        font-weight: 700;
     }
     .partner-enquiry__form {
         background: white;
@@ -95,7 +107,7 @@
     }
     .partners-page .about-section {
         margin-block: 0;
-        padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+        padding-block: clamp(2.5rem, 5vw, 4rem);
     }
     .partners-page .about-section + .about-section {
         border-top: 1px solid var(--color-kidical-hairline);

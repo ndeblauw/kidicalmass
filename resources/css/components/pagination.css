@@ -1,0 +1,56 @@
+/* Pagination — branded paginator rendered by the vendor/pagination/tailwind
+   override (any $paginator->links() call). Prev/next steps flank a row of
+   round page numbers; the current page fills kidical-blue. */
+@layer components {
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+        margin-block: 2.5rem;
+    }
+    .pagination__pages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .pagination__page {
+        display: grid;
+        place-items: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding-inline: 0.5rem;
+        border-radius: 999px;
+        font-weight: 700;
+        color: var(--color-text-link);
+    }
+    a.pagination__page:hover {
+        background: var(--color-kidical-light-blue);
+    }
+    .pagination__page--current {
+        background: var(--color-kidical-blue);
+        color: white;
+    }
+    .pagination__gap {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 50%);
+    }
+    .pagination__step {
+        font-weight: 700;
+        color: var(--color-text-link);
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .pagination__step--disabled {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 60%);
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

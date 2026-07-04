@@ -110,3 +110,17 @@ it('links neighbouring published articles under Meer nieuws, skipping drafts', f
         ->assertDontSee(__('about.news_more_newer'))
         ->assertSee(route('articles.show', $middle));
 });
+
+it('renders the branded paginator once the feed exceeds one page', function () {
+    Article::factory()->count(13)->create();
+
+    get('/nl/about/news')
+        ->assertOk()
+        ->assertSee('data-pagination', false)
+        ->assertSee(__('common.pagination_next'))
+        ->assertSee('/nl/about/news?page=2');
+
+    get('/nl/about/news?page=2')
+        ->assertOk()
+        ->assertSee(__('common.pagination_previous'));
+});

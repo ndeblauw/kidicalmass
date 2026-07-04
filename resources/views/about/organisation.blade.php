@@ -20,42 +20,50 @@
         <p>{{ __('about.organisation_intro_2') }}</p>
     </x-intro-text>
 
-    {{-- WIE WAT DOET — two shared titled-list-blocks (Steun-ons component) --}}
-    <section class="about-section about-section--wide">
-        <x-section-heading>{{ __('about.organisation_who_title') }}</x-section-heading>
-        <div class="grid gap-8 md:grid-cols-2">
-            <x-titled-list-block :title="__('about.organisation_national_title')" level="h3">
-                @foreach (__('about.organisation_national') as $item)
-                    <li>{{ $item }}</li>
-                @endforeach
-            </x-titled-list-block>
-            <x-titled-list-block :title="__('about.organisation_local_title')" level="h3">
-                @foreach (__('about.organisation_local') as $item)
-                    <li>{{ $item }}</li>
-                @endforeach
-            </x-titled-list-block>
+    {{-- WIE WAT DOET — two shared titled-list-blocks (Steun-ons component) in
+         the section's sky band (polish 2026-07-04: the page was band-less) --}}
+    <section class="about-band about-band--sky">
+        <div class="container mx-auto px-4">
+            <x-section-heading class="mb-8">{{ __('about.organisation_who_title') }}</x-section-heading>
+            <div class="grid gap-8 md:grid-cols-2">
+                <x-titled-list-block :title="__('about.organisation_national_title')" level="h3">
+                    @foreach (__('about.organisation_national') as $item)
+                        <li>{{ $item }}</li>
+                    @endforeach
+                </x-titled-list-block>
+                <x-titled-list-block :title="__('about.organisation_local_title')" level="h3">
+                    @foreach (__('about.organisation_local') as $item)
+                        <li>{{ $item }}</li>
+                    @endforeach
+                </x-titled-list-block>
+            </div>
         </div>
     </section>
 
-    {{-- HET COÖRDINATIEDUO — carries safety & vorming (they run it) --}}
-    <section class="about-section">
+    {{-- HET COÖRDINATIEDUO — carries safety & vorming (they run it); text and
+         person cards side by side on desktop (polish 2026-07-04) --}}
+    <section class="about-section about-section--wide">
         <x-section-heading>{{ __('about.organisation_duo_title') }}</x-section-heading>
-        <p>{{ __('about.organisation_duo_body_1') }}</p>
-        <p>{{ __('about.organisation_duo_body_2') }}</p>
-        <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.organisation_duo_link') }}</a></p>
-        @if ($teamMembers->isNotEmpty())
-            <ul class="about-duo" role="list">
-                @foreach ($teamMembers as $member)
-                    <li>
-                        <x-person-card
-                            :name="$member->name"
-                            :role="$member->role"
-                            :bio="$member->bio_nl"
-                            :photo="$member->getFirstMediaUrl('photo', 'thumb') ?: null" />
-                    </li>
-                @endforeach
-            </ul>
-        @endif
+        <div class="grid gap-8 md:grid-cols-[1fr_22rem] md:gap-12">
+            <div class="max-w-prose space-y-4">
+                <p>{{ __('about.organisation_duo_body_1') }}</p>
+                <p>{{ __('about.organisation_duo_body_2') }}</p>
+                <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.organisation_duo_link') }}</a></p>
+            </div>
+            @if ($teamMembers->isNotEmpty())
+                <ul class="about-duo" role="list">
+                    @foreach ($teamMembers as $member)
+                        <li>
+                            <x-person-card
+                                :name="$member->name"
+                                :role="$member->role"
+                                :bio="$member->bio_nl"
+                                :photo="$member->getFirstMediaUrl('photo', 'thumb') ?: null" />
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
     </section>
 
     </x-page-hero>
