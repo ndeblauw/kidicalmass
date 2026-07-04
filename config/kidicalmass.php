@@ -15,6 +15,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Social profiles
+    |--------------------------------------------------------------------------
+    | One source for the public social URLs (footer, news empty state).
+    */
+
+    'social' => [
+        'instagram' => 'https://www.instagram.com/kidicalmass.belgium/',
+        'facebook' => 'https://www.facebook.com/Kidicalmass.brussels',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Default images
     |--------------------------------------------------------------------------
     | Fallback images used when a model has no main image uploaded.

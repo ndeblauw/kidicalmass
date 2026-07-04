@@ -235,6 +235,7 @@
 @import './components/nav-card.css';
 @import './components/intent-card.css';
 @import './components/partner-card.css';
+@import './components/article-body.css';
 @import './pages/about.css';
 @import './pages/activity.css';
 @import './pages/calendar.css';

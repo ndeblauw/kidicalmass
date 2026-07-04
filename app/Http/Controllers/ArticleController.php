@@ -14,7 +14,13 @@ class ArticleController extends Controller
             ->orderByDesc('published_at')
             ->paginate(12);
 
-        return view('articles.index', compact('articles'));
+        /* Featured-first feed: on page 1 the newest article renders as the
+           wide feature and must not repeat in the grid; deeper pages are a
+           plain grid. */
+        $feature = $articles->onFirstPage() ? $articles->getCollection()->first() : null;
+        $gridArticles = $feature ? $articles->getCollection()->slice(1) : $articles->getCollection();
+
+        return view('articles.index', compact('articles', 'feature', 'gridArticles'));
     }
 
     public function show(string $locale, Article $article): View

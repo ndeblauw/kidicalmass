@@ -86,7 +86,12 @@ return [
     'organisation_closing_label' => 'Zo begin je',
 
     // Nieuws (P-18). The feed itself is admin content (Article); only the
-    // page chrome lives here.
+    // page chrome lives here. The empty body carries :instagram/:facebook
+    // placeholders that the view fills with links (URLs: config/kidicalmass.php).
+    'news_title' => 'Wat we onderweg leren.',
+    'news_lead' => 'Updates van de beweging: nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
+    'news_empty_title' => 'De eerste verhalen komen eraan',
+    'news_empty_body' => 'We zijn nog maar net begonnen met schrijven. Kom binnenkort eens terug, of volg ons op :instagram en :facebook voor nieuws zodra het er is.',
     'news_back' => 'Terug naar nieuws',
     'news_gallery' => 'Foto\'s',
 

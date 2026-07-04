@@ -104,25 +104,6 @@
 
         @media (min-width: 768px) { grid-template-columns: 1.6fr 1fr; gap: 3rem; }
     }
-    /* articles/index only — migrate to <x-empty-state> in the news pass, then delete. */
-    .about-empty {
-        max-width: 46rem;
-        text-align: center;
-        margin-inline: auto;
-        padding-block: 1rem;
-    }
-    .about-empty__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
-    .about-empty p {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 18%);
-
-        a { font-weight: 700; color: var(--color-kidical-blue); }
-    }
-    /* articles/index only — migrate in the news pass, then delete. */
-    .about-feed__lead {
-        font-size: clamp(var(--text-lg), 1.5vw, var(--text-xl));
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 20%);
-    }
-
     @media (max-width: 767px) {
         /* Tighten section rhythm — 48px margins feel cavernous at 390px. */
         .about-section {

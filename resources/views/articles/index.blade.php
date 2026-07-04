@@ -1,34 +1,52 @@
 {{--
     Over ons / Nieuws — /about/news (P-18)
-    NL surface pass 2026-06-03. Editorial hub, low volume: the empty state must look
-    intentional, not broken (DESIGN.md / about-content.md). Reuses x-article-card.
-    Plan: docs/wiki/design/30-skeleton/about.md + about-journey.md
+    News pass 2026-07: about-frame hero, featured-first feed (the newest
+    article renders as a wide x-article-feature, the rest in the
+    x-article-card grid; page 2+ is just the grid). Empty state via
+    <x-empty-state>. Copy: lang/nl/about.php (news_*). Structure only.
 --}}
-<x-layouts::site title="Nieuws" :description="__('meta.news')">
-    <div class="mx-auto max-w-5xl space-y-10">
-        <header class="space-y-3">
-            <h1>Nieuws</h1>
-            <p class="about-feed__lead">Updates van de beweging: nieuwe afdelingen, mijlpalen en wat we onderweg leren.</p>
-        </header>
+<x-layouts::site :title="__('nav.news')" :description="__('meta.news')">
+
+    <x-page-hero
+        :eyebrow="__('nav.news')"
+        :title="__('about.news_title')">
+
+    <div class="space-y-10">
+        <div class="max-w-prose">
+            <x-intro-text>
+                <p>{{ __('about.news_lead') }}</p>
+            </x-intro-text>
+        </div>
 
         @if ($articles->isNotEmpty())
-            <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                @foreach ($articles as $article)
-                    <x-article-card :article="$article" />
-                @endforeach
-            </div>
+            @if ($feature)
+                <x-article-feature :article="$feature" />
+            @endif
+
+            @if ($gridArticles->isNotEmpty())
+                <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-article-grid>
+                    @foreach ($gridArticles as $article)
+                        <x-article-card :article="$article" />
+                    @endforeach
+                </div>
+            @endif
 
             <div>{{ $articles->links() }}</div>
         @else
-            <div class="about-empty">
-                <h2 class="about-empty__title">Nog niets te zien</h2>
-                <p>We zijn nog maar net begonnen. Kom binnenkort terug, of volg ons op
-                    <a href="https://www.instagram.com/kidicalmass.belgium/" target="_blank" rel="noopener noreferrer">Instagram</a>
-                    en <a href="https://www.facebook.com/Kidicalmass.brussels" target="_blank" rel="noopener noreferrer">Facebook</a>
-                    voor updates zodra ze er zijn.</p>
-            </div>
+            <x-empty-state :heading="__('about.news_empty_title')">
+                {!! __('about.news_empty_body', [
+                    'instagram' => '<a href="'.config('kidicalmass.social.instagram').'" target="_blank" rel="noopener noreferrer">Instagram</a>',
+                    'facebook' => '<a href="'.config('kidicalmass.social.facebook').'" target="_blank" rel="noopener noreferrer">Facebook</a>',
+                ]) !!}
+            </x-empty-state>
         @endif
     </div>
+
+    @push('scripts')
+    <x-scroll-reveal selector="[data-article-grid] > a" :transform="true" />
+    @endpush
+
+    </x-page-hero>
 
     <x-slot:closing>
         <x-closing-cta heading="Zin gekregen om mee te rijden?"

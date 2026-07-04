@@ -18,11 +18,28 @@ it('hides drafts from the news feed and 404s their detail page', function () {
     get(route('articles.show', $live))->assertOk();
 });
 
-it('orders the feed by publish date, newest first', function () {
+it('orders the feed by publish date, newest first, with the newest in the feature slot', function () {
     Article::factory()->create(['title_nl' => 'Ouder bericht', 'published_at' => now()->subDays(10), 'created_at' => now()]);
     Article::factory()->create(['title_nl' => 'Verser bericht', 'published_at' => now()->subDay(), 'created_at' => now()->subMonth()]);
 
-    get('/nl/about/news')->assertOk()->assertSeeInOrder(['Verser bericht', 'Ouder bericht']);
+    $html = get('/nl/about/news')
+        ->assertOk()
+        ->assertSeeInOrder(['Verser bericht', 'Ouder bericht'])
+        ->getContent();
+
+    // The newest article fills the feature slot (data-article-feature seam);
+    // the older one stays in the grid, and the feature never repeats there.
+    preg_match('/<a[^>]*data-article-feature[\s\S]*?<\/a>/', $html, $feature);
+    expect($feature[0] ?? '')->toContain('Verser bericht')->not->toContain('Ouder bericht');
+    expect(substr_count($html, 'Verser bericht'))->toBe(1);
+});
+
+it('renders deeper feed pages as a plain grid without the feature slot', function () {
+    Article::factory()->count(13)->create();
+
+    get('/nl/about/news?page=2')
+        ->assertOk()
+        ->assertDontSee('data-article-feature', escape: false);
 });
 
 it('renders rich-text content as HTML and legacy plain text with line breaks', function () {
@@ -43,7 +60,8 @@ it('renders article chrome in Dutch, never English', function () {
         ->assertDontSee('March')
         ->assertDontSee('Back to articles');
 
-    get('/nl/about/news')->assertOk()->assertSee('5 mrt. 2026');
+    // A lone article renders as the feature, which spells the month out.
+    get('/nl/about/news')->assertOk()->assertSee('5 maart 2026');
 });
 
 it('renders a published article without a publish date instead of crashing', function () {
