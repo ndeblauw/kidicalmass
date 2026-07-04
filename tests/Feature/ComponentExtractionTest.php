@@ -13,7 +13,7 @@ it('section-heading emits an h2 by default and honours the as prop', function ()
         ->toContain('</h3>');
 });
 
-it('pull-quote renders a semantic blockquote with attribution and a card variant', function () {
+it('pull-quote renders a semantic blockquote with attribution and a marker variant', function () {
     $default = Blade::render(
         '<x-pull-quote attribution="Julienne, mama">"Vrijheid om buiten te zijn."</x-pull-quote>'
     );
@@ -24,8 +24,27 @@ it('pull-quote renders a semantic blockquote with attribution and a card variant
         ->toContain('Julienne, mama')
         ->toContain('Vrijheid om buiten te zijn');
 
-    expect(Blade::render('<x-pull-quote variant="card" attribution="Camille, mama">Quote.</x-pull-quote>'))
-        ->toContain('pull-quote--card');
+    // Marker: attribution splits into a name plus middot-joined detail parts,
+    // and edge quote marks are stripped (the CSS mark does the quoting).
+    $marker = Blade::render(
+        '<x-pull-quote variant="marker" attribution="Fatima, mama van drie kinderen, Jette">“Ik ben constant bang.”</x-pull-quote>'
+    );
+
+    expect($marker)
+        ->toContain('pull-quote--marker')
+        ->toContain('pull-quote__name')
+        ->toContain('Fatima')
+        ->toContain('pull-quote__detail')
+        ->toContain('Jette')
+        ->toContain('aria-hidden="true"')
+        ->toContain('Ik ben constant bang.')
+        ->not->toContain('“')
+        ->not->toContain('”');
+
+    // A one-part attribution renders as a plain caption, no orphaned middots.
+    expect(Blade::render('<x-pull-quote variant="marker" attribution="Julienne">Quote.</x-pull-quote>'))
+        ->toContain('Julienne')
+        ->not->toContain('pull-quote__sep');
 });
 
 it('renders its identifying hook and projects its slot content', function (string $template, array $expected) {

@@ -5,6 +5,7 @@ use App\Models\Group;
 use App\Models\PressArticle;
 use App\Models\Quote;
 use App\Models\TeamMember;
+use Illuminate\Support\Str;
 
 use function Pest\Laravel\get;
 
@@ -62,7 +63,9 @@ it('renders Wat we doen as one story with live stats, welcome fold-in and a chai
         ->assertSee(__('nav.mission'))
         ->assertSee(__('about.mission_axes_title'))
         ->assertSee(__('about.mission_welcome_title'))
-        ->assertSee(__('about.mission_quote_attribution'))
+        // The marker quote splits its attribution into name + detail parts.
+        ->assertSee(Str::before(__('about.mission_quote_attribution'), ', '))
+        ->assertSee(Str::after(__('about.mission_quote_attribution'), ', '))
         // Live stats deck replaces the hardcoded band.
         ->assertSee('data-stats-source="about-stats"', escape: false)
         ->assertDontSee('150+')
@@ -75,7 +78,7 @@ it('renders Wat we doen as one story with live stats, welcome fold-in and a chai
 });
 
 it('prefers an admin-entered quote over the lang fallback', function () {
-    get('/nl/about/mission')->assertSee(__('about.mission_quote_attribution'));
+    get('/nl/about/mission')->assertSee(Str::before(__('about.mission_quote_attribution'), ', '));
 
     Quote::factory()->create([
         'slot' => 'mission',
@@ -85,8 +88,9 @@ it('prefers an admin-entered quote over the lang fallback', function () {
 
     get('/nl/about/mission')
         ->assertSee('Fietsen samen voelt als een klein feest.')
-        ->assertSee('Testouder, Gent')
-        ->assertDontSee(__('about.mission_quote_attribution'));
+        ->assertSee('Testouder')
+        ->assertSee('Gent')
+        ->assertDontSee(Str::before(__('about.mission_quote_attribution'), ', '));
 });
 
 it('renders Wat we vragen with voiced demands, a manifest card and a chained CTA', function () {
@@ -94,9 +98,10 @@ it('renders Wat we vragen with voiced demands, a manifest card and a chained CTA
         ->assertOk()
         ->assertSee(__('about.vision_demands_title'))
         ->assertSee(__('about.vision_demand1_title'))
-        // Parent voices nest under the demand they speak to.
-        ->assertSee(__('about.vision_quote_fatima_attribution'))
-        ->assertSee(__('about.vision_quote_camille_attribution'))
+        // Parent voices nest under the demand they speak to (marker quotes
+        // split their attribution into name + detail parts).
+        ->assertSee(Str::before(__('about.vision_quote_fatima_attribution'), ', '))
+        ->assertSee(Str::before(__('about.vision_quote_camille_attribution'), ', '))
         // The manifest is a self-hosted download, not a Wix URL.
         ->assertSee('downloads/kidical-mass-manifest.pdf', escape: false)
         ->assertDontSee('_files/ugd', escape: false)

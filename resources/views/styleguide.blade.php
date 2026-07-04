@@ -114,19 +114,14 @@
                     <x-section-heading>Iedereen is welkom</x-section-heading>
                 </x-styleguide.entry>
 
-                <x-styleguide.entry name="pull-quote" props="attribution, variant=large|card">
+                <x-styleguide.entry name="pull-quote" props="attribution, variant=large|marker">
                     <div class="flex flex-col gap-8">
                         <x-pull-quote attribution="Julienne, mama van twee kinderen">
                             "Wat hij zo leuk vindt aan fietsen is die vrijheid om buiten te zijn."
                         </x-pull-quote>
-                        <div class="about-voices">
-                            <x-pull-quote variant="card" attribution="Camille, Sint-Gillis">
-                                "Ik heb het gevoel dat ik de hele tijd de levenslust van mijn kinderen afrem."
-                            </x-pull-quote>
-                            <x-pull-quote variant="card" attribution="Fatima, Jette">
-                                "Ik ben constant bang voor de auto's, de trams."
-                            </x-pull-quote>
-                        </div>
+                        <x-pull-quote variant="marker" attribution="Fatima, mama van drie kinderen, Jette">
+                            Ik ben constant bang voor de auto's, de trams.
+                        </x-pull-quote>
                     </div>
                 </x-styleguide.entry>
 

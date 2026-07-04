@@ -22,48 +22,66 @@
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
     }
 
-    /* Card: light-yellow note tile, used in grids. Upright by decision —
-       tilt is reserved for stat cards. */
-    .pull-quote--card {
+    /* Marker: the about section's ONE quote treatment (normalize pass
+       2026-07-04, picked over three /design-choices rounds). A hanging red
+       Caprasimo mark quotes the copy — which itself carries NO quote marks —
+       a soft yellow marker stroke runs per line, and the attribution sets
+       the name in near-full ink with red middots between the muted detail
+       parts (markup split by the pull-quote component). */
+    .pull-quote--marker { margin-block: calc(var(--spacing) * 14); }
+    .pull-quote--marker blockquote {
         margin: 0;
-        padding: 1.75rem;
-        border-radius: var(--radius-tile);
-        background: var(--color-kidical-light-yellow);
+        position: relative;
+        padding-inline-start: clamp(3.25rem, 5vw, 4rem);
     }
-    .pull-quote--card blockquote { margin: 0; }
-    .pull-quote--card blockquote p {
-        font-size: var(--text-lg);
-        font-weight: 600;
-        line-height: 1.45;
-        color: var(--color-kidical-ink);
-        margin: 0;
-    }
-    .pull-quote--card figcaption {
-        margin-top: 1rem;
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
-    }
-
-    /* Column: quieter treatment with a rule line, closer to the running story. */
-    .pull-quote--column {
-        margin-block: calc(var(--spacing) * 10);
-        padding-inline-start: 1.5rem;
-        border-inline-start: 4px solid var(--color-kidical-red);
-    }
-    .pull-quote--column blockquote { margin: 0; }
-    .pull-quote--column blockquote p {
+    .pull-quote--marker blockquote::before {
+        content: '\201C';
+        position: absolute;
+        inset-inline-start: 0;
+        top: 0.05em;
         font-family: var(--font-heading);
-        font-weight: 700;
-        font-size: var(--text-xl);
-        line-height: 1.35;
-        color: var(--color-kidical-ink);
-        margin: 0;
+        font-size: clamp(2.75rem, 4vw, 3.5rem);
+        line-height: 0.75;
+        color: var(--color-kidical-red);
     }
-    .pull-quote--column figcaption {
-        margin-top: 0.75rem;
+    .pull-quote--marker blockquote p {
+        display: inline;
+        margin: 0;
+        font-size: clamp(var(--text-xl), 1.8vw, var(--text-2xl));
+        font-weight: 700;
+        line-height: 1.8;
+        color: var(--color-kidical-ink);
+        background: var(--color-kidical-light-yellow);
+        padding: 0.15em 0.5em;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+    }
+    .pull-quote--marker figcaption {
+        margin-top: 1.5rem;
+        padding-inline-start: clamp(3.25rem, 5vw, 4rem);
         font-size: var(--text-sm);
         font-weight: 700;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+    }
+    .pull-quote--marker figcaption::before {
+        content: '';
+        display: inline-block;
+        width: 1.75rem;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--color-kidical-red);
+        margin-right: 0.6rem;
+        vertical-align: 0.25em;
+    }
+    .pull-quote--marker .pull-quote__name {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 10%);
+    }
+    .pull-quote--marker .pull-quote__sep {
+        color: var(--color-kidical-red);
+        margin-inline: 0.4rem;
+    }
+    .pull-quote--marker .pull-quote__detail {
+        font-weight: 400;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
     }
 }

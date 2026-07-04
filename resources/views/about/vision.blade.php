@@ -34,7 +34,7 @@
                     <x-numbered-item number="1" :title="__('about.vision_demand1_title')">
                         {{ __('about.vision_demand1_body') }}
                     </x-numbered-item>
-                    <x-pull-quote variant="card" :attribution="$visionQuote1?->attribution ?? __('about.vision_quote_fatima_attribution')">
+                    <x-pull-quote variant="marker" :attribution="$visionQuote1?->attribution ?? __('about.vision_quote_fatima_attribution')">
                         {{ $visionQuote1?->quote ?? __('about.vision_quote_fatima') }}
                     </x-pull-quote>
                 </li>
@@ -42,7 +42,7 @@
                     <x-numbered-item number="2" :title="__('about.vision_demand2_title')">
                         {{ __('about.vision_demand2_body') }}
                     </x-numbered-item>
-                    <x-pull-quote variant="card" :attribution="$visionQuote2?->attribution ?? __('about.vision_quote_camille_attribution')">
+                    <x-pull-quote variant="marker" :attribution="$visionQuote2?->attribution ?? __('about.vision_quote_camille_attribution')">
                         {{ $visionQuote2?->quote ?? __('about.vision_quote_camille') }}
                     </x-pull-quote>
                 </li>
