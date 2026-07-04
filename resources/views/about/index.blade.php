@@ -52,7 +52,7 @@
             </li>
             <li>
                 <x-nav-card :href="route('articles.index')" icon="newspaper" :title="__('nav.news')">
-                    Updates uit het netwerk.
+                    Nieuwe afdelingen, mijlpalen en verhalen van onderweg.
                 </x-nav-card>
             </li>
         </ul>

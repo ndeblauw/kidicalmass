@@ -18,9 +18,12 @@
         :title="__('about.vision_title')"
         size="compact">
 
-    {{-- POSITIESTATEMENT --}}
+    {{-- POSITIESTATEMENT — the belief at lead volume, the "niet radicaal"
+         grounding a step down (distill 2026-07-04) --}}
     <x-intro-text size="lead">
         <p>{{ __('about.vision_statement_1') }}</p>
+    </x-intro-text>
+    <x-intro-text>
         <p>{{ __('about.vision_statement_2') }}</p>
     </x-intro-text>
 
@@ -56,15 +59,14 @@
                     </x-numbered-item>
                 </li>
             </ol>
-        </div>
-    </section>
 
-    {{-- MANIFEST — same info-card component as the Pers contact card --}}
-    <section class="about-section">
-        <x-info-card :label="__('about.vision_manifest_label')">
-            <p>{{ __('about.vision_manifest_body') }}</p>
-            <a href="{{ asset('downloads/kidical-mass-manifest.pdf') }}" target="_blank" rel="noopener noreferrer" class="info-card__link">{{ __('about.vision_manifest_link') }}</a>
-        </x-info-card>
+            {{-- MANIFEST — coda of the demands band (same info-card as the
+                 Pers contact card); its own label does the heading work --}}
+            <x-info-card :label="__('about.vision_manifest_label')" class="mt-12">
+                <p>{{ __('about.vision_manifest_body') }}</p>
+                <a href="{{ asset('downloads/kidical-mass-manifest.pdf') }}" target="_blank" rel="noopener noreferrer" class="info-card__link">{{ __('about.vision_manifest_link') }}</a>
+            </x-info-card>
+        </div>
     </section>
 
     @push('scripts')

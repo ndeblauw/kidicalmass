@@ -29,6 +29,13 @@ class ArticleController extends Controller
 
         $article->load(['author', 'groups']);
 
-        return view('articles.show', compact('article'));
+        /* "Meer nieuws" neighbours by publish date. An article without a
+           publish date anchors on created_at but can never BE a neighbour
+           (NULL never satisfies the comparison). */
+        $reference = $article->published_at ?? $article->created_at;
+        $newerArticle = Article::published()->where('published_at', '>', $reference)->orderBy('published_at')->first();
+        $olderArticle = Article::published()->where('published_at', '<', $reference)->orderByDesc('published_at')->first();
+
+        return view('articles.show', compact('article', 'newerArticle', 'olderArticle'));
     }
 }

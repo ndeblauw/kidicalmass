@@ -90,3 +90,23 @@ it('hides draft articles from the chapter page and its article count', function 
 
     $response->assertViewHas('group', fn (Group $viewGroup) => $viewGroup->articles_count === 1);
 });
+
+it('links neighbouring published articles under Meer nieuws, skipping drafts', function () {
+    $oldest = Article::factory()->create(['title_nl' => 'Oudste bericht', 'published_at' => now()->subDays(3)]);
+    $middle = Article::factory()->create(['title_nl' => 'Middelste bericht', 'published_at' => now()->subDays(2)]);
+    Article::factory()->draft()->create(['title_nl' => 'Kladversie ertussen', 'published_at' => now()->subDay()]);
+    $newest = Article::factory()->create(['title_nl' => 'Nieuwste bericht', 'published_at' => now()]);
+
+    get(route('articles.show', $middle))
+        ->assertOk()
+        ->assertSee(__('about.news_more_title'))
+        ->assertSee(route('articles.show', $oldest))
+        ->assertSee(route('articles.show', $newest))
+        ->assertDontSee('Kladversie ertussen');
+
+    // The newest article has no newer neighbour, only an older one.
+    get(route('articles.show', $newest))
+        ->assertOk()
+        ->assertDontSee(__('about.news_more_newer'))
+        ->assertSee(route('articles.show', $middle));
+});

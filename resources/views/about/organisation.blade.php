@@ -13,12 +13,11 @@
         :title="__('about.organisation_title')"
         size="compact">
 
-    {{-- HOE WE GEORGANISEERD ZIJN — the intro tells the whole three-tier story --}}
+    {{-- HOE WE GEORGANISEERD ZIJN — lokaal-eerst + no-HQ; the two lists below
+         carry the national/local detail (distill 2026-07-04) --}}
     <x-intro-text>
         <p>{{ __('about.organisation_intro_1') }}</p>
         <p>{{ __('about.organisation_intro_2') }}</p>
-        <p>{{ __('about.organisation_intro_3') }}</p>
-        <p>{{ __('about.organisation_intro_4') }}</p>
     </x-intro-text>
 
     {{-- WIE WAT DOET — two shared titled-list-blocks (Steun-ons component) --}}
@@ -41,7 +40,8 @@
     {{-- HET COÖRDINATIEDUO — carries safety & vorming (they run it) --}}
     <section class="about-section">
         <x-section-heading>{{ __('about.organisation_duo_title') }}</x-section-heading>
-        <p>{{ __('about.organisation_duo_body') }}</p>
+        <p>{{ __('about.organisation_duo_body_1') }}</p>
+        <p>{{ __('about.organisation_duo_body_2') }}</p>
         <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.organisation_duo_link') }}</a></p>
         @if ($teamMembers->isNotEmpty())
             <ul class="about-duo" role="list">

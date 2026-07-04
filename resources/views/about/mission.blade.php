@@ -43,7 +43,6 @@
                 <p>{{ __('about.mission_axis2_body') }}</p>
                 <h3 class="mt-4">{{ __('about.mission_axis3_title') }}</h3>
                 <p>{{ __('about.mission_axis3_body') }}</p>
-                <p><a href="{{ route('about.vision') }}" class="more-link">{{ __('about.mission_axis3_link') }}</a></p>
             </section>
         </div>
 

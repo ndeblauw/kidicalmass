@@ -28,7 +28,6 @@ return [
     'mission_axis2_body' => 'Lokale groepen krijgen vorming, materiaal en nationale zichtbaarheid, zodat zij zich kunnen richten op wat telt: mensen samenbrengen.',
     'mission_axis3_title' => 'We pleiten voor kindvriendelijke straten',
     'mission_axis3_body' => 'Vrolijke parades zijn een begin, geen eindpunt. Samen met steden en regio\'s werken we aan veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen.',
-    'mission_axis3_link' => 'Lees wat we vragen →',
     'mission_closing_heading' => 'Feest op wielen, met een duidelijke vraag',
     'mission_closing_label' => 'Lees wat we vragen',
 
@@ -36,7 +35,7 @@ return [
     // parent voices nested under the demand they speak to, manifest info-card,
     // closing chained to Hoe we werken. Register: committed, not preachy (ToV).
     'vision_title' => 'Een stad op kindermaat',
-    'vision_statement_1' => 'Kidical Mass begon als een fietsparade en werd een beweging. We geloven dat elk kind in België zich veilig en met vertrouwen door zijn stad moet kunnen bewegen. Dat straten ontworpen horen te zijn voor de mensen die er wonen, niet alleen voor de auto\'s die er passeren. En dat kinderen mee mogen beslissen over hoe hun buurt eruitziet.',
+    'vision_statement_1' => 'We geloven dat elk kind in België zich veilig en met vertrouwen door zijn stad moet kunnen bewegen. Dat straten ontworpen horen te zijn voor de mensen die er wonen, niet alleen voor de auto\'s die er passeren. En dat kinderen mee mogen beslissen over hoe hun buurt eruitziet.',
     'vision_statement_2' => 'Dat is niet radicaal. Het is wat de meeste ouders willen, het is wat onderzoek bevestigt, en het is waar we naartoe werken: één rit, één gemeenteraad, één beleidsgesprek tegelijk.',
     'vision_demands_title' => 'Wat we vragen',
     'vision_demand1_title' => 'Veilige fietsinfrastructuur voor kinderen en gezinnen',
@@ -57,14 +56,13 @@ return [
     'vision_closing_heading' => 'Wie maakt dit waar?',
     'vision_closing_label' => 'Ontdek hoe we werken',
 
-    // Hoe we werken (P-17). Structure: intro (absorbs the no-HQ line), two
-    // titled lists (nationaal | lokaal), the duo (safety folded into their
+    // Hoe we werken (P-17). Structure: two-paragraph intro (lokaal-eerst +
+    // no-HQ; the national/local detail lives in the lists, distill 2026-07-04),
+    // two titled lists (nationaal | lokaal), the duo (safety folded into their
     // text), closing to getting-started. No bespoke components (variant A).
     'organisation_title' => 'Buren die de straat op trekken',
     'organisation_intro_1' => 'Kidical Mass Belgium is zo opgebouwd dat het overal echt lokaal blijft. Geen nationale campagne met lokale filialen, maar een netwerk van groepen die elk hun eigen buurt kennen.',
-    'organisation_intro_2' => 'Op nationaal niveau doet een klein coördinatieteam wat alleen op dat niveau kan: het merk bewaken, vorming ontwikkelen, communicatie en partnerschappen coördineren en subsidies aanvragen voor het hele netwerk. Het team schept de voorwaarden waarin lokale groepen kunnen groeien. Het stuurt ze niet aan.',
-    'organisation_intro_3' => 'Op lokaal niveau is elke afdeling autonoom. Lokale trekkers kiezen hun eigen routes, verzamelpunten en partners. Zij kennen hun buurt beter dan wie ook. Die autonomie is bewust, en niet onderhandelbaar.',
-    'organisation_intro_4' => 'Er is geen hoofdkantoor: Kidical Mass draait op vrijwilligers, gedragen door mensen zoals jij.',
+    'organisation_intro_2' => 'Er is geen hoofdkantoor: Kidical Mass draait op vrijwilligers, gedragen door mensen zoals jij.',
     'organisation_who_title' => 'Wie wat doet',
     'organisation_national_title' => 'Nationale coördinatie',
     'organisation_national' => [
@@ -81,7 +79,8 @@ return [
         'Zíjn de beweging. De coördinatie bestaat om hen te steunen, niet andersom.',
     ],
     'organisation_duo_title' => 'Het coördinatieduo',
-    'organisation_duo_body' => 'Leticia en Cecilia vormen samen het coördinatieduo. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze organiseren vorming voor veilige begeleiding, lossen dagelijkse vragen op en bewaken de basiskwaliteit en veiligheid van elke rit. Alle afdelingen werken daarvoor met dezelfde veiligheidsafspraken en routerichtlijnen: elke route loopt langs parken, speelpleinen en veilige infrastructuur, en waar nodig stemmen organisatoren de route vooraf af met de lokale politie.',
+    'organisation_duo_body_1' => 'Leticia en Cecilia vormen samen het coördinatieduo. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze organiseren vorming voor veilige begeleiding, lossen dagelijkse vragen op en bewaken de basiskwaliteit en veiligheid van elke rit.',
+    'organisation_duo_body_2' => 'Alle afdelingen werken daarvoor met dezelfde veiligheidsafspraken en routerichtlijnen: elke route loopt langs parken, speelpleinen en veilige infrastructuur, en waar nodig stemmen organisatoren de route vooraf af met de lokale politie.',
     'organisation_duo_link' => 'Hoe een rit praktisch verloopt: Voor het eerst mee →',
     'organisation_closing_heading' => 'Een afdeling starten of vervoegen?',
     'organisation_closing_label' => 'Zo begin je',
@@ -95,6 +94,9 @@ return [
     'news_empty_body' => 'We zijn nog maar net begonnen met schrijven. Kom binnenkort eens terug, of volg ons op :instagram en :facebook voor nieuws zodra het er is.',
     'news_back' => 'Terug naar nieuws',
     'news_gallery' => 'Foto\'s',
+    'news_more_title' => 'Meer nieuws',
+    'news_more_newer' => 'Nieuwer',
+    'news_more_older' => 'Ouder',
 
     // Pers (P-19). Structure: the year-grouped archive left, a sticky
     // perscontact card right (its label replaces a contact heading). No outlet

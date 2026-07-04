@@ -46,6 +46,32 @@
         @endif
     </article>
 
+    {{-- MEER NIEUWS — neighbouring articles, so the read path has an exit
+         besides the closing band the reader already saw on the feed. --}}
+    @if ($newerArticle || $olderArticle)
+        <nav class="mx-auto mt-16 max-w-3xl" aria-label="{{ __('about.news_more_title') }}" data-article-neighbours>
+            <h2 class="mb-6">{{ __('about.news_more_title') }}</h2>
+            <ul class="grid gap-6 sm:grid-cols-2" role="list">
+                @if ($olderArticle)
+                    <li>
+                        <a href="{{ route('articles.show', $olderArticle) }}" class="link-plain group block">
+                            <span class="block text-sm font-semibold text-kidical-ink/60">← {{ __('about.news_more_older') }}</span>
+                            <span class="font-semibold text-kidical-blue group-hover:underline">{{ $olderArticle->title_nl }}</span>
+                        </a>
+                    </li>
+                @endif
+                @if ($newerArticle)
+                    <li class="sm:col-start-2 sm:text-right">
+                        <a href="{{ route('articles.show', $newerArticle) }}" class="link-plain group block">
+                            <span class="block text-sm font-semibold text-kidical-ink/60">{{ __('about.news_more_newer') }} →</span>
+                            <span class="font-semibold text-kidical-blue group-hover:underline">{{ $newerArticle->title_nl }}</span>
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    @endif
+
     <x-slot:closing>
         <x-closing-cta heading="Zin gekregen om mee te rijden?"
             :href="route('activities.index')" label="Vind een rit" />
