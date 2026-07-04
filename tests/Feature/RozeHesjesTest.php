@@ -104,18 +104,20 @@ test('roze materiaal splits the besloten group from the shareable one', function
         ->assertSee('Posters');            // a public download
 });
 
-test('roze page sets the welcome-window cookie but shows no welcome block', function () {
+test('roze page sets the welcome-window cookie and greets the newcomer in the header', function () {
     $group = rozeChapter();
     $member = User::factory()->create();
     $group->users()->attach($member);
 
-    // The welcome banner was removed; the welcome-window cookie still rides along
-    // because it drives the sub-nav (Aan de slag floats up for new members).
+    // The old welcome *panel* is gone; the welcome-window cookie still rides along
+    // because it drives the sub-nav (Aan de slag floats up for new members), and the
+    // welcome moment now lives in the greeting header instead.
     actingAs($member)
         ->get(route('groups.roze-hesjes', $group))
         ->assertOk()
         ->assertDontSee('Welkom bij de roze hesjes')
-        ->assertDontSee('Fijn dat je meerijdt')
+        ->assertSee('data-moment="welcome"', escape: false)
+        ->assertSee('Fijn dat je meerijdt')
         ->assertCookie('roze_welcome_'.$group->id);
 });
 

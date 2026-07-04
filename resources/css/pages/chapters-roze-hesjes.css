@@ -338,6 +338,97 @@
         gap: var(--roze-gap-xl);
     }
 
+    /* Page entrance: the overview's blocks arrive as a gentle cascade (greeting
+       first, then each section), so opening the hub feels like walking into a
+       room, not loading a dashboard. Opt-in via no-preference; reduced motion
+       gets the page instantly. */
+    @media (prefers-reduced-motion: no-preference) {
+        .roze-overview > * {
+            animation: fade-up 0.45s var(--ease-brand) both;
+        }
+
+        .roze-overview > :nth-child(2) { animation-delay: 70ms; }
+        .roze-overview > :nth-child(3) { animation-delay: 140ms; }
+        .roze-overview > :nth-child(4) { animation-delay: 210ms; }
+        .roze-overview > :nth-child(5) { animation-delay: 280ms; }
+
+        .roze-feeds__list > .roze-feed { animation: fade-up 0.45s var(--ease-brand) both; }
+        .roze-feeds__list > .roze-feed:nth-child(1) { animation-delay: 280ms; }
+        .roze-feeds__list > .roze-feed:nth-child(2) { animation-delay: 350ms; }
+        .roze-feeds__list > .roze-feed:nth-child(3) { animation-delay: 420ms; }
+    }
+
+    /* 7 · GREETING — the overview's visible h1: the room greets you by name */
+    .roze-greeting .roze-hub-lead {
+        margin: 0.375rem 0 0;
+    }
+
+    /* 8 · RECAP — the Monday-after moment: one big photo leads the page.
+       Surface matches .roze-next: --radius-tile, --shadow-float (this hub's
+       one radius tier — see the note above .roze-next). */
+    .roze-recap {
+        display: block;
+        background: white;
+        border-radius: var(--radius-tile);
+        box-shadow: var(--shadow-float);
+        padding: 0.625rem;
+        text-decoration: none;
+        transition: transform 0.18s var(--ease-brand), box-shadow 0.18s var(--ease-brand);
+    }
+
+    .roze-recap:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .roze-recap__frame {
+        display: block;
+        border-radius: var(--radius-tile);
+        overflow: hidden;
+        aspect-ratio: 16 / 10;
+    }
+
+    .roze-recap__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .roze-recap__body {
+        display: block;
+        padding: 0.875rem 0.5rem 0.375rem;
+    }
+
+    .roze-recap__title {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        font-synthesis: none;
+        font-size: 1.3rem;
+        color: var(--color-kidical-ink);
+        margin: 0;
+    }
+
+    .roze-recap__meta {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.9rem;
+        color: var(--color-text-body);
+    }
+
+    .roze-recap__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-top: 0.5rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--color-kidical-red);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .roze-recap { transition: none; }
+    }
+
     /* Every overview section steps from its subtitle to its content by the same
        --roze-gap-sm, so the heading rhythm reads identically down the page.
        .roze-grab carries this on its own flex; .roze-next-section matches it here. */
@@ -345,6 +436,16 @@
         display: flex;
         flex-direction: column;
         gap: var(--roze-gap-sm);
+    }
+
+    /* Celebrating feed cards (new member): the chip pops in once. The delay
+       must clear the overview stagger's last feed-card entrance (420ms
+       delay + 450ms fade = card settled at ~870ms), so the pop reads as a
+       beat once the card has landed, not a glitch mid-entrance. */
+    @media (prefers-reduced-motion: no-preference) {
+        .roze-feed[data-celebrate] [data-icon-chip] {
+            animation: chip-pop 0.4s var(--ease-brand) 0.7s both;
+        }
     }
 
     /* === Front-door anchor: the chapter's next confirmed ride ==============
@@ -379,6 +480,13 @@
     .roze-next__body { flex: 1; min-width: 0; }
     .roze-next__title { display: block; }
     .roze-next__meta { display: block; font-size: var(--text-sm); color: var(--color-text-body); margin-top: var(--roze-gap-2xs); }
+    .roze-next__count {
+        display: block;
+        margin-top: 0.25rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--color-kidical-red);
+    }
     .roze-next__chev { flex: none; color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%); }
 
     @media (prefers-reduced-motion: reduce) {

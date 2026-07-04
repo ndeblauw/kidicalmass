@@ -6,6 +6,7 @@
     'timestamp', // ISO date for <time datetime>
     'relative',  // human label, e.g. "2 dagen geleden"
     'href',
+    'celebrate' => false, // one-time chip pop for feel-good events (new member)
 ])
 
 @php
@@ -17,7 +18,7 @@
     };
 @endphp
 
-<a href="{{ $href }}" class="roze-feed">
+<a href="{{ $href }}" class="roze-feed" @if ($celebrate) data-celebrate @endif>
     <x-icon-chip :color="$color" size="md" :shadow="true">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $iconSvg !!}</svg>
     </x-icon-chip>

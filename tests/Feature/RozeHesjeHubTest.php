@@ -65,16 +65,16 @@ test('the Overview shows the Voor de rit tiles and the feed', function () {
         ->assertSee('rijdt nu mee als roze hesje');
 });
 
-test('the overview shows no welcome panel, even on a first visit', function () {
+test('the overview greets a first-time visitor without the old welcome panel', function () {
     $group = Group::factory()->create();
     $member = User::factory()->create();
     $group->users()->attach($member, ['role' => null]);
 
-    // The welcome banner was removed; a brand-new member (welcome window open,
-    // no cookie yet) lands straight on the content with no panel.
+    // The welcome *panel* stays gone; the welcome now lives in the greeting header.
     actingAs($member)->get(hubUrl('groups.roze-hesjes', $group))
         ->assertDontSee('roze-hub-welcome', escape: false)
-        ->assertDontSee('Fijn dat je meerijdt');
+        ->assertSee('data-moment="welcome"', escape: false)
+        ->assertSee('Fijn dat je meerijdt');
 });
 
 test('the De Groep sub-page lists a roster member by name', function () {

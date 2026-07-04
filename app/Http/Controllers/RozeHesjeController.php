@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Group;
+use App\Support\RideDate;
+use App\Support\RozeHub\OverviewMoment;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
@@ -23,6 +25,8 @@ class RozeHesjeController extends Controller
 
     public function overview(string $locale, Group $group): View
     {
+        $context = $this->hubContext($group);
+
         // The next published ride (own chapter + its region/country lineage) anchors
         // the front door with something live every visit, not just the welcome block.
         $nextRide = Activity::query()
@@ -33,10 +37,26 @@ class RozeHesjeController extends Controller
             ->orderBy('begin_date')
             ->first();
 
+        // The Monday-after moment: the chapter's own most recent ride, at most
+        // RECAP_DAYS old, that already has album photos. No photos = no recap
+        // (the feed's photo card still covers late uploads). Stateless — no cookies.
+        $recapRide = Activity::query()
+            ->published()
+            ->with('media')
+            ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
+            ->where('activity_type', ActivityType::KIDICALMASS)
+            ->whereBetween('begin_date', [now()->subDays(OverviewMoment::RECAP_DAYS), now()])
+            ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
+            ->orderByDesc('begin_date')
+            ->first();
+
         return view('groups.roze-hesjes.overzicht', [
-            ...$this->hubContext($group),
+            ...$context,
             'nextRide' => $nextRide,
-            'feed' => $this->feed($group),
+            'recapRide' => $recapRide,
+            'moment' => OverviewMoment::resolve($context['showWelcome'], $recapRide, $nextRide),
+            'countdown' => $nextRide ? OverviewMoment::countdownLabel($nextRide) : null,
+            'feed' => $this->feed($group, $nextRide),
         ]);
     }
 
@@ -172,9 +192,9 @@ class RozeHesjeController extends Controller
      * the newest hesje — rather than hard-coded; a structured change-feed with precise
      * timestamps is still Nico's (GitHub #37), so the relative labels stay approximate.
      *
-     * @return array<int, array{color: string, icon: string, what: string, context: string, timestamp: string, relative: string, href: string}>
+     * @return array<int, array{color: string, icon: string, what: string, context: string, timestamp: string, relative: string, href: string, celebrate: bool}>
      */
-    private function feed(Group $group): array
+    private function feed(Group $group, ?Activity $nextRide = null): array
     {
         $items = collect();
 
@@ -198,6 +218,7 @@ class RozeHesjeController extends Controller
                 'timestamp' => $latestAlbum->begin_date->toDateString(),
                 'relative' => $latestAlbum->begin_date->diffForHumans(),
                 'href' => route('groups.roze-hesjes.fotos', [$group, 'ride' => $latestAlbum->id]),
+                'celebrate' => false,
             ]);
         }
 
@@ -217,6 +238,7 @@ class RozeHesjeController extends Controller
                 'timestamp' => now()->toDateString(),
                 'relative' => 'deze week',
                 'href' => route('groups.ride-preview', [$group, 'ride' => $draft->id]),
+                'celebrate' => false,
             ]);
         }
 
@@ -226,14 +248,24 @@ class RozeHesjeController extends Controller
             ->first();
 
         if ($newMember) {
+            // A joining hesje is the feed's one celebration; the hello nudge only
+            // appears when there is an actual ride to say hello at (rides only,
+            // and never a nudge toward a vergadering).
+            $what = "{$newMember->name} rijdt nu mee als roze hesje";
+            if ($nextRide !== null && $nextRide->activity_type->isRide()) {
+                $weekday = RideDate::weekday($nextRide->begin_date);
+                $what .= ". Zeg {$weekday} zeker hallo.";
+            }
+
             $items->push([
                 'color' => 'red',
                 'icon' => 'user-plus',
-                'what' => "{$newMember->name} rijdt nu mee als roze hesje",
+                'what' => $what,
                 'context' => 'Nieuw lid',
                 'timestamp' => $newMember->pivot->created_at->toDateString(),
                 'relative' => $newMember->pivot->created_at->diffForHumans(),
                 'href' => route('groups.roze-hesjes.groep', $group),
+                'celebrate' => true,
             ]);
         }
 
