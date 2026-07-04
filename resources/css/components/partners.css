@@ -5,9 +5,8 @@
     }
 
     .partner-strip__inner {
-        /* Match the dark footer card's box: same 85rem cap, centered. */
-        max-width: 85rem;
-        margin-inline: auto;
+        /* Width comes from the strip's `container mx-auto px-4` wrapper,
+           matching the main body-content container. */
         background-color: white;
         border-radius: var(--radius-card);
         box-shadow: var(--shadow-card);

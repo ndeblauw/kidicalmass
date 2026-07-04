@@ -24,7 +24,7 @@
      national partner logos + one link to the full Partners page. Acquisition
      ("partner worden"), the "Ook ondersteund door" list, and partner categories
      live on /about/partners. --}}
-<aside class="partner-strip" aria-label="{{ __('partners.strip_label') }}">
+<aside class="partner-strip container mx-auto px-4" aria-label="{{ __('partners.strip_label') }}">
     <div class="partner-strip__inner">
         <span class="partner-strip__label">{{ __('partners.showcase_label') }}</span>
 
