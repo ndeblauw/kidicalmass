@@ -12,7 +12,7 @@ return [
 
     // Wat we doen (P-15). Structure: story column (intro + welkom + quote) with
     // the stat deck beside it, then the three axes, then a chained closing CTA.
-    'mission_title' => 'Veilige straten, voor elk kind.',
+    'mission_title' => 'Veilige straten, voor elk kind',
     'mission_intro_1' => 'Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en groeien nog elk jaar, in Brussel, Wallonië en Vlaanderen.',
     'mission_intro_2' => 'Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen, en vaak ook voor de ouders.',
     'mission_welcome_title' => 'Iedereen is welkom',
@@ -34,7 +34,7 @@ return [
     // Wat we vragen (P-16). Structure: tightened statement, 4 demands with
     // parent voices nested under the demand they speak to, manifest info-card,
     // closing chained to Hoe we werken. Register: committed, not preachy (ToV).
-    'vision_title' => 'Een stad op kindermaat.',
+    'vision_title' => 'Een stad op kindermaat',
     'vision_statement_1' => 'Kidical Mass begon als een fietsparade en werd een beweging. We geloven dat elk kind in België zich veilig en met vertrouwen door zijn stad moet kunnen bewegen. Dat straten ontworpen horen te zijn voor de mensen die er wonen, niet alleen voor de auto\'s die er passeren. En dat kinderen mee mogen beslissen over hoe hun buurt eruitziet.',
     'vision_statement_2' => 'Dat is niet radicaal. Het is wat de meeste ouders willen, het is wat onderzoek bevestigt, en het is waar we naartoe werken: één rit, één gemeenteraad, één beleidsgesprek tegelijk.',
     'vision_demands_title' => 'Wat we vragen',
@@ -59,7 +59,7 @@ return [
     // Hoe we werken (P-17). Structure: intro (absorbs the no-HQ line), two
     // titled lists (nationaal | lokaal), the duo (safety folded into their
     // text), closing to getting-started. No bespoke components (variant A).
-    'organisation_title' => 'Buren die de straat op trekken.',
+    'organisation_title' => 'Buren die de straat op trekken',
     'organisation_intro_1' => 'Kidical Mass Belgium is zo opgebouwd dat het overal echt lokaal blijft. Geen nationale campagne met lokale filialen, maar een netwerk van groepen die elk hun eigen buurt kennen.',
     'organisation_intro_2' => 'Op nationaal niveau doet een klein coördinatieteam wat alleen op dat niveau kan: het merk bewaken, vorming ontwikkelen, communicatie en partnerschappen coördineren en subsidies aanvragen voor het hele netwerk. Het team schept de voorwaarden waarin lokale groepen kunnen groeien. Het stuurt ze niet aan.',
     'organisation_intro_3' => 'Op lokaal niveau is elke afdeling autonoom. Lokale trekkers kiezen hun eigen routes, verzamelpunten en partners. Zij kennen hun buurt beter dan wie ook. Die autonomie is bewust, en niet onderhandelbaar.',
@@ -88,7 +88,7 @@ return [
     // Nieuws (P-18). The feed itself is admin content (Article); only the
     // page chrome lives here. The empty body carries :instagram/:facebook
     // placeholders that the view fills with links (URLs: config/kidicalmass.php).
-    'news_title' => 'Wat we onderweg leren.',
+    'news_title' => 'Wat we onderweg leren',
     'news_lead' => 'Updates van de beweging: nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
     'news_empty_title' => 'De eerste verhalen komen eraan',
     'news_empty_body' => 'We zijn nog maar net begonnen met schrijven. Kom binnenkort eens terug, of volg ons op :instagram en :facebook voor nieuws zodra het er is.',
@@ -99,7 +99,7 @@ return [
     // perscontact card right (its label replaces a contact heading). No outlet
     // strip (the archive shows the outlets), no closing CTA (the page IS the
     // contact).
-    'press_title' => 'Het verhaal van de beweging.',
+    'press_title' => 'Het verhaal van de beweging',
     'press_contact_body' => 'We brengen je in contact met lokale trekkers en gezinnen, delen cijfers en achtergrond bij de beweging, en regelen een fotomoment bij een volgende fietsparade.',
     'press_background_link' => 'Achtergrond en cijfers: lees wat we doen →',
     'press_contact_label' => 'Perscontact',

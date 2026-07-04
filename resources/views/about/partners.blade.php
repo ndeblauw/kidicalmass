@@ -14,7 +14,7 @@
 
     <x-page-hero
         eyebrow="Partners & sponsors"
-        title="Samen sterker voor veilige straten."
+        title="Samen sterker voor veilige straten"
         size="compact">
 
     {{-- WIE ONS STEUNT — named institutional anchors (depth) + the full logo wall (breadth)
