@@ -25,6 +25,13 @@ it('renders the chapter detail page', function () {
     get(route('groups.show', ['locale' => 'nl', 'group' => $group]))->assertOk();
 });
 
+it('embeds the home hero video in privacy-enhanced (nocookie) mode', function () {
+    get('/nl')
+        ->assertOk()
+        ->assertSee('www.youtube-nocookie.com/embed', escape: false)
+        ->assertDontSee('www.youtube.com/embed', escape: false);
+});
+
 // Honesty guard for every finished public page: no leftover "Stub" scaffolding
 // (a stub route miswired as done) and no faker "lorem" leaking from seeds.
 it('keeps stub scaffolding and lorem placeholder off every finished page', function (string $path) {

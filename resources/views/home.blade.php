@@ -11,7 +11,7 @@
                  prev/next centre arrows, which controls=0 doesn't suppress. --}}
             <iframe
                 id="home-hero-player"
-                src="https://www.youtube.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&disablekb=1"
+                src="https://www.youtube-nocookie.com/embed/VXiIgU9vI-4?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&disablekb=1"
                 title="" tabindex="-1" frameborder="0"
                 allow="autoplay; encrypted-media; picture-in-picture"
             ></iframe>
