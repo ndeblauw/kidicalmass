@@ -37,7 +37,7 @@
     }
     .volunteer-signup__error {
         font-size: var(--text-sm);
-        color: var(--color-kidical-red);
+        color: var(--color-kidical-red-text);
         font-weight: 600;
     }
     .volunteer-signup__success {
@@ -183,7 +183,9 @@
     .steun-hero__cta-note {
         font-size: var(--text-sm);
         line-height: 1.55;
-        color: var(--color-kidical-light-blue);
+        /* White, not light-blue: small text on the blue hero needs 4.5:1 (AA);
+           light-blue lands at 4.07:1, white at 5.4:1. */
+        color: white;
     }
     .steun-hero__circle {
         background-color: var(--color-kidical-light-blue);

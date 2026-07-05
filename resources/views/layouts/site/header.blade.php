@@ -36,7 +36,7 @@
             <div class="site-nav__bar flex items-center justify-end gap-4">
                 <!-- Desktop: nav links in their own white band + support CTA (+ member items) -->
                 <div class="site-nav__group site-nav__reveal-menu hidden md:flex">
-                    <flux:navbar class="site-nav__links">
+                    <flux:navbar class="site-nav__links" aria-label="{{ __('nav.main_menu') }}">
                         <flux:navbar.item href="{{ route('activities.index') }}" :current="request()->routeIs('activities.*')" class="font-bold text-lg">{{ __('nav.events') }}</flux:navbar.item>
                         <flux:navbar.item href="{{ route('groups.index') }}" :current="request()->routeIs('groups.*')" class="font-bold text-lg">{{ __('nav.chapters') }}</flux:navbar.item>
                         <flux:navbar.item href="{{ route('getting-started') }}" :current="request()->routeIs('getting-started')" class="font-bold text-lg">{{ __('nav.getting_started') }}</flux:navbar.item>
@@ -66,12 +66,16 @@
                         <flux:icon name="heart" variant="solid" class="size-4" aria-hidden="true" />
                         {{ __('support.nav') }}
                     </a>
-                    <flux:button icon="bars-3" variant="ghost" x-on:click="mobileOpen = !mobileOpen" aria-label="Toggle menu" class="mobile-menu-toggle" />
+                    <flux:button icon="bars-3" variant="ghost" x-on:click="mobileOpen = !mobileOpen"
+                                 aria-label="{{ __('nav.menu') }}"
+                                 aria-expanded="false" x-bind:aria-expanded="mobileOpen.toString()"
+                                 aria-controls="site-mobile-menu"
+                                 class="mobile-menu-toggle" />
                 </div>
             </div>
 
             <!-- Mobile dropdown panel -->
-            <nav x-show="mobileOpen" x-transition class="site-nav__mobile-menu md:hidden">
+            <nav id="site-mobile-menu" aria-label="{{ __('nav.main_menu') }}" x-show="mobileOpen" x-transition class="site-nav__mobile-menu md:hidden">
                 @auth
                     @foreach ($myChapters as $myChapter)
                         <a href="{{ route('groups.roze-hesjes', $myChapter) }}" class="roze-nav-btn roze-nav-btn--block mb-2">

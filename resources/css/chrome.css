@@ -1,3 +1,28 @@
+/* Skip link — first focusable element on every public page; visually hidden
+   until keyboard focus lands on it, then pinned above the floating nav pill. */
+.skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-kidical-ink);
+    color: white;
+    font-weight: 700;
+    background-image: none;
+    transform: translateY(calc(-100% - 2rem));
+}
+
+.skip-link:focus-visible {
+    transform: none;
+}
+
+/* The skip link's target: focusable for the jump, but never shows a ring itself. */
+main#main:focus {
+    outline: none;
+}
+
 body:has(.activity-actions-bar) .site-footer {
     padding-bottom: calc(5rem + env(safe-area-inset-bottom));
 }

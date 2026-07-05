@@ -1,6 +1,6 @@
 <div>
     @if ($submitted)
-        <div class="volunteer-signup__success space-y-3">
+        <div class="volunteer-signup__success space-y-3" role="status">
             <flux:icon.check-circle variant="solid" class="volunteer-signup__success-icon" aria-hidden="true" />
             <h4>Je bent erbij{{ $confirmedName ? ', '.$confirmedName : '' }}!</h4>
             <p>Iemand van het team van {{ $group->name }} neemt binnenkort contact op.</p>
@@ -25,9 +25,10 @@
                        class="volunteer-signup__input"
                        autocomplete="name"
                        required
-                       placeholder="Jouw naam">
+                       placeholder="Jouw naam"
+                       @error('name') aria-invalid="true" aria-describedby="chapter-volunteer-name-error" @enderror>
                 @error('name')
-                    <span class="volunteer-signup__error">{{ $message }}</span>
+                    <span class="volunteer-signup__error" id="chapter-volunteer-name-error" role="alert">{{ $message }}</span>
                 @enderror
             </div>
 
@@ -39,9 +40,10 @@
                        class="volunteer-signup__input"
                        autocomplete="email"
                        required
-                       placeholder="jij@voorbeeld.be">
+                       placeholder="jij@voorbeeld.be"
+                       @error('email') aria-invalid="true" aria-describedby="chapter-volunteer-email-error" @enderror>
                 @error('email')
-                    <span class="volunteer-signup__error">{{ $message }}</span>
+                    <span class="volunteer-signup__error" id="chapter-volunteer-email-error" role="alert">{{ $message }}</span>
                 @enderror
             </div>
 
@@ -69,9 +71,10 @@
                           wire:model="message"
                           class="volunteer-signup__input"
                           rows="3"
-                          placeholder="Een vraag of een woordje uitleg"></textarea>
+                          placeholder="Een vraag of een woordje uitleg"
+                          @error('message') aria-invalid="true" aria-describedby="chapter-volunteer-message-error" @enderror></textarea>
                 @error('message')
-                    <span class="volunteer-signup__error">{{ $message }}</span>
+                    <span class="volunteer-signup__error" id="chapter-volunteer-message-error" role="alert">{{ $message }}</span>
                 @enderror
             </div>
 

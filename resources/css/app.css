@@ -68,6 +68,10 @@
        not hue. Matches <x-feature-card>'s text-kidical-ink/75. */
     --color-text-body: color-mix(in oklab, var(--color-kidical-ink), transparent 25%);
     --color-text-link: var(--color-kidical-blue);
+    /* Brand red darkened until small text on white clears WCAG AA (4.83:1 vs the
+       brand red's 4.0:1). Use for error messages and any other small red text;
+       plain --color-kidical-red stays for large display text, fills and borders. */
+    --color-kidical-red-text: #D42A6C;
     /* Text-link underline: a half-strength blue line at rest that rolls into a
        full blue one on hover. Opt out anywhere with `background-image: none`. */
     --color-link-underline: color-mix(in oklab, var(--color-kidical-blue), transparent 50%);
@@ -189,6 +193,14 @@
         color: var(--color-zinc-500);
         text-transform: uppercase;
         letter-spacing: 0.06em;
+    }
+
+    /* Global keyboard-focus ring. Low specificity on purpose: components that
+       paint their own focus treatment (Flux ring, location-picker box-shadow,
+       form-field focus borders) override it with any class-level rule. */
+    :focus-visible {
+        outline: 3px solid var(--color-kidical-blue);
+        outline-offset: 2px;
     }
 }
 

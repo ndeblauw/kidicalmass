@@ -5,6 +5,8 @@
     @include('partials.site-head')
 </head>
 <body class="min-h-screen flex flex-col ba-site">
+    <a href="#main" class="skip-link">{{ __('nav.skip_to_content') }}</a>
+
     @isset($navbar)
         {{ $navbar }}
     @else
@@ -15,7 +17,7 @@
     {{-- pt-28 clears the fixed floating nav pill (~5.5rem). Full-bleed blue bands
          (.home-hero/.chapter-head/.page-hero) cancel it with
          margin-top: calc(var(--spacing) * -28). --}}
-    <main class="flex-1 container mx-auto px-4 {{ isset($navbar) ? 'pt-0' : 'pt-28' }} {{ isset($closing) ? 'pb-0' : 'pb-8' }}">
+    <main id="main" tabindex="-1" class="flex-1 container mx-auto px-4 {{ isset($navbar) ? 'pt-0' : 'pt-28' }} {{ isset($closing) ? 'pb-0' : 'pb-8' }}">
         {{ $slot }}
     </main>
 

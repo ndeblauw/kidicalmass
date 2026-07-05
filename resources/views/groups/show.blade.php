@@ -341,8 +341,15 @@
                             <h3 class="chapter-section__title">Downloads</h3>
                             <ul class="chapter-downloads" role="list">
                                 @foreach ($fauxDownloads as $download)
+                                    @php
+                                        // Same honest-preview pattern as the roze-hesjes materiaal page:
+                                        // no href until the file is real, so keyboard/AT users don't get
+                                        // a link that goes nowhere.
+                                        $available = filled($download['url']) && $download['url'] !== '#';
+                                    @endphp
                                     <li class="chapter-downloads__item">
-                                        <a href="{{ $download['url'] }}" class="chapter-downloads__link">
+                                        <a @if ($available) href="{{ $download['url'] }}" @endif
+                                           @class(['chapter-downloads__link', 'chapter-downloads__link--soon' => ! $available])>
                                             <svg class="chapter-downloads__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                                             <span class="chapter-downloads__label">{{ $download['label'] }}</span>
                                             <span class="chapter-downloads__type">{{ $download['type'] }}</span>

@@ -48,7 +48,7 @@
 
     .newsletter-signup__error {
         margin-top: 0.45rem;
-        color: var(--color-kidical-red);
+        color: var(--color-kidical-red-text);
         font-size: 0.9rem;
     }
 

@@ -1,6 +1,6 @@
 <div>
     @if ($submitted)
-        <div class="volunteer-signup__success space-y-3">
+        <div class="volunteer-signup__success space-y-3" role="status">
             <flux:icon.check-circle variant="solid" class="volunteer-signup__success-icon" aria-hidden="true" />
             <h4>Bedankt{{ $confirmedName ? ', '.$confirmedName : '' }}!</h4>
             <p>We hebben je aanvraag goed ontvangen. Iemand van het team neemt binnenkort contact op om samen de juiste formule te vinden.</p>
@@ -12,37 +12,37 @@
 
             <div class="volunteer-signup__field">
                 <label for="partner-name" class="volunteer-signup__label">Naam <span aria-hidden="true">*</span></label>
-                <input type="text" id="partner-name" wire:model="name" class="volunteer-signup__input" autocomplete="name" required placeholder="Jouw naam">
-                @error('name')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                <input type="text" id="partner-name" wire:model="name" class="volunteer-signup__input" autocomplete="name" required placeholder="Jouw naam" @error('name') aria-invalid="true" aria-describedby="partner-name-error" @enderror>
+                @error('name')<span class="volunteer-signup__error" id="partner-name-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
             <div class="volunteer-signup__field">
                 <label for="partner-email" class="volunteer-signup__label">E-mailadres <span aria-hidden="true">*</span></label>
-                <input type="email" id="partner-email" wire:model="email" class="volunteer-signup__input" autocomplete="email" required placeholder="jij@organisatie.be">
-                @error('email')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                <input type="email" id="partner-email" wire:model="email" class="volunteer-signup__input" autocomplete="email" required placeholder="jij@organisatie.be" @error('email') aria-invalid="true" aria-describedby="partner-email-error" @enderror>
+                @error('email')<span class="volunteer-signup__error" id="partner-email-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
             <div class="volunteer-signup__field">
                 <label for="partner-organisation" class="volunteer-signup__label">Organisatie <span aria-hidden="true">*</span></label>
-                <input type="text" id="partner-organisation" wire:model="organisation" class="volunteer-signup__input" autocomplete="organization" required placeholder="Naam van je vzw, bedrijf of gemeente">
-                @error('organisation')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                <input type="text" id="partner-organisation" wire:model="organisation" class="volunteer-signup__input" autocomplete="organization" required placeholder="Naam van je vzw, bedrijf of gemeente" @error('organisation') aria-invalid="true" aria-describedby="partner-organisation-error" @enderror>
+                @error('organisation')<span class="volunteer-signup__error" id="partner-organisation-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2">
                 <div class="volunteer-signup__field">
                     <label for="partner-type" class="volunteer-signup__label">Type organisatie <span aria-hidden="true">*</span></label>
-                    <select id="partner-type" wire:model="type" class="volunteer-signup__input" required>
+                    <select id="partner-type" wire:model="type" class="volunteer-signup__input" required @error('type') aria-invalid="true" aria-describedby="partner-type-error" @enderror>
                         <option value="">Maak een keuze</option>
                         @foreach ($typeOptions as $value => $label)
                             <option value="{{ $value }}">{{ $label }}</option>
                         @endforeach
                     </select>
-                    @error('type')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                    @error('type')<span class="volunteer-signup__error" id="partner-type-error" role="alert">{{ $message }}</span>@enderror
                 </div>
 
                 <div class="volunteer-signup__field">
                     <label for="partner-formule" class="volunteer-signup__label">Interesse in formule <small>(optioneel)</small></label>
-                    <select id="partner-formule" wire:model="formule" class="volunteer-signup__input">
+                    <select id="partner-formule" wire:model="formule" class="volunteer-signup__input" @error('formule') aria-invalid="true" aria-describedby="partner-formule-error" @enderror>
                         <option value="">Nog niet zeker</option>
                         @foreach ($formuleOptions as $value => $label)
                             @if ($value !== 'nog-niet-zeker')
@@ -50,14 +50,14 @@
                             @endif
                         @endforeach
                     </select>
-                    @error('formule')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                    @error('formule')<span class="volunteer-signup__error" id="partner-formule-error" role="alert">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="volunteer-signup__field">
                 <label for="partner-message" class="volunteer-signup__label">Iets toe te voegen? <small>(optioneel)</small></label>
-                <textarea id="partner-message" wire:model="message" class="volunteer-signup__input" rows="3" placeholder="Waarom wil je graag samenwerken, of een vraag"></textarea>
-                @error('message')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                <textarea id="partner-message" wire:model="message" class="volunteer-signup__input" rows="3" placeholder="Waarom wil je graag samenwerken, of een vraag" @error('message') aria-invalid="true" aria-describedby="partner-message-error" @enderror></textarea>
+                @error('message')<span class="volunteer-signup__error" id="partner-message-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
             <x-cta-button type="submit" variant="blue" wire:loading.attr="disabled" wire:target="submit">

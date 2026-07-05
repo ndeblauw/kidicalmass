@@ -6,7 +6,7 @@
             <x-cta-button variant="blue" :href="route('settings')">Beheer voorkeuren</x-cta-button>
         </div>
     @elseif ($submitted)
-        <div class="bg-white rounded-card shadow-card p-8 flex flex-col gap-4 items-start">
+        <div class="bg-white rounded-card shadow-card p-8 flex flex-col gap-4 items-start" role="status">
             <h2>Kijk even in je mailbox</h2>
             <p>We stuurden een mailtje naar <strong>{{ $email }}</strong>. Klik op de link erin om je inschrijving te bevestigen.</p>
             <p class="text-kidical-ink/70">Niets ontvangen? Check je spam.</p>
@@ -26,6 +26,7 @@
                     inputmode="email"
                     maxlength="254"
                     spellcheck="false"
+                    required
                     placeholder="jouw@email.be"
                     @error('email') aria-invalid="true" aria-describedby="newsletter-email-error" @enderror
                     class="newsletter-signup__input"

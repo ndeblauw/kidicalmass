@@ -798,6 +798,13 @@
     .chapter-downloads__link:hover .chapter-downloads__label {
         text-decoration: underline;
     }
+    /* Honest preview: a download without a real file yet renders without href. */
+    .chapter-downloads__link--soon {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+    }
+    .chapter-downloads__link--soon:hover .chapter-downloads__label {
+        text-decoration: none;
+    }
     .chapter-downloads__icon {
         flex-shrink: 0;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);

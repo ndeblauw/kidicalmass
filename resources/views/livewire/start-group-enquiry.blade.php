@@ -1,6 +1,6 @@
 <div>
     @if ($submitted)
-        <div class="volunteer-signup__success space-y-3">
+        <div class="volunteer-signup__success space-y-3" role="status">
             <flux:icon.check-circle variant="solid" class="volunteer-signup__success-icon" aria-hidden="true" />
             <h4>Bedankt{{ $confirmedName ? ', '.$confirmedName : '' }}!</h4>
             @if ($confirmedPath === 'praten')
@@ -17,41 +17,41 @@
             <div class="grid gap-4 sm:grid-cols-2">
                 <div class="volunteer-signup__field">
                     <label for="sg-name" class="volunteer-signup__label">Naam <span aria-hidden="true">*</span></label>
-                    <input type="text" id="sg-name" wire:model="name" class="volunteer-signup__input" autocomplete="name" required placeholder="Jouw naam">
-                    @error('name')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                    <input type="text" id="sg-name" wire:model="name" class="volunteer-signup__input" autocomplete="name" required placeholder="Jouw naam" @error('name') aria-invalid="true" aria-describedby="sg-name-error" @enderror>
+                    @error('name')<span class="volunteer-signup__error" id="sg-name-error" role="alert">{{ $message }}</span>@enderror
                 </div>
 
                 <div class="volunteer-signup__field">
                     <label for="sg-email" class="volunteer-signup__label">E-mailadres <span aria-hidden="true">*</span></label>
-                    <input type="email" id="sg-email" wire:model="email" class="volunteer-signup__input" autocomplete="email" required placeholder="jij@voorbeeld.be">
-                    @error('email')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                    <input type="email" id="sg-email" wire:model="email" class="volunteer-signup__input" autocomplete="email" required placeholder="jij@voorbeeld.be" @error('email') aria-invalid="true" aria-describedby="sg-email-error" @enderror>
+                    @error('email')<span class="volunteer-signup__error" id="sg-email-error" role="alert">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="volunteer-signup__field">
                 <label for="sg-place" class="volunteer-signup__label">Gemeente of postcode <span aria-hidden="true">*</span></label>
-                <input type="text" id="sg-place" wire:model="place" class="volunteer-signup__input" autocomplete="address-level2" required placeholder="Waar wil je starten?">
-                @error('place')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                <input type="text" id="sg-place" wire:model="place" class="volunteer-signup__input" autocomplete="address-level2" required placeholder="Waar wil je starten?" @error('place') aria-invalid="true" aria-describedby="sg-place-error" @enderror>
+                @error('place')<span class="volunteer-signup__error" id="sg-place-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
             <div class="volunteer-signup__field">
                 <label for="sg-motivation" class="volunteer-signup__label">Wat trekt je aan? <span aria-hidden="true">*</span></label>
-                <textarea id="sg-motivation" wire:model="motivation" class="volunteer-signup__input" rows="3" required placeholder="Eén of twee zinnen over waarom je dit in jouw buurt wil"></textarea>
-                @error('motivation')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                <textarea id="sg-motivation" wire:model="motivation" class="volunteer-signup__input" rows="3" required placeholder="Eén of twee zinnen over waarom je dit in jouw buurt wil" @error('motivation') aria-invalid="true" aria-describedby="sg-motivation-error" @enderror></textarea>
+                @error('motivation')<span class="volunteer-signup__error" id="sg-motivation-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
             <div class="volunteer-signup__field">
                 <label for="sg-team" class="volunteer-signup__label">Heb je al mensen die mee willen? <small>(optioneel)</small></label>
-                <select id="sg-team" wire:model="team" class="volunteer-signup__input">
+                <select id="sg-team" wire:model="team" class="volunteer-signup__input" @error('team') aria-invalid="true" aria-describedby="sg-team-error" @enderror>
                     <option value="">Maak een keuze</option>
                     @foreach ($teamOptions as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
                     @endforeach
                 </select>
-                @error('team')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                @error('team')<span class="volunteer-signup__error" id="sg-team-error" role="alert">{{ $message }}</span>@enderror
             </div>
 
-            <fieldset class="volunteer-signup__field sg-form__choice">
+            <fieldset class="volunteer-signup__field sg-form__choice" @error('path') aria-describedby="sg-path-error" @enderror>
                 <legend class="volunteer-signup__label">Wat wil je nu? <span aria-hidden="true">*</span></legend>
                 @foreach ($pathOptions as $value => $label)
                     <label class="sg-form__option">
@@ -59,7 +59,7 @@
                         <span>{{ $label }}</span>
                     </label>
                 @endforeach
-                @error('path')<span class="volunteer-signup__error">{{ $message }}</span>@enderror
+                @error('path')<span class="volunteer-signup__error" id="sg-path-error" role="alert">{{ $message }}</span>@enderror
             </fieldset>
 
             <x-cta-button variant="blue" icon="arrow" block

@@ -97,11 +97,6 @@ class StyleguideController extends Controller
                 'where' => 'articles/show — kop + grid van aspect-ratio afbeeldingen met hover-zoom (lagere prioriteit)',
                 'props' => 'title, items, aspect=4/3|16/9, columns?',
             ],
-            [
-                'name' => '[content] group-statistics vertalen',
-                'where' => 'components/group-statistics — bevat hardcoded Engelse copy ("We are growing!", "group/groups")',
-                'props' => 'gebruik __() lang-keys + parameteriseer de titel',
-            ],
         ];
     }
 }

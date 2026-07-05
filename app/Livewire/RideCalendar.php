@@ -56,6 +56,7 @@ class RideCalendar extends Component
                 'byPeriod' => $activities->groupBy(fn ($a) => $a->begin_date->format('Y-m')),
                 'hasActivities' => $activities->isNotEmpty(),
                 'isEmpty' => $activities->isEmpty(),
+                'rideCount' => $activities->count(),
             ]);
         }
 
@@ -75,6 +76,7 @@ class RideCalendar extends Component
                 'byPeriod' => $rows->groupBy(fn ($r) => $r['item']->begin_date->format('Y-m-d')),
                 'hasActivities' => $activities->isNotEmpty(),
                 'isEmpty' => false,
+                'rideCount' => $activities->count(),
             ]);
         }
 
@@ -115,6 +117,7 @@ class RideCalendar extends Component
             'byPeriod' => $byPeriod,
             'hasActivities' => $activities->isNotEmpty(),
             'isEmpty' => $byPeriod->isEmpty() && $activities->isNotEmpty(),
+            'rideCount' => $annotated->count(),
         ]);
     }
 }
