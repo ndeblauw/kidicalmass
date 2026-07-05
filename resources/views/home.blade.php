@@ -105,7 +105,7 @@
                         ['src' => 'img/photography/ride-brussels-two-boys-at-start.webp', 'alt' => 'Twee jongens staan arm in arm met hun fietsen aan de start van een rit.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 40%'],
                     ],
                     [
-                        ['src' => 'img/photography/ride-cinquantenaire-crowd.jpg', 'alt' => 'Een grote groep gezinnen fietst samen onder de triomfboog van het Jubelpark.', 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/ride-cinquantenaire-crowd.webp', 'alt' => 'Een grote groep gezinnen fietst samen onder de triomfboog van het Jubelpark.', 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
                         ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => 'Lachende vrouw fietst met twee kinderen in haar bakfiets en een Kidical Mass-vlag.', 'x' => '36%', 'y' => '62%', 'w' => '50%', 'r' => '-6deg'],
                     ],
                     [

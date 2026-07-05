@@ -41,7 +41,7 @@ it('uses the first gallery photo as the cover instead of the fallback', function
 
     showChapter($group)
         ->assertOk()
-        ->assertDontSee('ride-cinquantenaire-crowd.jpg'); // fallback art is gone
+        ->assertDontSee('ride-cinquantenaire-crowd.webp'); // fallback art is gone
 });
 
 it('keeps the fallback cover and omits the band when there are no photos', function () {
@@ -49,7 +49,7 @@ it('keeps the fallback cover and omits the band when there are no photos', funct
 
     showChapter($group)
         ->assertOk()
-        ->assertSee('ride-cinquantenaire-crowd.jpg')   // fallback stays
+        ->assertSee('ride-cinquantenaire-crowd.webp')   // fallback stays
         ->assertDontSee('chapter-gallery__grid', false); // no band
 });
 
@@ -60,7 +60,7 @@ it('omits the band when there is only a cover photo', function () {
     showChapter($group)
         ->assertOk()
         ->assertDontSee('chapter-gallery__grid', false)
-        ->assertDontSee('ride-cinquantenaire-crowd.jpg'); // cover still swapped
+        ->assertDontSee('ride-cinquantenaire-crowd.webp'); // cover still swapped
 });
 
 it('renders the gallery feature title as a heading, not a paragraph', function () {

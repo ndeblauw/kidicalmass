@@ -34,8 +34,8 @@ it('is idempotent so re-running does not duplicate photos', function () {
 it('attaches explicit --source images in order, cover first', function () {
     $group = Group::factory()->create();
 
-    $cover = public_path('img/photography/ride-cinquantenaire-crowd.jpg');
-    $second = public_path('img/photography/kids-thumbsup-at-ride.jpg');
+    $cover = public_path('img/photography/ride-cinquantenaire-crowd.webp');
+    $second = public_path('img/photography/kids-thumbsup-at-ride.webp');
 
     $this->artisan('dev:seed-group-gallery', [
         '--group' => [$group->id],
@@ -53,7 +53,7 @@ it('attaches explicit --source images in order, cover first', function () {
 it('skips --source paths that do not exist', function () {
     $group = Group::factory()->create();
 
-    $real = public_path('img/photography/ride-cinquantenaire-crowd.jpg');
+    $real = public_path('img/photography/ride-cinquantenaire-crowd.webp');
 
     $this->artisan('dev:seed-group-gallery', [
         '--group' => [$group->id],

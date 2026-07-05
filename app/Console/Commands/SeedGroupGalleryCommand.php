@@ -103,7 +103,9 @@ class SeedGroupGalleryCommand extends Command
     }
 
     /**
-     * Sample images: every jpg/png at the top level of img/photography and one sub-dir deep.
+     * Sample images: every web image at the top level of img/photography and one
+     * sub-dir deep, skipping the generated `-768` responsive variants (derivatives
+     * of a sibling, not distinct photos).
      *
      * @return list<string>
      */
@@ -111,8 +113,9 @@ class SeedGroupGalleryCommand extends Command
     {
         $base = public_path('img/photography');
 
-        return collect(glob("{$base}/*.{jpg,jpeg,png}", GLOB_BRACE) ?: [])
-            ->merge(glob("{$base}/*/*.{jpg,jpeg,png}", GLOB_BRACE) ?: [])
+        return collect(glob("{$base}/*.{webp,jpg,jpeg,png}", GLOB_BRACE) ?: [])
+            ->merge(glob("{$base}/*/*.{webp,jpg,jpeg,png}", GLOB_BRACE) ?: [])
+            ->reject(fn (string $path): bool => str_contains($path, '-768.'))
             ->values()
             ->all();
     }

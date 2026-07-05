@@ -81,7 +81,7 @@
                 @if($mainImage)
                     <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title_nl }}" class="activity-head__photo" fetchpriority="high">
                 @else
-                    <img src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}" alt="" aria-hidden="true" class="activity-head__photo" fetchpriority="high">
+                    <x-photo src="img/photography/ride-cinquantenaire-crowd.webp" alt="" aria-hidden="true" sizes="100vw" loading="eager" fetchpriority="high" class="activity-head__photo" />
                 @endif
             </figure>
 

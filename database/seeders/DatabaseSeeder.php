@@ -282,7 +282,7 @@ class DatabaseSeeder extends Seeder
 
     private function attachRealPhoto(HasMedia $model, string $collection): void
     {
-        $path = public_path('img/photography/ride-cinquantenaire-crowd.jpg');
+        $path = public_path('img/photography/ride-cinquantenaire-crowd.webp');
 
         if (! is_file($path)) {
             return;

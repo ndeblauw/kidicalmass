@@ -109,12 +109,14 @@
                         fetchpriority="high"
                     >
                 @else
-                    <img
-                        src="{{ asset('img/photography/ride-cinquantenaire-crowd.jpg') }}"
+                    <x-photo
+                        src="img/photography/ride-cinquantenaire-crowd.webp"
                         alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
-                        class="chapter-head__photo"
+                        sizes="100vw"
+                        loading="eager"
                         fetchpriority="high"
-                    >
+                        class="chapter-head__photo"
+                    />
                 @endif
             </figure>
         </div>
