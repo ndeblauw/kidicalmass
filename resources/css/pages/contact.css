@@ -1,0 +1,65 @@
+/* Contact (national, P-05) — final A3a arrangement: topic pills at the top of
+   the form, secondary blocks as a sticky info-card sidebar (composition
+   utilities in the template, the /about/press pattern). Form fields ride
+   .volunteer-signup__* (pages/steun.css); sidebar tiles ride <x-info-card>. */
+@layer components {
+    .contact-arrange {
+        margin-top: 2rem;
+
+        /* The form column is a stretch flexbox; the submit pill should hug its
+           label, not span the column. */
+        .cta-button {
+            align-self: flex-start;
+        }
+    }
+
+    /* A <legend> doesn't participate in the field's flex layout, so this
+       block re-creates .volunteer-signup__field's rhythm (0.375rem label gap)
+       explicitly, on a clean fieldset reset. */
+    .contact-topic-fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        min-width: 0;
+
+        legend {
+            padding: 0;
+            margin-bottom: 0.375rem;
+        }
+    }
+
+    .contact-topic-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .contact-topic-pill {
+        cursor: pointer;
+
+        span {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 1.5px solid color-mix(in oklab, var(--color-kidical-ink), transparent 80%);
+            border-radius: var(--radius-pill);
+            font-size: var(--text-base);
+            font-weight: 700;
+            color: var(--color-kidical-ink);
+            transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+        }
+
+        &:hover span {
+            border-color: var(--color-kidical-blue);
+        }
+
+        input:checked + span {
+            background: var(--color-kidical-blue);
+            border-color: var(--color-kidical-blue);
+            color: white;
+        }
+
+        input:focus-visible + span {
+            outline: 2px solid var(--color-kidical-blue);
+            outline-offset: 2px;
+        }
+    }
+}

@@ -82,6 +82,6 @@ dataset('public routes', $publicRoutes);
 // Pages still served by the <x-stub> placeholder are intentionally unfinished and
 // carry the "Stub —" banner, so the finished-page tone guard skips them. Drop a
 // route from this list once its real content lands.
-$stubRoutes = ['/nl/contact'];
+$stubRoutes = [];
 
 dataset('finished public routes', array_values(array_diff($publicRoutes, $stubRoutes)));
