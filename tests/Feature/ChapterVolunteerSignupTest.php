@@ -9,6 +9,7 @@ use Livewire\Livewire;
 
 it('submits a chapter volunteer enquiry tagged with the group and chosen roles', function () {
     Mail::fake();
+    config(['kidicalmass.mail.communications' => 'comms@example.com']);
     $group = Group::factory()->create(['name' => 'Schaarbeek']);
 
     Livewire::test(ChapterVolunteerSignup::class, ['group' => $group])
@@ -29,7 +30,7 @@ it('submits a chapter volunteer enquiry tagged with the group and chosen roles',
         ->toContain('DJ')
         ->toContain('Ik wil graag helpen.');
 
-    Mail::assertSent(ContactFormSubmitted::class);
+    Mail::assertSent(ContactFormSubmitted::class, fn ($mail) => $mail->hasTo('comms@example.com'));
 });
 
 it('requires a name and a valid email', function () {
