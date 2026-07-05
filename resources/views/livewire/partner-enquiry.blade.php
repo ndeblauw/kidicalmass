@@ -63,6 +63,8 @@
             <x-cta-button type="submit" variant="blue" wire:loading.attr="disabled" wire:target="submit">
                 Verstuur je aanvraag
             </x-cta-button>
+
+            <x-form-privacy-note>We gebruiken je gegevens alleen om je voorstel te beantwoorden.</x-form-privacy-note>
         </form>
     @endif
 </div>

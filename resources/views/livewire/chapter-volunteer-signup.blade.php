@@ -81,6 +81,8 @@
                           wire:target="submit">
                 Ik doe mee
             </x-cta-button>
+
+            <x-form-privacy-note>We gebruiken je gegevens alleen om je aanmelding op te volgen.</x-form-privacy-note>
         </form>
     @endif
 </div>

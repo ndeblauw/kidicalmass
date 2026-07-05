@@ -69,6 +69,8 @@
                 Verstuur
             </x-cta-button>
 
+            <x-form-privacy-note>We gebruiken je gegevens alleen om samen jouw groep op te starten.</x-form-privacy-note>
+
             <p class="sg-form__reassure">Een echt mens leest dit en antwoordt je persoonlijk. Geen automatische mailbox.</p>
         </form>
     @endif

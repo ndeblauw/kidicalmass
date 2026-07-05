@@ -25,6 +25,7 @@
 
         <div class="col-span-2">
             <flux:button type="submit" variant="primary" class="w-full">Send Message</flux:button>
+            <x-form-privacy-note>We gebruiken je gegevens alleen om je bericht te beantwoorden.</x-form-privacy-note>
         </div>
     </form>
 </flux:card>

@@ -88,6 +88,8 @@
                 wire:loading.attr="disabled"
                 class="self-start"
             >Schrijf me in</x-cta-button>
+
+            <x-form-privacy-note>Je e-mailadres gebruiken we alleen voor de nieuwsbrief. Uitschrijven kan altijd met één klik.</x-form-privacy-note>
         </form>
     @endauth
 </div>
