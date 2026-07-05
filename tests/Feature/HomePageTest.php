@@ -26,7 +26,7 @@ it('renders the NL video hero and drops the old English copy', function () {
         ->assertSeeText('Het leukste uur')
         ->assertSeeText('op de fiets')
         ->assertSee('de straat ook van kinderen is')
-        ->assertSee('youtube.com/embed/VXiIgU9vI-4', escape: false)
+        ->assertSee('youtube-nocookie.com/embed/VXiIgU9vI-4', escape: false)
         ->assertDontSee('Kids on bikes');
 });
 
