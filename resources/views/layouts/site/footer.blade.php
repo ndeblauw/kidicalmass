@@ -8,7 +8,11 @@
 
     {{-- Footerbunch illustration, on the yellow, leading into the dark card --}}
     <figure class="relative z-20 mx-auto max-w-5xl px-4" aria-hidden="true">
-        <img src="{{ asset('img/illustrations/footerbunch.svg') }}" alt="" class="block w-full -mb-[2%]" loading="lazy" decoding="async">
+        <img src="{{ asset('img/illustrations/footerbunch-1024.avif') }}"
+             srcset="{{ asset('img/illustrations/footerbunch-1024.avif') }} 1024w, {{ asset('img/illustrations/footerbunch-2048.avif') }} 2048w"
+             sizes="(min-width: 1024px) 992px, 100vw"
+             width="1024" height="356"
+             alt="" class="block h-auto w-full -mb-[2%]" loading="lazy" decoding="async">
     </figure>
 
     {{-- Dark footer card — inset + rounded-top (styling in .site-footer) --}}

@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-05] build | Footerbunch: 365 KB svg vervangen door responsive avif
+
+De footer-illustratie (`footerbunch.svg`, 365 KB raw / ~146 KB gzipped) bleek grotendeels onverkleinbaar vectorwerk (svgo: 0%) plus twee ge-embedde bitmapkopieën van het logo. Vervangen door twee avif-renders met transparantie: 1024w (58 KB) en 2048w (88 KB) via `srcset`/`sizes`; `width`/`height` toegevoegd tegen layout-shift bij lazy-load. Visueel geverifieerd op 100% (niet te onderscheiden van de lossless render) en live op de homepage. `FooterZoneTest` asserteert het nieuwe asset.
+
 ## [2026-07-05] build | P-05 Contact finaal: a3a ingeklapt + polish/distill-pas
 
 Frederik koos a3a (twee info-cards in de sticky zijbalk). Winnaar in `contact.blade.php` gevouwen; varianten + kiezerbalk verwijderd; copy naar `lang/nl/contact.php`. Zijn polijstnotities verwerkt: hero-leadregel geschrapt (voegde niets toe; het pills-label doet de triage-uitleg), het "Waarover gaat het?"-veld kreeg een expliciete legend-afstand (een `<legend>` doet niet mee in de flex-flow van `.volunteer-signup__field`, dus de gap viel weg), en de verstuurknop rekt niet langer mee met de kolom (`align-self: flex-start` binnen `.contact-arrange`). Distill in de component: de select-modus en de `topicPills`-prop verwijderd, pills zijn de enige onderwerp-UI. `pages/contact.css` teruggesnoeid tot pills + fieldset-fix + arrange-offset. Tests herschreven op de invarianten (formulier, direct e-mail/tel uit config, vrijwilligersredirect); volledige contact/smoke-suite groen. Wire blijft 🟠 tot Frederiks fiat op de eindweergave.
