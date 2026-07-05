@@ -435,7 +435,7 @@
         </div>
         <div class="card hot">
           <h4>Hosting, deploy &amp; cutover plan</h4>
-          <p>The wiki's one true blank page. Production env, DNS switch, queue worker (opt-in mails need one), <code>media-library:regenerate</code> on prod, SPF/DKIM so form mail lands, backups, and the open migration question: parallel-run Wix or hard switch?</p>
+          <p>The wiki's one true blank page. Production env, DNS switch, queue worker (opt-in mails <em>and</em> media conversions need one — without it, conversion jobs queue forever and pages silently serve raw originals), <code>media-library:regenerate</code> on prod, SPF/DKIM so form mail lands, backups, and the open migration question: parallel-run Wix or hard switch? Server must gzip PHP-served JS (flux/livewire) and send <code>Cache-Control</code> on <code>/img</code> — Apache rules sit in <code>public/.htaccess</code>, nginx needs the equivalent.</p>
           <div class="meta"><span class="impact" aria-label="Impact 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="chip effort">M</span><span class="chip owner-nico">Nico</span><span class="chip owner-fred">+ Frederik</span></div>
         </div>
       </div>
@@ -467,7 +467,7 @@
         </div>
         <div class="card">
           <h4>Performance pass</h4>
-          <p>Uploaded media is already responsive; static photography isn't: several 300–700&nbsp;KB images ship raw from <code>public/img</code>. Compress, resize, one Lighthouse round, done.</p>
+          <p>Largely done (2026-07-05): photography re-encoded with full 768px srcset coverage, partner-logo conversions repaired, <code>x-photo</code> reserves aspect ratio against CLS. Remaining: the YouTube autoplay hero (~2&nbsp;MB, the heaviest single item) and one Lighthouse round on a prod build; footerbunch went avif the same day.</p>
           <div class="meta"><span class="impact" aria-label="Impact 2 of 3"><i class="on"></i><i class="on"></i><i></i></span><span class="chip effort">S</span><span class="chip owner-fred">Frederik</span></div>
         </div>
         <div class="card">

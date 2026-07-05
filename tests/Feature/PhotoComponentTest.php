@@ -18,6 +18,18 @@ it('emits a two-step srcset when a 768px sibling exists and the original is wide
         ->toContain('decoding="async"');
 });
 
+it('emits intrinsic width and height so the browser reserves space', function () {
+    // ride-crowd-intersection.webp is 1600×1200; without these attributes the
+    // page reflows (CLS) when each lazy photo arrives.
+    $html = Blade::render(
+        '<x-photo src="img/photography/ride-crowd-intersection.webp" alt="Een rit" />'
+    );
+
+    expect($html)
+        ->toContain('width="1600"')
+        ->toContain('height="1200"');
+});
+
 it('omits srcset when no 768px sibling exists', function () {
     // SVG illustration: no responsive variant, no srcset.
     $html = Blade::render(

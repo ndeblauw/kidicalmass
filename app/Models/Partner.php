@@ -33,12 +33,14 @@ class Partner extends Model implements HasMedia
     {
         $this
             ->addMediaConversion('thumb')
+            ->format('png')
             ->width(150)
             ->height(150)
             ->sharpen(10);
 
         $this
             ->addMediaConversion('partner')
+            ->format('png')
             ->height(80)
             ->sharpen(10);
     }

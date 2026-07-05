@@ -23,3 +23,30 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Static asset caching — Apache hosts only; the equivalent nginx config lives
+# with the cutover requirements in docs/wiki/build/30-launch-runway.md.
+# /img files are NOT fingerprinted, so 30 days (a replaced photo under the same
+# name must eventually refresh); /build assets are fingerprinted by Vite and
+# safe to cache for a year.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/avif "access plus 30 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+    # Matches Vite's content-hashed filenames only (e.g. app-BlDCiQru.css)
+    <FilesMatch "-[A-Za-z0-9_-]{8}\.(css|js)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
+# Compress text responses, including the PHP-served /flux/flux.min.js and
+# /livewire-*/livewire.js routes (314 KB -> ~90 KB).
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>

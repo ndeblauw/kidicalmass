@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-05] build | Performance-pas: fotografie, partnerlogo's, CLS, cache-headers
+
+Vervolg op de runway-audit (die "compress + Lighthouse" bleek de halve winst): **fotografie** her-gecodeerd (webp q70, alleen behouden waar kleiner) met volledige `-768` srcset-dekking (44 varianten, was 16) en de jpg-strays naar webp (de cover-fallback `ride-cinquantenaire-crowd` op drie templates, nu via `<x-photo>` met eager/fetchpriority); **partnerlogo's**: de `partner`-conversie bleek nooit gegenereerd (database-queue, geen worker — 116 jobs stonden te wachten) waardoor de strip rauwe originelen serveerde (161 KB png); conversies geforceerd naar **png** (spatie's jpg-default maakte transparante achtergronden zwart, visueel geverifieerd) + regressietest; **`x-photo` emit nu intrinsic width/height** (aspect-ratio gereserveerd vóór lazy-load, tegen CLS) met dims-cache per src+mtime; **`.htaccess`** kreeg cache/compressieregels (img 30 dagen, Vite-hashes 1 jaar immutable, deflate voor PHP-geserveerde JS) en de nginx-equivalenten staan als eis in de hosting-rij van [30-launch-runway.md](build/30-launch-runway.md). Nuance uit de audit: flux.js' 620 KB was dev-mode (prod serveert 314 KB min); compressie blijft een servereis. Rest van de perf-rij: YouTube-autoplay-hero (zwaarste item, wacht op hero-MP4-besluit) + Lighthouse op een prod-build.
+
 ## [2026-07-05] build | Footerbunch: 365 KB svg vervangen door responsive avif
 
 De footer-illustratie (`footerbunch.svg`, 365 KB raw / ~146 KB gzipped) bleek grotendeels onverkleinbaar vectorwerk (svgo: 0%) plus twee ge-embedde bitmapkopieën van het logo. Vervangen door twee avif-renders met transparantie: 1024w (58 KB) en 2048w (88 KB) via `srcset`/`sizes`; `width`/`height` toegevoegd tegen layout-shift bij lazy-load. Visueel geverifieerd op 100% (niet te onderscheiden van de lossless render) en live op de homepage. `FooterZoneTest` asserteert het nieuwe asset.

@@ -21,6 +21,20 @@ it('attaches the real logo file to a partner whose slug has a logo', function ()
     expect($partner->getFirstMediaUrl('logo'))->not->toContain('picsum');
 });
 
+it('serves the partner conversion with transparency intact, not the raw logo', function () {
+    $partner = Partner::factory()->create([
+        'name' => 'Pro Velo',
+        'group_id' => null,
+        'show_logo' => true,
+        'visible' => true,
+    ]);
+
+    // The strip must ship the small `partner` conversion — as png, because a jpg
+    // conversion flattens transparent logo backgrounds to black — never the
+    // full-size original upload.
+    expect($partner->getFirstMediaUrl('logo', 'partner'))->toEndWith('-partner.png');
+});
+
 it('attaches no logo when no matching file exists', function () {
     $partner = Partner::factory()->create([
         'name' => 'Totally Fake Org That Has No Logo',
