@@ -19,17 +19,15 @@ class ContactForm extends Model
 
     /**
      * Retention promised on /privacy: gone 12 months after handling,
-     * 24 months after receipt at the latest.
+     * and in any case ("sowieso") 24 months after receipt, regardless
+     * of when (or whether) it was handled.
      */
     public function prunable(): Builder
     {
         return static::withoutGlobalScope(LocalGroupScope::class)
             ->where(function (Builder $query) {
                 $query->where('handled_at', '<', now()->subMonths(12))
-                    ->orWhere(function (Builder $query) {
-                        $query->whereNull('handled_at')
-                            ->where('created_at', '<', now()->subMonths(24));
-                    });
+                    ->orWhere('created_at', '<', now()->subMonths(24));
             });
     }
 

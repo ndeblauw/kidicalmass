@@ -2,5 +2,7 @@
 @layer components {
     .privacy-cookies dt {
         font-weight: 600;
+        text-transform: none;
+        letter-spacing: normal;
     }
 }
