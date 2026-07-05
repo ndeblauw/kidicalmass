@@ -17,4 +17,5 @@ return [
     'partners' => 'De partners en sponsors die Kidical Mass België mee mogelijk maken.',
     'support' => 'Steun Kidical Mass België: met jouw bijdrage brengen we nog meer kinderen veilig op de fiets.',
     'newsletter' => 'Schrijf je in voor de nieuwsbrief van Kidical Mass België en mis geen enkele rit in jouw buurt.',
+    'privacy' => 'Hoe Kidical Mass België omgaat met jouw gegevens: wat we verzamelen, waarom, hoe lang we het bewaren en welke cookies we gebruiken.',
 ];

@@ -1,0 +1,6 @@
+/* Privacy & cookies (P-06): emphasis for the cookie list terms. */
+@layer components {
+    .privacy-cookies dt {
+        font-weight: 600;
+    }
+}
