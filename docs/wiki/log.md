@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-05] build | Accessibility-pas: audit + critical/high + medium fixes (site-breed)
+
+Gerichte a11y-audit (drie parallelle sweeps: pagina's, componenten, forms/CSS) en twee fix-passes, alles met tests. Shell: skip link naar `#main`, gelabelde nav-landmarks, mobiele toggle met `aria-expanded`, globale `:focus-visible`-ring (focus was onzichtbaar op de primaire CTA's). Forms: foutmeldingen gekoppeld via `aria-invalid`/`aria-describedby`/`role=alert` (nieuwsbriefpatroon uitgerold), success- en verstuur-states als live regions, kalender-radiustabs met `aria-pressed` + rittenteller. Contrast: `--color-kidical-red-text` (#D42A6C, 4.83:1) voor kleine rode tekst; steun-heronotitie wit. Medium: h1→h2→h3 hersteld op Voor het eerst, galerijtitel echte h3, `<x-photo>`/`<x-page-hero>` eisen een alt-beslissing (bouwfout i.p.v. stille miss), partnerlogo's en 404-kaarten als lijsten, hero-animaties achter `prefers-reduced-motion`, hit-area's van kalendertabs en ride-pills naar ≥44px. Rest: low-laag (alt-formuleringen, kleine kalenderlabels, WhatsApp-icoon 2.5:1) + twee beslissingen: ongebruikte Engelstalige `contact-form-component`, en location-picker roving focus vs `aria-activedescendant`.
+
 ## [2026-07-05] build | P-06 privacy page + GDPR interventions
 
 Privacy & cookies page replaces the stub: full NL Art-13 copy (purposes, bases, recipients, retention, rights, GBA), config-driven cookie inventory, photo-consent section. Around it: privacy note component under all five data-collecting forms, ContactForm retention pruning (12m after handling / 24m cap) on a daily model:prune, contact-mail config-key fix, home hero swapped to youtube-nocookie (keeps the site banner-free), public /register disabled per the invite-only decision (flag to Nico). Open: vzw entity + processor names with the coördinatieduo; analytics line when Fathom lands; newsletter double-opt-in backend.
