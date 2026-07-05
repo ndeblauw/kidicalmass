@@ -23,16 +23,16 @@ Snapshot of where the NL rebuild stands (2026-07-04) and a weighed board of ever
 
 | | Done / approved | In progress | Not started | N.v.t. / shape open |
 |---|---|---|---|---|
-| **Wire** | 10 | 8 | 4 | 1 |
-| **UI** | 9 | 9 | 4 | 1 |
+| **Wire** | 10 | 9 | 3 | 1 |
+| **UI** | 9 | 10 | 3 | 1 |
 | **Back** | 8 | 7 | 1 | 7 |
 | **Client OK** | 0 | 0 | 22 | 1 |
 
 23 registry pages · avg content confidence **2.3/5** (the long pole) · client sign-off **0/22** — the reveal is what starts that clock.
 
-**Already banked (don't redo):** SEO/social head baseline (D-10 → Partly), branded error pages, 110 test files + CI, mobile pass (20 pages, zero overflow), admin role scoping, real data on chapters/press/stats/quotes/team/partners, redirect map *designed* (D-7), demo runbook.
+**Already banked (don't redo):** SEO/social head baseline (D-10 → Partly), branded error pages, 110 test files + CI, mobile pass (20 pages, zero overflow), admin role scoping, real data on chapters/press/stats/quotes/team/partners, redirect map *designed* (D-7), demo runbook, **Privacy page (P-06 — Art-13 copy, config-driven cookie list, form notices, ContactForm retention pruning)**.
 
-**Open flanks (nothing exists yet):** Wix redirects unbuilt (every old Facebook `/agenda` link 404s), newsletter forms drop addresses silently, no analytics / error monitoring / uptime, Privacy + Contact stubs while forms already collect personal data, no hosting/DNS/cutover plan anywhere, FR locale unbuilt despite the v1 NL+FR strategy promise.
+**Open flanks (nothing exists yet):** Wix redirects unbuilt (every old Facebook `/agenda` link 404s), newsletter forms drop addresses silently, no analytics / error monitoring / uptime, Contact stub while forms already collect personal data (Privacy page now live; legal entity + processor names still pending client), no hosting/DNS/cutover plan anywhere, FR locale unbuilt despite the v1 NL+FR strategy promise.
 
 ## The board
 
@@ -44,7 +44,7 @@ Impact ●●● = launch fails or embarrasses without it. Effort: S = a session
 |---|---|---|---|---|
 | **Build the Wix redirect map** | Map designed ([26-redirect-map.md](../design/26-redirect-map.md)); routes, locale middleware, Grande-KM slugs + post-launch crawl unbuilt. `/agenda`→`/events` carries every FB link. | ●●● | M | Nico |
 | **Newsletter backend** | Subscriber model + double opt-in + glue mailable. Change-computation + mail template already exist and are tested; the join is missing. 4+ live-looking forms drop addresses today. | ●●● | M | Nico |
-| **Privacy page (P-06)** | GDPR-mandatory: forms already collect names/emails/chapter choices. Needs legal text more than design. | ●●● | S–M | Frederik |
+| **Privacy page (P-06)** | Live: Art-13 copy, config-driven cookie list, form notices, retention pruning (12m/24m, daily `model:prune`). Remaining is client facts, not code — legal entity + processor names with the coördinatieduo, plus the analytics disclosure line once Fathom lands. | ● | S | Coördinatieduo + Frederik |
 | **National contact page (P-05)** | Press/partner front door is a route with nothing behind it; the ContactForm backend already works, so UX + copy job. | ●● | M | Frederik |
 | **Hosting, deploy & cutover plan** | The wiki's one blank page: prod env, DNS, queue worker (opt-in mails), `media-library:regenerate`, SPF/DKIM, backups, and the open parallel-run-vs-hard-switch question from [25-content-migration.md](../design/25-content-migration.md). | ●●● | M | Nico + Frederik |
 
@@ -84,5 +84,5 @@ Impact ●●● = launch fails or embarrasses without it. Effort: S = a session
 1. **Book the Leticia session** — six sign-offs in one afternoon; everything content-shaped queues behind it.
 2. **Newsletter backend + redirect routes** — the two Nico builds that turn stage props into a real site.
 3. **Write the cutover plan** — one wiki page: hosting, DNS, queue, mail, backups, Wix parallel-run yes/no.
-4. **Privacy + Contact pages** — the last two stubs a visitor can actually hit.
+4. **Contact page** — privacy is live now; Contact is the last stub a visitor can actually hit.
 5. **Make the FR call explicit** — launch-blocking or announced fast-follow, but written down.

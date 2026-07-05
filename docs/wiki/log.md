@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-05] build | P-06 privacy page + GDPR interventions
+
+Privacy & cookies page replaces the stub: full NL Art-13 copy (purposes, bases, recipients, retention, rights, GBA), config-driven cookie inventory, photo-consent section. Around it: privacy note component under all five data-collecting forms, ContactForm retention pruning (12m after handling / 24m cap) on a daily model:prune, contact-mail config-key fix, home hero swapped to youtube-nocookie (keeps the site banner-free), public /register disabled per the invite-only decision (flag to Nico). Open: vzw entity + processor names with the coördinatieduo; analytics line when Fathom lands; newsletter double-opt-in backend.
+
 ## [2026-07-04] build | Afsluitende CTA's Over ons: brug in plaats van slogan (P-15, P-17)
 
 /clarify-pas over de closing-CTA's van de Over ons-sectie. Missie sloot af op "Feest op wielen, met een duidelijke vraag": een samenvattende slogan, geen brug, en "vraag" leest eerst als question. Nu "Wat willen we veranderen?", die de knop "Lees wat we vragen" letterlijk beantwoordt. Hoe we werken stuurde "Een afdeling starten of vervoegen?" met "Zo begin je" naar Voor het eerst mee (deelnemerspagina, beantwoordt geen van beide intenties): de knop heet nu "Zo doe je mee" en landt op Meehelpen, dat zelf doorlinkt naar start-een-groep. De ketting leest nu missie → visie → werking → meehelpen; landing ("Rij mee met de buurt") en visie ("Wie maakt dit waar?") waren al goed, en "Zo begin je" blijft exclusief voor Lokale groepen → start-een-groep. Chain-assertion toegevoegd in `PublicStructureTest`. Geen registry-wijziging.
