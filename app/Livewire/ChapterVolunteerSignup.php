@@ -125,7 +125,7 @@ class ChapterVolunteerSignup extends Component
             // TODO (#37): route to this chapter's lead once a per-group lead email exists
             // on the Group model. For now the central comms inbox receives every enquiry,
             // tagged with the chapter name in the body above.
-            Mail::to(config('kidicalmass.email.communications'))
+            Mail::to(config('kidicalmass.mail.communications'))
                 ->send(new ContactFormSubmitted($contactForm));
         } catch (\Exception $e) {
             logger()->error('Failed to send chapter volunteer signup email: '.$e->getMessage());

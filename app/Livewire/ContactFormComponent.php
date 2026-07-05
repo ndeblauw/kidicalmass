@@ -59,7 +59,7 @@ class ContactFormComponent extends Component
 
         // Send email notification
         try {
-            Mail::to(config('kidicalmass.email.communications'))
+            Mail::to(config('kidicalmass.mail.communications'))
                 ->send(new ContactFormSubmitted($contactForm));
         } catch (\Exception $e) {
             // Log error but don't fail the submission
