@@ -28,26 +28,28 @@
     <div class="partner-strip__inner">
         <span class="partner-strip__label">{{ __('partners.showcase_label') }}</span>
 
-        <div class="partner-strip__logos">
+        <ul class="partner-strip__logos" role="list">
             @foreach($partners as $partner)
                 @php $logoUrl = $partner->getFirstMediaUrl('logo', 'partner'); @endphp
-                @if($logoUrl)
-                    @if($partner->url)
-                        <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" title="{{ $partner->name }}" class="partner-strip__logo-link">
+                <li>
+                    @if($logoUrl)
+                        @if($partner->url)
+                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" title="{{ $partner->name }}" class="partner-strip__logo-link">
+                                <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
+                            </a>
+                        @else
                             <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
-                        </a>
+                        @endif
                     @else
-                        <img src="{{ $logoUrl }}" alt="{{ $partner->name }}" class="partner-strip__logo" loading="lazy" decoding="async">
+                        @if($partner->url)
+                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="partner-strip__chip">{{ $partner->name }}</a>
+                        @else
+                            <span class="partner-strip__chip">{{ $partner->name }}</span>
+                        @endif
                     @endif
-                @else
-                    @if($partner->url)
-                        <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="partner-strip__chip">{{ $partner->name }}</a>
-                    @else
-                        <span class="partner-strip__chip">{{ $partner->name }}</span>
-                    @endif
-                @endif
+                </li>
             @endforeach
-        </div>
+        </ul>
 
         <a href="{{ route('about.partners') }}" class="partner-strip__more">{{ __('partners.see_all') }} →</a>
     </div>

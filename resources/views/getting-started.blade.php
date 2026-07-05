@@ -18,6 +18,8 @@
 
     {{-- WAT JE MAG VERWACHTEN — scroll-stacking cards (desktop); static list (mobile) --}}
     <section class="gs-expect-scroll">
+        {{-- Outline only: the cards are h3s, so this keeps h1 → h2 → h3 intact. --}}
+        <h2 class="sr-only">In het kort</h2>
         <div class="gs-expect-pin">
 
             <div class="gs-expect-left">

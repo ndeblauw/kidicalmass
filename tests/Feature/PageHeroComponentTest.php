@@ -37,3 +37,9 @@ it('omits the illustration and goes bare (full-width copy) when none is given', 
         ->not->toContain('page-hero__visual')
         ->toContain('page-hero--bare');
 });
+
+it('requires a photo alt decision when a photo is set', function () {
+    expect(fn () => Blade::render(
+        '<x-page-hero eyebrow="Test" title="Test" photo="img/photography/ride-crowd-intersection.webp" />'
+    ))->toThrow(Exception::class, 'photo-alt');
+});

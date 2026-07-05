@@ -65,3 +65,8 @@ it('still redirects on choose in default (non-reactive) mode', function () {
         ->call('choose', '1090')
         ->assertRedirect();
 });
+
+it('exposes a status region announcing suggestion results', function () {
+    Livewire::test(LocationPicker::class)
+        ->assertSeeHtml('role="status"');
+});

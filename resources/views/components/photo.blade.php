@@ -1,6 +1,6 @@
 @props([
     'src',                                   // path under public/, e.g. "img/photography/foo.webp"
-    'alt' => '',
+    'alt' => null,                           // required — pass alt="" only for genuinely decorative photos
     'sizes' => '(min-width: 768px) 45vw, 92vw',
     'loading' => 'lazy',
     'fetchpriority' => null,
@@ -12,6 +12,12 @@
      image. Placement/appearance is owned by the surrounding figure/CSS;
      extra attributes (class, style, …) pass through. --}}
 @php
+    if ($alt === null) {
+        throw new \InvalidArgumentException(
+            "<x-photo src=\"{$src}\"> needs an alt decision: describe the photo, or pass alt=\"\" if it is genuinely decorative."
+        );
+    }
+
     $srcset = null;
 
     if (str_ends_with($src, '.webp')) {

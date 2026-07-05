@@ -69,6 +69,11 @@
                 Verstuur
             </x-cta-button>
 
+            {{-- Always-rendered live region; the text only appears while submitting. --}}
+            <p class="sr-only" role="status">
+                <span wire:loading wire:target="submit">Bezig met versturen…</span>
+            </p>
+
             <x-form-privacy-note>We gebruiken je gegevens alleen om samen jouw groep op te starten.</x-form-privacy-note>
 
             <p class="sg-form__reassure">Een echt mens leest dit en antwoordt je persoonlijk. Geen automatische mailbox.</p>

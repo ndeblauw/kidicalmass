@@ -2,6 +2,7 @@
 
 use App\Models\Group;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
@@ -60,4 +61,17 @@ it('omits the band when there is only a cover photo', function () {
         ->assertOk()
         ->assertDontSee('chapter-gallery__grid', false)
         ->assertDontSee('ride-cinquantenaire-crowd.jpg'); // cover still swapped
+});
+
+it('renders the gallery feature title as a heading, not a paragraph', function () {
+    $group = Group::factory()->create();
+    attachGalleryPhotos($group, 2);
+
+    $html = Blade::render(
+        '<x-ride-gallery :photos="$photos" :date="now()" commune="Gent" />',
+        ['photos' => $group->getMedia('gallery')]
+    );
+
+    expect($html)->toContain('<h3 class="ride-gallery__feature-title">')
+        ->not->toContain('<p class="ride-gallery__feature-title">');
 });

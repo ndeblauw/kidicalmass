@@ -6,14 +6,22 @@
     'photo' => null,       // public-path asset (static artwork)
     'photoUrl' => null,    // full URL (e.g. media-library conversions); wins over `photo`
     'photoSrcset' => null, // optional srcset for `photoUrl` photos
-    'photoAlt' => '',
+    'photoAlt' => null, // required whenever a photo is set — pass "" only for genuinely decorative photos
     'caption' => null,
     'size' => 'default',   // 'default' | 'compact' — compact = shorter band + smaller title, for single-action pages (newsletter) and text-first pages without artwork (about leaves, pers, nieuws)
     'panelClass' => '',
     'photoTilt' => false,  // tilt the photo card and let it dip out of the blue band (chapter-page treatment); opts the hero out of the pinned scroll-over
 ])
 
-@php($photoSrc = $photoUrl ?? ($photo ? asset($photo) : null))
+@php
+    $photoSrc = $photoUrl ?? ($photo ? asset($photo) : null);
+
+    if ($photoSrc && $photoAlt === null) {
+        throw new \InvalidArgumentException(
+            '<x-page-hero> needs a photo-alt decision when a photo is set: describe the photo, or pass photo-alt="" if it is genuinely decorative.'
+        );
+    }
+@endphp
 
 {{-- In-flow brand-blue hero. The band sizes to its content (min-height floor),
      so the heading never clips. .page-panel overlaps its bottom edge; the floating

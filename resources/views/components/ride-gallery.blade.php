@@ -121,7 +121,7 @@
                 {{-- Title + the shared calendar tear-off (same lockup as the agenda),
                      red accent, clustered top-right over the photo scrim. --}}
                 <div class="ride-gallery__feature-head">
-                    <p class="ride-gallery__feature-title">{{ $title }}</p>
+                    <h3 class="ride-gallery__feature-title">{{ $title }}</h3>
 
                     @if ($rideRail)
                         <div

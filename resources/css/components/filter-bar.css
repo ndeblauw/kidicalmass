@@ -33,6 +33,7 @@
         gap: 14px;
     }
     .filter-bar__tab {
+        position: relative;
         padding: 2px 4px;
         font-family: var(--font-sans);
         font-size: var(--text-xl);
@@ -43,6 +44,14 @@
         cursor: pointer;
         transition: color 0.15s, text-decoration-color 0.15s;
         border: none;
+    }
+    /* Invisible hit-area extension: the visible tab is ~29px tall, well under the
+       44px touch-target guideline. The pseudo-element widens the tappable zone
+       without changing the visual (tabs sit 14px apart, so ±6px keeps clearance). */
+    .filter-bar__tab::after {
+        content: '';
+        position: absolute;
+        inset: -8px -6px;
     }
     .filter-bar__tab:hover {
         color: color-mix(in oklab, var(--color-kidical-blue), var(--color-kidical-ink) 35%);

@@ -35,6 +35,33 @@ it('defines a global keyboard focus style and a skip-link style', function () {
     expect(File::get(resource_path('css/chrome.css')))->toContain('.skip-link');
 });
 
+it('keeps a continuous heading outline on getting-started', function () {
+    // h1 (hero) → h2 (expectations, sr-only) → h3 (cards) → h2 (FAQ); previously
+    // the six card h3s followed the h1 directly, with the first h2 only at the FAQ.
+    $this->get('/nl/getting-started')
+        ->assertOk()
+        ->assertSeeInOrder(['</h1>', '</h2>', '</h3>', '</h2>'], false);
+});
+
+it('marks the 404 suggestion cards up as a list', function () {
+    $this->get('/nl/deze-pagina-bestaat-niet')
+        ->assertNotFound()
+        ->assertSee('role="list"', false);
+});
+
+it('renders the partner showcase logos as a list', function () {
+    Partner::factory()->create([
+        'name' => 'Pro Velo',
+        'group_id' => null,
+        'visible' => true,
+        'show_logo' => true,
+    ]);
+
+    $this->get('/nl')
+        ->assertOk()
+        ->assertSee('<ul class="partner-strip__logos" role="list">', false);
+});
+
 it('renders unavailable chapter downloads as previews, not dead links', function () {
     // The downloads block only renders inside the partners column of the
     // extras band, so the chapter needs a visible partner.

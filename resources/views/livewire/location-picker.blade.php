@@ -101,6 +101,14 @@
                 We konden je locatie niet vinden. Typ je postcode of gemeente.
             </p>
 
+            {{-- Always-rendered live region: announces how many suggestions the
+                 typed query produced, since the listbox itself appears silently. --}}
+            <p class="sr-only" role="status">
+                @if ($suggestions->isNotEmpty())
+                    {{ $suggestions->count() }} {{ $suggestions->count() === 1 ? 'voorstel' : 'voorstellen' }}, gebruik de pijltjestoetsen.
+                @endif
+            </p>
+
             @if ($suggestions->isNotEmpty())
                 <ul id="location-picker-suggestions" role="listbox" aria-label="Voorgestelde gemeentes" class="location-picker__suggestions">
                     @foreach ($suggestions as $pc)

@@ -56,6 +56,20 @@ it('announces enquiry success as a status message', function (string $component)
     StartGroupEnquiry::class,
 ]);
 
+it('announces the sending state while an enquiry submits', function (string $component) {
+    $params = $component === ChapterVolunteerSignup::class
+        ? ['group' => Group::factory()->create()]
+        : [];
+
+    Livewire::test($component, $params)
+        ->assertSeeHtml('role="status"')
+        ->assertSee('Bezig met versturen');
+})->with([
+    ChapterVolunteerSignup::class,
+    PartnerEnquiry::class,
+    StartGroupEnquiry::class,
+]);
+
 it('marks the newsletter email as required and announces success as a status message', function () {
     Livewire::test(NewsletterSignup::class)
         ->assertSeeHtml('required');

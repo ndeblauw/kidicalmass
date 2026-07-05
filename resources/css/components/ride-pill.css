@@ -4,6 +4,7 @@
        wrap in a flowing row — compact and scannable, structured without a calendar
        lockup. A soft shadow lifts the chip on hover so it reads as a tappable card. */
     .ride-pill {
+        position: relative;
         display: inline-flex;
         align-items: baseline;
         gap: 0.55em;
@@ -19,6 +20,14 @@
             border-color 0.15s var(--ease-brand),
             box-shadow 0.15s var(--ease-brand),
             transform 0.15s var(--ease-brand);
+    }
+    /* Invisible hit-area extension: the pill is ~34px tall, under the 44px
+       touch-target guideline. Vertical only — pills wrap in rows with modest
+       gaps, so the extended zones stay clear of their neighbours. */
+    .ride-pill::after {
+        content: '';
+        position: absolute;
+        inset: -5px 0;
     }
     .ride-pill__date {
         flex: none;

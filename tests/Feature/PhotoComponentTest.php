@@ -39,3 +39,11 @@ it('passes a class through and supports an eager fetchpriority hint', function (
         ->toContain('loading="eager"')
         ->toContain('fetchpriority="high"');
 });
+
+it('requires an explicit alt decision', function () {
+    // A forgotten alt must fail loudly, not silently ship an undescribed photo.
+    // Decorative photos pass alt="" on purpose.
+    expect(fn () => Blade::render(
+        '<x-photo src="img/photography/ride-crowd-intersection.webp" />'
+    ))->toThrow(Exception::class, 'alt');
+});

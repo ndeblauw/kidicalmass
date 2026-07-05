@@ -16,11 +16,11 @@
     {{-- De nuttige helft: rechtstreeks naar de populairste bestemmingen. --}}
     <section class="mx-auto mt-16 max-w-4xl">
         <x-section-heading class="text-center">Waar wil je naartoe?</x-section-heading>
-        <div class="mt-8 grid gap-6 sm:grid-cols-3">
-            <x-nav-card :href="route('activities.index')" icon="calendar-days" title="Kalender">Vind een rit in jouw buurt.</x-nav-card>
-            <x-nav-card :href="route('groups.index')" icon="map-pin" title="Lokale groepen">Ontdek wie er bij jou in de buurt fietst.</x-nav-card>
-            <x-nav-card :href="route('getting-started')" icon="face-smile" title="Voor het eerst mee">Wat je mag verwachten op een rit.</x-nav-card>
-        </div>
+        <ul class="mt-8 grid gap-6 sm:grid-cols-3" role="list">
+            <li><x-nav-card :href="route('activities.index')" icon="calendar-days" title="Kalender">Vind een rit in jouw buurt.</x-nav-card></li>
+            <li><x-nav-card :href="route('groups.index')" icon="map-pin" title="Lokale groepen">Ontdek wie er bij jou in de buurt fietst.</x-nav-card></li>
+            <li><x-nav-card :href="route('getting-started')" icon="face-smile" title="Voor het eerst mee">Wat je mag verwachten op een rit.</x-nav-card></li>
+        </ul>
     </section>
 
 </x-layouts::site>
