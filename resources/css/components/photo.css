@@ -1,0 +1,11 @@
+/* <x-photo> content photography — a hairline just inside the image edge so
+   light photo edges (sky, pale walls) don't bleed into the white page ground.
+   Pure black at low alpha on purpose: a tinted neutral picks up the surface
+   colour underneath and reads as dirt on the edge. The outline follows the
+   img's border-radius, so page-level rounding keeps working. */
+@layer components {
+    .photo {
+        outline: 1px solid rgb(0 0 0 / 0.1);
+        outline-offset: -1px;
+    }
+}

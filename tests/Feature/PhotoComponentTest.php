@@ -34,8 +34,10 @@ it('passes a class through and supports an eager fetchpriority hint', function (
         '<x-photo src="img/photography/ride-crowd-intersection.webp" alt="x" class="hero" loading="eager" fetchpriority="high" />'
     );
 
+    // `photo` is the component's identity hook (components/photo.css); passed
+    // classes compose with it rather than replacing it.
     expect($html)
-        ->toContain('class="hero"')
+        ->toContain('class="photo hero"')
         ->toContain('loading="eager"')
         ->toContain('fetchpriority="high"');
 });

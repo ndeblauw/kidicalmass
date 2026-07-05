@@ -18,7 +18,7 @@
                     <div class="flex-1 ml-8 max-w-md" aria-hidden="true">
                         <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
                             <div
-                                class="h-full bg-gradient-to-r from-kidical-blue to-kidical-green rounded-full transition-all duration-500"
+                                class="h-full bg-gradient-to-r from-kidical-blue to-kidical-green rounded-full transition-[width] duration-500"
                                 style="width: {{ ($count / max($statistics)) * 100 }}%"
                             ></div>
                         </div>

@@ -128,6 +128,10 @@
         /* Caprasimo (headers) is single-weight; never fake a bold for it. Nunito Sans has a
            real 400 + 700, so body bold is unaffected. */
         font-synthesis: none;
+        /* Subpixel rendering makes Nunito Sans sit heavy on macOS; grayscale
+           antialiasing matches the auth/Flux layouts, which already opt in. */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
         /* Full-bleed bands across the site use `width: 100vw; margin: calc(50% - 50vw)`.
            `100vw` counts the vertical-scrollbar gutter, but the content box doesn't — so
            on systems with classic (space-consuming) scrollbars every band is scrollbar-width
@@ -165,6 +169,11 @@
     [popover] a {
         background-image: none;
         transition: none;
+    }
+
+    /* Headings balance (below); running text avoids single-word orphan lines. */
+    p {
+        text-wrap: pretty;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -237,6 +246,7 @@
 @import './components/faq.css';
 @import './components/titled-list-block.css';
 @import './components/scroll-sequence.css';
+@import './components/photo.css';
 @import './components/photo-collage.css';
 @import './components/ride-gallery.css';
 @import './components/ride-photo-nudge.css';

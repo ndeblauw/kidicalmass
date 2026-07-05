@@ -9,7 +9,8 @@
 {{-- Responsive content photo. When a pre-generated 768px-wide sibling
      ({name}-768.webp) exists and the original is wider than 768px, emit a
      two-step srcset so phones fetch the small variant instead of the full
-     image. Placement/appearance is owned by the surrounding figure/CSS;
+     image. Placement/appearance is owned by the surrounding figure/CSS, except
+     the hairline edge outline (components/photo.css via the `photo` class);
      extra attributes (class, style, …) pass through. --}}
 @php
     if ($alt === null) {
@@ -45,5 +46,5 @@
     loading="{{ $loading }}"
     decoding="async"
     @if ($fetchpriority) fetchpriority="{{ $fetchpriority }}" @endif
-    {{ $attributes }}
+    {{ $attributes->class(['photo']) }}
 >
