@@ -1,5 +1,13 @@
 # Wiki Log
 
+## [2026-07-07] design | Handoff: één veld-idioom via gerestylede Flux-componenten
+
+Uit Frederiks P-07-critique: Flux-formuliercomponenten thema'en naar het
+site-idioom (.volunteer-signup__*) en daarna alle 8 publieke formulieren op
+Flux zetten — consistentie uit één definitie, viewable-wachtwoord terug.
+Brief: `docs/wiki/design/30-skeleton/form-field-flux-idiom.md`; bouwen in een
+verse thread.
+
 ## [2026-07-07] build | Branded login view (P-07) live
 
 Geel-veld auth shell built: photo collage + NL copy across login/forgot/reset/
