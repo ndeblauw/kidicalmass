@@ -293,3 +293,6 @@ if (! app()->isProduction()) {
         return response()->view('errors.'.$code, [], (int) $code);
     })->name('preview.errors');
 }
+
+// Legacy Wix URLs → 301s to the new site (docs/wiki/design/26-redirect-map.md, D-7).
+require __DIR__.'/redirects.php';

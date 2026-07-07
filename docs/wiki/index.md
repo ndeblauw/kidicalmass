@@ -45,7 +45,7 @@ Catalogue of every page. The wiki is being migrated to the **Cascade** structure
 | [Sitemap — TO-BE · Public](design/22-sitemap-to-be-public.md) | Visual sitemap of the new public site; nav-ordered, family + volunteer routes in signature colour — client presentation | design |
 | [Sitemap — TO-BE · Private](design/23-sitemap-to-be-private.md) | Visual sitemap of the login-gated zone (logged-in volunteers + organiser back-office) — client presentation | design |
 | [Content Migration Plan](design/25-content-migration.md) | Every Wix page → its new home (Rewrite/Migrate/Merge/Absorb/Drop/Seed) | design |
-| [Redirect Map](design/26-redirect-map.md) | Old Wix URLs → new routes (301); locale-middleware language rule; launch-critical (closes D-7) | design |
+| [Redirect Map](design/26-redirect-map.md) | Old Wix URLs → new routes (301); **built 2026-07-07** (`routes/redirects.php`, full live-sitemap coverage); event/post detail targets pending content migration (closes D-7) | design |
 | [Skeleton — page registry](design/30-skeleton/00-page-registry.md) | Every route + spec/content/build/lifecycle status | design |
 | [Skeleton — per-page briefs](design/30-skeleton/) | Page specs + content companions (home, events, activity-detail, chapters, getting-started, help-out, about) + global-component briefs (steun-ons, partners) | design |
 | [Patterns Library](design/40-patterns.md) | Shared UI patterns with stable IDs (PAT-1…PAT-17) | design |

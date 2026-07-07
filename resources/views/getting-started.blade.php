@@ -99,7 +99,8 @@
             <x-faq.item question="Wat moeten we meebrengen?">
                 <p>Een helm is aangeraden maar niet verplicht. Neem wat water mee. Dat is echt alles. Geen speciale uitrusting, geen voorbereiding nodig.</p>
             </x-faq.item>
-            <x-faq.item question="Wat als we geen fiets hebben?">
+            {{-- id is a redirect target: old Wix /help-je-n-ai-pas-de-vélo lands here (26-redirect-map). --}}
+            <x-faq.item id="no-bike" question="Wat als we geen fiets hebben?">
                 <p>Geen fiets is geen reden om thuis te blijven. Soms staat er zelfs een bakfiets klaar aan de start, en op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Vraag er gerust naar bij je lokale groep.</p>
             </x-faq.item>
             <x-faq.item question="Is het echt gratis?">
