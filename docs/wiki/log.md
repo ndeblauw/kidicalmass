@@ -1,5 +1,41 @@
 # Wiki Log
 
+## [2026-07-07] build | Review-reconcile + nieuwe CMS-kolom in het register
+
+Vervolg op de eerste `/build/review`-sessie (21 rijen herijkt, 8 feedbacknotities — zie de review-sessie-entry hieronder). **Reconcile:** alle Top gaps-cellen verzoend met de nieuwe rijstanden en de inbox-feedback (P-03 herontwerp gevraagd — UX/Wire/UI terug 🟠; P-07 login-view als afgebakend projectje; P-14 designalternatieven; P-17 blauwe band; P-18 drie layouttweaks; P-01 hero-MP4 zelf hosten; P-04 stats-check), Roll-up volledig herrekend (avg Conf 2.8 → **3.6**; Wire 19 🟢; nog 2 design-open pagina's). **Nieuwe `CMS`-kolom** (tussen `Back` en `OK`): volgt of de content *in* het CMS geladen en juist is — `Assets` is voortaan expliciet alleen statische media. ⚪ = geen CMS-content (9 pagina's), 🟠 = team moet nakijken/aanvullen (9: partnerlogo's, quote-vertalingen, duo-bio's, nieuws-nakijk, persdatums, steun-stats, per-event verrijking), 🔴 = wacht op #37 (P-09/P-11), 🟢 = events + chapters. De kolom is meteen de content-chase-list richting het team; nieuws + pers zijn al geïmporteerd (migreert automatisch mee). Code mee: `BuildStatus`/`RegistryWriter`/`BuildReview`/dashboard + tests op 13 kolommen; `CLAUDE.md` + `/pipeline` definities bijgewerkt. Review-inbox geleegd (items verwerkt in Top gaps + runway + to-dolijst).
+
+## [2026-07-07] build | P-06 client-info lookup: geen vzw in KBO; processors → issue #48
+
+Frederik: "zoek de ontbrekende client-info voor Privacy (P-06) zelf op." Uitkomst van de zoektocht: de **KBO kent géén enkele inschrijving op "Kidical"** (fonetische zoekopdracht, alle rechtsvormen) — de desk-researchclaim "the organisation is a vzw" was een aanname uit het partnercharter, niet geverifieerd. De drie gerehoste PDF's (manifest, charter, sponsorformules) dragen geen juridische voettekst; publieke bronnen vermelden wel drager-vzw's voor lokale groepen (Elastiek vzw, Molenbeek à velo vzw, Remorquable ASBL) en VDK-rekening BE72 8919 4405 3116. Conclusie: de entiteitsvraag kan alleen het coördinatieduo beantwoorden (feitelijke vereniging? drager-vzw?) — pagina-copy bewust niet aangepast. Hosting/mail-processors zijn Nico's domein → **[#48](https://github.com/ndeblauw/kidicalmass/issues/48)** aangemaakt (checklist: hosting, transactionele mail, nieuwsbriefdienst, overige processors, analytics), toegewezen aan @ndeblauw. Registry P-06 Top gaps bijgewerkt (KBO-bevinding + #48-verwijzing); geen stagewijziging.
+
+## [2026-07-07] build | Launch runway refreshed to 07-07 state
+
+[`30-launch-runway.md`](build/30-launch-runway.md) + `.html` bijgewerkt op de stand sinds de compilatie van 07-04: hertelling op 22 registryrijen (P-08 weg; gem. confidence 2.3→2.8; OK 0/21), Contact (P-05) en Privacy (P-06) van "stub/blocker" naar "gebouwd, staart resteert", a11y- en perf-passes van open kaart naar banked, Wix-redirects als gebouwd gemarkeerd (07-07), de About-critiquekaart verbreed tot "critique batch" (10 oranje Wire-rijen) met de `/build/review`-tooling als versneller, en "vijf dingen" #2/#4 herschreven (alleen newsletter-backend rest bij Nico; critique batch i.p.v. de gevallen stubs). **Let op:** de hertelling dateert van vóór de review-sessie van vandaag — de reconcile-/pipeline-pas mag de runway-cijfers meteen opnieuw ijken.
+
+## [2026-07-07] build | review-sessie (/build/review)
+
+- **P-01 Home**: Back 🟠→🟢, Conf 3→4; feedbacknotitie in review-inbox
+- **P-02 Events overview**: Assets 🔴→🟢, Back 🟠→🟢, Conf 3→5
+- **P-03 Event detail**: UX 🟢→🟠, Wire 🟢→🟠, Assets 🔴→🟢, UI 🟢→🟠, Back 🟠→🟢, Conf 3→4; feedbacknotitie in review-inbox
+- **P-04 Steun Kidical Mass**: Assets ⚪→🟢, UI 🟠→🟢, Back ⚪→🟠, Conf 2→4; feedbacknotitie in review-inbox
+- **P-05 Contact (national)**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢
+- **P-06 Legal / GDPR**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢, Back ⚪→🟢, Conf 3→4
+- **P-07 Volunteer login**: UX 🔴→🟢, Wire 🔴→🟠, Assets ⚪→❓, UI 🔴→🟠, Conf 1→4; feedbacknotitie in review-inbox
+- **P-09 Roze-hesje page**: Wire 🟠→🟢; feedbacknotitie in review-inbox
+- **P-10 Chapters overview**: Conf 3→4
+- **P-11 Chapter page**: Assets 🟠→🟢, Back 🟠→🟢, Conf 3→4
+- **P-12 Getting Started**: Assets ⚪→🟢, Back ⚪→🟢, Conf 4→3
+- **P-13 Help out**: Back ⚪→🟢
+- **P-14 About overview**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢, Back ⚪→🟢, Conf 3→4; feedbacknotitie in review-inbox
+- **P-15 Mission**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢, Back 🟢→⚪
+- **P-16 Vision**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢
+- **P-17 Organisation**: Wire 🟠→🟢, Assets ⚪→🟢; feedbacknotitie in review-inbox
+- **P-18 News**: Wire 🟠→🟢, Assets 🔴→🟢, Conf 2→3; feedbacknotitie in review-inbox
+- **P-19 Press**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢, Conf 2→4
+- **P-20 Partners**: Wire 🟠→🟢, Assets ⚪→🟢, UI 🟠→🟢, Back 🟠→🟢, Conf 3→4
+- **P-23 Een lokale groep starten**: Assets 🟠→🟢, Back 🟠→🟢, Conf 3→4
+- **P-24 Nieuwsbrief**: Back 🔴→🟠, Conf 3→4
+
 ## [2026-07-07] build | Wix redirect map built — every live URL 301s to the new site
 
 The D-7 design ([26-redirect-map.md](design/26-redirect-map.md)) is now implemented: `routes/redirects.php` + `LegacyRedirectController` 301 every URL in the live kidicalmass.be sitemap (re-crawled today — that crawl surfaced two pages the design map missed, `/bxltour2026` → `/events` and `/1330` (Rixensart, no chapter) → `/chapters`, both added). Postal-code pages resolve **zip → chapter at request time** (chapter URLs key on id, so the map holds if route keys ever change; fallback `/chapters`), with the combined-page canonicals decided: `/1081-82-83` → Koekelberg (1081), `/1150-1200` → Woluwe (1200), every covered code mapped. Locale resolves per request off `SetLocale::SUPPORTED` (Accept-Language, fallback nl) — the D-7 "neutral path + runtime rule" decision without a separate middleware; it extends automatically when FR lands. `/help-je-n-ai-pas-de-vélo` got its `#no-bike` FAQ anchor (`x-faq.item` now merges attributes); the `/activités-…` anchor was dropped (no such section on the built page). Blog posts and the three Grande-KM edition pages blanket to their index until real content migrates (hand-off items 2 + 4, still Nico's). Covered by `tests/Feature/LegacyRedirectTest.php` (30 tests incl. unmapped-path-404s rule). Cascade: map page updated to as-built, runway Lane-1 row closed (~~Nico~~ done), banked/flanks/five-things reconciled, index.md line.

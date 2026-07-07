@@ -9,7 +9,8 @@
     <b>Wire</b> (wireframe goed, geen stijl) →
     <b>Assets</b> (beelden/downloads binnen) →
     <b>UI</b> (visuele stijl) →
-    <b>Back</b> (backend/CMS) →
+    <b>Back</b> (backend-bedrading) →
+    <b>CMS</b> (CMS-content geladen &amp; nagekeken) →
     <b>OK</b> (klant). Bolletjeskleur = status:
     <span class="sdot s-not-started"></span> niet begonnen ·
     <span class="sdot s-in-progress"></span> bezig ·
@@ -28,6 +29,7 @@
       <th><abbr title="Assets — alle juiste beelden + downloads voor de pagina binnen">Assets</abbr></th>
       <th><abbr title="UI — visuele stijl toegepast + gecheckt">UI</abbr></th>
       <th><abbr title="Backend — data/CMS-bedrading; of bewust beslist dat het niet nodig is">Back</abbr></th>
+      <th><abbr title="CMS-content — de content in het CMS is geladen en klopt (⚪ = pagina heeft geen CMS-content; 🟠 = team moet nakijken of aanvullen)">CMS</abbr></th>
       <th><abbr title="Goedgekeurd door de klant">OK</abbr></th>
       <th>Top gaps</th>
     </tr></thead>
@@ -39,7 +41,7 @@
           <td>{{ \Illuminate\Support\Str::before($p['type'], ' ') }}</td>
           <td title="UX: {{ $p['stages']['ux']->label() }}"><span class="sdot s-{{ $p['stages']['ux']->value }}"></span></td>
           <td class="conf c{{ $p['confidence'] }}">{{ $p['confidence'] ?: '—' }}</td>
-          @foreach (['wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'ok' => 'OK'] as $stage => $lbl)
+          @foreach (['wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'cms' => 'CMS', 'ok' => 'OK'] as $stage => $lbl)
             <td title="{{ $lbl }}: {{ $p['stages'][$stage]->label() }}"><span class="sdot s-{{ $p['stages'][$stage]->value }}"></span></td>
           @endforeach
           <td class="gaps">

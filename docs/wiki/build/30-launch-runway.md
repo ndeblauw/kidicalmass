@@ -23,16 +23,17 @@ Snapshot of where the NL rebuild stands (compiled 2026-07-04, updated 2026-07-07
 
 | | Done / approved | In progress | Not started | N.v.t. / shape open |
 |---|---|---|---|---|
-| **Wire** | 10 | 10 | 1 | 1 |
-| **UI** | 9 | 11 | 1 | 1 |
-| **Back** | 8 | 8 | 1 | 5 |
+| **Wire** | 19 | 2 | 0 | 1 |
+| **UI** | 17 | 4 | 0 | 1 |
+| **Back** | 17 | 4 | 0 | 1 |
+| **CMS** (new 07-07) | 2 | 9 | 2 | 9 |
 | **Client OK** | 0 | 0 | 21 | 1 |
 
-22 registry pages (P-22 cut 07-04, P-08 cut 07-07 — the roze-hesje hub carries the volunteer layer) · avg content confidence **2.8/5** (client material still the long pole) · client sign-off **0/21** — the reveal is what starts that clock. The "not started" column nearly emptied since 07-04: Contact and Privacy were built and moved into the orange critique queue; only the branded login view remains a stub.
+22 registry pages (P-22 cut 07-04, P-08 cut 07-07 — the roze-hesje hub carries the volunteer layer) · avg content confidence **3.6/5** (recalibrated row-by-row in the 07-07 review session) · client sign-off **0/21** — the reveal is what starts that clock. **The critique queue is empty:** Frederik walked all 21 public rows through `/build/review` on 07-07. Only two pages remain design-open — Event detail (P-03, redesign asked) and the branded login view (P-07). The new **CMS column** tracks whether CMS-driven content is loaded and correct; its nine 🟠 cells are the client content chase-list.
 
-**Already banked (don't redo):** SEO/social head baseline (D-10 → Partly), branded error pages, 118 test files + CI, mobile pass (20 pages, zero overflow), admin role scoping, real data on chapters/press/stats/quotes/team/partners, **Wix redirect map built** (D-7 — every live-sitemap URL 301s, 07-07), demo runbook, **Privacy page (P-06 — Art-13 copy, config-driven cookie list, form notices, ContactForm retention pruning)**, **Contact page (P-05 — final a3a live, form wired to `ContactForm` + comms inbox)**, **accessibility pass** (skip link, landmarks, focus ring, form error wiring, contrast, reduced-motion, hit areas — 07-05), **performance pass** (photography srcset, partner conversions, CLS dims, cache rules, footerbunch avif — 07-05).
+**Already banked (don't redo):** SEO/social head baseline (D-10 → Partly), branded error pages, 118 test files + CI, mobile pass (20 pages, zero overflow), admin role scoping, real data on chapters/press/stats/quotes/team/partners, **Wix redirect map built** (D-7 — every live-sitemap URL 301s, 07-07), demo runbook, **Privacy page (P-06 — Art-13 copy, config-driven cookie list, form notices, ContactForm retention pruning)**, **Contact page (P-05 — final a3a live, form wired to `ContactForm` + comms inbox)**, **accessibility pass** (skip link, landmarks, focus ring, form error wiring, contrast, reduced-motion, hit areas — 07-05), **performance pass** (photography srcset, partner conversions, CLS dims, cache rules, footerbunch avif — 07-05), **`/build/review` tool + first full review session** (07-07 — all 21 rows recalibrated by Frederik, feedback folded into the registry + this board).
 
-**Open flanks (nothing exists yet):** newsletter forms drop addresses silently, no analytics / error monitoring / uptime, the 10-row critique queue all waits on Frederik (About ×7, roze-hub, Contact, Privacy — no code moves it), no hosting/DNS/cutover plan anywhere, FR locale unbuilt despite the v1 NL+FR strategy promise.
+**Open flanks (nothing exists yet):** newsletter forms drop addresses silently, no analytics / error monitoring / uptime, no hosting/DNS/cutover plan anywhere, FR locale unbuilt despite the v1 NL+FR strategy promise. (The critique-queue flank closed 07-07 — review session done; what remains of it is the bounded design-follow-up batch below.)
 
 ## The board
 
@@ -52,19 +53,23 @@ Impact ●●● = launch fails or embarrasses without it. Effort: S = a session
 
 | Initiative | Why it bites | Impact | Effort | Owner |
 |---|---|---|---|---|
-| **The critique batch** | Now 10 rows: About (P-14–P-20), roze-hub, Contact + Privacy all wait on Frederik's critique to go Wire/UI 🟢 — the largest block of 🟠. Tooling underway: `/build/review` split review mode (specced + planned 07-07, `RegistryWriter` built) walks every page and writes stage bumps + feedback notes into the registry. | ●●● | M | Frederik |
+| **The critique batch** | Done 07-07: `/build/review` shipped and Frederik walked all 21 rows in one sitting. Follow-ups became the four rows below. | ●●● | M | ~~Frederik~~ done |
+| **Event detail redesign (P-03)** | The one page the review sent back to the drawing board (UX/Wire/UI → 🟠). Existing three-state lifecycle + share-band stay as the base; needs a fresh design pass (brief → alternatives → build), not a tweak. | ●● | M | Frederik |
+| **About polish batch** | Three bounded review follow-ups in one thread: About hub (P-14) look-en-feel lighter, design alternatives asked; Organisation (P-17) blue national-vs-local band simplified; News (P-18) category label onto the image (date jumps now), concrete page title, intro into the hero. | ●● | S–M | Frederik |
+| **Branded login view (P-07)** | Fortify backend done; the login page itself needs KM style + NL copy. Self-contained, fun, small. Assets ❓ — decide if it gets an illustration. | ● | S | Frederik |
+| **Roze-hub surface pass (P-09)** | Wire approved 07-07; the hub still needs its KM-style surface pass. Real features wait on [#37](https://github.com/ndeblauw/kidicalmass/issues/37), styling doesn't. | ● | S–M | Frederik |
 | **SEO tail (D-10)** | Designed `og-default` share card (check the file even exists), `sitemap.xml` + robots reference, JSON-LD events. hreflang parks with FR. | ●● | S | Frederik + Nico |
 | **Analytics, cookieless** | Plausible/Fathom: no consent banner, simple privacy page, launch-week numbers for the client. | ●● | S | Nico |
 | **Accessibility pass** | Done 07-05: audit + two fix passes site-wide (skip link, labelled landmarks, focus-visible, form error wiring, contrast token, heading order, reduced-motion, ≥44px hit areas), tested. Remaining: low tier + two decisions (location-picker focus model). | ● | S | Frederik |
 | **Performance pass** | Largely done 2026-07-05: photography re-encoded (q70) with full `-768` srcset coverage, jpg strays → webp, partner-logo conversions repaired (png keeps transparency), `x-photo` emits width/height against CLS, `.htaccess` cache/compression rules. Footerbunch went avif the same day (parallel thread). Remaining: **YouTube autoplay hero** (~2 MB third-party load, the single heaviest item — pairs with the hero-MP4 content ask) and a Lighthouse round on a prod build (`npm run build`, no `public/hot`). | ●● | S | Frederik |
-| **Board strays** | Steun surface port (UI 🟠) + branded login view (P-07, backend done). | ● | S | Frederik |
+| **Steun stats check (P-04)** | Steun surface port landed (UI 🟢 07-07). Remaining `[research]`: verify the proof-deck stats really flow from `SupportStats`/`year_stats` and that Leticia can edit them in the admin — pairs with the admin-handoff screencasts. | ● | S | Frederik |
 
 ### Lane 3 — People & content (the human runway; starts earliest, finishes last)
 
 | Initiative | Why it bites | Impact | Effort | Owner |
 |---|---|---|---|---|
 | **Leticia decision batch** | One session clears six blockers: S-1/S-2 sign-off, trekker consent [BLOKKEREND], one-off support + IBAN, national partner pass, D-12 enquiry ownership, press dates. Highest impact-per-hour on the board. | ●●● | S | Leticia + Frederik |
-| **Content confidence push** | Avg 2.3/5: duo photos + bios, ~6 partner logos, per-event photos/Komoot, hero MP4, quote translations. Chase list exists per page in the registry Top gaps — turn it into one client checklist. | ●●● | M–L | Client + Frederik |
+| **Content confidence push** | Avg now 3.6/5 (recalibrated 07-07). The chase list is no longer scattered: the registry's new **CMS column** holds it — nine 🟠 cells (partner logos, quote translations, duo photos + bios, news check + covers, press dates, steun stats 2026, per-event photos/Komoot) plus the hero MP4 under Assets. Message to the team: imported content (news, press) migrates automatically — they only check/complete what's 🟠. Turn the column into one client checklist for the Leticia session. | ●●● | M–L | Client + Frederik |
 | **Chapter-lead onboarding** | Migration plan's own "biggest transition risk": ~13 Brussels chapter pages launch near-empty. Authoring guide + session + a decided stop-editing-Wix moment. | ●●● | M | Frederik + leads |
 | **Admin handoff for the duo** | News/press/partners/quotes/team/stats are admin-editable; nobody but the builders knows. Screencasts > manual; doubles as reveal material. | ●● | S–M | Frederik |
 | **Ops safety net** | Error monitoring (Flare fits the stack) + uptime ping + verified backup before real users arrive. | ●● | S | Nico |
@@ -84,5 +89,5 @@ Impact ●●● = launch fails or embarrasses without it. Effort: S = a session
 1. **Book the Leticia session** — six sign-offs in one afternoon; everything content-shaped queues behind it.
 2. **Newsletter backend** — the Nico build that turns stage props into a real site (redirect routes landed 07-07).
 3. **Write the cutover plan** — one wiki page: hosting, DNS, queue, mail, backups, Wix parallel-run yes/no.
-4. **Run the critique batch** — 10 orange Wire rows (About, roze-hub, Contact, Privacy) all wait on one person; `/build/review` makes it a single sitting.
+4. **Clear the review follow-ups** — the 07-07 session shrank "critique" to four bounded design jobs (Event detail redesign, About polish batch, login view, roze-hub surface); each is a single thread.
 5. **Make the FR call explicit** — launch-blocking or announced fast-follow, but written down.

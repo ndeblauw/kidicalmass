@@ -89,11 +89,11 @@ class BuildStatus
         }
         $pages = [];
         foreach ($rows as $c) {
-            if (count($c) < 12) {
+            if (count($c) < 13) {
                 continue;
             }
             // Columns: 0 ID · 1 Page · 2 Slug · 3 Type · 4 UX · 5 Conf · 6 Wire
-            //          · 7 Assets · 8 UI · 9 Back · 10 OK · 11 Top gaps
+            //          · 7 Assets · 8 UI · 9 Back · 10 CMS · 11 OK · 12 Top gaps
             $id = $c[0];
             $slug = trim($c[2], '` ');
             $built = $cfg['pages'][$slug] ?? null;
@@ -108,10 +108,11 @@ class BuildStatus
                     'assets' => Stage::fromEmoji($c[7]),
                     'ui' => Stage::fromEmoji($c[8]),
                     'back' => Stage::fromEmoji($c[9]),
-                    'ok' => Stage::fromEmoji($c[10]),
+                    'cms' => Stage::fromEmoji($c[10]),
+                    'ok' => Stage::fromEmoji($c[11]),
                 ],
                 'confidence' => (int) (Str::match('/\d/', $c[5]) ?: 0),
-                'gaps' => $c[11],
+                'gaps' => $c[12],
                 'briefPath' => $cfg['briefs'][$id] ?? null,
                 'viewPath' => $built['view'] ?? null,
                 'routeUri' => $built['route'] ?? null,

@@ -37,7 +37,7 @@
 
         @unless ($rowMissing)
             <section class="grid grid-cols-2 gap-2">
-                @foreach (['ux' => 'UX', 'wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'ok' => 'OK'] as $key => $label)
+                @foreach (['ux' => 'UX', 'wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'cms' => 'CMS', 'ok' => 'OK'] as $key => $label)
                     <button type="button" wire:click="cycle('{{ $key }}')" data-stage="{{ $key }}"
                             class="flex items-center justify-between rounded border border-neutral-200 px-3 py-2 text-sm hover:bg-neutral-50">
                         <span>{{ $label }}</span><span>{{ $stages[$key] }}</span>

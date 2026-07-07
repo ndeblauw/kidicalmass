@@ -66,7 +66,7 @@ class BuildReview extends Component
         }
 
         $writer = app(RegistryWriter::class);
-        $labels = ['ux' => 'UX', 'conf' => 'Conf', 'wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'ok' => 'OK'];
+        $labels = ['ux' => 'UX', 'conf' => 'Conf', 'wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'cms' => 'CMS', 'ok' => 'OK'];
 
         $changed = collect($this->stages)
             ->filter(fn ($emoji, $key) => $emoji !== $this->original[$key])

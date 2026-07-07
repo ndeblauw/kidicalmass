@@ -4,7 +4,7 @@ use App\Support\Build\RegistryWriter;
 use Illuminate\Support\Facades\File;
 
 /**
- * Fixture registry: 2 rows, realistic 12-column shape, plus a malformed row.
+ * Fixture registry: 2 rows, realistic 13-column shape, plus a malformed row.
  * Written to a temp path so the real wiki file is never touched.
  */
 function fakeRegistry(): string
@@ -12,10 +12,10 @@ function fakeRegistry(): string
     return <<<'MD'
 # Skeleton — page registry & build pipeline
 
-| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | OK | Top gaps |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🔴 | NL video hero, spec: [x](y.md). |
-| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | 🔴 | Brief live. |
+| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | CMS | OK | Top gaps |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🟠 | 🔴 | NL video hero, spec: [x](y.md). |
+| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | ⚪ | 🔴 | Brief live. |
 | P-99 | **Broken** | `/broken` | Foo | 🟢 | 2 | 🟠 |
 
 ## Roll-up
@@ -41,12 +41,12 @@ afterEach(function () {
 });
 
 it('replaces only the targeted stage cells and leaves every other byte alone', function () {
-    app(RegistryWriter::class)->updateStages('P-05', ['wireframe' => '🟢', 'ui' => '🟢', 'conf' => '3']);
+    app(RegistryWriter::class)->updateStages('P-05', ['wireframe' => '🟢', 'ui' => '🟢', 'conf' => '3', 'cms' => '🟠']);
 
     $after = File::get(base_path($this->registryPath));
     $expected = str_replace(
-        '| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | 🔴 | Brief live. |',
-        '| P-05 | **Contact** | `/contact` | Utility | 🟢 | 3 | 🟢 | ⚪ | 🟢 | 🟠 | 🔴 | Brief live. |',
+        '| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | ⚪ | 🔴 | Brief live. |',
+        '| P-05 | **Contact** | `/contact` | Utility | 🟢 | 3 | 🟢 | ⚪ | 🟢 | 🟠 | 🟠 | 🔴 | Brief live. |',
         fakeRegistry()
     );
     expect($after)->toBe($expected);

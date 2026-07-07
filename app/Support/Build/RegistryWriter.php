@@ -20,11 +20,12 @@ class RegistryWriter
         'assets' => 7,
         'ui' => 8,
         'back' => 9,
-        'ok' => 10,
+        'cms' => 10,
+        'ok' => 11,
     ];
 
-    /** explode('|') parts of a well-formed 12-column row: leading '' + 12 cells + trailing ''. */
-    private const EXPECTED_PARTS = 14;
+    /** explode('|') parts of a well-formed 13-column row: leading '' + 13 cells + trailing ''. */
+    private const EXPECTED_PARTS = 15;
 
     /** @param array<string, string> $cells column key => literal cell content ('🟢', '3') */
     public function updateStages(string $pageId, array $cells): void

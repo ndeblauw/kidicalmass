@@ -7,11 +7,11 @@ use Livewire\Livewire;
 function reviewRegistry(): string
 {
     return <<<'MD'
-| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | OK | Top gaps |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🔴 | gap a |
-| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | 🔴 | gap b |
-| P-21 | **Admin** | `/admin` | Admin | ⚪ | — | ⚪ | ⚪ | ⚪ | 🟢 | ⚪ | exempt |
+| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | CMS | OK | Top gaps |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🟠 | 🔴 | gap a |
+| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | ⚪ | 🔴 | gap b |
+| P-21 | **Admin** | `/admin` | Admin | ⚪ | — | ⚪ | ⚪ | ⚪ | 🟢 | ⚪ | ⚪ | exempt |
 MD;
 }
 
@@ -79,8 +79,8 @@ it('saves changed cells to the registry, files the note, logs the diff, and move
 
     $registry = File::get(base_path($this->registryPath));
     expect($registry)
-        ->toContain('| P-05 | **Contact** | `/contact` | Utility | 🟢 | 3 | 🟢 | ⚪ | 🟠 | 🟠 | 🔴 | gap b |')
-        ->toContain('| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🔴 | gap a |');
+        ->toContain('| P-05 | **Contact** | `/contact` | Utility | 🟢 | 3 | 🟢 | ⚪ | 🟠 | 🟠 | ⚪ | 🔴 | gap b |')
+        ->toContain('| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🟠 | 🔴 | gap a |');
 
     expect(File::get(base_path('tests/tmp/review-inbox.md')))
         ->toContain('P-05 Contact')->toContain('- hero te druk');
@@ -134,12 +134,12 @@ it('surfaces the writer exception when the row parses but fails the stricter wri
     $component = Livewire::test(BuildReview::class, ['pageId' => 'P-05'])
         ->call('cycle', 'ui');
 
-    // 13 columns: survives BuildStatus::parsePages (>=12 cells) but explode('|')
-    // yields 15 parts, so RegistryWriter::updateStages refuses inside save()'s try/catch.
+    // 14 columns: survives BuildStatus::parsePages (>=13 cells) but explode('|')
+    // yields 16 parts, so RegistryWriter::updateStages refuses inside save()'s try/catch.
     File::put(base_path($this->registryPath), <<<'MD'
-| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | OK | Top gaps | Extra |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | 🔴 | gap b | extra |
+| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | CMS | OK | Top gaps | Extra |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | ⚪ | 🔴 | gap b | extra |
 MD);
 
     $component->call('save', true)->assertHasErrors([
