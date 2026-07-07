@@ -110,5 +110,6 @@ it('inserts one review-session log heading per day right after the title, bullet
     expect(substr_count($log, $heading))->toBe(1)
         ->and(strpos($log, $heading))->toBeLessThan(strpos($log, '## [2026-07-01]'))
         ->and(strpos($log, '- **P-01 Home**'))->toBeLessThan(strpos($log, '## [2026-07-01]'))
-        ->and($log)->toContain('- **P-05 Contact**: Wire 🟠→🟢');
+        ->and($log)->toContain('- **P-05 Contact**: Wire 🟠→🟢')
+        ->and($log)->toContain($heading."\n\n- **P-05 Contact**: Wire 🟠→🟢");
 });

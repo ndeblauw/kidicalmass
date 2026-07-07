@@ -99,12 +99,16 @@ class RegistryWriter
         $nextHeading = strpos($content, "\n## ", $blockStart);
 
         if ($nextHeading === false) {
-            return rtrim($content)."\n".$bullet."\n";
+            $trimmed = rtrim($content);
+            $separator = str_ends_with($trimmed, $heading) ? "\n\n" : "\n";
+
+            return $trimmed.$separator.$bullet."\n";
         }
 
         $block = rtrim(substr($content, $blockStart, $nextHeading - $blockStart));
+        $separator = $block === '' ? "\n\n" : "\n";
 
-        return substr($content, 0, $blockStart).$block."\n".$bullet."\n".substr($content, $nextHeading);
+        return substr($content, 0, $blockStart).$block.$separator.$bullet."\n".substr($content, $nextHeading);
     }
 
     private function guardEnvironment(): void
