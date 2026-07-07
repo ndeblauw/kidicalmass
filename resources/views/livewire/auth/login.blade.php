@@ -4,22 +4,18 @@
     <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-5">
         @csrf
 
-        <div class="volunteer-signup__field">
-            <label for="login-email" class="volunteer-signup__label">{{ __('auth.email') }}</label>
-            <input type="email" id="login-email" name="email" value="{{ old('email') }}" class="volunteer-signup__input" required autofocus autocomplete="email" placeholder="naam@voorbeeld.be" @error('email') aria-invalid="true" aria-describedby="login-email-error" @enderror>
-            @error('email')<span class="volunteer-signup__error" id="login-email-error" role="alert">{{ $message }}</span>@enderror
-        </div>
+        <flux:input type="email" id="login-email" name="email" :label="__('auth.email')" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="naam@voorbeeld.be" aria-describedby="login-email-error" error:id="login-email-error" />
 
-        <div class="volunteer-signup__field">
+        <flux:field>
             <div class="flex items-baseline justify-between">
-                <label for="login-password" class="volunteer-signup__label">{{ __('auth.password_label') }}</label>
+                <flux:label for="login-password">{{ __('auth.password_label') }}</flux:label>
                 @if (Route::has('password.request'))
                     <a class="text-sm" href="{{ route('password.request') }}">{{ __('auth.forgot_password') }}</a>
                 @endif
             </div>
-            <input type="password" id="login-password" name="password" class="volunteer-signup__input" required autocomplete="current-password" @error('password') aria-invalid="true" aria-describedby="login-password-error" @enderror>
-            @error('password')<span class="volunteer-signup__error" id="login-password-error" role="alert">{{ $message }}</span>@enderror
-        </div>
+            <flux:input type="password" id="login-password" name="password" viewable required autocomplete="current-password" aria-describedby="login-password-error" />
+            <flux:error name="password" id="login-password-error" />
+        </flux:field>
 
         <flux:checkbox name="remember" :label="__('auth.remember')" :checked="old('remember')" />
 

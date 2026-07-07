@@ -219,19 +219,8 @@ header [data-flux-navbar-items][data-current]::after {
     }
 }
 
-[data-flux-field]:not(ui-radio, ui-checkbox) {
-    @apply grid gap-2;
-}
-
-[data-flux-label] {
-    @apply !mb-0 !leading-tight;
-}
-
-input:focus[data-flux-control],
-textarea:focus[data-flux-control],
-select:focus[data-flux-control] {
-    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
-}
+/* Flux form-field styling lives in components/form-field.css (the site's one
+   field idiom); the starter-kit defaults that sat here are superseded. */
 
 .link-plain {
     background-image: none;

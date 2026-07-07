@@ -1,5 +1,22 @@
 # Wiki Log
 
+## [2026-07-08] build | Eén veld-idioom live: Flux gerestyled, 8 formulieren gemigreerd
+
+De handoff van 07-07 is geland. Mechanisme: **globale CSS-overrides op Flux'
+`data-flux-*`-hooks** in een nieuwe partial `components/form-field.css`
+(bewust ongelayerd — utilities verslaan `@layer components`; zelfde precedent
+als chrome.css). Alle 8 publieke formulieren (auth ×4, contact, partner,
+chapter-vrijwilliger, start-een-groep) terug op `flux:input/textarea/select` +
+`flux:field/label/error`; viewable-wachtwoordoogje terug op login/reset/confirm.
+Checkbox/radio checked = kidical-rood via accent-remap op de indicator.
+`.volunteer-signup__field/__label/__input/__error` uit steun.css (shells
+`__form`/`__success` blijven); legends rijden `.form-legend`. Flux wire't
+`aria-describedby` NIET zelf (runtime geverifieerd) — expliciet hersteld per
+veld, `FormAccessibilityTest` ongewijzigd groen. Suite op baseline (alleen
+FilamentAdminTest). Styleguide toont de veldset; design doc:
+`docs/superpowers/specs/2026-07-08-form-field-flux-idiom-design.md`.
+Frederiks eyeball op `/styleguide`, `/login` en `/nl/contact` staat nog open.
+
 ## [2026-07-07] build | P-03: richting A gekozen en geland + responsive fixes
 
 Frederik koos **A "De affiche"**; richting B en de `?dir`-toggle zijn gestript, A is nu dé pagina. Zijn `/adapt`-feedback (lg/md brak) verwerkt: (1) **archiefblok** herschikt — "Deel de herinnering" leidt op volle breedte, de feitenregel sluit als stil colofon onder een hairline (geen zwevende tweekoloms-leegte meer); (2) **titel-afbreking** — `word-break: break-word` weg, `hyphens: auto` + `hyphenate-limit-chars` als nooduitgang met `text-wrap: pretty` (balance nam de hyphen ook zonder nood); (3) **basic-hero**: kalmere titelmaat (`clamp(2.2rem, 3.4vw, 3.6rem)`) en in het 64–80rem-venster een poster-lockup (date-tile boven de titel) zodat lange samenstellingen ("Vrijwilligersmeeting") nooit meer mid-woord breken. Geverifieerd op 1024/1386/1440. Volgende stap: Frederiks critique-pass in `/build/review` (Wire/UI-bumps zijn aan hem).

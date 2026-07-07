@@ -17,41 +17,23 @@
             {{-- Honeypot --}}
             <input type="text" wire:model="website" name="website" style="display:none" tabindex="-1" autocomplete="off">
 
-            <div class="volunteer-signup__field">
-                <label for="chapter-volunteer-name" class="volunteer-signup__label">Naam <span aria-hidden="true">*</span></label>
-                <input type="text"
-                       id="chapter-volunteer-name"
-                       wire:model="name"
-                       class="volunteer-signup__input"
-                       autocomplete="name"
-                       required
-                       placeholder="Jouw naam"
-                       @error('name') aria-invalid="true" aria-describedby="chapter-volunteer-name-error" @enderror>
-                @error('name')
-                    <span class="volunteer-signup__error" id="chapter-volunteer-name-error" role="alert">{{ $message }}</span>
-                @enderror
-            </div>
+            <flux:field>
+                <flux:label for="chapter-volunteer-name">Naam <span aria-hidden="true">*</span></flux:label>
+                <flux:input type="text" id="chapter-volunteer-name" wire:model="name" autocomplete="name" required placeholder="Jouw naam" aria-describedby="chapter-volunteer-name-error" />
+                <flux:error name="name" id="chapter-volunteer-name-error" />
+            </flux:field>
 
-            <div class="volunteer-signup__field">
-                <label for="chapter-volunteer-email" class="volunteer-signup__label">E-mailadres <span aria-hidden="true">*</span></label>
-                <input type="email"
-                       id="chapter-volunteer-email"
-                       wire:model="email"
-                       class="volunteer-signup__input"
-                       autocomplete="email"
-                       required
-                       placeholder="jij@voorbeeld.be"
-                       @error('email') aria-invalid="true" aria-describedby="chapter-volunteer-email-error" @enderror>
-                @error('email')
-                    <span class="volunteer-signup__error" id="chapter-volunteer-email-error" role="alert">{{ $message }}</span>
-                @enderror
-            </div>
+            <flux:field>
+                <flux:label for="chapter-volunteer-email">E-mailadres <span aria-hidden="true">*</span></flux:label>
+                <flux:input type="email" id="chapter-volunteer-email" wire:model="email" autocomplete="email" required placeholder="jij@voorbeeld.be" aria-describedby="chapter-volunteer-email-error" />
+                <flux:error name="email" id="chapter-volunteer-email-error" />
+            </flux:field>
 
             {{-- Role interest — optional; each role carries a one-line description so
                  people can pick what fits. "Nog niet zeker" removes the need-to-know
                  barrier. --}}
-            <fieldset class="volunteer-signup__field">
-                <legend class="volunteer-signup__label">Waarmee wil je helpen? <small>(optioneel)</small></legend>
+            <fieldset class="flex flex-col gap-1.5">
+                <legend class="form-legend">Waarmee wil je helpen? <small>(optioneel)</small></legend>
                 <div class="volunteer-roles">
                     @foreach ($roleOptions as $value => $label)
                         <label class="volunteer-role">
@@ -65,18 +47,11 @@
                 </div>
             </fieldset>
 
-            <div class="volunteer-signup__field">
-                <label for="chapter-volunteer-message" class="volunteer-signup__label">Iets toe te voegen? <small>(optioneel)</small></label>
-                <textarea id="chapter-volunteer-message"
-                          wire:model="message"
-                          class="volunteer-signup__input"
-                          rows="3"
-                          placeholder="Een vraag of een woordje uitleg"
-                          @error('message') aria-invalid="true" aria-describedby="chapter-volunteer-message-error" @enderror></textarea>
-                @error('message')
-                    <span class="volunteer-signup__error" id="chapter-volunteer-message-error" role="alert">{{ $message }}</span>
-                @enderror
-            </div>
+            <flux:field>
+                <flux:label for="chapter-volunteer-message">Iets toe te voegen? <small>(optioneel)</small></flux:label>
+                <flux:textarea id="chapter-volunteer-message" wire:model="message" rows="3" placeholder="Een vraag of een woordje uitleg" aria-describedby="chapter-volunteer-message-error" />
+                <flux:error name="message" id="chapter-volunteer-message-error" />
+            </flux:field>
 
             <x-cta-button variant="blue" icon="arrow" block
                           wire:click="submit"

@@ -1,0 +1,140 @@
+/* Form fields — the site's ONE field idiom, delivered by restyling Flux's form
+   components globally through their data-flux-* hooks (Flux's documented
+   customization seam). Every flux:input / textarea / select / checkbox / radio /
+   field / label / error on the site renders this look: white field, 2px ink-tint
+   border, 0.75rem radius, red focus border, uppercase letterspaced label, red
+   error line. No ring, no glow.
+
+   These rules are deliberately UNLAYERED. Flux's own field styling is emitted as
+   Tailwind utilities (the last cascade @layer), so a rule inside @layer components
+   can never override it — layer order trumps specificity, and only unlayered
+   rules beat the utilities layer. Same precedent as the flux overrides in
+   chrome.css and the unlayered rules documented in location-picker.css.
+
+   Supersedes the Livewire-starter flux defaults that used to live in chrome.css
+   (grid field, label margin reset, and the yellow accent focus ring — the ring
+   whose harshness got auth kicked off Flux in the first place).
+
+   Design doc: docs/superpowers/specs/2026-07-07-form-field-flux-idiom-design.md */
+
+/* ── Field frame ─────────────────────────────────────────────────────────
+   Block fields (label above control) become a tight grid; inline fields
+   (checkbox/radio + label) keep Flux's own two-column inline grid. */
+[data-flux-field]:not(:has(> [data-flux-checkbox], > [data-flux-radio])) {
+    display: grid;
+    gap: 0.375rem;
+}
+
+/* .form-legend: the same caption look for <legend> in custom fieldsets
+   (contact topic pills, chapter volunteer roles) that Flux doesn't wrap. */
+[data-flux-label],
+.form-legend {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.3;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0;
+}
+
+/* Inline (checkbox/radio) labels read as body text, not as field captions. */
+[data-flux-field]:has(> [data-flux-checkbox], > [data-flux-radio]) [data-flux-label] {
+    font-size: var(--text-base);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--color-kidical-ink);
+}
+
+[data-flux-description] {
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+}
+
+[data-flux-error] {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-kidical-red-text);
+    /* The field grid's gap is the spacing; Flux's own mt-3 would double it. */
+    margin-top: 0;
+}
+
+/* ── Text controls: input, textarea, native select ──────────────────────
+   height:auto releases Flux's fixed h-10 so the idiom's padding sets the
+   height. Inline padding is only overridden where Flux hasn't reserved
+   space for a leading/trailing icon (e.g. the viewable-password eye) or
+   the select chevron — those keep Flux's ps/pe padding utilities. */
+input[data-flux-control],
+textarea[data-flux-control],
+select[data-flux-control] {
+    height: auto;
+    padding-block: 0.75rem;
+    border-width: 2px;
+    border-color: color-mix(in oklab, var(--color-kidical-ink), transparent 82%);
+    border-radius: 0.75rem;
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    color: var(--color-kidical-ink);
+    background-color: white;
+    box-shadow: none;
+    transition: border-color 0.15s;
+}
+
+input[data-flux-control]:first-child,
+select[data-flux-control] {
+    padding-inline-start: 1rem;
+}
+
+input[data-flux-control]:last-child,
+textarea[data-flux-control] {
+    padding-inline-end: 1rem;
+}
+
+textarea[data-flux-control] {
+    padding-inline-start: 1rem;
+}
+
+input[data-flux-control]::placeholder,
+textarea[data-flux-control]::placeholder,
+select[data-flux-control]:has(option.placeholder:checked) {
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
+}
+
+/* Focus = the border turns red. This IS the visible keyboard-focus treatment
+   for text controls (replaces the global :focus-visible outline); it must stay
+   clearly visible — don't quiet it without an equally visible replacement. */
+input[data-flux-control]:focus,
+textarea[data-flux-control]:focus,
+select[data-flux-control]:focus {
+    outline: none;
+    border-color: var(--color-kidical-red);
+}
+
+/* Flux marks server-side validation failures with data-invalid (red-500 stock);
+   re-point it at the brand red so invalid and focus share one signal colour. */
+input[data-flux-control][data-invalid],
+textarea[data-flux-control][data-invalid],
+select[data-flux-control][data-invalid] {
+    border-color: var(--color-kidical-red);
+    box-shadow: none;
+}
+
+/* ── Checkbox & radio ────────────────────────────────────────────────────
+   The indicators paint their checked state with var(--color-accent) (site-wide
+   yellow); re-pointing the custom properties on the indicator itself wins
+   regardless of cascade layers. Checked = kidical red, white check/dot. */
+[data-flux-checkbox-indicator],
+[data-flux-radio-indicator] {
+    --color-accent: var(--color-kidical-red);
+    --color-accent-foreground: white;
+    box-shadow: none;
+}
+
+/* Unchecked boxes get the idiom's ink-tint border (checked stays borderless —
+   Flux sets border-transparent, which this must not clobber). */
+ui-checkbox:not([data-checked], [data-indeterminate]) [data-flux-checkbox-indicator],
+ui-radio:not([data-checked]) [data-flux-radio-indicator] {
+    border-width: 2px;
+    border-color: color-mix(in oklab, var(--color-kidical-ink), transparent 82%);
+}

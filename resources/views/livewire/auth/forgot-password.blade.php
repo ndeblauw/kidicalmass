@@ -4,11 +4,7 @@
     <form method="POST" action="{{ route('password.email') }}" class="flex flex-col gap-5">
         @csrf
 
-        <div class="volunteer-signup__field">
-            <label for="forgot-email" class="volunteer-signup__label">{{ __('auth.email') }}</label>
-            <input type="email" id="forgot-email" name="email" class="volunteer-signup__input" required autofocus autocomplete="email" placeholder="naam@voorbeeld.be" @error('email') aria-invalid="true" aria-describedby="forgot-email-error" @enderror>
-            @error('email')<span class="volunteer-signup__error" id="forgot-email-error" role="alert">{{ $message }}</span>@enderror
-        </div>
+        <flux:input type="email" id="forgot-email" name="email" :label="__('auth.email')" required autofocus autocomplete="email" placeholder="naam@voorbeeld.be" aria-describedby="forgot-email-error" error:id="forgot-email-error" />
 
         <x-cta-button type="submit" variant="yellow" class="self-start" data-test="email-password-reset-link-button">
             {{ __('auth.forgot_button') }}

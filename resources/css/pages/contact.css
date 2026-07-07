@@ -1,7 +1,8 @@
 /* Contact (national, P-05) — final A3a arrangement: topic pills at the top of
    the form, secondary blocks as a sticky info-card sidebar (composition
-   utilities in the template, the /about/press pattern). Form fields ride
-   .volunteer-signup__* (pages/steun.css); sidebar tiles ride <x-info-card>. */
+   utilities in the template, the /about/press pattern). Form fields ride the
+   restyled Flux components (components/form-field.css); sidebar tiles ride
+   <x-info-card>. */
 @layer components {
     .contact-arrange {
         margin-top: 2rem;
@@ -13,8 +14,8 @@
         }
     }
 
-    /* A <legend> doesn't participate in the field's flex layout, so this
-       block re-creates .volunteer-signup__field's rhythm (0.375rem label gap)
+    /* A <legend> doesn't participate in the field's grid layout, so this
+       block re-creates the form-field rhythm (0.375rem label gap)
        explicitly, on a clean fieldset reset. */
     .contact-topic-fieldset {
         margin: 0;

@@ -1,5 +1,5 @@
 {{-- National contact form (public style, mirrors partner-enquiry). Field styling
-     comes from the shared .volunteer-signup__* vocabulary (pages/steun.css). --}}
+     comes from the restyled Flux components (components/form-field.css). --}}
 <div>
     @if ($submitted)
         <div class="volunteer-signup__success space-y-3" role="status">
@@ -15,7 +15,7 @@
             {{-- A <legend> sits outside the field's flex flow, so the label-to-pills
                  gap is set in .contact-topic-fieldset, not by the flex gap. --}}
             <fieldset class="contact-topic-fieldset">
-                <legend class="volunteer-signup__label">Waarover gaat het? <small>(optioneel)</small></legend>
+                <legend class="form-legend">Waarover gaat het? <small>(optioneel)</small></legend>
                 <div class="contact-topic-pills">
                     @foreach (\App\Livewire\ContactFormComponent::TOPICS as $value => $label)
                         <label class="contact-topic-pill">
@@ -26,31 +26,31 @@
                 </div>
             </fieldset>
 
-            <div class="volunteer-signup__field">
-                <label for="contact-name" class="volunteer-signup__label">Naam <span aria-hidden="true">*</span></label>
-                <input type="text" id="contact-name" wire:model="name" class="volunteer-signup__input" autocomplete="name" required placeholder="Jouw naam" @error('name') aria-invalid="true" aria-describedby="contact-name-error" @enderror>
-                @error('name')<span class="volunteer-signup__error" id="contact-name-error" role="alert">{{ $message }}</span>@enderror
-            </div>
+            <flux:field>
+                <flux:label for="contact-name">Naam <span aria-hidden="true">*</span></flux:label>
+                <flux:input type="text" id="contact-name" wire:model="name" autocomplete="name" required placeholder="Jouw naam" aria-describedby="contact-name-error" />
+                <flux:error name="name" id="contact-name-error" />
+            </flux:field>
 
             <div class="grid gap-4 sm:grid-cols-2">
-                <div class="volunteer-signup__field">
-                    <label for="contact-email" class="volunteer-signup__label">E-mailadres <span aria-hidden="true">*</span></label>
-                    <input type="email" id="contact-email" wire:model="email" class="volunteer-signup__input" autocomplete="email" required placeholder="jij@voorbeeld.be" @error('email') aria-invalid="true" aria-describedby="contact-email-error" @enderror>
-                    @error('email')<span class="volunteer-signup__error" id="contact-email-error" role="alert">{{ $message }}</span>@enderror
-                </div>
+                <flux:field>
+                    <flux:label for="contact-email">E-mailadres <span aria-hidden="true">*</span></flux:label>
+                    <flux:input type="email" id="contact-email" wire:model="email" autocomplete="email" required placeholder="jij@voorbeeld.be" aria-describedby="contact-email-error" />
+                    <flux:error name="email" id="contact-email-error" />
+                </flux:field>
 
-                <div class="volunteer-signup__field">
-                    <label for="contact-phone" class="volunteer-signup__label">Telefoon <small>(optioneel)</small></label>
-                    <input type="tel" id="contact-phone" wire:model="phone" class="volunteer-signup__input" autocomplete="tel" @error('phone') aria-invalid="true" aria-describedby="contact-phone-error" @enderror>
-                    @error('phone')<span class="volunteer-signup__error" id="contact-phone-error" role="alert">{{ $message }}</span>@enderror
-                </div>
+                <flux:field>
+                    <flux:label for="contact-phone">Telefoon <small>(optioneel)</small></flux:label>
+                    <flux:input type="tel" id="contact-phone" wire:model="phone" autocomplete="tel" aria-describedby="contact-phone-error" />
+                    <flux:error name="phone" id="contact-phone-error" />
+                </flux:field>
             </div>
 
-            <div class="volunteer-signup__field">
-                <label for="contact-message" class="volunteer-signup__label">Je bericht <span aria-hidden="true">*</span></label>
-                <textarea id="contact-message" wire:model="message" class="volunteer-signup__input" rows="6" required placeholder="Waarmee kunnen we je helpen?" @error('message') aria-invalid="true" aria-describedby="contact-message-error" @enderror></textarea>
-                @error('message')<span class="volunteer-signup__error" id="contact-message-error" role="alert">{{ $message }}</span>@enderror
-            </div>
+            <flux:field>
+                <flux:label for="contact-message">Je bericht <span aria-hidden="true">*</span></flux:label>
+                <flux:textarea id="contact-message" wire:model="message" rows="6" required placeholder="Waarmee kunnen we je helpen?" aria-describedby="contact-message-error" />
+                <flux:error name="message" id="contact-message-error" />
+            </flux:field>
 
             <x-cta-button type="submit" variant="blue" wire:loading.attr="disabled" wire:target="submit">
                 Verstuur je bericht

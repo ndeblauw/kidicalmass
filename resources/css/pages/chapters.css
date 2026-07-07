@@ -679,7 +679,7 @@
     .chapter-join .volunteer-signup__form {
         gap: 1.1rem;
     }
-    .chapter-join .volunteer-signup__form .volunteer-signup__field:has(.volunteer-roles) {
+    .chapter-join .volunteer-signup__form fieldset:has(.volunteer-roles) {
         margin-block: 0.35rem;
     }
 

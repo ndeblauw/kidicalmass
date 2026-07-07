@@ -3,10 +3,16 @@ title: Handoff — One form-field idiom, delivered by restyled Flux
 tags: [design, build, handoff, forms, flux]
 sources: [login-view.md, ../../log.md]
 phase: design
-updated: 2026-07-07
+updated: 2026-07-08
 ---
 
 # Handoff — One form-field idiom, delivered by restyled Flux (cross-cutting)
+
+> **DELIVERED 2026-07-08.** Mechanism: global `data-flux-*` CSS overrides in
+> `resources/css/components/form-field.css`. See the design doc
+> (`docs/superpowers/specs/2026-07-08-form-field-flux-idiom-design.md`) and
+> the log entry. Pending: Frederik's eyeball on `/styleguide`, `/login`,
+> `/nl/contact`.
 
 **Start a fresh thread with this brief.** From Frederik's P-07 critique session (2026-07-07), verbatim:
 

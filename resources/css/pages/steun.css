@@ -4,42 +4,9 @@
         flex-direction: column;
         gap: 1.25rem;
     }
-    .volunteer-signup__field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.375rem;
-    }
-    .volunteer-signup__label {
-        font-size: var(--text-sm);
-        font-weight: 700;
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-    }
-    .volunteer-signup__input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 2px solid color-mix(in oklab, var(--color-kidical-ink), transparent 82%);
-        border-radius: 0.75rem;
-        font-size: var(--text-lg);
-        color: var(--color-kidical-ink);
-        background: white;
-        outline: none;
-        transition: border-color 0.15s;
-
-        &:focus {
-            border-color: var(--color-kidical-red);
-        }
-
-        &::placeholder {
-            color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
-        }
-    }
-    .volunteer-signup__error {
-        font-size: var(--text-sm);
-        color: var(--color-kidical-red-text);
-        font-weight: 600;
-    }
+    /* Field styling (label/input/error) lives in components/form-field.css,
+       delivered by the restyled Flux components; this file keeps only the
+       form/success layout shells. */
     .volunteer-signup__success {
         display: flex;
         flex-direction: column;

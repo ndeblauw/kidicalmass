@@ -223,6 +223,29 @@
 
                 <x-styleguide.entry name="contact-form" props="(geen)"
                     note="Interactief formulier-eiland. Gebruik op de contactpagina; hier niet ingebed." />
+
+                {{-- Eén veld-idioom voor de hele site: Flux-componenten, globaal
+                     gerestyled in components/form-field.css op hun data-flux-* hooks. --}}
+                <x-styleguide.entry name="form-field (Flux)" props="flux:input, flux:textarea, flux:select, flux:checkbox, flux:radio"
+                    note="Gebruik altijd de flux:*-veldcomponenten; het idioom (witte achtergrond, inktrand, rode focus) komt gratis mee.">
+                    <div class="max-w-md" data-test="sg-form-fields">
+                        <div class="flex flex-col gap-5">
+                            <flux:input label="Naam" placeholder="Vera Demo" />
+                            <flux:input type="password" label="Wachtwoord" viewable value="geheim123" />
+                            <flux:input label="E-mailadres" invalid value="geen-mailadres" />
+                            <flux:textarea label="Bericht" placeholder="Waar wil je het over hebben?" rows="3" />
+                            <flux:select label="Groep" placeholder="Kies een groep">
+                                <flux:select.option>Gent</flux:select.option>
+                                <flux:select.option>Leuven</flux:select.option>
+                            </flux:select>
+                            <flux:checkbox label="Hou me op de hoogte" checked />
+                            <flux:radio.group label="Rol">
+                                <flux:radio label="Ouder" checked />
+                                <flux:radio label="Vrijwilliger" />
+                            </flux:radio.group>
+                        </div>
+                    </div>
+                </x-styleguide.entry>
             </section>
 
             {{-- ============ NOG TE EXTRAHEREN ============ --}}

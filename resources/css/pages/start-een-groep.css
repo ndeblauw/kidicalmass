@@ -1,7 +1,7 @@
 /*
  * Een lokale groep starten (/chapters/start-een-groep)
- * Page-only layout for the start-a-group page. The form itself reuses the shared
- * .volunteer-signup__* kit (see pages/steun.css); this file only places the page's
+ * Page-only layout for the start-a-group page. The form fields ride the restyled
+ * Flux components (components/form-field.css); this file only places the page's
  * own sections + the two-path radio choice. Tokens only, no raw values.
  * Plan: docs/wiki/design/30-skeleton/start-een-groep.md
  */
