@@ -129,3 +129,23 @@ it('shows a missing-row warning instead of a phantom page when the row vanishes 
 
     $component->call('cycle', 'ui')->assertSee('data-review-missing-row', false);
 });
+
+it('surfaces the writer exception when the row parses but fails the stricter write guard', function () {
+    $component = Livewire::test(BuildReview::class, ['pageId' => 'P-05'])
+        ->call('cycle', 'ui');
+
+    // 13 columns: survives BuildStatus::parsePages (>=12 cells) but explode('|')
+    // yields 15 parts, so RegistryWriter::updateStages refuses inside save()'s try/catch.
+    File::put(base_path($this->registryPath), <<<'MD'
+| ID | Page | Slug | Type | UX | Conf | Wire | Assets | UI | Back | OK | Top gaps | Extra |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P-05 | **Contact** | `/contact` | Utility | 🟢 | 2 | 🟠 | ⚪ | 🟠 | 🟠 | 🔴 | gap b | extra |
+MD);
+
+    $component->call('save', true)->assertHasErrors([
+        'save' => fn ($rules, $messages) => collect($messages)->contains(fn ($m) => str_contains($m, 'kolomstructuur')),
+    ]);
+
+    expect(File::exists(base_path('tests/tmp/review-inbox.md')))->toBeFalse()
+        ->and(File::get(base_path('tests/tmp/log.md')))->not->toContain('P-05');
+});
