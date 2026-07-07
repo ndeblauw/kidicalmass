@@ -2,8 +2,9 @@
     Privacy & cookies (P-06). One page for both (route `cookies` 301s here).
     Copy is the legal text: GDPR Art. 13 items in tone-of-voice register
     "a notch more serious". Contact email + cookie names come from config so
-    the page can never drift from reality. When cookieless analytics
-    (Fathom/Plausible) goes live, add a line to the cookies section.
+    the page can never drift from reality. Processor list confirmed by Nico
+    (issue #48, 2026-07-07). The Fathom script itself ships with the
+    production setup; the copy already describes that state.
 --}}
 <x-layouts::site title="Privacy & cookies" :description="__('meta.privacy')">
 
@@ -33,7 +34,7 @@
 
                 <div class="flex flex-col gap-2">
                     <h3>Als je de nieuwsbrief volgt</h3>
-                    <p>Schrijf je je in, dan bewaren we je e-mailadres en de groepen die je wil volgen. Je krijgt eerst een bevestigingsmail; pas als je daarin klikt, sta je op de lijst. Uitschrijven kan altijd via de link onderaan elke mail. Rechtsgrond: jouw toestemming, die je dus ook altijd weer kan intrekken.</p>
+                    <p>Schrijf je je in, dan bewaren we je e-mailadres en de groepen die je wil volgen in MailerLite, onze nieuwsbriefdienst. Je krijgt eerst een bevestigingsmail; pas als je daarin klikt, sta je op de lijst. Uitschrijven kan altijd via de link onderaan elke mail. Rechtsgrond: jouw toestemming, die je dus ook altijd weer kan intrekken.</p>
                 </div>
 
                 <div class="flex flex-col gap-2">
@@ -52,9 +53,25 @@
                 </div>
             </section>
 
-            <section class="flex flex-col gap-4">
+            <section class="flex flex-col gap-6">
                 <h2>Met wie we gegevens delen</h2>
-                <p>Met zo weinig mogelijk mensen. Onze hostingprovider en e-maildienst verwerken gegevens in onze opdracht. Lokale teams zien enkel de aanvragen voor hun eigen groep. We verkopen of verhuren je gegevens nooit, aan niemand.</p>
+                <p>Met zo weinig mogelijk mensen. Lokale teams zien enkel de aanvragen voor hun eigen groep. We verkopen of verhuren je gegevens nooit, aan niemand.</p>
+                <p>Een handvol diensten verwerkt gegevens in onze opdracht. We kozen ze zorgvuldig, zo dicht mogelijk bij huis:</p>
+
+                <dl class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-1">
+                        <dt>Hosting en back-ups</dt>
+                        <dd>De site draait op een server van Hetzner in Duitsland. Back-ups bewaren we bij Akamai in Frankrijk. Alles blijft binnen de Europese Economische Ruimte.</dd>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <dt>E-mail</dt>
+                        <dd>Mails vanuit de site (zoals de bevestiging van je vraag) versturen we via Postmark, een Amerikaanse dienst die gecertificeerd is onder het EU-US Data Privacy Framework. De nieuwsbrief verzenden we met MailerLite, een Europese dienst die je gegevens binnen de EU bewaart.</dd>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <dt>Serverbeheer en monitoring</dt>
+                        <dd>Laravel Forge beheert de server, zonder rechtstreekse toegang tot je gegevens. Fouten sporen we op met Flare en de beschikbaarheid bewaken we met Oh Dear, twee Belgische diensten binnen de EER.</dd>
+                    </div>
+                </dl>
             </section>
 
             <section class="flex flex-col gap-4">
@@ -93,12 +110,12 @@
                 </dl>
 
                 <p>Enkele externe diensten maken de site mee mogelijk. De video op de homepage laden we via youtube-nocookie.com, de privacyvriendelijke variant zonder trackingcookies. De kaarten tonen OpenStreetMap-tegels via CARTO, en de lettertypes komen van Bunny Fonts, dat geen cookies zet. Wanneer je browser die beelden ophaalt, ziet die dienst je IP-adres. Meer laten we niet door.</p>
-                {{-- Analytics: als Fathom/Plausible live gaat, voeg hier één eerlijke zin toe. --}}
+                <p>Bezoekersaantallen meten we met Fathom Analytics, een privacyvriendelijke teller die geen cookies zet en geen persoonsgegevens bewaart. Ook daarom kan die cookiebanner hier weg blijven.</p>
             </section>
 
             <section class="flex flex-col gap-4">
                 <h2>Vragen of wijzigingen</h2>
-                <p>Verandert er iets aan hoe we met gegevens omgaan, dan passen we deze pagina aan. Laatst bijgewerkt op <time datetime="2026-07-05">5 juli 2026</time>.</p>
+                <p>Verandert er iets aan hoe we met gegevens omgaan, dan passen we deze pagina aan. Laatst bijgewerkt op <time datetime="2026-07-07">7 juli 2026</time>.</p>
             </section>
 
         </div>
