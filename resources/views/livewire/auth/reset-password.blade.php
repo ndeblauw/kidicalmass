@@ -1,4 +1,4 @@
-<x-layouts::auth :title="__('auth.reset_title')" :intro="__('auth.reset_intro')">
+<x-layouts::auth :title="__('auth.reset_title')">
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-5">
@@ -32,7 +32,7 @@
             viewable
         />
 
-        <x-cta-button type="submit" variant="yellow" block data-test="reset-password-button">
+        <x-cta-button type="submit" variant="yellow" class="self-start" data-test="reset-password-button">
             {{ __('auth.reset_button') }}
         </x-cta-button>
     </form>

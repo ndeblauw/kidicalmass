@@ -13,7 +13,7 @@
             placeholder="naam@voorbeeld.be"
         />
 
-        <x-cta-button type="submit" variant="yellow" block data-test="email-password-reset-link-button">
+        <x-cta-button type="submit" variant="yellow" class="self-start" data-test="email-password-reset-link-button">
             {{ __('auth.forgot_button') }}
         </x-cta-button>
     </form>

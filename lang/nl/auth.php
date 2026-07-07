@@ -15,7 +15,6 @@ return [
 
     // Login
     'login_title' => 'Welkom terug',
-    'login_intro' => 'Fijn dat je er weer bent. Log in en ga verder waar je gebleven was.',
     'email' => 'E-mailadres',
     'password_label' => 'Wachtwoord',
     'forgot_password' => 'Wachtwoord vergeten?',
@@ -29,19 +28,17 @@ return [
 
     // Forgot password
     'forgot_title' => 'Wachtwoord vergeten?',
-    'forgot_intro' => 'Geen zorgen. Geef je e-mailadres en we sturen je een link om een nieuw wachtwoord te kiezen.',
+    'forgot_intro' => 'We sturen je een link om een nieuw wachtwoord te kiezen.',
     'forgot_button' => 'Stuur de link',
     'back_to_login' => 'Terug naar inloggen',
 
     // Reset password
     'reset_title' => 'Kies een nieuw wachtwoord',
-    'reset_intro' => 'Kies iets dat je makkelijk onthoudt en dat alleen jij kent.',
     'password_confirm_label' => 'Herhaal je wachtwoord',
     'reset_button' => 'Bewaar nieuw wachtwoord',
 
     // Confirm password
     'confirm_title' => 'Even je wachtwoord bevestigen',
-    'confirm_intro' => 'Dit is een beveiligd deel van de site. Vul je wachtwoord in om verder te gaan.',
     'confirm_button' => 'Bevestig',
 
     // Two-factor challenge
@@ -55,7 +52,7 @@ return [
 
     // Verify email
     'verify_title' => 'Bevestig je e-mailadres',
-    'verify_intro' => 'Klik op de link in de mail die we je net stuurden. Niets gekregen? Kijk even bij je spam, of vraag een nieuwe.',
+    'verify_intro' => 'Klik op de link in de mail die we je net stuurden.',
     'verify_sent' => 'We hebben je een nieuwe bevestigingslink gestuurd.',
     'verify_resend' => 'Stuur de mail opnieuw',
     'logout' => 'Log uit',

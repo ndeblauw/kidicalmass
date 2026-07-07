@@ -1,4 +1,4 @@
-<x-layouts::auth :title="__('auth.confirm_title')" :intro="__('auth.confirm_intro')">
+<x-layouts::auth :title="__('auth.confirm_title')">
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('password.confirm.store') }}" class="flex flex-col gap-5">
@@ -13,7 +13,7 @@
             viewable
         />
 
-        <x-cta-button type="submit" variant="yellow" block data-test="confirm-password-button">
+        <x-cta-button type="submit" variant="yellow" class="self-start" data-test="confirm-password-button">
             {{ __('auth.confirm_button') }}
         </x-cta-button>
     </form>

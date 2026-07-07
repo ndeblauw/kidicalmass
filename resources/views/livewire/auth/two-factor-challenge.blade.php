@@ -61,7 +61,7 @@
                     @enderror
                 </div>
 
-                <x-cta-button type="submit" variant="yellow" block>
+                <x-cta-button type="submit" variant="yellow">
                     {{ __('auth.two_factor_button') }}
                 </x-cta-button>
             </div>

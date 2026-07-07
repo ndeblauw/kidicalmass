@@ -49,7 +49,8 @@
     }
 
     /* Logo + role pill, after the header postcode-pill pattern
-       (.site-nav__postcode) but quiet: white capsule, pink text. */
+       (.site-nav__postcode) but quiet: a flat pink-tinted tag, pink text —
+       deliberately no white fill or shadow so it can't read as a button/input. */
     .auth-page__logo-row {
         display: flex;
         align-items: center;
@@ -68,21 +69,25 @@
         height: 2.1rem;
         padding-inline: 0.85rem;
         border-radius: var(--radius-pill);
-        background: white;
+        background: color-mix(in oklab, var(--color-kidical-red), transparent 90%);
         color: var(--color-kidical-red-text);
         font-weight: 700;
         font-size: var(--text-sm);
         line-height: 1;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        box-shadow: 0 1px 4px color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
     }
 
     /* The base h1 clamp is tuned for full-width pages; cap it for the narrow
        form column. */
     .auth-page__title {
         font-size: var(--text-4xl);
-        margin-bottom: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    /* When a view passes an intro it hugs the title, so pull it back up. */
+    .auth-page__title + .auth-page__intro {
+        margin-top: -0.75rem;
     }
 
     .auth-page__intro {

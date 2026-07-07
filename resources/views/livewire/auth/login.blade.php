@@ -1,4 +1,4 @@
-<x-layouts::auth :title="__('auth.login_title')" :intro="__('auth.login_intro')">
+<x-layouts::auth :title="__('auth.login_title')">
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-5">
@@ -34,7 +34,7 @@
 
         <flux:checkbox name="remember" :label="__('auth.remember')" :checked="old('remember')" />
 
-        <x-cta-button type="submit" variant="yellow" block data-test="login-button">
+        <x-cta-button type="submit" variant="yellow" class="self-start" data-test="login-button">
             {{ __('auth.login_button') }}
         </x-cta-button>
     </form>
