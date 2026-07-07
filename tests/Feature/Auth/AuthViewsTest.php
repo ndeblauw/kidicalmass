@@ -13,3 +13,16 @@ test('login page renders the branded NL shell', function () {
         ->assertSee(__('auth.role_pill'))
         ->assertSee('photo-collage');
 });
+
+test('forgot-password page renders in the branded shell', function () {
+    $this->get(route('password.request'))
+        ->assertOk()
+        ->assertSee(__('auth.forgot_title'))
+        ->assertSee(__('auth.role_pill'));
+});
+
+test('reset-password page renders in the branded shell', function () {
+    $this->get(route('password.reset', 'dummy-token'))
+        ->assertOk()
+        ->assertSee(__('auth.reset_title'));
+});
