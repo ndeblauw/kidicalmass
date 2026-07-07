@@ -16,9 +16,7 @@ class SetLocale
     {
         $locale = $request->route('locale');
 
-        if (! in_array($locale, self::SUPPORTED, true)) {
-            abort(404);
-        }
+        abort_unless(in_array($locale, self::SUPPORTED, true), 404);
 
         app()->setLocale($locale);
         URL::defaults(['locale' => $locale]);
