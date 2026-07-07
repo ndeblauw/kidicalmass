@@ -68,3 +68,45 @@ it('links prev and next in registry order', function () {
         ->assertSee(route('build.review', 'P-01'))
         ->assertSee(route('build.review', 'P-21'));
 });
+
+it('saves changed cells to the registry, files the note, logs the diff, and moves on', function () {
+    Livewire::test(BuildReview::class, ['pageId' => 'P-05'])
+        ->call('cycle', 'wireframe')   // 🟠 → 🟢
+        ->set('confidence', '3')
+        ->set('feedback', 'hero te druk')
+        ->call('save', true)
+        ->assertRedirect(route('build.review', 'P-21'));
+
+    $registry = File::get(base_path($this->registryPath));
+    expect($registry)
+        ->toContain('| P-05 | **Contact** | `/contact` | Utility | 🟢 | 3 | 🟢 | ⚪ | 🟠 | 🟠 | 🔴 | gap b |')
+        ->toContain('| P-01 | **Home** | `/` | Conv | 🟢 | 3 | 🟢 | 🟠 | 🟢 | 🟠 | 🔴 | gap a |');
+
+    expect(File::get(base_path('tests/tmp/review-inbox.md')))
+        ->toContain('P-05 Contact')->toContain('- hero te druk');
+
+    expect(File::get(base_path('tests/tmp/log.md')))
+        ->toContain('review-sessie')->toContain('P-05')->toContain('Wire 🟠→🟢');
+});
+
+it('writes nothing to the registry when nothing changed, but still files feedback', function () {
+    Livewire::test(BuildReview::class, ['pageId' => 'P-01'])
+        ->set('feedback', 'alleen een notitie')
+        ->call('save', false)
+        ->assertRedirect(route('build.review', 'P-01'));
+
+    expect(File::get(base_path($this->registryPath)))->toBe(reviewRegistry());
+    expect(File::get(base_path('tests/tmp/review-inbox.md')))->toContain('- alleen een notitie');
+});
+
+// mount() needs a valid row, so corrupt the file only AFTER mount:
+it('surfaces a writer error instead of crashing', function () {
+    $component = Livewire::test(BuildReview::class, ['pageId' => 'P-05'])
+        ->call('cycle', 'ui');
+
+    File::put(base_path($this->registryPath), "| ID |\n|---|\n| P-05 | broken |\n");
+
+    $component->call('save', true)->assertHasErrors('save');
+
+    expect(File::exists(base_path('tests/tmp/review-inbox.md')))->toBeFalse();
+});
