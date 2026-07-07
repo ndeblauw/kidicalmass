@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-07-07] build | P-03: richting A gekozen en geland + responsive fixes
+
+Frederik koos **A "De affiche"**; richting B en de `?dir`-toggle zijn gestript, A is nu dé pagina. Zijn `/adapt`-feedback (lg/md brak) verwerkt: (1) **archiefblok** herschikt — "Deel de herinnering" leidt op volle breedte, de feitenregel sluit als stil colofon onder een hairline (geen zwevende tweekoloms-leegte meer); (2) **titel-afbreking** — `word-break: break-word` weg, `hyphens: auto` + `hyphenate-limit-chars` als nooduitgang met `text-wrap: pretty` (balance nam de hyphen ook zonder nood); (3) **basic-hero**: kalmere titelmaat (`clamp(2.2rem, 3.4vw, 3.6rem)`) en in het 64–80rem-venster een poster-lockup (date-tile boven de titel) zodat lange samenstellingen ("Vrijwilligersmeeting") nooit meer mid-woord breken. Geverifieerd op 1024/1386/1440. Volgende stap: Frederiks critique-pass in `/build/review` (Wire/UI-bumps zijn aan hem).
+
 ## [2026-07-07] design | Handoff: één veld-idioom via gerestylede Flux-componenten
 
 Uit Frederiks P-07-critique: Flux-formuliercomponenten thema'en naar het

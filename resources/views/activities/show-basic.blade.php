@@ -34,7 +34,7 @@
     {{-- HERO — the ride hero's blue poster (date tear-off + title, intro beneath,
          tilted photo right), without the parade riders: a workshop or meeting reuses
          the family look but doesn't announce a parade. --}}
-    <header class="activity-head">
+    <header class="activity-head activity-head--basic">
         <div class="container mx-auto px-4 activity-head__inner">
 
             <div class="activity-head__copy">

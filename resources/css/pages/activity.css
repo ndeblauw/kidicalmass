@@ -774,10 +774,41 @@
         .activity-head__copy {
             min-width: 0;
         }
-        .activity-hero__copy h1,
-        .activity-head .page-hero__title {
-            overflow-wrap: break-word;
-            word-break: break-word;
+    }
+
+    /* Long Dutch compounds ("Vrijwilligersmeeting") can exceed the title column at
+       any breakpoint once the photo takes its share. Emergency breaks get a syllable
+       hyphen instead of a bare mid-word cut; hyphens only appear when a word would
+       otherwise overflow, so normal titles are untouched. */
+    .activity-hero__copy h1,
+    .activity-head .page-hero__title,
+    .activity-share__text h2 {
+        overflow-wrap: break-word;
+        hyphens: auto;
+        /* Demand a real word-part after the hyphen so greedy breaking lands on the
+           compound joint (Vrijwilligers-meeting), not a syllable (…mee-ting). */
+        hyphenate-limit-chars: 10 4 7;
+        /* Not `balance` (the base default): balance shortens lines and would take
+           the hyphen even when the word fits the full column. */
+        text-wrap: pretty;
+    }
+
+    /* Basic activities (workshop/meeting) carry long functional compound titles
+       ("Vrijwilligersmeeting Schaarbeek") that the ride hero's display size forces
+       into hyphenation at md/lg. A calmer cap fits the lighter register AND the
+       column; the hyphens rule above stays as the emergency net. */
+    .activity-head--basic .page-hero__title {
+        font-size: clamp(2.2rem, 3.4vw, 3.6rem);
+    }
+    /* In the 64–80rem window the photo column + date tile leave the title ~330px:
+       too narrow for any long compound at display size. Stack the tile above the
+       title (poster lockup) so the title gets the full copy column; from 80rem the
+       side-by-side lockup returns with real room. */
+    @media (min-width: 64rem) and (max-width: 79.999rem) {
+        .activity-head--basic .activity-head__headline {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.25rem;
         }
     }
 
@@ -841,12 +872,9 @@
     }
 }
 
-/* ─── P-03 redesign prototypes (review 07-07) ────────────────────────────────
-   Hero facts line (shared) + the two body directions behind ?dir=:
-   A "De affiche" (default) — one white sheet, merged buurt section, archive
-   line for past rides. B "Het verhaal van de dag" — full-width route moment,
-   light-yellow neighbourhood band. The losing direction gets stripped once
-   Frederik picks. Token-backed throughout.
+/* ─── P-03 redesign — "De affiche" (chosen 07-07) ────────────────────────────
+   Hero facts line, merged expect/buren section, and the past-ride archive
+   block (share ask leads, facts close as a colophon). Token-backed.
    ─────────────────────────────────────────────────────────────────────────── */
 @layer components {
     /* Hero facts line — the at-a-glance decision row on the blue band. */
@@ -878,14 +906,27 @@
         }
     }
 
-    /* Archive line — a past ride's facts collapsed to one quiet row. */
+    /* Archive block — for past rides the decision kit collapses: the share-the-
+       memory ask leads at full width, and the facts close the block as one quiet
+       colophon line under a hairline. Overrides the praktisch two-column grid,
+       which has nothing card-sized left to pair here. */
     .activity-praktisch--archive {
-        align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.6rem;
+    }
+    .activity-praktisch--archive .activity-share {
+        align-self: auto;
+        padding: 0;
     }
     .activity-archive {
         display: flex;
         flex-wrap: wrap;
+        width: 100%;
         margin: 0;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--color-kidical-hairline);
         font-size: var(--text-base);
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
     }
@@ -905,7 +946,7 @@
         color: var(--color-kidical-blue);
     }
 
-    /* A: CTA pair + borrowed proof stack inside the merged expect section. */
+    /* CTA pair + borrowed proof stack inside the merged expect section. */
     .activity-expect__actions {
         display: flex;
         flex-wrap: wrap;
@@ -914,47 +955,6 @@
     }
     .activity-expect .activity-team__proof {
         margin-top: 1.6rem;
-    }
-
-    /* B: the route chapter — the map as a full-width moment, chips beneath. */
-    .activity-route h2 {
-        margin: 0 0 1.5rem;
-    }
-    .activity-route__stage {
-        min-height: clamp(20rem, 42vw, 28rem);
-        border: 1px solid var(--color-kidical-hairline);
-        border-radius: var(--radius-card);
-        overflow: hidden;
-        box-shadow: var(--shadow-card);
-    }
-    /* No meta→map seam here (the map stands alone), so drop the white wash. */
-    .activity-route__stage::after {
-        content: none;
-    }
-    .activity-route__meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.1rem 2.4rem;
-        margin-top: 1.75rem;
-    }
-    .activity-route__expect {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 1.25rem 2rem;
-        margin-top: 2.1rem;
-    }
-    .activity-route__expect p {
-        margin: 0;
-        max-width: 46ch;
-    }
-
-    /* B: neighbourhood band — a light-yellow full-bleed chapter. */
-    .activity-buurt-band {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        background: var(--color-kidical-light-yellow);
-        padding-block: clamp(3rem, 6vw, 4.5rem);
     }
 
     /* Photo permission — legally present, visually quiet. */
