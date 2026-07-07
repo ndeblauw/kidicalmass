@@ -11,7 +11,7 @@ use App\Models\Partner;
 use App\Models\TeamMember;
 use App\Models\User;
 use App\Models\YearStat;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

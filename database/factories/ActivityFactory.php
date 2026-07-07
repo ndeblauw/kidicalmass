@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Database\Factories\Concerns\AttachesMediaFromCache;
 use Database\Seeders\MediaSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
