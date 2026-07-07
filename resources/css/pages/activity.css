@@ -840,3 +840,127 @@
         color: color-mix(in oklab, var(--color-white), transparent 15%);
     }
 }
+
+/* ─── P-03 redesign prototypes (review 07-07) ────────────────────────────────
+   Hero facts line (shared) + the two body directions behind ?dir=:
+   A "De affiche" (default) — one white sheet, merged buurt section, archive
+   line for past rides. B "Het verhaal van de dag" — full-width route moment,
+   light-yellow neighbourhood band. The losing direction gets stripped once
+   Frederik picks. Token-backed throughout.
+   ─────────────────────────────────────────────────────────────────────────── */
+@layer components {
+    /* Hero facts line — the at-a-glance decision row on the blue band. */
+    .activity-head__facts {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.35rem 0;
+        margin: 1.4rem 0 0;
+    }
+    .activity-head__fact {
+        display: flex;
+    }
+    .activity-head__fact dd {
+        margin: 0;
+        font-weight: 700;
+        font-size: var(--text-lg);
+        color: var(--color-white);
+    }
+    .activity-head__fact + .activity-head__fact dd::before {
+        content: "·";
+        margin-inline: 0.75rem;
+        font-weight: 400;
+        color: color-mix(in oklab, var(--color-white), transparent 45%);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        .activity-head__facts {
+            animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+        }
+    }
+
+    /* Archive line — a past ride's facts collapsed to one quiet row. */
+    .activity-praktisch--archive {
+        align-items: center;
+    }
+    .activity-archive {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        font-size: var(--text-base);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    }
+    .activity-archive__item {
+        display: flex;
+    }
+    .activity-archive__item dd {
+        margin: 0;
+    }
+    .activity-archive__item + .activity-archive__item dd::before {
+        content: "·";
+        margin-inline: 0.65rem;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 65%);
+    }
+    .activity-archive a {
+        font-weight: 700;
+        color: var(--color-kidical-blue);
+    }
+
+    /* A: CTA pair + borrowed proof stack inside the merged expect section. */
+    .activity-expect__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.6rem;
+    }
+    .activity-expect .activity-team__proof {
+        margin-top: 1.6rem;
+    }
+
+    /* B: the route chapter — the map as a full-width moment, chips beneath. */
+    .activity-route h2 {
+        margin: 0 0 1.5rem;
+    }
+    .activity-route__stage {
+        min-height: clamp(20rem, 42vw, 28rem);
+        border: 1px solid var(--color-kidical-hairline);
+        border-radius: var(--radius-card);
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+    }
+    /* No meta→map seam here (the map stands alone), so drop the white wash. */
+    .activity-route__stage::after {
+        content: none;
+    }
+    .activity-route__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.1rem 2.4rem;
+        margin-top: 1.75rem;
+    }
+    .activity-route__expect {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.25rem 2rem;
+        margin-top: 2.1rem;
+    }
+    .activity-route__expect p {
+        margin: 0;
+        max-width: 46ch;
+    }
+
+    /* B: neighbourhood band — a light-yellow full-bleed chapter. */
+    .activity-buurt-band {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        background: var(--color-kidical-light-yellow);
+        padding-block: clamp(3rem, 6vw, 4.5rem);
+    }
+
+    /* Photo permission — legally present, visually quiet. */
+    .activity-permission {
+        margin: 0;
+        font-size: var(--text-xs);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+    }
+}
