@@ -57,6 +57,15 @@ class BuildReview extends Component
 
     public function save(bool $next = true): void
     {
+        $pages = $this->pages();
+        $index = collect($pages)->search(fn ($p) => $p['id'] === $this->pageId);
+
+        if ($index === false) {
+            $this->addError('save', 'Rij '.$this->pageId.' niet gevonden in het register, niets weggeschreven.');
+
+            return;
+        }
+
         $writer = app(RegistryWriter::class);
         $labels = ['ux' => 'UX', 'conf' => 'Conf', 'wireframe' => 'Wire', 'assets' => 'Assets', 'ui' => 'UI', 'back' => 'Back', 'ok' => 'OK'];
 
@@ -67,8 +76,6 @@ class BuildReview extends Component
             $changed['conf'] = $this->confidence;
         }
 
-        $pages = $this->pages();
-        $index = collect($pages)->search(fn ($p) => $p['id'] === $this->pageId);
         $page = $this->currentPage($pages, $index);
 
         try {
@@ -109,15 +116,17 @@ class BuildReview extends Component
     {
         $pages = $this->pages();
         $index = collect($pages)->search(fn ($p) => $p['id'] === $this->pageId);
+        $rowMissing = $index === false;
         $page = $this->currentPage($pages, $index);
 
         return view('livewire.build-review', [
             'page' => $page,
             'index' => $index,
             'total' => count($pages),
-            'prev' => $pages[$index - 1]['id'] ?? null,
-            'next' => $pages[$index + 1]['id'] ?? null,
-            'previewUrl' => $this->previewUrl($page),
+            'prev' => $rowMissing ? null : ($pages[$index - 1]['id'] ?? null),
+            'next' => $rowMissing ? null : ($pages[$index + 1]['id'] ?? null),
+            'previewUrl' => $rowMissing ? null : $this->previewUrl($page),
+            'rowMissing' => $rowMissing,
             'inboxPending' => file_exists(base_path(config('build.review.inbox'))),
         ]);
     }

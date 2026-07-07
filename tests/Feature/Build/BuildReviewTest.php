@@ -110,3 +110,22 @@ it('surfaces a writer error instead of crashing', function () {
 
     expect(File::exists(base_path('tests/tmp/review-inbox.md')))->toBeFalse();
 });
+
+it('refuses a feedback-only save when the row has vanished from the registry', function () {
+    $component = Livewire::test(BuildReview::class, ['pageId' => 'P-05'])
+        ->set('feedback', 'notitie zonder statuswijziging');
+
+    File::put(base_path($this->registryPath), "| ID |\n|---|\n| P-05 | broken |\n");
+
+    $component->call('save', true)->assertHasErrors('save');
+
+    expect(File::exists(base_path('tests/tmp/review-inbox.md')))->toBeFalse();
+});
+
+it('shows a missing-row warning instead of a phantom page when the row vanishes mid-session', function () {
+    $component = Livewire::test(BuildReview::class, ['pageId' => 'P-05']);
+
+    File::put(base_path($this->registryPath), "| ID |\n|---|\n| P-05 | broken |\n");
+
+    $component->call('cycle', 'ui')->assertSee('data-review-missing-row', false);
+});
