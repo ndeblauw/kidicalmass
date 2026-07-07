@@ -41,6 +41,8 @@ it('requires name, email, organisation and type', function () {
         ->set('type', '')
         ->call('submit')
         ->assertHasErrors(['name', 'email', 'organisation', 'type'])
+        ->assertSee(__('validation.custom.organisation.required'))
+        ->assertSee(__('validation.custom.type.required'))
         ->assertSet('submitted', false);
 });
 

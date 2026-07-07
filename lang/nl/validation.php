@@ -47,6 +47,13 @@ return [
             'email' => 'Dit lijkt geen geldig e-mailadres. Kijk even na op een typfout.',
             'max' => 'Dat e-mailadres is wel erg lang. Klopt het wel?',
         ],
+        'organisation' => [
+            'required' => 'Vul de naam van je organisatie in.',
+        ],
+        'type' => [
+            'required' => 'Kies het type organisatie.',
+            'in' => 'Kies een type organisatie uit de lijst.',
+        ],
     ],
 
     /*
@@ -66,5 +73,7 @@ return [
         'motivation' => 'je motivatie',
         'message' => 'je bericht',
         'phone' => 'je telefoonnummer',
+        'organisation' => 'je organisatie',
+        'type' => 'het type organisatie',
     ],
 ];
