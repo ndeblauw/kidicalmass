@@ -1,79 +1,61 @@
-<x-layouts::auth>
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+<x-layouts::auth :title="__('auth.login_title')" :intro="__('auth.login_intro')">
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
+    <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-5">
+        @csrf
 
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
-            @csrf
+        <flux:input
+            name="email"
+            :label="__('auth.email')"
+            :value="old('email')"
+            type="email"
+            required
+            autofocus
+            autocomplete="email"
+            placeholder="naam@voorbeeld.be"
+        />
 
-            <!-- Email Address -->
+        <div class="relative">
             <flux:input
-                name="email"
-                :label="__('Email address')"
-                :value="old('email')"
-                type="email"
+                name="password"
+                :label="__('auth.password_label')"
+                type="password"
                 required
-                autofocus
-                autocomplete="email"
-                placeholder="email@example.com"
+                autocomplete="current-password"
+                viewable
             />
 
-            <!-- Password -->
-            <div class="relative">
-                <flux:input
-                    name="password"
-                    :label="__('Password')"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                    :placeholder="__('Password')"
-                    viewable
-                />
+            @if (Route::has('password.request'))
+                <flux:link class="absolute top-0 end-0 text-sm" :href="route('password.request')" wire:navigate>
+                    {{ __('auth.forgot_password') }}
+                </flux:link>
+            @endif
+        </div>
 
-                @if (Route::has('password.request'))
-                    <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </flux:link>
-                @endif
+        <flux:checkbox name="remember" :label="__('auth.remember')" :checked="old('remember')" />
+
+        <x-cta-button type="submit" variant="yellow" block data-test="login-button">
+            {{ __('auth.login_button') }}
+        </x-cta-button>
+    </form>
+
+    @unless (app()->isProduction())
+        <div class="auth-page__dev">
+            <p class="auth-page__dev-label">{{ __('auth.dev_login_label') }}</p>
+            <div class="grid grid-cols-2 gap-2">
+                <x-cta-button :href="route('login.as', 'pinkvest')" variant="secondary" size="sm" block data-test="login-as-pinkvest">
+                    {{ __('auth.dev_login_pinkvest') }}
+                </x-cta-button>
+                <x-cta-button :href="route('login.as', 'captain')" variant="secondary" size="sm" block data-test="login-as-captain">
+                    {{ __('auth.dev_login_captain') }}
+                </x-cta-button>
+                <x-cta-button :href="route('login.as', 'user')" variant="secondary" size="sm" block data-test="login-as-user">
+                    {{ __('auth.dev_login_user') }}
+                </x-cta-button>
+                <x-cta-button :href="route('login.as', 'admin')" variant="secondary" size="sm" block data-test="login-as-admin">
+                    {{ __('auth.dev_login_admin') }}
+                </x-cta-button>
             </div>
-
-            <!-- Remember Me -->
-            <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
-
-            <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                    {{ __('Log in') }}
-                </flux:button>
-            </div>
-        </form>
-
-        @if (Route::has('register'))
-            <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
-                <span>{{ __('Don\'t have an account?') }}</span>
-                <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
-            </div>
-        @endif
-
-        @unless (app()->isProduction())
-            <div class="border-t border-zinc-200 pt-4 dark:border-zinc-700">
-                <p class="mb-2 text-xs font-medium text-center text-zinc-500">{{ __('Quick login (dev only)') }}</p>
-                <div class="grid grid-cols-2 gap-2">
-                    <flux:button :href="route('login.as', 'user')" variant="ghost" size="sm" class="w-full" data-test="login-as-user">
-                        {{ __('User') }}
-                    </flux:button>
-                    <flux:button :href="route('login.as', 'pinkvest')" variant="ghost" size="sm" class="w-full" data-test="login-as-pinkvest">
-                        {{ __('Pink Vest') }}
-                    </flux:button>
-                    <flux:button :href="route('login.as', 'captain')" variant="ghost" size="sm" class="w-full" data-test="login-as-captain">
-                        {{ __('Captain') }}
-                    </flux:button>
-                    <flux:button :href="route('login.as', 'admin')" variant="ghost" size="sm" class="w-full" data-test="login-as-admin">
-                        {{ __('Admin') }}
-                    </flux:button>
-                </div>
-            </div>
-        @endunless
-    </div>
+        </div>
+    @endunless
 </x-layouts::auth>

@@ -1,0 +1,109 @@
+@layer components {
+    /* Auth shell (P-07) — the "geel veld" volunteers' door: photo collage +
+       form breathing directly on the light-yellow field. One column on mobile
+       (compact collage strip on top), two centered columns from lg. Spec:
+       docs/superpowers/specs/2026-07-07-login-view-design.md */
+    .auth-page__grid {
+        display: grid;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
+        gap: 2.5rem;
+    }
+
+    @media (min-width: 1024px) {
+        .auth-page__grid {
+            grid-template-columns: minmax(0, 430px) minmax(0, 400px);
+            align-items: center;
+            gap: 5rem;
+        }
+    }
+
+    .auth-page__form {
+        width: min(100%, 400px);
+    }
+
+    /* Collage placement: mobile-first as a wide strip (M1), square scatter
+       from lg. The component leaves --pc-x/y/w/r to the page when not passed
+       inline; positions per nth-child, matching the approved mockups. */
+    .auth-page__collage {
+        max-width: 430px;
+    }
+
+    .auth-page .photo-collage {
+        aspect-ratio: 2.4 / 1;
+    }
+
+    .auth-page .photo-collage__photo:nth-child(1) { --pc-x: 26%; --pc-y: 44%; --pc-w: 34%; --pc-r: -3deg; }
+    .auth-page .photo-collage__photo:nth-child(2) { --pc-x: 53%; --pc-y: 52%; --pc-w: 31%; --pc-r: 2.5deg; }
+    .auth-page .photo-collage__photo:nth-child(3) { --pc-x: 78%; --pc-y: 46%; --pc-w: 33%; --pc-r: -2deg; }
+
+    @media (min-width: 1024px) {
+        .auth-page .photo-collage {
+            aspect-ratio: 1 / 1;
+        }
+
+        .auth-page .photo-collage__photo:nth-child(1) { --pc-x: 32%; --pc-y: 27%; --pc-w: 56%; --pc-r: -3deg; }
+        .auth-page .photo-collage__photo:nth-child(2) { --pc-x: 77%; --pc-y: 40%; --pc-w: 50%; --pc-r: 2.5deg; }
+        .auth-page .photo-collage__photo:nth-child(3) { --pc-x: 45%; --pc-y: 75%; --pc-w: 54%; --pc-r: -2deg; }
+    }
+
+    /* Logo + role pill, after the header postcode-pill pattern
+       (.site-nav__postcode) but quiet: white capsule, pink text. */
+    .auth-page__logo-row {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .auth-page__logo {
+        height: 3.7rem;
+        width: auto;
+    }
+
+    .auth-page__role-pill {
+        display: inline-flex;
+        align-items: center;
+        height: 2.1rem;
+        padding-inline: 0.85rem;
+        border-radius: var(--radius-pill);
+        background: white;
+        color: var(--color-kidical-red-text);
+        font-weight: 700;
+        font-size: var(--text-sm);
+        line-height: 1;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        box-shadow: 0 1px 4px color-mix(in oklab, var(--color-kidical-ink), transparent 88%);
+    }
+
+    /* The base h1 clamp is tuned for full-width pages; cap it for the narrow
+       form column. */
+    .auth-page__title {
+        font-size: var(--text-4xl);
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-page__intro {
+        color: var(--color-text-body);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Dev quick-login (non-prod): quiet footnote under the form. */
+    .auth-page__dev {
+        margin-top: 2rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--color-kidical-hairline);
+    }
+
+    .auth-page__dev-label {
+        font-size: var(--text-xs);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
+        text-align: center;
+        margin-bottom: 0.6rem;
+    }
+}
