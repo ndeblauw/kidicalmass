@@ -15,6 +15,7 @@ return [
 
     // Login
     'login_title' => 'Welkom terug',
+    'login_intro' => 'Fijn dat je er weer bent. Log in en ga verder waar je gebleven was.',
     'email' => 'E-mailadres',
     'password_label' => 'Wachtwoord',
     'forgot_password' => 'Wachtwoord vergeten?',

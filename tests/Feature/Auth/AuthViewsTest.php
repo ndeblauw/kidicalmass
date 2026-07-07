@@ -9,6 +9,7 @@ test('login page renders the branded NL shell', function () {
 
     $response->assertOk()
         ->assertSee(__('auth.login_title'))
+        ->assertSee(__('auth.login_intro'))
         ->assertSee(__('auth.role_pill'))
         ->assertSee('photo-collage');
 });

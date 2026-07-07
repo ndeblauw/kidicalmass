@@ -1,35 +1,24 @@
-<x-layouts::auth :title="__('auth.login_title')">
+<x-layouts::auth :title="__('auth.login_title')" :intro="__('auth.login_intro')">
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-5">
         @csrf
 
-        <flux:input
-            name="email"
-            :label="__('auth.email')"
-            :value="old('email')"
-            type="email"
-            required
-            autofocus
-            autocomplete="email"
-            placeholder="naam@voorbeeld.be"
-        />
+        <div class="volunteer-signup__field">
+            <label for="login-email" class="volunteer-signup__label">{{ __('auth.email') }}</label>
+            <input type="email" id="login-email" name="email" value="{{ old('email') }}" class="volunteer-signup__input" required autofocus autocomplete="email" placeholder="naam@voorbeeld.be" @error('email') aria-invalid="true" aria-describedby="login-email-error" @enderror>
+            @error('email')<span class="volunteer-signup__error" id="login-email-error" role="alert">{{ $message }}</span>@enderror
+        </div>
 
-        <div class="relative">
-            <flux:input
-                name="password"
-                :label="__('auth.password_label')"
-                type="password"
-                required
-                autocomplete="current-password"
-                viewable
-            />
-
-            @if (Route::has('password.request'))
-                <flux:link class="absolute top-0 end-0 text-sm" :href="route('password.request')" wire:navigate>
-                    {{ __('auth.forgot_password') }}
-                </flux:link>
-            @endif
+        <div class="volunteer-signup__field">
+            <div class="flex items-baseline justify-between">
+                <label for="login-password" class="volunteer-signup__label">{{ __('auth.password_label') }}</label>
+                @if (Route::has('password.request'))
+                    <a class="text-sm" href="{{ route('password.request') }}">{{ __('auth.forgot_password') }}</a>
+                @endif
+            </div>
+            <input type="password" id="login-password" name="password" class="volunteer-signup__input" required autocomplete="current-password" @error('password') aria-invalid="true" aria-describedby="login-password-error" @enderror>
+            @error('password')<span class="volunteer-signup__error" id="login-password-error" role="alert">{{ $message }}</span>@enderror
         </div>
 
         <flux:checkbox name="remember" :label="__('auth.remember')" :checked="old('remember')" />
