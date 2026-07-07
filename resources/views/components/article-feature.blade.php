@@ -16,7 +16,7 @@
     {{ $attributes->merge(['class' => 'group relative overflow-hidden rounded-card border border-kidical-hairline bg-white shadow-float transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-hover'.($media ? ' md:grid md:grid-cols-[55fr_45fr]' : '')]) }}
 >
     @if ($media)
-        <div class="aspect-[16/9] overflow-hidden md:aspect-auto md:h-full">
+        <div class="relative aspect-[16/9] overflow-hidden md:aspect-auto md:h-full">
             <img
                 src="{{ $media->getUrl() }}"
                 @if ($media->getSrcset()) srcset="{{ $media->getSrcset() }}" sizes="(min-width: 768px) 560px, 100vw" @endif
@@ -24,6 +24,15 @@
                 class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 fetchpriority="high"
             >
+            {{-- Afzender-chips overlay the photo (review 2026-07-07), so the
+                 date below keeps a fixed left edge whatever the chip widths. --}}
+            @if ($article->groups->isNotEmpty())
+                <p class="absolute left-4 top-4 z-10 flex flex-wrap gap-1.5">
+                    @foreach ($article->groups as $group)
+                        <x-group-chip :group="$group" class="shadow-float" />
+                    @endforeach
+                </p>
+            @endif
         </div>
     @endif
 
@@ -33,9 +42,11 @@
         </h2>
 
         <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-kidical-ink/50">
-            @foreach ($article->groups as $group)
-                <x-group-chip :group="$group" class="relative z-10" />
-            @endforeach
+            @unless ($media)
+                @foreach ($article->groups as $group)
+                    <x-group-chip :group="$group" class="relative z-10" />
+                @endforeach
+            @endunless
             <time datetime="{{ $date->format('Y-m-d') }}">{{ $date->isoFormat('D MMMM YYYY') }}</time>
         </p>
     </div>

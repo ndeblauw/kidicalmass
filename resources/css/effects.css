@@ -113,6 +113,7 @@
 
     .page-hero__eyebrow,
     .page-hero__title,
+    .page-hero__lead,
     .page-hero__controls,
     .page-hero__illustration {
         animation: none;

@@ -80,6 +80,18 @@
         margin: 0;
         animation: hero-h1-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
+    /* Lead slot: the hero's subtitle register (Lead Rule — Nunito 400, never
+       bold). Quiet near-white on the blue band, capped at a prose measure. */
+    .page-hero__lead {
+        margin-top: 1.25rem;
+        max-width: 44rem;
+        font-size: clamp(var(--text-lg), 1.6vw, var(--text-2xl));
+        line-height: 1.5;
+        color: color-mix(in oklab, white, transparent 12%);
+        animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+
+        p { margin: 0; }
+    }
     /* Compact variant: a shorter band and smaller title for single-action pages
        (e.g. the newsletter signup), so the panel/form sits right under the heading
        as one unit instead of across a tall blue reveal. Setting --page-hero-h on the

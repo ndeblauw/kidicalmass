@@ -35,6 +35,12 @@
         opacity: 0.18;
     }
 
+    /* Plain variant — no marker at all: for contexts where the surface already
+       groups the list (e.g. the organisation who-does-what panel) and dots
+       would only add compartments. */
+    .titled-list-block--plain .titled-list-block__list li { padding-left: 0; }
+    .titled-list-block--plain .titled-list-block__list li::before { content: none; }
+
     /* Icon variants — a rounded chip with a glyph, level with the first line.
        get = green check ("Wat je krijgt"), ask = red chevron ("Wat we vragen"). */
     .titled-list-block--get .titled-list-block__list li::before,

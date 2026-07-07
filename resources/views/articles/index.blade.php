@@ -12,13 +12,12 @@
         :title="__('about.news_title')"
         size="compact">
 
-    <div class="space-y-10">
-        <div class="max-w-prose">
-            <x-intro-text>
-                <p>{{ __('about.news_lead') }}</p>
-            </x-intro-text>
-        </div>
+        {{-- The intro belongs to the hero, not the feed (review 2026-07-07). --}}
+        <x-slot:lead>
+            <p>{{ __('about.news_lead') }}</p>
+        </x-slot:lead>
 
+    <div class="space-y-10">
         @if ($articles->isNotEmpty())
             @if ($feature)
                 <x-article-feature :article="$feature" />

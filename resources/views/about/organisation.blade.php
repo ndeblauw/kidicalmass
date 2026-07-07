@@ -20,18 +20,19 @@
         <p>{{ __('about.organisation_intro_2') }}</p>
     </x-intro-text>
 
-    {{-- WIE WAT DOET — two shared titled-list-blocks (Steun-ons component) in
-         the section's sky band (polish 2026-07-04: the page was band-less) --}}
+    {{-- WIE WAT DOET — the national/local two-sided story as one white panel
+         on the sky band: a single surface with a hairline seam instead of two
+         floating dotted lists (simplify 2026-07-07, review follow-up) --}}
     <section class="about-band about-band--sky">
         <div class="container mx-auto px-4">
             <x-section-heading class="mb-8">{{ __('about.organisation_who_title') }}</x-section-heading>
-            <div class="grid gap-8 md:grid-cols-2">
-                <x-titled-list-block :title="__('about.organisation_national_title')" level="h3">
+            <div class="about-who">
+                <x-titled-list-block variant="plain" :title="__('about.organisation_national_title')" level="h3">
                     @foreach (__('about.organisation_national') as $item)
                         <li>{{ $item }}</li>
                     @endforeach
                 </x-titled-list-block>
-                <x-titled-list-block :title="__('about.organisation_local_title')" level="h3">
+                <x-titled-list-block variant="plain" :title="__('about.organisation_local_title')" level="h3">
                     @foreach (__('about.organisation_local') as $item)
                         <li>{{ $item }}</li>
                     @endforeach

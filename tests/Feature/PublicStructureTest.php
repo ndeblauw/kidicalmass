@@ -41,20 +41,20 @@ it('keeps stub scaffolding and lorem placeholder off every finished page', funct
         ->assertDontSee('lorem');
 })->with('finished public routes');
 
-it('renders the About hub: four nav cards plus an intention strip to the right exits', function () {
+it('renders the About hub: an act-exit link row plus the browse list to the subpages', function () {
     get('/nl/about')
         ->assertOk()
         ->assertSee('Over ons')
-        // The 4 nav cards cover the read path; Pers + Partners route via the intent strip.
+        // The browse list covers the read path; Pers + Partners route via the exit row.
         ->assertSee(route('about.mission'), escape: false)
         ->assertSee(route('about.vision'), escape: false)
         ->assertSee(route('about.organisation'), escape: false)
         ->assertSee(route('articles.index'), escape: false)
         ->assertSee(route('about.press'), escape: false)
         ->assertSee(route('about.partners'), escape: false)
-        // The intention strip triages deciders to actions, not just more reading.
-        ->assertSee('Waar ben je naar op zoek?')
-        ->assertSee('Of lees meer over de beweging')
+        // The exit row triages deciders to actions, not just more reading.
+        ->assertSee('Meteen iets regelen?')
+        ->assertSee('Lees meer over de beweging')
         ->assertSee(route('volunteer'), escape: false)
         ->assertSee(route('membership'), escape: false)
         ->assertSee(__('nav.mission'))
