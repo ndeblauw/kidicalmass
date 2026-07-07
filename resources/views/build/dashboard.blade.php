@@ -67,7 +67,7 @@
 <div class="wrap">
   <header class="top">
     <h1>Kidical Mass — build status <span class="mono meta">/build</span></h1>
-    <span class="meta">live · parsed from wiki · {{ $generatedAt }} · non-prod only</span>
+    <span class="meta">live · parsed from wiki · {{ $generatedAt }} · non-prod only · <a href="{{ route('build.review') }}">Review-modus →</a></span>
   </header>
 
   @if (! empty($sources))

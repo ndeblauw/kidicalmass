@@ -149,3 +149,11 @@ MD);
     expect(File::exists(base_path('tests/tmp/review-inbox.md')))->toBeFalse()
         ->and(File::get(base_path('tests/tmp/log.md')))->not->toContain('P-05');
 });
+
+it('shows the reconcile hint once the inbox has content', function () {
+    $this->get('/build/review/P-01')->assertDontSee('data-reconcile-hint', false);
+
+    File::put(base_path('tests/tmp/review-inbox.md'), "# Review-inbox\n\n- iets");
+
+    $this->get('/build/review/P-01')->assertSee('data-reconcile-hint', false);
+});
