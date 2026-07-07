@@ -26,6 +26,7 @@ use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\BackstageDemoAccess;
 use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
+use App\Livewire\BuildReview;
 use App\Mail\VolunteerInvite;
 use App\Models\Group;
 use App\Models\Partner;
@@ -272,6 +273,10 @@ require __DIR__.'/settings.php';
 if (! app()->isProduction()) {
     Route::get('/build', BuildDashboardController::class)
         ->name('build.dashboard');
+
+    // Split review mode — walk the P-nn rows, bump statuses, drop feedback.
+    Route::get('/build/review/{pageId?}', BuildReview::class)
+        ->name('build.review');
 
     // Internal styleguide — live component overview + extraction audit.
     Route::get('/styleguide', StyleguideController::class)
