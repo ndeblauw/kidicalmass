@@ -64,13 +64,20 @@
                     maxZoom: 19,
                 }).addTo(map);
 
-                // Yellow track over a dark casing — the ink outline gives the pale brand
-                // yellow real contrast against the light CARTO tiles.
-                L.polyline(coords, { color: brandInk, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round' }).addTo(map);
-                const polyline = L.polyline(coords, { color: brandYellow, weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round' }).addTo(map);
+                if (coords.length > 1) {
+                    // Yellow track over a dark casing — the ink outline gives the pale brand
+                    // yellow real contrast against the light CARTO tiles.
+                    L.polyline(coords, { color: brandInk, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round' }).addTo(map);
+                    const polyline = L.polyline(coords, { color: brandYellow, weight: 5, opacity: 1, lineCap: 'round', lineJoin: 'round' }).addTo(map);
 
-                map.invalidateSize();
-                map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });
+                    map.invalidateSize();
+                    map.fitBounds(polyline.getBounds(), { padding: [8, 8], maxZoom: 16 });
+                } else {
+                    // Single coordinate → a location-only map (non-ride activities):
+                    // no track, just the pin on its neighbourhood.
+                    map.invalidateSize();
+                    map.setView(coords[0], 14);
+                }
 
                 // Departure pin.
                 const departureIcon = L.divIcon({
