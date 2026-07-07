@@ -9,6 +9,20 @@ return [
         'patterns' => 'docs/wiki/design/40-patterns.md',
     ],
 
+    // Review mode (/build/review). Inbox = raw punch list written by the tool;
+    // a later /pipeline pass folds it into Top gaps + Roll-up.
+    'review' => [
+        'inbox' => 'docs/wiki/design/30-skeleton/review-inbox.md',
+        'log' => 'docs/wiki/log.md',
+        // Static preview-URL overrides per registry ID (null = geen preview).
+        // Template slugs (P-03 event, P-09/P-11 chapter) resolve dynamically
+        // in BuildReview::previewUrl().
+        'urls' => [
+            'P-07' => '/login',
+            'P-21' => null,
+        ],
+    ],
+
     // Per-page UX brief file (relative to base_path), keyed by registry ID.
     // Drives the "UX declared but brief missing" drift check.
     'briefs' => [

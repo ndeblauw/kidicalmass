@@ -59,6 +59,54 @@ class RegistryWriter
         throw new RuntimeException("Rij {$pageId} niet gevonden in het register.");
     }
 
+    public function appendFeedback(string $pageId, string $pageName, string $note): void
+    {
+        $this->guardEnvironment();
+
+        $path = base_path(config('build.review.inbox'));
+        $content = File::exists($path)
+            ? File::get($path)
+            : "# Review-inbox\n\nRuwe feedback uit `/build/review`. Punchlist, geen wiki-prose: afgewerkte items verwijderen, daarna Top gaps + Roll-up bijwerken via `/pipeline`.\n";
+
+        $heading = sprintf('## [%s] %s %s', now()->format('Y-m-d'), $pageId, $pageName);
+        File::put($path, $this->insertUnderHeading($content, $heading, '- '.trim($note)));
+    }
+
+    public function appendLog(string $line): void
+    {
+        $this->guardEnvironment();
+
+        $path = base_path(config('build.review.log'));
+        $content = File::get($path);
+        $heading = sprintf('## [%s] build | review-sessie (/build/review)', now()->format('Y-m-d'));
+
+        if (! str_contains($content, $heading)) {
+            // log.md is newest-first: today's session heading goes right after the title.
+            $content = preg_replace('/^# Wiki Log\n/u', "# Wiki Log\n\n{$heading}\n", $content, 1);
+        }
+
+        File::put($path, $this->insertUnderHeading($content, $heading, '- '.trim($line)));
+    }
+
+    /** Appends $bullet at the end of $heading's block (before the next `## `), creating the heading at EOF if absent. */
+    private function insertUnderHeading(string $content, string $heading, string $bullet): string
+    {
+        if (! str_contains($content, $heading)) {
+            return rtrim($content)."\n\n".$heading."\n\n".$bullet."\n";
+        }
+
+        $blockStart = strpos($content, $heading) + strlen($heading);
+        $nextHeading = strpos($content, "\n## ", $blockStart);
+
+        if ($nextHeading === false) {
+            return rtrim($content)."\n".$bullet."\n";
+        }
+
+        $block = rtrim(substr($content, $blockStart, $nextHeading - $blockStart));
+
+        return substr($content, 0, $blockStart).$block."\n".$bullet."\n".substr($content, $nextHeading);
+    }
+
     private function guardEnvironment(): void
     {
         if (app()->environment('production')) {

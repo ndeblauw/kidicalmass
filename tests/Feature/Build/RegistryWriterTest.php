@@ -26,9 +26,14 @@ MD;
 
 beforeEach(function () {
     $this->registryPath = 'tests/tmp/registry-'.uniqid().'.md';
+    $this->inboxPath = 'tests/tmp/review-inbox.md';
+    $this->logPath = 'tests/tmp/log.md';
     File::ensureDirectoryExists(base_path('tests/tmp'));
     File::put(base_path($this->registryPath), fakeRegistry());
+    File::put(base_path($this->logPath), "# Wiki Log\n\n## [2026-07-01] build | ouder\n\nOude entry.\n");
     config()->set('build.sources.skeleton', $this->registryPath);
+    config()->set('build.review.inbox', $this->inboxPath);
+    config()->set('build.review.log', $this->logPath);
 });
 
 afterEach(function () {
@@ -68,4 +73,42 @@ it('never writes in production', function () {
     expect(fn () => app(RegistryWriter::class)->updateStages('P-01', ['ui' => '🟢']))
         ->toThrow(RuntimeException::class);
     $this->app['env'] = 'testing';
+});
+
+it('creates the inbox on first note and groups same-day notes per page heading', function () {
+    $writer = app(RegistryWriter::class);
+    $writer->appendFeedback('P-05', 'Contact', 'hero te druk');
+    $writer->appendFeedback('P-05', 'Contact', 'pills wrappen raar op mobiel');
+
+    $inbox = File::get(base_path($this->inboxPath));
+    $heading = '## ['.now()->format('Y-m-d').'] P-05 Contact';
+    expect(substr_count($inbox, $heading))->toBe(1)
+        ->and($inbox)->toContain('- hero te druk')
+        ->and($inbox)->toContain('- pills wrappen raar op mobiel');
+});
+
+it('files a note under its own page heading even when another page was reviewed in between', function () {
+    $writer = app(RegistryWriter::class);
+    $writer->appendFeedback('P-05', 'Contact', 'eerste notitie');
+    $writer->appendFeedback('P-06', 'Legal', 'privacy notitie');
+    $writer->appendFeedback('P-05', 'Contact', 'tweede notitie');
+
+    $inbox = File::get(base_path($this->inboxPath));
+    $p05 = strpos($inbox, '] P-05 Contact');
+    $p06 = strpos($inbox, '] P-06 Legal');
+    $second = strpos($inbox, '- tweede notitie');
+    expect($second)->toBeGreaterThan($p05)->toBeLessThan($p06);
+});
+
+it('inserts one review-session log heading per day right after the title, bullets beneath it', function () {
+    $writer = app(RegistryWriter::class);
+    $writer->appendLog('**P-05 Contact**: Wire 🟠→🟢');
+    $writer->appendLog('**P-01 Home**: Back 🟠→🟢');
+
+    $log = File::get(base_path($this->logPath));
+    $heading = '## ['.now()->format('Y-m-d').'] build | review-sessie (/build/review)';
+    expect(substr_count($log, $heading))->toBe(1)
+        ->and(strpos($log, $heading))->toBeLessThan(strpos($log, '## [2026-07-01]'))
+        ->and(strpos($log, '- **P-01 Home**'))->toBeLessThan(strpos($log, '## [2026-07-01]'))
+        ->and($log)->toContain('- **P-05 Contact**: Wire 🟠→🟢');
 });
