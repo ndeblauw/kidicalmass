@@ -100,6 +100,17 @@ it('files a note under its own page heading even when another page was reviewed 
     expect($second)->toBeGreaterThan($p05)->toBeLessThan($p06);
 });
 
+it('keeps a multi-line note inside one bullet and defuses heading-like lines', function () {
+    $writer = app(RegistryWriter::class);
+    $writer->appendFeedback('P-05', 'Contact', "regel een\n## geen echte heading\nregel drie");
+    $writer->appendFeedback('P-05', 'Contact', 'tweede notitie');
+
+    $inbox = File::get(base_path($this->inboxPath));
+    expect($inbox)->toContain("- regel een\n  ## geen echte heading\n  regel drie")
+        ->and(substr_count($inbox, '## ['.now()->format('Y-m-d').'] P-05 Contact'))->toBe(1)
+        ->and(strpos($inbox, '- tweede notitie'))->toBeGreaterThan(strpos($inbox, '- regel een'));
+});
+
 it('inserts one review-session log heading per day right after the title, bullets beneath it', function () {
     $writer = app(RegistryWriter::class);
     $writer->appendLog('**P-05 Contact**: Wire 🟠→🟢');

@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Group;
 use App\Support\Build\BuildStatus;
 use App\Support\Build\RegistryWriter;
+use App\Support\Build\Stage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use RuntimeException;
@@ -13,8 +14,6 @@ use RuntimeException;
 #[Layout('layouts.build')]
 class BuildReview extends Component
 {
-    private const CYCLE = ['🔴', '🟠', '🟢', '⚪', '❓'];
-
     private const OK_CYCLE = ['🔴', '🟢'];
 
     public string $pageId;
@@ -50,7 +49,7 @@ class BuildReview extends Component
 
     public function cycle(string $key): void
     {
-        $cycle = $key === 'ok' ? self::OK_CYCLE : self::CYCLE;
+        $cycle = $key === 'ok' ? self::OK_CYCLE : array_map(fn (Stage $stage) => $stage->emoji(), Stage::cases());
         $at = array_search($this->stages[$key], $cycle, true);
         $this->stages[$key] = $cycle[($at === false ? 0 : $at + 1) % count($cycle)];
     }

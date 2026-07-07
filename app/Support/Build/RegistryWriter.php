@@ -69,7 +69,8 @@ class RegistryWriter
             : "# Review-inbox\n\nRuwe feedback uit `/build/review`. Punchlist, geen wiki-prose: afgewerkte items verwijderen, daarna Top gaps + Roll-up bijwerken via `/pipeline`.\n";
 
         $heading = sprintf('## [%s] %s %s', now()->format('Y-m-d'), $pageId, $pageName);
-        File::put($path, $this->insertUnderHeading($content, $heading, '- '.trim($note)));
+        $bullet = '- '.preg_replace('/\R/', "\n  ", trim($note));
+        File::put($path, $this->insertUnderHeading($content, $heading, $bullet));
     }
 
     public function appendLog(string $line): void
