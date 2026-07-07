@@ -23,13 +23,13 @@ Snapshot of where the NL rebuild stands (compiled 2026-07-04, updated 2026-07-07
 
 | | Done / approved | In progress | Not started | N.v.t. / shape open |
 |---|---|---|---|---|
-| **Wire** | 19 | 2 | 0 | 1 |
+| **Wire** | 20 | 1 | 0 | 1 |
 | **UI** | 17 | 4 | 0 | 1 |
 | **Back** | 17 | 4 | 0 | 1 |
 | **CMS** (new 07-07) | 2 | 9 | 2 | 9 |
 | **Client OK** | 0 | 0 | 21 | 1 |
 
-22 registry pages (P-22 cut 07-04, P-08 cut 07-07 — the roze-hesje hub carries the volunteer layer) · avg content confidence **3.6/5** (recalibrated row-by-row in the 07-07 review session) · client sign-off **0/21** — the reveal is what starts that clock. **The critique queue is empty:** Frederik walked all 21 public rows through `/build/review` on 07-07. Only two pages remain design-open — Event detail (P-03, redesign asked) and the branded login view (P-07). The new **CMS column** tracks whether CMS-driven content is loaded and correct; its nine 🟠 cells are the client content chase-list.
+22 registry pages (P-22 cut 07-04, P-08 cut 07-07 — the roze-hesje hub carries the volunteer layer) · avg content confidence **3.6/5** (recalibrated row-by-row in the 07-07 review session) · client sign-off **0/21** — the reveal is what starts that clock. **The critique queue is empty:** Frederik walked all 21 public rows through `/build/review` on 07-07. Only one page remains Wire-open — Event detail (P-03, redesign asked). The branded login view (P-07) built and live-verified the same day (Wire + Assets 🟢); its UI stays 🟠 pending Frederik's own `/build/review` critique. The new **CMS column** tracks whether CMS-driven content is loaded and correct; its nine 🟠 cells are the client content chase-list.
 
 **Already banked (don't redo):** SEO/social head baseline (D-10 → Partly), branded error pages, 118 test files + CI, mobile pass (20 pages, zero overflow), admin role scoping, real data on chapters/press/stats/quotes/team/partners, **Wix redirect map built** (D-7 — every live-sitemap URL 301s, 07-07), demo runbook, **Privacy page (P-06 — Art-13 copy, config-driven cookie list, form notices, ContactForm retention pruning)**, **Contact page (P-05 — final a3a live, form wired to `ContactForm` + comms inbox)**, **accessibility pass** (skip link, landmarks, focus ring, form error wiring, contrast, reduced-motion, hit areas — 07-05), **performance pass** (photography srcset, partner conversions, CLS dims, cache rules, footerbunch avif — 07-05), **`/build/review` tool + first full review session** (07-07 — all 21 rows recalibrated by Frederik, feedback folded into the registry + this board).
 
@@ -56,7 +56,7 @@ Impact ●●● = launch fails or embarrasses without it. Effort: S = a session
 | **The critique batch** | Done 07-07: `/build/review` shipped and Frederik walked all 21 rows in one sitting. Follow-ups became the four rows below. | ●●● | M | ~~Frederik~~ done |
 | **Event detail redesign (P-03)** | The one page the review sent back to the drawing board (UX/Wire/UI → 🟠). Existing three-state lifecycle + share-band stay as the base; needs a fresh design pass (brief → alternatives → build), not a tweak. Handoff brief ready: [`activity-detail-redesign.md`](../design/30-skeleton/activity-detail-redesign.md). | ●● | M | Frederik |
 | **About polish batch** | Built 07-07 in one thread: hub lightened (variant "geen dozen" picked from 3 live prototypes — exits as link row, browse path as chip list), organisation band now one white panel with a hairline seam, news tweaks live (chips overlay the photo, title "Nieuws uit de beweging", intro in the hero). Remaining: Frederik's `/build/review` re-check flips P-17/P-18 UI → 🟢 and confirms P-14. | ●● | S–M | ~~Frederik~~ built, re-review |
-| **Branded login view (P-07)** | Fortify backend done; the login page itself needs KM style + NL copy. Self-contained, fun, small. Assets ❓ — decide if it gets an illustration. Handoff brief ready: [`login-view.md`](../design/30-skeleton/login-view.md). | ● | S | Frederik |
+| **Branded login view (P-07)** | Built 07-07: geel-veld auth shell (photo collage, Set 1, three photos, `<x-photo-collage>`) + NL copy across login/forgot/reset/confirm/two-factor/verify, live-verified for all roles. Wire + Assets 🟢; UI 🟠 awaiting Frederik's `/build/review` critique. Handoff brief: [`login-view.md`](../design/30-skeleton/login-view.md). | ● | S | ~~Frederik~~ built, re-review |
 | **Roze-hub surface pass (P-09)** | Wire approved 07-07; the hub still needs its KM-style surface pass. Real features wait on [#37](https://github.com/ndeblauw/kidicalmass/issues/37), styling doesn't. | ● | S–M | Frederik |
 | **SEO tail (D-10)** | Designed `og-default` share card (check the file even exists), `sitemap.xml` + robots reference, JSON-LD events. hreflang parks with FR. | ●● | S | Frederik + Nico |
 | **Analytics, cookieless** | Plausible/Fathom: no consent banner, simple privacy page, launch-week numbers for the client. | ●● | S | Nico |

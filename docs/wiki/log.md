@@ -1,5 +1,12 @@
 # Wiki Log
 
+## [2026-07-07] build | Branded login view (P-07) live
+
+Geel-veld auth shell built: photo collage + NL copy across login/forgot/reset/
+confirm/two-factor/verify. Assets decided (collage, Set 1). Spec:
+docs/superpowers/specs/2026-07-07-login-view-design.md. Awaiting Frederik's
+/build/review critique to flip Wire/UI 🟢.
+
 ## [2026-07-07] build | P-03 herontwerp: twee richtingen live + basic-page op de rit-grammatica
 
 Vervolg op de handoff (`activity-detail-redesign.md`). **Brainstorm afgerond** (diagnose bevestigd: geen arc, states voelen gelijk, beslislaag begraven; agenda-export bewust geschrapt). **Twee richtingen als prototype op de echte view**, te vergelijken via query-param: `?dir=a` "De affiche" (één wit vel; hero-feitenregel; verwachten + buren samengevoegd tot één warme sectie; verleden = archieflijn i.p.v. feitenkaart) en `?dir=b` "Het verhaal van de dag" (kaart als paginabreed routemoment met chipsrij, lichtgele buurt-band, deel-band voor de closing). Gedeeld: compacte feitenregel in de hero (wanneer · vertrekpunt · afstand — beslissing compleet boven de vouw) en een stille fototoestemmingslijn. Reviewadressen: `/nl/events/17` (upcoming), `/nl/events/7` (net voorbij), `/nl/events/2` (recap), telkens ±`?dir=b`. **Basic activity page** (workshop/meeting, review-feedback van vandaag): hero = rit-hero zonder parade (date-tile, zip-chip, intro onder de kop, gekantelde foto) + Praktisch-kaart met locatie-pin-kaart (PostalCode-centroïde, geen route; `x-route-map` kreeg een single-coordinate-modus). Demo-data verrijkt (17/2/88: komoot-link, specifieke copy, echte ritfoto's; queue-conversions gedraaid) en `APP_URL` naar https (mixed-content blokkeerde responsive images). Tests: BasicActivityPage op nieuwe seams + pin/fallback-dekking; ride-suite groen op default `dir=a`.
