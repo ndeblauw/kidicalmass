@@ -163,7 +163,20 @@
     .ride-day__cal--lg .ride-day__month {
         font-size: calc(0.96rem * var(--lg-scale));
     }
-    /* Step the hero tile down a notch on phones so it doesn't crowd the title. */
+    /* The tile is a fixed pixel size at any given scale — it doesn't ease down with
+       the fluid title/photo around it. Full 2x is sized for a wide desktop copy
+       column; activity.css's own note on .activity-head--basic clocks the column at
+       ~330px through 64–80rem (container caps at 1024/1280px there), and it stays no
+       roomier up to the 1536px container jump. Through that whole non-wide-desktop
+       span the fixed tile reads oversized next to a title that's often still
+       wrapping onto two lines. Step down for the whole span; only ease back to full
+       size once the layout genuinely has room. */
+    @media (max-width: 89.999rem) {
+        .ride-day__cal--lg {
+            --lg-scale: 1.65;
+        }
+    }
+    /* Phones get a further step down so the tile doesn't crowd the title. */
     @media (max-width: 560px) {
         .ride-day__cal--lg {
             --lg-scale: 1.5;
