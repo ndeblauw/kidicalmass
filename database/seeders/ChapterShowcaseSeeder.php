@@ -8,8 +8,8 @@ use App\Models\Group;
 use App\Models\Partner;
 use App\Models\PressArticle;
 use App\Models\User;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 
 /**
