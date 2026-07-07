@@ -3,7 +3,7 @@ title: Design — Scope (plane 2)
 tags: [design]
 sources: [wiki/ux-planning, notion]
 phase: design
-updated: 2026-07-03
+updated: 2026-07-07
 ---
 
 # Design — Scope (plane 2)
@@ -22,7 +22,7 @@ updated: 2026-07-03
 
 **Activities — public rides + internal meetups (added/clarified — interview 2026-05-18)**
 - One `Activity` model, four types: `kidicalmass` (public family ride), `meeting`, `workshop`, `other`. Bilingual (NL/FR), linked to one or more groups, has an organizer. *(Already built by Nico on `main` — the Articles/Activities split exists. Not yet built: a visibility field — see build implication.)*
-- **Viewing rule (closed — D-2):** **all activity types are public** — `kidicalmass` rides and `meeting`/`workshop`/`other` meetups alike, **full detail**, cross-group. Meetups are public as a traction/recruitment signal. **Login gates the back-office + volunteer roster, not viewing.** **Where public meetups surface (settled): chapter pages only** — each chapter lists its own meetups; **no national movement view**, and **not** on the family ride calendar (`/events` stays rides-only). A logged-in volunteer's cross-group view lives in [My activities](30-skeleton/my-activities.md); its default-municipality filter is a to-test skeleton detail. See [D-2](01-concerns.md).
+- **Viewing rule (closed — D-2):** **all activity types are public** — `kidicalmass` rides and `meeting`/`workshop`/`other` meetups alike, **full detail**, cross-group. Meetups are public as a traction/recruitment signal. **Login gates the back-office + volunteer roster, not viewing.** **Where public meetups surface (settled): chapter pages only** — each chapter lists its own meetups; **no national movement view**, and **not** on the family ride calendar (`/events` stays rides-only). A logged-in volunteer sees their chapter's agenda on the **roze-hesje hub** ([P-09](30-skeleton/chapters-roze-hesjes.md)); the cross-group "My activities" view was **cut with P-08 (2026-07-07)** — multi-chapter volunteers navigate per chapter. See [D-2](01-concerns.md).
 - Find rides by location; iCal export
 - Per-region/per-chapter email subscriptions — low frequency (rides published ~Jan & Sept on a school-year rhythm; not an editorial newsletter). "Next ride near you" + nearby gemeentes + latest press/photos.
 - Event detail pages with full practical info: date, time, meeting point, distance, duration, age range, cost, Komoot route link
@@ -60,14 +60,14 @@ updated: 2026-07-03
 **Accounts — volunteers only (clarified 2026-06-02)**
 - **A site account = a volunteer** (`group_user`, belongs to **one or more** chapters — `group_user` is many-to-many; already modelled). **Families have no account.** A **spacefunding member** pays externally via Growfunding and gets **no** site account — distinct concept; a person can be both, neither implies the other.
 - Being a logged-in *volunteer* (not paying status) gates: **the back-office and the volunteer roster view** (meetup *viewing* is public — see Activities).
-- A volunteer gets a personal **[My activities](30-skeleton/my-activities.md)** view: upcoming rides/meetups for **my chapter(s)** (the "attending" list is removed — attendance cut, D-1).
+- A volunteer's personal logged-in place is the per-chapter **roze-hesje hub** ([P-09](30-skeleton/chapters-roze-hesjes.md)): chapter agenda (incl. draft-ride preview), roster, materials, onboarding. Post-login lands on the member's own chapter page (`LoginResponse`). *(The separate cross-group "My activities" view — P-08 — was cut 2026-07-07 as superseded by the hub; the "attending" list was already removed — attendance cut, D-1.)*
 
 **Volunteer roster (validated 2026-06-05, Alexandre/J3 — replaces attendance as the social feature)**
 - A standing **per-chapter** roster, **not** per-event. A volunteer can **opt in** to appear **publicly** on their chapter page; the **full roster of other volunteers in the chapter** is visible to **logged-in volunteers only**. Answers Morgane's "I don't know who else is in my group" gap.
 - **Build implication for Nico:** backed by the existing **`group_user` pivot** + an **opt-in public-visibility boolean**. **Do not build an `Attendance` (volunteer ↔ activity) relation.** See [content model](20-structure.md).
 
 **Private organiser back-office (validated — D-1; content brief concrete since Alexandre/J3 2026-06-05)**
-- A per-chapter **material library** in three layers: (1) *before signing up* — what to expect as a volunteer; (2) *once logged in (pink vest)* — how it works, documents, a video, the meetup schedule, who leads the chapter + their role, what roles exist and what yours is/could be (the things now living in WhatsApp), plus a **growth path** toward deeper contribution; (3) **NEW — new-chapter / organiser onboarding** — how to start and run a chapter (commune contact, route planning, promo/poster downloads). **Primary beneficiary = new/small chapters + organiser onboarding.** Reached from the chapter page and [My activities](30-skeleton/my-activities.md).
+- A per-chapter **material library** in three layers: (1) *before signing up* — what to expect as a volunteer; (2) *once logged in (pink vest)* — how it works, documents, a video, the meetup schedule, who leads the chapter + their role, what roles exist and what yours is/could be (the things now living in WhatsApp), plus a **growth path** toward deeper contribution; (3) **NEW — new-chapter / organiser onboarding** — how to start and run a chapter (commune contact, route planning, promo/poster downloads). **Primary beneficiary = new/small chapters + organiser onboarding.** Built as the per-chapter **roze-hesje hub** ([P-09](30-skeleton/chapters-roze-hesjes.md)), reached from the chapter page + the roze nav button (My activities cut 2026-07-07).
 - **Posters/promo are stored & distributed as downloads here — not generated** (poster auto-generation stays a confirmed cut).
 
 **Bilingual routing**

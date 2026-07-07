@@ -3,7 +3,7 @@ title: Activity Detail
 tags: []
 sources: [notion]
 phase: design
-updated: 2026-04-13
+updated: 2026-07-07
 ---
 
 Built by Nico. UX spec added. Page URL: `/events/[slug]`
@@ -90,7 +90,7 @@ Warm, specific, sensory. Joyful without being frivolous. Local — named landmar
 - Facebook link (removed — no longer needed)
 - **Family** registration / RSVP — families just show up; no account, no public headcount.
 - **Volunteer attendance ("I'm coming")** — **CUT** (Alexandre/J3, 2026-06-05; [D-1](../01-concerns.md)): volunteers manage turnout via WhatsApp polls, so there is **no per-event attendance signal** on this page. The standing per-chapter **volunteer roster** ([PAT-19](../40-patterns.md)) replaces it, and lives on the chapter page + back-office, not here.
-- Private volunteer back-of-event — no per-event back-office; the per-chapter **back-office (material library)** is its own surface ([D-1](../01-concerns.md)), reached from the chapter page / My activities.
+- Private volunteer back-of-event — no per-event back-office; the per-chapter **back-office (material library)** is its own surface — the roze-hesje hub ([D-1](../01-concerns.md), P-09) — reached from the chapter page.
 
 ---
 

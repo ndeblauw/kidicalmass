@@ -3,10 +3,12 @@ title: My activities — page brief
 tags: [design, skeleton]
 sources: [wiki/design/20-structure, wiki/design/01-concerns, wiki/strategy/20-personas]
 phase: design
-updated: 2026-06-05
+updated: 2026-07-07
 ---
 
 # My activities — page brief
+
+> **DROPPED (2026-07-07, Frederik):** this page is cut from scope — its job (the volunteer's personal logged-in place: agenda, roster, way into materials) is carried by the per-chapter **roze-hesje hub** ([P-09, `chapters-roze-hesjes.md`](chapters-roze-hesjes.md)); post-login lands on the member's chapter page (`LoginResponse`). Registry row P-08 removed. Kept as reference for the cross-group/multi-chapter thinking below, which has no home in the per-chapter hub.
 
 Account-only view. **Audience: volunteers** (the only kind of site account — `group_user`). Not for families.
 

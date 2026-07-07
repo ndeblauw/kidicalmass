@@ -3,7 +3,7 @@ title: Sitemap — TO-BE · Private zone (logged-in + back-office)
 tags: [design, sitemap, presentation]
 sources: [wiki/design/20-structure, wiki/strategy/50-user-journeys, wiki/strategy/20-personas, wiki/design/journey-palette]
 phase: design
-updated: 2026-06-08
+updated: 2026-07-07
 ---
 
 # Sitemap — TO-BE · Private zone
@@ -28,11 +28,11 @@ flowchart TD
 
   subgraph VOLZ["LOGGED-IN — volunteers"]
     direction LR
-    MYA["🆕 My activities /my-activities"]:::page
-    BACK["🆕 Chapter back-office /backstage/{postal}<br/>docs · video · roster · downloads"]:::page
+    CHAP["Own chapter page /chapters/{postal}<br/>post-login landing"]:::page
+    BACK["🆕 Roze-hesje hub /chapters/{postal}/roze-hesjes<br/>agenda · docs · roster · materiaal"]:::page
   end
 
-  subgraph ADM["BACK-OFFICE — organisers (Filament /admin)"]
+  subgraph ADM["BACK-OFFICE — organisers (/admin, BlueAdmin)"]
     direction LR
     ADMINLEAD["🆕 Chapter lead — own chapter"]:::page
     ADMINPUB["🆕 Publish a ride"]:::page
@@ -46,8 +46,8 @@ flowchart TD
   FROMPUB -.-> LOGIN
   LOGIN --> ADMINDUO
   %% 🟠 volunteer (2-3)
-  LOGIN -->|"1"| MYA
-  MYA -->|"2"| BACK
+  LOGIN -->|"1"| CHAP
+  CHAP -->|"2"| BACK
   %% 🟣 chapter lead (4-6)
   LOGIN -->|"1"| ADMINLEAD
   ADMINLEAD -->|"2 · publish, no email to Brussels"| ADMINPUB
@@ -66,7 +66,7 @@ flowchart TD
 
 ## Reading the routes
 
-- **🟠 P3→P4 volunteer:** arrives from Help out on the public site → **log in** → **My activities** (their chapters' rides + meetups) → **Chapter back-office** (docs, video, roster, downloads — the material library that lives in WhatsApp today).
+- **🟠 P3→P4 volunteer:** arrives from Help out on the public site → **log in** → lands on their **own chapter page** → **roze-hesje hub** (agenda, docs, roster, materials — the material library that lives in WhatsApp today). *(The separate "My activities" cross-group view — P-08 — was cut 2026-07-07; the hub is per-chapter.)*
 - **🟣 P5 chapter lead:** **log in** → **admin** (own chapter) → **Publish a ride**. One publish, no email to Brussels — it appears automatically on the public **Events** calendar and the **Chapter page**. *(This is the reframe D1; still the journey most at risk — untested, Alexandre is the planned interview.)*
 
 ## Out of scope here

@@ -3,7 +3,7 @@ title: Design — Structure (plane 3)
 tags: [design]
 sources: [wiki/ux-planning, notion]
 phase: design
-updated: 2026-06-05
+updated: 2026-07-07
 ---
 
 # Design — Structure (plane 3)
@@ -111,19 +111,18 @@ kidicalmass.be (NL / FR — routed per path; EN later)
     └── Volunteer login (/login) — discreet; NO public Register (invite-only); footer-only since Steun took the header slot (2026-06-02)
 │
 ══ LOGGED-IN FRONTEND (volunteers only) ══════════════════════════════
-│  account = group_user (many-to-many), invite/lead-provisioned; gates back-office + roster
+│  account = group_user (many-to-many), invite/lead-provisioned; gates the hub + roster
+│  Post-login landing = the member's own chapter page (LoginResponse; roze nav button → hub)
+│  (My activities /my-activities CUT 2026-07-07 — superseded by the hub; P-08 dropped.
+│   With it goes the cross-group view: multi-chapter volunteers navigate per chapter.)
 │
-├── My activities (/my-activities)  ← post-login landing
-│   ├── Upcoming — rides + meetups for my chapter(s), soonest first (no "I'm coming" — attendance cut, D-1)
-│   ├── Meetups & workshops — default = my municipality, cross-group filter (public; here as shortlist)
-│   └── My chapter(s) → link(s) into the back-office + volunteer roster
-│
-└── Chapter back-office (/backstage/[postal-code] — per chapter)
-    │  Separate BRANDED frontend surface, read-mostly — NOT the Filament panel
-    ├── Before signing up: what to expect as a volunteer
+└── Roze-hesje hub (/chapters/[postal-code]/roze-hesjes — per chapter; P-09)
+    │  The back-office, built INSIDE the public framework, read-mostly — NOT the /admin panel
+    │  (replaces the earlier /backstage/[postal-code] surface)
+    ├── Before signing up: what to expect as a volunteer (public chapter page)
     ├── Once logged in (the material library — "things now in WhatsApp"):
+    │   ├── Chapter agenda — rides + meetups, incl. draft-ride preview (no "I'm coming" — attendance cut, D-1)
     │   ├── How it works · documents · intro video
-    │   ├── Meetup/workshop schedule for this chapter
     │   ├── Who leads the chapter + their role
     │   ├── What roles exist + what yours is / could be · growth path
     │   ├── Promo/poster downloads (stored & distributed, not generated)
@@ -148,12 +147,12 @@ kidicalmass.be (NL / FR — routed per path; EN later)
 - **Liège + Mons are hosted full chapters, not external pins** (revised 2026-06-02) — both run their own domains (`kidicalmassliege.org`, `mons.bike`) but get first-class hosted `/chapters/[postal]` pages (page may link out to their domain). Reverses the earlier "Liège = external pin" call; aligns with [P5](../strategy/20-personas.md) ("make a hosted page more attractive than a separate domain"). Liège's page is authored from their site's data (no `kidicalmass.be` page exists to migrate)
 - **Support is site-wide and prominent** (reworked 2026-06-02) — dedicated **`/steun-ons`** page (was `/membership`) + a **"Steun" CTA button in the primary nav** (top-right, replacing login, which moves to the footer) + **contextual "Steun" blocks** on Home and end of event-detail + the persistent footer CTA. All route to `/steun-ons`. Framed as **support, not membership** ("lid" retired; everyone rides free). Elevated from the earlier quiet-footer-only call (top org objective). One-off path provisional ([D-9](01-concerns.md))
 - **Site is canonical, not a Facebook replacement** — Facebook stays for reach and turnout signal; the site is the link Facebook points to
-- **One Activity model; all types public to view** — rides and meetups/workshops alike (meetups public as a traction signal — D-2). Login gates the back-office + volunteer roster, not viewing (per-event attendance cut — D-1). Meetups live in the same system as rides, not a separate product. **Public meetups surface on chapter pages only** — `/events` stays rides-only (J1); there is no national meetup-aggregation view (a logged-in volunteer's cross-group view is [My activities](30-skeleton/my-activities.md)).
+- **One Activity model; all types public to view** — rides and meetups/workshops alike (meetups public as a traction signal — D-2). Login gates the back-office + volunteer roster, not viewing (per-event attendance cut — D-1). Meetups live in the same system as rides, not a separate product. **Public meetups surface on chapter pages only** — `/events` stays rides-only (J1); there is no national meetup-aggregation view (the logged-in cross-group view was cut with P-08, 2026-07-07 — a volunteer sees meetups per chapter on the [roze-hesje hub](30-skeleton/chapters-roze-hesjes.md)).
 - **Account ≠ paying member** — a logged-in group-volunteer account (which gates the back-office + volunteer roster) is distinct from a spacefunding donor (funding status). A person can be both; neither implies the other. A volunteer account is **many-to-many** with chapters (multi-chapter affordance — D-1).
 - **Mission and Vision are separate** — Mission = what Kidical Mass is + impact stats; Vision = policy demands + advocacy
 - **News in About section** — consistent with current site; low volume doesn't justify top-level nav
-- **Three tiers, three audiences** — (1) public site (families, would-be volunteers, sponsors, press); (2) logged-in *frontend* for volunteers (P4) — `My activities` + a **separate branded** per-chapter back-office, **read-mostly**; (3) Filament `/admin` — the content CMS for leads (P5) + duo (P6). The back-office is **not** the admin panel: rank-and-file volunteers never touch Filament
-- **Accounts are invite-only** — leads provision volunteers in `/admin` (recruited via WhatsApp/phone — [P4](../strategy/20-personas.md)); the public site exposes a **login link only, no Register**. Post-login landing = `My activities`
+- **Three tiers, three audiences** — (1) public site (families, would-be volunteers, sponsors, press); (2) logged-in *frontend* for volunteers (P4) — the per-chapter **roze-hesje hub** (`/chapters/[postal-code]/roze-hesjes`, P-09), **read-mostly** (My activities cut 2026-07-07); (3) `/admin` (BlueAdmin) — the content CMS for leads (P5) + duo (P6). The hub is **not** the admin panel: rank-and-file volunteers never touch `/admin`
+- **Accounts are invite-only** — leads provision volunteers in `/admin` (recruited via WhatsApp/phone — [P4](../strategy/20-personas.md)); the public site exposes a **login link only, no Register**. Post-login landing = the member's own chapter page (`LoginResponse`; My activities cut 2026-07-07)
 - **National contact has its own front door** — `/contact` routes to the coordination duo with press / partnership / general buckets, serving the secondary audiences (sponsors, press) the chapter-routed Help out form does not. Per-chapter volunteer enquiries still go through Help out (J2)
 - **Legal/utility pages are in scope** — a single **Privacy & cookies** page is GDPR-mandatory given the volunteer enquiry form and per-region email opt-in; plus a 404. Privacy + cookies were **folded into one page** (2026-06-02); `/cookies` 301s to `/privacy` so any links indexed from the old Wix site keep resolving. It lives in the footer cluster, not main nav
 - **Per-region email subscription is homed** — the low-frequency "next ride near you" opt-in (Scope feature) lives as a control on **Events** (per-region) and on each **chapter page** (per-chapter); it is not a separate page

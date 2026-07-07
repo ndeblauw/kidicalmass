@@ -3,7 +3,7 @@ title: Key Decisions — evidence (Events, Chapters, Volunteers, Sponsors)
 tags: [strategy, evidence]
 sources: [notion]
 phase: strategy
-updated: 2026-06-05
+updated: 2026-07-07
 ---
 
 > **This is strategy *evidence*, not the canonical decisions.** The [Strategy Brief](00-strategy-brief.md) (D1–D9) is canonical; the decisions below have been distilled into it. This page is kept as the underlying proxy-interview material and rationale. Where the two differ, the brief wins.
@@ -28,7 +28,7 @@ updated: 2026-06-05
 
 - Replace the bike@ "email black hole" with structured intake (form) + routing to the right chapter admin.
 - Chapter admins can respond to inquiries from inside the platform.
-- Volunteer dashboard = **My activities** (upcoming rides/meetups for my chapter(s)) + the **logged-in volunteer roster**. (Per-event attendance tracking removed — Alexandre/J3, 2026-06-05.)
+- Volunteer dashboard = the per-chapter **roze-hesje hub** (agenda + logged-in volunteer roster + materials). (Per-event attendance tracking removed — Alexandre/J3, 2026-06-05. The originally-planned cross-group "My activities" page was cut 2026-07-07 as superseded by the hub — design registry P-09.)
 
 ### Sponsors
 

@@ -77,7 +77,7 @@ Impact ●●● = launch fails or embarrasses without it. Effort: S = a session
 | **FR locale: decide, then build** | Strategy promises NL+FR routed in v1; middleware, `lang/fr`, per-page copy, hreflang all unbuilt. Launch-blocking or announced fast-follow — decided, not drifted. Unblocks redirect middleware + hreflang. | ●●● | L | Frederik + Nico |
 | **#37 backend bundle** | Per-chapter enquiry routing (waits on D-12), roze-hub real features, per-group intro/cover fields. Volunteer-facing, can trail public launch. | ●● | L | Nico |
 | **Post-launch SEO ops** | Search Console + sitemap submit, crawl the redirect-critical set (301→200), watch the 404 log a month, media regenerate on prod. | ●● | S | Nico |
-| **My activities + volunteer growth path** | P-08 provisional spec + D-1 remainder (material library). Clean v1.1 scope. | ● | M–L | Both |
+| **Volunteer growth path (My activities dropped)** | P-08 cut 2026-07-07 — the roze-hesje hub (P-09) carries the volunteer's logged-in surface. Remainder: D-1 material library depth + any cross-group view for multi-chapter volunteers. | ● | M–L | Both |
 
 ## If only five things happen this month
 

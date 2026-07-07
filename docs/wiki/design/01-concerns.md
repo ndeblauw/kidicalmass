@@ -3,7 +3,7 @@ title: Design — concerns register
 tags: [design, concerns]
 sources: [wiki/strategy/01-concerns, wiki/design]
 phase: design
-updated: 2026-07-04
+updated: 2026-07-07
 ---
 
 # Design — concerns register
@@ -61,7 +61,7 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 - **Light account, driver = material access (Decision F):** volunteers (pink vests) get a **light, mostly read-only, invite-only** account; its reason to exist is **reliable cross-device access to materials + the roster**, explicitly **not** RSVP. (A cookie-only approach is too fragile across laptop + phone — hence login.)
 - **Multi-chapter affordance (Decision D):** a volunteer account is **not** constrained to a single chapter — `group_user` is already many-to-many, so the "a pink vest helps in more than one municipality" affordance exists at schema level; keep it. Surfacing multi-chapter membership in the **UI** is a **later call**, not v1-blocking.
 - **Foolproof self-management, no HQ QC gate (Decision E):** local partners and local press are **chapter-admin editable without coordination-duo involvement** and **no approval gate** — design must be impossible to get wrong (reinforces `D3` and "Template over approval"; see [`00-design-plan.md`](00-design-plan.md)).
-- **Structural boundary (unchanged, Frederik 2026-06-02):** the back-office is a **separate branded frontend surface** (`/backstage/[postal-code]`, read-mostly), **not** the `/admin` panel (BlueAdmin) — rank-and-file volunteers (P4) never touch `/admin`. Accounts are **invite-only** (leads provision in `/admin`; no public Register). Post-login landing = [My activities](20-structure.md). Locked in [Structure](20-structure.md).
+- **Structural boundary (Frederik 2026-06-02; surfaces updated 2026-07-07):** the back-office is a frontend surface, **not** the `/admin` panel (BlueAdmin) — rank-and-file volunteers (P4) never touch `/admin`. It is built as the per-chapter **roze-hesje hub** ([P-09](30-skeleton/chapters-roze-hesjes.md), `/chapters/[postal-code]/roze-hesjes`, read-mostly — replaces the earlier `/backstage/[postal-code]` idea). Accounts are **invite-only** (leads provision in `/admin`; no public Register). Post-login landing = the member's own chapter page (`LoginResponse`); the separate **My activities** page (P-08) was **cut 2026-07-07** as superseded by the hub. Locked in [Structure](20-structure.md).
 - **Remainder (now small):** spec the three-layer content in detail for Build; surface the **volunteer growth-path** content (typical ways to contribute more, with the harder how-to — commune contact, route planning — explained there). Volunteer-enquiry follow-up/ownership is split out as [`D-12`](#d-12--volunteer-enquiry-follow-up--ownership--open-flagged-2026-06-05-alexandrej3).
 
 
@@ -79,9 +79,9 @@ Open design-plane decisions. Stable IDs (`D-n`) never change. States: **Open** �
 
 ### `D-2` — Meetup visibility breadth *(was strategy `S-4`)* — **Closed** (Frederik 2026-06-02)
 - **Decided & locked:** meetups (`meeting`/`workshop`/`other`) are **fully public** — visible to non-logged-in visitors, **all details** (incl. meeting point), **all groups (cross-group)** — as a traction/recruitment signal showing the movement's momentum. **Login gates the back-office + volunteer roster, not viewing.** This **revises `D-8`** (which previously login-gated meetups) and is treated as **locked**: it diverges from Leticia's earlier "strong local communities" stance, accepted as the decided direction with no further client gate.
-- **Where they surface (settled):** **chapter pages only** — each chapter page lists its own meetups/workshops publicly. **No national movement/aggregation view**, and **not** on the family ride calendar (`/events` stays rides-only, J1-focused). A logged-in volunteer's cross-group view lives in [My activities](30-skeleton/my-activities.md), not a public surface.
+- **Where they surface (settled):** **chapter pages only** — each chapter page lists its own meetups/workshops publicly. **No national movement/aggregation view**, and **not** on the family ride calendar (`/events` stays rides-only, J1-focused). A logged-in volunteer sees their chapter's meetups on the [roze-hesje hub](30-skeleton/chapters-roze-hesjes.md) agenda; the cross-group "My activities" view was **cut with P-08 (2026-07-07)** — multi-chapter volunteers navigate per chapter.
 - **Decided:** the `Activity` viewing rule (no view-gate) + what login gates (back-office + volunteer roster — attendance cut, see `D-1`).
-- **Remaining detail (not a standing concern):** the logged-in [My activities](30-skeleton/my-activities.md) default-municipality filter is a skeleton-level "to test", documented there.
+- **Remaining detail: none** — the last open item (the My activities default-municipality filter) became moot when P-08 was cut (2026-07-07).
 
 ### `D-4` — Surface plane / design tokens — **Closed** (2026-06-02)
 - **Resolved:** the original premise ("no machine-readable tokens exist") was outdated — tokens are **live in [`resources/css/app.css`](../../../resources/css/app.css) `@theme`** (Tailwind v4), set in the merged `design/activity-page` redesign. **Source-of-truth decision:** `app.css` is canonical; **[`DESIGN.md`](../../../DESIGN.md)** (repo root) is the human-readable documentation — palette, typography (Poppins / Nunito Sans / Fredoka One), semantic tokens, and the signature design language (−3° tilts, red icon chips, full-bleed colour blocks). Direction/rationale stay in [`50-surface.md`](50-surface.md).

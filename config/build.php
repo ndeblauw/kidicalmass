@@ -16,7 +16,6 @@ return [
         'P-02' => 'docs/wiki/design/30-skeleton/events-overview.md',
         'P-03' => 'docs/wiki/design/30-skeleton/activity-detail.md',
         'P-04' => 'docs/wiki/design/30-skeleton/steun-ons.md',
-        'P-08' => 'docs/wiki/design/30-skeleton/my-activities.md',
         'P-09' => 'docs/wiki/design/30-skeleton/chapters-roze-hesjes.md',
         'P-10' => 'docs/wiki/design/30-skeleton/chapters.md',
         'P-11' => 'docs/wiki/design/30-skeleton/chapters.md',
