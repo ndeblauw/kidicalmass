@@ -35,3 +35,9 @@
      display=swap shows the fallback immediately instead of blocking on the webfont. --}}
 <link href="https://fonts.bunny.net/css?family=nunito-sans:400,400i,700%7Cpoppins:800%7Ccaprasimo:400&display=swap" rel="stylesheet">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+@production
+    <!-- Fathom - beautiful, simple website analytics -->
+    <script src="https://cdn.usefathom.com/script.js" data-site="LCYMRWQD" defer></script>
+    <!-- / Fathom -->
+@endproduction

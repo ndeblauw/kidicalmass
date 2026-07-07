@@ -37,6 +37,18 @@ test('the head links favicons, manifest and theme-color', function () {
 use App\Models\Activity;
 use App\Models\Group;
 
+test('the Fathom analytics script loads only in production', function () {
+    $this->get('/nl')
+        ->assertOk()
+        ->assertDontSee('cdn.usefathom.com', false);
+
+    $this->app['env'] = 'production';
+
+    $this->get('/nl')
+        ->assertOk()
+        ->assertSee('<script src="https://cdn.usefathom.com/script.js" data-site="LCYMRWQD" defer></script>', false);
+});
+
 test('the calendar page uses its own meta description', function () {
     $this->get('/nl/events')
         ->assertOk()
