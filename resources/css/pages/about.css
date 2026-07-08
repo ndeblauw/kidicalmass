@@ -10,7 +10,6 @@
         padding-block: clamp(3rem, 6vw, 5rem);
         margin-block: calc(var(--spacing) * 4);
     }
-    .about-band--sky { background: var(--color-kidical-sky); }
     .about-band--light-blue { background: var(--color-kidical-light-blue); }
     /* A band that closes a page sits flush on the panel edge: no trailing
        band margin, no leftover panel padding beneath it. */

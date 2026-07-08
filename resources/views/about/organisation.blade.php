@@ -20,24 +20,22 @@
         <p>{{ __('about.organisation_intro_2') }}</p>
     </x-intro-text>
 
-    {{-- WIE WAT DOET — the national/local two-sided story as one white panel
-         on the sky band: a single surface with a hairline seam instead of two
-         floating dotted lists (simplify 2026-07-07, review follow-up) --}}
-    <section class="about-band about-band--sky">
-        <div class="container mx-auto px-4">
-            <x-section-heading class="mb-8">{{ __('about.organisation_who_title') }}</x-section-heading>
-            <div class="about-who">
-                <x-titled-list-block variant="plain" :title="__('about.organisation_national_title')" level="h3">
-                    @foreach (__('about.organisation_national') as $item)
-                        <li>{{ $item }}</li>
-                    @endforeach
-                </x-titled-list-block>
-                <x-titled-list-block variant="plain" :title="__('about.organisation_local_title')" level="h3">
-                    @foreach (__('about.organisation_local') as $item)
-                        <li>{{ $item }}</li>
-                    @endforeach
-                </x-titled-list-block>
-            </div>
+    {{-- WIE WAT DOET — the national/local two-sided story as one white panel:
+         a single surface with a hairline seam instead of two floating dotted
+         lists (simplify 2026-07-07, review follow-up; band dropped 2026-07-08) --}}
+    <section class="about-section about-section--wide">
+        <x-section-heading>{{ __('about.organisation_who_title') }}</x-section-heading>
+        <div class="about-who">
+            <x-titled-list-block variant="plain" :title="__('about.organisation_national_title')" level="h3">
+                @foreach (__('about.organisation_national') as $item)
+                    <li>{{ $item }}</li>
+                @endforeach
+            </x-titled-list-block>
+            <x-titled-list-block variant="plain" :title="__('about.organisation_local_title')" level="h3">
+                @foreach (__('about.organisation_local') as $item)
+                    <li>{{ $item }}</li>
+                @endforeach
+            </x-titled-list-block>
         </div>
     </section>
 
