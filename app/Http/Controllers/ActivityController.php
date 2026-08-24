@@ -37,17 +37,13 @@ class ActivityController extends Controller
 
         $user = auth()->user();
 
-        if (! $user) {
-            abort(404);
-        }
+        abort_unless($user, 404);
 
         $isMemberOfGroup = $activity->groups()
             ->whereHas('users', fn ($q) => $q->whereKey($user))
             ->exists();
 
-        if (! $isMemberOfGroup) {
-            abort(404);
-        }
+        abort_unless($isMemberOfGroup, 404);
     }
 
     public function ical(string $locale, Activity $activity): Response

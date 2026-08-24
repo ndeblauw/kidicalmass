@@ -41,9 +41,7 @@ class RegistryWriter
             }
 
             $parts = explode('|', $line);
-            if (count($parts) !== self::EXPECTED_PARTS) {
-                throw new RuntimeException("Rij {$pageId} heeft een onverwachte kolomstructuur, niets weggeschreven.");
-            }
+            throw_if(count($parts) !== self::EXPECTED_PARTS, new RuntimeException("Rij {$pageId} heeft een onverwachte kolomstructuur, niets weggeschreven."));
 
             foreach ($cells as $key => $value) {
                 $column = self::COLUMNS[$key]
@@ -115,8 +113,6 @@ class RegistryWriter
 
     private function guardEnvironment(): void
     {
-        if (app()->environment('production')) {
-            throw new RuntimeException('RegistryWriter schrijft nooit in productie.');
-        }
+        throw_if(app()->environment('production'), new RuntimeException('RegistryWriter schrijft nooit in productie.'));
     }
 }

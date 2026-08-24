@@ -19,9 +19,7 @@ class DemoLoginController extends Controller
             'admin' => 'admin@kidi.be',
         ];
 
-        if (! isset($emails[$role])) {
-            abort(404);
-        }
+        abort_unless(isset($emails[$role]), 404);
 
         $user = User::where('email', $emails[$role])->firstOrFail();
         Auth::login($user);

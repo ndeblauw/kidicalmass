@@ -33,9 +33,7 @@ class LocalGroupScope implements Scope
             ->where('role', 'captain')
             ->exists();
 
-        if (! $isCaptain) {
-            abort(404);
-        }
+        abort_unless($isCaptain, 404);
 
         // Scope the query to the captain's groups
         $groupIds = DB::table('group_user')

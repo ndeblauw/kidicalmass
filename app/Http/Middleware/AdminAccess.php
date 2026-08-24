@@ -17,9 +17,7 @@ class AdminAccess
             return redirect()->guest(route('login'));
         }
 
-        if (! $user instanceof User || ! $user->canAccessFilament()) {
-            abort(403);
-        }
+        abort_if(! $user instanceof User || ! $user->canAccessFilament(), 403);
 
         return $next($request);
     }

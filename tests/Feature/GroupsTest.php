@@ -6,9 +6,9 @@ use App\Models\Group;
 use App\Models\Partner;
 use App\Models\PressArticle;
 use App\Models\User;
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\actingAs;

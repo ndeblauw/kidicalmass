@@ -7,8 +7,8 @@ use App\Models\Activity;
 use App\Models\Group;
 use App\Support\RideDate;
 use App\Support\RozeHub\OverviewMoment;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 
