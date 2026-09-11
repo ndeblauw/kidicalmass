@@ -1,5 +1,19 @@
 # Wiki Log
 
+## [2026-09-11] plan | FR op staging: wayfinder-map en 19 tickets
+
+De klant koos FR-first. Frans wordt de brontaal, ook qua structuur, en de
+FR-locale schuift van Lane 4 naar het kritieke pad. Frederik en Nico tekenden
+fase 1 ("FR op staging") uit als wayfinder-map en grilden elk ticket. De map en
+19 tickets staan in `ticket.md` in de root; Nico zet ze op GitHub. Vastgelegd:
+geneste vertaalsleutels per view met Home als pilot, Franse slugs met
+`fr.`-routenamen, accessors per model over `_nl`/`_fr`/`_en` met Frans als
+fallback, AI-vertaling van de bestaande DB-inhoud, en de Franse structuur als
+leidraad met markeringen voor "To be confirmed" en layoutvoorstellen. Staging
+zelf regelen Frederik en Nico buiten de map. Tests worden in deze fase niet
+herschreven: wat breekt door de locale-laag krijgt een skip met comment. De
+eenmalige gift komt terug, dus D-9 moet bijgewerkt worden zodra ze gebouwd is.
+
 ## [2026-07-08] build | Eén veld-idioom live: Flux gerestyled, 8 formulieren gemigreerd
 
 De handoff van 07-07 is geland. Mechanisme: **globale CSS-overrides op Flux'
