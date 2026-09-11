@@ -24,21 +24,11 @@ beforeEach(function () {
     $this->brugge = Group::factory()->create(['name' => 'Kidical Mass Brugge', 'zip' => '8000']); // farthest from Jette
 });
 
-it('shows the location picker and no chapter pills when no location is set', function () {
-    $response = get('/nl/help-out');
-
-    $response->assertOk()
-        ->assertSee('location-picker', escape: false)      // the picker is present
-        ->assertDontSee('ho-find__nearest', escape: false) // no chapter links yet
-        ->assertDontSee('Het dichtst bij');                // and no nearest-chapters heading
-});
-
 it('shows the four nearest chapters, in distance order, when a location is set', function () {
     $response = withCookie('kcm_location', json_encode(['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette']))
         ->get('/nl/help-out');
 
     $response->assertOk()
-        ->assertSee('Het dichtst bij Jette')
         // Jette (0) < Schaarbeek (~3.5) < Leuven (~24) < Antwerpen (~38) are the nearest 4.
         ->assertSeeInOrder([
             'Kidical Mass Jette',

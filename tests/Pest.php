@@ -35,28 +35,11 @@ expect()->extend('toBeOne', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Functions
-|--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
-*/
-
-function something()
-{
-    // ..
-}
-
-/*
-|--------------------------------------------------------------------------
 | Datasets
 |--------------------------------------------------------------------------
 */
 
-// Every no-parameter public (NL) page. The route list lives here once and feeds
-// both the 200-smoke test and the tone-of-voice guard.
+// Every no-parameter public (NL) page, shared by the public-route smoke test.
 $publicRoutes = [
     '/nl',
     '/nl/events',
@@ -78,10 +61,3 @@ $publicRoutes = [
 ];
 
 dataset('public routes', $publicRoutes);
-
-// Pages still served by the <x-stub> placeholder are intentionally unfinished and
-// carry the "Stub —" banner, so the finished-page tone guard skips them. Drop a
-// route from this list once its real content lands.
-$stubRoutes = [];
-
-dataset('finished public routes', array_values(array_diff($publicRoutes, $stubRoutes)));

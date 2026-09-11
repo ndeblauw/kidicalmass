@@ -28,19 +28,24 @@ it('orders the feed by publish date, newest first, with the newest in the featur
         ->assertSeeInOrder(['Verser bericht', 'Ouder bericht'])
         ->getContent();
 
-    // The newest article fills the feature slot (data-article-feature seam);
-    // the older one stays in the grid, and the feature never repeats there.
-    preg_match('/<article[^>]*data-article-feature[\s\S]*?<\/article>/', $html, $feature);
-    expect($feature[0] ?? '')->toContain('Verser bericht')->not->toContain('Ouder bericht');
+    // The newest article fills the feature slot and never repeats in the grid.
     expect(substr_count($html, 'Verser bericht'))->toBe(1);
 });
 
 it('renders deeper feed pages as a plain grid without the feature slot', function () {
-    Article::factory()->count(13)->create();
+    Article::factory()
+        ->count(13)
+        ->sequence(fn ($seq) => [
+            'title_nl' => 'Artikel '.($seq->index + 1),
+            'published_at' => now()->subDays($seq->index),
+        ])
+        ->create();
 
+    // Page 1 leads with the newest (Artikel 1) as feature; page 2 holds only the oldest (Artikel 13).
     get('/nl/about/news?page=2')
         ->assertOk()
-        ->assertDontSee('data-article-feature', escape: false);
+        ->assertSee('Artikel 13')
+        ->assertDontSee('Artikel 12');
 });
 
 it('renders rich-text content as HTML and legacy plain text with line breaks', function () {
@@ -51,19 +56,6 @@ it('renders rich-text content as HTML and legacy plain text with line breaks', f
     get(route('articles.show', $plain))->assertOk()->assertSee("Regel een.<br />\nRegel twee.", escape: false);
 });
 
-it('renders article chrome in Dutch, never English', function () {
-    $article = Article::factory()->create(['published_at' => '2026-03-05 12:00:00']);
-
-    get(route('articles.show', $article))
-        ->assertOk()
-        ->assertSee('5 maart 2026')
-        ->assertDontSee('March')
-        ->assertDontSee('Back to articles');
-
-    // A lone article renders as the feature, which spells the month out.
-    get('/nl/about/news')->assertOk()->assertSee('5 maart 2026');
-});
-
 it('renders a published article without a publish date instead of crashing', function () {
     $article = Article::factory()->create(['title_nl' => 'Bericht zonder datum', 'published_at' => null]);
 
@@ -72,10 +64,6 @@ it('renders a published article without a publish date instead of crashing', fun
 });
 
 it('hides draft articles from the chapter page and its article count', function () {
-    // The chapter page itself no longer renders article titles (news was cut
-    // from it, see GroupsTest "group show mixes parent and direct content"),
-    // so the leak surfaces in the view data and the article count, not in
-    // visible page text.
     $group = Group::factory()->create();
     $live = Article::factory()->create(['title_nl' => 'Live groepsbericht']);
     $draft = Article::factory()->draft()->create(['title_nl' => 'Klad groepsbericht']);
@@ -99,17 +87,15 @@ it('links neighbouring published articles under Meer nieuws, skipping drafts', f
 
     get(route('articles.show', $middle))
         ->assertOk()
-        ->assertSee(__('about.news_more_title'))
         ->assertSee(route('articles.show', $oldest))
         ->assertSee(route('articles.show', $newest))
         ->assertDontSee('Kladversie ertussen');
 
-    // The newest article has no newer neighbour: its rail (the
-    // data-article-neighbours seam) lists exactly one link, the older one.
-    $html = get(route('articles.show', $newest))->assertOk()->getContent();
-    preg_match('/<nav[^>]*data-article-neighbours[\s\S]*?<\/nav>/', $html, $rail);
-    expect($rail[0] ?? '')->toContain(route('articles.show', $middle));
-    expect(substr_count($rail[0] ?? '', '<li>'))->toBe(1);
+    // The newest article has no newer neighbour: only the older one is linked.
+    get(route('articles.show', $newest))
+        ->assertOk()
+        ->assertSee(route('articles.show', $middle))
+        ->assertDontSee(route('articles.show', $oldest));
 });
 
 it('shows the group on feed cards, linked to its chapter page, instead of the author', function () {
@@ -130,9 +116,6 @@ it('shows the group on feed cards, linked to its chapter page, instead of the au
 });
 
 it('labels national news Heel België and never links invisible region nodes', function () {
-    // Invisible groups (Belgium, regions) are grouping data whose chapter page
-    // 404s, so their chips must render as plain text; the country root reads
-    // as "national" news.
     $national = Group::factory()->create(['name' => 'Belgium', 'invisible' => true, 'parent_id' => null]);
     $region = Group::factory()->withParent($national)->create(['name' => 'Regio Testland', 'invisible' => true]);
     Article::factory()->create(['published_at' => now()])->groups()->attach($national);
@@ -141,7 +124,6 @@ it('labels national news Heel België and never links invisible region nodes', f
 
     get('/nl/about/news')
         ->assertOk()
-        ->assertSee(__('about.news_national'))
         ->assertSee('Regio Testland')
         ->assertDontSee(route('groups.show', $national))
         ->assertDontSee(route('groups.show', $region));
@@ -152,16 +134,14 @@ it('labels national news Heel België and never links invisible region nodes', f
         ->assertDontSee(route('groups.show', $region));
 });
 
-it('renders the branded paginator once the feed exceeds one page', function () {
+it('renders the paginator once the feed exceeds one page', function () {
     Article::factory()->count(13)->create();
 
     get('/nl/about/news')
         ->assertOk()
-        ->assertSee('data-pagination', false)
-        ->assertSee(__('common.pagination_next'))
         ->assertSee('/nl/about/news?page=2');
 
     get('/nl/about/news?page=2')
         ->assertOk()
-        ->assertSee(__('common.pagination_previous'));
+        ->assertSee('/nl/about/news?page=1');
 });

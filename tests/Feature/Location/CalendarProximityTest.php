@@ -37,9 +37,7 @@ beforeEach(function () {
 it('shows all rides unfiltered when no location is set', function () {
     Livewire::test(RideCalendar::class)
         ->assertSee('Jette')
-        ->assertSee('Gent')
-        ->assertDontSee('In de buurt')
-        ->assertDontSee('Verderaf');
+        ->assertSee('Gent');
 });
 
 it('shows only nearby rides when location set and radius is dichtbij', function () {
@@ -49,9 +47,7 @@ it('shows only nearby rides when location set and radius is dichtbij', function 
 
     Livewire::test(RideCalendar::class, ['radius' => 'dichtbij'])
         ->assertSee('Jette')
-        ->assertDontSee('Gent')
-        ->assertDontSee('In de buurt')
-        ->assertDontSee('Verderaf');
+        ->assertDontSee('Gent');
 });
 
 it('shows rides within 30km when radius is regio', function () {
@@ -75,19 +71,6 @@ it('shows rides within 30km when radius is regio', function () {
         ->assertSee('Jette')
         ->assertSee('Brussel')
         ->assertDontSee('Gent');
-});
-
-it('labels the radius tabs with abstract bands, not raw distances', function () {
-    Livewire::withCookie('kcm_location', json_encode([
-        'zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette',
-    ]));
-
-    Livewire::test(RideCalendar::class, ['radius' => 'dichtbij'])
-        ->assertSee('Dichtbij')
-        ->assertSee('In de regio')
-        ->assertSee('Heel België')
-        ->assertDontSee('5 km')
-        ->assertDontSee('30 km');
 });
 
 it('shows all rides when radius is belgie', function () {

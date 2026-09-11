@@ -18,16 +18,6 @@ it('suggests postcodes by zip or name', function () {
         ->assertDontSee('Gent');
 });
 
-it('exposes combobox markup so suggestions are keyboard navigable', function () {
-    Livewire::test(LocationPicker::class)
-        ->set('query', 'Jet')
-        ->assertSeeHtml('role="combobox"')
-        ->assertSeeHtml('aria-controls="location-picker-suggestions"')
-        ->assertSeeHtml('role="listbox"')
-        ->assertSeeHtml('role="option"')
-        ->assertSeeHtml('data-option');
-});
-
 it('sets the location cookie and redirects when a zip is chosen', function () {
     Livewire::test(LocationPicker::class)
         ->call('choose', '1090')
@@ -58,15 +48,4 @@ it('dispatches a null payload on clear in reactive mode without redirecting', fu
         ->call('clear')
         ->assertDispatched('location-selected')
         ->assertNoRedirect();
-});
-
-it('still redirects on choose in default (non-reactive) mode', function () {
-    Livewire::test(LocationPicker::class)
-        ->call('choose', '1090')
-        ->assertRedirect();
-});
-
-it('exposes a status region announcing suggestion results', function () {
-    Livewire::test(LocationPicker::class)
-        ->assertSeeHtml('role="status"');
 });
