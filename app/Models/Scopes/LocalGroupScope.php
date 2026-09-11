@@ -34,7 +34,7 @@ class LocalGroupScope implements Scope
             ->exists();
 
         if (! $isCaptain) {
-            abort(404);
+            return;
         }
 
         // Scope the query to the captain's groups
