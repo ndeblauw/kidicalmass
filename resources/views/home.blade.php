@@ -18,14 +18,14 @@
         </div>
 
         <section class="home-hero">
-            <h1 class="home-hero__title"><span class="home-hero__title-ride"><span class="home-hero__title-line"><span class="home-hero__word">Het</span> <span class="home-hero__word">leukste</span> <span class="home-hero__word">uur</span><br><span class="home-hero__word">op</span> <span class="home-hero__word">de</span> <span class="home-hero__word">fiets</span></span></span></h1>
+            <h1 class="home-hero__title"><span class="home-hero__title-ride"><span class="home-hero__title-line">@foreach (explode(' ', __('home.hero.title')) as $word)<span class="home-hero__word">{{ $word }}</span>@if ($loop->iteration === 3)<br>@elseif (! $loop->last) @endif @endforeach</span></span></h1>
         </section>
 
         <section class="home-intro">
             <div class="home-intro__inner container mx-auto px-4 text-center">
                 <x-intro-text size="lead" class="home-intro__lead">
-                    <p>Een vrolijke fietsparade bij jou in de buurt. <br>
-                    Samen tonen we dat de straat ook van kinderen is.</p>
+                    <p>{{ __('home.hero.intro_first') }} <br>
+                    {{ __('home.hero.intro_second') }}</p>
                 </x-intro-text>
             </div>
         </section>
@@ -39,7 +39,7 @@
         {{-- Scroll cue that straddles the seam where the white panel meets the blue
              band. Lives on the panel (not the band) so it rides up with the panel as
              it scrolls over the fixed hero, staying on the seam. --}}
-        <a href="#volgende-rit" class="home-seam-cue" aria-label="Naar de volgende ritten">
+        <a href="#volgende-rit" class="home-seam-cue" aria-label="{{ __('home.next_rides.scroll_cue') }}">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -56,12 +56,12 @@
             </div>
 
             <div class="home-nextride__body space-y-6">
-                <h2 class="text-kidical-ink">{{ $hasLocation ? 'De volgende ritten bij jou' : 'Volgende ritten' }}</h2>
+                <h2 class="text-kidical-ink">{{ $hasLocation ? __('home.next_rides.heading_nearby') : __('home.next_rides.heading') }}</h2>
 
                 @if (! $hasUpcoming)
                     <p class="text-kidical-ink/70">
-                        Het fietsseizoen loopt van maart tot november.
-                        <a href="{{ route('getting-started') }}" class="font-bold text-kidical-blue hover:underline">Ontdek hoe een rit werkt →</a>
+                        {{ __('home.next_rides.off_season') }}
+                        <a href="{{ localized_route('getting-started') }}" class="font-bold text-kidical-blue hover:underline">{{ __('home.next_rides.off_season_link') }}</a>
                     </p>
 
                 @elseif (! $hasLocation)
@@ -77,7 +77,7 @@
                     <livewire:location-picker :compact="true" />
 
                     @if ($nextRideIsFar)
-                        <p class="text-kidical-ink/70">Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:</p>
+                        <p class="text-kidical-ink/70">{{ __('home.next_rides.far_away') }}</p>
                     @endif
 
                     @foreach ($upcomingRides as $periodKey => $rows)
@@ -85,7 +85,7 @@
                     @endforeach
 
                     <div class="flex justify-start">
-                        <x-cta-button :href="route('activities.index')" variant="secondary">Alle ritten</x-cta-button>
+                        <x-cta-button :href="localized_route('activities.index')" variant="secondary">{{ __('home.next_rides.all') }}</x-cta-button>
                     </div>
                 @endif
             </div>
@@ -101,16 +101,16 @@
                 // scroll-sequence crossfades; the riding bike below rides per beat.
                 $routeCollages = [
                     [
-                        ['src' => 'img/photography/ride-child-thumbsup-red-helmet.webp', 'alt' => 'Stralende jongen met rode helm steekt zijn duim op tijdens een rit.', 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
-                        ['src' => 'img/photography/ride-brussels-two-boys-at-start.webp', 'alt' => 'Twee jongens staan arm in arm met hun fietsen aan de start van een rit.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 40%'],
+                        ['src' => 'img/photography/ride-child-thumbsup-red-helmet.webp', 'alt' => __('home.photos.first_time.first'), 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/ride-brussels-two-boys-at-start.webp', 'alt' => __('home.photos.first_time.second'), 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 40%'],
                     ],
                     [
-                        ['src' => 'img/photography/ride-cinquantenaire-crowd.webp', 'alt' => 'Een grote groep gezinnen fietst samen onder de triomfboog van het Jubelpark.', 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
-                        ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => 'Lachende vrouw fietst met twee kinderen in haar bakfiets en een Kidical Mass-vlag.', 'x' => '36%', 'y' => '62%', 'w' => '50%', 'r' => '-6deg'],
+                        ['src' => 'img/photography/ride-cinquantenaire-crowd.webp', 'alt' => __('home.photos.local_group.first'), 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => __('home.photos.local_group.second'), 'x' => '36%', 'y' => '62%', 'w' => '50%', 'r' => '-6deg'],
                     ],
                     [
-                        ['src' => 'img/photography/volunteers-pink-vest-group-cobbles.webp', 'alt' => 'Een bende vrijwilligers in roze hesjes lacht en zwaait op een plein.', 'x' => '40%', 'y' => '32%', 'w' => '56%', 'r' => '-6deg', 'pos' => 'center 40%'],
-                        ['src' => 'img/photography/volunteer-fistbump-kids-park.webp', 'alt' => 'Vrijwilliger geeft een boks aan een klein kind tussen fietsende kinderen in het park.', 'x' => '71%', 'y' => '63%', 'w' => '48%', 'r' => '6deg'],
+                        ['src' => 'img/photography/volunteers-pink-vest-group-cobbles.webp', 'alt' => __('home.photos.help_out.first'), 'x' => '40%', 'y' => '32%', 'w' => '56%', 'r' => '-6deg', 'pos' => 'center 40%'],
+                        ['src' => 'img/photography/volunteer-fistbump-kids-park.webp', 'alt' => __('home.photos.help_out.second'), 'x' => '71%', 'y' => '63%', 'w' => '48%', 'r' => '6deg'],
                     ],
                 ];
             @endphp
@@ -134,23 +134,23 @@
 
             <div class="scroll-sequence__block" data-seq-block="0">
                 <img class="home-routes__block-illu" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" aria-hidden="true" loading="lazy">
-                <h2 class="text-kidical-ink">Nieuw hier?</h2>
-                <p class="text-kidical-ink/70">Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.</p>
-                <p><x-cta-button :href="route('getting-started')" variant="secondary" disc="green">Zo werkt een rit</x-cta-button></p>
+                <h2 class="text-kidical-ink">{{ __('home.routes.first_time.heading') }}</h2>
+                <p class="text-kidical-ink/70">{{ __('home.routes.first_time.body') }}</p>
+                <p><x-cta-button :href="localized_route('getting-started')" variant="secondary" disc="green">{{ __('home.routes.first_time.cta') }}</x-cta-button></p>
             </div>
 
             <div class="scroll-sequence__block" data-seq-block="1">
                 <img class="home-routes__block-illu" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" aria-hidden="true" loading="lazy">
-                <h2 class="text-kidical-ink">Vind je lokale groep</h2>
-                <p class="text-kidical-ink/70">Kidical Mass is geen organisatie ver weg, maar de mensen in jouw buurt. Overal in Vlaanderen en Brussel plannen lokale groepen hun eigen ritten. Vind de groep bij jou, en je weet meteen wanneer de volgende rit vertrekt en wie erachter zit.</p>
-                <p><x-cta-button :href="route('groups.index')" variant="secondary" disc="orange">Vind je groep</x-cta-button></p>
+                <h2 class="text-kidical-ink">{{ __('home.routes.local_group.heading') }}</h2>
+                <p class="text-kidical-ink/70">{{ __('home.routes.local_group.body') }}</p>
+                <p><x-cta-button :href="localized_route('groups.index')" variant="secondary" disc="orange">{{ __('home.routes.local_group.cta') }}</x-cta-button></p>
             </div>
 
             <div class="scroll-sequence__block" data-seq-block="2">
                 <img class="home-routes__block-illu" src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" loading="lazy">
-                <h2 class="text-kidical-ink">Help mee</h2>
-                <p class="text-kidical-ink/70">Een rit ontstaat niet vanzelf. Achter elke parade staan ouders en buren die de route uittekenen, de boel aankondigen en in een roze hesje meefietsen. Een paar uur per maand, en je krijgt er een warme bende vrienden voor terug.</p>
-                <p><x-cta-button :href="route('volunteer')" variant="secondary">Word vrijwilliger</x-cta-button></p>
+                <h2 class="text-kidical-ink">{{ __('home.routes.help_out.heading') }}</h2>
+                <p class="text-kidical-ink/70">{{ __('home.routes.help_out.body') }}</p>
+                <p><x-cta-button :href="localized_route('volunteer')" variant="secondary">{{ __('home.routes.help_out.cta') }}</x-cta-button></p>
             </div>
         </x-scroll-sequence>
 

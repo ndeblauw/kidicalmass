@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -27,7 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        require_once app_path('Support/helpers.php');
+
         $this->configureDefaults();
+        $this->configureMissingTranslationKeyHandling();
         $this->registerBladeDirectives();
     }
 
@@ -61,5 +65,26 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null
         );
+    }
+
+    protected function configureMissingTranslationKeyHandling(): void
+    {
+        Lang::determineLocalesUsing(function (array $locales): array {
+            if (app()->environment('staging')
+                && config('i18n.show_missing_translation_keys')
+                && $locales[0] === 'fr') {
+                return ['fr'];
+            }
+
+            return $locales;
+        });
+
+        Lang::handleMissingKeysUsing(function (string $key): ?string {
+            if (app()->environment('staging') && config('i18n.show_missing_translation_keys')) {
+                return '[['.$key.']]';
+            }
+
+            return null;
+        });
     }
 }

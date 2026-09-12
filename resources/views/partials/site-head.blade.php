@@ -20,7 +20,7 @@
 <meta property="og:url" content="{{ $canonical }}">
 <meta property="og:type" content="{{ $ogType ?? 'website' }}">
 <meta property="og:site_name" content="{{ $siteName }}">
-<meta property="og:locale" content="nl_BE">
+<meta property="og:locale" content="{{ app()->getLocale() }}_BE">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="/favicon.ico" sizes="any">

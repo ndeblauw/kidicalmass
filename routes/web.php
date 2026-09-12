@@ -24,7 +24,6 @@ use App\Http\Controllers\RozeHesjeController;
 use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\BackstageDemoAccess;
-use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Livewire\BuildReview;
 use App\Mail\VolunteerInvite;
@@ -40,112 +39,170 @@ use Illuminate\Support\Facades\Route;
 
 // Bare root → default locale.
 Route::get('/', fn () => redirect('/nl', 301));
+Route::middleware('setlocale')->group(function (): void {
+    Route::get('{locale}', HomeController::class)->where('locale', 'nl')->name('home');
+    Route::get('fr', HomeController::class)->defaults('locale', 'fr')->name('fr.home');
 
-Route::prefix('{locale}')
-    ->whereIn('locale', SetLocale::SUPPORTED)
-    ->middleware('setlocale')
-    ->group(function (): void {
-        Route::get('/', HomeController::class)->name('home');
+    // Events (Activity model — "Events" is the public name for the rides calendar).
+    Route::get('{locale}/events', [ActivityController::class, 'index'])->where('locale', 'nl')->name('activities.index');
+    Route::get('fr/agenda', [ActivityController::class, 'index'])->defaults('locale', 'fr')->name('fr.activities.index');
+    Route::get('{locale}/events/{activity}', [ActivityController::class, 'show'])->where('locale', 'nl')->name('activities.show');
+    Route::get('{locale}/agenda/{activity}', [ActivityController::class, 'show'])->where('locale', 'fr')->name('fr.activities.show');
+    Route::get('{locale}/events/{activity}/ical', [ActivityController::class, 'ical'])->where('locale', 'nl')->name('activities.ical');
+    Route::get('{locale}/agenda/{activity}/ical', [ActivityController::class, 'ical'])->where('locale', 'fr')->name('fr.activities.ical');
 
-        // Events (Activity model — "Events" is the public name for the rides calendar).
-        Route::get('events', [ActivityController::class, 'index'])->name('activities.index');
-        Route::get('events/{activity}', [ActivityController::class, 'show'])->name('activities.show');
-        Route::get('events/{activity}/ical', [ActivityController::class, 'ical'])->name('activities.ical');
+    // Chapters (Group model).
+    Route::get('{locale}/chapters', [GroupController::class, 'index'])->where('locale', 'nl')->name('groups.index');
+    Route::get('fr/groupes-locaux', [GroupController::class, 'index'])->defaults('locale', 'fr')->name('fr.groups.index');
+    // Start-a-group — must precede chapters/{group} so the wildcard binding
+    // doesn't try to resolve "start-een-groep" as a chapter shortname.
+    Route::get('{locale}/chapters/start-een-groep', [GroupController::class, 'start'])->where('locale', 'nl')->name('groups.start');
+    Route::get('fr/groupes-locaux/creer-un-groupe', [GroupController::class, 'start'])->defaults('locale', 'fr')->name('fr.groups.start');
+    Route::get('{locale}/chapters/{group}', [GroupController::class, 'show'])->where('locale', 'nl')->name('groups.show');
+    Route::get('{locale}/groupes-locaux/{group}', [GroupController::class, 'show'])->where('locale', 'fr')->name('fr.groups.show');
 
-        // Chapters (Group model).
-        Route::get('chapters', [GroupController::class, 'index'])->name('groups.index');
-        // Start-a-group — must precede chapters/{group} so the wildcard binding
-        // doesn't try to resolve "start-een-groep" as a chapter shortname.
-        Route::get('chapters/start-een-groep', [GroupController::class, 'start'])->name('groups.start');
-        Route::get('chapters/{group}', [GroupController::class, 'show'])->name('groups.show');
-
-        // Roze-hesje hub — the logged-in-only chapter section (replaces the old backstage).
-        // Lives in the public framework with a compact roze hero + sub-nav; gated on chapter
-        // membership. BackstageDemoAccess keeps the demo frictionless (auto-login outside prod).
-        Route::middleware(BackstageDemoAccess::class)->group(function (): void {
-            Route::get('chapters/{group}/roze-hesjes', [RozeHesjeController::class, 'overview'])->name('groups.roze-hesjes');
-            Route::get('chapters/{group}/roze-hesjes/aan-de-slag', [RozeHesjeController::class, 'aanDeSlag'])->name('groups.roze-hesjes.aan-de-slag');
-            Route::get('chapters/{group}/roze-hesjes/agenda', [RozeHesjeController::class, 'agenda'])->name('groups.roze-hesjes.agenda');
-            Route::get('chapters/{group}/roze-hesjes/fotos', [RozeHesjeController::class, 'fotos'])->name('groups.roze-hesjes.fotos');
-            Route::get('chapters/{group}/roze-hesjes/groep', [RozeHesjeController::class, 'groep'])->name('groups.roze-hesjes.groep');
-            Route::get('chapters/{group}/roze-hesjes/materiaal', [RozeHesjeController::class, 'materiaal'])->name('groups.roze-hesjes.materiaal');
-        });
-
-        // Read-only preview of a chapter ride that is still in preparation (draft). Membership-gated,
-        // like the roze page. FAUX exemplar until Activity gains a draft/lifecycle state (Nico #37).
-        Route::get('chapters/{group}/rit-in-voorbereiding', [GroupController::class, 'ridePreview'])
-            ->middleware(BackstageDemoAccess::class)
-            ->name('groups.ride-preview');
-
-        // Help out (J2 orientation page — lists groups so a volunteer can route to a chapter).
-        Route::get('help-out', VolunteerController::class)->name('volunteer');
-
-        // Getting started.
-        Route::view('getting-started', 'getting-started')->name('getting-started');
-
-        // Newsletter.
-        Route::view('nieuwsbrief', 'nieuwsbrief')->name('newsletter.show');
-        Route::view('nieuwsbrief/bevestigd', 'newsletter.confirmed')->name('newsletter.confirmed');
-
-        // About section.
-        Route::view('about', 'about.index')->name('about');
-        Route::get('about/mission', fn (Quotes $quotes) => view('about.mission', [
-            'missionQuote' => $quotes->forSlot('mission'),
-        ]))->name('about.mission');
-        Route::get('about/vision', fn (Quotes $quotes) => view('about.vision', [
-            'visionQuote1' => $quotes->forSlot('vision-1'),
-            'visionQuote2' => $quotes->forSlot('vision-2'),
-        ]))->name('about.vision');
-        Route::get('about/organisation', fn () => view('about.organisation', [
-            'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->with('media')->get(),
-        ]))->name('about.organisation');
-        Route::get('about/news', [ArticleController::class, 'index'])->name('articles.index');
-        Route::get('about/news/{article}', [ArticleController::class, 'show'])->name('articles.show');
-        Route::get('about/press', function () {
-            $articles = PressArticle::query()
-                ->whereNotNull('published_at')
-                ->with('media')
-                ->orderBy('published_at', 'desc')
-                ->get()
-                ->groupBy(fn ($article) => $article->published_at->year);
-
-            return view('about.press', ['articlesByYear' => $articles]);
-        })->name('about.press');
-        Route::get('about/partners', function () {
-            $categoryOrder = [
-                PartnerCategory::INSTITUTIONEEL->value,
-                PartnerCategory::BONDGENOOT->value,
-            ];
-
-            $partners = Partner::query()
-                ->whereNull('group_id')
-                ->where('visible', true)
-                ->whereIn('category', $categoryOrder)
-                ->get()
-                ->sortBy([
-                    fn ($a, $b) => array_search($a->category->value, $categoryOrder) <=> array_search($b->category->value, $categoryOrder),
-                    fn ($a, $b) => strcmp($a->name, $b->name),
-                ]);
-
-            return view('about.partners', ['partners' => $partners]);
-        })->name('about.partners');
-
-        // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
-        // `membership` (links use route('membership')). The old /membership path 301s
-        // here so anything indexed from the old site keeps resolving.
-        Route::get('steun-ons', fn () => view('steun-ons', [
-            'proofCards' => (new SupportStats)->cards(),
-        ]))->name('membership');
-        Route::get('membership', fn (string $locale) => redirect()->route('membership', ['locale' => $locale], 301))->name('membership.legacy');
-
-        // Contact (national).
-        Route::view('contact', 'contact')->name('contact');
-
-        // Legal / utilities. Privacy + cookies are one page; /cookies 301s to it
-        // so any links indexed from the old Wix site keep resolving.
-        Route::view('privacy', 'privacy')->name('privacy');
-        Route::get('cookies', fn (string $locale) => redirect()->route('privacy', ['locale' => $locale], 301))->name('cookies');
+    // Roze-hesje hub — the logged-in-only chapter section (replaces the old backstage).
+    // Lives in the public framework with a compact roze hero + sub-nav; gated on chapter
+    // membership. BackstageDemoAccess keeps the demo frictionless (auto-login outside prod).
+    Route::middleware(BackstageDemoAccess::class)->group(function (): void {
+        Route::get('{locale}/chapters/{group}/roze-hesjes', [RozeHesjeController::class, 'overview'])->where('locale', 'nl')->name('groups.roze-hesjes');
+        Route::get('{locale}/chapters/{group}/roze-hesjes/aan-de-slag', [RozeHesjeController::class, 'aanDeSlag'])->where('locale', 'nl')->name('groups.roze-hesjes.aan-de-slag');
+        Route::get('{locale}/chapters/{group}/roze-hesjes/agenda', [RozeHesjeController::class, 'agenda'])->where('locale', 'nl')->name('groups.roze-hesjes.agenda');
+        Route::get('{locale}/chapters/{group}/roze-hesjes/fotos', [RozeHesjeController::class, 'fotos'])->where('locale', 'nl')->name('groups.roze-hesjes.fotos');
+        Route::get('{locale}/chapters/{group}/roze-hesjes/groep', [RozeHesjeController::class, 'groep'])->where('locale', 'nl')->name('groups.roze-hesjes.groep');
+        Route::get('{locale}/chapters/{group}/roze-hesjes/materiaal', [RozeHesjeController::class, 'materiaal'])->where('locale', 'nl')->name('groups.roze-hesjes.materiaal');
     });
+
+    // Read-only preview of a chapter ride that is still in preparation (draft). Membership-gated,
+    // like the roze page. FAUX exemplar until Activity gains a draft/lifecycle state (Nico #37).
+    Route::get('{locale}/chapters/{group}/rit-in-voorbereiding', [GroupController::class, 'ridePreview'])
+        ->where('locale', 'nl')
+        ->middleware(BackstageDemoAccess::class)
+        ->name('groups.ride-preview');
+
+    // Help out (J2 orientation page — lists groups so a volunteer can route to a chapter).
+    Route::get('{locale}/help-out', VolunteerController::class)->where('locale', 'nl')->name('volunteer');
+    Route::get('fr/donner-un-coup-de-main', VolunteerController::class)->defaults('locale', 'fr')->name('fr.volunteer');
+
+    // Getting started.
+    Route::view('{locale}/getting-started', 'getting-started')->where('locale', 'nl')->name('getting-started');
+    Route::view('fr/premiere-fois', 'getting-started')->defaults('locale', 'fr')->name('fr.getting-started');
+
+    // Newsletter.
+    Route::view('{locale}/nieuwsbrief', 'nieuwsbrief')->where('locale', 'nl')->name('newsletter.show');
+    Route::view('fr/newsletter', 'nieuwsbrief')->defaults('locale', 'fr')->name('fr.newsletter.show');
+    Route::view('{locale}/nieuwsbrief/bevestigd', 'newsletter.confirmed')->where('locale', 'nl')->name('newsletter.confirmed');
+    Route::view('fr/newsletter/confirmee', 'newsletter.confirmed')->defaults('locale', 'fr')->name('fr.newsletter.confirmed');
+
+    // About section.
+    Route::view('{locale}/about', 'about.index')->where('locale', 'nl')->name('about');
+    Route::view('fr/a-propos', 'about.index')->defaults('locale', 'fr')->name('fr.about');
+    Route::get('{locale}/about/mission', fn (Quotes $quotes) => view('about.mission', [
+        'missionQuote' => $quotes->forSlot('mission'),
+    ]))->where('locale', 'nl')->name('about.mission');
+    Route::get('fr/a-propos/notre-mission', fn (Quotes $quotes) => view('about.mission', [
+        'missionQuote' => $quotes->forSlot('mission'),
+    ]))->defaults('locale', 'fr')->name('fr.about.mission');
+    Route::get('{locale}/about/vision', fn (Quotes $quotes) => view('about.vision', [
+        'visionQuote1' => $quotes->forSlot('vision-1'),
+        'visionQuote2' => $quotes->forSlot('vision-2'),
+    ]))->where('locale', 'nl')->name('about.vision');
+    Route::get('fr/a-propos/nos-revendications', fn (Quotes $quotes) => view('about.vision', [
+        'visionQuote1' => $quotes->forSlot('vision-1'),
+        'visionQuote2' => $quotes->forSlot('vision-2'),
+    ]))->defaults('locale', 'fr')->name('fr.about.vision');
+    Route::get('{locale}/about/organisation', fn () => view('about.organisation', [
+        'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->with('media')->get(),
+    ]))->where('locale', 'nl')->name('about.organisation');
+    Route::get('fr/a-propos/comment-nous-fonctionnons', fn () => view('about.organisation', [
+        'teamMembers' => TeamMember::query()->where('visible', true)->orderBy('sort')->with('media')->get(),
+    ]))->defaults('locale', 'fr')->name('fr.about.organisation');
+    Route::get('{locale}/about/news', [ArticleController::class, 'index'])->where('locale', 'nl')->name('articles.index');
+    Route::get('fr/a-propos/actualites', [ArticleController::class, 'index'])->defaults('locale', 'fr')->name('fr.articles.index');
+    Route::get('{locale}/about/news/{article}', [ArticleController::class, 'show'])->where('locale', 'nl')->name('articles.show');
+    Route::get('{locale}/a-propos/actualites/{article}', [ArticleController::class, 'show'])->where('locale', 'fr')->name('fr.articles.show');
+    Route::get('{locale}/about/press', function () {
+        $articles = PressArticle::query()
+            ->whereNotNull('published_at')
+            ->with('media')
+            ->orderBy('published_at', 'desc')
+            ->get()
+            ->groupBy(fn ($article) => $article->published_at->year);
+
+        return view('about.press', ['articlesByYear' => $articles]);
+    })->where('locale', 'nl')->name('about.press');
+    Route::get('fr/a-propos/presse', function () {
+        $articles = PressArticle::query()
+            ->whereNotNull('published_at')
+            ->with('media')
+            ->orderBy('published_at', 'desc')
+            ->get()
+            ->groupBy(fn ($article) => $article->published_at->year);
+
+        return view('about.press', ['articlesByYear' => $articles]);
+    })->defaults('locale', 'fr')->name('fr.about.press');
+    Route::get('{locale}/about/partners', function () {
+        $categoryOrder = [
+            PartnerCategory::INSTITUTIONEEL->value,
+            PartnerCategory::BONDGENOOT->value,
+        ];
+
+        $partners = Partner::query()
+            ->whereNull('group_id')
+            ->where('visible', true)
+            ->whereIn('category', $categoryOrder)
+            ->get()
+            ->sortBy([
+                fn ($a, $b) => array_search($a->category->value, $categoryOrder) <=> array_search($b->category->value, $categoryOrder),
+                fn ($a, $b) => strcmp($a->name, $b->name),
+            ]);
+
+        return view('about.partners', ['partners' => $partners]);
+    })->where('locale', 'nl')->name('about.partners');
+    Route::get('fr/a-propos/partenaires', function () {
+        $categoryOrder = [
+            PartnerCategory::INSTITUTIONEEL->value,
+            PartnerCategory::BONDGENOOT->value,
+        ];
+
+        $partners = Partner::query()
+            ->whereNull('group_id')
+            ->where('visible', true)
+            ->whereIn('category', $categoryOrder)
+            ->get()
+            ->sortBy([
+                fn ($a, $b) => array_search($a->category->value, $categoryOrder) <=> array_search($b->category->value, $categoryOrder),
+                fn ($a, $b) => strcmp($a->name, $b->name),
+            ]);
+
+        return view('about.partners', ['partners' => $partners]);
+    })->defaults('locale', 'fr')->name('fr.about.partners');
+
+    // Support ("Steun Kidical Mass"). Path is /steun-ons; the route name stays
+    // `membership` (links use route('membership')). The old /membership path 301s
+    // here so anything indexed from the old site keeps resolving.
+    Route::get('{locale}/steun-ons', fn () => view('steun-ons', [
+        'proofCards' => (new SupportStats)->cards(),
+    ]))->where('locale', 'nl')->name('membership');
+    Route::get('fr/nous-soutenir', fn () => view('steun-ons', [
+        'proofCards' => (new SupportStats)->cards(),
+    ]))->defaults('locale', 'fr')->name('fr.membership');
+    Route::get('{locale}/membership', fn (string $locale) => redirect()->to(localized_route('membership', ['locale' => $locale]), 301))
+        ->where('locale', 'nl')
+        ->name('membership.legacy');
+
+    // Contact (national).
+    Route::view('{locale}/contact', 'contact')->where('locale', 'nl')->name('contact');
+    Route::view('fr/contact', 'contact')->defaults('locale', 'fr')->name('fr.contact');
+
+    // Legal / utilities. Privacy + cookies are one page; /cookies 301s to it
+    // so any links indexed from the old Wix site keep resolving.
+    Route::view('{locale}/privacy', 'privacy')->where('locale', 'nl')->name('privacy');
+    Route::view('fr/confidentialite', 'privacy')->defaults('locale', 'fr')->name('fr.privacy');
+    Route::get('{locale}/cookies', fn (string $locale) => redirect()->to(localized_route('privacy', ['locale' => $locale]), 301))
+        ->where('locale', 'nl')
+        ->name('cookies');
+});
 
 // Authenticated (unprefixed — deferred logged-in tier).
 Route::view('dashboard', 'dashboard')

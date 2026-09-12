@@ -44,8 +44,8 @@
                 <circle cx="20" cy="20" r="4.5" fill="white"/>
             </svg>
         </span>
-            <span>Je fietst rond <strong>{{ $current['name'] }}</strong></span>
-            <button type="button" wire:click="$set('editing', true)" class="location-picker__change link-plain">wijzig</button>
+            <span>{{ __('common.location.current') }} <strong>{{ $current['name'] }}</strong></span>
+            <button type="button" wire:click="$set('editing', true)" class="location-picker__change link-plain">{{ __('common.location.change') }}</button>
         </p>
     @else
         {{-- Brand pin anchors the whole control (same teardrop as the ride detail hero). --}}
@@ -67,7 +67,7 @@
                         <circle cx="20" cy="20" r="4.5" fill="white"/>
                     </svg>
                 </span>
-                Waar wil je fietsen?
+                {{ __('common.location.prompt') }}
             </label>
             <div class="location-picker__field">
                 <input
@@ -79,7 +79,7 @@
                     aria-controls="location-picker-suggestions"
                     aria-expanded="{{ $suggestions->isNotEmpty() ? 'true' : 'false' }}"
                     wire:model.live.debounce.250ms="query"
-                    placeholder="Typ postcode of gemeente"
+                    placeholder="{{ __('common.location.placeholder') }}"
                     autocomplete="off"
                     class="location-picker__input"
                     x-on:keydown.down.prevent="focusFirst()"
@@ -87,30 +87,30 @@
                 >
                 <button type="button" @click="locate()" class="location-picker__geo link-plain" :disabled="locating">
                     <span class="location-picker__geo-inner" x-show="! locating">
-                        Gebruik mijn locatie
+                        {{ __('common.location.locate') }}
                     </span>
                     <span class="location-picker__geo-inner" x-show="locating" x-cloak>
                         <svg class="location-picker__spinner" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="42" stroke-dashoffset="14" />
-                        </svg> Locatie zoeken…
+                        </svg> {{ __('common.location.locating') }}
                     </span>
                 </button>
             </div>
 
             <p class="location-picker__error" x-show="geoError" x-cloak role="alert">
-                We konden je locatie niet vinden. Typ je postcode of gemeente.
+                {{ __('common.location.error') }}
             </p>
 
             {{-- Always-rendered live region: announces how many suggestions the
                  typed query produced, since the listbox itself appears silently. --}}
             <p class="sr-only" role="status">
                 @if ($suggestions->isNotEmpty())
-                    {{ $suggestions->count() }} {{ $suggestions->count() === 1 ? 'voorstel' : 'voorstellen' }}, gebruik de pijltjestoetsen.
+                    {{ trans_choice('common.location.suggestions_status', $suggestions->count(), ['count' => $suggestions->count()]) }}
                 @endif
             </p>
 
             @if ($suggestions->isNotEmpty())
-                <ul id="location-picker-suggestions" role="listbox" aria-label="Voorgestelde gemeentes" class="location-picker__suggestions">
+                <ul id="location-picker-suggestions" role="listbox" aria-label="{{ __('common.location.suggestions_label') }}" class="location-picker__suggestions">
                     @foreach ($suggestions as $pc)
                         <li role="presentation" wire:key="pc-{{ $pc->zip }}">
                             <button
