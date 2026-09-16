@@ -12,4 +12,8 @@ return [
         'suggestions_status' => '{1} :count suggestion, utilisez les touches fléchées.|[2,*] :count suggestions, utilisez les touches fléchées.',
         'suggestions_label' => 'Communes suggérées',
     ],
+    'review_markers' => [
+        'to-be-confirmed' => 'À confirmer',
+        'layout-proposal' => 'Proposition de mise en page',
+    ],
 ];

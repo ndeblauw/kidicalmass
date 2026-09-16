@@ -13,6 +13,10 @@ return [
     'groups_growth_title' => 'We groeien!',
     'groups_growth_groups' => '{1} groep|[2,*] groepen',
     'groups_growth_empty' => 'Nog geen cijfers om te tonen.',
+    'review_markers' => [
+        'to-be-confirmed' => 'Te bevestigen',
+        'layout-proposal' => 'Layoutvoorstel',
+    ],
     'location' => [
         'current' => 'Je fietst rond',
         'change' => 'wijzig',

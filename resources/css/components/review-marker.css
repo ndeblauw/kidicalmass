@@ -1,0 +1,43 @@
+@layer components {
+    /* Staging-only review markers — "To be confirmed" and "Layoutvoorstel".
+       Each is a Blade component that wraps a block (see to-be-confirmed.blade.php /
+       layout-proposal.blade.php); the wrapper sets the block off from the design while
+       the label names the marker. Both render only behind config('i18n.show_review_markers'),
+       so every marker goes away at once once the client confirms and Frederik approves. */
+    .review-marker {
+        border: 2px dashed var(--color-kidical-ink);
+        border-radius: var(--radius-tile);
+        padding: clamp(1rem, 3vw, 1.5rem);
+        background-color: color-mix(in oklab, var(--color-kidical-light-yellow), white 55%);
+    }
+    .review-marker__label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-pill);
+        background-color: var(--color-kidical-ink);
+        color: white;
+        font-size: var(--text-sm);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .review-marker__label::before {
+        content: '';
+        width: 0.6rem;
+        height: 0.6rem;
+        flex-shrink: 0;
+        border-radius: var(--radius-pill);
+        background-color: var(--color-kidical-yellow);
+    }
+    /* The two marker kinds share the chrome; the accent colour and tint differ. */
+    .review-marker--layout-proposal {
+        border-color: var(--color-kidical-blue);
+        background-color: color-mix(in oklab, var(--color-kidical-light-blue), white 50%);
+    }
+    .review-marker--layout-proposal .review-marker__label::before {
+        background-color: var(--color-kidical-sky);
+    }
+}
