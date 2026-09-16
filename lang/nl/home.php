@@ -3,8 +3,8 @@
 return [
     'hero' => [
         'title' => 'Het leukste uur op de fiets',
-        'intro_first' => 'Een vrolijke fietsparade bij jou in de buurt.',
-        'intro_second' => 'Samen tonen we dat de straat ook van kinderen is.',
+        'intro_1' => 'Een vrolijke fietsparade bij jou in de buurt.',
+        'intro_2' => 'Samen tonen we dat de straat ook van kinderen is.',
     ],
     'next_rides' => [
         'scroll_cue' => 'Naar de volgende ritten',
@@ -34,16 +34,16 @@ return [
     ],
     'photos' => [
         'first_time' => [
-            'first' => 'Stralende jongen met rode helm steekt zijn duim op tijdens een rit.',
-            'second' => 'Twee jongens staan arm in arm met hun fietsen aan de start van een rit.',
+            'photo_1' => 'Stralende jongen met rode helm steekt zijn duim op tijdens een rit.',
+            'photo_2' => 'Twee jongens staan arm in arm met hun fietsen aan de start van een rit.',
         ],
         'local_group' => [
-            'first' => 'Een grote groep gezinnen fietst samen onder de triomfboog van het Jubelpark.',
-            'second' => 'Lachende vrouw fietst met twee kinderen in haar bakfiets en een Kidical Mass-vlag.',
+            'photo_1' => 'Een grote groep gezinnen fietst samen onder de triomfboog van het Jubelpark.',
+            'photo_2' => 'Lachende vrouw fietst met twee kinderen in haar bakfiets en een Kidical Mass-vlag.',
         ],
         'help_out' => [
-            'first' => 'Een bende vrijwilligers in roze hesjes lacht en zwaait op een plein.',
-            'second' => 'Vrijwilliger geeft een boks aan een klein kind tussen fietsende kinderen in het park.',
+            'photo_1' => 'Een bende vrijwilligers in roze hesjes lacht en zwaait op een plein.',
+            'photo_2' => 'Vrijwilliger geeft een boks aan een klein kind tussen fietsende kinderen in het park.',
         ],
     ],
     'newsletter' => [

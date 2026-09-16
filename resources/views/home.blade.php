@@ -25,8 +25,8 @@
         <section class="home-intro">
             <div class="home-intro__inner container mx-auto px-4 text-center">
                 <x-intro-text size="lead" class="home-intro__lead">
-                    <p>{{ __('home.hero.intro_first') }} <br>
-                    {{ __('home.hero.intro_second') }}</p>
+                    <p>{{ __('home.hero.intro_1') }} <br>
+                    {{ __('home.hero.intro_2') }}</p>
                 </x-intro-text>
             </div>
         </section>
@@ -103,16 +103,16 @@
                 // scroll-sequence crossfades; the riding bike below rides per beat.
                 $routeCollages = [
                     [
-                        ['src' => 'img/photography/ride-child-thumbsup-red-helmet.webp', 'alt' => __('home.photos.first_time.first'), 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
-                        ['src' => 'img/photography/ride-brussels-two-boys-at-start.webp', 'alt' => __('home.photos.first_time.second'), 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 40%'],
+                        ['src' => 'img/photography/ride-child-thumbsup-red-helmet.webp', 'alt' => __('home.photos.first_time.photo_1'), 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/ride-brussels-two-boys-at-start.webp', 'alt' => __('home.photos.first_time.photo_2'), 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 40%'],
                     ],
                     [
-                        ['src' => 'img/photography/ride-cinquantenaire-crowd.webp', 'alt' => __('home.photos.local_group.first'), 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
-                        ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => __('home.photos.local_group.second'), 'x' => '36%', 'y' => '62%', 'w' => '50%', 'r' => '-6deg'],
+                        ['src' => 'img/photography/ride-cinquantenaire-crowd.webp', 'alt' => __('home.photos.local_group.photo_1'), 'x' => '64%', 'y' => '33%', 'w' => '54%', 'r' => '5deg', 'pos' => 'center 35%'],
+                        ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => __('home.photos.local_group.photo_2'), 'x' => '36%', 'y' => '62%', 'w' => '50%', 'r' => '-6deg'],
                     ],
                     [
-                        ['src' => 'img/photography/volunteers-pink-vest-group-cobbles.webp', 'alt' => __('home.photos.help_out.first'), 'x' => '40%', 'y' => '32%', 'w' => '56%', 'r' => '-6deg', 'pos' => 'center 40%'],
-                        ['src' => 'img/photography/volunteer-fistbump-kids-park.webp', 'alt' => __('home.photos.help_out.second'), 'x' => '71%', 'y' => '63%', 'w' => '48%', 'r' => '6deg'],
+                        ['src' => 'img/photography/volunteers-pink-vest-group-cobbles.webp', 'alt' => __('home.photos.help_out.photo_1'), 'x' => '40%', 'y' => '32%', 'w' => '56%', 'r' => '-6deg', 'pos' => 'center 40%'],
+                        ['src' => 'img/photography/volunteer-fistbump-kids-park.webp', 'alt' => __('home.photos.help_out.photo_2'), 'x' => '71%', 'y' => '63%', 'w' => '48%', 'r' => '6deg'],
                     ],
                 ];
             @endphp

@@ -3,8 +3,8 @@
 return [
     'hero' => [
         'title' => 'Des rues où les enfants ont leur place !',
-        'intro_first' => 'Kidical Mass, ce sont des parades à vélo festives et familiales qui rendent visibles les besoins des enfants dans nos rues.',
-        'intro_second' => 'Ensemble, faisons de la place au vélo et créons des rues plus sûres pour toutes et tous.',
+        'intro_1' => 'Kidical Mass, ce sont des parades à vélo festives et familiales qui rendent visibles les besoins des enfants dans nos rues.',
+        'intro_2' => 'Ensemble, faisons de la place au vélo et créons des rues plus sûres pour toutes et tous.',
     ],
     'next_rides' => [
         'scroll_cue' => 'Prochaines parades à vélo',
@@ -34,16 +34,16 @@ return [
     ],
     'photos' => [
         'first_time' => [
-            'first' => 'Un garçon rayonnant avec un casque rouge lève le pouce pendant une parade.',
-            'second' => 'Deux garçons se tiennent bras dessus bras dessous avec leurs vélos au départ d’une parade.',
+            'photo_1' => 'Un garçon rayonnant avec un casque rouge lève le pouce pendant une parade.',
+            'photo_2' => 'Deux garçons se tiennent bras dessus bras dessous avec leurs vélos au départ d’une parade.',
         ],
         'local_group' => [
-            'first' => 'Un grand groupe de familles roule ensemble sous l’arc de triomphe du parc du Cinquantenaire.',
-            'second' => 'Une femme souriante roule avec deux enfants dans son vélo cargo et un drapeau Kidical Mass.',
+            'photo_1' => 'Un grand groupe de familles roule ensemble sous l’arc de triomphe du parc du Cinquantenaire.',
+            'photo_2' => 'Une femme souriante roule avec deux enfants dans son vélo cargo et un drapeau Kidical Mass.',
         ],
         'help_out' => [
-            'first' => 'Un groupe de bénévoles en gilets roses sourit et salue sur une place.',
-            'second' => 'Une bénévole fait un check avec un petit enfant parmi les enfants à vélo dans le parc.',
+            'photo_1' => 'Un groupe de bénévoles en gilets roses sourit et salue sur une place.',
+            'photo_2' => 'Une bénévole fait un check avec un petit enfant parmi les enfants à vélo dans le parc.',
         ],
     ],
     'newsletter' => [
