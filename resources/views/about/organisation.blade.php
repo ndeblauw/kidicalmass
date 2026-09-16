@@ -10,29 +10,29 @@
 
     <x-page-hero
         :eyebrow="__('nav.organisation')"
-        :title="__('about.organisation_title')"
+        :title="__('about.organisation.title')"
         size="compact">
 
     {{-- HOE WE GEORGANISEERD ZIJN — lokaal-eerst + no-HQ; the two lists below
          carry the national/local detail (distill 2026-07-04) --}}
     <x-intro-text>
-        <p>{{ __('about.organisation_intro_1') }}</p>
-        <p>{{ __('about.organisation_intro_2') }}</p>
+        <p>{{ __('about.organisation.intro_1') }}</p>
+        <p>{{ __('about.organisation.intro_2') }}</p>
     </x-intro-text>
 
     {{-- WIE WAT DOET — the national/local two-sided story as one white panel:
          a single surface with a hairline seam instead of two floating dotted
          lists (simplify 2026-07-07, review follow-up; band dropped 2026-07-08) --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>{{ __('about.organisation_who_title') }}</x-section-heading>
+        <x-section-heading>{{ __('about.organisation.who.title') }}</x-section-heading>
         <div class="about-who">
-            <x-titled-list-block variant="plain" :title="__('about.organisation_national_title')" level="h3">
-                @foreach (__('about.organisation_national') as $item)
+            <x-titled-list-block variant="plain" :title="__('about.organisation.national.title')" level="h3">
+                @foreach (__('about.organisation.national.items') as $item)
                     <li>{{ $item }}</li>
                 @endforeach
             </x-titled-list-block>
-            <x-titled-list-block variant="plain" :title="__('about.organisation_local_title')" level="h3">
-                @foreach (__('about.organisation_local') as $item)
+            <x-titled-list-block variant="plain" :title="__('about.organisation.local.title')" level="h3">
+                @foreach (__('about.organisation.local.items') as $item)
                     <li>{{ $item }}</li>
                 @endforeach
             </x-titled-list-block>
@@ -42,12 +42,12 @@
     {{-- HET COÖRDINATIEDUO — carries safety & vorming (they run it); text and
          person cards side by side on desktop (polish 2026-07-04) --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>{{ __('about.organisation_duo_title') }}</x-section-heading>
+        <x-section-heading>{{ __('about.organisation.duo.title') }}</x-section-heading>
         <div class="grid gap-8 md:grid-cols-[1fr_22rem] md:gap-12">
             <div class="max-w-prose space-y-4">
-                <p>{{ __('about.organisation_duo_body_1') }}</p>
-                <p>{{ __('about.organisation_duo_body_2') }}</p>
-                <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.organisation_duo_link') }}</a></p>
+                <p>{{ __('about.organisation.duo.body_1') }}</p>
+                <p>{{ __('about.organisation.duo.body_2') }}</p>
+                <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.organisation.duo.link') }}</a></p>
             </div>
             @if ($teamMembers->isNotEmpty())
                 <ul class="about-duo" role="list">
@@ -68,8 +68,8 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta :heading="__('about.organisation_closing_heading')"
-            :href="route('volunteer')" :label="__('about.organisation_closing_label')" />
+        <x-closing-cta :heading="__('about.organisation.closing.heading')"
+            :href="route('volunteer')" :label="__('about.organisation.closing.label')" />
     </x-slot:closing>
 
 </x-layouts::site>

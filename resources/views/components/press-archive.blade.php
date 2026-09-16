@@ -23,7 +23,7 @@
                         <time datetime="{{ $article->published_at->toDateString() }}">{{ $article->published_at->isoFormat('D MMM') }}</time>
                         @if ($article->getFirstMedia('document'))
                             <span aria-hidden="true">·</span>
-                            <a href="{{ $article->getFirstMediaUrl('document') }}" target="_blank" rel="noopener noreferrer" class="press-archive__document">{{ __('about.press_document_label') }}</a>
+                            <a href="{{ $article->getFirstMediaUrl('document') }}" target="_blank" rel="noopener noreferrer" class="press-archive__document">{{ __('about.press.document.label') }}</a>
                         @endif
                     </span>
                 </li>

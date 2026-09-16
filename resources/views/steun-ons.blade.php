@@ -22,15 +22,15 @@
         // Order is bottom-to-top: the last card rests on top of the stack, legible.
     @endphp
 
-    <x-page-hero :eyebrow="__('support.hero_eyebrow')" :title="__('support.hero_title')" illustration="img/illustrations/heart-sign-holder.svg">
+    <x-page-hero :eyebrow="__('support.hero.eyebrow')" :title="__('support.hero.title')" illustration="img/illustrations/heart-sign-holder.svg">
 
         {{-- High-intent shortcut: the ask sits in the hero so a ready-to-give
              visitor never has to scroll the full argument to find the door. --}}
         <x-slot:controls>
             <div class="steun-hero__cta">
                 <x-cta-button :href="$growfunding" variant="yellow" icon="heart" disc="red"
-                    target="_blank" rel="noopener noreferrer" class="link-plain">{{ __('support.ask_cta') }}</x-cta-button>
-                <p class="steun-hero__cta-note">{{ __('support.hero_cta_note') }}</p>
+                    target="_blank" rel="noopener noreferrer" class="link-plain">{{ __('support.ask.cta') }}</x-cta-button>
+                <p class="steun-hero__cta-note">{{ __('support.hero.cta_note') }}</p>
             </div>
         </x-slot:controls>
 
@@ -41,13 +41,13 @@
     <section class="steun-story">
         <div class="steun-story__text">
             {{-- Mission lead: an intro-scale opener (the hero already carries the title). --}}
-            <p class="steun-mission__body">{{ __('support.mission_body') }}</p>
+            <p class="steun-mission__body">{{ __('support.mission.body') }}</p>
 
             <div class="steun-story__intro">
-                <h2 class="steun-story__title">{{ __('support.story_title') }}</h2>
-                <p class="steun-story__body">{{ __('support.story_body') }}</p>
+                <h2 class="steun-story__title">{{ __('support.story.title') }}</h2>
+                <p class="steun-story__body">{{ __('support.story.body') }}</p>
                 {{-- The team's work, as a flowing second paragraph. --}}
-                <p class="steun-story__body">{{ __('support.story_work') }}</p>
+                <p class="steun-story__body">{{ __('support.story.work') }}</p>
             </div>
         </div>
 
@@ -69,8 +69,8 @@
          organisers right (PAT-20 standalone collage): the people you're backing. --}}
     <section class="steun-funds">
         <div class="steun-funds__inner">
-            <x-titled-list-block :title="__('support.funds_title')" variant="get" level="h2">
-                @foreach (__('support.funds') as $fund)
+            <x-titled-list-block :title="__('support.funds.title')" variant="get" level="h2">
+                @foreach (__('support.funds.items') as $fund)
                     <li>{{ $fund }}</li>
                 @endforeach
             </x-titled-list-block>
@@ -123,10 +123,10 @@
     <x-slot:closing>
         <section class="steun-cta">
             <div class="container mx-auto px-4 steun-cta__inner">
-                <h2>{{ __('support.ask_title') }}</h2>
-                <p class="steun-cta__sub">{{ __('support.ask_body') }}</p>
-                <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask_cta') }}</x-cta-button>
-                <p class="steun-cta__note">{{ __('support.ask_note') }}</p>
+                <h2>{{ __('support.ask.title') }}</h2>
+                <p class="steun-cta__sub">{{ __('support.ask.body') }}</p>
+                <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask.cta') }}</x-cta-button>
+                <p class="steun-cta__note">{{ __('support.ask.note') }}</p>
             </div>
         </section>
     </x-slot:closing>

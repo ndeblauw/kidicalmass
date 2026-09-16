@@ -48,7 +48,7 @@
                 </div>
 
                 @if ($article->getMedia('gallery')->count() > 0)
-                    <section class="space-y-4" aria-label="{{ __('about.news_gallery') }}">
+                    <section class="space-y-4" aria-label="{{ __('about.news.gallery') }}">
                         <div class="grid gap-4 sm:grid-cols-2">
                             @foreach ($article->getMedia('gallery') as $media)
                                 <div class="aspect-[4/3] overflow-hidden rounded-xl">
@@ -64,8 +64,8 @@
 
             <aside class="flex flex-col gap-8 lg:sticky lg:top-28 lg:self-start">
                 @if ($neighbours->isNotEmpty())
-                    <nav aria-label="{{ __('about.news_more_title') }}" data-article-neighbours>
-                        <h2 class="article-rail__label">{{ __('about.news_more_title') }}</h2>
+                    <nav aria-label="{{ __('about.news.more.title') }}" data-article-neighbours>
+                        <h2 class="article-rail__label">{{ __('about.news.more.title') }}</h2>
                         <ul role="list" class="article-rail__list">
                             @foreach ($neighbours as $neighbour)
                                 <li>

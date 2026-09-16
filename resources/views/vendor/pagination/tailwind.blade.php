@@ -2,11 +2,11 @@
      for $paginator->links()). Words: lang/nl/common.php; look:
      resources/css/components/pagination.css. --}}
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="{{ __('common.pagination_label') }}" class="pagination" data-pagination>
+    <nav role="navigation" aria-label="{{ __('common.pagination.label') }}" class="pagination" data-pagination>
         @if ($paginator->onFirstPage())
-            <span class="pagination__step pagination__step--disabled" aria-disabled="true">← {{ __('common.pagination_previous') }}</span>
+            <span class="pagination__step pagination__step--disabled" aria-disabled="true">← {{ __('common.pagination.previous') }}</span>
         @else
-            <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="pagination__step link-plain">← {{ __('common.pagination_previous') }}</a>
+            <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="pagination__step link-plain">← {{ __('common.pagination.previous') }}</a>
         @endif
 
         <ul class="pagination__pages" role="list">
@@ -30,9 +30,9 @@
         </ul>
 
         @if ($paginator->hasMorePages())
-            <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="pagination__step link-plain">{{ __('common.pagination_next') }} →</a>
+            <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="pagination__step link-plain">{{ __('common.pagination.next') }} →</a>
         @else
-            <span class="pagination__step pagination__step--disabled" aria-disabled="true">{{ __('common.pagination_next') }} →</span>
+            <span class="pagination__step pagination__step--disabled" aria-disabled="true">{{ __('common.pagination.next') }} →</span>
         @endif
     </nav>
 @endif

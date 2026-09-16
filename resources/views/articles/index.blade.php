@@ -9,12 +9,12 @@
 
     <x-page-hero
         :eyebrow="__('nav.news')"
-        :title="__('about.news_title')"
+        :title="__('about.news.title')"
         size="compact">
 
         {{-- The intro belongs to the hero, not the feed (review 2026-07-07). --}}
         <x-slot:lead>
-            <p>{{ __('about.news_lead') }}</p>
+            <p>{{ __('about.news.lead') }}</p>
         </x-slot:lead>
 
     <div class="space-y-10">
@@ -33,8 +33,8 @@
 
             <div>{{ $articles->links() }}</div>
         @else
-            <x-empty-state :heading="__('about.news_empty_title')">
-                {!! __('about.news_empty_body', [
+            <x-empty-state :heading="__('about.news.empty.title')">
+                {!! __('about.news.empty.body', [
                     'instagram' => '<a href="'.config('kidicalmass.social.instagram').'" target="_blank" rel="noopener noreferrer">Instagram</a>',
                     'facebook' => '<a href="'.config('kidicalmass.social.facebook').'" target="_blank" rel="noopener noreferrer">Facebook</a>',
                 ]) !!}
