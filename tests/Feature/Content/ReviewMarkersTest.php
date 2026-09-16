@@ -49,6 +49,15 @@ it('labels the markers in the active locale', function () {
     expect(Blade::render('<x-layout-proposal />'))->toContain(__('common.review_markers.layout-proposal'));
 });
 
+it('keeps a block unmarked when the when prop is false', function () {
+    config(['i18n.show_review_markers' => true]);
+
+    $html = Blade::render('<x-to-be-confirmed :when="false">Unmarked block</x-to-be-confirmed>');
+
+    expect($html)->toContain('Unmarked block')
+        ->not->toContain('data-review-marker');
+});
+
 it('provides the review marker labels in both locales', function () {
     foreach (['nl', 'fr'] as $locale) {
         foreach (['common.review_markers.to-be-confirmed', 'common.review_markers.layout-proposal'] as $key) {

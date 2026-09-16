@@ -14,6 +14,7 @@
 
     @php
         $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
+        $isFr = app()->getLocale() === 'fr';
 
         // $proofCards is computed live (App\Support\SupportStats) and passed in by
         // the route: local groups + rides are counted from the database, the
@@ -66,14 +67,23 @@
     </section>
 
     {{-- WAT JE STEUN MOGELIJK MAAKT — content left, a warm collage of the
-         organisers right (PAT-20 standalone collage): the people you're backing. --}}
+         organisers right (PAT-20 standalone collage): the people you're backing.
+         The French list carries 7 titled items (vs NL's 4 short lines), each
+         with a "To be confirmed" marker — the client still has to confirm what
+         support money pays for. --}}
     <section class="steun-funds">
         <div class="steun-funds__inner">
-            <x-titled-list-block :title="__('support.funds.title')" variant="get" level="h2">
-                @foreach (__('support.funds.items') as $fund)
-                    <li>{{ $fund }}</li>
-                @endforeach
-            </x-titled-list-block>
+            <x-to-be-confirmed :when="$isFr">
+                <x-titled-list-block :title="__('support.funds.title')" variant="get" level="h2">
+                    @foreach (__('support.funds.items') as $fund)
+                        @if (is_array($fund))
+                            <li><strong>{{ $fund['title'] }}</strong> — {{ $fund['body'] }}</li>
+                        @else
+                            <li>{{ $fund }}</li>
+                        @endif
+                    @endforeach
+                </x-titled-list-block>
+            </x-to-be-confirmed>
 
             @php
                 // The two organisers the visitor is backing: posing + the team in action.
@@ -119,14 +129,26 @@
          panel, flush to the footer. The €3 framing, the t-shirt, the disclaimer and
          all live here (the duplicate white card was removed). No
          ride-oriented closing CTA: it would split intent at the decision.
-         One-off path cut (D-9 Closed 2026-07-03): monthly Growfunding only, no IBAN on-site. --}}
+         The one-off donation returns on /fr (D-9, dropped 2026-07-03) as a marked
+         placeholder — the client still has to confirm whether to accept one-off
+         gifts and which IBAN to use. --}}
     <x-slot:closing>
         <section class="steun-cta">
             <div class="container mx-auto px-4 steun-cta__inner">
                 <h2>{{ __('support.ask.title') }}</h2>
                 <p class="steun-cta__sub">{{ __('support.ask.body') }}</p>
-                <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask.cta') }}</x-cta-button>
+                <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask.button') }}</x-cta-button>
                 <p class="steun-cta__note">{{ __('support.ask.note') }}</p>
+
+                @if ($isFr)
+                    <x-to-be-confirmed>
+                        <div class="steun-donation mt-8">
+                            <h3>{{ __('support.donation.heading') }}</h3>
+                            <p>{{ __('support.donation.body') }}</p>
+                            <p class="steun-donation__iban">{{ __('support.donation.iban') }}</p>
+                        </div>
+                    </x-to-be-confirmed>
+                @endif
             </div>
         </section>
     </x-slot:closing>

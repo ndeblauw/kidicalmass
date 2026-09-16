@@ -66,6 +66,7 @@ return [
         'title' => 'Steun vanaf €3 per maand',
         'body' => 'Je krijgt een t-shirt om je steun te dragen. Hoe meer vaste steun, hoe minder we moeten leunen op subsidies. En meefietsen blijft altijd gratis.',
         'cta' => 'Steun maandelijks',
+        'button' => 'Steun maandelijks',
         'note' => 'Je gaat naar Growfunding. Wij verwerken zelf geen betalingen.',
     ],
 
