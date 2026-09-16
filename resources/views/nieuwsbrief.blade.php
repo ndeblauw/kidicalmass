@@ -9,10 +9,15 @@
         <div class="grid gap-10 lg:gap-x-16 md:grid-cols-[1fr_1.6fr] items-start max-w-4xl lg:max-w-5xl xl:max-w-6xl ml-0">
             <aside class="md:pt-6">
                 <ul class="newsletter-signup-benefits">
-                    <li>Eén mail per maand, niet meer</li>
-                    <li>Alle ritten in één overzicht</li>
-                    <li>Geen spam, uitschrijven met één klik</li>
+                    <li>Alle ritten van de komende weken</li>
+                    <li>Wat de parades al veranderden: fietspaden, zone 30, de pers</li>
+                    <li>Ongeveer één mail per maand, uitschrijven met één klik</li>
                 </ul>
+                @if ($latestEdition = config('services.mailerlite.latest_edition.'.app()->getLocale()))
+                    <p class="newsletter-signup-latest">
+                        <a href="{{ $latestEdition }}" target="_blank" rel="noopener" data-newsletter-latest-edition>Lees de laatste nieuwsbrief</a>
+                    </p>
+                @endif
             </aside>
 
             <div class="newsletter-form-col">

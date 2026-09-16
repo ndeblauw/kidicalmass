@@ -391,10 +391,9 @@
             {{-- Upcoming: the "how it works" ask already lives above (Zo werkt een rit,
                  beside the map's promises), so the closing band points elsewhere: stay
                  in the loop for the next rides via the newsletter. --}}
-            <x-closing-cta
-                heading="{{ $primaryGroup ? 'Mis geen rit van Kidical Mass '.$primaryGroup->name : 'Geen rit missen?' }}"
-                :href="route('newsletter.show', ['locale' => app()->getLocale()])"
-                label="Schrijf je in voor updates" />
+            <x-newsletter-cta
+                heading="Zin in de volgende rit?"
+                lead="Elke maand alle ritten van de komende weken in je mailbox." />
         @endif
     </x-slot:closing>
 

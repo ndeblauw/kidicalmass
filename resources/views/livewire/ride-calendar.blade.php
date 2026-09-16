@@ -55,7 +55,8 @@
                         @if ($when === 'voorbije')
                             Er zijn nog geen voorbije fietstochten om te tonen.
                         @else
-                            Er zijn momenteel geen fietstochten gepland. Het seizoen loopt van maart tot november. Kom snel terug!
+                            Er zijn momenteel geen fietstochten gepland. Het seizoen loopt van maart tot november.
+                            <a href="{{ route('newsletter.show', ['locale' => app()->getLocale()]) }}">Schrijf je in op de nieuwsbrief</a>, dan zie je de nieuwe ritten meteen staan.
                         @endif
                     </p>
 
@@ -76,7 +77,8 @@
                     @endphp
                     <p class="kal-empty">
                         Geen ritten in de categorie "{{ $radiusLabel }}" van {{ $location['name'] }}.
-                        Kies een ruimere regio om meer te zien.
+                        Kies een ruimere regio om meer te zien, of
+                        <a href="{{ route('newsletter.show', ['locale' => app()->getLocale()]) }}">schrijf je in op de nieuwsbrief</a>: zodra er iets in de buurt gepland is, lees je het daar.
                     </p>
 
                 @else

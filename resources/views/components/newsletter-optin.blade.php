@@ -1,4 +1,4 @@
-@props(['group' => null, 'showJoin' => false, 'prominent' => false])
+@props(['group' => null, 'showJoin' => false, 'prominent' => false, 'context' => 'calendar'])
 
 @php
     $gemeente = null;
@@ -8,10 +8,15 @@
     }
 
     // Teaser only: the actual sign-up form lives on its own page. This block just
-    // makes the promise and sends people onward.
-    $lead = $gemeente
-        ? "Eén mail per maand met de ritten en het nieuws uit {$gemeente}."
-        : 'Eén mail per maand met de ritten bij jou in de buurt.';
+    // makes the promise and sends people onward. There is one newsletter for all of
+    // Belgium (per language), so a chapter page names its town without promising
+    // local news. Next to an article (context "news") the impact story leads.
+    $heading = $context === 'news' ? 'Meer van dit nieuws' : 'Mis geen rit';
+    $lead = match (true) {
+        $gemeente !== null => "Elke maand alle ritten van de komende weken, ook die in {$gemeente}.",
+        $context === 'news' => 'Elke maand lees je wat de parades in beweging zetten, met alle ritten van de komende weken erbij.',
+        default => 'Deze kalender, elke maand in je mailbox. Met de nieuwe gemeentes erbij.',
+    };
 
     // Prominent treatment (chapter page): the opt-in is the page's primary low-commitment
     // CTA, so it lifts off the white with the card shadow and trades the quiet outlined
@@ -48,10 +53,10 @@
     <div {{ $attributes->class($cardClass) }}>
         <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
             <div class="flex flex-col gap-3">
-                <h3 class="text-kidical-ink">Mis geen rit</h3>
+                <h3 class="text-kidical-ink">{{ $heading }}</h3>
                 <p class="text-kidical-ink/75">{{ $lead }}</p>
             </div>
-            <x-cta-button :variant="$ctaVariant" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
+            <x-cta-button :variant="$ctaVariant" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf me in</x-cta-button>
         </div>
     </div>
 @endauth

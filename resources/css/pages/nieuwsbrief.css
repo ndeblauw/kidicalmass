@@ -192,4 +192,11 @@
         /* Optical nudge so the badge sits centred on the first text line, not its top. */
         margin-top: 0.15rem;
     }
+
+    /* "See a real edition" proof link, aligned with the list text (past the check). */
+    .newsletter-signup-latest {
+        margin-top: 1.25rem;
+        padding-left: 2.05rem;
+        font-weight: 600;
+    }
 }

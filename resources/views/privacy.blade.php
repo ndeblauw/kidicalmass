@@ -34,7 +34,7 @@
 
                 <div class="flex flex-col gap-2">
                     <h3>Als je de nieuwsbrief volgt</h3>
-                    <p>Schrijf je je in, dan bewaren we je e-mailadres en de groepen die je wil volgen in MailerLite, onze nieuwsbriefdienst. Je krijgt eerst een bevestigingsmail; pas als je daarin klikt, sta je op de lijst. Uitschrijven kan altijd via de link onderaan elke mail. Rechtsgrond: jouw toestemming, die je dus ook altijd weer kan intrekken.</p>
+                    <p>Schrijf je je in, dan bewaren we je e-mailadres en de taal van je nieuwsbrief in MailerLite, onze nieuwsbriefdienst. Uitschrijven kan altijd via de link onderaan elke mail. Rechtsgrond: jouw toestemming, die je dus ook altijd weer kan intrekken.</p>
                 </div>
 
                 <div class="flex flex-col gap-2">

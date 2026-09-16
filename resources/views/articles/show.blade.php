@@ -79,7 +79,7 @@
                     </nav>
                 @endif
 
-                <x-newsletter-optin />
+                <x-newsletter-optin context="news" />
             </aside>
         </div>
 

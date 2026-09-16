@@ -7,9 +7,9 @@
         </div>
     @elseif ($submitted)
         <div class="bg-white rounded-card shadow-card p-8 flex flex-col gap-4 items-start" role="status">
-            <h2>Kijk even in je mailbox</h2>
-            <p>We stuurden een mailtje naar <strong>{{ $email }}</strong>. Klik op de link erin om je inschrijving te bevestigen.</p>
-            <p class="text-kidical-ink/70">Niets ontvangen? Check je spam.</p>
+            <h2>Je bent erbij!</h2>
+            <p>De volgende nieuwsbrief komt naar <strong>{{ $email }}</strong>. Kan je niet wachten? De kalender staat al online.</p>
+            <x-cta-button variant="yellow" icon="arrow" :href="route('activities.index', ['locale' => app()->getLocale()])">Bekijk de kalender</x-cta-button>
         </div>
     @else
         <form wire:submit="subscribe" class="bg-white rounded-card shadow-card p-8 flex flex-col gap-6">
@@ -40,7 +40,7 @@
                 class="self-start"
             >Schrijf me in</x-cta-button>
 
-            <x-form-privacy-note>Je e-mailadres gebruiken we alleen voor de maandelijkse nieuwsbrief. Uitschrijven kan altijd met één klik.</x-form-privacy-note>
+            <x-form-privacy-note>Je e-mailadres gebruiken we alleen voor de nieuwsbrief. Uitschrijven kan altijd met één klik.</x-form-privacy-note>
         </form>
     @endauth
 </div>

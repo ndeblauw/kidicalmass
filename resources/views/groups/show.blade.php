@@ -139,7 +139,7 @@
                 @else
                     <div class="chapter-next__card chapter-next__card--empty">
                         <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
-                        <p class="chapter-next__empty-body">We laten het je weten zodra {{ $gemeente }} vertrekt. Schrijf je hieronder in.</p>
+                        <p class="chapter-next__empty-body">Zodra {{ $gemeente }} vertrekt, staat het in de nieuwsbrief.</p>
                         <x-newsletter-optin :group="$group" :show-join="false" class="chapter-parade__optin" />
                     </div>
                 @endif

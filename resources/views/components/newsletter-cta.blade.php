@@ -1,6 +1,6 @@
 @props([
-    'heading' => 'Krijg de nieuwste ritten in je mailbox',
-    'lead' => 'Schrijf je in voor de maandelijkse mail. Zo weet je als eerste waar en wanneer er bij jou in de buurt gefietst wordt.',
+    'heading' => 'Alle ritten van de maand in je mailbox',
+    'lead' => 'Ongeveer één mail per maand met de kalender. En het nieuws over wat al die fietsende kinderen in beweging zetten.',
 ])
 
 {{-- Page-owned closing block: newsletter sign-up on the full-bleed yellow band.
