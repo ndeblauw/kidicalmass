@@ -17,6 +17,7 @@
             ></iframe>
         </div>
 
+        <x-layout-proposal>
         <section class="home-hero">
             <h1 class="home-hero__title"><span class="home-hero__title-ride"><span class="home-hero__title-line">@foreach (explode(' ', __('home.hero.title')) as $word)<span class="home-hero__word">{{ $word }}</span>@if ($loop->iteration === 3)<br>@elseif (! $loop->last) @endif @endforeach</span></span></h1>
         </section>
@@ -29,6 +30,7 @@
                 </x-intro-text>
             </div>
         </section>
+        </x-layout-proposal>
     </div>
 
     {{-- Holds the fixed backdrop's place in normal flow (md+). --}}
