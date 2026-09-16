@@ -16,8 +16,12 @@ class QuoteRequest extends FormRequest
     {
         return [
             'slot' => ['required', 'string', 'max:255', Rule::unique('quotes', 'slot')->ignore($this->route('quote'))],
-            'quote' => ['required', 'string'],
-            'attribution' => ['required', 'string', 'max:255'],
+            'quote_nl' => ['required_without:quote_fr', 'string'],
+            'quote_fr' => ['required_without:quote_nl', 'string'],
+            'quote_en' => ['nullable', 'string'],
+            'attribution_nl' => ['required_without:attribution_fr', 'string', 'max:255'],
+            'attribution_fr' => ['required_without:attribution_nl', 'string', 'max:255'],
+            'attribution_en' => ['nullable', 'string', 'max:255'],
             'visible' => ['boolean'],
         ];
     }

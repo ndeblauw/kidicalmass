@@ -24,12 +24,13 @@ class PrototypeOnboardingSeeder extends Seeder
 {
     public function run(): void
     {
-        $region = Group::where('name', 'Brussels Capital Region')->first();
+        $region = Group::where('name_nl', 'Brussels Capital Region')->first();
 
         $oudergem = Group::updateOrCreate(
             ['shortname' => 'oudergem'],
             [
-                'name' => 'Oudergem',
+                'name_nl' => 'Oudergem',
+                'name_fr' => 'Auderghem',
                 'zip' => '1160',
                 'parent_id' => $region?->id,
                 'started_at' => '2023-01-01',
@@ -90,7 +91,7 @@ class PrototypeOnboardingSeeder extends Seeder
                 'content_fr' => 'Notre balade mensuelle à Auderghem.',
                 'activity_type' => ActivityType::KIDICALMASS,
                 'begin_date' => Carbon::parse('next sunday')->setTime(14, 30),
-                'location' => 'Plein Pinoy, 1160 Oudergem',
+                'location_nl' => 'Plein Pinoy, 1160 Oudergem',
                 'postal_code' => '1160',
                 'distance' => '5 km',
                 'duration_minutes' => 90,
@@ -105,7 +106,7 @@ class PrototypeOnboardingSeeder extends Seeder
                 'content_fr' => 'On prépare les balades d’automne.',
                 'activity_type' => ActivityType::MEETING,
                 'begin_date' => Carbon::parse('next sunday')->addDays(2)->setTime(20, 0),
-                'location' => 'Café Oud Auderghem, 1160 Oudergem',
+                'location_nl' => 'Café Oud Auderghem, 1160 Oudergem',
                 'postal_code' => '1160',
                 'duration_minutes' => 90,
             ],

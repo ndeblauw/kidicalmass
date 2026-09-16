@@ -29,7 +29,8 @@ class ActivityFactory extends Factory
             'content_fr' => fake()->paragraphs(2, true),
             'activity_type' => fake()->randomElement(ActivityType::cases()),
             'begin_date' => $beginDate,
-            'location' => fake()->city().', '.fake()->address(),
+            'location_nl' => fake()->city().', '.fake()->address(),
+            'location_fr' => fake()->city().', '.fake()->address(),
             // Real Belgian postcodes (present in be-postcodes.csv) so the Kalender's
             // proximity bands have actual coordinates to work with. Weighted toward
             // Brussels so a tester near the capital sees a populated "In de buurt".

@@ -15,9 +15,12 @@ class TeamMemberRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
+            'role_nl' => ['required_without:role_fr', 'string', 'max:255'],
+            'role_fr' => ['required_without:role_nl', 'string', 'max:255'],
+            'role_en' => ['nullable', 'string', 'max:255'],
             'bio_nl' => ['nullable', 'string'],
             'bio_fr' => ['nullable', 'string'],
+            'bio_en' => ['nullable', 'string'],
             'sort' => ['nullable', 'integer'],
             'visible' => ['boolean'],
             'photo' => ['nullable', 'array'],

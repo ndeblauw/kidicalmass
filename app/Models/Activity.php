@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ActivityType;
 use App\Enums\RideLifecycleState;
 use App\Models\Concerns\HasMainImage;
+use App\Models\Concerns\LocalizesFields;
 use App\Models\Scopes\LocalGroupScope;
 use App\Support\RideDate;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -29,6 +30,7 @@ class Activity extends Model implements HasMedia
     use HasFactory;
     use HasMainImage;
     use InteractsWithMedia;
+    use LocalizesFields;
 
     protected $attributes = [
         'is_published' => false,
@@ -179,11 +181,19 @@ class Activity extends Model implements HasMedia
         return "{$hours} u {$minutes} min";
     }
 
-    public function getTitleAttribute(): string
+    public function getTitleAttribute(): ?string
     {
-        return app()->getLocale() === 'fr' && filled($this->title_fr)
-            ? (string) $this->title_fr
-            : (string) $this->title_nl;
+        return $this->localizedValue('title');
+    }
+
+    public function getContentAttribute(): ?string
+    {
+        return $this->localizedValue('content');
+    }
+
+    public function getLocationAttribute(): ?string
+    {
+        return $this->localizedValue('location');
     }
 
     /**
@@ -268,7 +278,7 @@ class Activity extends Model implements HasMedia
 
     public function metaDescription(): string
     {
-        return Str::limit(Str::squish(strip_tags($this->content_nl ?? '')), 155);
+        return Str::limit(Str::squish(strip_tags($this->content ?? '')), 155);
     }
 
     public function ogImageUrl(): ?string
@@ -317,7 +327,7 @@ class Activity extends Model implements HasMedia
             $missing[] = 'route';
         }
 
-        if (! filled($this->location)) {
+        if (! filled($this->location_nl) && ! filled($this->location_fr)) {
             $missing[] = 'location';
         }
 

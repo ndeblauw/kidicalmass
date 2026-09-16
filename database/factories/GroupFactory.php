@@ -16,7 +16,8 @@ class GroupFactory extends Factory
 
         return [
             'shortname' => fake()->unique()->slug(2),
-            'name' => fake()->company(),
+            'name_nl' => fake()->company(),
+            'name_fr' => fake()->company(),
             'zip' => fake()->postcode(),
             'parent_id' => null,
             'started_at' => $startedAt,

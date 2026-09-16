@@ -3,7 +3,7 @@
 @php
     // The visitor's chapters drive the roze nav button(s); compute once, reuse in both navs.
     $myChapters = Auth::check()
-        ? Auth::user()->groups()->where('invisible', false)->orderBy('name')->get()
+        ? Auth::user()->groups()->where('invisible', false)->orderBy('name_nl')->get()
         : collect();
 
     $isHome = request()->routeIs('home');

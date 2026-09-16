@@ -16,6 +16,7 @@ class PressArticleRequest extends FormRequest
         return [
             'title_nl' => ['required', 'string', 'max:255'],
             'title_fr' => ['required', 'string', 'max:255'],
+            'title_en' => ['nullable', 'string', 'max:255'],
             'outlet' => ['required', 'string', 'max:255'],
             'url' => ['nullable', 'url', 'max:500'],
             'published_at' => ['nullable', 'date'],

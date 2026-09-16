@@ -100,7 +100,7 @@ class ChapterShowcaseSeeder extends Seeder
             'title_fr' => 'Atelier vélo & petites réparations Schaerbeek',
             'type' => ActivityType::WORKSHOP,
             'begin_date' => now()->addWeeks(1)->setTime(10, 0),
-            'location' => 'Cyclo werkplaats, Schaarbeek',
+            'location_nl' => 'Cyclo werkplaats, Schaarbeek',
             'postal_code' => '1030',
             'duration' => 120,
         ]);
@@ -109,7 +109,7 @@ class ChapterShowcaseSeeder extends Seeder
             'title_fr' => 'Réunion des bénévoles Schaerbeek',
             'type' => ActivityType::MEETING,
             'begin_date' => now()->addWeeks(2)->setTime(19, 30),
-            'location' => 'Maison des Citoyens, Schaarbeek',
+            'location_nl' => 'Maison des Citoyens, Schaarbeek',
             'postal_code' => '1030',
             'duration' => 90,
         ]);
@@ -210,7 +210,7 @@ class ChapterShowcaseSeeder extends Seeder
     {
         Partner::factory()->create([
             'group_id' => $group->id,
-            'name' => $name,
+            'name_nl' => $name,
             'url' => $url,
             'description_nl' => $descriptionNl,
             'description_fr' => $descriptionNl,
@@ -264,7 +264,7 @@ class ChapterShowcaseSeeder extends Seeder
      * Create an agenda activity for the chapter unless one with the same title
      * already exists (keeps re-runs from piling up rides).
      *
-     * @param  array{title_nl: string, title_fr: string, type: ActivityType, begin_date: Carbon, location: string, postal_code: string, duration: int}  $data
+     * @param  array{title_nl: string, title_fr: string, type: ActivityType, begin_date: Carbon, location_nl: string, postal_code: string, duration: int}  $data
      */
     private function ensureActivity(Group $group, array $data): Activity
     {
@@ -283,7 +283,7 @@ class ChapterShowcaseSeeder extends Seeder
             'content_fr' => 'Une activité locale de Kidical Mass '.$group->name.'.',
             'activity_type' => $data['type'],
             'begin_date' => $data['begin_date'],
-            'location' => $data['location'],
+            'location_nl' => $data['location_nl'],
             'postal_code' => $data['postal_code'],
             'duration_minutes' => $data['duration'],
             'komoot_url' => null,
@@ -314,7 +314,7 @@ class ChapterShowcaseSeeder extends Seeder
             'title_fr' => 'Kidical Mass Schaerbeek',
             'type' => ActivityType::KIDICALMASS,
             'begin_date' => now()->addDays(4)->setTime(14, 0),
-            'location' => 'Gemeenteplein Colignon, Schaarbeek',
+            'location_nl' => 'Gemeenteplein Colignon, Schaarbeek',
             'postal_code' => '1030',
             'duration' => 90,
         ]);

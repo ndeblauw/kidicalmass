@@ -10,9 +10,9 @@ class Quote extends BlueAdminModel
 
     public $name_to_use = 'Citaten';
 
-    public $title_field = 'attribution';
+    public $title_field = 'attribution_nl';
 
-    public $indexTableColumns = ['slot', 'attribution', 'visible'];
+    public $indexTableColumns = ['slot', 'attribution_nl', 'visible'];
 
-    public $attributesToShow = ['slot', 'quote', 'attribution', 'visible'];
+    public $attributesToShow = ['slot', 'quote_nl', 'quote_fr', 'attribution_nl', 'attribution_fr', 'visible'];
 }

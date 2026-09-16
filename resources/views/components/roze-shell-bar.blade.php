@@ -3,7 +3,7 @@
 @php
     // Mirror header.blade.php: the visitor's visible chapters drive the switcher.
     $myChapters = \Illuminate\Support\Facades\Auth::check()
-        ? \Illuminate\Support\Facades\Auth::user()->groups()->where('invisible', false)->orderBy('name')->get()
+        ? \Illuminate\Support\Facades\Auth::user()->groups()->where('invisible', false)->orderBy('name_nl')->get()
         : collect();
 
     $place = \Illuminate\Support\Str::of($group->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim();

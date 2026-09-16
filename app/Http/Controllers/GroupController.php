@@ -131,7 +131,7 @@ class GroupController extends Controller
             ->where('begin_date', '<', now())
             ->count();
 
-        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name')->get();
+        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name_nl')->get();
         $pressArticles = $group->pressArticles()->with('media')->latest('published_at')->get();
 
         // The gallery now follows the most recent ride that actually has photos

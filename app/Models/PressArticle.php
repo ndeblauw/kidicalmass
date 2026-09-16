@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\LocalizesFields;
 use App\Models\Scopes\LocalGroupScope;
 use Database\Factories\PressArticleFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -22,6 +23,7 @@ class PressArticle extends Model implements HasMedia
     use HasFactory;
 
     use InteractsWithMedia;
+    use LocalizesFields;
 
     protected function casts(): array
     {
@@ -30,11 +32,9 @@ class PressArticle extends Model implements HasMedia
         ];
     }
 
-    public function getTitleAttribute(): string
+    public function getTitleAttribute(): ?string
     {
-        return app()->getLocale() === 'fr' && filled($this->title_fr)
-            ? (string) $this->title_fr
-            : (string) $this->title_nl;
+        return $this->localizedValue('title');
     }
 
     public function registerMediaConversions(?Media $media = null): void

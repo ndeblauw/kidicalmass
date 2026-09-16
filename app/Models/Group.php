@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Actions\GetGroupChangesAction;
 use App\Actions\GroupChangesResult;
 use App\Models\Concerns\HasMainImage;
+use App\Models\Concerns\LocalizesFields;
 use App\Models\Scopes\LocalGroupScope;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -28,6 +29,17 @@ class Group extends Model implements HasMedia
     use HasFactory;
     use HasMainImage;
     use InteractsWithMedia;
+    use LocalizesFields;
+
+    protected function localizingField(): string
+    {
+        return 'name';
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->localizedValue('name');
+    }
 
     protected function casts(): array
     {
