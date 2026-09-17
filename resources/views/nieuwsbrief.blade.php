@@ -10,7 +10,7 @@
             <aside class="md:pt-6">
                 <ul class="newsletter-signup-benefits">
                     <li>Eén mail per maand, niet meer</li>
-                    <li>Alleen ritten bij jou in de buurt</li>
+                    <li>Alle ritten in één overzicht</li>
                     <li>Geen spam, uitschrijven met één klik</li>
                 </ul>
             </aside>

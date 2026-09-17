@@ -6,7 +6,7 @@
 
         <p class="max-w-xl">
             Vanaf nu mis je niets meer. Eén keer per maand laten we je weten
-            waar er bij jou in de buurt gefietst wordt.
+            welke ritten er op de planning staan.
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-4">

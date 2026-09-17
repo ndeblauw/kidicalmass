@@ -22,6 +22,15 @@ return [
         'key' => env('RESEND_API_KEY'),
     ],
 
+    'mailerlite' => [
+        'base_url' => env('MAILERLITE_API_URL', 'https://connect.mailerlite.com/api'),
+        'token' => env('MAILERLITE_TOKEN'),
+        'groups' => [
+            'nl' => env('MAILERLITE_NEWSLETTER_NL_GROUP_ID'),
+            'fr' => env('MAILERLITE_NEWSLETTER_FR_GROUP_ID'),
+        ],
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
