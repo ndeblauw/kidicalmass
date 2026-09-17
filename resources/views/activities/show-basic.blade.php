@@ -157,7 +157,7 @@
                     </div>
 
                     <x-share-links
-                        :url="route('activities.show', $activity)"
+                        :url="localized_route('activities.show', ['activity' => $activity])"
                         :title="$activity->title_nl"
                         :date="$activity->begin_date->translatedFormat('l j F')" />
                 </aside>
@@ -182,7 +182,7 @@
         @if ($chapter)
             <p class="activity-basic__organizer">
                 Georganiseerd door vrijwilligers van
-                <a href="{{ route('groups.show', $chapter) }}">{{ $chapter->name }}</a>.
+                <a href="{{ localized_route('groups.show', ['group' => $chapter]) }}">{{ $chapter->name }}</a>.
             </p>
         @endif
 
@@ -193,7 +193,7 @@
         <x-slot:closing>
             <x-closing-cta
                 heading="Meer uit Kidical Mass {{ $gemeente }}?"
-                :href="route('groups.show', $chapter)"
+                :href="localized_route('groups.show', ['group' => $chapter])"
                 label="Naar de buurtpagina" />
         </x-slot:closing>
     @endif

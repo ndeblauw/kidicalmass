@@ -189,7 +189,7 @@
                 title="Recentste parade"
                 :date="$latestRide->begin_date"
                 :commune="$gemeente"
-                :href="route('activities.show', $latestRide)">
+                :href="localized_route('activities.show', ['activity' => $latestRide])">
                 <x-slot:card>
                     {{-- The dual-logic opt-in rides in the wall — on the XL wall it pins to
                          the top row's right corner (col 4), a compact square beside the poster
@@ -370,7 +370,7 @@
                     <h3 class="chapter-section__title">Lokale groepen in {{ $group->name }}</h3>
                     <ul class="flex flex-wrap gap-2.5">
                         @foreach ($group->children as $child)
-                            <li><a href="{{ route('groups.show', $child) }}" class="grp-pill link-plain">{{ $child->name }}</a></li>
+                            <li><a href="{{ localized_route('groups.show', ['group' => $child]) }}" class="grp-pill link-plain">{{ $child->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -409,7 +409,7 @@
                         <p class="chapter-join__tagline">Een paar uur per maand, je hoeft geen fietsexpert te zijn.</p>
                         <div class="chapter-join__actions">
                             <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-on:click.prevent="open = true">Ja, ik wil meehelpen</x-cta-button>
-                            <x-cta-button variant="secondary" href="{{ route('volunteer') }}">Meer over meehelpen</x-cta-button>
+                            <x-cta-button variant="secondary" href="{{ localized_route('volunteer') }}">Meer over meehelpen</x-cta-button>
                         </div>
                     </div>
 

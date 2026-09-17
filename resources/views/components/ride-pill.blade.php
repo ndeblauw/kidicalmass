@@ -27,7 +27,7 @@
     $shortDate = $rail['num'].' '.$rail['month'];
 @endphp
 <a
-    href="{{ route('activities.show', $activity) }}"
+    href="{{ localized_route('activities.show', ['activity' => $activity]) }}"
     {{ $attributes->merge(['class' => 'ride-pill link-plain']) }}
 >
     <time class="ride-pill__date" datetime="{{ $activity->begin_date->format('Y-m-d') }}">{{ $shortDate }}</time>

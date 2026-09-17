@@ -28,7 +28,7 @@
     }
 @endphp
 <a
-    href="{{ route('activities.show', $activity) }}"
+    href="{{ localized_route('activities.show', ['activity' => $activity]) }}"
     {{ $attributes->class('other-activity link-plain') }}
 >
     <h3 class="other-activity__title">{{ $title }}</h3>

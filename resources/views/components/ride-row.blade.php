@@ -35,7 +35,7 @@
     }
 @endphp
 <a
-    href="{{ route('activities.show', $activity) }}"
+    href="{{ localized_route('activities.show', ['activity' => $activity]) }}"
     {{ $attributes->merge(['class' => 'ride-row link-plain'.($isFeatured ? ' ride-row--featured' : '')]) }}
 >
     <span class="ride-row__place">{{ $headline }}</span>

@@ -28,7 +28,7 @@
 
                 <x-info-card :label="__('contact.volunteer_card.title')">
                     <p>{{ __('contact.volunteer_card.body') }}</p>
-                    <a href="{{ route('volunteer') }}" class="info-card__link">{{ __('contact.volunteer_card.link') }}</a>
+                    <a href="{{ localized_route('volunteer') }}" class="info-card__link">{{ __('contact.volunteer_card.link') }}</a>
                 </x-info-card>
             </aside>
         </div>

@@ -34,7 +34,7 @@
 
     <div class="p-5">
         <h3 class="text-lg">
-            <a href="{{ route('articles.show', $article) }}" class="link-plain text-kidical-blue transition-colors group-hover:text-kidical-orange after:absolute after:inset-0">{{ $article->title_nl }}</a>
+            <a href="{{ localized_route('articles.show', ['article' => $article]) }}" class="link-plain text-kidical-blue transition-colors group-hover:text-kidical-orange after:absolute after:inset-0">{{ $article->title_nl }}</a>
         </h3>
 
         <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-kidical-ink/50">

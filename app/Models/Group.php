@@ -106,7 +106,9 @@ class Group extends Model implements HasMedia
 
     public function publicLabel(): string
     {
-        return $this->isNationalRoot() ? __('about.news.national') : $this->name;
+        return $this->isNationalRoot()
+            ? __('about.news.national')
+            : (string) ($this->name ?? $this->name_fr ?? $this->name_nl ?? $this->shortname);
     }
 
     public function changes(?CarbonInterface $startDate = null, ?CarbonInterface $endDate = null): GroupChangesResult

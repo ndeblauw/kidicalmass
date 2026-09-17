@@ -16,7 +16,7 @@
     `distance` string and is dropped when empty.
 --}}
 @php
-    $href = route('activities.show', $activity);
+    $href = localized_route('activities.show', ['activity' => $activity]);
     $routeCoords = $activity->route_coordinates;
     $dateHeadline = \Illuminate\Support\Str::ucfirst($activity->dateFull); // "Zondag 28 juni"
 

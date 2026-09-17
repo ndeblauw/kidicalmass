@@ -51,7 +51,7 @@
                 <h3 class="text-kidical-ink">Mis geen rit</h3>
                 <p class="text-kidical-ink/75">{{ $lead }}</p>
             </div>
-            <x-cta-button :variant="$ctaVariant" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
+            <x-cta-button :variant="$ctaVariant" :href="localized_route('newsletter.show')" class="shrink-0">Schrijf je in</x-cta-button>
         </div>
     </div>
 @endauth

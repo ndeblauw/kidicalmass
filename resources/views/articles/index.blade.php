@@ -50,6 +50,6 @@
 
     <x-slot:closing>
         <x-closing-cta heading="Zin gekregen om mee te rijden?"
-            :href="route('activities.index')" label="Vind een rit" />
+            :href="localized_route('activities.index')" label="Vind een rit" />
     </x-slot:closing>
 </x-layouts::site>

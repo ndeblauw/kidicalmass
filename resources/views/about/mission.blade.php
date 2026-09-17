@@ -26,7 +26,7 @@
             <section class="about-section">
                 <x-section-heading>{{ __('about.mission.welcome.title') }}</x-section-heading>
                 <p>{{ __('about.mission.welcome.body') }}</p>
-                <p><a href="{{ route('getting-started') }}" class="more-link">{{ __('about.mission.welcome.link') }}</a></p>
+                <p><a href="{{ localized_route('getting-started') }}" class="more-link">{{ __('about.mission.welcome.link') }}</a></p>
             </section>
 
             <x-pull-quote variant="marker" :attribution="$missionQuote?->attribution ?? __('about.mission.quote.attribution')">
@@ -57,7 +57,7 @@
 
     <x-slot:closing>
         <x-closing-cta :heading="__('about.mission.closing.heading')"
-            :href="route('about.vision')" :label="__('about.mission.closing.label')" />
+            :href="localized_route('about.vision')" :label="__('about.mission.closing.label')" />
     </x-slot:closing>
 
 </x-layouts::site>

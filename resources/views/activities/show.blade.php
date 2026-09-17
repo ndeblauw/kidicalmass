@@ -151,7 +151,7 @@
                 </div>
 
                 <x-share-links
-                    :url="route('activities.show', $activity)"
+                    :url="localized_route('activities.show', ['activity' => $activity])"
                     :title="$activity->title_nl"
                     :date="$activity->begin_date->translatedFormat('l j F')" />
             </aside>
@@ -285,7 +285,7 @@
                 </div>
 
                 <x-share-links
-                    :url="route('activities.show', $activity)"
+                    :url="localized_route('activities.show', ['activity' => $activity])"
                     :title="$activity->title_nl"
                     :date="$activity->begin_date->translatedFormat('l j F')" />
             </aside>
@@ -318,9 +318,9 @@
                 @endif
 
                 <div class="activity-expect__actions">
-                    <x-cta-button :href="route('getting-started')" variant="secondary" disc="blue">Zo werkt een rit</x-cta-button>
+                    <x-cta-button :href="localized_route('getting-started')" variant="secondary" disc="blue">Zo werkt een rit</x-cta-button>
                     @if($primaryGroup)
-                        <x-cta-button :href="route('groups.show', $primaryGroup)" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
+                        <x-cta-button :href="localized_route('groups.show', ['group' => $primaryGroup])" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
                     @endif
                 </div>
             </div>
@@ -360,7 +360,7 @@
                     @endif
 
                     @if($primaryGroup)
-                        <x-cta-button :href="route('groups.show', $primaryGroup)" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
+                        <x-cta-button :href="localized_route('groups.show', ['group' => $primaryGroup])" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
                     @endif
                 </div>
             </section>
@@ -385,7 +385,7 @@
         @if($isPast && $primaryGroup)
             <x-closing-cta
                 heading="Meer ritten van Kidical Mass {{ $primaryGroup->name }}?"
-                :href="route('groups.show', $primaryGroup)"
+                :href="localized_route('groups.show', ['group' => $primaryGroup])"
                 label="Ontdek de groep" />
         @else
             {{-- Upcoming: the "how it works" ask already lives above (Zo werkt een rit,
@@ -393,7 +393,7 @@
                  in the loop for the next rides via the newsletter. --}}
             <x-closing-cta
                 heading="{{ $primaryGroup ? 'Mis geen rit van Kidical Mass '.$primaryGroup->name : 'Geen rit missen?' }}"
-                :href="route('newsletter.show', ['locale' => app()->getLocale()])"
+                :href="localized_route('newsletter.show')"
                 label="Schrijf je in voor updates" />
         @endif
     </x-slot:closing>

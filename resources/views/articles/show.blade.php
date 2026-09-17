@@ -32,7 +32,7 @@
                 <div class="article-hero__chips">
                     @foreach ($article->groups as $group)
                         @if ($group->hasPublicPage())
-                            <a href="{{ route('groups.show', $group) }}" class="link-plain article-hero__chip">{{ $group->publicLabel() }}</a>
+                            <a href="{{ localized_route('groups.show', ['group' => $group]) }}" class="link-plain article-hero__chip">{{ $group->publicLabel() }}</a>
                         @else
                             <span class="article-hero__chip">{{ $group->publicLabel() }}</span>
                         @endif
@@ -87,6 +87,6 @@
 
     <x-slot:closing>
         <x-closing-cta heading="Zin gekregen om mee te rijden?"
-            :href="route('activities.index')" label="Vind een rit" />
+            :href="localized_route('activities.index')" label="Vind een rit" />
     </x-slot:closing>
 </x-layouts::site>

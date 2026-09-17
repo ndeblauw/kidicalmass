@@ -107,7 +107,7 @@
 
     <x-slot:closing>
         <x-closing-cta :heading="__('about.organisation.closing.heading')"
-            :href="route('volunteer')" :label="__('about.organisation.closing.label')" />
+            :href="localized_route('volunteer')" :label="__('about.organisation.closing.label')" />
     </x-slot:closing>
 
 </x-layouts::site>

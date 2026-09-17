@@ -25,17 +25,17 @@
             <div>
                 <img src="{{ asset('img/logos/footer-logo.avif') }}" alt="Kidical Mass Belgium" class="site-footer__logo" loading="lazy" decoding="async">
                 <p class="site-footer__tagline">{{ __('footer.tagline') }}</p>
-                <x-cta-button :href="route('membership')" icon="heart" size="sm" class="mt-5">{{ __('footer.membership_cta') }}</x-cta-button>
+                <x-cta-button :href="localized_route('membership')" icon="heart" size="sm" class="mt-5">{{ __('footer.membership_cta') }}</x-cta-button>
             </div>
 
             {{-- Discover — mirrors the main nav --}}
             <div>
                 <h3 class="site-footer__col-title">{{ __('footer.columns.discover') }}</h3>
                 <ul class="site-footer__links">
-                    <li><a href="{{ route('activities.index') }}">{{ __('nav.events') }}</a></li>
-                    <li><a href="{{ route('groups.index') }}">{{ __('nav.chapters') }}</a></li>
-                    <li><a href="{{ route('getting-started') }}">{{ __('nav.getting_started') }}</a></li>
-                    <li><a href="{{ route('volunteer') }}">{{ __('nav.help_out') }}</a></li>
+                    <li><a href="{{ localized_route('activities.index') }}">{{ __('nav.events') }}</a></li>
+                    <li><a href="{{ localized_route('groups.index') }}">{{ __('nav.chapters') }}</a></li>
+                    <li><a href="{{ localized_route('getting-started') }}">{{ __('nav.getting_started') }}</a></li>
+                    <li><a href="{{ localized_route('volunteer') }}">{{ __('nav.help_out') }}</a></li>
                 </ul>
             </div>
 
@@ -43,12 +43,12 @@
             <div>
                 <h3 class="site-footer__col-title">{{ __('footer.columns.about') }}</h3>
                 <ul class="site-footer__links">
-                    <li><a href="{{ route('about.mission') }}">{{ __('nav.mission') }}</a></li>
-                    <li><a href="{{ route('about.vision') }}">{{ __('nav.vision') }}</a></li>
-                    <li><a href="{{ route('about.organisation') }}">{{ __('nav.organisation') }}</a></li>
-                    <li><a href="{{ route('articles.index') }}">{{ __('nav.news') }}</a></li>
-                    <li><a href="{{ route('about.press') }}">{{ __('nav.press') }}</a></li>
-                    <li><a href="{{ route('about.partners') }}">{{ __('nav.partners') }}</a></li>
+                    <li><a href="{{ localized_route('about.mission') }}">{{ __('nav.mission') }}</a></li>
+                    <li><a href="{{ localized_route('about.vision') }}">{{ __('nav.vision') }}</a></li>
+                    <li><a href="{{ localized_route('about.organisation') }}">{{ __('nav.organisation') }}</a></li>
+                    <li><a href="{{ localized_route('articles.index') }}">{{ __('nav.news') }}</a></li>
+                    <li><a href="{{ localized_route('about.press') }}">{{ __('nav.press') }}</a></li>
+                    <li><a href="{{ localized_route('about.partners') }}">{{ __('nav.partners') }}</a></li>
                 </ul>
             </div>
 
@@ -78,8 +78,8 @@
             <span>&copy; {{ date('Y') }} Kidical Mass Belgium</span>
             <span>{{ __('footer.website_by') }} <a href="https://bluepundit.eu/" target="_blank" rel="noopener noreferrer">Blue Pundit</a> &amp; <a href="https://frederikvincx.com/" target="_blank" rel="noopener noreferrer">Impact Studio</a></span>
             <ul class="site-footer__bottom-links">
-                <li><a href="{{ route('contact') }}">{{ __('common.contact') }}</a></li>
-                <li><a href="{{ route('privacy') }}">{{ __('common.privacy_cookies') }}</a></li>
+                <li><a href="{{ localized_route('contact') }}">{{ __('common.contact') }}</a></li>
+                <li><a href="{{ localized_route('privacy') }}">{{ __('common.privacy_cookies') }}</a></li>
                 <li><a href="{{ route('login') }}">{{ __('nav.login') }}</a></li>
             </ul>
         </div>

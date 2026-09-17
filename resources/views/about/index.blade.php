@@ -10,16 +10,16 @@
 --}}
 @php
     $readItems = [
-        ['href' => route('about.mission'), 'icon' => 'flag', 'title' => __('nav.mission'), 'desc' => 'Fietsparades, lokale groepen en de weg naar veilige straten.'],
-        ['href' => route('about.vision'), 'icon' => 'eye', 'title' => __('nav.vision'), 'desc' => 'Vier duidelijke vragen aan steden en gemeenten.'],
-        ['href' => route('about.organisation'), 'icon' => 'building-office-2', 'title' => __('nav.organisation'), 'desc' => 'Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.'],
-        ['href' => route('articles.index'), 'icon' => 'newspaper', 'title' => __('nav.news'), 'desc' => 'Nieuwe afdelingen, mijlpalen en verhalen van onderweg.'],
+        ['href' => localized_route('about.mission'), 'icon' => 'flag', 'title' => __('nav.mission'), 'desc' => 'Fietsparades, lokale groepen en de weg naar veilige straten.'],
+        ['href' => localized_route('about.vision'), 'icon' => 'eye', 'title' => __('nav.vision'), 'desc' => 'Vier duidelijke vragen aan steden en gemeenten.'],
+        ['href' => localized_route('about.organisation'), 'icon' => 'building-office-2', 'title' => __('nav.organisation'), 'desc' => 'Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.'],
+        ['href' => localized_route('articles.index'), 'icon' => 'newspaper', 'title' => __('nav.news'), 'desc' => 'Nieuwe afdelingen, mijlpalen en verhalen van onderweg.'],
     ];
     $exitItems = [
-        ['href' => route('volunteer'), 'label' => 'Een groep starten of meehelpen'],
-        ['href' => route('about.press'), 'label' => 'Ik ben pers'],
-        ['href' => route('about.partners'), 'label' => 'Partner of sponsor worden'],
-        ['href' => route('membership'), 'label' => 'De beweging steunen'],
+        ['href' => localized_route('volunteer'), 'label' => 'Een groep starten of meehelpen'],
+        ['href' => localized_route('about.press'), 'label' => 'Ik ben pers'],
+        ['href' => localized_route('about.partners'), 'label' => 'Partner of sponsor worden'],
+        ['href' => localized_route('membership'), 'label' => 'De beweging steunen'],
     ];
 @endphp
 <x-layouts::site title="Over ons" :description="__('meta.about')">
@@ -68,7 +68,7 @@
 
     <x-slot:closing>
         <x-closing-cta heading="Rij mee met de buurt"
-            :href="route('activities.index')" label="Vind een rit" />
+            :href="localized_route('activities.index')" label="Vind een rit" />
     </x-slot:closing>
 
 </x-layouts::site>

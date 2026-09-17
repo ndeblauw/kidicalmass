@@ -170,13 +170,13 @@
                         <h3 class="ho-find__nearest-title">Het dichtst bij {{ $location['name'] }}</h3>
                         <p class="ho-find__nearest">
                             @foreach ($nearestGroups as $row)
-                                <a href="{{ route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">{{ $row['item']->name }}</a>@if (! $loop->last), @endif
+                                <a href="{{ localized_route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">{{ $row['item']->name }}</a>@if (! $loop->last), @endif
                             @endforeach
                         </p>
                     @endif
 
                     <p class="ho-find__all">
-                        <a href="{{ route('groups.index') }}">Bekijk alle lokale groepen</a>
+                        <a href="{{ localized_route('groups.index') }}">Bekijk alle lokale groepen</a>
                     </p>
                 </div>
             </div>
@@ -227,7 +227,7 @@
                             de rest doen we samen.
                         </p>
                         <p class="ho-coda__cta">
-                            <x-cta-button :href="route('groups.start')" variant="blue">Zo start je een groep</x-cta-button>
+                            <x-cta-button :href="localized_route('groups.start')" variant="blue">Zo start je een groep</x-cta-button>
                         </p>
                     </div>
 

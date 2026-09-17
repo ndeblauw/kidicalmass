@@ -10,8 +10,8 @@
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-4">
-            <x-cta-button :href="route('activities.index')" variant="yellow" icon="arrow">Bekijk de kalender</x-cta-button>
-            <x-cta-button :href="route('groups.index')" variant="secondary" icon="arrow">Vind je groep</x-cta-button>
+            <x-cta-button :href="localized_route('activities.index')" variant="yellow" icon="arrow">Bekijk de kalender</x-cta-button>
+            <x-cta-button :href="localized_route('groups.index')" variant="secondary" icon="arrow">Vind je groep</x-cta-button>
         </div>
     </section>
 </x-layouts::site>

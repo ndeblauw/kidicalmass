@@ -30,7 +30,7 @@
                     <a href="mailto:{{ config('kidicalmass.contact.email') }}" class="info-card__link">{{ config('kidicalmass.contact.email') }}</a>
                     <p class="info-card__note">{{ __('about.press.contact.note') }}</p>
                 </x-info-card>
-                <p class="m-0"><a href="{{ route('about.mission') }}" class="more-link">{{ __('about.press.background.link') }}</a></p>
+                <p class="m-0"><a href="{{ localized_route('about.mission') }}" class="more-link">{{ __('about.press.background.link') }}</a></p>
             </div>
         </div>
     </section>

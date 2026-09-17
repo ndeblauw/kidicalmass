@@ -72,3 +72,15 @@ it('renders French Home calls to action at their French destinations', function 
         ->assertSee('/fr/donner-un-coup-de-main', escape: false)
         ->assertSee('/fr/newsletter', escape: false);
 });
+
+it('renders the French nav links at their French destinations', function () {
+    $this->withoutVite();
+
+    get('/fr')
+        ->assertSee('/fr/agenda', escape: false)
+        ->assertSee('/fr/groupes-locaux', escape: false)
+        ->assertSee('/fr/premiere-fois', escape: false)
+        ->assertSee('/fr/donner-un-coup-de-main', escape: false)
+        ->assertSee('/fr/a-propos', escape: false)
+        ->assertSee('/fr/nous-soutenir', escape: false);
+});

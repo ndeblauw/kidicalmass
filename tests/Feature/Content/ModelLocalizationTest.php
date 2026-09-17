@@ -70,6 +70,16 @@ it('serves a group name in the active locale', function () {
     expect($group->name)->toBe('Mons');
 });
 
+it('falls back to the Dutch name for the public label when French is missing', function () {
+    $group = Group::factory()->create(['name_nl' => 'Namen', 'name_fr' => null]);
+
+    app()->setLocale('fr');
+    expect($group->publicLabel())->toBe('Namen');
+
+    app()->setLocale('nl');
+    expect($group->publicLabel())->toBe('Namen');
+});
+
 it('elides de to d apostrophe before a vowel and slugifies French names', function () {
     expect(FrenchNames::preposition('Etterbeek'))->toBe("d'Etterbeek")
         ->and(FrenchNames::preposition('Uccle'))->toBe("d'Uccle")

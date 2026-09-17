@@ -69,7 +69,7 @@
 
     <x-slot:closing>
         <x-closing-cta :heading="__('about.vision.closing.heading')"
-            :href="route('about.organisation')" :label="__('about.vision.closing.label')" />
+            :href="localized_route('about.organisation')" :label="__('about.vision.closing.label')" />
     </x-slot:closing>
 
 </x-layouts::site>

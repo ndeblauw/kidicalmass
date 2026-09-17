@@ -62,7 +62,7 @@
                                 <li class="grp-card {{ $mineIds->contains($group->id) ? 'grp-card--mine' : '' }}"
                                     data-slug="{{ $group->shortname }}"
                                     data-region="{{ $group->parent?->name }}">
-                                    <a href="{{ route('groups.show', $group) }}" class="grp-card__link link-plain">
+                                    <a href="{{ localized_route('groups.show', ['group' => $group]) }}" class="grp-card__link link-plain">
                                         <span class="grp-card__dot" aria-hidden="true"></span>
                                         <span class="grp-card__main">
                                             <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">· jouw groep</span>@endif</span>
@@ -89,7 +89,7 @@
 
     <x-slot:closing>
         <x-closing-cta heading="Staat jouw stad er nog niet bij?"
-            :href="route('groups.start')" label="Zo begin je" />
+            :href="localized_route('groups.start')" label="Zo begin je" />
     </x-slot:closing>
 
     @push('scripts')
