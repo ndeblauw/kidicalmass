@@ -9,31 +9,30 @@
     - CTA is a full-bleed yellow band.
     Structure only; appearance lives in app.css.
 --}}
-<x-layouts::site title="Voor het eerst mee" :description="__('meta.getting_started')">
+<x-layouts::site :title="__('getting-started.title')" :description="__('meta.getting_started')">
 
     <x-page-hero
-        eyebrow="Voor het eerst"
-        title="Wat je mag verwachten op een rit"
+        :eyebrow="__('getting-started.hero.eyebrow')"
+        :title="__('getting-started.hero.title')"
         illustration="img/illustrations/waving-rider.svg">
 
     {{-- WAT JE MAG VERWACHTEN — scroll-stacking cards (desktop); static list (mobile) --}}
     <section class="gs-expect-scroll">
         {{-- Outline only: the cards are h3s, so this keeps h1 → h2 → h3 intact. --}}
-        <h2 class="sr-only">In het kort</h2>
+        <h2 class="sr-only">{{ __('getting-started.expect.sr_only') }}</h2>
         <div class="gs-expect-pin">
 
             <div class="gs-expect-left">
                 <x-intro-text>
-                    <p>Elke rit is kort, gratis en veilig. Voor iedereen, zonder voorbereiding. Er is altijd muziek en altijd begeleiders. Je hoeft niets te regelen.</p>
+                    <p>{{ __('getting-started.expect.lead') }}</p>
                 </x-intro-text>
                 @php
                     // Placement (scatter, sizing, FAQ tuck) lives in getting-started.css
                     // so it can adapt per breakpoint; here we only choose the photos.
-                    $expectPhotos = [
-                        ['src' => 'img/photography/child-yellow-helmet-peace-signs.webp', 'alt' => 'Lachende jongen met een gele helm steekt twee vredestekens op boven zijn stuur tijdens een rit.'],
-                        ['src' => 'img/photography/kids-soundbike-flag-obelisk.webp', 'alt' => 'Twee kinderen met hesjes en zonnebril steken hun duim op bij een geluidsfiets onder een grote blauwe vlag.'],
-                        ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => 'Meisje in een roze jas fietst lachend naar de camera, met twee kinderen naast haar.'],
-                    ];
+                    $expectPhotos = array_map(fn (array $photo) => [
+                        'src' => $photo['src'],
+                        'alt' => $photo['alt'],
+                    ], __('getting-started.expect.photos'));
                 @endphp
                 <x-photo-collage
                     class="gs-expect-collage"
@@ -43,28 +42,28 @@
             <div class="gs-expect-right">
                 <div class="gs-expect-cards">
 
-                    <x-feature-card class="gs-expect-card" icon="clock" color="red" title="Kort en rustig">
-                        5 à 7 km op het tempo van het jongste kind, zelden meer dan een uur.
+                    <x-feature-card class="gs-expect-card" icon="clock" color="red" :title="__('getting-started.expect.cards.0.title')">
+                        {{ __('getting-started.expect.cards.0.body') }}
                     </x-feature-card>
 
-                    <x-feature-card class="gs-expect-card" icon="musical-note" color="blue" title="Muziek onderweg">
-                        Er is altijd een geluidssysteem. Een vrolijke, luidruchtige fietsparade door de buurt.
+                    <x-feature-card class="gs-expect-card" icon="musical-note" color="blue" :title="__('getting-started.expect.cards.1.title')">
+                        {{ __('getting-started.expect.cards.1.body') }}
                     </x-feature-card>
 
-                    <x-feature-card class="gs-expect-card" icon="map-pin" color="orange" title="Vaste startplaats">
-                        Elke rit vertrekt op een vaste plek, vermeld op de eventpagina. Gewoon daar opdagen.
+                    <x-feature-card class="gs-expect-card" icon="map-pin" color="orange" :title="__('getting-started.expect.cards.2.title')">
+                        {{ __('getting-started.expect.cards.2.body') }}
                     </x-feature-card>
 
-                    <x-feature-card class="gs-expect-card" icon="ticket" color="ink" title="Gratis, geen inschrijving">
-                        Geen ticket, geen registratie, geen kosten. Kom gewoon naar de start.
+                    <x-feature-card class="gs-expect-card" icon="ticket" color="ink" :title="__('getting-started.expect.cards.3.title')">
+                        {{ __('getting-started.expect.cards.3.body') }}
                     </x-feature-card>
 
-                    <x-feature-card class="gs-expect-card" icon="users" color="violet" title="Alle leeftijden welkom">
-                        Vanaf een jaar of 3, op eigen fiets, in een bakfiets of op een kinderzitje.
+                    <x-feature-card class="gs-expect-card" icon="users" color="violet" :title="__('getting-started.expect.cards.4.title')">
+                        {{ __('getting-started.expect.cards.4.body') }}
                     </x-feature-card>
 
-                    <x-feature-card class="gs-expect-card" icon="shield-check" color="coral" title="Minstens vier roze hesjes">
-                        Opgeleide begeleiders rijden vooraan en achteraan en houden elke kruising vrij, zodat geen kind achterblijft.
+                    <x-feature-card class="gs-expect-card" icon="shield-check" color="coral" :title="__('getting-started.expect.cards.5.title')">
+                        {{ __('getting-started.expect.cards.5.body') }}
                     </x-feature-card>
 
                 </div>
@@ -78,33 +77,33 @@
         <div class="gs-faq-layout">
 
         <div class="gs-faq-content">
-        <h2 class="gs-section__title">Veelgestelde vragen</h2>
+        <h2 class="gs-section__title">{{ __('getting-started.faq.title') }}</h2>
 
         <x-faq>
-            <x-faq.item question="Moet ik me inschrijven?">
-                <p>Nee. Gewoon opdagen op het vertrekpunt op het aangegeven tijdstip. Geen ticket, geen lijst. Je hoeft niets op voorhand te regelen.</p>
+            <x-faq.item :question="__('getting-started.faq.items.0.question')">
+                <p>{{ __('getting-started.faq.items.0.answer') }}</p>
             </x-faq.item>
-            <x-faq.item question="Vanaf welke leeftijd?">
-                <p>Vanaf een jaar of 3. Kinderen rijden op hun eigen fiets (loopfietsen zijn niet geschikt voor de weg), in een bakfiets of op een kinderzitje. Ouders blijven altijd verantwoordelijk voor de veiligheid van hun kind.</p>
+            <x-faq.item :question="__('getting-started.faq.items.1.question')">
+                <p>{{ __('getting-started.faq.items.1.answer') }}</p>
             </x-faq.item>
-            <x-faq.item question="Moet ik goed kunnen fietsen?">
-                <p>Helemaal niet. We rijden op het tempo van het jongste kind, trager dan je denkt. Veel ouders fietsen voor het eerst in het verkeer tijdens een Kidical Mass. Je staat er niet alleen voor, en niemand haast je.</p>
+            <x-faq.item :question="__('getting-started.faq.items.2.question')">
+                <p>{{ __('getting-started.faq.items.2.answer') }}</p>
             </x-faq.item>
-            <x-faq.item question="Is het veilig in het verkeer?">
-                <p>Daar draait alles om. We rijden traag, op kindertempo, met opgeleide begeleiders rond de groep die elke kruising vrijhouden. Waar nodig stemmen de organisatoren de route vooraf af met de lokale politie.</p>
+            <x-faq.item :question="__('getting-started.faq.items.3.question')">
+                <p>{{ __('getting-started.faq.items.3.answer') }}</p>
             </x-faq.item>
-            <x-faq.item question="Wat als het regent?">
-                <p>De rit gaat door bij zowat elk weer. Een beetje regen houdt ons niet tegen. Bij écht extreme omstandigheden wordt het die ochtend aangekondigd op het Facebook-event of de pagina van je afdeling.</p>
+            <x-faq.item :question="__('getting-started.faq.items.4.question')">
+                <p>{{ __('getting-started.faq.items.4.answer') }}</p>
             </x-faq.item>
-            <x-faq.item question="Wat moeten we meebrengen?">
-                <p>Een helm is aangeraden maar niet verplicht. Neem wat water mee. Dat is echt alles. Geen speciale uitrusting, geen voorbereiding nodig.</p>
+            <x-faq.item :question="__('getting-started.faq.items.5.question')">
+                <p>{{ __('getting-started.faq.items.5.answer') }}</p>
             </x-faq.item>
             {{-- id is a redirect target: old Wix /help-je-n-ai-pas-de-vélo lands here (26-redirect-map). --}}
-            <x-faq.item id="no-bike" question="Wat als we geen fiets hebben?">
-                <p>Geen fiets is geen reden om thuis te blijven. Soms staat er zelfs een bakfiets klaar aan de start, en op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets. Vraag er gerust naar bij je lokale groep.</p>
+            <x-faq.item id="no-bike" :question="__('getting-started.faq.items.6.question')">
+                <p>{{ __('getting-started.faq.items.6.answer') }}</p>
             </x-faq.item>
-            <x-faq.item question="Is het echt gratis?">
-                <p>Ja, helemaal. Geen inschrijvingsgeld, geen toegangsprijs, geen donatie gevraagd. Kom zoals je bent.</p>
+            <x-faq.item :question="__('getting-started.faq.items.7.question')">
+                <p>{{ __('getting-started.faq.items.7.answer') }}</p>
             </x-faq.item>
         </x-faq>
         </div>{{-- /gs-faq-content --}}
@@ -215,8 +214,8 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Klaar om mee te rijden?"
-            :href="localized_route('activities.index')" label="Vind een rit" />
+        <x-closing-cta :heading="__('getting-started.closing.heading')"
+            :href="localized_route('activities.index')" :label="__('getting-started.closing.label')" />
     </x-slot:closing>
 
 </x-layouts::site>

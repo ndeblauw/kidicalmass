@@ -9,16 +9,16 @@
 @php($date = $article->published_at ?? $article->created_at)
 @php($neighbours = collect([$newerArticle, $olderArticle])->filter())
 
-<x-layouts::site title="{{ $article->title_nl }}" :description="$article->metaDescription()" :og-image="$article->ogImageUrl()" og-type="article">
+<x-layouts::site title="{{ $article->title }}" :description="$article->metaDescription()" :og-image="$article->ogImageUrl()" og-type="article">
 
     <x-page-hero
         :eyebrow="__('nav.news')"
-        :eyebrow-href="route('articles.index')"
-        :title="$article->title_nl"
+        :eyebrow-href="localized_route('articles.index')"
+        :title="$article->title"
         size="compact"
         :photo-url="$mainMedia?->getUrl()"
         :photo-srcset="$mainMedia?->getSrcset() ?: null"
-        :photo-alt="$article->title_nl"
+        :photo-alt="$article->title"
         :photo-tilt="$mainMedia !== null">
 
         <x-slot:lead>
@@ -69,8 +69,8 @@
                         <ul role="list" class="article-rail__list">
                             @foreach ($neighbours as $neighbour)
                                 <li>
-                                    <a href="{{ route('articles.show', $neighbour) }}" class="link-plain article-rail__item">
-                                        <span class="article-rail__item-title">{{ $neighbour->title_nl }}</span>
+                                    <a href="{{ localized_route('articles.show', ['article' => $neighbour]) }}" class="link-plain article-rail__item">
+                                        <span class="article-rail__item-title">{{ $neighbour->title }}</span>
                                         <span class="article-rail__item-date"><time datetime="{{ ($neighbour->published_at ?? $neighbour->created_at)->format('Y-m-d') }}">{{ ($neighbour->published_at ?? $neighbour->created_at)->isoFormat('D MMMM YYYY') }}</time></span>
                                     </a>
                                 </li>
@@ -86,7 +86,7 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Zin gekregen om mee te rijden?"
-            :href="localized_route('activities.index')" label="Vind een rit" />
+        <x-closing-cta :heading="__('about.news.closing.heading')"
+            :href="localized_route('activities.index')" :label="__('about.news.closing.label')" />
     </x-slot:closing>
 </x-layouts::site>

@@ -46,7 +46,7 @@ class NewsletterSignup extends Component
             resolve(SubscribeToNewsletterAction::class)->handle($this->email, app()->getLocale());
         } catch (Throwable $exception) {
             report($exception);
-            $this->addError('email', 'Er ging iets mis bij het inschrijven. Probeer het later opnieuw.');
+            $this->addError('email', __('forms.newsletter.error'));
 
             return;
         }

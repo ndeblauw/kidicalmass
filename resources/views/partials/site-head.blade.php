@@ -1,5 +1,5 @@
 @php
-    $siteName = 'Kidical Mass België';
+    $siteName = app()->getLocale() === 'fr' ? 'Kidical Mass Belgique' : 'Kidical Mass België';
     $fullTitle = ($title ?? null) ? $title.' · '.$siteName : __('meta.home_title');
     $metaDescription = $description ?? __('meta.default');
     $canonical = request()->url();

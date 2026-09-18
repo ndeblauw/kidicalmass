@@ -12,9 +12,9 @@ class ContactFormComponent extends Component
 {
     /** @var array<string, string> Topic buckets (national front door); label is prefixed into the stored message. */
     public const TOPICS = [
-        'algemeen' => 'Algemene vraag',
-        'pers' => 'Pers',
-        'partnerschap' => 'Partnerschap of sponsoring',
+        'algemeen' => 'forms.contact.topics.general',
+        'pers' => 'forms.contact.topics.press',
+        'partnerschap' => 'forms.contact.topics.partnership',
     ];
 
     public string $topic = '';
@@ -71,7 +71,7 @@ class ContactFormComponent extends Component
         $contactForm = ContactForm::create([
             'name' => $this->name,
             'email' => $this->email,
-            'message' => ($this->topic !== '' ? 'Onderwerp: '.self::TOPICS[$this->topic]."\n\n" : '').$this->message,
+            'message' => ($this->topic !== '' ? 'Onderwerp: '.__($this->topic !== '' ? self::TOPICS[$this->topic] : '')."\n\n" : '').$this->message,
             'phone' => $this->phone ?: null,
             'page_url' => $this->page_url,
             'honeypot' => $this->website ?: null,

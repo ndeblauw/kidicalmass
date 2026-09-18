@@ -5,6 +5,37 @@
 // row. Page copy groups (mission/vision/organisation/press) follow the
 // support.php precedent: words live here, structure lives in the Blade views.
 return [
+    'hub' => [
+        'title' => 'Over ons',
+        'hero' => [
+            'eyebrow' => 'Over ons',
+            'title' => 'Samen maken we straten voor kinderen.',
+        ],
+        'intro' => 'Kidical Mass organiseert fietsparades voor gezinnen in heel België en pleit voor kindvriendelijke straten. Een vrijwilligersnetwerk, lokaal geworteld en samen gecoördineerd.',
+        'exits' => [
+            'aria' => 'Meteen iets regelen',
+            'lead' => 'Meteen iets regelen?',
+            'items' => [
+                'Een groep starten of meehelpen',
+                'Ik ben pers',
+                'Partner of sponsor worden',
+                'De beweging steunen',
+            ],
+        ],
+        'read' => [
+            'title' => 'Lees meer over de beweging',
+            'descs' => [
+                'Fietsparades, lokale groepen en de weg naar veilige straten.',
+                'Vier duidelijke vragen aan steden en gemeenten.',
+                'Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.',
+                'Nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
+            ],
+        ],
+        'closing' => [
+            'heading' => 'Rij mee met de buurt',
+            'label' => 'Vind een rit',
+        ],
+    ],
     'stats' => [
         'groups' => 'lokale groepen in heel België',
         'rides' => 'fietsparades sinds 2020',
@@ -152,6 +183,10 @@ return [
         'gallery' => 'Foto\'s',
         'more' => [
             'title' => 'Meer nieuws',
+        ],
+        'closing' => [
+            'heading' => 'Zin gekregen om mee te rijden?',
+            'label' => 'Vind een rit',
         ],
     ],
 

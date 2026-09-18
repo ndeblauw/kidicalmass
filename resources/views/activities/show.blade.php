@@ -1,4 +1,4 @@
-<x-layouts::site title="{{ $activity->title_nl }}" :nav-chapter="$activity->groups->first()" :description="$activity->metaDescription()" :og-image="$activity->ogImageUrl()">
+<x-layouts::site title="{{ $activity->title }}" :nav-chapter="$activity->groups->first()" :description="$activity->metaDescription()" :og-image="$activity->ogImageUrl()">
 
 @php
     $routeCoords = $activity->route_coordinates;
@@ -20,27 +20,26 @@
     // "Wat kan je verwachten" collage (upcoming rides). Same two snapshots the home
     // "Nieuw hier?" block leads with; placement mirrors that collage's first beat.
     $expectPhotos = [
-        ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => 'Kinderen fietsen samen over een kruispunt tijdens een rit.', 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 40%'],
-        ['src' => 'img/photography/cargo-bike-kidical-mass-brussels.webp', 'alt' => 'Bakfiets met het Kidical Mass-logo en zwaaiende kinderen onderweg.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 45%'],
+        ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => __('activities.expect.photos.expect_1'), 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 40%'],
+        ['src' => 'img/photography/cargo-bike-kidical-mass-brussels.webp', 'alt' => __('activities.expect.photos.expect_2'), 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 45%'],
     ];
 
     // "Dankzij buren zoals jij" collage — the self-organising crew in action:
     // wegkapiteins in pink vests + the team celebrating a finished ride. Mirror of
     // the "Wat kan je verwachten?" collage; here the photos lead on the left.
     $teamPhotos = [
-        ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => 'Drie vrijwilligers in roze hesje, klaar om een rit te begeleiden.', 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
-        ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => 'Het organiserende team viert samen na een geslaagde rit.', 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 45%'],
+        ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => __('activities.expect.photos.team_1'), 'x' => '38%', 'y' => '34%', 'w' => '56%', 'r' => '-5deg', 'pos' => 'center 35%'],
+        ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => __('activities.expect.photos.team_2'), 'x' => '70%', 'y' => '64%', 'w' => '50%', 'r' => '6deg', 'pos' => 'center 45%'],
     ];
 
     // Social-proof credit line: first two first names, then "en N anderen".
     $volunteerNames = $volunteers->map(fn ($person) => \Illuminate\Support\Str::before(trim($person->name), ' '))->values();
     $volunteerCount = $volunteerNames->count();
     $volunteerCredit = match (true) {
-        $volunteerCount >= 3 => "{$volunteerNames[0]}, {$volunteerNames[1]} en ".($volunteerCount - 2).' anderen',
-        $volunteerCount === 2 => "{$volunteerNames[0]} en {$volunteerNames[1]}",
+        $volunteerCount >= 3 => "{$volunteerNames[0]}, {$volunteerNames[1]} ".__('activities.team.others', ['count' => $volunteerCount - 2]),
+        $volunteerCount === 2 => "{$volunteerNames[0]} ".__('activities.team.and')." {$volunteerNames[1]}",
         default => (string) ($volunteerNames[0] ?? ''),
     };
-    $volunteerVerb = $volunteerCount === 1 ? 'maakt' : 'maken';
 @endphp
 @php($state = $activity->lifecycleState())
 @php($isPast = $state->isPastState())
@@ -54,7 +53,7 @@
 
             <div class="activity-head__copy">
                 @if($isPast)
-                    <p class="activity-head__past">Voorbij</p>
+                    <p class="activity-head__past">{{ __('activities.past_badge') }}</p>
                 @endif
 
                 {{-- Date tear-off sits beside the title as the hero's date anchor. No
@@ -71,11 +70,11 @@
                         :rotation="-3"
                         size="lg"
                         class="activity-head__date" />
-                    <h1 class="page-hero__title">{{ $activity->title_nl }}</h1>
+                    <h1 class="page-hero__title">{{ $activity->title }}</h1>
                 </div>
 
-                @if($activity->content_nl)
-                    <x-intro-text class="activity-head__lead">{!! nl2br(e($activity->content_nl)) !!}</x-intro-text>
+                @if($activity->content)
+                    <x-intro-text class="activity-head__lead">{!! nl2br(e($activity->content)) !!}</x-intro-text>
                 @endif
 
                 {{-- Compact facts line — the decision ("are we going?") is complete
@@ -83,18 +82,18 @@
                      in Praktisch below; this line is the at-a-glance version. --}}
                 <dl class="activity-head__facts">
                     <div class="activity-head__fact">
-                        <dt class="sr-only">Wanneer</dt>
+                        <dt class="sr-only">{{ __('activities.facts.when') }}</dt>
                         <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->begin_date->translatedFormat('l j F')) }} · {{ $activity->timeLabel }}</time></dd>
                     </div>
                     @if($departureLandmark->isNotEmpty())
                         <div class="activity-head__fact">
-                            <dt class="sr-only">Vertrekpunt</dt>
+                            <dt class="sr-only">{{ __('activities.facts.departure') }}</dt>
                             <dd>{{ $departureLandmark }}</dd>
                         </div>
                     @endif
                     @if($activity->distance)
                         <div class="activity-head__fact">
-                            <dt class="sr-only">Afstand</dt>
+                            <dt class="sr-only">{{ __('activities.facts.distance') }}</dt>
                             <dd>{{ $activity->distance }}</dd>
                         </div>
                     @endif
@@ -103,7 +102,7 @@
 
             <figure class="activity-head__media">
                 @if($mainImage)
-                    <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title_nl }}" class="activity-head__photo" fetchpriority="high">
+                    <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title }}" class="activity-head__photo" fetchpriority="high">
                 @else
                     <x-photo src="img/photography/ride-cinquantenaire-crowd.webp" alt="" aria-hidden="true" sizes="100vw" loading="eager" fetchpriority="high" class="activity-head__photo" />
                 @endif
@@ -132,7 +131,7 @@
         @if($activity->isRecap())
             <x-ride-gallery
                 :photos="$activity->getMedia('gallery')"
-                title="In beeld"
+                :title="__('activities.gallery.title')"
                 :date="$activity->begin_date"
                 :commune="$primaryGroup?->name" />
         @elseif($activity->isAwaitingPhotos())
@@ -146,37 +145,37 @@
         <section class="activity-praktisch activity-praktisch--archive">
             <aside class="activity-share">
                 <div class="activity-share__text">
-                    <h2>Deel de herinnering</h2>
-                    <p class="activity-share__body">Laat anderen zien hoe fijn het was.</p>
+                    <h2>{{ __('activities.share.past_heading') }}</h2>
+                    <p class="activity-share__body">{{ __('activities.share.past_body') }}</p>
                 </div>
 
                 <x-share-links
                     :url="localized_route('activities.show', ['activity' => $activity])"
-                    :title="$activity->title_nl"
+                    :title="$activity->title"
                     :date="$activity->begin_date->translatedFormat('l j F')" />
             </aside>
 
             <dl class="activity-archive">
                 <div class="activity-archive__item">
-                    <dt class="sr-only">Wanneer</dt>
+                    <dt class="sr-only">{{ __('activities.facts.when') }}</dt>
                     <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->begin_date->translatedFormat('l j F Y')) }}</time></dd>
                 </div>
                 @if($activity->distance)
                     <div class="activity-archive__item">
-                        <dt class="sr-only">Afstand</dt>
+                        <dt class="sr-only">{{ __('activities.facts.distance') }}</dt>
                         <dd>{{ $activity->distance }}</dd>
                     </div>
                 @endif
                 @if($departure->isNotEmpty())
                     <div class="activity-archive__item">
-                        <dt class="sr-only">Vertrekpunt</dt>
-                        <dd>vertrek {{ $departureLandmark }}</dd>
+                        <dt class="sr-only">{{ __('activities.facts.departure') }}</dt>
+                        <dd>{{ $departureLandmark }}</dd>
                     </div>
                 @endif
                 @if($activity->komoot_url)
                     <div class="activity-archive__item">
-                        <dt class="sr-only">Route</dt>
-                        <dd><a href="{{ $activity->komoot_url }}" target="_blank" rel="noopener noreferrer">route op Komoot</a></dd>
+                        <dt class="sr-only">{{ __('activities.facts.route') }}</dt>
+                        <dd><a href="{{ $activity->komoot_url }}" target="_blank" rel="noopener noreferrer">{{ __('activities.facts.komoot') }}</a></dd>
                     </div>
                 @endif
             </dl>
@@ -193,7 +192,7 @@
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
                                 </x-icon-chip>
                                 <div>
-                                    <dt>Wanneer</dt>
+                                    <dt>{{ __('activities.facts.when') }}</dt>
                                     <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->dateFull) }}, {{ $activity->timeLabel }}</time></dd>
                                 </div>
                             </div>
@@ -204,7 +203,7 @@
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7L4 11l4 4"/><path d="M4 11h16"/><path d="M16 17l4-4-4-4"/></svg>
                                     </x-icon-chip>
                                     <div>
-                                        <dt>Afstand</dt>
+                                        <dt>{{ __('activities.facts.distance') }}</dt>
                                         <dd>{{ $activity->distance }}</dd>
                                     </div>
                                 </div>
@@ -216,7 +215,7 @@
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
                                     </x-icon-chip>
                                     <div>
-                                        <dt>Duur</dt>
+                                        <dt>{{ __('activities.facts.duration') }}</dt>
                                         <dd>{{ $activity->duration_label }}</dd>
                                     </div>
                                 </div>
@@ -227,8 +226,8 @@
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></svg>
                                 </x-icon-chip>
                                 <div>
-                                    <dt>Deelname</dt>
-                                    <dd>Gratis &middot; geen inschrijving nodig</dd>
+                                    <dt>{{ __('activities.facts.participation') }}</dt>
+                                    <dd>{{ __('activities.facts.free') }}</dd>
                                 </div>
                             </div>
                         </dl>
@@ -242,9 +241,9 @@
                          corner chip. The Komoot link anchors into the map's bottom corner. --}}
                     <div class="activity-facts__map">
                         @if($hasMap)
-                            <x-route-map :coordinates="$routeCoords" :interactive="false" label="{{ $departure }}" eyebrow="Vertrekpunt" class="activity-facts__route" aria-hidden="true" />
+                            <x-route-map :coordinates="$routeCoords" :interactive="false" :label="$departure" :eyebrow="__('activities.facts.departure')" class="activity-facts__route" aria-hidden="true" />
                             <dl class="activity-facts__map-label activity-facts__map-label--fallback">
-                                <dt>Vertrekpunt</dt>
+                                <dt>{{ __('activities.facts.departure') }}</dt>
                                 <dd>{{ $departure }}</dd>
                             </dl>
                         @else
@@ -257,7 +256,7 @@
                                 </svg>
                             </div>
                             <dl class="activity-facts__map-label">
-                                <dt>Vertrekpunt</dt>
+                                <dt>{{ __('activities.facts.departure') }}</dt>
                                 <dd>{{ $departure }}</dd>
                             </dl>
                         @endif
@@ -271,7 +270,7 @@
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="activity-facts__map-komoot"
-                            >Bekijk op Komoot</x-cta-button>
+                            >{{ __('activities.facts.komoot_button') }}</x-cta-button>
                         @endif
                     </div>
                 </div>
@@ -280,13 +279,13 @@
             {{-- DEEL — a quiet, in-context share ask right beside the practical details. --}}
             <aside class="activity-share">
                 <div class="activity-share__text">
-                    <h2>Vrienden mee?</h2>
-                    <p class="activity-share__body">Nodig anderen uit. Want samen fietsen is leuker.</p>
+                    <h2>{{ __('activities.share.upcoming_heading') }}</h2>
+                    <p class="activity-share__body">{{ __('activities.share.upcoming_body') }}</p>
                 </div>
 
                 <x-share-links
                     :url="localized_route('activities.show', ['activity' => $activity])"
-                    :title="$activity->title_nl"
+                    :title="$activity->title"
                     :date="$activity->begin_date->translatedFormat('l j F')" />
             </aside>
         </section>
@@ -298,8 +297,8 @@
         @unless($isPast)
         <section class="activity-expect">
             <div class="activity-expect__copy">
-                <h2 class="text-kidical-ink">Wat kan je verwachten?</h2>
-                <p>Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.</p>
+                <h2 class="text-kidical-ink">{{ __('activities.expect.heading') }}</h2>
+                <p>{{ __('activities.expect.body') }}</p>
 
                 @if($volunteers->isNotEmpty())
                     <div class="activity-team__proof">
@@ -313,14 +312,14 @@
                                 <li class="activity-team__more">+{{ $volunteers->count() - 5 }}</li>
                             @endif
                         </ul>
-                        <p class="activity-team__names"><strong>Dankzij buren zoals jij.</strong> {{ $volunteerCredit }} {{ $volunteerVerb }} deze ritten mogelijk.</p>
+                        <p class="activity-team__names"><strong>{{ __('activities.team.thanks_prefix') }}</strong> {{ $volunteerCredit }} {{ $volunteerCount === 1 ? __('activities.team.credit.singular') : __('activities.team.credit.plural') }}</p>
                     </div>
                 @endif
 
                 <div class="activity-expect__actions">
-                    <x-cta-button :href="localized_route('getting-started')" variant="secondary" disc="blue">Zo werkt een rit</x-cta-button>
+                    <x-cta-button :href="localized_route('getting-started')" variant="secondary" disc="blue">{{ __('activities.expect.cta_getting_started') }}</x-cta-button>
                     @if($primaryGroup)
-                        <x-cta-button :href="localized_route('groups.show', ['group' => $primaryGroup])" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
+                        <x-cta-button :href="localized_route('groups.show', ['group' => $primaryGroup])" variant="secondary" disc="blue">{{ __('activities.expect.cta_group', ['name' => $primaryGroup->name]) }}</x-cta-button>
                     @endif
                 </div>
             </div>
@@ -340,8 +339,8 @@
                     :photos="$teamPhotos" />
 
                 <div class="activity-team__copy">
-                    <h2 class="text-kidical-ink">Dankzij buren zoals jij.</h2>
-                    <p class="activity-team__lead">Zij plannen de ritten zelf en houden onderweg de kruispunten vrij, zodat iedereen veilig kan meefietsen.</p>
+                    <h2 class="text-kidical-ink">{{ __('activities.team.heading') }}</h2>
+                    <p class="activity-team__lead">{{ __('activities.team.body') }}</p>
 
                     @if($volunteers->isNotEmpty())
                         <div class="activity-team__proof">
@@ -355,12 +354,12 @@
                                     <li class="activity-team__more">+{{ $volunteers->count() - 5 }}</li>
                                 @endif
                             </ul>
-                            <p class="activity-team__names"><strong>{{ $volunteerCredit }}</strong> {{ $volunteerVerb }} deze ritten mogelijk.</p>
+                            <p class="activity-team__names"><strong>{{ $volunteerCredit }}</strong> {{ $volunteerCount === 1 ? __('activities.team.credit.singular') : __('activities.team.credit.plural') }}</p>
                         </div>
                     @endif
 
                     @if($primaryGroup)
-                        <x-cta-button :href="localized_route('groups.show', ['group' => $primaryGroup])" variant="secondary" disc="blue">Leer {{ $primaryGroup->name }} kennen</x-cta-button>
+                        <x-cta-button :href="localized_route('groups.show', ['group' => $primaryGroup])" variant="secondary" disc="blue">{{ __('activities.expect.cta_group', ['name' => $primaryGroup->name]) }}</x-cta-button>
                     @endif
                 </div>
             </section>
@@ -375,7 +374,7 @@
         {{-- FOTOTOESTEMMING — legally required, visually quiet. Pre-ride only: it
              informs the decision to take part. --}}
         @unless($isPast)
-            <p class="activity-permission">Tijdens de fietstocht worden foto's gemaakt. Door deel te nemen ga je akkoord met publicatie op onze kanalen.</p>
+            <p class="activity-permission">{{ __('activities.permission') }}</p>
         @endunless
 
         </div>
@@ -384,17 +383,17 @@
     <x-slot:closing>
         @if($isPast && $primaryGroup)
             <x-closing-cta
-                heading="Meer ritten van Kidical Mass {{ $primaryGroup->name }}?"
+                :heading="__('activities.closing.past_heading', ['name' => $primaryGroup->name])"
                 :href="localized_route('groups.show', ['group' => $primaryGroup])"
-                label="Ontdek de groep" />
+                :label="__('activities.closing.past_label')" />
         @else
             {{-- Upcoming: the "how it works" ask already lives above (Zo werkt een rit,
                  beside the map's promises), so the closing band points elsewhere: stay
                  in the loop for the next rides via the newsletter. --}}
             <x-closing-cta
-                heading="{{ $primaryGroup ? 'Mis geen rit van Kidical Mass '.$primaryGroup->name : 'Geen rit missen?' }}"
+                :heading="$primaryGroup ? __('activities.closing.upcoming_heading_group', ['name' => $primaryGroup->name]) : __('activities.closing.upcoming_heading')"
                 :href="localized_route('newsletter.show')"
-                label="Schrijf je in voor updates" />
+                :label="__('activities.closing.upcoming_label')" />
         @endif
     </x-slot:closing>
 

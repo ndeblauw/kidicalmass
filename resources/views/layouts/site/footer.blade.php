@@ -70,7 +70,7 @@
         {{-- Funder acknowledgment — quiet, site-wide --}}
         <div class="site-footer__funder">
             <span>{{ __('partners.funder_credit') }}</span>
-            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="Mede mogelijk gemaakt door Brussel Mobiliteit" class="site-footer__funder-logo" loading="lazy" decoding="async">
+            <img src="{{ asset('img/sponsors/bm-nl.avif') }}" alt="{{ __('partners.funder_alt') }}" class="site-footer__funder-logo" loading="lazy" decoding="async">
         </div>
 
         {{-- Bottom bar — utilities --}}

@@ -24,20 +24,20 @@ use Livewire\Component;
 class StartGroupEnquiry extends Component
 {
     /**
-     * Comfort-level paths. Key = stored value; value = NL label.
+     * Comfort-level paths. Key = stored value; value = lang key.
      */
     public const PATH_OPTIONS = [
-        'praten' => 'Ik praat eerst graag met iemand die het al deed',
-        'klaar' => 'Ik ben er klaar voor, neem gerust contact op',
+        'praten' => 'forms.start_group.paths.talk',
+        'klaar' => 'forms.start_group.paths.go',
     ];
 
     /**
-     * Core-team readiness (the high-intent signal). Key = stored value; value = NL label.
+     * Core-team readiness (the high-intent signal). Key = stored value; value = lang key.
      */
     public const TEAM_OPTIONS = [
-        'samen' => 'We zijn al met een paar',
-        'interesse' => 'Een paar mensen tonen interesse',
-        'alleen' => 'Voorlopig alleen ik',
+        'samen' => 'forms.start_group.teams.few',
+        'interesse' => 'forms.start_group.teams.interested',
+        'alleen' => 'forms.start_group.teams.alone',
     ];
 
     #[Validate('required|string|max:255')]
@@ -90,10 +90,10 @@ class StartGroupEnquiry extends Component
         }
 
         $body = "Aanvraag nieuwe lokale groep.\nGemeente / postcode: {$this->place}.";
-        $body .= "\nWat wil deze persoon nu: ".self::PATH_OPTIONS[$this->path].'.';
+        $body .= "\nWat wil deze persoon nu: ".__($this->path !== '' && isset(self::PATH_OPTIONS[$this->path]) ? self::PATH_OPTIONS[$this->path] : '').'.';
 
         if ($this->team !== '' && isset(self::TEAM_OPTIONS[$this->team])) {
-            $body .= "\nKernteam: ".self::TEAM_OPTIONS[$this->team].'.';
+            $body .= "\nKernteam: ".__($this->team !== '' ? self::TEAM_OPTIONS[$this->team] : '').'.';
         }
 
         $body .= "\nWaarom: {$this->motivation}";

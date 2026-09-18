@@ -12,6 +12,11 @@ return [
     'nav' => 'Steun ons',
     'cta' => 'Steun Kidical Mass',
 
+    'photos' => [
+        'org_1' => 'Drie organisatoren poseren lachend, één met roze hesje en bloemenkrans, tijdens een rit.',
+        'org_2' => 'Groepsfoto van de organisatoren in blauwe Kidical Mass-truien met vlag, na een rit.',
+    ],
+
     // Page <title>
     'title' => 'Steun Kidical Mass',
 

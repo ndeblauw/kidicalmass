@@ -5,15 +5,15 @@
     location-picker owns postcode search + geolocation; the map reacts to the
     resolved location on load. Spec: docs/superpowers/specs/2026-06-15-lokale-groepen-list-map-finder-design.md
 --}}
-<x-layouts::site title="Lokale groepen" :description="__('meta.chapters')">
+<x-layouts::site :title="__('groups.index.title')" :description="__('meta.chapters')">
 
     <x-page-hero
-        eyebrow="Lokale groepen"
-        title="Jouw buurt fietst al, rij mee."
+        :eyebrow="__('groups.index.hero.eyebrow')"
+        :title="__('groups.index.hero.title')"
         illustration="img/illustrations/longtail-with-kid.svg">
 
         <x-intro-text>
-            <p>In elke gemeente trekken buren samen de straat op voor veilig fietsen met kinderen. Eén beweging, lokaal geworteld en het hele jaar door actief in jouw buurt.</p>
+            <p>{{ __('groups.index.intro') }}</p>
         </x-intro-text>
 
         @if ($groups->isNotEmpty())
@@ -26,7 +26,17 @@
                     ->values();
             @endphp
 
-            <div class="grp-finder" data-group-finder data-location='@json($location)'>
+            @php
+                $finderI18n = [
+                    'count_singular' => __('groups.index.count.singular'),
+                    'count_plural' => __('groups.index.count.plural'),
+                    'status_all' => __('groups.index.map.status_all'),
+                    'status_nearby' => __('groups.index.map.status_nearby'),
+                    'you_are_here' => __('groups.index.map.you_are_here'),
+                ];
+            @endphp
+            <div class="grp-finder" data-group-finder data-location='@json($location)'
+                 data-i18n='@json($finderI18n)'>
                 <div class="grp-finder__controls">
                     <div class="grp-finder__picker">
                         <livewire:location-picker :compact="true" />
@@ -35,11 +45,11 @@
                         @if ($location)
                             <button type="button" class="grp-region-btn grp-region-btn--nearby is-active" data-region="nearby">
                                 <span class="grp-region-btn__pin" aria-hidden="true"></span>
-                                Dichtbij
+                                {{ __('groups.index.regions.nearby') }}
                             </button>
                         @endif
                         <button type="button" class="grp-region-btn {{ $location ? '' : 'is-active' }}" data-region="all">
-                            Heel België <span class="grp-region-btn__count">{{ $groups->count() }}</span>
+                            {{ __('groups.index.regions.all') }} <span class="grp-region-btn__count">{{ $groups->count() }}</span>
                         </button>
                         @foreach ($regionOrder as $regionKey)
                             @php $count = $regionCounts[$regionKey] ?? 0; @endphp
@@ -56,7 +66,7 @@
 
                 <div class="grp-finder__split">
                     <div class="grp-results">
-                        <p class="grp-results__count" data-count>{{ $groups->count() }} {{ $groups->count() === 1 ? 'groep' : 'groepen' }}</p>
+                        <p class="grp-results__count" data-count>{{ $groups->count() }} {{ $groups->count() === 1 ? __('groups.index.count.singular') : __('groups.index.count.plural') }}</p>
                         <ul class="grp-results__list" data-list>
                             @foreach ($orderedGroups as $group)
                                 <li class="grp-card {{ $mineIds->contains($group->id) ? 'grp-card--mine' : '' }}"
@@ -65,7 +75,7 @@
                                     <a href="{{ localized_route('groups.show', ['group' => $group]) }}" class="grp-card__link link-plain">
                                         <span class="grp-card__dot" aria-hidden="true"></span>
                                         <span class="grp-card__main">
-                                            <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">· jouw groep</span>@endif</span>
+                                            <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">{{ __('groups.index.mine_tag') }}</span>@endif</span>
                                             <span class="grp-card__zip">{{ $group->zip }}</span>
                                         </span>
                                         <span class="grp-card__go" aria-hidden="true">→</span>
@@ -76,20 +86,20 @@
                     </div>
 
                     <div class="grp-map-shell">
-                        <p class="grp-map__status" data-status>Heel België</p>
+                        <p class="grp-map__status" data-status>{{ __('groups.index.map.status_all') }}</p>
                         <div id="grp-map" class="grp-map" data-markers='@json($markers)'></div>
                     </div>
                 </div>
             </div>
         @else
-            <p class="kal-empty mt-10">Er zijn nog geen lokale groepen om te tonen.</p>
+            <p class="kal-empty mt-10">{{ __('groups.index.empty') }}</p>
         @endif
 
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Staat jouw stad er nog niet bij?"
-            :href="localized_route('groups.start')" label="Zo begin je" />
+        <x-closing-cta :heading="__('groups.index.closing.heading')"
+            :href="localized_route('groups.start')" :label="__('groups.index.closing.label')" />
     </x-slot:closing>
 
     @push('scripts')
@@ -121,6 +131,13 @@
                 } catch (e) {
                     location = null;
                 }
+                let i18n = {};
+                try {
+                    i18n = JSON.parse(root.dataset.i18n || '{}');
+                } catch (e) {
+                    i18n = {};
+                }
+                const groupWord = (n) => (n === 1 ? i18n.count_singular || 'groep' : i18n.count_plural || 'groepen');
 
                 const styles = getComputedStyle(document.documentElement);
                 const token = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
@@ -186,7 +203,7 @@
                         iconSize: [20, 20],
                         iconAnchor: [10, 20],
                     });
-                    L.marker([location.lat, location.lng], { icon: meIcon }).addTo(map).bindPopup('<strong>Jij bent hier</strong>');
+                    L.marker([location.lat, location.lng], { icon: meIcon }).addTo(map).bindPopup(`<strong>${i18n.you_are_here || 'Jij bent hier'}</strong>`);
 
                     dist = {};
                     markers.forEach((m) => {
@@ -219,10 +236,10 @@
                             card.classList.remove('is-hidden');
                             pinEl(card.dataset.slug)?.classList.remove('is-dim');
                         });
-                        countEl.textContent = `${cards.length} ${cards.length === 1 ? 'groep' : 'groepen'}`;
+                        countEl.textContent = `${cards.length} ${groupWord(cards.length)}`;
                         sortByDistance();
                         fitNearest();
-                        statusEl.textContent = 'Dichtst bij jou';
+                        statusEl.textContent = i18n.status_nearby || 'Dichtst bij jou';
                         return;
                     }
 
@@ -233,10 +250,10 @@
                         if (inRegion) shown += 1;
                         pinEl(card.dataset.slug)?.classList.toggle('is-dim', !inRegion);
                     });
-                    countEl.textContent = `${shown} ${shown === 1 ? 'groep' : 'groepen'}`;
+                    countEl.textContent = `${shown} ${groupWord(shown)}`;
                     if (region === 'all') {
                         fitAll();
-                        statusEl.textContent = 'Heel België';
+                        statusEl.textContent = i18n.status_all || 'Heel België';
                     } else {
                         const pts = markers.filter((m) => m.region === region).map((m) => [m.lat, m.lng]);
                         if (pts.length) map.fitBounds(L.latLngBounds(pts), { padding: [55, 55] });

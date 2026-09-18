@@ -10,6 +10,11 @@ return [
     'nav' => 'Nous soutenir',
     'cta' => 'Soutenir Kidical Mass',
 
+    'photos' => [
+        'org_1' => 'Trois organisateurs posent en souriant, l\'un avec un gilet rose et une couronne de fleurs, pendant une parade.',
+        'org_2' => 'Photo de groupe des organisateurs en sweats bleus Kidical Mass avec drapeau, après une parade.',
+    ],
+
     // Page <title>
     'title' => 'Soutenir Kidical Mass',
 

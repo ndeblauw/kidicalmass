@@ -145,3 +145,19 @@ it('renders the paginator once the feed exceeds one page', function () {
         ->assertOk()
         ->assertSee('/nl/about/news?page=1');
 });
+
+it('shows the localized article title on the feed and detail page', function () {
+    Article::factory()->create([
+        'title_nl' => 'Nederlandse titel',
+        'title_fr' => 'Titre français',
+    ]);
+
+    get('/fr/a-propos/actualites')
+        ->assertOk()
+        ->assertSee('Titre français')
+        ->assertDontSee('Nederlandse titel');
+
+    get('/fr/a-propos/actualites')
+        ->assertOk()
+        ->assertSee('/fr/a-propos/actualites/');
+});

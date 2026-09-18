@@ -34,7 +34,7 @@
     <div class="next-ride__body">
         <div class="next-ride__main">
             <div class="next-ride__headline">
-                <h2 class="next-ride__title">Volgende fietsparade</h2>
+                <h2 class="next-ride__title">{{ __('components.next_ride.heading') }}</h2>
             </div>
 
             <dl class="next-ride__meta">
@@ -42,7 +42,7 @@
                     <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
                     </x-icon-chip>
-                    <dt class="sr-only">Wanneer</dt>
+                    <dt class="sr-only">{{ __('components.next_ride.when') }}</dt>
                     <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $dateHeadline }}, {{ $activity->timeLabel }}</time></dd>
                 </div>
 
@@ -50,7 +50,7 @@
                     <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                     </x-icon-chip>
-                    <dt class="sr-only">Vertrekplaats</dt>
+                    <dt class="sr-only">{{ __('components.next_ride.departure') }}</dt>
                     <dd>{{ $location }}</dd>
                 </div>
 
@@ -59,7 +59,7 @@
                         <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
                         </x-icon-chip>
-                        <dt class="sr-only">Afstand</dt>
+                        <dt class="sr-only">{{ __('components.next_ride.distance') }}</dt>
                         <dd>{{ $distance }}</dd>
                     </div>
                 @endif
@@ -87,6 +87,6 @@
 
         {{-- Primary action — the site's signature button, anchored over the map's
              bottom-right corner. --}}
-        <x-cta-button :href="$href" variant="blue" class="next-ride__cta">Bekijk deze parade</x-cta-button>
+        <x-cta-button :href="$href" variant="blue" class="next-ride__cta">{{ __('components.next_ride.cta') }}</x-cta-button>
     </div>
 </article>

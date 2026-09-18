@@ -88,8 +88,8 @@
             @php
                 // The two organisers the visitor is backing: posing + the team in action.
                 $fundPhotos = [
-                    ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => 'Drie organisatoren poseren lachend, één met roze hesje en bloemenkrans, tijdens een rit.'],
-                    ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => 'Groepsfoto van de organisatoren in blauwe Kidical Mass-truien met vlag, na een rit.'],
+                    ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => __('support.photos.org_1')],
+                    ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => __('support.photos.org_2')],
                 ];
             @endphp
             <x-photo-collage class="steun-funds__collage" :photos="$fundPhotos" />

@@ -17,7 +17,7 @@
     // title (e.g. "Fietscheck & sleutelworkshop Schaarbeek" → "Fietscheck &
     // sleutelworkshop") and from the venue, mirroring <x-ride-row>. If stripping would
     // empty the title, keep the original.
-    $title = (string) $activity->title_nl;
+    $title = (string) $activity->title;
     $venue = $activity->location;
     if ($commune) {
         $bare = trim((string) preg_replace('/\s{2,}/', ' ', (string) preg_replace('/\b'.preg_quote($commune, '/').'\b/iu', '', $title)), " \t\n\r,–-");

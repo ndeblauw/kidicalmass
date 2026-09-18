@@ -49,7 +49,7 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Zin gekregen om mee te rijden?"
-            :href="localized_route('activities.index')" label="Vind een rit" />
+        <x-closing-cta :heading="__('about.news.closing.heading')"
+            :href="localized_route('activities.index')" :label="__('about.news.closing.label')" />
     </x-slot:closing>
 </x-layouts::site>

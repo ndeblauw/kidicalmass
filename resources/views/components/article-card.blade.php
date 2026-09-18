@@ -15,7 +15,7 @@
         <div class="relative aspect-[16/9] overflow-hidden">
             <img
                 src="{{ $image }}"
-                alt="{{ $article->title_nl }}"
+                alt="{{ $article->title }}"
                 class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
@@ -34,7 +34,7 @@
 
     <div class="p-5">
         <h3 class="text-lg">
-            <a href="{{ localized_route('articles.show', ['article' => $article]) }}" class="link-plain text-kidical-blue transition-colors group-hover:text-kidical-orange after:absolute after:inset-0">{{ $article->title_nl }}</a>
+            <a href="{{ localized_route('articles.show', ['article' => $article]) }}" class="link-plain text-kidical-blue transition-colors group-hover:text-kidical-orange after:absolute after:inset-0">{{ $article->title }}</a>
         </h3>
 
         <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-kidical-ink/50">

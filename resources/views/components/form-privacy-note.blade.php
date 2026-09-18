@@ -3,5 +3,5 @@
      param so the view also renders outside a routed request (Livewire tests). --}}
 <p {{ $attributes->merge(['class' => 'text-sm text-kidical-ink/60']) }}>
     {{ $slot }}
-    <a href="{{ localized_route('privacy') }}">Meer weten? Lees onze privacyverklaring.</a>
+    <a href="{{ localized_route('privacy') }}">{{ __('components.form_privacy') }}</a>
 </p>

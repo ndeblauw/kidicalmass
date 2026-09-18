@@ -30,9 +30,9 @@ class GroupController extends Controller
             : collect();
 
         $regionLabels = [
-            'Brussels Capital Region' => 'Brussel',
-            'Wallonia' => 'Wallonië',
-            'Flanders' => 'Vlaanderen',
+            'Brussels Capital Region' => __('groups.regions.Brussels Capital Region'),
+            'Wallonia' => __('groups.regions.Wallonia'),
+            'Flanders' => __('groups.regions.Flanders'),
         ];
 
         $markers = $this->mapMarkers($groups, $coordsByZip, $regionLabels);

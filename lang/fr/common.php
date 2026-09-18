@@ -1,6 +1,22 @@
 <?php
 
 return [
+    'contact' => 'Contact',
+    'membership' => 'Nous soutenir',
+    'privacy' => 'Confidentialité',
+    'cookies' => 'Cookies',
+    'privacy_cookies' => 'Confidentialité & cookies',
+    'home' => 'Accueil',
+    'pagination' => [
+        'label' => 'Pagination',
+        'previous' => 'Précédent',
+        'next' => 'Suivant',
+    ],
+    'groups_growth' => [
+        'title' => 'Nous grandissons !',
+        'groups' => '{1} groupe|[2,*] groupes',
+        'empty' => 'Pas encore de chiffres à afficher.',
+    ],
     'location' => [
         'current' => 'Vous faites du vélo à',
         'change' => 'modifier',

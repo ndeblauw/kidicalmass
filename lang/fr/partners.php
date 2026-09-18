@@ -12,6 +12,7 @@ return [
 
     // Funder acknowledgment (footer, site-wide)
     'funder_credit' => 'Avec le soutien de',
+    'funder_alt' => 'Avec le soutien de Bruxelles Mobilité',
 
     // About/Partners page
     'page' => [

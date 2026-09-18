@@ -12,6 +12,7 @@ return [
 
     // Funder acknowledgment (footer, site-wide)
     'funder_credit' => 'Mede mogelijk gemaakt door',
+    'funder_alt' => 'Mede mogelijk gemaakt door Brussel Mobiliteit',
 
     // About/Partners page
     'page' => [
