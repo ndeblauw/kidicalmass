@@ -1,5 +1,5 @@
 @php
-    $siteName = 'Kidical Mass België';
+    $siteName = app()->getLocale() === 'fr' ? 'Kidical Mass Belgique' : 'Kidical Mass België';
     $fullTitle = ($title ?? null) ? $title.' · '.$siteName : __('meta.home_title');
     $metaDescription = $description ?? __('meta.default');
     $canonical = request()->url();
@@ -20,7 +20,7 @@
 <meta property="og:url" content="{{ $canonical }}">
 <meta property="og:type" content="{{ $ogType ?? 'website' }}">
 <meta property="og:site_name" content="{{ $siteName }}">
-<meta property="og:locale" content="nl_BE">
+<meta property="og:locale" content="{{ app()->getLocale() }}_BE">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="/favicon.ico" sizes="any">

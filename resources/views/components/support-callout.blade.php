@@ -13,10 +13,10 @@
     <div @class(['container mx-auto px-4' => ! $contained])>
         <div class="support-callout__inner">
             <div class="support-callout__text">
-                <h2 class="support-callout__title">{{ $title ?? __('support.'.$variant.'_title') }}</h2>
-                <p class="support-callout__body">{{ $body ?? __('support.'.$variant.'_body') }}</p>
+                <h2 class="support-callout__title">{{ $title ?? __('support.callout.'.$variant.'.title') }}</h2>
+                <p class="support-callout__body">{{ $body ?? __('support.callout.'.$variant.'.body') }}</p>
             </div>
-            <x-cta-button :href="route('membership')" icon="heart" class="shrink-0">{{ __('support.cta') }}</x-cta-button>
+            <x-cta-button :href="localized_route('membership')" icon="heart" class="shrink-0">{{ __('support.cta') }}</x-cta-button>
         </div>
     </div>
 </section>

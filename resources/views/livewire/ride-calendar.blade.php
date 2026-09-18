@@ -1,7 +1,7 @@
 <div>
     <x-page-hero
-        eyebrow="Kalender"
-        title="Spring op de fiets, wij rijden samen."
+        :eyebrow="__('calendar.hero.eyebrow')"
+        :title="__('calendar.hero.title')"
         illustration="img/illustrations/cargo-bike-family.svg">
 
         {{-- Filter row: shared bar + agenda-only radius tabs. Hidden on past-rides view. --}}
@@ -9,26 +9,26 @@
             <x-filter-bar>
                 @if ($location)
                     <div class="filter-bar__radius">
-                        <span class="filter-bar__radius-label">Toon ritten</span>
+                        <span class="filter-bar__radius-label">{{ __('calendar.filter_label') }}</span>
                         <div class="filter-bar__tabs">
                             <button
                                 type="button"
                                 wire:click="setRadius('dichtbij')"
                                 aria-pressed="{{ $radius === 'dichtbij' ? 'true' : 'false' }}"
                                 class="filter-bar__tab{{ $radius === 'dichtbij' ? ' filter-bar__tab--active' : '' }}"
-                            >Dichtbij</button>
+                            >{{ __('calendar.radius.nearby') }}</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('regio')"
                                 aria-pressed="{{ $radius === 'regio' ? 'true' : 'false' }}"
                                 class="filter-bar__tab{{ $radius === 'regio' ? ' filter-bar__tab--active' : '' }}"
-                            >In de regio</button>
+                            >{{ __('calendar.radius.region') }}</button>
                             <button
                                 type="button"
                                 wire:click="setRadius('belgie')"
                                 aria-pressed="{{ $radius === 'belgie' ? 'true' : 'false' }}"
                                 class="filter-bar__tab{{ $radius === 'belgie' ? ' filter-bar__tab--active' : '' }}"
-                            >Heel België</button>
+                            >{{ __('calendar.radius.belgium') }}</button>
                         </div>
                     </div>
                 @endif
@@ -44,19 +44,18 @@
                      regions pick it up. --}}
                 <p class="sr-only" role="status">
                     @if (! $hasActivities || $isEmpty)
-                        Geen ritten gevonden.
+                        {{ __('calendar.none') }}
                     @else
-                        {{ $rideCount }} {{ $rideCount === 1 ? 'rit' : 'ritten' }} gevonden.
+                        {{ trans_choice('calendar.found', $rideCount) }}
                     @endif
                 </p>
 
                 @if (! $hasActivities)
                     <p class="kal-empty">
                         @if ($when === 'voorbije')
-                            Er zijn nog geen voorbije fietstochten om te tonen.
+                            {{ __('calendar.empty_past') }}
                         @else
-                            Er zijn momenteel geen fietstochten gepland. Het seizoen loopt van maart tot november.
-                            <a href="{{ route('newsletter.show', ['locale' => app()->getLocale()]) }}">Schrijf je in op de nieuwsbrief</a>, dan zie je de nieuwe ritten meteen staan.
+                            {!! __('calendar.empty_none', ['link' => '<a href="'.localized_route('newsletter.show').'">'.__('calendar.newsletter_link').'</a>']) !!}
                         @endif
                     </p>
 
@@ -70,15 +69,14 @@
                 @elseif ($isEmpty)
                     @php
                         $radiusLabel = match($radius) {
-                            'regio'  => 'In de regio',
-                            'belgie' => 'Heel België',
-                            default  => 'Dichtbij',
+                            'regio'  => __('calendar.radius.region'),
+                            'belgie' => __('calendar.radius.belgium'),
+                            default  => __('calendar.radius.nearby'),
                         };
                     @endphp
                     <p class="kal-empty">
-                        Geen ritten in de categorie "{{ $radiusLabel }}" van {{ $location['name'] }}.
-                        Kies een ruimere regio om meer te zien, of
-                        <a href="{{ route('newsletter.show', ['locale' => app()->getLocale()]) }}">schrijf je in op de nieuwsbrief</a>: zodra er iets in de buurt gepland is, lees je het daar.
+                        {!! __('calendar.empty_radius', ['radius' => $radiusLabel, 'place' => $location['name']]) !!}<br>
+                        {!! __('calendar.empty_radius_hint', ['link' => '<a href="'.localized_route('newsletter.show').'">'.__('calendar.newsletter_link').'</a>']) !!}
                     </p>
 
                 @else
@@ -92,9 +90,9 @@
                 {{-- Past-rides link at bottom of agenda --}}
                 <div class="kal-pastbar">
                     @if ($when === 'aankomend')
-                        <x-cta-button wire:click="showPast" x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })" variant="secondary">Bekijk voorbije ritten</x-cta-button>
+                        <x-cta-button wire:click="showPast" x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })" variant="secondary">{{ __('calendar.show_past') }}</x-cta-button>
                     @else
-                        <x-cta-button wire:click="showUpcoming" x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })" variant="secondary" icon="back">Terug naar aankomende ritten</x-cta-button>
+                        <x-cta-button wire:click="showUpcoming" x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })" variant="secondary" icon="back">{{ __('calendar.show_upcoming') }}</x-cta-button>
                     @endif
                 </div>
 

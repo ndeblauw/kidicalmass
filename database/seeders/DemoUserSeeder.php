@@ -12,7 +12,7 @@ class DemoUserSeeder extends Seeder
     {
         $schaarbeek = Group::firstOrCreate(
             ['shortname' => 'schaarbeek'],
-            ['name' => 'Schaarbeek', 'started_at' => now()],
+            ['name_nl' => 'Schaarbeek', 'name_fr' => 'Schaerbeek', 'started_at' => now()],
         );
 
         $user = User::updateOrCreate(

@@ -15,7 +15,7 @@
     volunteers, no family CTA, no share ask. NL, on the public site kit. Structure
     here; appearance in resources/css/pages/activity.css.
 --}}
-<x-layouts::site title="{{ $activity->title_nl }}" :nav-chapter="$activity->groups->first()" :description="$activity->metaDescription()" :og-image="$activity->ogImageUrl()">
+<x-layouts::site title="{{ $activity->title }}" :nav-chapter="$activity->groups->first()" :description="$activity->metaDescription()" :og-image="$activity->ogImageUrl()">
     @php
         $type = $activity->activity_type;
         $isMeeting = $type === \App\Enums\ActivityType::MEETING;
@@ -39,10 +39,10 @@
 
             <div class="activity-head__copy">
                 @if($isPast)
-                    <p class="activity-head__past">Voorbij</p>
+                    <p class="activity-head__past">{{ __('activities.past_badge') }}</p>
                 @endif
 
-                <p class="activity-basic__type">{{ $type->labelNl() }}</p>
+                <p class="activity-basic__type">{{ $type->labelLocalized() }}</p>
 
                 <div class="activity-head__headline">
                     <x-ride-date-tile
@@ -51,17 +51,17 @@
                         :rotation="-3"
                         size="lg"
                         class="activity-head__date" />
-                    <h1 class="page-hero__title">{{ $activity->title_nl }}</h1>
+                    <h1 class="page-hero__title">{{ $activity->title }}</h1>
                 </div>
 
-                @if($activity->content_nl)
-                    <x-intro-text class="activity-head__lead">{!! nl2br(e($activity->content_nl)) !!}</x-intro-text>
+                @if($activity->content)
+                    <x-intro-text class="activity-head__lead">{!! nl2br(e($activity->content)) !!}</x-intro-text>
                 @endif
             </div>
 
             @if($mainImage)
                 <figure class="activity-head__media">
-                    <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title_nl }}" class="activity-head__photo" fetchpriority="high">
+                    <img src="{{ $mainImage->getUrl() }}" @if ($mainImage->getSrcset()) srcset="{{ $mainImage->getSrcset() }}" sizes="100vw" @endif alt="{{ $activity->title }}" class="activity-head__photo" fetchpriority="high">
                 </figure>
             @endif
 
@@ -84,7 +84,7 @@
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
                                 </x-icon-chip>
                                 <div>
-                                    <dt>Wanneer</dt>
+                                    <dt>{{ __('activities.facts.when') }}</dt>
                                     <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ \Illuminate\Support\Str::ucfirst($activity->dateFull) }}, {{ $activity->timeLabel }}</time></dd>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
                                     </x-icon-chip>
                                     <div>
-                                        <dt>Duur</dt>
+                                        <dt>{{ __('activities.facts.duration') }}</dt>
                                         <dd>{{ $activity->duration_label }}</dd>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
                                     </x-icon-chip>
                                     <div>
-                                        <dt>Waar</dt>
+                                        <dt>{{ __('activities.basic.facts.location') }}</dt>
                                         <dd>{{ $venue }}</dd>
                                     </div>
                                 </div>
@@ -120,9 +120,9 @@
                              venue's postal-code centre, no route line. The <dl> below is
                              the accessible, no-JS fallback for the pin popup. --}}
                         <div class="activity-facts__map">
-                            <x-route-map :coordinates="$pin" :interactive="false" label="{{ $venue }}" eyebrow="Locatie" class="activity-facts__route" aria-hidden="true" />
+                            <x-route-map :coordinates="$pin" :interactive="false" :label="$venue" :eyebrow="__('activities.basic.facts.location')" class="activity-facts__route" aria-hidden="true" />
                             <dl class="activity-facts__map-label activity-facts__map-label--fallback">
-                                <dt>Locatie</dt>
+                                <dt>{{ __('activities.basic.facts.location') }}</dt>
                                 <dd>{{ $venue }}</dd>
                             </dl>
 
@@ -135,7 +135,7 @@
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="activity-facts__map-cta"
-                                >{{ $isMeeting ? 'Meer info voor vrijwilligers' : 'Meer info' }}</x-cta-button>
+>{{ $isMeeting ? __('activities.basic.more_info_volunteers') : __('activities.basic.more_info') }}</x-cta-button>
                             @endif
                         </div>
                     @endif
@@ -148,17 +148,17 @@
                 <aside class="activity-share">
                     <div class="activity-share__text">
                         @if($isPast)
-                            <h2>Deel de herinnering</h2>
-                            <p class="activity-share__body">Laat anderen zien hoe fijn het was.</p>
+                            <h2>{{ __('activities.share.past_heading') }}</h2>
+                            <p class="activity-share__body">{{ __('activities.share.past_body') }}</p>
                         @else
-                            <h2>Vrienden mee?</h2>
-                            <p class="activity-share__body">Stuur het door, samen is altijd leuker.</p>
+                            <h2>{{ __('activities.share.upcoming_heading') }}</h2>
+                            <p class="activity-share__body">{{ __('activities.share.upcoming_body_basic') }}</p>
                         @endif
                     </div>
 
                     <x-share-links
-                        :url="route('activities.show', $activity)"
-                        :title="$activity->title_nl"
+                        :url="localized_route('activities.show', ['activity' => $activity])"
+                        :title="$activity->title"
                         :date="$activity->begin_date->translatedFormat('l j F')" />
                 </aside>
             @endunless
@@ -173,7 +173,7 @@
                     href="{{ $activity->commute_link }}"
                     target="_blank"
                     rel="noopener noreferrer"
-                >{{ $isMeeting ? 'Meer info voor vrijwilligers' : 'Meer info' }}</x-cta-button>
+                >{{ $isMeeting ? __('activities.basic.more_info_volunteers') : __('activities.basic.more_info') }}</x-cta-button>
             </div>
         @endif
 
@@ -181,8 +181,8 @@
              pink-vest-on-the-ride form here (that's a ride thing). --}}
         @if ($chapter)
             <p class="activity-basic__organizer">
-                Georganiseerd door vrijwilligers van
-                <a href="{{ route('groups.show', $chapter) }}">{{ $chapter->name }}</a>.
+                {{ __('activities.basic.organizer') }}
+                <a href="{{ localized_route('groups.show', ['group' => $chapter]) }}">{{ $chapter->name }}</a>.
             </p>
         @endif
 
@@ -192,9 +192,9 @@
     @if ($chapter)
         <x-slot:closing>
             <x-closing-cta
-                heading="Meer uit Kidical Mass {{ $gemeente }}?"
-                :href="route('groups.show', $chapter)"
-                label="Naar de buurtpagina" />
+                :heading="__('activities.basic.closing_heading', ['name' => $gemeente])"
+                :href="localized_route('groups.show', ['group' => $chapter])"
+                :label="__('activities.basic.closing_label')" />
         </x-slot:closing>
     @endif
 </x-layouts::site>

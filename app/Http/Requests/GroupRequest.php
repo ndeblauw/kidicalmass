@@ -16,7 +16,9 @@ class GroupRequest extends FormRequest
     {
         return [
             'shortname' => ['required', 'string', 'max:255', Rule::unique('groups', 'shortname')->ignore($this->group)],
-            'name' => ['required', 'string', 'max:255'],
+            'name_nl' => ['required_without:name_fr', 'string', 'max:255'],
+            'name_fr' => ['required_without:name_nl', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'zip' => ['nullable', 'string', 'max:255'],
             'parent_id' => ['nullable', 'integer', 'exists:groups,id'],
             'invisible' => ['boolean'],

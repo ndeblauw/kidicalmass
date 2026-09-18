@@ -14,7 +14,8 @@ class TeamMemberFactory extends Factory
     {
         return [
             'name' => fake()->firstName(),
-            'role' => 'Coördinatie',
+            'role_nl' => 'Coördinatie',
+            'role_fr' => 'Coordination',
             'bio_nl' => fake()->sentences(2, true),
             'bio_fr' => null,
             'sort' => 0,

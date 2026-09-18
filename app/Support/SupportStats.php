@@ -33,7 +33,7 @@ class SupportStats
         // Bottom of the stacked deck up to the legible top card.
         $cards[] = [
             'value' => $this->format(Group::visible()->count()),
-            'label' => __('support.stat_groups'),
+            'label' => __('support.stats.groups'),
             'color' => 'red',
         ];
 
@@ -41,7 +41,7 @@ class SupportStats
         if ($rides > 0) {
             $cards[] = [
                 'value' => $this->format($rides),
-                'label' => __('support.stat_rides', ['year' => $year]),
+                'label' => __('support.stats.rides', ['year' => $year]),
                 'color' => 'green',
             ];
         }
@@ -50,7 +50,7 @@ class SupportStats
         if ($participants !== null) {
             $cards[] = [
                 'value' => $this->format($participants),
-                'label' => __('support.stat_participants', ['year' => $year]),
+                'label' => __('support.stats.participants', ['year' => $year]),
                 'color' => 'blue',
             ];
         }

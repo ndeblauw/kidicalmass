@@ -1,5 +1,5 @@
 <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-    <h2 class="text-3xl font-bold text-kidical-blue mb-6 text-center">{{ __('common.groups_growth_title') }}</h2>
+    <h2 class="text-3xl font-bold text-kidical-blue mb-6 text-center">{{ __('common.groups_growth.title') }}</h2>
 
     @if(count($statistics) > 0)
         <dl class="space-y-3">
@@ -10,7 +10,7 @@
                         <div class="h-8 w-1 bg-kidical-orange" aria-hidden="true"></div>
                         <dd class="flex items-baseline space-x-2">
                             <span class="text-3xl font-extrabold text-kidical-green">{{ $count }}</span>
-                            <span class="text-xl text-gray-600">{{ trans_choice('common.groups_growth_groups', $count) }}</span>
+                            <span class="text-xl text-gray-600">{{ trans_choice('common.groups_growth.groups', $count) }}</span>
                         </dd>
                     </div>
 
@@ -27,6 +27,6 @@
             @endforeach
         </dl>
     @else
-        <p class="text-center text-gray-500 py-4">{{ __('common.groups_growth_empty') }}</p>
+        <p class="text-center text-gray-500 py-4">{{ __('common.groups_growth.empty') }}</p>
     @endif
 </div>

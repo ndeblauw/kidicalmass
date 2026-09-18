@@ -41,3 +41,4 @@ yarn-error.log
 
 # Local impeccable/design critique scratch output
 .impeccable/
+.opencode/package-lock.json

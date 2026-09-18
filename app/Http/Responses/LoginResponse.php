@@ -16,7 +16,7 @@ class LoginResponse implements LoginResponseContract
 
         $group = $user->groups()
             ->wherePivotIn('role', ['captain', 'pinkvest'])
-            ->orderBy('name')
+            ->orderBy('name_nl')
             ->first();
 
         if ($group) {

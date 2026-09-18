@@ -4,7 +4,7 @@
 <x-ba-textarea name="content_fr" label="Content (FR)" rows="5" rte />
 
 <x-ba-belongsto name="author" label="Author" :options="\App\Models\User::orderBy('name')->pluck('name', 'id')->all()" />
-<x-ba-checkboxes name="groups" label="Groups" :options="\App\Models\Group::orderBy('name')->pluck('name', 'id')->all()" />
+<x-ba-checkboxes name="groups" label="Groups" :options="\App\Models\Group::orderBy('name_nl')->pluck('name_nl', 'id')->all()" />
 
 <x-ba-boolean name="is_published" label="Gepubliceerd" comment="Uit = kladversie, onzichtbaar op de site." />
 <x-ba-datepicker name="published_at" label="Publicatiedatum" only-date comment="Bepaalt de volgorde in de nieuwsfeed." />

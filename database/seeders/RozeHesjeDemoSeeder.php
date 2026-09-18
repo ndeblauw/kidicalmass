@@ -92,13 +92,13 @@ class RozeHesjeDemoSeeder extends Seeder
                 'title_nl' => 'Zomeravondrit langs het Josaphatpark',
                 'title_fr' => 'Balade du soir le long du parc Josaphat',
                 'begin_date' => now()->addDays(18)->setTime(18, 30),
-                'location' => 'Josaphatpark, Schaarbeek',
+                'location_nl' => 'Josaphatpark, Schaarbeek',
             ],
             [
                 'title_nl' => 'Halloween-tochtje met lichtjes',
                 'title_fr' => 'Petite virée d\'Halloween avec lumières',
                 'begin_date' => now()->addMonths(2)->setTime(17, 0),
-                'location' => 'Gemeenteplein, Schaarbeek',
+                'location_nl' => 'Gemeenteplein, Schaarbeek',
             ],
         ];
 
@@ -111,7 +111,7 @@ class RozeHesjeDemoSeeder extends Seeder
                     'content_fr' => 'L\'itinéraire est presque fixé. La date et la communication sont encore en préparation avant l\'annonce publique.',
                     'activity_type' => ActivityType::KIDICALMASS,
                     'begin_date' => $draft['begin_date'],
-                    'location' => $draft['location'],
+                    'location_nl' => $draft['location_nl'],
                     'author_id' => $author?->id,
                     'is_published' => false,
                 ],

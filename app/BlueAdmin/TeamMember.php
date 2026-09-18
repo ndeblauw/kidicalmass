@@ -12,9 +12,9 @@ class TeamMember extends BlueAdminModel
 
     public $title_field = 'name';
 
-    public $indexTableColumns = ['name', 'role', 'visible'];
+    public $indexTableColumns = ['name', 'role_nl', 'visible'];
 
-    public $attributesToShow = ['name', 'role', 'bio_nl', 'bio_fr', 'sort', 'visible'];
+    public $attributesToShow = ['name', 'role_nl', 'role_fr', 'bio_nl', 'bio_fr', 'sort', 'visible'];
 
     public $filepond = ['photo'];
 

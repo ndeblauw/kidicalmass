@@ -35,14 +35,14 @@ class LegacyRedirectController extends Controller
             $group = Group::visible()->where('zip', $zip)->first();
 
             return $group
-                ? redirect()->route('groups.show', ['locale' => $locale, 'group' => $group], 301)
-                : redirect()->route('groups.index', ['locale' => $locale], 301);
+                ? redirect()->to(localized_route('groups.show', ['locale' => $locale, 'group' => $group]), 301)
+                : redirect()->to(localized_route('groups.index', ['locale' => $locale]), 301);
         }
 
         [$route, $fragment] = array_pad(explode('#', $target, 2), 2, null);
 
         return redirect()->to(
-            route($route, ['locale' => $locale]).($fragment !== null ? '#'.$fragment : ''),
+            localized_route($route, ['locale' => $locale]).($fragment !== null ? '#'.$fragment : ''),
             301
         );
     }

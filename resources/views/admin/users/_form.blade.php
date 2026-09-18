@@ -3,4 +3,4 @@
 <x-ba-text type="password" name="password" label="Password" comment="Leave blank on edit to keep the current password." />
 
 <x-ba-divider />
-<x-ba-checkboxes name="groups" label="Groups" :options="\App\Models\Group::orderBy('name')->pluck('name', 'id')->all()" />
+<x-ba-checkboxes name="groups" label="Groups" :options="\App\Models\Group::orderBy('name_nl')->pluck('name_nl', 'id')->all()" />

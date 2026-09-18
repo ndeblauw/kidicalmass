@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasMainImage;
+use App\Models\Concerns\LocalizesFields;
 use App\Models\Scopes\LocalGroupScope;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -27,6 +28,7 @@ class Article extends Model implements HasMedia
     use HasFactory;
     use HasMainImage;
     use InteractsWithMedia;
+    use LocalizesFields;
 
     protected function casts(): array
     {
@@ -48,13 +50,23 @@ class Article extends Model implements HasMedia
         $query->where('is_published', true);
     }
 
+    public function getTitleAttribute(): ?string
+    {
+        return $this->localizedValue('title');
+    }
+
+    public function getContentAttribute(): ?string
+    {
+        return $this->localizedValue('content');
+    }
+
     /**
      * Body HTML for the public page: rich-text (TinyMCE) content renders as-is,
      * legacy plain-text content keeps its escaped nl2br rendering.
      */
     protected function getContentHtmlAttribute(): HtmlString
     {
-        $content = (string) $this->content_nl;
+        $content = (string) $this->content;
 
         return str_contains($content, '<p')
             ? new HtmlString($content)
@@ -115,7 +127,7 @@ class Article extends Model implements HasMedia
 
     public function metaDescription(): string
     {
-        return Str::limit(Str::squish(strip_tags($this->content_nl ?? '')), 155);
+        return Str::limit(Str::squish(strip_tags($this->content ?? '')), 155);
     }
 
     public function ogImageUrl(): ?string

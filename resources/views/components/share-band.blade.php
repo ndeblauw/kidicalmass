@@ -2,16 +2,22 @@
     'url',
     'title',
     'date',
-    'heading' => 'Ken je een gezin dat dit leuk zou vinden?',
-    'subline' => 'Samen fietsen is leuker. Stuur deze rit door, dan staat de straat zondag nog voller met kinderen.',
+    'heading' => null,
+    'subline' => null,
     // Share-message + email subject default to the ride wording; the basic activity
     // page (workshop/meeting) passes its own so the copy isn't ride-specific.
     'message' => null,
-    'subject' => 'Een leuke fietstocht voor jullie gezin',
+    'subject' => null,
     // Render as a quiet contained panel inside the page container instead of a
     // full-bleed band (e.g. the ride page).
     'contained' => false,
 ])
+
+@php
+    $heading = $heading ?? __('components.share.heading');
+    $subline = $subline ?? __('components.share.subline');
+    $subject = $subject ?? __('components.share.subject');
+@endphp
 
 <section @class(['share-band', 'share-band--contained' => $contained])>
     <div @class(['container mx-auto px-4' => ! $contained])>

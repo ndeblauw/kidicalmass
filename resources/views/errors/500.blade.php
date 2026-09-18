@@ -2,7 +2,7 @@
      Als de app plat ligt moet deze pagina nog renderen. Letterlijke tokenwaarden
      gekopieerd uit @theme in resources/css/app.css (de enige gedoogde plek). --}}
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

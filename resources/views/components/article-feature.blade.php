@@ -38,7 +38,7 @@
 
     <div class="flex h-full flex-col justify-center gap-3 p-6 md:p-10">
         <h2>
-            <a href="{{ route('articles.show', $article) }}" class="link-plain text-kidical-ink transition-colors group-hover:text-kidical-blue after:absolute after:inset-0">{{ $article->title_nl }}</a>
+            <a href="{{ localized_route('articles.show', ['article' => $article]) }}" class="link-plain text-kidical-ink transition-colors group-hover:text-kidical-blue after:absolute after:inset-0">{{ $article->title }}</a>
         </h2>
 
         <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-kidical-ink/50">

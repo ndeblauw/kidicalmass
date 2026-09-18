@@ -23,8 +23,8 @@ class VolunteerController extends Controller
 
         if ($location) {
             $groups = Group::visible()
-                ->orderBy('name')
-                ->get(['id', 'name', 'zip']);
+                ->orderBy('name_nl')
+                ->get(['id', 'name_nl', 'zip']);
 
             $coordsByZip = PostalCode::whereIn('zip', $groups->pluck('zip')->filter()->unique())
                 ->get()->keyBy('zip');

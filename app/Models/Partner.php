@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PartnerCategory;
+use App\Models\Concerns\LocalizesFields;
 use App\Models\Scopes\LocalGroupScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
@@ -19,6 +20,22 @@ class Partner extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use LocalizesFields;
+
+    protected function localizingField(): string
+    {
+        return 'name';
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->localizedValue('name');
+    }
+
+    public function getDescriptionAttribute(): ?string
+    {
+        return $this->localizedValue('description');
+    }
 
     protected function casts(): array
     {
