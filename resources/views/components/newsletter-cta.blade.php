@@ -1,6 +1,6 @@
 @props([
-    'heading' => 'Krijg de nieuwste ritten in je mailbox',
-    'lead' => 'Schrijf je in voor de maandelijkse mail. Zo weet je als eerste waar en wanneer er bij jou in de buurt gefietst wordt.',
+    'heading' => null,
+    'lead' => null,
 ])
 
 {{-- Page-owned closing block: newsletter sign-up on the full-bleed yellow band.
@@ -41,10 +41,10 @@
     </span>
 
     <div class="container mx-auto px-4 py-20 flex flex-col items-center gap-6 text-center">
-        <h2 class="max-w-3xl mt-12">{{ $heading }}</h2>
+        <h2 class="max-w-3xl mt-12">{{ $heading ?? __('home.newsletter.heading') }}</h2>
 
-        <p class="newsletter-cta__lead max-w-xl">{{ $lead }}</p>
+        <p class="newsletter-cta__lead max-w-xl">{{ $lead ?? __('home.newsletter.lead') }}</p>
 
-        <x-cta-button :href="route('newsletter.show', ['locale' => app()->getLocale()])" variant="blue" icon="arrow">Schrijf me in</x-cta-button>
+        <x-cta-button :href="localized_route('newsletter.show')" variant="blue" icon="arrow">{{ __('home.newsletter.cta') }}</x-cta-button>
     </div>
 </section>

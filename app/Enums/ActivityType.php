@@ -30,9 +30,9 @@ enum ActivityType: string
     }
 
     /**
-     * Public-site (NL) label for an activity type, used by the chapter page's
-     * "Ook in {gemeente}" chips. `label()` stays English for Filament/admin and
-     * form option arrays; this mirrors the NL fallbacks in <x-ride-row>.
+     * Public-site label for an activity type in the active locale. `label()`
+     * stays English for Filament/admin and form option arrays; this mirrors
+     * the NL fallbacks in <x-ride-row> and serves the FR site too.
      */
     public function labelNl(): string
     {
@@ -41,6 +41,16 @@ enum ActivityType: string
             self::MEETING => 'Vergadering',
             self::WORKSHOP => 'Workshop',
             self::OTHER => 'Activiteit',
+        };
+    }
+
+    public function labelLocalized(): string
+    {
+        return match ($this) {
+            self::KIDICALMASS => __('activities.types.ride'),
+            self::MEETING => __('activities.types.meeting'),
+            self::WORKSHOP => __('activities.types.workshop'),
+            self::OTHER => __('activities.types.other'),
         };
     }
 

@@ -8,7 +8,7 @@
 
         <x-slot:actions>
             <x-cta-button :href="route('login')">Inloggen</x-cta-button>
-            <x-cta-button :href="route('home')" variant="ghost" icon="back">Naar de startpagina</x-cta-button>
+            <x-cta-button :href="localized_route('home')" variant="ghost" icon="back">Naar de startpagina</x-cta-button>
         </x-slot:actions>
     </x-error-page>
 

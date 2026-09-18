@@ -36,18 +36,18 @@ class TestDataSeeder extends Seeder
         // Create some groups
         $groupA = Group::firstOrCreate(
             ['shortname' => 'group-a'],
-            ['name' => 'Group A']
+            ['name_nl' => 'Group A']
         );
 
         $groupB = Group::firstOrCreate(
             ['shortname' => 'group-b'],
-            ['name' => 'Group B']
+            ['name_nl' => 'Group B']
         );
 
         $groupC = Group::firstOrCreate(
             ['shortname' => 'group-c'],
             [
-                'name' => 'Group C',
+                'name_nl' => 'Group C',
                 'parent_id' => $groupA->id,
             ]
         );
@@ -79,7 +79,7 @@ class TestDataSeeder extends Seeder
             'content_fr' => 'Description de la première activité.',
             'begin_date' => now()->addDays(7),
             'duration_minutes' => 180,
-            'location' => 'Brussels',
+            'location_nl' => 'Brussels',
             'author_id' => $user1->id,
             'is_published' => true,
         ]);
@@ -92,7 +92,7 @@ class TestDataSeeder extends Seeder
             'content_fr' => 'Description de la deuxième activité.',
             'begin_date' => now()->addDays(14),
             'duration_minutes' => 120,
-            'location' => 'Antwerp',
+            'location_nl' => 'Antwerp',
             'author_id' => $user2->id,
             'is_published' => true,
         ]);
@@ -105,7 +105,7 @@ class TestDataSeeder extends Seeder
             'content_fr' => 'Ceci est une activité dans le passé.',
             'begin_date' => now()->subDays(7),
             'duration_minutes' => 120,
-            'location' => 'Ghent',
+            'location_nl' => 'Ghent',
             'author_id' => $user1->id,
             'is_published' => true,
         ]);

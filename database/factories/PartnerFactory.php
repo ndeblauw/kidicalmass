@@ -26,7 +26,8 @@ class PartnerFactory extends Factory
         $name = $companyNames[array_rand($companyNames)] ?? fake()->company();
 
         return [
-            'name' => $name,
+            'name_nl' => $name,
+            'name_fr' => $name,
             'url' => fake()->url(),
             'description_nl' => fake()->paragraphs(2, true),
             'description_fr' => fake()->paragraphs(2, true),

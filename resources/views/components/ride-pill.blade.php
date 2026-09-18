@@ -15,19 +15,14 @@
 
     if ($commune !== null && $commune !== '') {
         $bare = trim((string) preg_replace('/\b'.preg_quote($commune, '/').'\b/iu', '', $headline), " \t\n\r,–-");
-        $headline = $bare !== '' ? $bare : match ($activity->activity_type) {
-            \App\Enums\ActivityType::WORKSHOP => 'Workshop',
-            \App\Enums\ActivityType::MEETING => 'Vergadering',
-            \App\Enums\ActivityType::OTHER => 'Activiteit',
-            default => 'Fietsparade',
-        };
+        $headline = $bare !== '' ? $bare : $activity->activity_type->labelLocalized();
     }
 
     $rail = \App\Support\RideDate::rail($activity->begin_date);
     $shortDate = $rail['num'].' '.$rail['month'];
 @endphp
 <a
-    href="{{ route('activities.show', $activity) }}"
+    href="{{ localized_route('activities.show', ['activity' => $activity]) }}"
     {{ $attributes->merge(['class' => 'ride-pill link-plain']) }}
 >
     <time class="ride-pill__date" datetime="{{ $activity->begin_date->format('Y-m-d') }}">{{ $shortDate }}</time>

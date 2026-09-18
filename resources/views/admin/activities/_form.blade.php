@@ -6,7 +6,8 @@
 <x-ba-divider subtitle="Activity Details" />
 <x-ba-select name="activity_type" label="Activity Type" :options="\App\Enums\ActivityType::getOptionsArray()" />
 <x-ba-datepicker name="begin_date" label="Begin Date" required />
-<x-ba-text name="location" label="Location" required comment="For Critical Mass: enter the starting address." />
+<x-ba-text name="location_nl" label="Location (NL)" required comment="For Critical Mass: enter the starting address." />
+<x-ba-text name="location_fr" label="Location (FR)" comment="For Critical Mass: enter the starting address." />
 <x-ba-text name="postal_code" label="Postal Code" comment="e.g. 1000 — used in the display title." />
 <x-ba-text name="distance" label="Distance" comment="e.g. 5–7 km" />
 <x-ba-text type="number" name="duration_minutes" label="Duration (minutes)" comment="Duration of the activity in minutes." />
@@ -19,7 +20,7 @@
 <x-ba-divider subtitle="Organisation" />
 <x-ba-belongsto name="author" label="Author" :options="\App\Models\User::orderBy('name')->pluck('name', 'id')->all()" />
 <x-ba-belongsto name="organizer" label="Organizer" :options="\App\Models\User::orderBy('name')->pluck('name', 'id')->all()" allow-null-option comment="Leave empty to automatically assign from the responsible group or author." />
-<x-ba-checkboxes name="groups" label="Groups" :options="\App\Models\Group::orderBy('name')->pluck('name', 'id')->all()" />
+<x-ba-checkboxes name="groups" label="Groups" :options="\App\Models\Group::orderBy('name_nl')->pluck('name_nl', 'id')->all()" />
 
 <x-ba-divider subtitle="Images" />
 <x-ba-mediafile name="main" label="Main Image" comment="Shown on the activities index card." />

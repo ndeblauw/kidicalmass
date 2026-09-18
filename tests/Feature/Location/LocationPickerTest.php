@@ -3,6 +3,7 @@
 use App\Livewire\LocationPicker;
 use App\Models\PostalCode;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -48,4 +49,58 @@ it('dispatches a null payload on clear in reactive mode without redirecting', fu
         ->call('clear')
         ->assertDispatched('location-selected')
         ->assertNoRedirect();
+});
+
+it('provides shared location picker copy in both locales', function () {
+    $keys = [
+        'common.location.current',
+        'common.location.change',
+        'common.location.prompt',
+        'common.location.placeholder',
+        'common.location.locate',
+        'common.location.locating',
+        'common.location.error',
+        'common.location.suggestions_status',
+        'common.location.suggestions_label',
+    ];
+
+    foreach (['nl', 'fr'] as $locale) {
+        foreach ($keys as $key) {
+            expect(__($key, [], $locale))->not->toBe($key);
+        }
+    }
+});
+
+it('renders localized location picker copy across its states', function () {
+    app()->setLocale('fr');
+
+    $localizedCopy = [
+        'common.location.prompt' => 'Localized Location Prompt',
+        'common.location.placeholder' => 'Localized Location Placeholder',
+        'common.location.locate' => 'Localized Location Locate',
+        'common.location.locating' => 'Localized Location Locating',
+        'common.location.error' => 'Localized Location Error',
+        'common.location.suggestions_status' => '{1} Localized Location Suggestion|[2,*] Localized Location Suggestions',
+        'common.location.suggestions_label' => 'Localized Location Suggestions Label',
+        'common.location.current' => 'Localized Current Location',
+        'common.location.change' => 'Localized Location Change',
+    ];
+
+    Lang::addLines($localizedCopy, 'fr');
+
+    Livewire::test(LocationPicker::class)
+        ->set('query', 'Jet')
+        ->assertSee($localizedCopy['common.location.prompt'])
+        ->assertSee($localizedCopy['common.location.placeholder'])
+        ->assertSee($localizedCopy['common.location.locate'])
+        ->assertSee($localizedCopy['common.location.locating'])
+        ->assertSee($localizedCopy['common.location.error'])
+        ->assertSee('Localized Location Suggestion')
+        ->assertSee($localizedCopy['common.location.suggestions_label']);
+
+    Livewire::test(LocationPicker::class)
+        ->set('selected', ['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette'])
+        ->assertSee($localizedCopy['common.location.current'])
+        ->assertSee('Jette')
+        ->assertSee($localizedCopy['common.location.change']);
 });

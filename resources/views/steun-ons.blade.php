@@ -14,6 +14,7 @@
 
     @php
         $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
+        $isFr = app()->getLocale() === 'fr';
 
         // $proofCards is computed live (App\Support\SupportStats) and passed in by
         // the route: local groups + rides are counted from the database, the
@@ -22,15 +23,15 @@
         // Order is bottom-to-top: the last card rests on top of the stack, legible.
     @endphp
 
-    <x-page-hero :eyebrow="__('support.hero_eyebrow')" :title="__('support.hero_title')" illustration="img/illustrations/heart-sign-holder.svg">
+    <x-page-hero :eyebrow="__('support.hero.eyebrow')" :title="__('support.hero.title')" illustration="img/illustrations/heart-sign-holder.svg">
 
         {{-- High-intent shortcut: the ask sits in the hero so a ready-to-give
              visitor never has to scroll the full argument to find the door. --}}
         <x-slot:controls>
             <div class="steun-hero__cta">
                 <x-cta-button :href="$growfunding" variant="yellow" icon="heart" disc="red"
-                    target="_blank" rel="noopener noreferrer" class="link-plain">{{ __('support.ask_cta') }}</x-cta-button>
-                <p class="steun-hero__cta-note">{{ __('support.hero_cta_note') }}</p>
+                    target="_blank" rel="noopener noreferrer" class="link-plain">{{ __('support.ask.cta') }}</x-cta-button>
+                <p class="steun-hero__cta-note">{{ __('support.hero.cta_note') }}</p>
             </div>
         </x-slot:controls>
 
@@ -41,13 +42,13 @@
     <section class="steun-story">
         <div class="steun-story__text">
             {{-- Mission lead: an intro-scale opener (the hero already carries the title). --}}
-            <p class="steun-mission__body">{{ __('support.mission_body') }}</p>
+            <p class="steun-mission__body">{{ __('support.mission.body') }}</p>
 
             <div class="steun-story__intro">
-                <h2 class="steun-story__title">{{ __('support.story_title') }}</h2>
-                <p class="steun-story__body">{{ __('support.story_body') }}</p>
+                <h2 class="steun-story__title">{{ __('support.story.title') }}</h2>
+                <p class="steun-story__body">{{ __('support.story.body') }}</p>
                 {{-- The team's work, as a flowing second paragraph. --}}
-                <p class="steun-story__body">{{ __('support.story_work') }}</p>
+                <p class="steun-story__body">{{ __('support.story.work') }}</p>
             </div>
         </div>
 
@@ -66,20 +67,29 @@
     </section>
 
     {{-- WAT JE STEUN MOGELIJK MAAKT — content left, a warm collage of the
-         organisers right (PAT-20 standalone collage): the people you're backing. --}}
+         organisers right (PAT-20 standalone collage): the people you're backing.
+         The French list carries 7 titled items (vs NL's 4 short lines), each
+         with a "To be confirmed" marker — the client still has to confirm what
+         support money pays for. --}}
     <section class="steun-funds">
         <div class="steun-funds__inner">
-            <x-titled-list-block :title="__('support.funds_title')" variant="get" level="h2">
-                @foreach (__('support.funds') as $fund)
-                    <li>{{ $fund }}</li>
-                @endforeach
-            </x-titled-list-block>
+            <x-to-be-confirmed :when="$isFr">
+                <x-titled-list-block :title="__('support.funds.title')" variant="get" level="h2">
+                    @foreach (__('support.funds.items') as $fund)
+                        @if (is_array($fund))
+                            <li><strong>{{ $fund['title'] }}</strong> — {{ $fund['body'] }}</li>
+                        @else
+                            <li>{{ $fund }}</li>
+                        @endif
+                    @endforeach
+                </x-titled-list-block>
+            </x-to-be-confirmed>
 
             @php
                 // The two organisers the visitor is backing: posing + the team in action.
                 $fundPhotos = [
-                    ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => 'Drie organisatoren poseren lachend, één met roze hesje en bloemenkrans, tijdens een rit.'],
-                    ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => 'Groepsfoto van de organisatoren in blauwe Kidical Mass-truien met vlag, na een rit.'],
+                    ['src' => 'img/photography/ride-trio-pink-vest-lei-portrait.webp', 'alt' => __('support.photos.org_1')],
+                    ['src' => 'img/photography/team-blue-sweatshirts-celebration.webp', 'alt' => __('support.photos.org_2')],
                 ];
             @endphp
             <x-photo-collage class="steun-funds__collage" :photos="$fundPhotos" />
@@ -119,14 +129,26 @@
          panel, flush to the footer. The €3 framing, the t-shirt, the disclaimer and
          all live here (the duplicate white card was removed). No
          ride-oriented closing CTA: it would split intent at the decision.
-         One-off path cut (D-9 Closed 2026-07-03): monthly Growfunding only, no IBAN on-site. --}}
+         The one-off donation returns on /fr (D-9, dropped 2026-07-03) as a marked
+         placeholder — the client still has to confirm whether to accept one-off
+         gifts and which IBAN to use. --}}
     <x-slot:closing>
         <section class="steun-cta">
             <div class="container mx-auto px-4 steun-cta__inner">
-                <h2>{{ __('support.ask_title') }}</h2>
-                <p class="steun-cta__sub">{{ __('support.ask_body') }}</p>
-                <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask_cta') }}</x-cta-button>
-                <p class="steun-cta__note">{{ __('support.ask_note') }}</p>
+                <h2>{{ __('support.ask.title') }}</h2>
+                <p class="steun-cta__sub">{{ __('support.ask.body') }}</p>
+                <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask.button') }}</x-cta-button>
+                <p class="steun-cta__note">{{ __('support.ask.note') }}</p>
+
+                @if ($isFr)
+                    <x-to-be-confirmed>
+                        <div class="steun-donation mt-8">
+                            <h3>{{ __('support.donation.heading') }}</h3>
+                            <p>{{ __('support.donation.body') }}</p>
+                            <p class="steun-donation__iban">{{ __('support.donation.iban') }}</p>
+                        </div>
+                    </x-to-be-confirmed>
+                @endif
             </div>
         </section>
     </x-slot:closing>

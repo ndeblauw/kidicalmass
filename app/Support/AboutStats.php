@@ -26,7 +26,7 @@ class AboutStats
            the deck never bookends the same colour (polish 2026-07-04). */
         $cards = [[
             'value' => $this->format(Group::visible()->count()),
-            'label' => __('about.stat_groups'),
+            'label' => __('about.stats.groups'),
             'color' => 'blue',
         ]];
 
@@ -38,7 +38,7 @@ class AboutStats
         if ($rides > 0) {
             $cards[] = [
                 'value' => $this->format($rides),
-                'label' => __('about.stat_rides'),
+                'label' => __('about.stats.rides'),
                 'color' => 'red',
             ];
         }
@@ -48,7 +48,7 @@ class AboutStats
         if ($latest?->volunteers) {
             $cards[] = [
                 'value' => $this->format($latest->volunteers),
-                'label' => __('about.stat_volunteers'),
+                'label' => __('about.stats.volunteers'),
                 'color' => 'green',
             ];
         }
@@ -56,7 +56,7 @@ class AboutStats
         if ($latest?->participants) {
             $cards[] = [
                 'value' => $this->format($latest->participants),
-                'label' => __('about.stat_participants', ['year' => $latest->year]),
+                'label' => __('about.stats.participants', ['year' => $latest->year]),
                 'color' => 'red',
             ];
         }

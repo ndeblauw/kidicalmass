@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\LocalizesFields;
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,22 @@ class TeamMember extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use LocalizesFields;
+
+    protected function localizingField(): string
+    {
+        return 'bio';
+    }
+
+    public function getRoleAttribute(): ?string
+    {
+        return $this->localizedValue('role');
+    }
+
+    public function getBioAttribute(): ?string
+    {
+        return $this->localizedValue('bio');
+    }
 
     protected function casts(): array
     {

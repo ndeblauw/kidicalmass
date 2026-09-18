@@ -13,12 +13,7 @@
 
     if ($commune !== null && $commune !== '') {
         $bare = trim((string) preg_replace('/\b'.preg_quote($commune, '/').'\b/iu', '', $headline), " \t\n\r,–-");
-        $headline = $bare !== '' ? $bare : match ($activity->activity_type) {
-            \App\Enums\ActivityType::WORKSHOP => 'Workshop',
-            \App\Enums\ActivityType::MEETING => 'Vergadering',
-            \App\Enums\ActivityType::OTHER => 'Activiteit',
-            default => 'Fietsparade',
-        };
+        $headline = $bare !== '' ? $bare : $activity->activity_type->labelLocalized();
     }
 
     // The Grande's star marker lives on the calendar lockup (<x-ride-day>), not in the
@@ -35,7 +30,7 @@
     }
 @endphp
 <a
-    href="{{ route('activities.show', $activity) }}"
+    href="{{ localized_route('activities.show', ['activity' => $activity]) }}"
     {{ $attributes->merge(['class' => 'ride-row link-plain'.($isFeatured ? ' ride-row--featured' : '')]) }}
 >
     <span class="ride-row__place">{{ $headline }}</span>

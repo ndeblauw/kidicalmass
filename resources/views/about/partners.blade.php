@@ -7,14 +7,21 @@
     sections separated by hairline dividers (not floating islands, not many bands). The
     single light-blue accent band is the enquiry/CTA at the end — the most important
     section — not the secondary "operationele partners". Imagery: crowd photo + logo wall.
-    Plan: docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md + partners.md
+    Copy: lang/{nl,fr}/partners.php (page.*). Plan:
+    docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md + partners.md
+    FR additions (per "Partners: French content, prices and organisation types"): the
+    formula prices move onto the page (carrying "To be confirmed") and the "Ce que nous
+    offrons à nos partenaires" list appears — both French-only, marked, hidden on /nl.
 --}}
-<x-layouts::site title="Partners & sponsors" :description="__('meta.partners')">
+@php
+    $isFr = app()->getLocale() === 'fr';
+@endphp
+<x-layouts::site :title="__('nav.partners')" :description="__('meta.partners')">
 <div class="partners-page">
 
     <x-page-hero
-        eyebrow="Partners & sponsors"
-        title="Samen sterker voor veilige straten"
+        :eyebrow="__('partners.page.hero.eyebrow')"
+        :title="__('partners.page.hero.title')"
         size="compact">
 
     {{-- WIE ONS STEUNT — named institutional anchors (depth) + the full logo wall (breadth)
@@ -22,65 +29,85 @@
          Bikes) live in the wall + a one-line note — no dedicated cards: that is a
          family/resource story, not sponsor credibility. (arrange 2026-06-03, Frederik) --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>Onze partners en bondgenoten</x-section-heading>
-        <p class="about-partners__intro">Deze organisaties steunen Kidical Mass op nationaal of regionaal niveau, via financiering, infrastructuur of een gedeeld pleidooi.</p>
+        <x-section-heading>{{ __('partners.page.allies.heading') }}</x-section-heading>
+        <p class="about-partners__intro">{{ __('partners.page.allies.intro') }}</p>
         <ul class="about-partner-grid" role="list">
             @foreach ($partners as $partner)
-                <x-partner-card :name="$partner->name" data-partner-category="{{ $partner->category->value }}">{{ $partner->description_nl }}</x-partner-card>
+                <x-partner-card :name="$partner->name" data-partner-category="{{ $partner->category->value }}">{{ $partner->description }}</x-partner-card>
             @endforeach
         </ul>
         <figure class="partner-logo-wall">
-            <img src="{{ asset('img/partners/partner-logos-2024.png') }}" alt="Logo's van de vele partners en bondgenoten van Kidical Mass, waaronder Brussel Mobiliteit, Pro Velo, Cyclo, GRACQ, Fietsersbond, Bruzz en vele anderen" loading="lazy">
-            <figcaption>En vele anderen die Kidical Mass mee mogelijk maken.</figcaption>
+            <img src="{{ asset('img/partners/partner-logos-2024.png') }}" alt="{{ __('partners.page.allies.logo_alt') }}" loading="lazy">
+            <figcaption>{{ __('partners.page.allies.logo_caption') }}</figcaption>
         </figure>
-        <p class="about-partners__note">Op het terrein helpen partners zoals Loopz en My Kids Bikes gezinnen aan een fiets.</p>
+        <p class="about-partners__note">{{ __('partners.page.allies.note') }}</p>
     </section>
 
     {{-- WAAROM PARTNER WORDEN — benefit hook (from the Sponsorformules "waarom steunen") --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>Waarom partner of sponsor worden?</x-section-heading>
-        <p class="about-partners__intro">Als partner steun je een beweging die elke maand honderden gezinnen veilig op de fiets krijgt. En je bouwt mee aan een stad op maat van kinderen.</p>
+        <x-section-heading>{{ __('partners.page.why.heading') }}</x-section-heading>
+        <p class="about-partners__intro">{{ __('partners.page.why.intro') }}</p>
         <x-check-list>
-            <li>Je draagt bij aan kindvriendelijke, veilige straten in elke buurt.</li>
-            <li>Je ondersteunt burgerparticipatie en duurzame mobiliteit.</li>
-            <li>Je krijgt positieve zichtbaarheid bij gezinnen, buurtbewoners en beleidsmakers.</li>
+            @foreach (__('partners.page.why.items') as $item)
+                <li>{{ $item }}</li>
+            @endforeach
         </x-check-list>
     </section>
 
-    {{-- ONZE FORMULES — on-page summary of the two tracks; prices live in the
-         downloadable PDF (provisional, pending Leticia's national-scope OK). --}}
+    {{-- ONZE FORMULES — the two tracks. Prices live in the downloadable PDF on /nl;
+         on /fr they move onto the page (from the copy doc) and carry "To be confirmed". --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>Onze formules</x-section-heading>
-        <p class="about-partners__intro">We werken met formules op maat, in twee sporen. Je kiest zelf hoe zichtbaar je wil zijn: van een vermelding op sociale media tot je logo op onze website, flyers en banners.</p>
+        <x-section-heading>{{ __('partners.page.formules.heading') }}</x-section-heading>
+        <p class="about-partners__intro">{{ __('partners.page.formules.intro') }}</p>
         <div class="partner-formules">
             <div class="partner-formule-track partner-formule-track--vzw">
-                <h3>Voor vzw's en verenigingen</h3>
+                <h3>{{ __('partners.page.formules.vzw.title') }}</h3>
                 <ul>
-                    <li><strong>Supporter</strong>: vermelding op sociale media</li>
-                    <li><strong>Partner</strong>: logo op de website + sociale media</li>
-                    <li><strong>Community Partner</strong>: logo op de website, sociale media en flyers van een event</li>
+                    @foreach (__('partners.page.formules.vzw.items') as $item)
+                        <li><strong>{{ $item['name'] }}</strong>@if (isset($item['price']))<span class="partner-formule__price"> — {{ $item['price'] }}</span>@endif: {{ $item['body'] }}</li>
+                    @endforeach
                 </ul>
             </div>
             <div class="partner-formule-track partner-formule-track--bedrijf">
-                <h3>Voor bedrijven</h3>
+                <h3>{{ __('partners.page.formules.bedrijf.title') }}</h3>
                 <ul>
-                    <li><strong>Friend</strong>: logo op de website + sociale media</li>
-                    <li><strong>Sponsor</strong>: logo op de website, sociale media en alle event-flyers</li>
-                    <li><strong>Main Partner</strong>: logo overal, plus ruimte en aanwezigheid op events</li>
+                    @foreach (__('partners.page.formules.bedrijf.items') as $item)
+                        <li><strong>{{ $item['name'] }}</strong>@if (isset($item['price']))<span class="partner-formule__price"> — {{ $item['price'] }}</span>@endif: {{ $item['body'] }}</li>
+                    @endforeach
                 </ul>
             </div>
         </div>
+        @if ($isFr)
+            <x-to-be-confirmed>
+                <p class="about-partners__note">{{ __('partners.page.formules.vat_note') }}</p>
+            </x-to-be-confirmed>
+        @endif
         <p class="about-partners__note">
-            <a href="{{ asset('downloads/kidical-mass-sponsorformules.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">Bekijk alle formules en tarieven (pdf) →</a>
+            <a href="{{ asset('downloads/kidical-mass-sponsorformules.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">{{ __('partners.page.formules.pdf') }}</a>
         </p>
     </section>
 
-    {{-- WAT WE VRAGEN — charter essence + download (the charter doubles as a values filter) --}}
+    {{-- WAT WE VRAGEN / UNE COLLABORATION QUI A DU SENS — charter essence + download.
+         The French adds the "Ce que nous offrons à nos partenaires" list (FR-only). --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>Wat we van partners vragen</x-section-heading>
-        <p class="about-partners__intro">Kidical Mass is een burgerbeweging, geen reclamebord. We werken samen met partners die onze waarden delen: kindvriendelijkheid, veiligheid, duurzaamheid en inclusie. Je steun komt zonder voorwaarden die onze werking of onze boodschap sturen, en we blijven onafhankelijk en niet-commercieel.</p>
+        <x-section-heading>{{ __('partners.page.collab.heading') }}</x-section-heading>
+        <p class="about-partners__intro">{{ __('partners.page.collab.intro') }}</p>
+        @if ($isFr)
+            <p class="about-partners__intro">{{ __('partners.page.collab.intro_2') }}</p>
+            <x-layout-proposal>
+                <div class="about-partners__offer">
+                    <h3>{{ __('partners.page.collab.offer.heading') }}</h3>
+                    <p>{{ __('partners.page.collab.offer.lead') }}</p>
+                    <x-check-list>
+                        @foreach (__('partners.page.collab.offer.items') as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
+                    </x-check-list>
+                </div>
+            </x-layout-proposal>
+        @endif
         <p class="about-partners__note">
-            <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">Lees ons volledige sponsor- en partnercharter (pdf) →</a>
+            <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">{{ __('partners.page.collab.charter') }}</a>
         </p>
     </section>
 
@@ -89,9 +116,9 @@
     <section class="about-band about-band--light-blue">
         <div class="container mx-auto px-4 partner-enquiry">
             <div class="partner-enquiry__intro">
-                <x-section-heading class="mb-4">Interesse? Laten we praten.</x-section-heading>
-                <p>Vul kort in wie je bent en waar je interesse naar uitgaat. We nemen snel contact op om samen de juiste formule te vinden. Je verbindt je tot niets.</p>
-                <p class="partner-enquiry__fallback"><span class="partner-enquiry__fallback-lead">Liever rechtstreeks?</span><br>
+                <x-section-heading class="mb-4">{{ __('partners.page.enquiry.heading') }}</x-section-heading>
+                <p>{{ __('partners.page.enquiry.intro') }}</p>
+                <p class="partner-enquiry__fallback"><span class="partner-enquiry__fallback-lead">{{ __('partners.page.enquiry.fallback_lead') }}</span><br>
                     <a href="mailto:{{ config('kidicalmass.contact.email') }}" class="more-link">{{ config('kidicalmass.contact.email') }}</a><br>
                     <a href="tel:{{ config('kidicalmass.contact.phone_e164') }}" class="more-link">{{ config('kidicalmass.contact.phone') }}</a>
                 </p>

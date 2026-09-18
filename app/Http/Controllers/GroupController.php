@@ -30,9 +30,9 @@ class GroupController extends Controller
             : collect();
 
         $regionLabels = [
-            'Brussels Capital Region' => 'Brussel',
-            'Wallonia' => 'Wallonië',
-            'Flanders' => 'Vlaanderen',
+            'Brussels Capital Region' => __('groups.regions.Brussels Capital Region'),
+            'Wallonia' => __('groups.regions.Wallonia'),
+            'Flanders' => __('groups.regions.Flanders'),
         ];
 
         $markers = $this->mapMarkers($groups, $coordsByZip, $regionLabels);
@@ -131,7 +131,7 @@ class GroupController extends Controller
             ->where('begin_date', '<', now())
             ->count();
 
-        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name')->get();
+        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name_nl')->get();
         $pressArticles = $group->pressArticles()->with('media')->latest('published_at')->get();
 
         // The gallery now follows the most recent ride that actually has photos

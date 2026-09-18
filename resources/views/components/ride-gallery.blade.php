@@ -14,13 +14,14 @@
 --}}
 @props([
     'photos',
-    'title' => 'In beeld',
+    'title' => null,
     'date' => null,
     'commune' => null,
     'href' => null,
 ])
 
 @php
+    $title = $title ?? __('components.ride_gallery.title');
     $coverPhoto = $photos->first();
     $tilePhotos = $photos->slice(1)->values();
     // Keep the chapter page's EXACT ragged-row cap: 9 or 5
@@ -29,6 +30,9 @@
     // last tile so people know the wall is a doorway to the full set (the lightbox cycles all).
     $hiddenCount = max(0, $photos->count() - 1 - $tilePhotos->count());
     $rideRail = $date ? \App\Support\RideDate::rail($date) : null;
+    $viewAllAria = $commune
+        ? __('components.ride_gallery.view_all_in', ['name' => $commune])
+        : __('components.ride_gallery.view_all');
 @endphp
 
 <div
@@ -44,6 +48,7 @@
         fromX: '0px',
         fromY: '0px',
         accents: ['--color-kidical-yellow', '--color-kidical-red', '--color-kidical-blue', '--color-kidical-green', '--color-kidical-orange', '--color-kidical-sky'],
+        lbLabel: @js(__('components.ride_gallery.photo_count')),
         reduced() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; },
         open(i, e) {
             this.index = i;
@@ -113,7 +118,7 @@
                     type="button"
                     class="ride-gallery__feature-media"
                     @click="open(0, $event)"
-                    aria-label="Bekijk alle foto's{{ $commune ? ' in ' . $commune : '' }}"
+                    aria-label="{{ $viewAllAria }}"
                 >
                     <img src="{{ $coverPhoto->getUrl('card') }}" alt="" class="ride-gallery__feature-bg" loading="lazy" decoding="async">
                 </button>
@@ -156,7 +161,7 @@
                     class="ride-gallery__tile"
                     data-gallery-tile
                     @click="open({{ $loop->index + 1 }}, $event)"
-                    aria-label="{{ $isMoreTile ? "Bekijk alle foto's" : 'Bekijk foto ' . ($loop->iteration + 1) . ' groter' }}"
+                    aria-label="{{ $isMoreTile ? __('components.ride_gallery.view_all') : __('components.ride_gallery.view_photo', ['num' => $loop->iteration + 1]) }}"
                 >
                     <img
                         src="{{ $media->getUrl('card') }}"
@@ -167,7 +172,7 @@
                     @if ($isMoreTile)
                         <span class="ride-gallery__more" aria-hidden="true">
                             <span class="ride-gallery__more-count">+{{ $hiddenCount }}</span>
-                            <span class="ride-gallery__more-label">Bekijk alle foto's</span>
+                            <span class="ride-gallery__more-label">{{ __('components.ride_gallery.view_all') }}</span>
                         </span>
                     @endif
                 </button>
@@ -177,7 +182,7 @@
 
     @if($href)
         <a href="{{ $href }}" class="ride-gallery__link">
-            Bekijk de hele rit
+            {{ __('components.ride_gallery.view_ride') }}
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
     @endif
@@ -193,12 +198,12 @@
         @keydown.tab="trapTab($event)"
         role="dialog"
         aria-modal="true"
-        :aria-label="'Foto ' + (index + 1) + ' van ' + photos.length"
+        :aria-label="lbLabel.replace(':num', index + 1).replace(':total', photos.length)"
     >
-        <button type="button" class="ride-gallery__lb-close" x-ref="closeBtn" @click="close()" aria-label="Sluiten">
+        <button type="button" class="ride-gallery__lb-close" x-ref="closeBtn" @click="close()" aria-label="{{ __('components.ride_gallery.close') }}">
             <flux:icon.x-mark />
         </button>
-        <button type="button" class="ride-gallery__lb-nav ride-gallery__lb-nav--prev" x-ref="prevBtn" @click="prev()" aria-label="Vorige foto">
+        <button type="button" class="ride-gallery__lb-nav ride-gallery__lb-nav--prev" x-ref="prevBtn" @click="prev()" aria-label="{{ __('components.ride_gallery.prev') }}">
             <flux:icon.chevron-left />
         </button>
         <figure
@@ -212,7 +217,7 @@
                 :style="swap ? `transform: translateX(calc(var(--lb-slide) * ${slideDir})); opacity: 0;` : ''"
             >
         </figure>
-        <button type="button" class="ride-gallery__lb-nav ride-gallery__lb-nav--next" x-ref="nextBtn" @click="next()" aria-label="Volgende foto">
+        <button type="button" class="ride-gallery__lb-nav ride-gallery__lb-nav--next" x-ref="nextBtn" @click="next()" aria-label="{{ __('components.ride_gallery.next') }}">
             <flux:icon.chevron-right />
         </button>
         <p class="ride-gallery__lb-counter" aria-hidden="true" x-text="(index + 1) + ' / ' + photos.length"></p>

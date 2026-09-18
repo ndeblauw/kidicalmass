@@ -14,8 +14,10 @@ class QuoteFactory extends Factory
     {
         return [
             'slot' => fake()->unique()->slug(2),
-            'quote' => fake()->sentence(12),
-            'attribution' => fake()->firstName().', mama van twee kinderen',
+            'quote_nl' => fake()->sentence(12),
+            'quote_fr' => fake()->sentence(12),
+            'attribution_nl' => fake()->firstName().', mama van twee kinderen',
+            'attribution_fr' => fake()->firstName().', maman de deux enfants',
             'visible' => true,
         ];
     }

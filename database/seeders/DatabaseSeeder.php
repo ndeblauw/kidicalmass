@@ -113,7 +113,7 @@ class DatabaseSeeder extends Seeder
                     'content_fr' => $data['content_fr'],
                     'activity_type' => $data['type'] ?? ActivityType::KIDICALMASS,
                     'begin_date' => $beginDate,
-                    'location' => $data['location'],
+                    'location_nl' => $data['location_nl'],
                     'postal_code' => $data['postal_code'],
                     'distance' => $data['distance'] ?? null,
                     'duration_minutes' => $data['duration'] ?? 60,
@@ -148,7 +148,7 @@ class DatabaseSeeder extends Seeder
             $blurbNl = 'Een rustige, feestelijke fietstocht op kindermaat door de buurt. We reden traag, met muziek voorop, langs veilige straten en pleintjes.';
             $blurbFr = "Une parade à vélo joyeuse et tranquille, à hauteur d'enfant, dans le quartier. On a roulé lentement, en musique, le long de rues sûres.";
 
-            $names = Group::pluck('name', 'shortname');
+            $names = Group::pluck('name_nl', 'shortname');
             $shortnames = array_keys($this->groupIds);
             $postals = ['1000', '1030', '1050', '1070', '1080', '1090', '1180', '1200', '5000', '7000', '9000', '2000'];
 
@@ -166,7 +166,7 @@ class DatabaseSeeder extends Seeder
                     'content_fr' => $blurbFr,
                     'activity_type' => ActivityType::KIDICALMASS,
                     'begin_date' => (clone $start)->addDays($i * 5),
-                    'location' => $name,
+                    'location_nl' => $name,
                     'postal_code' => $postals[$i % count($postals)],
                     'duration_minutes' => 60,
                     'is_published' => true,
@@ -197,8 +197,8 @@ class DatabaseSeeder extends Seeder
     private function seedTeamMembers(): void
     {
         $this->task('Seeding team members', function () {
-            TeamMember::updateOrCreate(['name' => 'Leticia'], ['role' => 'Coördinatie', 'sort' => 1]);
-            TeamMember::updateOrCreate(['name' => 'Cecilia'], ['role' => 'Coördinatie', 'sort' => 2]);
+            TeamMember::updateOrCreate(['name' => 'Leticia'], ['role_nl' => 'Coördinatie', 'sort' => 1]);
+            TeamMember::updateOrCreate(['name' => 'Cecilia'], ['role_nl' => 'Coördinatie', 'sort' => 2]);
         });
     }
 
@@ -237,7 +237,7 @@ class DatabaseSeeder extends Seeder
         $this->task('Seeding partners', function () {
             foreach ($this->partnerData() as $data) {
                 Partner::factory()->create([
-                    'name' => $data['name'],
+                    'name_nl' => $data['name_nl'],
                     'url' => $data['url'],
                     'description_nl' => $data['description_nl'],
                     'description_fr' => $data['description_fr'],
@@ -359,72 +359,72 @@ class DatabaseSeeder extends Seeder
                 'title_nl' => 'Grande Grote Kidical Mass: lente-editie', 'title_fr' => 'Grande Kidical Mass : édition de printemps',
                 'content_nl' => 'De grote lenteparade vertrekt vanaf het Troonplein. Lokale groepen uit heel Brussel fietsen samen de stad door, met fanfare, bakfietsen vol kinderen en een zee van roze hesjes. Een feestelijke vraag om straten op maat van kinderen.',
                 'content_fr' => "La grande parade de printemps s'élance de la place du Trône. Les groupes locaux de toute la région roulent ensemble à travers la ville, fanfare en tête. Une fête et une demande : des rues à hauteur d'enfant.",
-                'location' => 'Troonplein, Brussel', 'postal_code' => '1000', 'distance' => '6 km', 'duration' => 120],
+                'location_nl' => 'Troonplein, Brussel', 'postal_code' => '1000', 'distance' => '6 km', 'duration' => 120],
             ['groups' => 'schaarbeek', 'week' => 0, 'time' => '14:00', 'title_nl' => 'Kidical Mass Schaarbeek', 'title_fr' => 'Kidical Mass Schaerbeek',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'elsene', 'week' => -2, 'time' => '15:00', 'title_nl' => 'Kidical Mass Elsene', 'title_fr' => 'Kidical Mass Ixelles',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Ter Kamerenbos (kiosk), Elsene', 'postal_code' => '1050', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Ter Kamerenbos (kiosk), Elsene', 'postal_code' => '1050', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'namen', 'week' => -1, 'time' => '11:00', 'title_nl' => 'Kidical Mass Namen', 'title_fr' => 'Kidical Mass Namur',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Place du Théâtre, Namen', 'postal_code' => '5000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Place du Théâtre, Namen', 'postal_code' => '5000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'bergen', 'week' => -2, 'day_offset' => -1, 'time' => '14:00', 'title_nl' => 'Kidical Mass Bergen', 'title_fr' => 'Kidical Mass Mons',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Théâtre le Manège, Bergen', 'postal_code' => '7000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Théâtre le Manège, Bergen', 'postal_code' => '7000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'anderlecht', 'week' => -1, 'time' => '14:30', 'title_nl' => 'Kidical Mass Anderlecht', 'title_fr' => 'Kidical Mass Anderlecht',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Sint-Guidoplein, Anderlecht', 'postal_code' => '1070', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Sint-Guidoplein, Anderlecht', 'postal_code' => '1070', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'jette', 'week' => -2, 'time' => '14:00', 'title_nl' => 'Kidical Mass Jette', 'title_fr' => 'Kidical Mass Jette',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Koning Boudewijnpark, Jette', 'postal_code' => '1090', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Koning Boudewijnpark, Jette', 'postal_code' => '1090', 'distance' => '5 km', 'duration' => 60],
 
             // --- Aankomende ritten (juni 2026) ---
             ['groups' => 'elsene', 'week' => 1, 'time' => '15:00', 'title_nl' => 'Kidical Mass Elsene', 'title_fr' => 'Kidical Mass Ixelles',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Ter Kamerenbos (kiosk), Elsene', 'postal_code' => '1050', 'distance' => '5 km', 'duration' => 60,
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Ter Kamerenbos (kiosk), Elsene', 'postal_code' => '1050', 'distance' => '5 km', 'duration' => 60,
                 'commute_link' => 'https://www.komoot.com/tour/123456789'],
             ['groups' => 'ukkel', 'week' => 1, 'time' => '14:30', 'title_nl' => 'Kidical Mass Ukkel', 'title_fr' => 'Kidical Mass Uccle',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Wolvendaelpark, Ukkel', 'postal_code' => '1180', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Wolvendaelpark, Ukkel', 'postal_code' => '1180', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'laken', 'week' => 1, 'time' => '14:00', 'title_nl' => 'Kidical Mass Laken', 'title_fr' => 'Kidical Mass Laeken',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Ossegempark, Laken', 'postal_code' => '1020', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Ossegempark, Laken', 'postal_code' => '1020', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'woluwe', 'week' => 2, 'time' => '15:00', 'title_nl' => 'Kidical Mass Woluwe', 'title_fr' => 'Kidical Mass Woluwe',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Park van Woluwe', 'postal_code' => '1200', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Park van Woluwe', 'postal_code' => '1200', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'namen', 'week' => 2, 'time' => '11:00', 'title_nl' => 'Kidical Mass Namen', 'title_fr' => 'Kidical Mass Namur',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Place du Théâtre, Namen', 'postal_code' => '5000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Place du Théâtre, Namen', 'postal_code' => '5000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'etterbeek', 'week' => 2, 'time' => '14:00', 'title_nl' => 'Kidical Mass Etterbeek', 'title_fr' => 'Kidical Mass Etterbeek',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Jubelpark (ingang Etterbeek)', 'postal_code' => '1040', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Jubelpark (ingang Etterbeek)', 'postal_code' => '1040', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'gent', 'week' => 3, 'time' => '14:00', 'title_nl' => 'Kidical Mass Gent', 'title_fr' => 'Kidical Mass Gand',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Citadelpark, Gent', 'postal_code' => '9000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Citadelpark, Gent', 'postal_code' => '9000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'brussel-stad', 'week' => 3, 'time' => '15:00', 'title_nl' => 'Kidical Mass Brussel-Stad', 'title_fr' => 'Kidical Mass Bruxelles-Ville',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Begijnhofplein, Brussel', 'postal_code' => '1000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Begijnhofplein, Brussel', 'postal_code' => '1000', 'distance' => '5 km', 'duration' => 60],
             // ['groups' => 'molenbeek', 'week' => 3, 'time' => '14:30', 'title_nl' => 'Kidical Mass Molenbeek', 'title_fr' => 'Kidical Mass Molenbeek',
-            //    'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
+            //    'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Karreveldpark, Molenbeek', 'postal_code' => '1080', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'schaarbeek', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Schaarbeek', 'title_fr' => 'Kidical Mass Schaerbeek',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Gemeenteplein Colignon, Schaarbeek', 'postal_code' => '1030', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'antwerpen', 'week' => 4, 'time' => '14:00', 'title_nl' => 'Kidical Mass Antwerpen', 'title_fr' => 'Kidical Mass Anvers',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Park Spoor Noord, Antwerpen', 'postal_code' => '2000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Park Spoor Noord, Antwerpen', 'postal_code' => '2000', 'distance' => '5 km', 'duration' => 60],
             ['groups' => 'bergen', 'week' => 4, 'day_offset' => -1, 'time' => '14:00', 'title_nl' => 'Kidical Mass Bergen', 'title_fr' => 'Kidical Mass Mons',
-                'content_nl' => $ride, 'content_fr' => $rideFr, 'location' => 'Théâtre le Manège, Bergen', 'postal_code' => '7000', 'distance' => '5 km', 'duration' => 60],
+                'content_nl' => $ride, 'content_fr' => $rideFr, 'location_nl' => 'Théâtre le Manège, Bergen', 'postal_code' => '7000', 'distance' => '5 km', 'duration' => 60],
 
             // --- Najaar & speciale edities ---
             ['groups' => 'brussels-capital-region', 'week' => 18, 'time' => '15:00', 'title_nl' => 'Grande Grote Kidical Mass: najaarseditie', 'title_fr' => "Grande Kidical Mass : édition d'automne",
                 'content_nl' => 'De grote najaarsparade in het kader van het internationale actieweekend Streets for Kids. Heel Brussel fietst samen voor kindvriendelijke straten. Met animatie, muziek en een feest op de aankomst.',
                 'content_fr' => "La grande parade d'automne, dans le cadre du week-end d'action international Streets for Kids. Animations, musique et fête à l'arrivée.",
-                'location' => 'Jubelpark, Brussel', 'postal_code' => '1000', 'distance' => '6 km', 'duration' => 120],
+                'location_nl' => 'Jubelpark, Brussel', 'postal_code' => '1000', 'distance' => '6 km', 'duration' => 120],
             ['groups' => 'schaarbeek', 'week' => 20, 'time' => '18:00', 'title_nl' => 'Bright Light Parade Schaarbeek', 'title_fr' => 'Bright Light Parade Schaerbeek',
                 'content_nl' => 'Een avondrit vol lichtjes. Versier je fiets met lampjes en slingers en rijd mee terwijl het donker wordt. Magisch voor groot en klein.',
                 'content_fr' => 'Une parade du soir pleine de lumières. Décore ton vélo de guirlandes lumineuses et roule avec nous à la tombée de la nuit.',
-                'location' => 'Josaphatpark, Schaarbeek', 'postal_code' => '1030', 'distance' => '4 km', 'duration' => 60],
+                'location_nl' => 'Josaphatpark, Schaarbeek', 'postal_code' => '1030', 'distance' => '4 km', 'duration' => 60],
             ['groups' => 'schaarbeek', 'week' => 21, 'time' => '15:00', 'title_nl' => 'Spooky Edition Schaarbeek', 'title_fr' => 'Spooky Edition Schaerbeek',
                 'content_nl' => 'De griezelrit van het seizoen. Verkleed je mooiste spook of monster en kom mee fietsen. Snoep gegarandeerd.',
                 'content_fr' => 'La parade frissons de la saison. Déguise-toi en fantôme ou en monstre et viens rouler avec nous. Bonbons garantis.',
-                'location' => 'Josaphatpark, Schaarbeek', 'postal_code' => '1030', 'distance' => '4 km', 'duration' => 60],
+                'location_nl' => 'Josaphatpark, Schaarbeek', 'postal_code' => '1030', 'distance' => '4 km', 'duration' => 60],
 
             // --- Meetings & workshops (chapterpagina's, niet in de kalender) ---
             ['groups' => 'brussel-stad', 'week' => 1, 'time' => '19:30', 'type' => ActivityType::MEETING,
                 'title_nl' => 'Vrijwilligersmeeting', 'title_fr' => 'Réunion des bénévoles',
                 'content_nl' => 'Vier keer per jaar komen we samen met alle vrijwilligers om ervaringen te delen en het volgende seizoen voor te bereiden. Nieuwe gezichten zijn van harte welkom.',
                 'content_fr' => 'Quatre fois par an, tous les bénévoles se réunissent pour partager et préparer la saison suivante. Les nouveaux visages sont les bienvenus.',
-                'location' => 'Mundo-B, Edinburgstraat 26, Elsene', 'postal_code' => '1050', 'duration' => 120],
+                'location_nl' => 'Mundo-B, Edinburgstraat 26, Elsene', 'postal_code' => '1050', 'duration' => 120],
             ['groups' => 'anderlecht', 'week' => 2, 'time' => '10:00', 'type' => ActivityType::WORKSHOP,
                 'title_nl' => 'Fietscheck & sleutelworkshop', 'title_fr' => 'Atelier vélo & petites réparations',
                 'content_nl' => 'Breng je fiets langs voor een gratis veiligheidscheck. We helpen je remmen, banden en verlichting na te kijken en leren je zelf kleine herstellingen doen.',
                 'content_fr' => "Amène ton vélo pour un contrôle de sécurité gratuit. On vérifie freins, pneus et éclairage et on t'apprend les petites réparations.",
-                'location' => 'Cyclo werkplaats, Anderlecht', 'postal_code' => '1070', 'duration' => 180],
+                'location_nl' => 'Cyclo werkplaats, Anderlecht', 'postal_code' => '1070', 'duration' => 180],
         ];
     }
 
@@ -488,49 +488,49 @@ class DatabaseSeeder extends Seeder
     private function partnerData(): array
     {
         return [
-            ['name' => 'Brussel Mobiliteit', 'url' => 'https://mobilite-mobiliteit.brussels', 'chapter' => null,
+            ['name_nl' => 'Brussel Mobiliteit', 'url' => 'https://mobilite-mobiliteit.brussels', 'chapter' => null,
                 'description_nl' => 'Het gewestelijke mobiliteitsagentschap dat onze parades ondersteunt en mee bouwt aan veilige fietsroutes.',
                 'description_fr' => 'L’agence régionale de la mobilité qui soutient nos parades et construit des itinéraires cyclables sûrs.'],
-            ['name' => 'Pro Velo', 'url' => 'https://www.provelo.org',
+            ['name_nl' => 'Pro Velo', 'url' => 'https://www.provelo.org',
                 'description_nl' => 'Vzw die fietslessen, begeleide ritten en fietseducatie organiseert in heel Brussel.',
                 'description_fr' => 'Asbl qui organise cours de vélo, balades guidées et éducation cyclable à Bruxelles.'],
-            ['name' => 'Cyclo', 'url' => 'https://www.cyclo.org',
+            ['name_nl' => 'Cyclo', 'url' => 'https://www.cyclo.org',
                 'description_nl' => 'Brusselse fietspuntwerking voor herstellingen, onderhoud en fietsdelen.',
                 'description_fr' => 'Réseau de points vélo bruxellois pour réparations, entretien et vélo partagé.'],
-            ['name' => 'Fietsersbond', 'url' => 'https://www.fietsersbond.be',
+            ['name_nl' => 'Fietsersbond', 'url' => 'https://www.fietsersbond.be',
                 'description_nl' => 'De ledenvereniging die opkomt voor iedereen die zich met de fiets verplaatst.',
                 'description_fr' => 'L’association de membres qui défend toutes celles et ceux qui roulent à vélo.'],
-            ['name' => 'GRACQ', 'url' => 'https://www.gracq.org',
+            ['name_nl' => 'GRACQ', 'url' => 'https://www.gracq.org',
                 'description_nl' => 'Franstalige fietsersvereniging die ijvert voor veiliger fietsen in Brussel en Wallonië.',
                 'description_fr' => 'L’association des cyclistes quotidiens qui milite pour un vélo plus sûr.'],
-            ['name' => 'Clean Cities', 'url' => 'https://cleancitiescampaign.org',
+            ['name_nl' => 'Clean Cities', 'url' => 'https://cleancitiescampaign.org',
                 'description_nl' => 'Europese campagne voor autoluwe, leefbare steden en partner van Streets for Kids.',
                 'description_fr' => 'Campagne européenne pour des villes apaisées et partenaire de Streets for Kids.'],
-            ['name' => 'Heroes for Zero', 'url' => 'https://www.heroesforzero.be',
+            ['name_nl' => 'Heroes for Zero', 'url' => 'https://www.heroesforzero.be',
                 'description_nl' => 'Burgerbeweging die ijvert voor nul verkeersdoden en veilige straten voor kinderen.',
                 'description_fr' => 'Mouvement citoyen qui milite pour zéro mort sur les routes et des rues sûres.'],
-            ['name' => 'Fietsbieb', 'url' => 'https://www.fietsbieb.be',
+            ['name_nl' => 'Fietsbieb', 'url' => 'https://www.fietsbieb.be',
                 'description_nl' => 'Uitleendienst waar kinderen tegen een kleine bijdrage een fiets op maat lenen.',
                 'description_fr' => 'Bibliothèque de vélos où les enfants empruntent un vélo à leur taille.'],
-            ['name' => 'My Kids Bikes', 'url' => null,
+            ['name_nl' => 'My Kids Bikes', 'url' => null,
                 'description_nl' => 'Tweedehands kinderfietsen, zodat elk kind op een goed passende fiets rijdt.',
                 'description_fr' => 'Vélos d’enfants d’occasion, pour que chacun roule sur un vélo adapté.'],
-            ['name' => 'Succulente', 'url' => null,
+            ['name_nl' => 'Succulente', 'url' => null,
                 'description_nl' => 'Vegan bakkerij die onze grote parades op een reuzentaart trakteert.',
                 'description_fr' => 'Boulangerie vegan qui régale nos grandes parades d’un gâteau géant.'],
-            ['name' => 'Les Chercheurs d’Air', 'url' => null,
+            ['name_nl' => 'Les Chercheurs d’Air', 'url' => null,
                 'description_nl' => 'Vereniging die de luchtkwaliteit rond scholen meet en aankaart.',
                 'description_fr' => 'Association qui mesure et dénonce la qualité de l’air autour des écoles.'],
-            ['name' => 'Park Poetik', 'url' => null,
+            ['name_nl' => 'Park Poetik', 'url' => null,
                 'description_nl' => 'Buurtcollectief dat onze feesten kleurt met cuistax en animatie.',
                 'description_fr' => 'Collectif de quartier qui anime nos fêtes avec cuistax et animations.'],
-            ['name' => 'BRUZZ', 'url' => 'https://www.bruzz.be',
+            ['name_nl' => 'BRUZZ', 'url' => 'https://www.bruzz.be',
                 'description_nl' => 'Brussels stadsmedium dat onze acties op de voet volgt.',
                 'description_fr' => 'Le média bruxellois qui suit nos actions de près.'],
-            ['name' => 'Growfunding', 'url' => 'https://growfunding.be/nl/projects/kidicalmassbelgique',
+            ['name_nl' => 'Growfunding', 'url' => 'https://growfunding.be/nl/projects/kidicalmassbelgique',
                 'description_nl' => 'Buurtcrowdfundingplatform waarop je onze werking financieel kan steunen.',
                 'description_fr' => 'Plateforme de crowdfunding de quartier pour soutenir notre action.'],
-            ['name' => 'Avello', 'url' => null, 'chapter' => 'bergen',
+            ['name_nl' => 'Avello', 'url' => null, 'chapter' => 'bergen',
                 'description_nl' => 'Fietswinkel en werkplaats die onze Waalse groepen mee op weg helpt.',
                 'description_fr' => 'Magasin et atelier vélo qui épaule nos groupes wallons.'],
         ];

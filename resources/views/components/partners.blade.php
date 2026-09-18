@@ -24,9 +24,9 @@
      national partner logos + one link to the full Partners page. Acquisition
      ("partner worden"), the "Ook ondersteund door" list, and partner categories
      live on /about/partners. --}}
-<aside class="partner-strip container mx-auto px-4" aria-label="{{ __('partners.strip_label') }}">
+<aside class="partner-strip container mx-auto px-4" aria-label="{{ __('partners.strip.label') }}">
     <div class="partner-strip__inner">
-        <span class="partner-strip__label">{{ __('partners.showcase_label') }}</span>
+        <span class="partner-strip__label">{{ __('partners.showcase.label') }}</span>
 
         <ul class="partner-strip__logos" role="list">
             @foreach($partners as $partner)
@@ -51,6 +51,6 @@
             @endforeach
         </ul>
 
-        <a href="{{ route('about.partners') }}" class="partner-strip__more">{{ __('partners.see_all') }} →</a>
+        <a href="{{ route('about.partners') }}" class="partner-strip__more">{{ __('partners.strip.see_all') }} →</a>
     </div>
 </aside>

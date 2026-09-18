@@ -9,28 +9,28 @@
 
     <x-page-hero
         :eyebrow="__('nav.press')"
-        :title="__('about.press_title')"
+        :title="__('about.press.title')"
         size="compact">
 
     <section class="about-section about-section--wide">
         <div class="grid items-start gap-10 md:grid-cols-[1.6fr_1fr] md:gap-16">
             <div>
                 @if ($articlesByYear->isNotEmpty())
-                    <x-section-heading class="mb-8">{{ __('about.press_overview_title') }}</x-section-heading>
+                    <x-section-heading class="mb-8">{{ __('about.press.overview.title') }}</x-section-heading>
                     <x-press-archive :articles-by-year="$articlesByYear" />
                 @else
-                    <x-empty-state :heading="__('about.press_empty_title')">
-                        {{ __('about.press_empty_body', ['email' => config('kidicalmass.contact.email')]) }}
+                    <x-empty-state :heading="__('about.press.empty.title')">
+                        {{ __('about.press.empty.body', ['email' => config('kidicalmass.contact.email')]) }}
                     </x-empty-state>
                 @endif
             </div>
             <div class="flex flex-col gap-4 md:sticky md:top-28">
-                <x-info-card :label="__('about.press_contact_label')">
-                    <p>{{ __('about.press_contact_body') }}</p>
+                <x-info-card :label="__('about.press.contact.label')">
+                    <p>{{ __('about.press.contact.body') }}</p>
                     <a href="mailto:{{ config('kidicalmass.contact.email') }}" class="info-card__link">{{ config('kidicalmass.contact.email') }}</a>
-                    <p class="info-card__note">{{ __('about.press_contact_note') }}</p>
+                    <p class="info-card__note">{{ __('about.press.contact.note') }}</p>
                 </x-info-card>
-                <p class="m-0"><a href="{{ route('about.mission') }}" class="more-link">{{ __('about.press_background_link') }}</a></p>
+                <p class="m-0"><a href="{{ localized_route('about.mission') }}" class="more-link">{{ __('about.press.background.link') }}</a></p>
             </div>
         </div>
     </section>

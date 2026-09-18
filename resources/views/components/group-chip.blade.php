@@ -9,7 +9,7 @@
      nationale root) bij nieuwskaarten. Alleen zichtbare groepen linken naar
      hun chapterpagina; regio-/landnodes zijn kale tekst. --}}
 @if ($group->hasPublicPage())
-    <a href="{{ route('groups.show', $group) }}" {{ $attributes->merge(['class' => 'link-plain transition-colors hover:bg-kidical-sky/60 '.$classes]) }}>{{ $group->publicLabel() }}</a>
+    <a href="{{ localized_route('groups.show', ['group' => $group]) }}" {{ $attributes->merge(['class' => 'link-plain transition-colors hover:bg-kidical-sky/60 '.$classes]) }}>{{ $group->publicLabel() }}</a>
 @else
     <span {{ $attributes->merge(['class' => $classes]) }}>{{ $group->publicLabel() }}</span>
 @endif

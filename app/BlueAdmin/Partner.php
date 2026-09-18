@@ -10,11 +10,11 @@ class Partner extends BlueAdminModel
 
     public $name_to_use = 'Partners';
 
-    public $title_field = 'name';
+    public $title_field = 'name_nl';
 
-    public $indexTableColumns = ['name', 'category', 'visible'];
+    public $indexTableColumns = ['name_nl', 'category', 'visible'];
 
-    public $attributesToShow = ['name', 'url', 'description_nl', 'description_fr', 'category', 'group_id', 'show_logo', 'visible'];
+    public $attributesToShow = ['name_nl', 'name_fr', 'url', 'description_nl', 'description_fr', 'category', 'group_id', 'show_logo', 'visible'];
 
     public $filepond = ['logo'];
 

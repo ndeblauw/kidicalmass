@@ -8,25 +8,24 @@
     One intent form, two comfort paths (praten met een trekker / klaar voor contact).
     Out of nav, reached contextually. Plan: docs/wiki/design/30-skeleton/start-een-groep.md
 --}}
-<x-layouts::site title="Een lokale groep starten">
+<x-layouts::site :title="__('start.title')" :description="__('meta.getting_started')">
 
     <x-page-hero
-        eyebrow="Een lokale groep starten"
-        title="Breng Kidical Mass naar jouw buurt"
+        :eyebrow="__('start.hero.eyebrow')"
+        :title="__('start.hero.title')"
         photo="img/photography/team-kidical-mass.webp"
-        photo-alt="Vier vrijwilligers van het Kidical Mass team lachen met roze hesjes en blauwe vlaggen, naast een kartonnen figuur van twee kinderen op de fiets"
+        :photo-alt="__('start.hero.photo_alt')"
         photo-tilt
-        caption="Foto © Marc Baert">
+        :caption="__('start.hero.caption')">
 
         {{-- Intro opens the white panel, with the "start" CTA in a right column,
              vertically centred to the intro copy (stacks below it on mobile). --}}
         <div class="sg-intro">
             <x-intro-text>
-                <p>Je hebt geen vereniging nodig en je hoeft geen fietsexpert te zijn. Een klein kernteam,
-                een vertrekpunt en wat goesting volstaan om te beginnen. De rest doen we samen.</p>
+                <p>{{ __('start.intro') }}</p>
             </x-intro-text>
             <div class="sg-intro__action">
-                <x-cta-button href="#start" variant="secondary">Ik wil starten</x-cta-button>
+                <x-cta-button href="#start" variant="secondary">{{ __('start.intro_cta') }}</x-cta-button>
             </div>
         </div>
 
@@ -38,19 +37,18 @@
                 <div class="sg-story__collage sg-story__collage--a">
                     <figure class="sg-story__photo sg-story__photo--lead">
                         <x-photo src="img/photography/volunteers-season-launch-meetup.webp"
-                                 alt="Een klein groepje vrijwilligers komt samen om het fietsseizoen voor te bereiden" />
+                                 alt="{{ __('start.story.photos.deal_1') }}" />
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
                         <x-photo src="img/photography/cargo-bike-mother-two-kids-flag.webp"
-                                 alt="Een glimlachende vrouw rijdt op een cargobike met twee kinderen en een Kidical Mass vlag" />
+                                 alt="{{ __('start.story.photos.deal_2') }}" />
                     </figure>
                 </div>
                 <div class="sg-story__text">
-                    <x-titled-list-block title="Jij hebt al wat nodig is" variant="ask" level="h2">
-                        <li>Een kernteam van twee of drie mensen</li>
-                        <li>Kennis van je eigen buurt</li>
-                        <li>Een vertrekpunt en een route-idee</li>
-                        <li>Energie en goesting</li>
+                    <x-titled-list-block :title="__('start.story.deal.title')" variant="ask" level="h2">
+                        @foreach (__('start.story.deal.items') as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
                     </x-titled-list-block>
                 </div>
             </div>
@@ -59,21 +57,18 @@
                 <div class="sg-story__collage sg-story__collage--b">
                     <figure class="sg-story__photo sg-story__photo--lead">
                         <x-photo src="img/photography/volunteers-pink-vest-group-cobbles.webp"
-                                 alt="Een groep vrijwilligers in roze hesjes stapt samen op straat, klaar om de rit te begeleiden" />
+                                 alt="{{ __('start.story.photos.help_1') }}" />
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
                         <x-photo src="img/photography/volunteer-handing-stickers-to-kids.webp"
-                                 alt="Een vrijwilliger deelt Kidical Mass stickers uit aan kinderen" />
+                                 alt="{{ __('start.story.photos.help_2') }}" />
                     </figure>
                 </div>
                 <div class="sg-story__text">
-                    <x-titled-list-block title="De rest doen we samen" variant="get" level="h2">
-                        <li>Het merk en al het materiaal, van flyers tot hesjes</li>
-                        <li>Opleiding rond veilige begeleiding en routeplanning</li>
-                        <li>Nationale zichtbaarheid en communicatie</li>
-                        <li>Coaching en een vast aanspreekpunt</li>
-                        <li>Contacten met gemeenten, partners en fietsbrigades</li>
-                        <li>Subsidieaanvragen voor de hele organisatie</li>
+                    <x-titled-list-block :title="__('start.story.help.title')" variant="get" level="h2">
+                        @foreach (__('start.story.help.items') as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
                     </x-titled-list-block>
                 </div>
             </div>
@@ -82,23 +77,21 @@
                 <div class="sg-story__collage sg-story__collage--c">
                     <figure class="sg-story__photo sg-story__photo--lead">
                         <x-photo src="img/photography/ride-trio-pink-vest-lei-portrait.webp"
-                                 alt="Drie vrijwilligers lachen samen tijdens een rit, één met een roze hesje en een bloemenkrans" />
+                                 alt="{{ __('start.story.photos.asks_1') }}" />
                     </figure>
                     <figure class="sg-story__photo sg-story__photo--trail">
                         <x-photo src="img/photography/volunteer-pink-vest-blue-helmet.webp"
-                                 alt="Een begeleider in een roze hesje en blauwe helm houdt mee de rit veilig" />
+                                 alt="{{ __('start.story.photos.asks_2') }}" />
                     </figure>
                 </div>
                 <div class="sg-story__text">
                     <div class="titled-list-block titled-list-block--ask">
-                        <h2 class="titled-list-block__title">Waar je ja tegen zegt</h2>
-                        <p class="sg-asks__lead">Eerlijk is eerlijk: een groep dragen is een engagement over een
-                        heel seizoen. Dit verwachten we van een lokale trekker.</p>
+                        <h2 class="titled-list-block__title">{{ __('start.story.asks.title') }}</h2>
+                        <p class="sg-asks__lead">{{ __('start.story.asks.lead') }}</p>
                         <ul class="sg-asks__list" role="list">
-                            <li>Een paar ritten per jaar mee plannen en begeleiden</li>
-                            <li>Eén afgevaardigde naar de vier jaarlijkse Kidical-meetings</li>
-                            <li>Je scharen achter ons huishoudelijk reglement rond veiligheid en goede vibes</li>
-                            <li>Genoeg begeleiders verzamelen: minstens één roze hesje per tien deelnemers</li>
+                            @foreach (__('start.story.asks.items') as $item)
+                                <li>{{ $item }}</li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -112,15 +105,13 @@
             <div class="sg-proof__layout">
                 <figure class="sg-proof__photo">
                     <x-photo src="img/photography/ride-park-crowd-cheering-namur.webp"
-                             alt="Een grote menigte gezinnen juicht met opgeheven armen op een zonnige verzamelplaats in Namen"
+                             alt="{{ __('start.proof.photo_alt') }}"
                              sizes="(min-width: 768px) 55vw, 92vw" />
                 </figure>
                 <div class="sg-proof__animo-card">
-                    <h2>Er is animo</h2>
-                    <p>Kidical Mass groeit door heel België. Het netwerk telt intussen
-                    {{ $groupCount }} lokale groepen, van grote steden tot kleine gemeenten.
-                    Jouw stad kan de volgende zijn.</p>
-                    <x-cta-button href="#start" variant="secondary">Ik wil starten</x-cta-button>
+                    <h2>{{ __('start.proof.title') }}</h2>
+                    <p>{{ __('start.proof.body', ['count' => $groupCount]) }}</p>
+                    <x-cta-button href="#start" variant="secondary">{{ __('start.proof.cta') }}</x-cta-button>
                 </div>
             </div>
         </section>
@@ -131,29 +122,19 @@
         <section class="sg-faq-section">
             <div class="sg-faq-layout">
                 <div class="sg-faq-content">
-                    <h2 class="sg-faq__title">Veelgestelde vragen</h2>
+                    <h2 class="sg-faq__title">{{ __('start.faq.title') }}</h2>
                     <x-faq>
-                        <x-faq.item question="Welke steun krijg ik van Kidical Mass?">
-                            <p>Je staat er nooit alleen voor. Je krijgt een coördinatieduo dat je coacht en
-                            motiveert, een materiaalbibliotheek met charters, draaiboeken, posters en flyers,
-                            en training voor jou en je begeleiders bij de start van het seizoen. Wil je sparren,
-                            dan brengen we je in contact met een trekker die het al deed. En wij dragen het merk,
-                            de opleiding rond veilige begeleiding, de nationale zichtbaarheid, de contacten met
-                            gemeenten en partners, en de subsidieaanvragen voor de hele organisatie.</p>
+                        <x-faq.item :question="__('start.faq.items.0.question')">
+                            <p>{{ __('start.faq.items.0.answer') }}</p>
                         </x-faq.item>
-                        <x-faq.item question="Heb ik een vereniging of vzw nodig?">
-                            <p>Nee. Een klein kernteam van twee of drie mensen, een vertrekpunt en wat goesting
-                            volstaan om te beginnen. De rest doen we samen.</p>
+                        <x-faq.item :question="__('start.faq.items.1.question')">
+                            <p>{{ __('start.faq.items.1.answer') }}</p>
                         </x-faq.item>
-                        <x-faq.item question="Moet ik een ervaren fietser zijn?">
-                            <p>Geen fietsexpert nodig. We rijden traag, op het tempo van het jongste kind. Wat telt
-                            is dat je je buurt kent en mensen warm krijgt om mee te fietsen. De opleiding rond
-                            veilige begeleiding en routeplanning krijg je van ons.</p>
+                        <x-faq.item :question="__('start.faq.items.2.question')">
+                            <p>{{ __('start.faq.items.2.answer') }}</p>
                         </x-faq.item>
-                        <x-faq.item question="Kan ik starten als ik nog geen team heb?">
-                            <p>Veel groepen starten klein, met één of twee enthousiastelingen. Je hoeft niet meteen
-                            een volledig team te hebben. Twijfel je, kies dan hieronder voor "eerst praten met
-                            iemand die het al deed", dan zoeken we samen verder.</p>
+                        <x-faq.item :question="__('start.faq.items.3.question')">
+                            <p>{{ __('start.faq.items.3.answer') }}</p>
                         </x-faq.item>
                     </x-faq>
                 </div>
@@ -200,9 +181,8 @@
                 <div class="sg-cta__panel">
                     <div class="sg-cta__aside">
                         <img src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" aria-hidden="true" class="sg-cta__mascot">
-                        <h2>Zin om te beginnen?</h2>
-                        <p>Laat van je horen. Je kiest zelf hoe je eerste stap eruitziet:
-                        eerst praten met iemand die het al deed, of meteen contact met het team.</p>
+                        <h2>{{ __('start.closing.title') }}</h2>
+                        <p>{{ __('start.closing.body') }}</p>
                     </div>
                     <div class="sg-cta__form-col">
                         <livewire:start-group-enquiry />

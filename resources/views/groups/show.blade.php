@@ -69,9 +69,9 @@
         // $fauxVolunteers above: design it now, swap the data source later. File type
         // rides in its own tag, not baked into the label.
         $fauxDownloads = [
-            ['label' => 'Flyer '.$gemeente.' 2026', 'type' => 'PDF', 'url' => '#'],
-            ['label' => 'Affiche om op te hangen', 'type' => 'PDF', 'url' => '#'],
-            ['label' => 'Kleurplaat voor onderweg', 'type' => 'PDF', 'url' => '#'],
+            ['label' => __('groups.show.downloads_faux.flyer', ['name' => $gemeente]), 'type' => 'PDF', 'url' => '#'],
+            ['label' => __('groups.show.downloads_faux.poster'), 'type' => 'PDF', 'url' => '#'],
+            ['label' => __('groups.show.downloads_faux.coloring'), 'type' => 'PDF', 'url' => '#'],
         ];
 
         $hasExtras = $partners->isNotEmpty() || $group->children->isNotEmpty();
@@ -95,7 +95,7 @@
             <div class="chapter-head__copy">
                 <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
                 <x-intro-text class="chapter-head__lead">
-                    Wij fietsen samen met kinderen door {{ $gemeente }}, veilig, vrolijk, op kindertempo.
+                    {{ __('groups.show.hero_lead', ['name' => $gemeente]) }}
                 </x-intro-text>
             </div>
 
@@ -104,14 +104,14 @@
                     <img
                         src="{{ $coverPhoto->getUrl() }}"
                         @if ($coverPhoto->getSrcset()) srcset="{{ $coverPhoto->getSrcset() }}" sizes="100vw" @endif
-                        alt="Foto van een Kidical Mass in {{ $gemeente }}"
+                        alt="{{ __('groups.show.hero_photo_alt', ['name' => $gemeente]) }}"
                         class="chapter-head__photo"
                         fetchpriority="high"
                     >
                 @else
                     <x-photo
                         src="img/photography/ride-cinquantenaire-crowd.webp"
-                        alt="Een grote groep gezinnen fietst samen door de straat tijdens een Kidical Mass in {{ $gemeente }}"
+                        alt="{{ __('groups.show.hero_photo_alt_2', ['name' => $gemeente]) }}"
                         sizes="100vw"
                         loading="eager"
                         fetchpriority="high"
@@ -138,8 +138,8 @@
                     <x-next-ride :activity="$nextRide" :commune="$gemeente" />
                 @else
                     <div class="chapter-next__card chapter-next__card--empty">
-                        <p class="chapter-next__empty-lead">Nog geen fietstocht gepland.</p>
-                        <p class="chapter-next__empty-body">We laten het je weten zodra {{ $gemeente }} vertrekt. Schrijf je hieronder in.</p>
+                        <p class="chapter-next__empty-lead">{{ __('groups.show.no_ride_lead') }}</p>
+                        <p class="chapter-next__empty-body">{{ __('groups.show.no_ride_body', ['name' => $gemeente]) }}</p>
                         <x-newsletter-optin :group="$group" :show-join="false" class="chapter-parade__optin" />
                     </div>
                 @endif
@@ -152,7 +152,7 @@
                  venue line. No type label — the title carries the kind. --}}
             @if ($otherActivities->isNotEmpty())
                 <aside class="chapter-aside">
-                    <h2 class="chapter-aside__title">Ook in {{ $gemeente }}</h2>
+                    <h2 class="chapter-aside__title">{{ __('groups.show.other_activities', ['name' => $gemeente]) }}</h2>
                     <ul class="chapter-aside__list" role="list">
                         @foreach ($otherActivities as $activity)
                             <li class="chapter-aside__item">
@@ -168,7 +168,7 @@
     {{-- 3 · ALLE PARADES — the remaining upcoming rides as a compact strip, paired under §2. --}}
     @if ($upcomingRides->count() > 1)
         <section class="chapter-body chapter-parades-strip">
-            <h2 class="chapter-section__title">Later</h2>
+            <h2 class="chapter-section__title">{{ __('groups.show.upcoming') }}</h2>
             <div class="chapter-parades-strip__list">
                 @foreach ($upcomingRides->slice(1) as $ride)
                     <x-ride-pill :activity="$ride" :commune="$gemeente" />
@@ -183,13 +183,13 @@
          URL via :href so a "Bekijk de hele rit" link appears beneath the grid. --}}
     @if ($hasRideGallery)
         <section class="chapter-body">
-            <p class="chapter-eyebrow">In beeld</p>
+            <p class="chapter-eyebrow">{{ __('groups.show.gallery_eyebrow') }}</p>
             <x-ride-gallery
                 :photos="$latestRide->getMedia('gallery')"
-                title="Recentste parade"
+                :title="__('groups.show.gallery_title')"
                 :date="$latestRide->begin_date"
                 :commune="$gemeente"
-                :href="route('activities.show', $latestRide)">
+                :href="localized_route('activities.show', ['activity' => $latestRide])">
                 <x-slot:card>
                     {{-- The dual-logic opt-in rides in the wall — on the XL wall it pins to
                          the top row's right corner (col 4), a compact square beside the poster
@@ -217,20 +217,20 @@
                 x-on:resize.window="update()">
                 <div class="chapter-team__head">
                     <div class="chapter-team__intro">
-                        <h2 class="chapter-team__headline">Wij zwaaien je welkom aan de start</h2>
-                        <p class="chapter-team__lead">De trekkers en roze hesjes die elke parade laten rollen.</p>
+                        <h2 class="chapter-team__headline">{{ __('groups.show.team_heading') }}</h2>
+                        <p class="chapter-team__lead">{{ __('groups.show.team_lead') }}</p>
                     </div>
                     <div class="chapter-team__nav" x-show="scrollable" x-cloak>
-                        <button type="button" class="chapter-team__btn" aria-label="Vorige teamleden" x-on:click="page(-1)" :disabled="start">
+                        <button type="button" class="chapter-team__btn" aria-label="{{ __('groups.show.team_prev') }}" x-on:click="page(-1)" :disabled="start">
                             <flux:icon.chevron-left aria-hidden="true" />
                         </button>
-                        <button type="button" class="chapter-team__btn" aria-label="Volgende teamleden" x-on:click="page(1)" :disabled="end">
+                        <button type="button" class="chapter-team__btn" aria-label="{{ __('groups.show.team_next') }}" x-on:click="page(1)" :disabled="end">
                             <flux:icon.chevron-right aria-hidden="true" />
                         </button>
                     </div>
                 </div>
 
-                <ul class="chapter-team__track" x-ref="track" role="region" aria-label="Team van {{ $gemeente }}"
+                <ul class="chapter-team__track" x-ref="track" role="region" aria-label="{{ __('groups.show.team_region', ['name' => $gemeente]) }}"
                     :class="{ 'is-grabbing': dragging, 'is-snapoff': dragging || animating }"
                     x-on:scroll.passive="update()"
                     @pointerdown="onDown($event)" @pointermove="onMove($event)" @pointerup="onUp()" @pointercancel="onUp()">
@@ -241,7 +241,7 @@
                                 <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
                             </span>
                             <span class="chapter-team__name">{{ explode(' ', trim($member['name']))[0] }}</span>
-                            <span class="chapter-team__role">{{ $member['role'] }}</span>
+                            <span class="chapter-team__role">{{ __("groups.show.roles.{$member['role']}") }}</span>
                         </li>
                     @endforeach
 
@@ -253,7 +253,7 @@
                          #aanmelden and reveals it via the open-volunteer event). --}}
                     <li class="chapter-team__card chapter-team__card--cta" style="--enter-i: {{ $captains->count() }}">
                         <a href="#aanmelden" class="chapter-team__join"
-                           aria-label="Doe mee als vrijwilliger in {{ $gemeente }}"
+                           aria-label="{{ __('groups.show.team_volunteer', ['name' => $gemeente]) }}"
                            x-on:click="$dispatch('open-volunteer')">
                             <span class="chapter-team__photo chapter-team__photo--cta">
                                 <img src="{{ asset('img/illustrations/cyclist-peace-sign.svg') }}" alt="" aria-hidden="true" class="chapter-team__cta-illo">
@@ -261,8 +261,8 @@
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
                                 </span>
                             </span>
-                            <span class="chapter-team__name">Jij?</span>
-                            <span class="chapter-team__role">kom erbij</span>
+                            <span class="chapter-team__name">{{ __('groups.show.invite_name') }}</span>
+                            <span class="chapter-team__role">{{ __('groups.show.invite_role') }}</span>
                         </a>
                     </li>
 
@@ -273,7 +273,7 @@
                                 <img src="{{ asset('img/illustrations/'.$illustrationFor($member['name']).'.svg') }}" alt="" aria-hidden="true">
                             </span>
                             <span class="chapter-team__name">{{ explode(' ', trim($member['name']))[0] }}</span>
-                            <span class="chapter-team__role">{{ $member['role'] }}</span>
+                            <span class="chapter-team__role">{{ __("groups.show.roles.{$member['role']}") }}</span>
                         </li>
                     @endforeach
                 </ul>
@@ -292,8 +292,8 @@
                 <x-icon-chip color="blue" size="sm" class="chapter-stat__chip">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
                 </x-icon-chip>
-                <span class="chapter-stat__num">sinds {{ $group->started_at?->format('Y') ?? '2023' }}</span>
-                <span class="chapter-stat__label">op pad in {{ $gemeente }}</span>
+                <span class="chapter-stat__num">{{ __('groups.show.stats_since', ['year' => $group->started_at?->format('Y') ?? '2023']) }}</span>
+                <span class="chapter-stat__label">{{ __('groups.show.stats_active', ['name' => $gemeente]) }}</span>
             </span>
             @if ($pastRidesCount > 0)
                 <span class="chapter-stats-band__sep" aria-hidden="true">·</span>
@@ -301,8 +301,8 @@
                     <x-icon-chip color="red" size="sm" class="chapter-stat__chip">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
                     </x-icon-chip>
-                    <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? 'parade' : 'parades' }}</span>
-                    <span class="chapter-stat__label">gereden</span>
+                    <span class="chapter-stat__num">{{ $pastRidesCount }} {{ $pastRidesCount === 1 ? __('groups.show.stats_rides.singular') : __('groups.show.stats_rides.plural') }}</span>
+                    <span class="chapter-stat__label">{{ __('groups.show.stats_rides_label') }}</span>
                 </span>
             @endif
         </div>
@@ -321,7 +321,7 @@
                          volunteer-uploaded artwork out). A plain wrapping run that
                          stays compact at any length, with no cap. --}}
                     <div class="chapter-extras__block">
-                        <h3 class="chapter-section__title">Met dank aan</h3>
+                        <h3 class="chapter-section__title">{{ __('groups.show.thanks') }}</h3>
                         <ul class="chapter-partners" role="list">
                             @foreach ($partners as $partner)
                                 <li class="chapter-partners__item">
@@ -340,7 +340,7 @@
                          empty. Compact: icon + label + a small type tag. --}}
                     @if (! empty($fauxDownloads))
                         <div class="chapter-extras__block">
-                            <h3 class="chapter-section__title">Downloads</h3>
+                            <h3 class="chapter-section__title">{{ __('groups.show.downloads') }}</h3>
                             <ul class="chapter-downloads" role="list">
                                 @foreach ($fauxDownloads as $download)
                                     @php
@@ -367,10 +367,10 @@
             {{-- Parent/region node: minimal children list so a parent page does not break. --}}
             @if ($group->children->isNotEmpty())
                 <div class="chapter-children">
-                    <h3 class="chapter-section__title">Lokale groepen in {{ $group->name }}</h3>
+                    <h3 class="chapter-section__title">{{ __('groups.show.child_groups', ['name' => $group->name]) }}</h3>
                     <ul class="flex flex-wrap gap-2.5">
                         @foreach ($group->children as $child)
-                            <li><a href="{{ route('groups.show', $child) }}" class="grp-pill link-plain">{{ $child->name }}</a></li>
+                            <li><a href="{{ localized_route('groups.show', ['group' => $child]) }}" class="grp-pill link-plain">{{ $child->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -405,18 +405,18 @@
                          x-transition:leave="chapter-join__cta--leave"
                          x-transition:leave-start="chapter-join__cta--leave-start"
                          x-transition:leave-end="chapter-join__cta--leave-end">
-                        <h2>Help mee in {{ $gemeente }}</h2>
-                        <p class="chapter-join__tagline">Een paar uur per maand, je hoeft geen fietsexpert te zijn.</p>
+                        <h2>{{ __('groups.show.closing_heading', ['name' => $gemeente]) }}</h2>
+                        <p class="chapter-join__tagline">{{ __('groups.show.closing_tagline') }}</p>
                         <div class="chapter-join__actions">
-                            <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-on:click.prevent="open = true">Ja, ik wil meehelpen</x-cta-button>
-                            <x-cta-button variant="secondary" href="{{ route('volunteer') }}">Meer over meehelpen</x-cta-button>
+                            <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-on:click.prevent="open = true">{{ __('groups.show.closing_cta') }}</x-cta-button>
+                            <x-cta-button variant="secondary" href="{{ localized_route('volunteer') }}">{{ __('groups.show.closing_more') }}</x-cta-button>
                         </div>
                     </div>
 
                     <div class="chapter-join__panel" x-show="open" x-cloak>
                         <div class="chapter-join__aside">
-                            <h2 class="chapter-join__welcome">Fijn dat je wil meehelpen in {{ $gemeente }}!</h2>
-                            <p class="chapter-join__welcome-sub">Je hoeft niets speciaals te kunnen, goesting volstaat. Laat je gegevens achter, dan nemen we snel contact met je op.</p>
+                            <h2 class="chapter-join__welcome">{{ __('groups.show.form_heading', ['name' => $gemeente]) }}</h2>
+                            <p class="chapter-join__welcome-sub">{{ __('groups.show.form_sub') }}</p>
                         </div>
                         <div class="chapter-join__form-col">
                             <livewire:chapter-volunteer-signup :group="$group" />

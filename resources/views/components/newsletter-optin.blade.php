@@ -10,8 +10,8 @@
     // Teaser only: the actual sign-up form lives on its own page. This block just
     // makes the promise and sends people onward.
     $lead = $gemeente
-        ? "Eén mail per maand met de ritten en het nieuws uit {$gemeente}."
-        : 'Eén mail per maand met de ritten bij jou in de buurt.';
+        ? __('components.newsletter_optin.teaser_lead_group', ['name' => $gemeente])
+        : __('components.newsletter_optin.teaser_lead');
 
     // Prominent treatment (chapter page): the opt-in is the page's primary low-commitment
     // CTA, so it lifts off the white with the card shadow and trades the quiet outlined
@@ -29,18 +29,18 @@
                  band and opens its form via the open-volunteer event. --}}
             <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-kidical-ink">Meer dan meefietsen?</h3>
-                    <p class="text-kidical-ink/75">{{ $gemeente ? 'Zin om zelf mee te trekken in '.$gemeente.'?' : 'Zin om zelf mee te helpen?' }}</p>
+                    <h3 class="text-kidical-ink">{{ __('components.newsletter_optin.join_heading') }}</h3>
+                    <p class="text-kidical-ink/75">{{ $gemeente ? __('components.newsletter_optin.join_body_group', ['name' => $gemeente]) : __('components.newsletter_optin.join_body') }}</p>
                 </div>
-                <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-data="{}" x-on:click="$dispatch('open-volunteer')" class="shrink-0">Word vrijwilliger</x-cta-button>
+                <x-cta-button variant="blue" icon="heart" href="#aanmelden" x-data="{}" x-on:click="$dispatch('open-volunteer')" class="shrink-0">{{ __('components.newsletter_optin.join_cta') }}</x-cta-button>
             </div>
         @else
             <div class="flex flex-col gap-3 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
                 <div class="flex flex-col gap-3">
-                    <h3 class="text-kidical-ink">Je bent al mee</h3>
-                    <p class="text-kidical-ink/75">Je staat op de hoogte. Je nieuwsvoorkeuren beheer je in je profiel.</p>
+                    <h3 class="text-kidical-ink">{{ __('components.newsletter_optin.subscribed_heading') }}</h3>
+                    <p class="text-kidical-ink/75">{{ __('components.newsletter_optin.subscribed_body') }}</p>
                 </div>
-                <x-cta-button variant="blue" :href="route('settings')" class="shrink-0">Beheer voorkeuren</x-cta-button>
+                <x-cta-button variant="blue" :href="route('settings')" class="shrink-0">{{ __('components.newsletter_optin.subscribed_cta') }}</x-cta-button>
             </div>
         @endif
     </div>
@@ -48,10 +48,10 @@
     <div {{ $attributes->class($cardClass) }}>
         <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
             <div class="flex flex-col gap-3">
-                <h3 class="text-kidical-ink">Mis geen rit</h3>
+                <h3 class="text-kidical-ink">{{ __('components.newsletter_optin.heading') }}</h3>
                 <p class="text-kidical-ink/75">{{ $lead }}</p>
             </div>
-            <x-cta-button :variant="$ctaVariant" :href="route('newsletter.show', ['locale' => app()->getLocale()])" class="shrink-0">Schrijf je in</x-cta-button>
+            <x-cta-button :variant="$ctaVariant" :href="localized_route('newsletter.show')" class="shrink-0">{{ __('components.newsletter_optin.cta') }}</x-cta-button>
         </div>
     </div>
 @endauth

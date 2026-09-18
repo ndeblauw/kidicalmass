@@ -9,16 +9,16 @@
 @php($date = $article->published_at ?? $article->created_at)
 @php($neighbours = collect([$newerArticle, $olderArticle])->filter())
 
-<x-layouts::site title="{{ $article->title_nl }}" :description="$article->metaDescription()" :og-image="$article->ogImageUrl()" og-type="article">
+<x-layouts::site title="{{ $article->title }}" :description="$article->metaDescription()" :og-image="$article->ogImageUrl()" og-type="article">
 
     <x-page-hero
         :eyebrow="__('nav.news')"
-        :eyebrow-href="route('articles.index')"
-        :title="$article->title_nl"
+        :eyebrow-href="localized_route('articles.index')"
+        :title="$article->title"
         size="compact"
         :photo-url="$mainMedia?->getUrl()"
         :photo-srcset="$mainMedia?->getSrcset() ?: null"
-        :photo-alt="$article->title_nl"
+        :photo-alt="$article->title"
         :photo-tilt="$mainMedia !== null">
 
         <x-slot:lead>
@@ -32,7 +32,7 @@
                 <div class="article-hero__chips">
                     @foreach ($article->groups as $group)
                         @if ($group->hasPublicPage())
-                            <a href="{{ route('groups.show', $group) }}" class="link-plain article-hero__chip">{{ $group->publicLabel() }}</a>
+                            <a href="{{ localized_route('groups.show', ['group' => $group]) }}" class="link-plain article-hero__chip">{{ $group->publicLabel() }}</a>
                         @else
                             <span class="article-hero__chip">{{ $group->publicLabel() }}</span>
                         @endif
@@ -48,7 +48,7 @@
                 </div>
 
                 @if ($article->getMedia('gallery')->count() > 0)
-                    <section class="space-y-4" aria-label="{{ __('about.news_gallery') }}">
+                    <section class="space-y-4" aria-label="{{ __('about.news.gallery') }}">
                         <div class="grid gap-4 sm:grid-cols-2">
                             @foreach ($article->getMedia('gallery') as $media)
                                 <div class="aspect-[4/3] overflow-hidden rounded-xl">
@@ -64,13 +64,13 @@
 
             <aside class="flex flex-col gap-8 lg:sticky lg:top-28 lg:self-start">
                 @if ($neighbours->isNotEmpty())
-                    <nav aria-label="{{ __('about.news_more_title') }}" data-article-neighbours>
-                        <h2 class="article-rail__label">{{ __('about.news_more_title') }}</h2>
+                    <nav aria-label="{{ __('about.news.more.title') }}" data-article-neighbours>
+                        <h2 class="article-rail__label">{{ __('about.news.more.title') }}</h2>
                         <ul role="list" class="article-rail__list">
                             @foreach ($neighbours as $neighbour)
                                 <li>
-                                    <a href="{{ route('articles.show', $neighbour) }}" class="link-plain article-rail__item">
-                                        <span class="article-rail__item-title">{{ $neighbour->title_nl }}</span>
+                                    <a href="{{ localized_route('articles.show', ['article' => $neighbour]) }}" class="link-plain article-rail__item">
+                                        <span class="article-rail__item-title">{{ $neighbour->title }}</span>
                                         <span class="article-rail__item-date"><time datetime="{{ ($neighbour->published_at ?? $neighbour->created_at)->format('Y-m-d') }}">{{ ($neighbour->published_at ?? $neighbour->created_at)->isoFormat('D MMMM YYYY') }}</time></span>
                                     </a>
                                 </li>
@@ -86,7 +86,7 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Zin gekregen om mee te rijden?"
-            :href="route('activities.index')" label="Vind een rit" />
+        <x-closing-cta :heading="__('about.news.closing.heading')"
+            :href="localized_route('activities.index')" :label="__('about.news.closing.label')" />
     </x-slot:closing>
 </x-layouts::site>

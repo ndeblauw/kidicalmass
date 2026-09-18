@@ -10,34 +10,34 @@
 --}}
 @php
     $readItems = [
-        ['href' => route('about.mission'), 'icon' => 'flag', 'title' => __('nav.mission'), 'desc' => 'Fietsparades, lokale groepen en de weg naar veilige straten.'],
-        ['href' => route('about.vision'), 'icon' => 'eye', 'title' => __('nav.vision'), 'desc' => 'Vier duidelijke vragen aan steden en gemeenten.'],
-        ['href' => route('about.organisation'), 'icon' => 'building-office-2', 'title' => __('nav.organisation'), 'desc' => 'Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.'],
-        ['href' => route('articles.index'), 'icon' => 'newspaper', 'title' => __('nav.news'), 'desc' => 'Nieuwe afdelingen, mijlpalen en verhalen van onderweg.'],
+        ['href' => localized_route('about.mission'), 'icon' => 'flag', 'title' => __('nav.mission'), 'desc' => __('about.hub.read.descs.0')],
+        ['href' => localized_route('about.vision'), 'icon' => 'eye', 'title' => __('nav.vision'), 'desc' => __('about.hub.read.descs.1')],
+        ['href' => localized_route('about.organisation'), 'icon' => 'building-office-2', 'title' => __('nav.organisation'), 'desc' => __('about.hub.read.descs.2')],
+        ['href' => localized_route('articles.index'), 'icon' => 'newspaper', 'title' => __('nav.news'), 'desc' => __('about.hub.read.descs.3')],
     ];
     $exitItems = [
-        ['href' => route('volunteer'), 'label' => 'Een groep starten of meehelpen'],
-        ['href' => route('about.press'), 'label' => 'Ik ben pers'],
-        ['href' => route('about.partners'), 'label' => 'Partner of sponsor worden'],
-        ['href' => route('membership'), 'label' => 'De beweging steunen'],
+        ['href' => localized_route('volunteer'), 'label' => __('about.hub.exits.items.0')],
+        ['href' => localized_route('about.press'), 'label' => __('about.hub.exits.items.1')],
+        ['href' => localized_route('about.partners'), 'label' => __('about.hub.exits.items.2')],
+        ['href' => localized_route('membership'), 'label' => __('about.hub.exits.items.3')],
     ];
 @endphp
-<x-layouts::site title="Over ons" :description="__('meta.about')">
+<x-layouts::site :title="__('about.hub.title')" :description="__('meta.about')">
 
     <x-page-hero
-        eyebrow="Over ons"
-        title="Samen maken we straten voor kinderen."
+        :eyebrow="__('about.hub.hero.eyebrow')"
+        :title="__('about.hub.hero.title')"
         illustration="img/illustrations/cyclist-peace-sign.svg">
 
     {{-- Lead, relocated onto the panel (the hub has no separate intro section). --}}
     <x-intro-text>
-        <p>Kidical Mass organiseert fietsparades voor gezinnen in heel België en pleit voor kindvriendelijke straten. Een vrijwilligersnetwerk, lokaal geworteld en samen gecoördineerd.</p>
+        <p>{{ __('about.hub.intro') }}</p>
     </x-intro-text>
 
     {{-- ACT-EXITS — intention triage as a quiet link row: the exits deciders
          came for stay first, without competing with the browse menu below. --}}
-    <nav class="about-exits" aria-label="Meteen iets regelen">
-        <p class="about-exits__lead">Meteen iets regelen?</p>
+    <nav class="about-exits" aria-label="{{ __('about.hub.exits.aria') }}">
+        <p class="about-exits__lead">{{ __('about.hub.exits.lead') }}</p>
         <ul class="about-exits__list" role="list">
             @foreach ($exitItems as $exit)
                 <li><a href="{{ $exit['href'] }}" class="more-link">{{ $exit['label'] }} →</a></li>
@@ -47,7 +47,7 @@
 
     {{-- SUBPAGINA'S — the browse path as a hairline table of contents. --}}
     <section class="about-section about-section--wide">
-        <x-section-heading>Lees meer over de beweging</x-section-heading>
+        <x-section-heading>{{ __('about.hub.read.title') }}</x-section-heading>
         <ul class="about-toc" role="list">
             @foreach ($readItems as $item)
                 <li>
@@ -67,8 +67,8 @@
     </x-page-hero>
 
     <x-slot:closing>
-        <x-closing-cta heading="Rij mee met de buurt"
-            :href="route('activities.index')" label="Vind een rit" />
+        <x-closing-cta :heading="__('about.hub.closing.heading')"
+            :href="localized_route('activities.index')" :label="__('about.hub.closing.label')" />
     </x-slot:closing>
 
 </x-layouts::site>

@@ -1,5 +1,6 @@
 <x-ba-text name="name" label="Naam" required />
-<x-ba-text name="role" label="Rol" required />
+<x-ba-text name="role_nl" label="Rol (NL)" required />
+<x-ba-text name="role_fr" label="Rol (FR)" />
 
 <x-ba-textarea name="bio_nl" label="Bio (NL)" rows="4" />
 <x-ba-textarea name="bio_fr" label="Bio (FR)" rows="4" />

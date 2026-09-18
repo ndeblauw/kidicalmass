@@ -19,15 +19,15 @@ use Livewire\Component;
 class ChapterVolunteerSignup extends Component
 {
     /**
-     * The role options offered. Key = value stored in the enquiry; value = NL label.
+     * The role options offered. Key = value stored in the enquiry; value = lang key.
      */
     public const ROLE_OPTIONS = [
-        'roze-hesje' => 'Roze hesje',
-        'mede-organisator' => 'Mede-organisator',
-        'communicator' => 'Communicator',
-        'fotograaf' => 'Fotograaf',
-        'dj' => 'DJ',
-        'niet-zeker' => 'Nog niet zeker',
+        'roze-hesje' => 'forms.chapter_volunteer.roles.roze-hesje',
+        'mede-organisator' => 'forms.chapter_volunteer.roles.mede-organisator',
+        'communicator' => 'forms.chapter_volunteer.roles.communicator',
+        'fotograaf' => 'forms.chapter_volunteer.roles.fotograaf',
+        'dj' => 'forms.chapter_volunteer.roles.dj',
+        'niet-zeker' => 'forms.chapter_volunteer.roles.nog-niet-zeker',
     ];
 
     /**
@@ -35,12 +35,12 @@ class ChapterVolunteerSignup extends Component
      * Keyed by the same value as ROLE_OPTIONS.
      */
     public const ROLE_DESCRIPTIONS = [
-        'roze-hesje' => 'Je rijdt mee als wegkapitein en houdt de groep veilig bij elk kruispunt.',
-        'mede-organisator' => 'Je denkt mee over de route en helpt een rit op poten zetten.',
-        'communicator' => 'Je houdt de buurt op de hoogte via socials, affiches en mond-tot-mond.',
-        'fotograaf' => 'Je legt de leukste momenten van de rit vast.',
-        'dj' => 'Je zorgt voor muziek en sfeer onderweg.',
-        'niet-zeker' => 'Nog geen idee? Geen probleem, we zoeken samen iets dat bij je past.',
+        'roze-hesje' => 'forms.chapter_volunteer.role_descriptions.roze-hesje',
+        'mede-organisator' => 'forms.chapter_volunteer.role_descriptions.mede-organisator',
+        'communicator' => 'forms.chapter_volunteer.role_descriptions.communicator',
+        'fotograaf' => 'forms.chapter_volunteer.role_descriptions.fotograaf',
+        'dj' => 'forms.chapter_volunteer.role_descriptions.dj',
+        'niet-zeker' => 'forms.chapter_volunteer.role_descriptions.nog-niet-zeker',
     ];
 
     public Group $group;
@@ -100,7 +100,7 @@ class ChapterVolunteerSignup extends Component
 
         $chosenRoles = collect($this->roles)
             ->filter(fn (string $role): bool => isset(self::ROLE_OPTIONS[$role]))
-            ->map(fn (string $role): string => self::ROLE_OPTIONS[$role])
+            ->map(fn (string $role): string => __(self::ROLE_OPTIONS[$role]))
             ->join(', ');
 
         $body = "Aanmelding als vrijwilliger bij de lokale groep {$this->group->name}.";

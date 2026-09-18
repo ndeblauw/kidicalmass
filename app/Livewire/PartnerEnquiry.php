@@ -18,28 +18,17 @@ use Livewire\Component;
 class PartnerEnquiry extends Component
 {
     /**
-     * Organisation types. Key = stored value; value = NL label.
+     * Organisation types. Keys are the fixed stored codes; the labels are
+     * translated per locale via lang/{nl,fr}/partners.php (page.enquiry.types).
      */
-    public const TYPE_OPTIONS = [
-        'vzw' => 'vzw / vereniging',
-        'bedrijf' => 'Bedrijf',
-        'overheid' => 'Gemeente / overheid',
-        'andere' => 'Andere',
-    ];
+    public const TYPE_OPTIONS = ['asbl', 'association', 'entreprise', 'commune', 'pouvoir-public', 'autre'];
 
     /**
-     * Formule interest (provisional — tiers from the Sponsorformules doc, pending
-     * Leticia's national-scope confirmation). Key = stored value; value = NL label.
+     * Formule interest (tiers from the Sponsorformules doc). Keys are the fixed
+     * stored codes; the labels are translated per locale via
+     * lang/{nl,fr}/partners.php (page.enquiry.formules).
      */
-    public const FORMULE_OPTIONS = [
-        'supporter' => 'Supporter (vzw)',
-        'partner' => 'Partner (vzw)',
-        'community-partner' => 'Community Partner (vzw)',
-        'friend' => 'Friend (bedrijf)',
-        'sponsor' => 'Sponsor (bedrijf)',
-        'main-partner' => 'Main Partner (bedrijf)',
-        'nog-niet-zeker' => 'Nog niet zeker',
-    ];
+    public const FORMULE_OPTIONS = ['supporter', 'partner', 'community-partner', 'friend', 'sponsor', 'main-partner', 'nog-niet-zeker'];
 
     #[Validate('required|string|max:255')]
     public string $name = '';
@@ -50,7 +39,7 @@ class PartnerEnquiry extends Component
     #[Validate('required|string|max:255')]
     public string $organisation = '';
 
-    #[Validate('required|in:vzw,bedrijf,overheid,andere')]
+    #[Validate('required|in:asbl,association,entreprise,commune,pouvoir-public,autre')]
     public string $type = '';
 
     #[Validate('nullable|in:supporter,partner,community-partner,friend,sponsor,main-partner,nog-niet-zeker')]
@@ -87,11 +76,11 @@ class PartnerEnquiry extends Component
             return;
         }
 
-        $typeLabel = self::TYPE_OPTIONS[$this->type] ?? $this->type;
+        $typeLabel = __('partners.page.enquiry.types.'.$this->type);
         $body = "Aanvraag partnerschap.\nOrganisatie: {$this->organisation} ({$typeLabel}).";
 
-        if ($this->formule !== '' && isset(self::FORMULE_OPTIONS[$this->formule])) {
-            $body .= "\nInteresse in formule: ".self::FORMULE_OPTIONS[$this->formule].'.';
+        if ($this->formule !== '' && in_array($this->formule, self::FORMULE_OPTIONS, true)) {
+            $body .= "\nInteresse in formule: ".__('partners.page.enquiry.formules.'.$this->formule).'.';
         }
         if ($this->message !== '') {
             $body .= "\nBericht: {$this->message}";
@@ -123,8 +112,12 @@ class PartnerEnquiry extends Component
     public function render()
     {
         return view('livewire.partner-enquiry', [
-            'typeOptions' => self::TYPE_OPTIONS,
-            'formuleOptions' => self::FORMULE_OPTIONS,
+            'typeOptions' => collect(self::TYPE_OPTIONS)
+                ->mapWithKeys(fn (string $code): array => [$code => __('partners.page.enquiry.types.'.$code)])
+                ->all(),
+            'formuleOptions' => collect(self::FORMULE_OPTIONS)
+                ->mapWithKeys(fn (string $code): array => [$code => __('partners.page.enquiry.formules.'.$code)])
+                ->all(),
         ]);
     }
 }
