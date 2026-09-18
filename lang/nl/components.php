@@ -2,8 +2,9 @@
 
 return [
     'newsletter_optin' => [
-        'teaser_lead_group' => 'Eén mail per maand met de ritten en het nieuws uit :name.',
-        'teaser_lead' => 'Eén mail per maand met de ritten bij jou in de buurt.',
+        'teaser_lead_group' => 'Elke maand alle ritten van de komende weken, ook die in :name.',
+        'teaser_lead' => 'Deze kalender, elke maand in je mailbox. Met de nieuwe gemeentes erbij.',
+        'teaser_lead_news' => 'Elke maand lees je wat de parades in beweging zetten, met alle ritten van de komende weken erbij.',
         'join_heading' => 'Meer dan meefietsen?',
         'join_body_group' => 'Zin om zelf mee te trekken in :name?',
         'join_body' => 'Zin om zelf mee te helpen?',
@@ -12,7 +13,8 @@ return [
         'subscribed_body' => 'Je staat op de hoogte. Je nieuwsvoorkeuren beheer je in je profiel.',
         'subscribed_cta' => 'Beheer voorkeuren',
         'heading' => 'Mis geen rit',
-        'cta' => 'Schrijf je in',
+        'heading_news' => 'Meer van dit nieuws',
+        'cta' => 'Schrijf me in',
     ],
     'next_ride' => [
         'heading' => 'Volgende fietsparade',

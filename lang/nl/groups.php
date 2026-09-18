@@ -49,7 +49,7 @@ return [
         ],
         'upcoming' => 'Later',
         'no_ride_lead' => 'Nog geen fietstocht gepland.',
-        'no_ride_body' => 'We laten het je weten zodra :name vertrekt. Schrijf je hieronder in.',
+        'no_ride_body' => 'Zodra :name vertrekt, staat het in de nieuwsbrief.',
         'other_activities' => 'Ook in :name',
         'gallery_eyebrow' => 'In beeld',
         'gallery_title' => 'Recentste parade',

@@ -14,9 +14,10 @@ return [
     'found' => '{1} parade trouvée.|[2,*] parades trouvées.',
     'none' => 'Aucune parade trouvée.',
     'empty_past' => 'Il n\'y a pas encore de sorties à vélo passées à afficher.',
-    'empty_none' => 'Aucune sortie à vélo n\'est prévue pour le moment. La saison s\'étend de mars à novembre. Revenez vite !',
+    'empty_none' => 'Aucune sortie à vélo n\'est prévue pour le moment. La saison s\'étend de mars à novembre. :link, et les nouvelles sorties apparaîtront immédiatement.',
     'empty_radius' => 'Aucune parade n\'est disponible dans la catégorie « :radius » de :place.',
-    'empty_radius_hint' => 'Choisissez une région plus vaste pour afficher davantage de résultats.',
+    'empty_radius_hint' => 'Choisissez une région plus vaste pour afficher davantage de résultats, ou :link: dès qu\'une sortie sera planifiée près de chez vous, vous le saurez.',
+    'newsletter_link' => 'Inscrivez-vous à la newsletter',
     'show_past' => 'Voir les parades passées',
     'show_upcoming' => 'Retour aux prochaines parades',
 ];

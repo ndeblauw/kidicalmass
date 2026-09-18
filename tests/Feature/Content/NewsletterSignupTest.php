@@ -36,7 +36,7 @@ it('subscribes a Dutch visitor to the Dutch MailerLite group', function () {
         ->assertHasNoErrors()
         ->assertSet('email', 'ouders@example.be')
         ->assertSet('submitted', true)
-        ->assertSee('Kijk even in je mailbox');
+        ->assertSee('Je bent erbij!');
 
     Http::assertSent(function (Request $request): bool {
         return $request->method() === 'POST'
@@ -164,4 +164,13 @@ it('greets a logged-in visitor instead of showing the form', function () {
     Livewire::test(NewsletterSignup::class)
         ->assertSee('Je bent al mee')
         ->assertDontSee('Je e-mailadres');
+});
+
+it('links the newsletter page to the latest edition in the site language', function () {
+    config(['services.mailerlite.latest_edition.nl' => 'https://preview.example/nl-edition']);
+
+    $this->get(route('newsletter.show', ['locale' => 'nl']))
+        ->assertOk()
+        ->assertSee('data-newsletter-latest-edition', false)
+        ->assertSee('href="https://preview.example/nl-edition"', false);
 });

@@ -55,7 +55,7 @@
                         @if ($when === 'voorbije')
                             {{ __('calendar.empty_past') }}
                         @else
-                            {{ __('calendar.empty_none') }}
+                            {!! __('calendar.empty_none', ['link' => '<a href="'.localized_route('newsletter.show').'">'.__('calendar.newsletter_link').'</a>']) !!}
                         @endif
                     </p>
 
@@ -75,8 +75,8 @@
                         };
                     @endphp
                     <p class="kal-empty">
-                        {{ __('calendar.empty_radius', ['radius' => $radiusLabel, 'place' => $location['name']]) }}<br>
-                        {{ __('calendar.empty_radius_hint') }}
+                        {!! __('calendar.empty_radius', ['radius' => $radiusLabel, 'place' => $location['name']]) !!}<br>
+                        {!! __('calendar.empty_radius_hint', ['link' => '<a href="'.localized_route('newsletter.show').'">'.__('calendar.newsletter_link').'</a>']) !!}
                     </p>
 
                 @else

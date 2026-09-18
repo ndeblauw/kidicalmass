@@ -1,4 +1,4 @@
-@props(['group' => null, 'showJoin' => false, 'prominent' => false])
+@props(['group' => null, 'showJoin' => false, 'prominent' => false, 'context' => 'calendar'])
 
 @php
     $gemeente = null;
@@ -8,10 +8,15 @@
     }
 
     // Teaser only: the actual sign-up form lives on its own page. This block just
-    // makes the promise and sends people onward.
-    $lead = $gemeente
-        ? __('components.newsletter_optin.teaser_lead_group', ['name' => $gemeente])
-        : __('components.newsletter_optin.teaser_lead');
+    // makes the promise and sends people onward. There is one newsletter for all of
+    // Belgium (per language), so a chapter page names its town without promising
+    // local news. Next to an article (context "news") the impact story leads.
+    $heading = $context === 'news' ? __('components.newsletter_optin.heading_news') : __('components.newsletter_optin.heading');
+    $lead = match (true) {
+        $gemeente !== null => __('components.newsletter_optin.teaser_lead_group', ['name' => $gemeente]),
+        $context === 'news' => __('components.newsletter_optin.teaser_lead_news'),
+        default => __('components.newsletter_optin.teaser_lead'),
+    };
 
     // Prominent treatment (chapter page): the opt-in is the page's primary low-commitment
     // CTA, so it lifts off the white with the card shadow and trades the quiet outlined
@@ -48,7 +53,7 @@
     <div {{ $attributes->class($cardClass) }}>
         <div class="flex flex-col gap-4 items-start @xl:flex-row @xl:items-center @xl:justify-between @xl:gap-8">
             <div class="flex flex-col gap-3">
-                <h3 class="text-kidical-ink">{{ __('components.newsletter_optin.heading') }}</h3>
+                <h3 class="text-kidical-ink">{{ $heading }}</h3>
                 <p class="text-kidical-ink/75">{{ $lead }}</p>
             </div>
             <x-cta-button :variant="$ctaVariant" :href="localized_route('newsletter.show')" class="shrink-0">{{ __('components.newsletter_optin.cta') }}</x-cta-button>

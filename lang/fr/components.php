@@ -2,8 +2,9 @@
 
 return [
     'newsletter_optin' => [
-        'teaser_lead_group' => 'Un e-mail par mois avec les sorties et les actualités de :name.',
-        'teaser_lead' => 'Un e-mail par mois avec les news et sorties organisées près de chez vous.',
+        'teaser_lead_group' => 'Chaque mois, toutes les sorties des prochaines semaines, y compris celles à :name.',
+        'teaser_lead' => 'Ce calendrier, chaque mois dans votre boîte mail. Avec les nouvelles communes en prime.',
+        'teaser_lead_news' => 'Chaque mois, lisez ce que les parades ont déjà changé, avec toutes les sorties des prochaines semaines.',
         'join_heading' => 'Envie de faire plus que participer aux parades ?',
         'join_body_group' => 'Envie de vous impliquer à :name ?',
         'join_body' => 'Envie de vous impliquer vous aussi ?',
@@ -12,7 +13,8 @@ return [
         'subscribed_body' => 'Vous êtes bien inscrit·e à la newsletter. Gérez vos préférences de communication depuis votre profil.',
         'subscribed_cta' => 'Gérer les préférences',
         'heading' => 'Ne manquez aucune actu !',
-        'cta' => 'Inscrivez-vous',
+        'heading_news' => 'Plus de nouvelles comme celle-ci',
+        'cta' => 'Je m\'inscris',
     ],
     'next_ride' => [
         'heading' => 'Prochaine parade à vélo',

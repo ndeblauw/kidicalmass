@@ -14,9 +14,10 @@ return [
     'found' => '{1} rit gevonden.|[2,*] ritten gevonden.',
     'none' => 'Geen ritten gevonden.',
     'empty_past' => 'Er zijn nog geen voorbije fietstochten om te tonen.',
-    'empty_none' => 'Er zijn momenteel geen fietstochten gepland. Het seizoen loopt van maart tot november. Kom snel terug!',
+    'empty_none' => 'Er zijn momenteel geen fietstochten gepland. Het seizoen loopt van maart tot november. :link, dan zie je de nieuwe ritten meteen staan.',
     'empty_radius' => 'Geen ritten in de categorie ":radius" van :place.',
-    'empty_radius_hint' => 'Kies een ruimere regio om meer te zien.',
+    'empty_radius_hint' => 'Kies een ruimere regio om meer te zien, of :link: zodra er iets in de buurt gepland is, lees je het daar.',
+    'newsletter_link' => 'Schrijf je in op de nieuwsbrief',
     'show_past' => 'Bekijk voorbije ritten',
     'show_upcoming' => 'Terug naar aankomende ritten',
 ];

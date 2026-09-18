@@ -7,10 +7,11 @@ return [
         'title' => 'Les actualités et prochaines Kidical Mass directement dans votre boîte mail.',
     ],
     'benefits' => [
-        'Un seul mail par mois, pas plus',
-        'Uniquement les parades près de chez vous',
-        'Pas de spam, désinscription en un clic',
+        'Toutes les sorties des prochaines semaines',
+        'Ce que les parades ont déjà changé : pistes cyclables, zones 30, la presse',
+        'Environ un mail par mois, désinscription en un clic',
     ],
+    'latest' => 'Lire la dernière newsletter',
     'confirmed' => [
         'title' => 'Vous êtes de la partie',
         'heading' => 'C\'est bon, vous êtes de la partie !',

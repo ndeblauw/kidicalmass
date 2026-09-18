@@ -390,10 +390,9 @@
             {{-- Upcoming: the "how it works" ask already lives above (Zo werkt een rit,
                  beside the map's promises), so the closing band points elsewhere: stay
                  in the loop for the next rides via the newsletter. --}}
-            <x-closing-cta
-                :heading="$primaryGroup ? __('activities.closing.upcoming_heading_group', ['name' => $primaryGroup->name]) : __('activities.closing.upcoming_heading')"
-                :href="localized_route('newsletter.show')"
-                :label="__('activities.closing.upcoming_label')" />
+            <x-newsletter-cta
+                :heading="__('activities.closing.upcoming_heading')"
+                :lead="__('activities.closing.upcoming_lead')" />
         @endif
     </x-slot:closing>
 

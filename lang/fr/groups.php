@@ -49,7 +49,7 @@ return [
         ],
         'upcoming' => 'Plus tard',
         'no_ride_lead' => 'Aucune parade prévue pour le moment.',
-        'no_ride_body' => 'On vous préviendra dès que :name se remettra en selle. Inscrivez-vous ci-dessous pour ne rien manquer.',
+        'no_ride_body' => 'Dès que :name se remettra en selle, vous le verrez dans la newsletter.',
         'other_activities' => 'Aussi à :name',
         'gallery_eyebrow' => 'En images',
         'gallery_title' => 'La dernière parade',

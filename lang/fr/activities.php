@@ -66,8 +66,7 @@ return [
     'closing' => [
         'past_heading' => 'Plus de parades Kidical Mass de :name ?',
         'past_label' => 'Découvrez le groupe',
-        'upcoming_heading_group' => 'Ne manquez pas les prochaines parades de Kidical Mass :name',
-        'upcoming_heading' => 'Ne manquez aucune Kidical Mass !',
-        'upcoming_label' => 'Inscrivez-vous et recevez les prochaines dates',
+        'upcoming_heading' => 'Envie de participer à la prochaine sortie ?',
+        'upcoming_lead' => 'Chaque mois, toutes les sorties des prochaines semaines dans votre boîte mail.',
     ],
 ];

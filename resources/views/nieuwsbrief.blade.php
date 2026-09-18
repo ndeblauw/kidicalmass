@@ -13,6 +13,11 @@
                         <li>{{ $benefit }}</li>
                     @endforeach
                 </ul>
+                @if ($latestEdition = config('services.mailerlite.latest_edition.'.app()->getLocale()))
+                    <p class="newsletter-signup-latest">
+                        <a href="{{ $latestEdition }}" target="_blank" rel="noopener" data-newsletter-latest-edition>{{ __('newsletter.latest') }}</a>
+                    </p>
+                @endif
             </aside>
 
             <div class="newsletter-form-col">

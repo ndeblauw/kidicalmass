@@ -20,7 +20,7 @@ return [
         ],
         'newsletter' => [
             'title' => 'Lorsque vous vous inscrivez à la newsletter',
-            'body' => 'Lorsque vous vous inscrivez, nous conservons votre adresse e-mail ainsi que les groupes que vous souhaitez suivre dans MailerLite, notre service d\'envoi de newsletters. Vous recevez d\'abord un e-mail de confirmation ; vous ne serez ajouté·e à la liste qu\'après avoir cliqué sur le lien de confirmation. Vous pouvez vous désinscrire à tout moment via le lien présent au bas de chaque e-mail. Base juridique : votre consentement, que vous pouvez également retirer à tout moment.',
+            'body' => 'Si vous vous inscrivez, nous conservons votre adresse e-mail et la langue de votre newsletter dans MailerLite, notre service de newsletter. Vous pouvez vous désinscrire à tout moment via le lien en bas de chaque e-mail. Base juridique : votre consentement, que vous pouvez retirer à tout moment.',
         ],
         'location' => [
             'title' => 'Lorsque vous choisissez une localisation',

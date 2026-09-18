@@ -9,7 +9,7 @@
         <div class="bg-white rounded-card shadow-card p-8 flex flex-col gap-4 items-start" role="status">
             <h2>{{ __('forms.newsletter.submitted_heading') }}</h2>
             <p>{!! __('forms.newsletter.submitted_body', ['email' => '<strong>'.e($email).'</strong>']) !!}</p>
-            <p class="text-kidical-ink/70">{{ __('forms.newsletter.submitted_hint') }}</p>
+            <x-cta-button variant="yellow" icon="arrow" :href="localized_route('activities.index')">{{ __('forms.newsletter.submitted_calendar') }}</x-cta-button>
         </div>
     @else
         <form wire:submit="subscribe" class="bg-white rounded-card shadow-card p-8 flex flex-col gap-6">

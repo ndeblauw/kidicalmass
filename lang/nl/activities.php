@@ -66,8 +66,7 @@ return [
     'closing' => [
         'past_heading' => 'Meer ritten van Kidical Mass :name?',
         'past_label' => 'Ontdek de groep',
-        'upcoming_heading_group' => 'Mis geen rit van Kidical Mass :name',
-        'upcoming_heading' => 'Geen rit missen?',
-        'upcoming_label' => 'Schrijf je in voor updates',
+        'upcoming_heading' => 'Zin in de volgende rit?',
+        'upcoming_lead' => 'Elke maand alle ritten van de komende weken in je mailbox.',
     ],
 ];
