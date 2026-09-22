@@ -12,6 +12,15 @@ class SetLocale
     /** @var list<string> */
     public const SUPPORTED = ['nl', 'fr'];
 
+    /**
+     * Locale the visitor's browser asks for, falling back to the first supported
+     * locale (Dutch). Used for the initial `/` redirect.
+     */
+    public static function detectFromRequest(Request $request): string
+    {
+        return $request->getPreferredLanguage(self::SUPPORTED) ?? self::SUPPORTED[0];
+    }
+
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $request->route('locale');

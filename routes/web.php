@@ -24,6 +24,7 @@ use App\Http\Controllers\RozeHesjeController;
 use App\Http\Controllers\StyleguideController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Middleware\BackstageDemoAccess;
+use App\Http\Middleware\SetLocale;
 use App\Livewire\Backstage\ActivityPhotoUpload;
 use App\Livewire\BuildReview;
 use App\Mail\VolunteerInvite;
@@ -35,10 +36,18 @@ use App\Models\User;
 use App\Notifications\PinkVest\WelcomeNotification;
 use App\Support\Quotes;
 use App\Support\SupportStats;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Bare root → default locale.
-Route::get('/', fn () => redirect('/nl', 301));
+// Bare root → the visitor's preferred browser language (Dutch fallback). A 302
+// (not 301) plus Vary, since the target depends on Accept-Language.
+Route::get('/', function (Request $request) {
+    $locale = SetLocale::detectFromRequest($request);
+
+    return redirect()
+        ->to(localized_route('home', ['locale' => $locale]), 302)
+        ->header('Vary', 'Accept-Language');
+});
 Route::middleware('setlocale')->group(function (): void {
     Route::get('{locale}', HomeController::class)->where('locale', 'nl')->name('home');
     Route::get('fr', HomeController::class)->defaults('locale', 'fr')->name('fr.home');
