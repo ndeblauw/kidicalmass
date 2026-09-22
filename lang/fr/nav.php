@@ -16,4 +16,6 @@ return [
     'press' => 'Presse',
     'partners' => 'Partenaires',
     'login' => 'Connexion',
+    'language' => 'Langue',
+    'coming_soon' => 'Bientôt disponible',
 ];

@@ -58,6 +58,8 @@
                         @endforeach
                         <x-account-menu />
                     @endauth
+
+                    <x-language-switch variant="desktop" />
                 </div>
 
                 <!-- Mobile: support CTA stays visible, links live behind the toggle -->
@@ -76,6 +78,7 @@
 
             <!-- Mobile dropdown panel -->
             <nav id="site-mobile-menu" aria-label="{{ __('nav.main_menu') }}" x-show="mobileOpen" x-transition class="site-nav__mobile-menu md:hidden">
+                <x-language-switch variant="mobile" />
                 @auth
                     @foreach ($myChapters as $myChapter)
                         <a href="{{ route('groups.roze-hesjes', ['locale' => 'nl', 'group' => $myChapter]) }}" class="roze-nav-btn roze-nav-btn--block mb-2">

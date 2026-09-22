@@ -384,6 +384,50 @@ header [data-flux-navbar-items][data-current]::after {
     .steun-nav-btn:hover { filter: brightness(1.03); }
     .steun-nav-btn--block { display: flex; justify-content: center; }
 
+    /* Language switch — a small segmented pill in the same white band and height
+       as the nav links, sitting at the end of the right-hand cluster. */
+    .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.125rem;
+        min-height: 3.5rem;
+        padding-inline: 0.35rem;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-hard-sm);
+    }
+    .lang-switch__item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        min-height: 2.75rem;
+        padding-inline: 0.5rem;
+        border-radius: 0.75rem;
+        font-weight: 800;
+        font-size: var(--text-sm);
+        letter-spacing: 0.03em;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+        text-decoration: none;
+        transition: color 0.15s ease, background-color 0.15s ease;
+    }
+    .lang-switch__item:hover {
+        color: var(--color-kidical-ink);
+        background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+    }
+    .lang-switch__item--active {
+        color: var(--color-kidical-blue);
+        background-color: color-mix(in oklab, var(--color-kidical-blue), transparent 90%);
+    }
+    .lang-switch__item--disabled {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+        cursor: not-allowed;
+    }
+    .lang-switch__item--disabled:hover {
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+        background-color: transparent;
+    }
+
 }
 
 /* Account dropdown trigger — outlined ghost button with white vertical dots,
@@ -460,6 +504,16 @@ header [data-flux-navbar-items][data-current]::after {
     }
     .site-nav__mobile-menu [data-flux-navbar-items] + [data-flux-navbar-items] {
         border-top: 1px solid color-mix(in oklab, var(--color-kidical-ink), transparent 92%);
+    }
+
+    /* Language choice leads the mobile menu: a quiet, full-width segmented row. */
+    .lang-switch--mobile {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        padding-inline: 0;
+        background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 96%);
+        box-shadow: none;
     }
 
     /* Comfortable tap targets for the footer link lists on phones. */

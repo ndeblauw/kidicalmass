@@ -16,4 +16,6 @@ return [
     'press' => 'Pers',
     'partners' => 'Partners',
     'login' => 'Inloggen',
+    'language' => 'Taal',
+    'coming_soon' => 'Binnenkort beschikbaar',
 ];
