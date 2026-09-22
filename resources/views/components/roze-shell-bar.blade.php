@@ -12,20 +12,20 @@
 
 <div class="roze-shell-bar">
     <div class="roze-shell-bar__inner">
-        <a href="{{ route('home') }}" class="roze-shell-bar__logo" aria-label="Terug naar Kidical Mass">
+        <a href="{{ localized_route('home') }}" class="roze-shell-bar__logo" aria-label="{{ __('roze.shell.back_aria') }}">
             <img src="{{ asset('img/logos/logo-icon.png') }}" alt="Kidical Mass" class="roze-shell-bar__mark">
         </a>
 
         @if ($hasSwitcher)
             <flux:dropdown>
-                <button type="button" class="roze-shell-switch roze-shell-bar__context" aria-label="Wissel van groep">
+                <button type="button" class="roze-shell-switch roze-shell-bar__context" aria-label="{{ __('roze.shell.switch_group') }}">
                     <span class="roze-shell-bar__place">{{ $place }}</span>
-                    <span class="roze-shell-bar__role">roze hesjes</span>
+                    <span class="roze-shell-bar__role">{{ __('roze.shell.role') }}</span>
                     <flux:icon name="chevron-down" class="size-4" aria-hidden="true" />
                 </button>
                 <flux:menu>
                     @foreach ($myChapters as $chapter)
-                        <flux:menu.item href="{{ route('groups.roze-hesjes', $chapter) }}">
+                        <flux:menu.item href="{{ localized_route('groups.roze-hesjes', ['group' => $chapter]) }}">
                             {{ \Illuminate\Support\Str::of($chapter->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim() }}
                         </flux:menu.item>
                     @endforeach
@@ -34,7 +34,7 @@
         @else
             <span class="roze-shell-bar__context">
                 <span class="roze-shell-bar__place">{{ $place }}</span>
-                <span class="roze-shell-bar__role">roze hesjes</span>
+                <span class="roze-shell-bar__role">{{ __('roze.shell.role') }}</span>
             </span>
         @endif
 

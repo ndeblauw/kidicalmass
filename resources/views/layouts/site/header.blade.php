@@ -51,8 +51,8 @@
 
                     @auth
                         @foreach ($myChapters as $myChapter)
-                            <a href="{{ route('groups.roze-hesjes', ['locale' => 'nl', 'group' => $myChapter]) }}"
-                               class="roze-nav-btn {{ request()->routeIs('groups.roze-hesjes', 'groups.roze-hesjes.*') && optional(request()->route('group'))->is($myChapter) ? 'roze-nav-btn--active' : '' }}">
+                            <a href="{{ localized_route('groups.roze-hesjes', ['group' => $myChapter]) }}"
+                               class="roze-nav-btn {{ request()->routeIs('groups.roze-hesjes', 'groups.roze-hesjes.*', 'fr.groups.roze-hesjes', 'fr.groups.roze-hesjes.*') && optional(request()->route('group'))->is($myChapter) ? 'roze-nav-btn--active' : '' }}">
                                 {{ \Illuminate\Support\Str::of($myChapter->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim() }}
                             </a>
                         @endforeach
@@ -81,7 +81,7 @@
                 <x-language-switch variant="mobile" />
                 @auth
                     @foreach ($myChapters as $myChapter)
-                        <a href="{{ route('groups.roze-hesjes', ['locale' => 'nl', 'group' => $myChapter]) }}" class="roze-nav-btn roze-nav-btn--block mb-2">
+                        <a href="{{ localized_route('groups.roze-hesjes', ['group' => $myChapter]) }}" class="roze-nav-btn roze-nav-btn--block mb-2">
                             {{ \Illuminate\Support\Str::of($myChapter->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim() }}
                         </a>
                     @endforeach

@@ -80,6 +80,15 @@ Route::middleware('setlocale')->group(function (): void {
         Route::get('{locale}/chapters/{group}/roze-hesjes/fotos', [RozeHesjeController::class, 'fotos'])->where('locale', 'nl')->name('groups.roze-hesjes.fotos');
         Route::get('{locale}/chapters/{group}/roze-hesjes/groep', [RozeHesjeController::class, 'groep'])->where('locale', 'nl')->name('groups.roze-hesjes.groep');
         Route::get('{locale}/chapters/{group}/roze-hesjes/materiaal', [RozeHesjeController::class, 'materiaal'])->where('locale', 'nl')->name('groups.roze-hesjes.materiaal');
+
+        // French twins — same route names behind the `fr.` prefix so the language
+        // switch and alternate_locale_url() pair them automatically.
+        Route::get('{locale}/groupes-locaux/{group}/gilets-roses', [RozeHesjeController::class, 'overview'])->where('locale', 'fr')->name('fr.groups.roze-hesjes');
+        Route::get('{locale}/groupes-locaux/{group}/gilets-roses/premiers-pas', [RozeHesjeController::class, 'aanDeSlag'])->where('locale', 'fr')->name('fr.groups.roze-hesjes.aan-de-slag');
+        Route::get('{locale}/groupes-locaux/{group}/gilets-roses/agenda', [RozeHesjeController::class, 'agenda'])->where('locale', 'fr')->name('fr.groups.roze-hesjes.agenda');
+        Route::get('{locale}/groupes-locaux/{group}/gilets-roses/photos', [RozeHesjeController::class, 'fotos'])->where('locale', 'fr')->name('fr.groups.roze-hesjes.fotos');
+        Route::get('{locale}/groupes-locaux/{group}/gilets-roses/le-groupe', [RozeHesjeController::class, 'groep'])->where('locale', 'fr')->name('fr.groups.roze-hesjes.groep');
+        Route::get('{locale}/groupes-locaux/{group}/gilets-roses/materiel', [RozeHesjeController::class, 'materiaal'])->where('locale', 'fr')->name('fr.groups.roze-hesjes.materiaal');
     });
 
     // Read-only preview of a chapter ride that is still in preparation (draft). Membership-gated,
@@ -88,6 +97,10 @@ Route::middleware('setlocale')->group(function (): void {
         ->where('locale', 'nl')
         ->middleware(BackstageDemoAccess::class)
         ->name('groups.ride-preview');
+    Route::get('{locale}/groupes-locaux/{group}/parcours-en-preparation', [GroupController::class, 'ridePreview'])
+        ->where('locale', 'fr')
+        ->middleware(BackstageDemoAccess::class)
+        ->name('fr.groups.ride-preview');
 
     // Help out (J2 orientation page — lists groups so a volunteer can route to a chapter).
     Route::get('{locale}/help-out', VolunteerController::class)->where('locale', 'nl')->name('volunteer');

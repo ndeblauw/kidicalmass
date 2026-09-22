@@ -31,7 +31,7 @@ class HubTabs
 
         $tabs = array_map(fn (string $key) => [
             'key' => $key,
-            'label' => self::LABELS[$key],
+            'label' => __('roze.tabs.'.$key),
             'route' => self::ROUTES[$key],
             'external' => false,
             'active' => $key === $active,
@@ -40,7 +40,7 @@ class HubTabs
         if ($isCaptain) {
             $tabs[] = [
                 'key' => 'beheer',
-                'label' => 'Beheer',
+                'label' => __('roze.tabs.beheer'),
                 'route' => null,
                 'external' => true,
                 'active' => false,
@@ -49,15 +49,6 @@ class HubTabs
 
         return $tabs;
     }
-
-    private const LABELS = [
-        'overzicht' => 'Overzicht',
-        'aan-de-slag' => 'Aan de slag',
-        'agenda' => 'Agenda',
-        'fotos' => "Foto's",
-        'groep' => 'De Groep',
-        'materiaal' => 'Materiaal',
-    ];
 
     private const ROUTES = [
         'overzicht' => 'groups.roze-hesjes',

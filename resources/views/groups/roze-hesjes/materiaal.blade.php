@@ -10,22 +10,22 @@
         $sections = [
             [
                 'id' => 'voor-de-hesjes',
-                'title' => 'Voor de hesjes',
+                'title' => __('roze.materiaal.sections.hesjes.title'),
                 'visibility' => 'besloten',
                 'items' => [
-                    ['icon' => 'document-text', 'title' => 'Afsprakencharter', 'desc' => 'Onze afspraken voor organisatoren en hesjes.', 'tag' => 'PDF', 'href' => '#'],
-                    ['icon' => 'map', 'title' => 'Zo organiseer je een rit', 'desc' => 'Route, gemeentecontact en promo, stap voor stap.', 'tag' => 'Gids', 'href' => '#'],
-                    ['icon' => 'megaphone', 'title' => 'De startspeech', 'desc' => 'Het woordje voor de start, voor wie een rit trekt.', 'tag' => 'Voor kapiteins', 'href' => '#'],
+                    ['icon' => 'document-text', 'title' => __('roze.materiaal.sections.hesjes.items.charter.title'), 'desc' => __('roze.materiaal.sections.hesjes.items.charter.desc'), 'tag' => __('roze.materiaal.sections.hesjes.items.charter.tag'), 'href' => '#'],
+                    ['icon' => 'map', 'title' => __('roze.materiaal.sections.hesjes.items.howto.title'), 'desc' => __('roze.materiaal.sections.hesjes.items.howto.desc'), 'tag' => __('roze.materiaal.sections.hesjes.items.howto.tag'), 'href' => '#'],
+                    ['icon' => 'megaphone', 'title' => __('roze.materiaal.sections.hesjes.items.speech.title'), 'desc' => __('roze.materiaal.sections.hesjes.items.speech.desc'), 'tag' => __('roze.materiaal.sections.hesjes.items.speech.tag'), 'href' => '#'],
                 ],
             ],
             [
                 'id' => 'vrij-om-te-delen',
-                'title' => 'Vrij om te delen',
+                'title' => __('roze.materiaal.sections.public.title'),
                 'visibility' => 'publiek',
                 'items' => [
-                    ['icon' => 'musical-note', 'title' => 'Playlist', 'desc' => 'De muziek voor onderweg, samengesteld door de groep.', 'tag' => 'Spotify', 'href' => '#'],
-                    ['icon' => 'arrow-down-tray', 'title' => 'Posters & promo', 'desc' => 'Affiches en flyers om in je buurt op te hangen.', 'tag' => 'Download', 'href' => '#'],
-                    ['icon' => 'arrow-down-tray', 'title' => 'Flyer '.$gemeente.' 2026', 'desc' => 'De lokale flyer om uit te delen.', 'tag' => 'PDF', 'href' => '#'],
+                    ['icon' => 'musical-note', 'title' => __('roze.materiaal.sections.public.items.playlist.title'), 'desc' => __('roze.materiaal.sections.public.items.playlist.desc'), 'tag' => __('roze.materiaal.sections.public.items.playlist.tag'), 'href' => '#'],
+                    ['icon' => 'arrow-down-tray', 'title' => __('roze.materiaal.sections.public.items.promo.title'), 'desc' => __('roze.materiaal.sections.public.items.promo.desc'), 'tag' => __('roze.materiaal.sections.public.items.promo.tag'), 'href' => '#'],
+                    ['icon' => 'arrow-down-tray', 'title' => __('roze.materiaal.sections.public.items.flyer.title', ['place' => $gemeente]), 'desc' => __('roze.materiaal.sections.public.items.flyer.desc'), 'tag' => __('roze.materiaal.sections.public.items.flyer.tag'), 'href' => '#'],
                 ],
             ],
         ];
@@ -40,9 +40,9 @@
     {{-- 6 · JOUW MATERIAAL — the chapter's material library, split into a besloten group
          (voor de hesjes) and a publieke group (vrij om te delen). FAUX until Nico #37. --}}
     {{-- faux: per-chapter playlist URL (Nico #37) --}}
-    <h1 class="roze-hub-title">Jouw materiaal</h1>
+    <h1 class="roze-hub-title">{{ __('roze.materiaal.title') }}</h1>
     @if ($hasSoon)
-        <p class="roze-materials__note">We vullen deze map de komende weken verder aan. Alles met een <strong>Binnenkort</strong>-label komt er nog aan.</p>
+        <p class="roze-materials__note">{!! __('roze.materiaal.note') !!}</p>
     @endif
 
     <div class="roze-materials-page">
@@ -68,7 +68,7 @@
                             <span class="roze-material__desc">{{ $material['desc'] }}</span>
                             <span class="roze-material__tags">
                                 @unless ($available)
-                                    <span class="roze-material__soon">Binnenkort</span>
+                                    <span class="roze-material__soon">{{ __('roze.materiaal.soon') }}</span>
                                 @endunless
                                 <span class="roze-material__tag">{{ $material['tag'] }}</span>
                             </span>
