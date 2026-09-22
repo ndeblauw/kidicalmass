@@ -2,13 +2,13 @@
 
 return [
     'hero' => [
-        'title' => 'Het leukste uur op de fiets',
-        'intro_1' => 'Een vrolijke fietsparade bij jou in de buurt.',
-        'intro_2' => 'Samen tonen we dat de straat ook van kinderen is.',
+        'title' => 'Straten waar kinderen hun plek hebben!',
+        'intro_1' => 'Kidical Mass zijn feestelijke en gezinsvriendelijke fietstochten die aandacht vragen voor de behoeften van kinderen in onze straten.',
+        'intro_2' => 'Samen maken we ruimte voor de fiets en zorgen we voor veiligere straten voor iedereen.',
     ],
     'next_rides' => [
         'scroll_cue' => 'Naar de volgende ritten',
-        'heading_nearby' => 'De volgende ritten bij jou',
+        'heading_nearby' => 'De volgende ritten bij jou in de buurt',
         'heading' => 'Volgende ritten',
         'off_season' => 'Het fietsseizoen loopt van maart tot november.',
         'off_season_link' => 'Ontdek hoe een rit werkt →',
@@ -18,17 +18,17 @@ return [
     'routes' => [
         'first_time' => [
             'heading' => 'Nieuw hier?',
-            'body' => 'Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.',
-            'cta' => 'Zo werkt een rit',
+            'body' => 'Is dit je eerste Kidical Mass? Welkom! Onze parades zijn vrolijk, gezinsvriendelijk en toegankelijk voor iedereen. We fietsen rustig, op het ritme van de kinderen, terwijl vrijwilligers de kruispunten beveiligen. Je hoeft je niet in te schrijven of voor te bereiden: kom gewoon met je fiets en doe mee!',
+            'cta' => 'Zo werkt een Kidical Mass-rit',
         ],
         'local_group' => [
             'heading' => 'Vind je lokale groep',
-            'body' => 'Kidical Mass is geen organisatie ver weg, maar de mensen in jouw buurt. Overal in Vlaanderen en Brussel plannen lokale groepen hun eigen ritten. Vind de groep bij jou, en je weet meteen wanneer de volgende rit vertrekt en wie erachter zit.',
-            'cta' => 'Vind je groep',
+            'body' => 'Kidical Mass is een beweging die dicht bij jou ontstaat. In heel België organiseren lokale groepen hun eigen parades. Vind jouw lokale groep en ontdek de volgende fietstochten en de mensen die de beweging mee dragen.',
+            'cta' => 'Vind jouw lokale groep',
         ],
         'help_out' => [
             'heading' => 'Help mee',
-            'body' => 'Een rit ontstaat niet vanzelf. Achter elke parade staan ouders en buren die de route uittekenen, de boel aankondigen en in een roze hesje meefietsen. Een paar uur per maand, en je krijgt er een warme bende vrienden voor terug.',
+            'body' => 'Zin om mee te doen? Achter elke parade staan ouders, buren en vrijwilligers die hun steentje bijdragen, met een roze hesje aan of achter de schermen. Een parade organiseren, een parcours uitstippelen, helpen op de dag zelf of gewoon een handje toesteken: iedereen kan zijn plek vinden en bijdragen aan veiligere straten voor kinderen.',
             'cta' => 'Word vrijwilliger',
         ],
     ],
@@ -47,8 +47,8 @@ return [
         ],
     ],
     'newsletter' => [
-        'heading' => 'Krijg de nieuwste ritten in je mailbox',
-        'lead' => 'Schrijf je in voor de maandelijkse mail. Zo weet je als eerste waar en wanneer er bij jou in de buurt gefietst wordt.',
-        'cta' => 'Schrijf me in',
+        'heading' => 'Doe mee. Schrijf je in voor de nieuwsbrief!',
+        'lead' => 'Het laatste nieuws en de komende Kidical Mass-parades rechtstreeks in je mailbox.',
+        'cta' => 'Ik schrijf me in',
     ],
 ];

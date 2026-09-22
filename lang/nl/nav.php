@@ -10,7 +10,7 @@ return [
     'help_out' => 'Meehelpen',
     'about' => 'Over ons',
     'mission' => 'Wat we doen',
-    'vision' => 'Wat we vragen',
+    'vision' => 'Onze aanbevelingen',
     'organisation' => 'Hoe we werken',
     'news' => 'Nieuws',
     'press' => 'Pers',

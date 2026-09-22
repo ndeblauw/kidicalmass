@@ -9,9 +9,9 @@ return [
         'title' => 'Over ons',
         'hero' => [
             'eyebrow' => 'Over ons',
-            'title' => 'Samen maken we straten voor kinderen.',
+            'title' => 'Samen maken we van onze straten een plek waar kinderen en gezinnen hun plaats hebben.',
         ],
-        'intro' => 'Kidical Mass organiseert fietsparades voor gezinnen in heel België en pleit voor kindvriendelijke straten. Een vrijwilligersnetwerk, lokaal geworteld en samen gecoördineerd.',
+        'intro' => 'Kidical Mass Belgium is een nationaal netwerk van lokale groepen die overal in België feestelijke, veilige fietstochten organiseren op het tempo van kinderen. De beweging ontstond in 2020 in Brussel en groeit elk jaar verder, in Brussel, Wallonië en Vlaanderen. Vandaag brengt ze gezinnen, vrijwilligers en partners samen die de Kidical Mass-parades in hun buurt mee tot leven brengen. Ons doel: meer kinderen en ouders zin geven om zich elke dag én voor het plezier met de fiets te verplaatsen.',
         'exits' => [
             'aria' => 'Meteen iets regelen',
             'lead' => 'Meteen iets regelen?',
@@ -23,10 +23,10 @@ return [
             ],
         ],
         'read' => [
-            'title' => 'Lees meer over de beweging',
+            'title' => 'Of lees meer over de beweging',
             'descs' => [
                 'Fietsparades, lokale groepen en de weg naar veilige straten.',
-                'Vier duidelijke vragen aan steden en gemeenten.',
+                'Vier concrete eisen voor steden en gemeenten. Afgescheiden fietspaden op belangrijke verkeersassen, fietsenstallingen die aangepast zijn aan gezinnen, veilige schoolomgevingen en zones 30 die ook echt worden gerespecteerd.',
                 'Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.',
                 'Nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
             ],
@@ -47,12 +47,12 @@ return [
     // the three axes as subtitled body text) with the stat deck beside it,
     // then a chained closing CTA.
     'mission' => [
-        'title' => 'Veilige straten, voor elk kind',
-        'intro_1' => 'Kidical Mass Belgium is een nationaal netwerk van lokale groepen die feestelijke, veilige en kindvriendelijke fietsparades organiseren in heel België. We begonnen in 2020 in Brussel en groeien nog elk jaar, in Brussel, Wallonië en Vlaanderen.',
-        'intro_2' => 'Elke fietsparade heeft muziek onderweg. We rijden op het tempo van het jongste kind, op zorgvuldig gekozen routes, begeleid door getrainde vrijwilligers in opvallende roze hesjes. Kidical Mass is een manier om samen je buurt te ontdekken, nieuwe mensen te leren kennen en zelfvertrouwen op de fiets te winnen. Voor de kinderen, en vaak ook voor de ouders.',
+        'title' => 'Samen maken we van onze straten een plek waar kinderen en gezinnen hun plaats hebben.',
+        'intro_1' => 'Kidical Mass Belgium is een nationaal netwerk van lokale groepen die overal in België feestelijke, veilige fietstochten organiseren op het tempo van kinderen. De beweging ontstond in 2020 in Brussel en groeit elk jaar verder, in Brussel, Wallonië en Vlaanderen. Vandaag brengt ze gezinnen, vrijwilligers en partners samen die de Kidical Mass-parades in hun buurt mee tot leven brengen. Ons doel: meer kinderen en ouders zin geven om zich elke dag én voor het plezier met de fiets te verplaatsen.',
+        'intro_2' => 'Maar onze parades brengen ook een boodschap: we vragen steden en gemeenten om straten waar kinderen zich écht veilig met de fiets kunnen verplaatsen. Dat betekent vier prioriteiten: afgescheiden fietspaden op belangrijke verkeersassen, fietsenstallingen die aangepast zijn aan gezinnen, veilige schoolomgevingen en zones 30 die ook echt worden gerespecteerd.',
         'welcome' => [
             'title' => 'Iedereen is welkom',
-            'body' => 'Je hoeft geen ervaren fietser te zijn. Nog nooit in het verkeer gefietst? Dat geeft niets: voor veel ouders is een rit de eerste keer op de baan, en onze begeleiders zorgen dat niemand er alleen voor staat. Je hoeft geen fiets te hebben en je hoeft niet uit de buurt te komen. Kidical Mass is gemaakt om de volledige diversiteit van elke gemeente te weerspiegelen, en om elke drempel weg te nemen die een gezin kan tegenhouden.',
+            'body' => 'Je hoeft geen ervaren fietser te zijn, geen perfecte fiets te hebben en zelfs niet in de buurt te wonen. We willen dat elke Kidical Mass de diversiteit van haar gemeente weerspiegelt en toegankelijk is voor zoveel mogelijk mensen. We zoeken oplossingen om drempels weg te nemen die gezinnen ervan kunnen weerhouden om mee te doen, in het bijzonder voor kinderen die in een kwetsbare situatie leven of een handicap hebben. Heb je geen fiets? Dan helpen we je een oplossing te vinden, voor een klein bedrag of zelfs helemaal gratis.',
             'link' => 'Geen fiets of nog nooit meegereden? Voor het eerst mee →',
         ],
         'quote' => [
@@ -60,18 +60,18 @@ return [
             'attribution' => 'Julienne, mama van twee kinderen (2 en 5 jaar)',
         ],
         'axes' => [
-            'title' => 'Drie dingen die we doen',
+            'title' => 'Onze activiteiten rond 3 belangrijke pijlers',
             'item_1' => [
-                'title' => 'We helpen nieuwe groepen starten',
-                'body' => 'Elke Kidical Mass begint met een handvol mensen die iets beters willen voor hun buurt. Wij begeleiden hen van de eerste vergadering tot de eerste rit.',
+                'title' => 'We zetten gezinnen op de fiets',
+                'body' => 'We organiseren regelmatig parades en activiteiten om kinderen van 3 tot 12 jaar – en hun ouders – zin te geven om de fiets te nemen. Voor beginners én jonge fietsers creëren we een geruststellende omgeving die drempels rond verkeer, gebrek aan ervaring of gewoon de praktische organisatie helpt wegnemen.',
             ],
             'item_2' => [
-                'title' => 'We ondersteunen wie al rijdt',
-                'body' => 'Lokale groepen krijgen vorming, materiaal en nationale zichtbaarheid, zodat zij zich kunnen richten op wat telt: mensen samenbrengen.',
+                'title' => 'We helpen gezinnen om elke dag te fietsen',
+                'body' => 'Onze begeleide fietstochten helpen kinderen en ouders om meer vertrouwen te krijgen in het verkeer en hun fiets beter te leren beheersen. We delen ook tips om een fiets te kiezen, te gebruiken en te onderhouden, en helpen gezinnen die geen fiets hebben om betaalbare oplossingen te vinden. Het doel: ervoor zorgen dat de fiets een regelmatig vervoermiddel kan worden, en niet alleen een activiteit op zondag.',
             ],
             'item_3' => [
-                'title' => 'We pleiten voor kindvriendelijke straten',
-                'body' => 'Vrolijke parades zijn een begin, geen eindpunt. Samen met steden en regio\'s werken we aan veiligere infrastructuur, trager verkeer en straten die kinderen en gezinnen echt verwelkomen.',
+                'title' => 'We bouwen aan een fietscultuur',
+                'body' => 'Elke Kidical Mass brengt gezinnen, buurtbewoners, verenigingen, gemeenten en lokale organisaties met elkaar in contact. Door hun buurt met de fiets te ontdekken en hun plek in de openbare ruimte in te nemen, laten kinderen zien dat een stad ook voor hen kan worden ingericht. Met onze acties en eisen laten we hun stem horen voor veiligere en aangenamere straten.',
             ],
         ],
         'closing' => [
@@ -84,28 +84,28 @@ return [
     // parent voices nested under the demand they speak to, manifest info-card,
     // closing chained to Hoe we werken. Register: committed, not preachy (ToV).
     'vision' => [
-        'title' => 'Een stad op kindermaat',
-        'statement_1' => 'We geloven dat elk kind in België zich veilig en met vertrouwen door zijn stad moet kunnen bewegen. Dat straten ontworpen horen te zijn voor de mensen die er wonen, niet alleen voor de auto\'s die er passeren. En dat kinderen mee mogen beslissen over hoe hun buurt eruitziet.',
-        'statement_2' => 'Dat is niet radicaal. Het is wat de meeste ouders willen, het is wat onderzoek bevestigt, en het is waar we naartoe werken: één rit, één gemeenteraad, één beleidsgesprek tegelijk.',
+        'title' => 'Straten op kindermaat',
+        'statement_1' => 'Wij vinden dat elk kind en elk gezin zich veilig, zelfstandig en aangenaam met de fiets door hun gemeente moet kunnen verplaatsen. Daarvoor zijn straten en openbare ruimtes nodig die echt rekening houden met de behoeften van kinderen en gezinnen.',
+        'statement_2' => 'Via onze parades, onze aanwezigheid in de openbare ruimte en onze dialoog met steden en gemeenten brengen we vier concrete eisen naar voren om onze buurten fietsvriendelijker en aangenamer te maken voor kinderen.',
         'demands' => [
-            'title' => 'Wat we vragen',
+            'title' => 'Waar wij voor pleiten',
             'item_1' => [
-                'title' => 'Veilige fietsinfrastructuur voor kinderen en gezinnen',
-                'body' => 'Aparte fietspaden die kinderen echt kunnen gebruiken: gescheiden van het verkeer, goed onderhouden en aaneengesloten. Gebouwd voor de kleinste fietsers, niet alleen voor de snelste.',
+                'title' => 'Afgescheiden fietspaden op belangrijke verkeersassen',
+                'body' => 'Gezinnen moeten de belangrijkste verkeersassen kunnen gebruiken zonder in het verkeer te moeten vechten voor hun plek. Wij vragen om brede, doorlopende en fysiek van het autoverkeer gescheiden fietspaden, met veilige oversteekplaatsen, in het bijzonder op routes naar scholen en vrijetijdsvoorzieningen.',
             ],
             'item_2' => [
-                'title' => 'Tragere, rustigere woonstraten',
-                'body' => 'Minder snel en minder druk verkeer in de straten waar kinderen wonen en spelen. Twintig is genoeg, en handhaving telt evenveel als borden.',
+                'title' => 'Fietsenstallingen die aangepast zijn aan gezinnen',
+                'body' => 'Je moet je fiets makkelijk kunnen stallen, waar je ook naartoe gaat. Wij vragen meer toegankelijke fietsenstallingen, die ook geschikt zijn voor bakfietsen, longtails en kinderfietsen, en overdekte en goed verlichte stallingen om fietsen ook in het dagelijks leven praktisch te maken.',
             ],
             'item_3' => [
-                'title' => 'Openbare ruimte die kinderen en gezinnen echt verwelkomt',
-                'body' => 'Parken, pleinen en straten waar kinderen kind kunnen zijn: luidruchtig, nieuwsgierig, in beweging. Ruimte die werkt voor kinderwagens en bakfietsen, niet alleen voor auto\'s en gehaaste volwassenen.',
+                'title' => 'Echt veilige schoolomgevingen',
+                'body' => 'De school zou een van de veiligste plekken voor kinderen moeten zijn. Wij vragen om schoolstraten tijdens de uren waarop kinderen aankomen en vertrekken, veilige schoolomgevingen, duidelijke signalisatie, veilige oversteekplaatsen voor voetgangers en acties die kinderen aanmoedigen om te voet of met de fiets naar school te komen.',
             ],
             'item_4' => [
-                'title' => 'De stem van kinderen in beslissingen over hun omgeving',
-                'body' => 'Kinderen zijn experts van hun eigen buurt. Ze verdienen echte inspraak, geen symbolisch gebaar, wanneer steden straten, parken en openbare ruimte plannen.',
+                'title' => 'Zones 30 die ook echt worden gerespecteerd',
+                'body' => 'Een bord met 30 volstaat niet. In woonwijken en rond scholen vragen we om snelheden die ook echt worden gerespecteerd, dankzij controles maar ook door ingrepen die het verkeer vanzelf doen vertragen: smallere straten, verkeersdrempels, verhoogde kruispunten… En sensibilisering van automobilisten over het belang van rustig te rijden op plaatsen waar kinderen wonen en spelen.',
             ],
-            'closing' => 'Vier vragen, één rode draad: kinderen moeten zelf op pad kunnen. Zolang dat niet vanzelfsprekend is, komen we ermee de straat op: fietsend, zingend, met honderden tegelijk.',
+            'closing' => 'Vier eisen, één doel: kinderen en gezinnen in staat stellen zich veilig met de fiets te verplaatsen. Want een stad waar kinderen zich zelfstandig kunnen verplaatsen, is ook een aangenamere stad voor gezinnen, voetgangers en iedereen die zich anders dan met de auto verplaatst. En zolang dat geen vanzelfsprekendheid is, blijven we hun stem laten horen — op straat, op onze fietsen en in gesprek met de mensen die het verschil kunnen maken.',
         ],
         'quotes' => [
             'fatima' => [
@@ -118,12 +118,12 @@ return [
             ],
         ],
         'manifest' => [
-            'label' => 'Het manifest',
-            'body' => 'Onze volledige visie op papier, mee ondertekend door een coalitie van Belgische verenigingen. Lees het en deel het.',
+            'label' => 'Ons manifest',
+            'body' => 'Onze volledige visie voor steden op kindermaat, samen met een coalitie van Belgische verenigingen. Ontdek het manifest, deel het en help het verder verspreiden.',
             'link' => 'Download het manifest',
         ],
         'closing' => [
-            'heading' => 'Wie maakt dit waar?',
+            'heading' => 'Wie houdt de beweging levend?',
             'label' => 'Ontdek hoe we werken',
         ],
     ],
@@ -133,35 +133,46 @@ return [
     // two titled lists (nationaal | lokaal), the duo (safety folded into their
     // text), closing to Meehelpen. No bespoke components (variant A).
     'organisation' => [
-        'title' => 'Buren die de straat op trekken',
-        'intro_1' => 'Kidical Mass Belgium is zo opgebouwd dat het overal echt lokaal blijft. Geen nationale campagne met lokale filialen, maar een netwerk van groepen die elk hun eigen buurt kennen.',
-        'intro_2' => 'Er is geen hoofdkantoor: Kidical Mass draait op vrijwilligers, gedragen door mensen zoals jij.',
+        'title' => 'Lokale groepen, één community',
+        'intro_1' => 'Kidical Mass Belgium is een netwerk van lokale groepen die de beweging in hun gemeente mee tot leven brengen. Elke groep kent zijn buurt, organiseert zijn eigen parades en bouwt banden op met gezinnen, vrijwilligers, verenigingen en lokale organisaties. Een nationale organisatie staat klaar om hen te ondersteunen, zonder de lokale energie ooit over te nemen.',
+        'intro_2' => 'Vier keer per jaar komen vrijwilligers samen tijdens regionale meet-ups. We delen ervaringen, goede praktijken en ideeën, nemen samen beslissingen over de beweging en maken vooral tijd om elkaar te ontmoeten. Tussen de bijeenkomsten door houden de coördinatoren contact binnen een netwerk van lokale groepen.',
         'who' => [
             'title' => 'Wie wat doet',
         ],
         'national' => [
             'title' => 'Nationale coördinatie',
             'items' => [
-                'Bewaakt het merk en de identiteit van Kidical Mass Belgium',
-                'Ontwikkelt vorming en onboarding voor nieuwe trekkers',
-                'Coördineert nationale communicatie, website en pers',
-                'Beheert partnerschappen en dient subsidieaanvragen in voor het hele netwerk',
+                'Begeleidt bestaande groepen en helpt nieuwe groepen opstarten',
+                'Biedt opleidingen aan voor vrijwilligers en begeleiders',
+                'Coördineert de nationale communicatie, website, sociale media en persrelaties',
+                'Ontwikkelt en stelt Kidical Mass-materiaal ter beschikking, van flyers tot roze hesjes',
+                'Ondersteunt groepen in hun contacten met gemeenten, partners en fietsbrigades',
+                'Beheert subsidieaanvragen voor het hele netwerk',
+                'Waakt over de naleving van het gemeenschappelijke kader rond veiligheid en een goede sfeer',
             ],
         ],
         'local' => [
             'title' => 'Lokale afdelingen',
             'items' => [
-                'Organiseren hun eigen fietsparades, met eigen routes en verzamelpunten',
-                'Werven en begeleiden lokale vrijwilligers',
-                'Bouwen banden met lokale partners en de gemeente',
-                'Zíjn de beweging. De coördinatie bestaat om hen te steunen, niet andersom.',
+                'Organiseren hun eigen parades, met routes en vertrekpunten die zijn aangepast aan hun gemeente',
+                'Bereiden de routes voor en mobiliseren vrijwilligers',
+                'Verwelkomen en begeleiden gezinnen',
+                'Bouwen contacten op met gemeenten, verenigingen en lokale partners',
+                'Houden Kidical Mass levend in hun buurt, dicht bij de bewoners',
             ],
         ],
         'duo' => [
             'title' => 'Het coördinatieduo',
-            'body_1' => 'Leticia en Cecilia vormen samen het coördinatieduo. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze organiseren vorming voor veilige begeleiding, lossen dagelijkse vragen op en bewaken de basiskwaliteit en veiligheid van elke rit.',
-            'body_2' => 'Alle afdelingen werken daarvoor met dezelfde veiligheidsafspraken en routerichtlijnen: elke route loopt langs parken, speelpleinen en veilige infrastructuur, en waar nodig stemmen organisatoren de route vooraf af met de lokale politie.',
+            'body_1' => 'Leticia en Cecilia vormen het coördinatieduo van Kidical Mass Belgium. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze begeleiden nieuwe teams, beantwoorden dagelijkse vragen, organiseren opleidingen en ondersteunen groepen bij hun communicatie, partnerschappen en organisatie. Leticia staat in voor de algemene coördinatie van de beweging en het financiële en subsidiebeheer. Cecilia houdt zich onder meer bezig met evenementen en de relaties met overheden en partners. Aan hun zijde zorgt Alison voor de communicatie van de beweging: sociale media, content, website en de zichtbaarheid van lokale initiatieven. Want Kidical Mass levend houden betekent ook vertellen wat er op het terrein gebeurt, mensen zin geven om aan de parades deel te nemen en de acties van het netwerk bekendmaken.',
+            'body_2' => 'Het team waakt ook over het gemeenschappelijke kader dat ervoor zorgt dat elke parade feestelijk, inclusief en veilig blijft: gedeelde regels, interne communicatie, opleiding van begeleiders, advies over routes, persrelaties, partnerschappen en het zoeken naar financiering. Het doel blijft hetzelfde: lokale groepen de middelen geven om Kidical Mass in hun buurt tot leven te brengen.',
             'link' => 'Hoe een rit praktisch verloopt: Voor het eerst mee →',
+        ],
+        'parcours' => [
+            'title' => 'Routes op kindermaat',
+            'body_1' => 'Elke Kidical Mass volgt een nieuwe route, zodat kinderen hun gemeente op een andere manier kunnen ontdekken. De routes lopen zoveel mogelijk langs parken, speelpleinen, scholen of nieuwe fietsinfrastructuur, en vermijden drukke knelpunten en gevaarlijke situaties.',
+            'body_2' => 'De fietstochten zijn afgestemd op beginnende fietsers, in het bijzonder kinderen van 3 tot 12 jaar: ongeveer 5 tot 7 km, maximaal een uur, op het tempo van de jongste. Elke parade begint met een korte herinnering aan de verkeersregels en eindigt met een groepsfoto. Ouders blijven tijdens de hele fietstocht verantwoordelijk voor hun kinderen.',
+            'body_3' => 'Voor elke parade voorzien we minstens één begeleider in een roze hesje per tien deelnemers, met minstens vier begeleiders per rit. Aan het begin van het seizoen worden opleidingen aangeboden rond begeleiding en het uitstippelen van routes.',
+            'link' => 'Hoe een rit praktisch verloopt: Voor het eerst mee',
         ],
         'closing' => [
             'heading' => 'Een afdeling starten of vervoegen?',
@@ -173,11 +184,11 @@ return [
     // page chrome lives here. The empty body carries :instagram/:facebook
     // placeholders that the view fills with links (URLs: config/kidicalmass.php).
     'news' => [
-        'title' => 'Nieuws uit de beweging',
-        'lead' => 'Updates van de beweging: nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
+        'title' => 'Het verhaal van de beweging, straat na straat',
+        'lead' => 'Nieuws uit de beweging, nieuws van de lokale groepen, projecten, belangrijke mijlpalen en verhalen van de mensen die Kidical Mass overal in België mee tot leven brengen.',
         'empty' => [
             'title' => 'De eerste verhalen komen eraan',
-            'body' => 'We zijn nog maar net begonnen met schrijven. Kom binnenkort eens terug, of volg ons op :instagram en :facebook voor nieuws zodra het er is.',
+            'body' => 'We bereiden de eerste verhalen voor om met jullie te delen. Kom binnenkort terug of volg ons op :instagram en :facebook om het laatste nieuws van Kidical Mass te ontdekken zodra het er is.',
         ],
         'national' => 'Heel België',
         'gallery' => 'Foto\'s',
@@ -185,7 +196,7 @@ return [
             'title' => 'Meer nieuws',
         ],
         'closing' => [
-            'heading' => 'Zin gekregen om mee te rijden?',
+            'heading' => 'Zin om je bij de beweging aan te sluiten?',
             'label' => 'Vind een rit',
         ],
     ],
@@ -195,7 +206,7 @@ return [
     // strip (the archive shows the outlets), no closing CTA (the page IS the
     // contact).
     'press' => [
-        'title' => 'Het verhaal van de beweging',
+        'title' => 'Kidical Mass in de kijker',
         'overview' => [
             'title' => 'In de pers',
         ],

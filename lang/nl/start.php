@@ -51,22 +51,22 @@ return [
         ],
     ],
     'proof' => [
-        'title' => 'Er is animo',
-        'body' => 'Kidical Mass groeit door heel België. Het netwerk telt intussen :count lokale groepen, van grote steden tot kleine gemeenten. Jouw stad kan de volgende zijn.',
+        'title' => 'De beweging groeit!',
+        'body' => 'Kidical Mass groeit overal in België. Het netwerk telt vandaag :count lokale groepen, van grote steden tot kleine gemeenten. En als jouw stad de volgende is?',
         'photo_alt' => 'Een grote menigte gezinnen juicht met opgeheven armen op een zonnige verzamelplaats in Namen',
         'cta' => 'Ik wil starten',
     ],
     'faq' => [
-        'title' => 'Veelgestelde vragen',
+        'title' => 'FAQ',
         'items' => [
-            ['question' => 'Welke steun krijg ik van Kidical Mass?', 'answer' => 'Je staat er nooit alleen voor. Je krijgt een coördinatieduo dat je coacht en motiveert, een materiaalbibliotheek met charters, draaiboeken, posters en flyers, en training voor jou en je begeleiders bij de start van het seizoen. Wil je sparren, dan brengen we je in contact met een trekker die het al deed. En wij dragen het merk, de opleiding rond veilige begeleiding, de nationale zichtbaarheid, de contacten met gemeenten en partners, en de subsidieaanvragen voor de hele organisatie.'],
-            ['question' => 'Heb ik een vereniging of vzw nodig?', 'answer' => 'Nee. Een klein kernteam van twee of drie mensen, een vertrekpunt en wat goesting volstaan om te beginnen. De rest doen we samen.'],
-            ['question' => 'Moet ik een ervaren fietser zijn?', 'answer' => 'Geen fietsexpert nodig. We rijden traag, op het tempo van het jongste kind. Wat telt is dat je je buurt kent en mensen warm krijgt om mee te fietsen. De opleiding rond veilige begeleiding en routeplanning krijg je van ons.'],
-            ['question' => 'Kan ik starten als ik nog geen team heb?', 'answer' => 'Veel groepen starten klein, met één of twee enthousiastelingen. Je hoeft niet meteen een volledig team te hebben. Twijfel je, kies dan hieronder voor "eerst praten met iemand die het al deed", dan zoeken we samen verder.'],
+            ['question' => 'Welke ondersteuning krijg ik van Kidical Mass?', 'answer' => 'Je staat er nooit alleen voor. Een coördinatieduo begeleidt en adviseert je, met kant-en-klaar materiaal: afspraken, handleidingen, affiches, flyers… Je kunt aan het begin van het seizoen ook opleidingen volgen, voor jezelf en je begeleiders. Wil je graag overleggen met iemand die het al gedaan heeft? Dan kunnen we je in contact brengen met een andere lokale coördinator. Wij zorgen onder meer voor het merk, de opleiding rond veilige begeleiding, nationale zichtbaarheid, contacten met gemeenten, fietsbrigades en partners, en subsidieaanvragen voor het hele netwerk.'],
+            ['question' => 'Moet ik een vereniging of vzw hebben?', 'answer' => 'Nee! Een klein team van twee of drie mensen, een vertrekpunt en zin om eraan te beginnen volstaan. Voor de rest gaan we samen aan de slag.'],
+            ['question' => 'Moet ik een ervaren fietser zijn?', 'answer' => 'Helemaal niet. Je hoeft geen fietsexpert te zijn: we fietsen rustig, op het tempo van de jongste. Wat telt, is dat je je buurt kent en zin hebt om buurtbewoners te mobiliseren. Wij leren je hoe je de groep veilig begeleidt en routes uitstippelt.'],
+            ['question' => 'Kan ik eraan beginnen als ik nog geen team heb?', 'answer' => 'Natuurlijk! Veel groepen starten met één of twee gemotiveerde mensen. Je hoeft niet vanaf het begin een volledig team te hebben. Twijfel je nog? Kies dan hieronder "Ik wil eerst praten met iemand die het al gedaan heeft" en we brengen je met die persoon in contact.'],
         ],
     ],
     'closing' => [
-        'title' => 'Zin om te beginnen?',
-        'body' => 'Laat van je horen. Je kiest zelf hoe je eerste stap eruitziet: eerst praten met iemand die het al deed, of meteen contact met het team.',
+        'title' => 'Zin om eraan te beginnen?',
+        'body' => 'Laat van je horen! Jij kiest hoe je wilt starten: eerst praten met iemand die het al gedaan heeft of meteen contact opnemen met het Kidical Mass-team.',
     ],
 ];

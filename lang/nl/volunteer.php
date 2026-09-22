@@ -3,39 +3,39 @@
 return [
     'title' => 'Meehelpen',
     'hero' => [
-        'eyebrow' => 'Meehelpen',
-        'title' => 'Jouw handen maken de stoet.',
+        'eyebrow' => 'Een handje helpen',
+        'title' => 'Dankzij jullie komen de parades tot leven!',
     ],
-    'intro' => 'Meehelpen bij Kidical Mass is opkomen voor je eigen buurt, samen met ouders en buren die meer kinderen op de fiets willen. Een paar uur per maand, een hoop nieuwe gezichten, en het goede gevoel dat je er echt toe doet. Je krijgt er veel meer voor terug dan je erin steekt.',
+    'intro' => 'Achter elke parade staan ouders, buurtbewoners en vrijwilligers die voor, tijdens en na de parade een handje helpen. Organiseren, begeleiden, communiceren, foto\'s maken, voor sfeer zorgen… er zijn duizend manieren om bij te dragen, afhankelijk van je interesses en hoeveel tijd je hebt. Je hoeft geen professional te zijn: het belangrijkste is dat je zin hebt om te delen, je in te zetten en de beweging mee tot leven te brengen.',
     'roles' => [
-        'title' => 'Hoe je kan helpen',
+        'title' => 'Hoe kun je helpen?',
         'list_label' => 'Manieren om te helpen',
         'prev' => 'Vorige rollen',
         'next' => 'Volgende rollen',
         'items' => [
-            ['name' => 'Roze hesje', 'text' => 'Hou je van de actie? Als roze hesje fiets je mee naast de groep, houd je de kinderen samen en zorg je dat iedereen veilig en vrolijk aankomt.'],
-            ['name' => 'Mede-organisator', 'text' => 'Elke rit begint met iemand die hem plant. Jij kiest de route, het tijdstip en het vertrekpunt, en stemt af met het lokale team. Dankbaar werk.'],
-            ['name' => 'Communicator', 'text' => 'Jij zorgt dat de buurt komt opdagen. Sociale media, flyers, schoolgroepen, mond-tot-mond. Elke nieuwe familie aan de start is een beetje jouw verdienste.'],
-            ['name' => 'Fotograaf', 'text' => 'Een foto van veertig kinderen op de fiets zegt meer dan duizend woorden. Jij vangt de mooiste momenten en deelt ze met het team.'],
-            ['name' => 'DJ', 'text' => 'Muziek maakt het feest. Jij zet de toon voor de rit, houdt de energie hoog onderweg en stuurt iedereen met een glimlach naar huis.'],
+            ['name' => 'Roze hesjes', 'text' => 'Ben je graag actief bezig? Met een roze hesje fiets je midden in de groep, veilig en met een glimlach. Je begeleidt de groep op de fiets, houdt een oogje in het zeil bij de kinderen en beveiligt de kruispunten, zodat iedereen rustig en veilig kan fietsen. Je kunt een opleiding « Safety First » volgen om je hierop voor te bereiden.'],
+            ['name' => 'Mede-organisator', 'text' => 'Wil je graag een Kidical Mass in jouw gemeente mee organiseren? Je kunt de routes uitstippelen, het vertrekpunt en het tijdstip van de parade kiezen, het evenement voorbereiden en de verschillende stappen coördineren met het lokale team. Aan het begin van het seizoen bieden we een opleiding aan over het maken en opvolgen van routes in Komoot.'],
+            ['name' => 'Communicatie', 'text' => 'Vertel je graag verhalen, deel je graag en wil je mensen enthousiast maken? Sociale media, flyers, oudergroepen, mond-tot-mondreclame… Jij maakt de parades bekend in je buurt en geeft gezinnen zin om mee te doen.'],
+            ['name' => 'Fotograaf – Videomaker', 'text' => 'Tientallen of zelfs honderden gezinnen en kinderen op de fiets: dat verdient het om vastgelegd te worden! Jij legt de mooiste momenten en de energie van de parade vast en deelt je beelden vervolgens met het team.'],
+            ['name' => 'DJ', 'text' => 'Muziek zorgt voor de sfeer! Jij zet de toon bij de start, brengt onderweg de energie omhoog en zorgt ervoor dat iedereen met een glimlach aankomt. Zo help je van elke Kidical Mass een vrolijk en onvergetelijk moment te maken.'],
         ],
     ],
     'deal' => [
         'get' => [
-            'title' => 'Wat je krijgt',
+            'title' => 'Wat krijg je ervoor terug?',
             'items' => [
-                'Kidical Mass-materiaal en steun vanaf dag één',
-                'Opleiding rond veiligheid en routeplanning, als je dat wil',
-                'Vier gezellige vrijwilligersmomenten per jaar, met lekker eten',
-                'Een warme bende ouders en fietsers die echte vrienden worden',
+                'Kidical Mass-materiaal en begeleiding vanaf de start. Flyers, hesjes, parademateriaal… alles wat je nodig hebt om jouw Kidical Mass tot leven te brengen.',
+                'Opleidingen om met een gerust hart van start te gaan. Veiligheid en begeleiding van de groep, routes maken in Komoot… aan het begin van het seizoen worden verschillende opleidingen aangeboden, afhankelijk van je behoeften.',
+                '4 grote ontmoetingen voor vrijwilligers per jaar. Momenten om elkaar te ontmoeten, ervaringen te delen, ideeën uit te wisselen en… samen te lachen en lekker te eten!',
+                'Een echte community. Ouders, fietsers en vrijwilligers die elkaar helpen, ideeën delen en de beweging samen levend houden.',
             ],
         ],
         'ask' => [
-            'title' => 'Wat we vragen',
+            'title' => 'Wat we van je vragen',
             'items' => [
-                'Kom met goesting en een vrolijke, respectvolle houding',
-                'Onderschrijf onze afspraken rond vriendelijkheid en veiligheid',
-                'Maak je deel uit van een lokaal team? Stuur één afgevaardigde naar het jaarlijkse meetup-moment',
+                'Goesting en een goede vibe. Je hoeft geen pro te zijn in fietsen of evenementen. Wat telt, is de zin om bij te dragen en een respectvolle, warme houding.',
+                'Ons gemeenschappelijk kader respecteren. De Kidical Mass-afspraken rond veiligheid, vriendelijkheid en respect zorgen dat iedereen zich goed voelt.',
+                'Meedoen aan het netwerk. Maak je deel uit van een lokaal team? Dan moedigen we je aan om deel te nemen aan de vier jaarlijkse coördinatiemomenten.',
             ],
         ],
     ],
@@ -47,7 +47,7 @@ return [
     ],
     'coda' => [
         'title' => 'Nog geen lokale groep in je buurt?',
-        'body' => 'Misschien start jij er een. Twee of drie buren en wat goesting volstaan, de rest doen we samen.',
+        'body' => 'En als je er zelf eentje opstart? Twee of drie mensen uit de buurt en een beetje enthousiasme volstaan. Voor de rest helpen wij je op weg!',
         'cta' => 'Zo start je een groep',
     ],
     'photos' => [

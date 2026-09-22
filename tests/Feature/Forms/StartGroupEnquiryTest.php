@@ -6,10 +6,10 @@ use App\Models\ContactForm;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
-it('shows the Er is animo closing band and no longer the photo gallery', function () {
+it('shows the De beweging groeit closing band and no longer the photo gallery', function () {
     $this->get(route('groups.start'))
         ->assertOk()
-        ->assertSee('Er is animo')
+        ->assertSee('De beweging groeit!')
         ->assertSee('ride-park-crowd-cheering-namur.webp', escape: false)
         ->assertDontSee('sg-proof__gallery', escape: false);
 });
@@ -25,7 +25,7 @@ it('renders the start-a-group page with the three alternating sections and the i
         ->assertSee('sg-story__row--reverse', escape: false)
         ->assertDontSee('data-seq-block', escape: false)
         ->assertDontSee('Je hoeft dit niet alleen te dragen')
-        ->assertSee('Zin om te beginnen?');
+        ->assertSee('Zin om eraan te beginnen?');
 });
 
 it('submits a start-group enquiry tagged with place, path and motivation', function () {

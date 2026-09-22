@@ -13,7 +13,7 @@ return [
             'eyebrow' => 'Lokale groepen',
             'title' => 'Jouw buurt fietst al, rij mee.',
         ],
-        'intro' => 'In elke gemeente trekken buren samen de straat op voor veilig fietsen met kinderen. Eén beweging, lokaal geworteld en het hele jaar door actief in jouw buurt.',
+        'intro' => 'Overal in België zetten buurtbewoners zich in om kinderen en gezinnen de mogelijkheid te geven zich veilig met de fiets te verplaatsen. Eén beweging, lokale groepen en het hele jaar door parades bij jou in de buurt.',
         'regions' => [
             'nearby' => 'Dichtbij',
             'all' => 'Heel België',

@@ -3,7 +3,7 @@
 return [
     'hero' => [
         'eyebrow' => 'Kalender',
-        'title' => 'Spring op de fiets, wij rijden samen.',
+        'title' => 'Op weg naar de volgende Kidical Mass!',
     ],
     'filter_label' => 'Toon ritten',
     'radius' => [

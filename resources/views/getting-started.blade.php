@@ -98,12 +98,18 @@
             <x-faq.item :question="__('getting-started.faq.items.5.question')">
                 <p>{{ __('getting-started.faq.items.5.answer') }}</p>
             </x-faq.item>
-            {{-- id is a redirect target: old Wix /help-je-n-ai-pas-de-vélo lands here (26-redirect-map). --}}
-            <x-faq.item id="no-bike" :question="__('getting-started.faq.items.6.question')">
+            <x-faq.item :question="__('getting-started.faq.items.6.question')">
                 <p>{{ __('getting-started.faq.items.6.answer') }}</p>
             </x-faq.item>
             <x-faq.item :question="__('getting-started.faq.items.7.question')">
                 <p>{{ __('getting-started.faq.items.7.answer') }}</p>
+            </x-faq.item>
+            {{-- id is a redirect target: old Wix /help-je-n-ai-pas-de-vélo lands here (26-redirect-map). --}}
+            <x-faq.item id="no-bike" :question="__('getting-started.faq.items.8.question')">
+                <p>{{ __('getting-started.faq.items.8.answer') }}</p>
+            </x-faq.item>
+            <x-faq.item :question="__('getting-started.faq.items.9.question')">
+                <p>{{ __('getting-started.faq.items.9.answer') }}</p>
             </x-faq.item>
         </x-faq>
         </div>{{-- /gs-faq-content --}}

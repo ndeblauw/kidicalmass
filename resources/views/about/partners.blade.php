@@ -77,11 +77,9 @@
                 </ul>
             </div>
         </div>
-        @if ($isFr)
-            <x-to-be-confirmed>
-                <p class="about-partners__note">{{ __('partners.page.formules.vat_note') }}</p>
-            </x-to-be-confirmed>
-        @endif
+        <x-to-be-confirmed :when="$isFr">
+            <p class="about-partners__note">{{ __('partners.page.formules.vat_note') }}</p>
+        </x-to-be-confirmed>
         <p class="about-partners__note">
             <a href="{{ asset('downloads/kidical-mass-sponsorformules.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">{{ __('partners.page.formules.pdf') }}</a>
         </p>
@@ -92,20 +90,18 @@
     <section class="about-section about-section--wide">
         <x-section-heading>{{ __('partners.page.collab.heading') }}</x-section-heading>
         <p class="about-partners__intro">{{ __('partners.page.collab.intro') }}</p>
-        @if ($isFr)
-            <p class="about-partners__intro">{{ __('partners.page.collab.intro_2') }}</p>
-            <x-layout-proposal>
-                <div class="about-partners__offer">
-                    <h3>{{ __('partners.page.collab.offer.heading') }}</h3>
-                    <p>{{ __('partners.page.collab.offer.lead') }}</p>
-                    <x-check-list>
-                        @foreach (__('partners.page.collab.offer.items') as $item)
-                            <li>{{ $item }}</li>
-                        @endforeach
-                    </x-check-list>
-                </div>
-            </x-layout-proposal>
-        @endif
+        <p class="about-partners__intro">{{ __('partners.page.collab.intro_2') }}</p>
+        <x-layout-proposal :when="$isFr">
+            <div class="about-partners__offer">
+                <h3>{{ __('partners.page.collab.offer.heading') }}</h3>
+                <p>{{ __('partners.page.collab.offer.lead') }}</p>
+                <x-check-list>
+                    @foreach (__('partners.page.collab.offer.items') as $item)
+                        <li>{{ $item }}</li>
+                    @endforeach
+                </x-check-list>
+            </div>
+        </x-layout-proposal>
         <p class="about-partners__note">
             <a href="{{ asset('downloads/kidical-mass-partnercharter.pdf') }}" target="_blank" rel="noopener noreferrer" class="more-link">{{ __('partners.page.collab.charter') }}</a>
         </p>

@@ -41,7 +41,7 @@ return [
     ],
     'expect' => [
         'heading' => 'Wat kan je verwachten?',
-        'body' => 'Nog nooit meegefietst? Geen zorgen. Een Kidical Mass is een rustige, vrolijke fietsparade door je eigen buurt, op kindertempo, met de kruispunten veilig vrijgehouden. Je hoeft niets te kunnen en je hoeft je niet in te schrijven. Gewoon komen en meefietsen.',
+        'body' => 'Is dit je eerste Kidical Mass? Geen probleem! Een Kidical Mass is een vrolijke en gezinsvriendelijke fietstocht in je buurt, aan een tempo dat is afgestemd op kinderen. Vrijwilligers beveiligen de kruispunten, zodat iedereen rustig en veilig kan fietsen. Je hoeft je niet in te schrijven of iets speciaals te kunnen: kom gewoon mee en fiets met ons!',
         'cta_getting_started' => 'Zo werkt een rit',
         'cta_group' => 'Leer :name kennen',
         'photos' => [
@@ -52,9 +52,9 @@ return [
         ],
     ],
     'team' => [
-        'thanks_prefix' => 'Dankzij buren zoals jij.',
-        'heading' => 'Dankzij buren zoals jij.',
-        'body' => 'Zij plannen de ritten zelf en houden onderweg de kruispunten vrij, zodat iedereen veilig kan meefietsen.',
+        'thanks_prefix' => 'Achter deze parade zorgen vrijwilligers ervoor dat de beweging blijft leven.',
+        'heading' => 'Achter deze parade zorgen vrijwilligers ervoor dat de beweging blijft leven.',
+        'body' => 'Zij zijn degenen die de routes uitstippelen, de tochten organiseren en de kruispunten beveiligen, zodat iedereen veilig kan fietsen.',
         'others' => 'en :count anderen',
         'and' => 'en',
         'credit' => [

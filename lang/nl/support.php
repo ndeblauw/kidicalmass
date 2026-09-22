@@ -30,17 +30,16 @@ return [
     // Mission — why this matters (the driver to give). Shown as an intro-scale
     // lead; no heading above it (the hero already carries the page title).
     'mission' => [
-        'body' => 'Een Kidical Mass is een feest op wielen: muziek, roze hesjes, straten vol kinderen op de fiets. En tegelijk is het een duidelijke vraag aan onze steden: geef kinderen straten waar ze veilig kunnen fietsen, in elke buurt. Jouw steun houdt die beweging draaiende en laat ze groeien, buurt na buurt.',
+        'body' => 'Een Kidical Mass is een vrolijke en gezinsvriendelijke fietstocht, maar ook een manier om een boodschap te laten horen: kinderen en gezinnen moeten zich in elke buurt veilig met de fiets kunnen verplaatsen. We vragen om afgescheiden fietspaden op belangrijke verkeersassen, fietsenstallingen die aangepast zijn aan gezinnen, veilige schoolomgevingen en zones 30 die ook echt worden gerespecteerd. Jouw steun helpt ons om deze beweging levend te houden, overal in België parades te organiseren en deze eisen bij de gemeenten op tafel te leggen.',
     ],
 
     // The story — proof + the load in one section. The big movement (stats deck)
     // is carried by a small, stretched team (work chips). The body tells the arc
     // WITHOUT reciting the deck's numbers or the chips' items (no redundancy).
     'story' => [
-        'title' => 'Een grote beweging op de schouders van een klein team',
-        'body' => 'Wat in 2020 begon met één fietstocht in Brussel, rijdt vandaag door heel het land. Achter al die ritten zit een klein team dat er veel tijd in steekt, vaak naast een gewone job.',
-        // The team's ongoing work, as a flowing second paragraph (was a row of chips).
-        'work' => 'Dat betekent nieuwe groepen op weg helpen, ritten organiseren, teams begeleiden, materiaal maken en subsidies zoeken. De beweging groeide prachtig, en nu willen we het werk erachter houdbaar maken.',
+        'title' => 'Een grote beweging, gedragen door een klein team',
+        'body' => 'Wat in 2020 begon met een eerste parade in Brussel, brengt vandaag lokale groepen in heel België samen. Achter al die parades staat een klein team dat hier veel tijd in steekt, vaak naast een andere job.',
+        'work' => 'Nieuwe groepen laten groeien, lokale teams begeleiden, parades organiseren, materiaal creëren, financiering zoeken… De beweging is gegroeid en we willen al dit werk nu duurzamer maken. Daar zijn ook middelen voor nodig!',
     ],
 
     // Proof deck labels. Values are computed live (see App\Support\SupportStats):
@@ -56,10 +55,13 @@ return [
     'funds' => [
         'title' => 'Wat jouw steun mogelijk maakt',
         'items' => [
-            'Meer tijd voor ritten en nieuwe groepen, minder voor het najagen van subsidies',
-            'Materiaal en opleiding voor de roze hesjes die elke rit begeleiden',
-            'Een beweging die blijft draaien, ook als subsidies wegvallen',
-            'Een team dat eerlijk vergoed wordt voor het werk dat het nu al doet',
+            ['title' => 'Meer parades organiseren', 'body' => 'coördinatie, verzekering, praktische kosten en alles wat nodig is om gezinnen samen te laten fietsen.'],
+            ['title' => 'De lokale teams uitrusten', 'body' => 'roze hesjes, parademateriaal, signalisatie en alles wat nodig is om de groepen veilig te begeleiden.'],
+            ['title' => 'Kidical Mass bekendmaken', 'body' => 'website, sociale media, flyers, affiches en communicatiemateriaal zodat gezinnen weten wanneer en waar ze kunnen aansluiten.'],
+            ['title' => 'Vrijwilligers opleiden en begeleiden', 'body' => 'opleidingen rond begeleiding, veiligheid en het uitstippelen van routes, maar ook ondersteuning voor groepen die van start gaan.'],
+            ['title' => 'De beweging laten groeien', 'body' => 'nieuwe groepen helpen opstarten en hen de tools geven om hun eigen parades te organiseren.'],
+            ['title' => 'Kidical Mass het hele jaar door laten leven', 'body' => 'nationale coördinatie, ontmoetingen tussen groepen, partnerschappen en acties om onze boodschap ook buiten de parades uit te dragen.'],
+            ['title' => 'Het team dat de beweging draaiende houdt eerlijk vergoeden', 'body' => 'want een groeiende beweging heeft tijd en mensen nodig om haar te laten leven.'],
         ],
     ],
 
@@ -69,10 +71,10 @@ return [
     // (it duplicated this band); its disclaimer folded in here.
     'ask' => [
         'title' => 'Steun vanaf €3 per maand',
-        'body' => 'Je krijgt een t-shirt om je steun te dragen. Hoe meer vaste steun, hoe minder we moeten leunen op subsidies. En meefietsen blijft altijd gratis.',
+        'body' => 'Met een regelmatige bijdrage help je ons een beweging op te bouwen die minder afhankelijk is van subsidies, de Kidical Mass-beweging overal in België verder te laten groeien en onze boodschap kracht bij te zetten. Als dank voor je steun ontvang je een superleuk t-shirt van biologisch katoen in de kleuren van Kidical Mass, om met trots te dragen. De parades blijven uiteraard altijd gratis.',
         'cta' => 'Steun maandelijks',
-        'button' => 'Steun maandelijks',
-        'note' => 'Je gaat naar Growfunding. Wij verwerken zelf geen betalingen.',
+        'button' => 'Steun Kidical Mass',
+        'note' => 'Je wordt doorgestuurd naar Growfunding. De betalingen worden rechtstreeks via hun platform verwerkt.',
     ],
 
     // Contextual callouts (one component, two variants)
@@ -83,7 +85,7 @@ return [
         ],
         'event' => [
             'title' => 'Fijn meegereden? Steun de volgende rit.',
-            'body' => 'Met €3 per maand zorg je dat er volgende maand weer een rit is. Meefietsen blijft altijd gratis.',
+            'body' => 'Met jouw steun, vanaf €3 per maand, houden we de beweging draaiende en blijven we fietsparades organiseren voor veiligere straten voor kinderen en gezinnen, in elke buurt.',
         ],
     ],
 ];

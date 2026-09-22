@@ -4,7 +4,7 @@ return [
     'title' => 'Nieuwsbrief',
     'hero' => [
         'eyebrow' => 'Nieuwsbrief',
-        'title' => 'Elke maand de nieuwste ritten in je bus',
+        'title' => 'Het laatste nieuws en de volgende Kidical Mass-parades rechtstreeks in je mailbox.',
     ],
     'benefits' => [
         'Alle ritten van de komende weken',

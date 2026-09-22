@@ -86,22 +86,19 @@
         </div>
     </section>
 
-    {{-- DES PARCOURS PENSÉS POUR LES ENFANTS — French-only section (built as
-         written, per "Structural changes from the French copy"). Hidden on /nl
-         until its NL translation arrives. --}}
-    @if ($isFr)
-        <x-layout-proposal>
-            <section class="about-section about-section--wide">
-                <x-section-heading>{{ __('about.organisation.parcours.title') }}</x-section-heading>
-                <div class="max-w-prose space-y-4">
-                    <p>{{ __('about.organisation.parcours.body_1') }}</p>
-                    <p>{{ __('about.organisation.parcours.body_2') }}</p>
-                    <p>{{ __('about.organisation.parcours.body_3') }}</p>
-                    <p><a href="{{ localized_route('getting-started') }}" class="more-link">{{ __('about.organisation.parcours.link') }} →</a></p>
-                </div>
-            </section>
-        </x-layout-proposal>
-    @endif
+    {{-- ROUTES OP KINDERMAAT — shared section (NL + FR). The FR copy carried it
+         first as a layout proposal; the NL translation now lands on the same spot. --}}
+    <x-layout-proposal :when="$isFr">
+        <section class="about-section about-section--wide">
+            <x-section-heading>{{ __('about.organisation.parcours.title') }}</x-section-heading>
+            <div class="max-w-prose space-y-4">
+                <p>{{ __('about.organisation.parcours.body_1') }}</p>
+                <p>{{ __('about.organisation.parcours.body_2') }}</p>
+                <p>{{ __('about.organisation.parcours.body_3') }}</p>
+                <p><a href="{{ localized_route('getting-started') }}" class="more-link">{{ __('about.organisation.parcours.link') }} →</a></p>
+            </div>
+        </section>
+    </x-layout-proposal>
 
     </x-page-hero>
 
