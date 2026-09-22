@@ -1,12 +1,12 @@
-<x-layouts::site title="Rit in voorbereiding — Kidical Mass {{ $group->name }}">
+<x-layouts::site :title="__('roze.preview.page_title', ['name' => $group->name])">
     @php
         $gemeente = trim((string) preg_replace('/^\s*kidical\s+mass\s+/i', '', $group->name));
         $gemeente = $gemeente !== '' ? $gemeente : $group->name;
 
-        $title = $ride?->title ?? "Een rit door {$gemeente}";
+        $title = $ride?->title ?? __('roze.preview.untitled', ['place' => $gemeente]);
         $when = $ride
-            ? 'Mogelijk ' . $ride->date_full . ', datum nog te bevestigen.'
-            : 'Mogelijk zondag 12 juli, datum nog te bevestigen.';
+            ? __('roze.preview.when', ['date' => $ride->date_full])
+            : __('roze.preview.when_faux');
         $whenIso = $ride?->begin_date?->toDateString() ?? '2026-07-12';
     @endphp
 
@@ -14,17 +14,17 @@
          passed (?ride=), else a faux exemplar. The status line stays prose — there is no
          Activity status field yet (Nico #37) — and is read-only for hesjes. --}}
     <section class="chapter-body roze-preview">
-        <a href="{{ route('groups.roze-hesjes.agenda', $group) }}" class="roze-preview__back link-plain">&larr; Terug naar de agenda</a>
+        <a href="{{ localized_route('groups.roze-hesjes.agenda', ['group' => $group]) }}" class="roze-preview__back link-plain">&larr; {{ __('roze.preview.back') }}</a>
 
-        <p class="roze-preview__flag">Nog niet vast</p>
+        <p class="roze-preview__flag">{{ __('roze.preview.flag') }}</p>
         <h1>{{ $title }}</h1>
         <p class="roze-preview__when"><time datetime="{{ $whenIso }}">{{ $when }}</time></p>
 
         <div class="roze-preview__status">
-            <strong class="roze-preview__status-title roze-card-title">Wat moet er nog gebeuren</strong>
-            <p class="roze-preview__status-body">De route is gekozen, maar de communicatiekaart is nog niet ingevuld. Zodra die klaar is, kondigen de kapiteins de rit aan.</p>
+            <strong class="roze-preview__status-title roze-card-title">{{ __('roze.preview.status_title') }}</strong>
+            <p class="roze-preview__status-body">{{ __('roze.preview.status_body') }}</p>
         </div>
 
-        <p class="roze-preview__foot">Je kijkt hier mee terwijl een kapitein deze rit voorbereidt. Benieuwd hoe dat werkt? Vraag het gerust in de groep.</p>
+        <p class="roze-preview__foot">{{ __('roze.preview.foot') }}</p>
     </section>
 </x-layouts::site>

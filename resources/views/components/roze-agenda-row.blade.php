@@ -7,8 +7,8 @@
 @php
     $rail = \App\Support\RideDate::rail($activity->begin_date);
     $href = $draft
-        ? route('groups.ride-preview', [$group, 'ride' => $activity->id])
-        : route('activities.show', $activity);
+        ? localized_route('groups.ride-preview', ['group' => $group, 'ride' => $activity->id])
+        : localized_route('activities.show', ['activity' => $activity]);
 @endphp
 
 <a
@@ -28,5 +28,5 @@
         @endunless
     </div>
 
-    <span class="roze-agenda-row__type">{{ $draft ? 'Nog niet vast' : $activity->activity_type->labelNl() }}</span>
+    <span class="roze-agenda-row__type">{{ $draft ? __('roze.agenda.not_fixed') : $activity->activity_type->labelLocalized() }}</span>
 </a>

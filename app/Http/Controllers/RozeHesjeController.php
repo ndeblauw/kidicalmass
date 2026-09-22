@@ -213,11 +213,11 @@ class RozeHesjeController extends Controller
             $items->push([
                 'color' => 'blue',
                 'icon' => 'image',
-                'what' => "{$count} foto's van de rit van {$rideDate}",
-                'context' => 'Nieuw in het album',
+                'what' => trans_choice('roze.feed.album', $count, ['count' => $count, 'date' => $rideDate]),
+                'context' => __('roze.feed.album_context'),
                 'timestamp' => $latestAlbum->begin_date->toDateString(),
-                'relative' => $latestAlbum->begin_date->diffForHumans(),
-                'href' => route('groups.roze-hesjes.fotos', [$group, 'ride' => $latestAlbum->id]),
+                'relative' => $latestAlbum->begin_date->locale(app()->getLocale())->diffForHumans(),
+                'href' => localized_route('groups.roze-hesjes.fotos', ['group' => $group, 'ride' => $latestAlbum->id]),
                 'celebrate' => false,
             ]);
         }
@@ -233,11 +233,11 @@ class RozeHesjeController extends Controller
             $items->push([
                 'color' => 'orange',
                 'icon' => 'pencil',
-                'what' => "{$draft->title} krijgt vorm",
-                'context' => 'Rit in voorbereiding',
+                'what' => __('roze.feed.draft', ['title' => $draft->title]),
+                'context' => __('roze.feed.draft_context'),
                 'timestamp' => now()->toDateString(),
-                'relative' => 'deze week',
-                'href' => route('groups.ride-preview', [$group, 'ride' => $draft->id]),
+                'relative' => __('roze.feed.this_week'),
+                'href' => localized_route('groups.ride-preview', ['group' => $group, 'ride' => $draft->id]),
                 'celebrate' => false,
             ]);
         }
@@ -251,20 +251,20 @@ class RozeHesjeController extends Controller
             // A joining hesje is the feed's one celebration; the hello nudge only
             // appears when there is an actual ride to say hello at (rides only,
             // and never a nudge toward a vergadering).
-            $what = "{$newMember->name} rijdt nu mee als roze hesje";
+            $what = __('roze.feed.new_member', ['name' => $newMember->name]);
             if ($nextRide !== null && $nextRide->activity_type->isRide()) {
                 $weekday = RideDate::weekday($nextRide->begin_date);
-                $what .= ". Zeg {$weekday} zeker hallo.";
+                $what .= __('roze.feed.new_member_hello', ['weekday' => $weekday]);
             }
 
             $items->push([
                 'color' => 'red',
                 'icon' => 'user-plus',
                 'what' => $what,
-                'context' => 'Nieuw lid',
+                'context' => __('roze.feed.new_member_context'),
                 'timestamp' => $newMember->pivot->created_at->toDateString(),
-                'relative' => $newMember->pivot->created_at->diffForHumans(),
-                'href' => route('groups.roze-hesjes.groep', $group),
+                'relative' => $newMember->pivot->created_at->locale(app()->getLocale())->diffForHumans(),
+                'href' => localized_route('groups.roze-hesjes.groep', ['group' => $group]),
                 'celebrate' => true,
             ]);
         }

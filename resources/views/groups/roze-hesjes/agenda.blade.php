@@ -8,12 +8,12 @@
          rides follow as a lean list. Drafts = this chapter's unpublished rides; confirmed =
          the published rides on the public agenda. --}}
     <section class="roze-agenda">
-        <h1 class="roze-hub-title">Agenda van {{ $gemeente }}</h1>
-        <p class="roze-hub-lead">Waar de kapiteins nu aan werken, en wat al vastligt.</p>
+        <h1 class="roze-hub-title">{{ __('roze.agenda.title', ['place' => $gemeente]) }}</h1>
+        <p class="roze-hub-lead">{{ __('roze.agenda.lead') }}</p>
 
         @if ($drafts->isNotEmpty())
             <div class="roze-agenda__block">
-                <h2 class="roze-agenda__label">In voorbereiding</h2>
+                <h2 class="roze-agenda__label">{{ __('roze.agenda.preparing') }}</h2>
                 <ul role="list" class="roze-agenda__list">
                     @foreach ($drafts as $draft)
                         <li><x-roze-agenda-row :activity="$draft" :group="$group" :draft="true" /></li>
@@ -23,7 +23,7 @@
         @endif
 
         <div class="roze-agenda__block">
-            <h2 class="roze-agenda__label">Al vastgelegd</h2>
+            <h2 class="roze-agenda__label">{{ __('roze.agenda.confirmed') }}</h2>
 
             @if ($confirmed->isNotEmpty())
                 <ul role="list" class="roze-agenda__list">
@@ -32,7 +32,7 @@
                     @endforeach
                 </ul>
             @else
-                <p class="roze-agenda__note">Nog geen rit vastgelegd. Hou de agenda in de gaten, of plan er samen een in.</p>
+                <p class="roze-agenda__note">{{ __('roze.agenda.empty') }}</p>
             @endif
         </div>
     </section>

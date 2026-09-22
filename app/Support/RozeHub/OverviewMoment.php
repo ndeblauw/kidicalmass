@@ -49,9 +49,9 @@ class OverviewMoment
         $nights = self::nightsUntil($nextRide);
 
         return match (true) {
-            $nights === 0 => 'Vandaag rijden we!',
-            $nights === 1 => 'Morgen is het zover.',
-            $nights <= self::PRE_RIDE_DAYS => "Nog {$nights} nachtjes slapen.",
+            $nights === 0 => __('roze.countdown.today'),
+            $nights === 1 => __('roze.countdown.tomorrow'),
+            $nights <= self::PRE_RIDE_DAYS => __('roze.countdown.nights', ['nights' => $nights]),
             default => null,
         };
     }

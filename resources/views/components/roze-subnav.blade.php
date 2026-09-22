@@ -4,7 +4,7 @@
     'beheerUrl' => null, // external Filament URL for the Beheer tab
 ])
 
-<nav class="roze-subnav" aria-label="Roze-hesje hub">
+<nav class="roze-subnav" aria-label="{{ __('roze.subnav.aria') }}">
     <ul class="roze-subnav__list" role="list">
         @foreach ($tabs as $tab)
             <li>
@@ -18,7 +18,7 @@
                     </a>
                 @else
                     <a
-                        href="{{ route($tab['route'], $group) }}"
+                        href="{{ localized_route($tab['route'], ['group' => $group]) }}"
                         @class([
                             'roze-subnav__tab',
                             'roze-subnav__tab--active' => $tab['active'],

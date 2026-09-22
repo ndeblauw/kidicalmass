@@ -13,29 +13,29 @@
     >
         <div class="roze-gallery__head">
             <div>
-                <h1 class="roze-hub-title">Foto's van {{ $gemeente }}</h1>
-                <p class="roze-hub-lead">Het gedeelde album van {{ $gemeente }}, rit per rit. Hier komen de foto's van onze tochten samen.</p>
+                <h1 class="roze-hub-title">{{ __('roze.fotos.title', ['place' => $gemeente]) }}</h1>
+                <p class="roze-hub-lead">{{ __('roze.fotos.lead', ['place' => $gemeente]) }}</p>
             </div>
         </div>
         {{-- Quiet, honest "binnenkort" affordance, below the intro so the title leads cleanly. --}}
         <button type="button" class="roze-gallery__upload" disabled aria-disabled="true">
-            <flux:icon name="arrow-up-tray" variant="micro" class="size-4" /> Foto's toevoegen (binnenkort)
+            <flux:icon name="arrow-up-tray" variant="micro" class="size-4" /> {{ __('roze.fotos.upload') }}
         </button>
 
         @if ($rides->isEmpty())
             <div class="roze-gallery__empty">
-                <p class="roze-row-title">Nog geen foto's</p>
-                <p>Na de eerste rit verschijnen hier de albums. Neem gerust je toestel mee.</p>
+                <p class="roze-row-title">{{ __('roze.fotos.empty_title') }}</p>
+                <p>{{ __('roze.fotos.empty_body') }}</p>
             </div>
         @else
             @if ($rides->count() > 1)
                 <div class="roze-gallery__picker">
-                    <label for="roze-gallery-ride">Kies een rit</label>
+                    <label for="roze-gallery-ride">{{ __('roze.fotos.pick_ride') }}</label>
                     <div class="roze-gallery__select-wrap">
                         <select id="roze-gallery-ride" x-model="ride" class="roze-gallery__select">
                             @foreach ($rides as $ride)
                                 @php $photoCount = $ride->getMedia('gallery')->count(); @endphp
-                                <option value="{{ $ride->id }}">{{ ucfirst($ride->date_full) }} &middot; {{ trans_choice(':count foto|:count foto\'s', $photoCount, ['count' => $photoCount]) }}</option>
+                                <option value="{{ $ride->id }}">{{ ucfirst($ride->date_full) }} &middot; {{ trans_choice('roze.fotos.photo_count', $photoCount, ['count' => $photoCount]) }}</option>
                             @endforeach
                         </select>
                         <flux:icon name="chevron-down" class="roze-gallery__select-chev size-4" aria-hidden="true" />

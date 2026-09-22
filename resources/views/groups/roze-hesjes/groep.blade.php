@@ -12,15 +12,15 @@
     @endphp
 
     <section id="de-roze-hesjes">
-        <h1 class="roze-hub-title">De roze hesjes van {{ $gemeente }}</h1>
-        <p class="roze-hub-lead">De mensen achter de ritten in {{ $gemeente }}. Zij staan ook voor jou klaar.</p>
+        <h1 class="roze-hub-title">{{ __('roze.groep.title', ['place' => $gemeente]) }}</h1>
+        <p class="roze-hub-lead">{{ __('roze.groep.lead', ['place' => $gemeente]) }}</p>
         <ul role="list" class="roze-roster">
             @forelse ($roster as $member)
                 @php
                     $roleLabel = match ($member->pivot->role) {
-                        'captain' => 'Kapitein',
-                        'pinkvest' => 'Roze hesje',
-                        default => 'Geïnteresseerd',
+                        'captain' => __('roze.groep.role_captain'),
+                        'pinkvest' => __('roze.groep.role_pinkvest'),
+                        default => __('roze.groep.role_interested'),
                     };
                 @endphp
                 <li class="roze-roster__member">
@@ -30,12 +30,12 @@
                         <span @class(['roze-roster__role', 'roze-roster__role--lead' => $member->pivot->role === 'captain'])>{{ $roleLabel }}</span>
                     </div>
                     @if ($member->pivot->created_at && $member->pivot->created_at->greaterThan($newMemberCutoff))
-                        <span class="roze-roster__new">Nieuw</span>
+                        <span class="roze-roster__new">{{ __('roze.groep.new') }}</span>
                     @endif
                 </li>
             @empty
                 <li class="roze-roster__member">
-                    <span class="roze-roster__role">Hier komt straks het team van {{ $gemeente }}.</span>
+                    <span class="roze-roster__role">{{ __('roze.groep.empty', ['place' => $gemeente]) }}</span>
                 </li>
             @endforelse
         </ul>
