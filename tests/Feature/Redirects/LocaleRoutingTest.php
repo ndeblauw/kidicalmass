@@ -15,6 +15,15 @@ it('redirects the bare root to the nl prefix', function () {
     get('/')->assertRedirect('/nl');
 });
 
+it('redirects the bare root to French when the browser prefers it', function () {
+    get('/', ['Accept-Language' => 'fr-BE,fr;q=0.9,nl;q=0.8'])
+        ->assertRedirect('/fr');
+});
+
+it('varies the root redirect on Accept-Language', function () {
+    get('/')->assertHeader('Vary', 'Accept-Language');
+});
+
 it('serves the home page under /nl with a nl lang attribute', function () {
     get('/nl')
         ->assertOk()

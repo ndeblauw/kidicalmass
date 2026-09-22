@@ -4,12 +4,24 @@
     $metaDescription = $description ?? __('meta.default');
     $canonical = request()->url();
     $shareImage = $ogImage ?? asset('img/og-default.jpg');
+    // hreflang alternates for the locales this page actually exists in. Query
+    // strings are dropped so the alternate matches the canonical, not a filtered view.
+    $hreflang = collect(\App\Http\Middleware\SetLocale::SUPPORTED)
+        ->mapWithKeys(fn (string $locale): array => [$locale => alternate_locale_url($locale)])
+        ->filter()
+        ->map(fn (string $url): string => explode('?', $url, 2)[0]);
 @endphp
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ $fullTitle }}</title>
 <meta name="description" content="{{ $metaDescription }}">
 <link rel="canonical" href="{{ $canonical }}">
+@foreach ($hreflang as $hreflangLocale => $hreflangUrl)
+    <link rel="alternate" hreflang="{{ $hreflangLocale }}-BE" href="{{ $hreflangUrl }}">
+@endforeach
+@if (($hreflangDefault = $hreflang['nl'] ?? $hreflang->first()) !== null)
+    <link rel="alternate" hreflang="x-default" href="{{ $hreflangDefault }}">
+@endif
 
 <meta property="og:title" content="{{ $title ?? $siteName }}">
 <meta property="og:description" content="{{ $metaDescription }}">
