@@ -60,3 +60,13 @@ it('renders the privacy authority link and update date from translations', funct
         ->toContain('autoriteprotectiondonnees.be')
         ->toContain('7 juillet 2026');
 });
+
+it('has real French copy for the support callouts, not a Dutch fallback', function () {
+    foreach (['home', 'event'] as $variant) {
+        foreach (['title', 'body'] as $field) {
+            $key = "support.callout.{$variant}.{$field}";
+
+            expect(__($key, [], 'fr'))->not->toBe(__($key, [], 'nl'));
+        }
+    }
+});

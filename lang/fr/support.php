@@ -77,4 +77,16 @@ return [
         'body' => 'Vous préférez soutenir le mouvement en un seul geste ? Un don unique est également le bienvenu.',
         'iban' => 'Numéro de compte (IBAN) : à confirmer',
     ],
+
+    // Contextual callouts (one component, two variants)
+    'callout' => [
+        'home' => [
+            'title' => 'Kidical Mass reste gratuit. Grâce à des personnes comme vous.',
+            'body' => 'Soutenez dès 3 € par mois et aidez à rendre les rues plus sûres pour les enfants, dans chaque quartier. Rouler avec nous reste gratuit.',
+        ],
+        'event' => [
+            'title' => 'Vous avez aimé rouler avec nous ? Soutenez la prochaine parade.',
+            'body' => 'Avec votre soutien, dès 3 € par mois, nous faisons vivre le mouvement et continuons d\'organiser des parades à vélo pour des rues plus sûres pour les enfants et les familles, dans chaque quartier.',
+        ],
+    ],
 ];

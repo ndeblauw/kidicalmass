@@ -7,19 +7,13 @@ changes.
 
 ## Keys that exist in only one locale
 
-### `support.callout.*` — only in `nl`
+- None currently.
 
-- `support.callout.home.title`, `support.callout.home.body`
-- `support.callout.event.title`, `support.callout.event.body`
-
-**Impact:** `resources/views/components/support-callout.blade.php:16-17` reads
-`support.callout.{variant}.*`. On `fr` the keys are missing, so `__()` falls back
-to `nl` → **Dutch callout copy renders on French pages** (the `event` variant on
-past-activity pages; `home` in the styleguide).
-
-**Fix:** add the French copy (and English later), or set explicit values.
-
-> No keys exist only in `fr` right now.
+> Resolved: `support.callout.*` used to exist only in `nl`, which made
+> `resources/views/components/support-callout.blade.php` render Dutch copy on
+> French pages. French copy was added to `lang/fr/support.php`; the callout keys
+> are now defined in both locales (and are guarded by a regression test in
+> `tests/Feature/Content/LocaleDrivenContentTest.php`).
 
 ## Intentionally one-sided keys (empty in one locale, filled in the other)
 
