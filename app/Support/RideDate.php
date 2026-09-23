@@ -6,11 +6,15 @@ use Illuminate\Support\Carbon;
 
 /**
  * Single source of truth for how a ride's date and time render across the site.
- * Locale-aware (nl/fr); output is always lowercase — casing is a CSS concern.
+ * Locale-aware (see SetLocale::SUPPORTED); output is always lowercase — casing
+ * is a CSS concern.
  */
 class RideDate
 {
-    /** Belgian time: "14u" / "14u30" (nl), "14h" / "14h30" (fr). Whole hours drop the minutes. */
+    /**
+     * Belgian time: "14u" / "14u30" (nl), "14h" / "14h30" (fr). The separator
+     * comes from `common.time_separator`; whole hours drop the minutes.
+     */
     public static function time(Carbon|string $date): string
     {
         $carbon = self::resolve($date);
