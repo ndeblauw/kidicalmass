@@ -62,6 +62,17 @@ it('does not serve Dutch slugs under the French locale', function () {
     get('/fr/events')->assertNotFound();
 });
 
+it('highlights the matching nav item on a French route', function () {
+    expect(get('/fr/agenda')->assertOk()->getContent())
+        ->toContain('data-current="data-current"');
+
+    // A page whose route matches no nav item stays unhighlighted (matching the
+    // raw "fr.contact" name against "activities.*" would wrongly light up, or
+    // miss, items in non-default locales).
+    expect(get('/fr/contact')->assertOk()->getContent())
+        ->not->toContain('data-current="data-current"');
+});
+
 it('shows a missing translation marker in staging when configured', function () {
     app()->detectEnvironment(fn (): string => 'staging');
     config(['i18n.show_missing_translation_keys' => true]);

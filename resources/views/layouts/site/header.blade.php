@@ -6,7 +6,7 @@
         ? Auth::user()->groups()->where('invisible', false)->orderBy('name_nl')->get()
         : collect();
 
-    $isHome = request()->routeIs('home', 'fr.home');
+    $isHome = route_is('home');
 
     // Show a group's postcode beside the logo. On a chapter page the route binds a {group};
     // pages without that binding (e.g. a ride) can pass the organising group via :chapter.
@@ -37,11 +37,11 @@
                 <!-- Desktop: nav links in their own white band + support CTA (+ member items) -->
                 <div class="site-nav__group site-nav__reveal-menu hidden md:flex">
                     <flux:navbar class="site-nav__links" aria-label="{{ __('nav.main_menu') }}">
-                        <flux:navbar.item href="{{ localized_route('activities.index') }}" :current="request()->routeIs('activities.*')" class="font-bold text-lg">{{ __('nav.events') }}</flux:navbar.item>
-                        <flux:navbar.item href="{{ localized_route('groups.index') }}" :current="request()->routeIs('groups.*')" class="font-bold text-lg">{{ __('nav.chapters') }}</flux:navbar.item>
-                        <flux:navbar.item href="{{ localized_route('getting-started') }}" :current="request()->routeIs('getting-started')" class="font-bold text-lg">{{ __('nav.getting_started') }}</flux:navbar.item>
-                        <flux:navbar.item href="{{ localized_route('volunteer') }}" :current="request()->routeIs('volunteer')" class="font-bold text-lg">{{ __('nav.help_out') }}</flux:navbar.item>
-                        <flux:navbar.item href="{{ localized_route('about') }}" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
+                        <flux:navbar.item href="{{ localized_route('activities.index') }}" :current="route_is('activities.*')" class="font-bold text-lg">{{ __('nav.events') }}</flux:navbar.item>
+                        <flux:navbar.item href="{{ localized_route('groups.index') }}" :current="route_is('groups.*')" class="font-bold text-lg">{{ __('nav.chapters') }}</flux:navbar.item>
+                        <flux:navbar.item href="{{ localized_route('getting-started') }}" :current="route_is('getting-started')" class="font-bold text-lg">{{ __('nav.getting_started') }}</flux:navbar.item>
+                        <flux:navbar.item href="{{ localized_route('volunteer') }}" :current="route_is('volunteer')" class="font-bold text-lg">{{ __('nav.help_out') }}</flux:navbar.item>
+                        <flux:navbar.item href="{{ localized_route('about') }}" :current="route_is('about', 'about.*', 'articles.*')" class="font-bold text-lg">{{ __('nav.about') }}</flux:navbar.item>
                     </flux:navbar>
 
                     <a href="{{ localized_route('membership') }}" class="steun-nav-btn">
@@ -52,7 +52,7 @@
                     @auth
                         @foreach ($myChapters as $myChapter)
                             <a href="{{ localized_route('groups.roze-hesjes', ['group' => $myChapter]) }}"
-                               class="roze-nav-btn {{ request()->routeIs('groups.roze-hesjes', 'groups.roze-hesjes.*', 'fr.groups.roze-hesjes', 'fr.groups.roze-hesjes.*') && optional(request()->route('group'))->is($myChapter) ? 'roze-nav-btn--active' : '' }}">
+                               class="roze-nav-btn {{ route_is('groups.roze-hesjes', 'groups.roze-hesjes.*') && optional(request()->route('group'))->is($myChapter) ? 'roze-nav-btn--active' : '' }}">
                                 {{ \Illuminate\Support\Str::of($myChapter->name)->replaceMatches('/^\s*kidical\s+mass\s+/i', '')->trim() }}
                             </a>
                         @endforeach
@@ -86,11 +86,11 @@
                         </a>
                     @endforeach
                 @endauth
-                <flux:navbar.item href="{{ localized_route('activities.index') }}" :current="request()->routeIs('activities.*')">{{ __('nav.events') }}</flux:navbar.item>
-                <flux:navbar.item href="{{ localized_route('groups.index') }}" :current="request()->routeIs('groups.*')">{{ __('nav.chapters') }}</flux:navbar.item>
-                <flux:navbar.item href="{{ localized_route('getting-started') }}" :current="request()->routeIs('getting-started')">{{ __('nav.getting_started') }}</flux:navbar.item>
-                <flux:navbar.item href="{{ localized_route('volunteer') }}" :current="request()->routeIs('volunteer')">{{ __('nav.help_out') }}</flux:navbar.item>
-                <flux:navbar.item href="{{ localized_route('about') }}" :current="request()->routeIs('about', 'about.*') || request()->routeIs('articles.*')">{{ __('nav.about') }}</flux:navbar.item>
+                <flux:navbar.item href="{{ localized_route('activities.index') }}" :current="route_is('activities.*')">{{ __('nav.events') }}</flux:navbar.item>
+                <flux:navbar.item href="{{ localized_route('groups.index') }}" :current="route_is('groups.*')">{{ __('nav.chapters') }}</flux:navbar.item>
+                <flux:navbar.item href="{{ localized_route('getting-started') }}" :current="route_is('getting-started')">{{ __('nav.getting_started') }}</flux:navbar.item>
+                <flux:navbar.item href="{{ localized_route('volunteer') }}" :current="route_is('volunteer')">{{ __('nav.help_out') }}</flux:navbar.item>
+                <flux:navbar.item href="{{ localized_route('about') }}" :current="route_is('about', 'about.*', 'articles.*')">{{ __('nav.about') }}</flux:navbar.item>
             </nav>
         </div>
     </div>
