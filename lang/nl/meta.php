@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'site_name' => 'Kidical Mass België',
     'home_title' => 'Kidical Mass België · Samen fietsen met kinderen',
     'default' => 'Kidical Mass België: vrolijke fietsparades waar kinderen veilig en met plezier door hun eigen buurt fietsen. Fiets je mee?',
     'calendar' => 'Alle komende Kidical Mass ritten in België op een rij. Zoek een fietsparade in jouw buurt en fiets mee met het hele gezin.',

@@ -8,11 +8,9 @@
     FR additions (layout proposals, per "Organisation: French content as a
     layout proposal"): the "Des parcours pensés pour les enfants" section and the
     longer task lists are French-only; the coordinator copy mentioning the third
-    coordinator carries "To be confirmed".
+    coordinator carries "To be confirmed". Whether a block shows or is marked is
+    translation-driven (empty keys in nl, set in fr), not hard-coded to a locale.
 --}}
-@php
-    $isFr = app()->getLocale() === 'fr';
-@endphp
 <x-layouts::site :title="__('nav.organisation')" :description="__('meta.organisation')">
 
     <x-page-hero
@@ -46,7 +44,7 @@
                 @endforeach
             </x-titled-list-block>
         </div>
-        @if ($isFr)
+        @if (filled(__('about.organisation.local.note')))
             <p class="mt-4 max-w-prose">{{ __('about.organisation.local.note') }}</p>
         @endif
     </section>
@@ -58,7 +56,7 @@
         <x-section-heading>{{ __('about.organisation.duo.title') }}</x-section-heading>
         <div class="grid gap-8 md:grid-cols-[1fr_22rem] md:gap-12">
             <div class="max-w-prose space-y-4">
-                @if ($isFr)
+                @if (filled(__('about.organisation.duo_review')))
                     <x-to-be-confirmed>
                         <p>{{ __('about.organisation.duo.body_1') }}</p>
                     </x-to-be-confirmed>
@@ -88,7 +86,7 @@
 
     {{-- ROUTES OP KINDERMAAT — shared section (NL + FR). The FR copy carried it
          first as a layout proposal; the NL translation now lands on the same spot. --}}
-    <x-layout-proposal :when="$isFr">
+    <x-layout-proposal :when="filled(__('about.organisation.parcours_review'))">
         <section class="about-section about-section--wide">
             <x-section-heading>{{ __('about.organisation.parcours.title') }}</x-section-heading>
             <div class="max-w-prose space-y-4">

@@ -7,6 +7,7 @@ return [
     'cookies' => 'Cookies',
     'privacy_cookies' => 'Confidentialité & cookies',
     'home' => 'Accueil',
+    'time_separator' => 'h',
     'pagination' => [
         'label' => 'Pagination',
         'previous' => 'Précédent',

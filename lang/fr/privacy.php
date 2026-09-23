@@ -60,6 +60,8 @@ return [
         'title' => 'Vos droits',
         'body' => 'Vous avez à tout moment le droit de savoir quelles données nous détenons à votre sujet. Vous pouvez demander leur rectification ou leur suppression, la limitation de leur traitement, vous opposer à leur traitement ou retirer votre consentement. Un simple e-mail à :email suffit ; nous vous répondrons dans un délai de 30 jours.',
         'authority' => 'Si nous ne parvenons pas à résoudre votre demande ensemble, vous pouvez vous adresser à l\'Autorité de protection des données via :link.',
+        'authority_url' => 'https://www.autoriteprotectiondonnees.be/citoyen',
+        'authority_label' => 'autoriteprotectiondonnees.be',
     ],
     'photos' => [
         'title' => 'Photos lors de nos parades',
@@ -83,5 +85,6 @@ return [
     'updates' => [
         'title' => 'Questions ou modifications',
         'body' => 'Si nos pratiques en matière de traitement des données évoluent, nous mettrons cette page à jour. Dernière mise à jour : :date.',
+        'date' => '7 juillet 2026',
     ],
 ];

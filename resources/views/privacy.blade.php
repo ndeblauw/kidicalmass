@@ -6,8 +6,8 @@
     (issue #48, 2026-07-07). The Fathom script itself ships with the
     production setup; the copy already describes that state.
 --}}
-@php($dpaUrl = app()->getLocale() === 'fr' ? 'https://www.autoriteprotectiondonnees.be/citoyen' : 'https://www.gegevensbeschermingsautoriteit.be')
-@php($updatedOn = app()->getLocale() === 'fr' ? '7 juillet 2026' : '7 juli 2026')
+@php($dpaUrl = __('privacy.rights.authority_url'))
+@php($dpaLabel = __('privacy.rights.authority_label'))
 <x-layouts::site :title="__('privacy.title')" :description="__('meta.privacy')">
 
     <x-page-hero
@@ -84,7 +84,7 @@
             <section class="flex flex-col gap-4">
                 <h2>{{ __('privacy.rights.title') }}</h2>
                 <p>{!! __('privacy.rights.body', ['email' => '<a href="mailto:'.config('kidicalmass.contact.email').'">'.config('kidicalmass.contact.email').'</a>']) !!}</p>
-                <p>{!! __('privacy.rights.authority', ['link' => '<a href="'.$dpaUrl.'" rel="noopener" target="_blank">'.($dpaUrl === 'https://www.gegevensbeschermingsautoriteit.be' ? 'gegevensbeschermingsautoriteit.be' : 'autoriteprotectiondonnees.be').'</a>']) !!}</p>
+                <p>{!! __('privacy.rights.authority', ['link' => '<a href="'.$dpaUrl.'" rel="noopener" target="_blank">'.$dpaLabel.'</a>']) !!}</p>
             </section>
 
             <section class="flex flex-col gap-4">
@@ -117,7 +117,7 @@
 
             <section class="flex flex-col gap-4">
                 <h2>{{ __('privacy.updates.title') }}</h2>
-                <p>{!! __('privacy.updates.body', ['date' => '<time datetime="2026-07-07">'.$updatedOn.'</time>']) !!}</p>
+                <p>{!! __('privacy.updates.body', ['date' => '<time datetime="2026-07-07">'.__('privacy.updates.date').'</time>']) !!}</p>
             </section>
 
         </div>

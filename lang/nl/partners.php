@@ -59,12 +59,14 @@ return [
                 ],
             ],
             'vat_note' => 'Alle bedragen zijn exclusief btw.',
+            'vat_note_review' => '',
             'pdf' => 'Bekijk alle formules en tarieven (pdf) →',
         ],
         'collab' => [
             'heading' => 'Een samenwerking die ertoe doet',
             'intro' => 'Kidical Mass is in de eerste plaats een burgerbeweging, geen reclameruimte. We werken samen met partners die onze waarden delen: verbondenheid, veiligheid, duurzaamheid en inclusie. Je steun kan de vorm aannemen van financiering, materiaal of ondersteuning in natura. Aan die steun mogen geen voorwaarden worden verbonden die onze werking of onze boodschap beïnvloeden.',
             'intro_2' => 'We blijven onafhankelijk, niet-commercieel en vrij om elke samenwerking die niet langer bij onze waarden past, te weigeren of stop te zetten.',
+            'offer_review' => '',
             'offer' => [
                 'heading' => 'Wat bieden we onze partners?',
                 'lead' => 'Met je steun kun je je ook concreet verbinden aan de beweging:',

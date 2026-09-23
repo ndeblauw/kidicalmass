@@ -46,6 +46,7 @@ return [
 
     // What your support makes possible — 7 titled items (vs NL's 4 short lines).
     // The French item count leads; every item carries "To be confirmed".
+    'funds_review' => 'to-be-confirmed',
     'funds' => [
         'title' => 'Ce que votre soutien rend possible',
         'items' => [

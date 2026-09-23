@@ -14,7 +14,7 @@ class RideDate
     public static function time(Carbon|string $date): string
     {
         $carbon = self::resolve($date);
-        $separator = app()->getLocale() === 'fr' ? 'h' : 'u';
+        $separator = __('common.time_separator');
         $minutes = $carbon->format('i');
 
         return $carbon->format('G').$separator.($minutes === '00' ? '' : $minutes);

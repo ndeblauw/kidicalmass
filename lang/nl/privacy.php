@@ -60,6 +60,8 @@ return [
         'title' => 'Jouw rechten',
         'body' => 'Je mag altijd weten welke gegevens we van jou hebben. Je kan ze laten verbeteren of verwijderen, de verwerking laten beperken, bezwaar maken of je toestemming intrekken. Eén mailtje naar :email volstaat; we antwoorden binnen de 30 dagen.',
         'authority' => 'Kom je er met ons niet uit, dan kan je terecht bij de Gegevensbeschermingsautoriteit via :link.',
+        'authority_url' => 'https://www.gegevensbeschermingsautoriteit.be',
+        'authority_label' => 'gegevensbeschermingsautoriteit.be',
     ],
     'photos' => [
         'title' => 'Foto\'s op onze ritten',
@@ -83,5 +85,6 @@ return [
     'updates' => [
         'title' => 'Vragen of wijzigingen',
         'body' => 'Verandert er iets aan hoe we met gegevens omgaan, dan passen we deze pagina aan. Laatst bijgewerkt op :date.',
+        'date' => '7 juli 2026',
     ],
 ];
