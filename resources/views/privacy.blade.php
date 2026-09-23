@@ -117,7 +117,7 @@
 
             <section class="flex flex-col gap-4">
                 <h2>{{ __('privacy.updates.title') }}</h2>
-                <p>{!! __('privacy.updates.body', ['date' => '<time datetime="2026-07-07">'.__('privacy.updates.date').'</time>']) !!}</p>
+                <p>{!! __('privacy.updates.body', ['date' => '<time datetime="'.__('privacy.updates.iso_date').'">'.__('privacy.updates.date').'</time>']) !!}</p>
             </section>
 
         </div>

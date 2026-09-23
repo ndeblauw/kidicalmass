@@ -86,5 +86,6 @@ return [
         'title' => 'Questions ou modifications',
         'body' => 'Si nos pratiques en matière de traitement des données évoluent, nous mettrons cette page à jour. Dernière mise à jour : :date.',
         'date' => '7 juillet 2026',
+        'iso_date' => '2026-07-07',
     ],
 ];

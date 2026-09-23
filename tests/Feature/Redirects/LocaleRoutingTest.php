@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SetLocale;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
@@ -24,17 +25,11 @@ it('varies the root redirect on Accept-Language', function () {
     get('/')->assertHeader('Vary', 'Accept-Language');
 });
 
-it('serves the home page under /nl with a nl lang attribute', function () {
-    get('/nl')
+it('serves the home page under its locale with a matching lang attribute', function (string $locale) {
+    get('/'.$locale)
         ->assertOk()
-        ->assertSee('lang="nl"', escape: false);
-});
-
-it('serves the home page under /fr with a fr lang attribute', function () {
-    get('/fr')
-        ->assertOk()
-        ->assertSee('lang="fr"', escape: false);
-});
+        ->assertSee('lang="'.$locale.'"', escape: false);
+})->with(SetLocale::SUPPORTED);
 
 it('keeps Dutch route names and exposes French route names', function () {
     expect(route('activities.index', ['locale' => 'nl']))->toEndWith('/nl/events');

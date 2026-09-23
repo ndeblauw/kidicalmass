@@ -13,7 +13,7 @@
 <x-layouts::site :title="__('support.title')" :description="__('meta.support')">
 
     @php
-        $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
+        $growfunding = __('support.growfunding_url');
 
         // $proofCards is computed live (App\Support\SupportStats) and passed in by
         // the route: local groups + rides are counted from the database, the

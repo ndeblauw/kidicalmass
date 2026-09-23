@@ -1,12 +1,14 @@
 @props(['variant' => 'desktop'])
 
 @php
-    // FR/EN/NL in the order the client asked. A locale is a live link only when
-    // the current page has a route in it; otherwise it reads as disabled (EN
-    // until its routes exist, FR on pages still without a counterpart).
+    // SetLocale::DISPLAY holds the order the client asked for (FR/EN/NL) and may
+    // list announced locales that are not live yet. A locale is a live link only
+    // when the current page has a route in it (alternate_locale_url checks
+    // SetLocale::SUPPORTED); otherwise it reads as disabled (EN until its routes
+    // exist, FR on pages still without a counterpart).
     $current = app()->getLocale();
 
-    $items = collect(['fr', 'en', 'nl'])->map(fn (string $locale): array => [
+    $items = collect(\App\Http\Middleware\SetLocale::DISPLAY)->map(fn (string $locale): array => [
         'locale' => $locale,
         'label' => strtoupper($locale),
         'url' => alternate_locale_url($locale),

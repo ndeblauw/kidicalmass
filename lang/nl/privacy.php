@@ -86,5 +86,6 @@ return [
         'title' => 'Vragen of wijzigingen',
         'body' => 'Verandert er iets aan hoe we met gegevens omgaan, dan passen we deze pagina aan. Laatst bijgewerkt op :date.',
         'date' => '7 juli 2026',
+        'iso_date' => '2026-07-07',
     ],
 ];

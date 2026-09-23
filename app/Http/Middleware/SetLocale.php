@@ -13,6 +13,15 @@ class SetLocale
     public const SUPPORTED = ['nl', 'fr'];
 
     /**
+     * Locales shown in the language switch, in display order (client-requested).
+     * May include announced locales that are not live yet: those render disabled
+     * until they are added to SUPPORTED (and gain routes).
+     *
+     * @var list<string>
+     */
+    public const DISPLAY = ['fr', 'en', 'nl'];
+
+    /**
      * Locale the visitor's browser asks for, falling back to the first supported
      * locale (Dutch). Used for the initial `/` redirect.
      */

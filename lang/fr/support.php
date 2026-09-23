@@ -9,6 +9,7 @@ return [
     // Nav + footer CTA labels
     'nav' => 'Nous soutenir',
     'cta' => 'Soutenir Kidical Mass',
+    'growfunding_url' => 'https://growfunding.be/fr/projects/kidicalmassbelgique',
 
     'photos' => [
         'org_1' => 'Trois organisateurs posent en souriant, l\'un avec un gilet rose et une couronne de fleurs, pendant une parade.',

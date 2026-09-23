@@ -11,6 +11,7 @@ return [
     // Nav + footer CTA labels
     'nav' => 'Steun ons',
     'cta' => 'Steun Kidical Mass',
+    'growfunding_url' => 'https://growfunding.be/nl/projects/kidicalmassbelgique',
 
     'photos' => [
         'org_1' => 'Drie organisatoren poseren lachend, één met roze hesje en bloemenkrans, tijdens een rit.',
