@@ -192,12 +192,14 @@ return [
             ],
             'note' => 'Les groupes gardent leur autonomie, mais ne sont jamais seuls. Ils peuvent compter sur l\'expérience et le soutien de toute la communauté Kidical Mass.',
         ],
+        'duo_review' => 'to-be-confirmed',
         'duo' => [
             'title' => 'Le duo de coordination',
             'body_1' => 'Leticia et Cecilia forment le duo de coordination de Kidical Mass Belgium. Elles sont le point de contact central pour les groupes locaux et les bénévoles : elles accompagnent les nouvelles équipes, répondent aux questions du quotidien, organisent les formations et soutiennent les groupes dans leur communication, leurs partenariats et leur organisation. Leticia assure la coordination générale du mouvement, la gestion financière et des subsides. Cecilia s\'occupe notamment des événements et des relations avec les pouvoirs publics et les partenaires. À leurs côtés, Alison assure la communication du mouvement : réseaux sociaux, contenus, site web et visibilité des initiatives locales. Car faire vivre Kidical Mass, c\'est aussi raconter ce qui se passe sur le terrain, donner envie de rejoindre les parades et faire connaître les actions du réseau.',
             'body_2' => 'L\'équipe veille également au cadre commun qui permet à chaque parade de rester festive, inclusive et sûre : règles partagées, communication interne, formation des accompagnateurs, conseils pour les itinéraires, relations presse, partenariats et recherche de financements. L\'objectif reste le même : donner aux groupes locaux les moyens de faire vivre Kidical Mass dans leur quartier.',
             'link' => '',
         ],
+        'parcours_review' => 'layout-proposal',
         'parcours' => [
             'title' => 'Des parcours pensés pour les enfants',
             'body_1' => 'Chaque Kidical Mass propose un nouvel itinéraire pour permettre aux enfants de découvrir leur commune autrement. Les parcours passent autant que possible par des parcs, des plaines de jeux, des écoles ou de nouvelles infrastructures cyclables, en évitant les points de congestion et les situations dangereuses.',

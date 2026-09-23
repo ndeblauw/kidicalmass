@@ -11,6 +11,7 @@ return [
     // Nav + footer CTA labels
     'nav' => 'Steun ons',
     'cta' => 'Steun Kidical Mass',
+    'growfunding_url' => 'https://growfunding.be/nl/projects/kidicalmassbelgique',
 
     'photos' => [
         'org_1' => 'Drie organisatoren poseren lachend, één met roze hesje en bloemenkrans, tijdens een rit.',
@@ -52,6 +53,7 @@ return [
     ],
 
     // What your support makes possible — a simple green-check checklist (single lines).
+    'funds_review' => '',
     'funds' => [
         'title' => 'Wat jouw steun mogelijk maakt',
         'items' => [
@@ -87,5 +89,12 @@ return [
             'title' => 'Fijn meegereden? Steun de volgende rit.',
             'body' => 'Met jouw steun, vanaf €3 per maand, houden we de beweging draaiende en blijven we fietsparades organiseren voor veiligere straten voor kinderen en gezinnen, in elke buurt.',
         ],
+    ],
+    // One-off donation — a French-only, client-decision placeholder. Kept empty
+    // here (the block self-hides) so the gate is translation-driven, not locale-coded.
+    'donation' => [
+        'heading' => '',
+        'body' => '',
+        'iban' => '',
     ],
 ];

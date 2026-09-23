@@ -59,12 +59,14 @@ return [
                 ],
             ],
             'vat_note' => 'Tous les montants sont hors TVA.',
+            'vat_note_review' => 'to-be-confirmed',
             'pdf' => 'Voir toutes les formules et les tarifs (pdf) →',
         ],
         'collab' => [
             'heading' => 'Une collaboration qui a du sens',
             'intro' => 'Kidical Mass est avant tout un mouvement citoyen, pas un espace publicitaire. Nous travaillons avec des partenaires qui partagent nos valeurs : convivialité, sécurité, durabilité et inclusion. Votre soutien peut prendre la forme d\'un financement, de matériel ou d\'un soutien en nature. Il ne peut pas être assorti de conditions qui influencent notre fonctionnement ou notre message.',
             'intro_2' => 'Nous restons indépendants, non commerciaux et libres de refuser ou de mettre fin à toute collaboration qui ne correspondrait plus à nos valeurs.',
+            'offer_review' => 'layout-proposal',
             'offer' => [
                 'heading' => 'Ce que nous offrons à nos partenaires',
                 'lead' => 'Votre soutien permet aussi de vous associer concrètement au mouvement :',

@@ -160,13 +160,16 @@ return [
                 'Bouwen contacten op met gemeenten, verenigingen en lokale partners',
                 'Houden Kidical Mass levend in hun buurt, dicht bij de bewoners',
             ],
+            'note' => '',
         ],
+        'duo_review' => '',
         'duo' => [
             'title' => 'Het coördinatieduo',
             'body_1' => 'Leticia en Cecilia vormen het coördinatieduo van Kidical Mass Belgium. Zij zijn het centrale aanspreekpunt voor lokale groepen en vrijwilligers: ze begeleiden nieuwe teams, beantwoorden dagelijkse vragen, organiseren opleidingen en ondersteunen groepen bij hun communicatie, partnerschappen en organisatie. Leticia staat in voor de algemene coördinatie van de beweging en het financiële en subsidiebeheer. Cecilia houdt zich onder meer bezig met evenementen en de relaties met overheden en partners. Aan hun zijde zorgt Alison voor de communicatie van de beweging: sociale media, content, website en de zichtbaarheid van lokale initiatieven. Want Kidical Mass levend houden betekent ook vertellen wat er op het terrein gebeurt, mensen zin geven om aan de parades deel te nemen en de acties van het netwerk bekendmaken.',
             'body_2' => 'Het team waakt ook over het gemeenschappelijke kader dat ervoor zorgt dat elke parade feestelijk, inclusief en veilig blijft: gedeelde regels, interne communicatie, opleiding van begeleiders, advies over routes, persrelaties, partnerschappen en het zoeken naar financiering. Het doel blijft hetzelfde: lokale groepen de middelen geven om Kidical Mass in hun buurt tot leven te brengen.',
             'link' => 'Hoe een rit praktisch verloopt: Voor het eerst mee →',
         ],
+        'parcours_review' => '',
         'parcours' => [
             'title' => 'Routes op kindermaat',
             'body_1' => 'Elke Kidical Mass volgt een nieuwe route, zodat kinderen hun gemeente op een andere manier kunnen ontdekken. De routes lopen zoveel mogelijk langs parken, speelpleinen, scholen of nieuwe fietsinfrastructuur, en vermijden drukke knelpunten en gevaarlijke situaties.',

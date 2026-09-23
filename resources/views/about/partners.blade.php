@@ -10,12 +10,10 @@
     Copy: lang/{nl,fr}/partners.php (page.*). Plan:
     docs/wiki/design/30-skeleton/about.md + about-content.md + about-journey.md + partners.md
     FR additions (per "Partners: French content, prices and organisation types"): the
-    formula prices move onto the page (carrying "To be confirmed") and the "Ce que nous
-    offrons à nos partenaires" list appears — both French-only, marked, hidden on /nl.
+    formula prices move onto the page and the collaboration offer carries a review
+    marker. Whether a block is marked is translation-driven (the *_review keys are
+    set in fr, empty in nl), not hard-coded to a locale.
 --}}
-@php
-    $isFr = app()->getLocale() === 'fr';
-@endphp
 <x-layouts::site :title="__('nav.partners')" :description="__('meta.partners')">
 <div class="partners-page">
 
@@ -77,7 +75,7 @@
                 </ul>
             </div>
         </div>
-        <x-to-be-confirmed :when="$isFr">
+        <x-to-be-confirmed :when="filled(__('partners.page.formules.vat_note_review'))">
             <p class="about-partners__note">{{ __('partners.page.formules.vat_note') }}</p>
         </x-to-be-confirmed>
         <p class="about-partners__note">
@@ -91,7 +89,7 @@
         <x-section-heading>{{ __('partners.page.collab.heading') }}</x-section-heading>
         <p class="about-partners__intro">{{ __('partners.page.collab.intro') }}</p>
         <p class="about-partners__intro">{{ __('partners.page.collab.intro_2') }}</p>
-        <x-layout-proposal :when="$isFr">
+        <x-layout-proposal :when="filled(__('partners.page.collab.offer_review'))">
             <div class="about-partners__offer">
                 <h3>{{ __('partners.page.collab.offer.heading') }}</h3>
                 <p>{{ __('partners.page.collab.offer.lead') }}</p>

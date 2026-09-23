@@ -3,7 +3,7 @@
     // on the home page and the About narrative pages. The funder acknowledgment
     // (Brussel Mobiliteit) now lives quietly in the footer, site-wide.
     $showcaseRoutes = ['home', 'about', 'about.mission', 'about.vision', 'about.organisation'];
-    if (! in_array(request()->route()?->getName(), $showcaseRoutes, true)) {
+    if (! in_array(route_base_name(request()->route()?->getName()), $showcaseRoutes, true)) {
         return;
     }
 

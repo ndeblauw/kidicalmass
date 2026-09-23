@@ -30,3 +30,16 @@ it('maps the roze-hesje hub and ride preview to their French twins', function ()
         ->and($routes->hasNamedRoute('fr.groups.roze-hesjes.materiaal'))->toBeTrue()
         ->and($routes->hasNamedRoute('fr.groups.ride-preview'))->toBeTrue();
 });
+
+it('strips the locale prefix from any supported locale', function () {
+    expect(route_base_name('home'))->toBe('home')
+        ->and(route_base_name('fr.home'))->toBe('home')
+        ->and(route_base_name('fr.about.mission'))->toBe('about.mission')
+        ->and(route_base_name(null))->toBeNull();
+});
+
+it('qualifies a base route name for any locale, not just fr', function () {
+    expect(locale_route_name('home', 'nl'))->toBe('home')
+        ->and(locale_route_name('home', 'fr'))->toBe('fr.home')
+        ->and(locale_route_name('home', 'en'))->toBe('en.home');
+});

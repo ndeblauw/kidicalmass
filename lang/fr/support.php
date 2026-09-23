@@ -9,6 +9,7 @@ return [
     // Nav + footer CTA labels
     'nav' => 'Nous soutenir',
     'cta' => 'Soutenir Kidical Mass',
+    'growfunding_url' => 'https://growfunding.be/fr/projects/kidicalmassbelgique',
 
     'photos' => [
         'org_1' => 'Trois organisateurs posent en souriant, l\'un avec un gilet rose et une couronne de fleurs, pendant une parade.',
@@ -46,6 +47,7 @@ return [
 
     // What your support makes possible — 7 titled items (vs NL's 4 short lines).
     // The French item count leads; every item carries "To be confirmed".
+    'funds_review' => 'to-be-confirmed',
     'funds' => [
         'title' => 'Ce que votre soutien rend possible',
         'items' => [
@@ -74,5 +76,17 @@ return [
         'heading' => 'Faire un don unique',
         'body' => 'Vous préférez soutenir le mouvement en un seul geste ? Un don unique est également le bienvenu.',
         'iban' => 'Numéro de compte (IBAN) : à confirmer',
+    ],
+
+    // Contextual callouts (one component, two variants)
+    'callout' => [
+        'home' => [
+            'title' => 'Kidical Mass reste gratuit. Grâce à des personnes comme vous.',
+            'body' => 'Soutenez dès 3 € par mois et aidez à rendre les rues plus sûres pour les enfants, dans chaque quartier. Rouler avec nous reste gratuit.',
+        ],
+        'event' => [
+            'title' => 'Vous avez aimé rouler avec nous ? Soutenez la prochaine parade.',
+            'body' => 'Avec votre soutien, dès 3 € par mois, nous faisons vivre le mouvement et continuons d\'organiser des parades à vélo pour des rues plus sûres pour les enfants et les familles, dans chaque quartier.',
+        ],
     ],
 ];

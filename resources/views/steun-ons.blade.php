@@ -13,8 +13,7 @@
 <x-layouts::site :title="__('support.title')" :description="__('meta.support')">
 
     @php
-        $growfunding = 'https://growfunding.be/'.app()->getLocale().'/projects/kidicalmassbelgique';
-        $isFr = app()->getLocale() === 'fr';
+        $growfunding = __('support.growfunding_url');
 
         // $proofCards is computed live (App\Support\SupportStats) and passed in by
         // the route: local groups + rides are counted from the database, the
@@ -73,7 +72,7 @@
          support money pays for. --}}
     <section class="steun-funds">
         <div class="steun-funds__inner">
-            <x-to-be-confirmed :when="$isFr">
+            <x-to-be-confirmed :when="filled(__('support.funds_review'))">
                 <x-titled-list-block :title="__('support.funds.title')" variant="get" level="h2">
                     @foreach (__('support.funds.items') as $fund)
                         @if (is_array($fund))
@@ -131,7 +130,8 @@
          ride-oriented closing CTA: it would split intent at the decision.
          The one-off donation returns on /fr (D-9, dropped 2026-07-03) as a marked
          placeholder — the client still has to confirm whether to accept one-off
-         gifts and which IBAN to use. --}}
+         gifts and which IBAN to use. The block is shown only where the copy is
+         filled (empty in nl), so it is translation-driven, not locale-coded. --}}
     <x-slot:closing>
         <section class="steun-cta">
             <div class="container mx-auto px-4 steun-cta__inner">
@@ -140,7 +140,7 @@
                 <x-cta-button :href="$growfunding" variant="blue" class="link-plain" target="_blank" rel="noopener noreferrer">{{ __('support.ask.button') }}</x-cta-button>
                 <p class="steun-cta__note">{{ __('support.ask.note') }}</p>
 
-                @if ($isFr)
+                @if (filled(__('support.donation.heading')))
                     <x-to-be-confirmed>
                         <div class="steun-donation mt-8">
                             <h3>{{ __('support.donation.heading') }}</h3>

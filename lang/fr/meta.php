@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'site_name' => 'Kidical Mass Belgique',
     'home_title' => 'Kidical Mass Belgique · À vélo avec les enfants',
     'default' => 'Kidical Mass Belgique : des parades à vélo joyeuses où les enfants roulent en toute sécurité et avec plaisir dans leur quartier. Vous venez ?',
     'calendar' => 'Toutes les prochaines Kidical Mass en Belgique en un coup d\'œil. Trouvez une parade à vélo près de chez vous et roulez avec toute la famille.',
