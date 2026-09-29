@@ -2,6 +2,8 @@
 <x-ba-text name="title_fr" label="Title (FR)" />
 <x-ba-textarea name="content_nl" label="Content (NL)" rows="5" rte />
 <x-ba-textarea name="content_fr" label="Content (FR)" rows="5" rte />
+<x-ba-textarea name="extra_info_nl" label="Extra info voor deelnemers (NL)" rows="4" comment="Iets speciaals deze keer? Een spreker, een stop, een afwijkende start. Gewone tekst: een lege regel start een nieuwe alinea, links worden vanzelf klikbaar. Vul NL en FR in: een lege taal toont niets op die pagina. Max. 2000 tekens." />
+<x-ba-textarea name="extra_info_fr" label="Extra info voor deelnemers (FR)" rows="4" comment="Dezelfde info in het Frans. Laat leeg als er niets extra is." />
 
 <x-ba-divider subtitle="Activity Details" />
 <x-ba-select name="activity_type" label="Activity Type" :options="\App\Enums\ActivityType::getOptionsArray()" />

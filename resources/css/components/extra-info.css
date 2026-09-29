@@ -1,0 +1,53 @@
+/* Extra-info note (<x-extra-info>): the organisers' free text for one activity.
+   A calm note, no box and no shadow: a thin yellow rule on the inline start, a
+   small red eyebrow naming who wrote it, then body copy. The body is class-less
+   markdown output (App\Support\RideText::renderExtraInfo), so the prose rules
+   are descendant selectors, same precedent as article-body.css. Links keep the
+   site's base gradient-underline treatment and the 700 in-copy link weight. */
+@layer components {
+    .extra-info {
+        border-inline-start: 0.25rem solid var(--color-kidical-yellow);
+        padding-inline-start: 1.25rem;
+    }
+
+    .extra-info__label {
+        margin: 0 0 0.4rem;
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-kidical-red-text);
+    }
+
+    .extra-info__body {
+        color: var(--color-text-body);
+        line-height: 1.6;
+
+        p {
+            margin: 0;
+        }
+        p + p,
+        p + ul,
+        p + ol,
+        ul + p,
+        ol + p {
+            margin-top: 0.75em;
+        }
+
+        ul,
+        ol {
+            margin: 0;
+            padding-inline-start: 1.25em;
+        }
+        ul { list-style: disc; }
+        ol { list-style: decimal; }
+        li { margin-block: 0.2em; }
+
+        a {
+            font-weight: 700;
+            color: var(--color-text-link);
+            overflow-wrap: anywhere;
+        }
+    }
+}

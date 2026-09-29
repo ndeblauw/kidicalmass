@@ -44,6 +44,8 @@
 @php($state = $activity->lifecycleState())
 @php($isPast = $state->isPastState())
 @php($primaryGroup = $activity->groups->first())
+@php($extraInfo = \App\Support\RideText::renderExtraInfo($activity->extra_info))
+@php($goodToKnow = $isPast ? [] : \App\Support\RideText::goodToKnowItems(__('activities.good_to_know.items')))
 @php($departure = \Illuminate\Support\Str::of($activity->location)->replace("\n", ', ')->trim())
 @php($departureLandmark = \Illuminate\Support\Str::of($departure)->before(',')->trim())
 
@@ -316,6 +318,14 @@
                     </div>
                 @endif
 
+                {{-- EXTRA INFO: the organisers' free text for this ride (admin field
+                     extra_info_*), a small note before the CTAs. --}}
+                @if($extraInfo)
+                    <x-extra-info
+                        :heading="$primaryGroup ? __('activities.extra_info.from_group', ['name' => $primaryGroup->name]) : __('activities.extra_info.from_organisers')"
+                        :body="$extraInfo" />
+                @endif
+
                 <div class="activity-expect__actions">
                     <x-cta-button :href="localized_route('getting-started')" variant="secondary" disc="blue">{{ __('activities.expect.cta_getting_started') }}</x-cta-button>
                     @if($primaryGroup)
@@ -328,6 +338,19 @@
                 class="activity-expect__collage"
                 :photos="$expectPhotos" />
         </section>
+
+        {{-- GOED OM TE WETEN: fixed legal/practical text, same on every parade; draft
+             lang key until Nico moves it to the admin. The photo consent is its last
+             bullet. --}}
+        @if(count($goodToKnow) > 0)
+            <x-to-be-confirmed>
+                <x-titled-list-block :title="__('activities.good_to_know.heading')" level="h2" data-ride-good-to-know class="max-w-3xl">
+                    @foreach($goodToKnow as $item)
+                        <li>@if($item['label'])<strong>{{ $item['label'] }}{{ __('activities.good_to_know.label_suffix') }}</strong> @endif{{ $item['text'] }}</li>
+                    @endforeach
+                </x-titled-list-block>
+            </x-to-be-confirmed>
+        @endif
         @endunless
 
         {{-- DANKZIJ BUREN ZOALS JIJ — the self-organising crew behind the ride. Past
@@ -370,12 +393,6 @@
         @if($isPast)
             <x-support-callout variant="event" :contained="true" />
         @endif
-
-        {{-- FOTOTOESTEMMING — legally required, visually quiet. Pre-ride only: it
-             informs the decision to take part. --}}
-        @unless($isPast)
-            <p class="activity-permission">{{ __('activities.permission') }}</p>
-        @endunless
 
         </div>
     </div>

@@ -92,8 +92,20 @@
         .activity-head__copy {
             align-self: center;
         }
+        /* Title, tile and photo share one row: the tile drops to the agenda's own
+           size, the title one step down the display scale and the photo ~30%
+           narrower, so the title gets a real measure instead of one word per line. */
+        .activity-head .ride-day__cal--lg {
+            --lg-scale: 1;
+        }
+        .activity-head .page-hero__title {
+            font-size: clamp(2.5rem, 4.4vw, var(--text-6xl));
+        }
+        .activity-head__lead {
+            margin-top: 2rem;
+        }
         .activity-head__media {
-            width: clamp(26rem, 34vw, 34rem);
+            width: clamp(18rem, 24vw, 24rem);
             max-height: none;
             margin-bottom: 0;
             transform: rotate(3deg);
@@ -520,12 +532,29 @@
     .activity-expect__copy h2 {
         margin: 0;
     }
-    .activity-expect__copy p {
+    /* :not(.extra-info *) keeps this lead styling off the paragraphs of the
+       organisers' note (same layer and specificity, imported later). */
+    .activity-expect__copy p:not(.extra-info *) {
         margin: 0;
         font-size: var(--text-lg);
         line-height: 1.6;
         color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
         max-width: 46ch;
+    }
+    .activity-expect__copy .extra-info {
+        max-width: 46ch;
+    }
+    /* The note steps down to the lead's size so it reads as secondary and
+       shares its measure (46ch scales with font size). */
+    .activity-expect__copy .extra-info__body {
+        font-size: var(--text-lg);
+        line-height: 1.6;
+    }
+    /* Goed om te weten: a calm list right under the lead, so its items share the
+       lead's size and a looser line height than the shared component's 1.4. */
+    [data-ride-good-to-know] .titled-list-block__list li {
+        font-size: var(--text-lg);
+        line-height: 1.55;
     }
     .activity-expect__collage {
         max-width: 34rem;
@@ -955,12 +984,5 @@
     }
     .activity-expect .activity-team__proof {
         margin-top: 1.6rem;
-    }
-
-    /* Photo permission — legally present, visually quiet. */
-    .activity-permission {
-        margin: 0;
-        font-size: var(--text-xs);
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 55%);
     }
 }

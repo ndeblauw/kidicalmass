@@ -191,6 +191,15 @@ class Activity extends Model implements HasMedia
         return $this->localizedValue('content');
     }
 
+    /**
+     * Free per-activity note for participants, as raw plain text in the record language.
+     * Render it through RideText::renderExtraInfo().
+     */
+    public function getExtraInfoAttribute(): ?string
+    {
+        return $this->localizedValue('extra_info');
+    }
+
     public function getLocationAttribute(): ?string
     {
         return $this->localizedValue('location');

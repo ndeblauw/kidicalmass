@@ -62,7 +62,25 @@ return [
             'plural' => 'ont contribué à rendre cette parade possible.',
         ],
     ],
-    'permission' => 'Des photos sont prises pendant la parade. En y participant, vous acceptez leur publication sur nos canaux.',
+    /*
+     * DRAFT, awaiting the client's own bullets (NL + FR) after the 22/9 meeting.
+     * Nico will move this to an admin-editable field. Format: one bullet per
+     * line, optional "Label: text" (parsed by App\Support\RideText::goodToKnowItems).
+     */
+    'good_to_know' => [
+        'heading' => 'Bon à savoir',
+        'label_suffix' => "\u{00A0}:",
+        'items' => <<<'TEXT'
+            Parents : vous restez responsables de vos enfants pendant toute la parade.
+            Casque : conseillé, mais pas obligatoire.
+            Les plus petits : ils roulent avec un adulte, en vélo cargo, sur un siège enfant ou sur leur propre vélo juste à côté.
+            Photos : nous prenons des photos en route. En participant, vous acceptez qu'on les partage sur nos canaux.
+            TEXT,
+    ],
+    'extra_info' => [
+        'from_group' => 'De la part de Kidical Mass :name',
+        'from_organisers' => 'De la part des organisateurs',
+    ],
     'closing' => [
         'past_heading' => 'Plus de parades Kidical Mass de :name ?',
         'past_label' => 'Découvrez le groupe',

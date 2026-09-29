@@ -62,7 +62,25 @@ return [
             'plural' => 'maken deze ritten mogelijk.',
         ],
     ],
-    'permission' => 'Tijdens de fietstocht worden foto\'s gemaakt. Door deel te nemen ga je akkoord met publicatie op onze kanalen.',
+    /*
+     * DRAFT, awaiting the client's own bullets (NL + FR) after the 22/9 meeting.
+     * Nico will move this to an admin-editable field. Format: one bullet per
+     * line, optional "Label: text" (parsed by App\Support\RideText::goodToKnowItems).
+     */
+    'good_to_know' => [
+        'heading' => 'Goed om te weten',
+        'label_suffix' => ':',
+        'items' => <<<'TEXT'
+            Ouders: jij blijft de hele rit verantwoordelijk voor je eigen kinderen.
+            Helm: aangeraden, maar niet verplicht.
+            De kleinsten: zij fietsen mee met een volwassene, in de bakfiets, op een kinderzitje of op hun eigen fietsje ernaast.
+            Foto's: we nemen onderweg foto's. Door mee te fietsen ga je akkoord dat we ze op onze kanalen delen.
+            TEXT,
+    ],
+    'extra_info' => [
+        'from_group' => 'Van Kidical Mass :name',
+        'from_organisers' => 'Van de organisatoren',
+    ],
     'closing' => [
         'past_heading' => 'Meer ritten van Kidical Mass :name?',
         'past_label' => 'Ontdek de groep',

@@ -29,6 +29,7 @@
         $venue = \Illuminate\Support\Str::of($activity->location)->replace("\n", ', ')->trim();
         $pinCoords = \App\Models\PostalCode::coordinatesFor($activity->postal_code ?: (string) $chapter?->zip);
         $pin = $pinCoords ? [[$pinCoords['lat'], $pinCoords['lng']]] : [];
+        $extraInfo = \App\Support\RideText::renderExtraInfo($activity->extra_info);
     @endphp
 
     {{-- HERO — the ride hero's blue poster (date tear-off + title, intro beneath,
@@ -175,6 +176,15 @@
                     rel="noopener noreferrer"
                 >{{ $isMeeting ? __('activities.basic.more_info_volunteers') : __('activities.basic.more_info') }}</x-cta-button>
             </div>
+        @endif
+
+        {{-- EXTRA INFO: the organisers' free text (admin field extra_info_*), past
+             or upcoming, next to the practical block. --}}
+        @if($extraInfo)
+            <x-extra-info
+                class="max-w-3xl"
+                :heading="$chapter ? __('activities.extra_info.from_group', ['name' => $chapter->name]) : __('activities.extra_info.from_organisers')"
+                :body="$extraInfo" />
         @endif
 
         {{-- Light organizer line — who runs it, linking back to the chapter. No

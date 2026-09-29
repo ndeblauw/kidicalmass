@@ -259,6 +259,7 @@
 @import './components/nav-card.css';
 @import './components/partner-card.css';
 @import './components/article-body.css';
+@import './components/extra-info.css';
 @import './components/pagination.css';
 @import './pages/about.css';
 @import './pages/activity.css';

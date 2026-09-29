@@ -88,3 +88,21 @@ it('elides de to d apostrophe before a vowel and slugifies French names', functi
     expect(FrenchNames::slug('Sint-Gillis'))->toBe('sint-gillis')
         ->and(FrenchNames::slug('Saint-Gilles'))->toBe('saint-gilles');
 });
+
+it('serves extra info in the record language without mixing languages', function () {
+    $frenchOnly = Activity::factory()->create([
+        'title_nl' => '',
+        'title_fr' => 'Balade',
+        'extra_info_nl' => 'Nederlandse extra info.',
+        'extra_info_fr' => 'Info en français.',
+    ]);
+    $dutchWithoutExtraInfo = Activity::factory()->create([
+        'title_nl' => 'Fietstocht',
+        'extra_info_nl' => null,
+        'extra_info_fr' => 'Info en français.',
+    ]);
+
+    app()->setLocale('nl');
+    expect($frenchOnly->extra_info)->toBe('Info en français.')
+        ->and($dutchWithoutExtraInfo->extra_info)->toBeNull();
+});
