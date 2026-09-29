@@ -1,5 +1,9 @@
 # Wiki Log
 
+## [2026-09-29] build | P-14: Over-ons-hub herwerkt na klantmeeting 22/9
+
+Twee stats naast de intro (groepen + deelnemers, `AboutStats::highlights()`), de "Meteen iets regelen"-links als compacte link-feature-cards (`<x-feature-card href>`), en de laatste 3 nieuwsberichten boven de gele closing CTA (vervangt de Nieuws-rij in de inhoudsopgave). Route via nieuwe `AboutController`. P-14 Wire/UI 🟢→🟠 tot Frederiks critique-pass, CMS ⚪→🟠 (Jaarcijfers, nieuws-covers/FR-titels). Commit `28b7901`.
+
 ## [2026-09-11] plan | FR op staging: wayfinder-map en 19 tickets
 
 De klant koos FR-first. Frans wordt de brontaal, ook qua structuur, en de
