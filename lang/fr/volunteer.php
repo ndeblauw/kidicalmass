@@ -43,6 +43,8 @@ return [
         'title' => 'Trouvez votre groupe local',
         'lead' => 'Quel que soit le rôle qui vous tente, tout commence près de chez vous. Choisissez votre groupe local pour entrer directement en contact avec son équipe et voir comment vous pouvez donner un coup de main.',
         'nearest_title' => 'Le plus proche de :name',
+        'none_nearby' => 'Pas encore de groupe à moins de :radius km de :name.',
+        'none_nearby_cta' => 'Et si vous lanciez le premier ?',
         'all' => 'Voir tous les groupes locaux',
     ],
     'coda' => [

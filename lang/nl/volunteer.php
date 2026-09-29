@@ -43,6 +43,8 @@ return [
         'title' => 'Vind je lokale groep',
         'lead' => 'Welke rol je ook kiest, je begint op dezelfde plek: bij de mensen in je eigen buurt. Kies je groep, dan kom je rechtstreeks bij hun team terecht. Niet via een centrale mailbox.',
         'nearest_title' => 'Het dichtst bij :name',
+        'none_nearby' => 'Nog geen groep binnen :radius km van :name.',
+        'none_nearby_cta' => 'Start jij de eerste?',
         'all' => 'Bekijk alle lokale groepen',
     ],
     'coda' => [

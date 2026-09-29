@@ -13,18 +13,20 @@ class VolunteerController extends Controller
 {
     /**
      * Help out — the J2 orientation page. The location picker is the gateway:
-     * once a location cookie is set, the 4 nearest chapters are shown so a
-     * volunteer can tap their own and land straight on that chapter's sign-up form.
+     * once a location cookie is set, the 4 nearest chapters within the regio radius
+     * are shown so a volunteer can tap their own and land straight on that chapter's
+     * sign-up form. None in range: the view points to starting a group instead.
      */
     public function __invoke(string $locale): View
     {
         $location = CurrentLocation::resolve();
         $nearestGroups = new Collection;
+        $radiusKm = config('location.regio_radius_km');
 
         if ($location) {
             $groups = Group::visible()
                 ->orderBy('name_nl')
-                ->get(['id', 'name_nl', 'zip']);
+                ->get();
 
             $coordsByZip = PostalCode::whereIn('zip', $groups->pluck('zip')->filter()->unique())
                 ->get()->keyBy('zip');
@@ -36,9 +38,9 @@ class VolunteerController extends Controller
                 fn ($group) => $group->zip && $coordsByZip->has($group->zip)
                     ? ['lat' => $coordsByZip[$group->zip]->latitude, 'lng' => $coordsByZip[$group->zip]->longitude]
                     : null,
-            );
+            )->filter(fn (array $row) => $row['distance_km'] <= $radiusKm)->values();
         }
 
-        return view('volunteer', compact('location', 'nearestGroups'));
+        return view('volunteer', compact('location', 'nearestGroups', 'radiusKm'));
     }
 }

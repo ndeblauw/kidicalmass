@@ -6,6 +6,7 @@
        the later sections paint their own full-bleed bands over it. The "start a
        group" coda lives on the separate YELLOW closing band (.ho-coda) below. */
     .page-panel:has(.ho-intro) {
+        --ho-mobile-gutter: 1.5rem;
         background-color: var(--color-kidical-yellow);
         padding-bottom: 0;
         z-index: 20;
@@ -65,7 +66,7 @@
         --ho-gutter: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
         --ho-fg-width: 21rem;        /* foreground zone: mascotte + 2-line title, the fade edge */
         --ho-start-gap: 2.5rem;      /* breathing room before the first card */
-        --ho-card-w: 20rem;          /* a single card's width — drives the snap + end runway */
+        --ho-card-w: min(24rem, calc(100vw - 3rem));   /* a single card's width — drives the snap + end runway; wide enough for the longer FR titles */
         position: relative;
         width: 100vw;
         margin-left: calc(50% - 50vw);
@@ -80,8 +81,16 @@
         padding-block: clamp(2.5rem, 5vw, 3.25rem) clamp(14.5rem, 19vw, 18rem);
         overflow: visible;
 
+        /* roomier cards as the band widens, so the long texts need fewer lines */
+        @media (min-width: 64rem) {
+            --ho-card-w: 26rem;
+        }
+        @media (min-width: 80rem) {
+            --ho-card-w: 28rem;
+        }
         @media (min-width: 96rem) {
             --ho-gutter: max(1rem, calc((100vw - 96rem) / 2 + 1rem));
+            --ho-card-w: 30rem;
         }
     }
     .ho-roles__track {
@@ -181,14 +190,15 @@
         display: flex;
     }
     .ho-roles__card > .feature-card { width: 100%; }
+    .ho-roles__card :is(h2, h3) { text-wrap: balance; }
     .ho-roles__card:nth-child(odd)  { transform: rotate(-1.6deg); }
     .ho-roles__card:nth-child(even) { transform: rotate(1.4deg); }
     /* phones: foreground becomes a stacked header, arrows drop to their own row,
        no scroll-behind fade (cards just bleed right and are swipeable) */
     @media (max-width: 47.99rem) {
         .ho-intro { min-height: 0; padding-block: clamp(2rem, 8vw, 3rem); }
-        .ho-intro__inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
-        .ho-intro__mascot { width: 12rem; margin-left: -1.5rem; }
+        .ho-intro__inner { flex-direction: column; align-items: flex-start; gap: 2rem; padding-inline: var(--ho-mobile-gutter); }
+        .ho-intro__mascot { width: 16rem; margin-left: calc(-1 * var(--ho-mobile-gutter) - 1rem); }
         .ho-roles { min-height: 0; justify-content: flex-start; }
         .ho-roles__fg {
             position: static;
@@ -196,13 +206,15 @@
             flex-direction: row;
             align-items: center;
             gap: 1rem;
-            padding: 0 1rem;
+            padding: 0 var(--ho-mobile-gutter);
         }
         .ho-roles__title { max-width: none; font-size: var(--text-4xl); }
         .ho-roles__nav {
             margin-top: 1rem;
         }
-        .ho-roles__track { padding-left: 1rem; scroll-padding-left: 1rem; padding-top: 1rem; padding-right: 1.5rem; }
+        .ho-roles__track { padding-left: var(--ho-mobile-gutter); scroll-padding-left: var(--ho-mobile-gutter); padding-top: 2.5rem; padding-right: 1.5rem; }
+        /* one gutter for the whole page on phones, a touch roomier than the site's 1rem */
+        :is(.ho-deal, .ho-find, .ho-coda) > .container { padding-inline: var(--ho-mobile-gutter); }
     }
     /* white middle zone — a full-bleed white band over the yellow panel, sitting
        between the yellow opener and the light-blue closer */
@@ -269,9 +281,16 @@
         filter: drop-shadow(0 10px 18px color-mix(in oklab, var(--color-kidical-ink), transparent 80%));
     }
 
-    /* a touch more separation between the two stacked collages on mobile */
-    .ho-deal .scroll-sequence__media-sticky {
-        gap: 2.5rem;
+    /* Below lg there is no crossfade, so the second beat's collage would just repeat
+       the pictures and the waving rider. Show the first collage only, and give the
+       rider (which dips below the square stage) room before the first heading. */
+    @media (max-width: 1023.98px) {
+        .ho-deal__collage--b { display: none; }
+        .ho-deal .scroll-sequence__media { margin-bottom: 2.5rem; }
+    }
+    /* clear air between the two lists at every width */
+    .ho-deal .scroll-sequence__block + .scroll-sequence__block {
+        margin-top: clamp(4rem, 8vw, 6rem);
     }
 
     .ho-deal .scroll-sequence {
@@ -289,11 +308,10 @@
             margin-top: calc(-1 * (var(--ho-deal-pt) + 7rem));
         }
 
-        /* slight lift so "Wat je krijgt" sits up near the photo top, while keeping
-           clear breathing room below the yellow band (a larger pull hides the
-           heading behind the band) */
+        /* keep "Wat je krijgt" clear of the yellow band above: the photos already
+           bridge the seam, the heading should not */
         .ho-deal .scroll-sequence__text {
-            margin-top: -2rem;
+            margin-top: 1rem;
         }
 
         /* halve the vertical run of each block so the two lists sit closer together
@@ -345,7 +363,9 @@
         padding-block: clamp(2.75rem, 6vw, 4.5rem);
     }
     /* two columns: the zone-30 sign anchors the left, the pitch + picker the right.
-       Stacks to a single column below lg (the sign rides above the body). */
+       Below lg the sign moves to the right of the title + lead at a small size (the
+       body dissolves into the grid so its title and lead can sit beside it); the
+       picker and links then run full width underneath. */
     .ho-find__layout {
         display: grid;
         gap: clamp(1.5rem, 4vw, 3.5rem);
@@ -354,6 +374,21 @@
         @media (min-width: 64rem) {
             grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
         }
+        @media (max-width: 63.99rem) {
+            grid-template-columns: minmax(0, 1fr) 5.5rem;
+            column-gap: 1rem;
+            row-gap: 0;
+            align-items: start;
+        }
+    }
+    @media (max-width: 63.99rem) {
+        .ho-find__body { display: contents; }
+        .ho-find__art { grid-column: 2; grid-row: 1 / span 2; }
+        .ho-find__art img { max-width: 5.5rem; margin-top: calc(-1 * clamp(2rem, 7vw, 4rem)); }
+        .ho-find__title { grid-column: 1; grid-row: 1; }
+        .ho-find__lead { grid-column: 1; grid-row: 2; }
+        .ho-find__body > :not(.ho-find__title, .ho-find__lead) { grid-column: 1 / -1; }
+        .ho-find__picker { margin-bottom: 1rem; }
     }
     .ho-find__art {
         display: flex;

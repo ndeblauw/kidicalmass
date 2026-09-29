@@ -168,8 +168,13 @@
                         <h3 class="ho-find__nearest-title">{{ __('volunteer.find.nearest_title', ['name' => $location['name']]) }}</h3>
                         <p class="ho-find__nearest">
                             @foreach ($nearestGroups as $row)
-                                <a href="{{ localized_route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">{{ $row['item']->name }}</a>@if (! $loop->last), @endif
+                                <a href="{{ localized_route('groups.show', ['group' => $row['item'], 'intent' => 'volunteer']) }}#aanmelden">{{ $row['item']->publicLabel() }}</a>@if (! $loop->last), @endif
                             @endforeach
+                        </p>
+                    @elseif ($location)
+                        <p class="ho-find__nearest ho-find__nearest--none">
+                            {{ __('volunteer.find.none_nearby', ['radius' => (int) $radiusKm, 'name' => $location['name']]) }}
+                            <a href="{{ localized_route('groups.start') }}">{{ __('volunteer.find.none_nearby_cta') }}</a>
                         </p>
                     @endif
 

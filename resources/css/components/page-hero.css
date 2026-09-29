@@ -109,6 +109,16 @@
             --page-hero-h: 20rem;
         }
     }
+    /* Phones never show the artwork (.page-hero__visual is md+), so the height floor
+       only left an empty blue strip under the title: size the band to its copy. */
+    @media (max-width: 767px) {
+        .page-hero {
+            min-height: 0;
+        }
+        .page-hero__inner {
+            padding-bottom: 4.5rem;
+        }
+    }
     /* Bare variant (no illustration or photo; the component sets this itself):
        the copy caps above exist only to dodge artwork, so the title can use
        the full hero container. */
