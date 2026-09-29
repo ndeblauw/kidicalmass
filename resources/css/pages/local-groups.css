@@ -98,6 +98,9 @@
             grid-template-columns: minmax(18rem, 0.82fr) 1fr;
             height: clamp(34rem, 74vh, 48rem);
         }
+        /* Map comes first in the source so it leads on mobile; on wide screens the list sits left. */
+        .grp-results { grid-column: 1; grid-row: 1; }
+        .grp-map-shell { grid-column: 2; grid-row: 1; }
     }
 
     .grp-results {

@@ -67,7 +67,7 @@ class GroupController extends Controller
             return [
                 'name' => $group->name,
                 'slug' => $group->shortname,
-                'url' => route('groups.show', $group),
+                'url' => localized_route('groups.show', ['group' => $group]),
                 'region' => $region,
                 'regionLabel' => $region ? ($regionLabels[$region] ?? $region) : null,
                 'zip' => $group->zip,

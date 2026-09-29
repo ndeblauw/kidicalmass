@@ -22,7 +22,7 @@ return [
         'current' => 'Vous faites du vélo à',
         'change' => 'modifier',
         'prompt' => 'Où souhaitez-vous faire du vélo ?',
-        'placeholder' => 'Saisissez votre code postal ou votre commune.',
+        'placeholder' => 'Code postal ou commune',
         'locate' => 'Utiliser ma position',
         'locating' => 'Recherche de la position…',
         'error' => 'Nous n\'avons pas pu trouver votre localisation. Veuillez saisir votre code postal ou votre commune.',

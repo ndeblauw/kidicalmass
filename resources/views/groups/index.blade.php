@@ -42,15 +42,15 @@
                         <livewire:location-picker :compact="true" />
                     </div>
                     <div class="grp-regions">
+                        <button type="button" class="grp-region-btn is-active" data-region="all">
+                            {{ __('groups.index.regions.all') }} <span class="grp-region-btn__count">{{ $groups->count() }}</span>
+                        </button>
                         @if ($location)
-                            <button type="button" class="grp-region-btn grp-region-btn--nearby is-active" data-region="nearby">
+                            <button type="button" class="grp-region-btn grp-region-btn--nearby" data-region="nearby">
                                 <span class="grp-region-btn__pin" aria-hidden="true"></span>
                                 {{ __('groups.index.regions.nearby') }}
                             </button>
                         @endif
-                        <button type="button" class="grp-region-btn {{ $location ? '' : 'is-active' }}" data-region="all">
-                            {{ __('groups.index.regions.all') }} <span class="grp-region-btn__count">{{ $groups->count() }}</span>
-                        </button>
                         @foreach ($regionOrder as $regionKey)
                             @php $count = $regionCounts[$regionKey] ?? 0; @endphp
                             @if ($count > 0)
@@ -65,6 +65,10 @@
                 </div>
 
                 <div class="grp-finder__split">
+                    <div class="grp-map-shell">
+                        <p class="grp-map__status" data-status>{{ __('groups.index.map.status_all') }}</p>
+                        <div id="grp-map" class="grp-map" data-markers='@json($markers)'></div>
+                    </div>
                     <div class="grp-results">
                         <p class="grp-results__count" data-count>{{ $groups->count() }} {{ $groups->count() === 1 ? __('groups.index.count.singular') : __('groups.index.count.plural') }}</p>
                         <ul class="grp-results__list" data-list>
@@ -76,7 +80,7 @@
                                         <span class="grp-card__dot" aria-hidden="true"></span>
                                         <span class="grp-card__main">
                                             <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">{{ __('groups.index.mine_tag') }}</span>@endif</span>
-                                            <span class="grp-card__zip">{{ $group->zip }}</span>
+                                            <span class="grp-card__zip">{{ $group->zip }}<span class="grp-card__km" data-km></span></span>
                                         </span>
                                         <span class="grp-card__go" aria-hidden="true">→</span>
                                     </a>
@@ -85,10 +89,6 @@
                         </ul>
                     </div>
 
-                    <div class="grp-map-shell">
-                        <p class="grp-map__status" data-status>{{ __('groups.index.map.status_all') }}</p>
-                        <div id="grp-map" class="grp-map" data-markers='@json($markers)'></div>
-                    </div>
                 </div>
             </div>
         @else
@@ -148,7 +148,8 @@
                 };
                 const fallbackColor = token('--color-kidical-red', '#E63A7B');
 
-                const map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false });
+                const map = L.map(mapEl, { zoomControl: false, scrollWheelZoom: false });
+                L.control.zoom({ position: 'topright' }).addTo(map);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
                     subdomains: 'abcd',
@@ -209,6 +210,13 @@
                     markers.forEach((m) => {
                         dist[m.slug] = haversineKm(location.lat, location.lng, m.lat, m.lng);
                     });
+                    cards.forEach((card) => {
+                        const km = dist[card.dataset.slug];
+                        const kmEl = card.querySelector('[data-km]');
+                        if (km != null && kmEl) {
+                            kmEl.textContent = ` · ${km < 1 ? '< 1' : Math.round(km)} km`;
+                        }
+                    });
                 }
 
                 function sortByDistance() {
@@ -237,7 +245,6 @@
                             pinEl(card.dataset.slug)?.classList.remove('is-dim');
                         });
                         countEl.textContent = `${cards.length} ${groupWord(cards.length)}`;
-                        sortByDistance();
                         fitNearest();
                         statusEl.textContent = i18n.status_nearby || 'Dichtst bij jou';
                         return;
@@ -263,11 +270,12 @@
                 }
                 regionButtons.forEach((b) => b.addEventListener('click', () => setRegion(b.dataset.region)));
 
+                // A known location sorts the list nearest-first, but the map keeps
+                // showing all of Belgium; "Dichtbij" zooms in on request.
                 if (dist) {
-                    setRegion('nearby');
-                } else {
-                    fitAll();
+                    sortByDistance();
                 }
+                fitAll();
             }
 
             if (document.readyState === 'loading') {
