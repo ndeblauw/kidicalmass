@@ -45,27 +45,18 @@
         flex-direction: column;
         gap: 1rem;
     }
-    /* Hub act-exits as a quiet link row: the four "regel het meteen" links
-       flow inline under the intro, no pills (lighten pass 2026-07-07). */
+    /* Hub act-exits: a lead line over a grid of compact link feature cards
+       (reworked 2026-09-29; the quiet link row read as too invisible). */
     .about-exits {
         margin-block: calc(var(--spacing) * 8);
         display: flex;
         flex-direction: column;
-        gap: 0.6rem;
+        gap: 1rem;
     }
     .about-exits__lead {
         margin: 0;
         font-weight: 700;
         color: var(--color-kidical-ink);
-    }
-    .about-exits__list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        column-gap: 2rem;
-        row-gap: 0.5rem;
     }
     /* Hub browse path as a hairline table of contents: icon chip + title +
        one-line description per row, no boxes (lighten pass 2026-07-07). */

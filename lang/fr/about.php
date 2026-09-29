@@ -21,6 +21,12 @@ return [
                 'Devenir partenaire ou sponsor',
                 'Soutenir le mouvement',
             ],
+            'descs' => [
+                'Lancez une Kidical Mass dans votre quartier ou venez aider lors d\'une parade.',
+                'Contact presse, communiqués et ce qui a déjà été publié sur nous.',
+                'Soutenez les familles à vélo en tant qu\'organisation, entreprise ou commune.',
+                'Devenez membre ou faites un don pour que les parades continuent de rouler.',
+            ],
         ],
         'read' => [
             'title' => 'Découvrez-en plus sur le mouvement',
@@ -28,8 +34,11 @@ return [
                 'Des parades à vélo, des groupes locaux et des actions pour des rues plus sûres.',
                 'Quatre revendications concrètes adressées aux villes et aux communes. Des pistes cyclables séparées sur les grands axes, des stationnements vélo adaptés aux familles, des abords d\'écoles sécurisés et des zones 30 réellement respectées.',
                 'Un mouvement ancré localement, coordonné en réseau et porté par des bénévoles.',
-                'Les nouveaux groupes, les étapes importantes et les histoires du mouvement.',
             ],
+        ],
+        'news' => [
+            'title' => 'Dernières actus',
+            'all' => 'Toutes les actus',
         ],
         'closing' => [
             'heading' => 'Prêt·e à rouler avec nous ?',

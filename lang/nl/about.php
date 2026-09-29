@@ -21,6 +21,12 @@ return [
                 'Partner of sponsor worden',
                 'De beweging steunen',
             ],
+            'descs' => [
+                'Breng Kidical Mass naar je buurt of rij mee als vrijwilliger bij een parade.',
+                'Perscontact, persberichten en wat er al over ons verscheen.',
+                'Help gezinnen op de fiets als organisatie, bedrijf of gemeente.',
+                'Word lid of doe een gift, zodat de parades kunnen blijven rijden.',
+            ],
         ],
         'read' => [
             'title' => 'Of lees meer over de beweging',
@@ -28,8 +34,11 @@ return [
                 'Fietsparades, lokale groepen en de weg naar veilige straten.',
                 'Vier concrete eisen voor steden en gemeenten. Afgescheiden fietspaden op belangrijke verkeersassen, fietsenstallingen die aangepast zijn aan gezinnen, veilige schoolomgevingen en zones 30 die ook echt worden gerespecteerd.',
                 'Lokaal geworteld, licht gecoördineerd, gedragen door vrijwilligers.',
-                'Nieuwe afdelingen, mijlpalen en verhalen van onderweg.',
             ],
+        ],
+        'news' => [
+            'title' => 'Laatste nieuws',
+            'all' => 'Alle nieuws',
         ],
         'closing' => [
             'heading' => 'Rij mee met de buurt',

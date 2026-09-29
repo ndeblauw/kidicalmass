@@ -2,6 +2,7 @@
 
 use App\Actions\GroupChangesResult;
 use App\Enums\PartnerCategory;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
@@ -118,8 +119,8 @@ Route::middleware('setlocale')->group(function (): void {
     Route::view('fr/newsletter/confirmee', 'newsletter.confirmed')->defaults('locale', 'fr')->name('fr.newsletter.confirmed');
 
     // About section.
-    Route::view('{locale}/about', 'about.index')->where('locale', 'nl')->name('about');
-    Route::view('fr/a-propos', 'about.index')->defaults('locale', 'fr')->name('fr.about');
+    Route::get('{locale}/about', AboutController::class)->where('locale', 'nl')->name('about');
+    Route::get('fr/a-propos', AboutController::class)->defaults('locale', 'fr')->name('fr.about');
     Route::get('{locale}/about/mission', fn (Quotes $quotes) => view('about.mission', [
         'missionQuote' => $quotes->forSlot('mission'),
     ]))->where('locale', 'nl')->name('about.mission');
