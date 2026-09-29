@@ -374,6 +374,23 @@
         margin: 0;
     }
 
+    /* Hairline between the three sections, so each CTA reads as belonging to its
+       own section rather than the one above. Space sits on both sides of the line. */
+    .home-routes .scroll-sequence__block + .scroll-sequence__block {
+        margin-top: 4rem;
+        padding-top: 4rem;
+        border-top: 1px solid var(--color-kidical-hairline);
+    }
+
+    @media (min-width: 1024px) {
+        /* Blocks are already 78vh tall with centred copy: the line sits at the
+           block edge and the height supplies the breathing room. */
+        .home-routes .scroll-sequence__block + .scroll-sequence__block {
+            margin-top: 0;
+            padding-top: 0;
+        }
+    }
+
     /* Staggered reveal: title, body and CTA slide in from the left as the block
        enters view. Gated on is-ready (added by Alpine) so the copy is never hidden
        without JS. */
