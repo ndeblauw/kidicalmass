@@ -21,11 +21,9 @@ return [
     'location' => [
         'current' => 'Vous faites du vélo à',
         'change' => 'modifier',
-        'prompt' => 'Où souhaitez-vous faire du vélo ?',
+        'cancel' => 'annuler',
+        'prompt' => 'Où faites-vous du vélo ?',
         'placeholder' => 'Code postal ou commune',
-        'locate' => 'Utiliser ma position',
-        'locating' => 'Recherche de la position…',
-        'error' => 'Nous n\'avons pas pu trouver votre localisation. Veuillez saisir votre code postal ou votre commune.',
         'suggestions_status' => '{1} :count suggestion, utilisez les touches fléchées.|[2,*] :count suggestions, utilisez les touches fléchées.',
         'suggestions_label' => 'Communes suggérées',
     ],

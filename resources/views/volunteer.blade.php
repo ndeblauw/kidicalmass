@@ -161,7 +161,7 @@
                     </p>
 
                     <div class="ho-find__picker">
-                        <livewire:location-picker :compact="true" />
+                        <livewire:location-picker />
                     </div>
 
                     @if ($location && $nearestGroups->isNotEmpty())

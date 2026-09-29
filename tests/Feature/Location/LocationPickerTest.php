@@ -27,12 +27,18 @@ it('sets the location cookie and redirects when a zip is chosen', function () {
     expect(Cookie::hasQueued(config('location.cookie')))->toBeTrue();
 });
 
-it('resolves the nearest postcode from geolocation coords', function () {
-    Livewire::test(LocationPicker::class)
-        ->call('setFromCoords', 50.88, 4.33)
-        ->assertRedirect();
-
-    expect(Cookie::hasQueued(config('location.cookie')))->toBeTrue();
+it('lets a chosen location be changed in place and cancelled', function () {
+    Livewire::test(LocationPicker::class, ['selected' => ['zip' => '9000', 'lat' => 51.0543, 'lng' => 3.7174, 'name' => 'Gent']])
+        ->assertSeeHtml('data-state="chosen"')
+        ->assertDontSeeHtml('id="location-picker-query"')
+        ->set('editing', true)
+        ->assertSeeHtml('data-state="editing"')
+        ->assertSeeHtml('placeholder="Gent"')
+        ->assertSee(__('common.location.cancel'))
+        ->set('query', 'Jet')
+        ->call('cancelEditing')
+        ->assertSet('query', '')
+        ->assertSeeHtml('data-state="chosen"');
 });
 
 it('dispatches location-selected and does not redirect in reactive mode', function () {
@@ -55,11 +61,9 @@ it('provides shared location picker copy in both locales', function () {
     $keys = [
         'common.location.current',
         'common.location.change',
+        'common.location.cancel',
         'common.location.prompt',
         'common.location.placeholder',
-        'common.location.locate',
-        'common.location.locating',
-        'common.location.error',
         'common.location.suggestions_status',
         'common.location.suggestions_label',
     ];
@@ -77,13 +81,11 @@ it('renders localized location picker copy across its states', function () {
     $localizedCopy = [
         'common.location.prompt' => 'Localized Location Prompt',
         'common.location.placeholder' => 'Localized Location Placeholder',
-        'common.location.locate' => 'Localized Location Locate',
-        'common.location.locating' => 'Localized Location Locating',
-        'common.location.error' => 'Localized Location Error',
         'common.location.suggestions_status' => '{1} Localized Location Suggestion|[2,*] Localized Location Suggestions',
         'common.location.suggestions_label' => 'Localized Location Suggestions Label',
         'common.location.current' => 'Localized Current Location',
         'common.location.change' => 'Localized Location Change',
+        'common.location.cancel' => 'Localized Location Cancel',
     ];
 
     Lang::addLines($localizedCopy, 'fr');
@@ -92,9 +94,6 @@ it('renders localized location picker copy across its states', function () {
         ->set('query', 'Jet')
         ->assertSee($localizedCopy['common.location.prompt'])
         ->assertSee($localizedCopy['common.location.placeholder'])
-        ->assertSee($localizedCopy['common.location.locate'])
-        ->assertSee($localizedCopy['common.location.locating'])
-        ->assertSee($localizedCopy['common.location.error'])
         ->assertSee('Localized Location Suggestion')
         ->assertSee($localizedCopy['common.location.suggestions_label']);
 
@@ -102,5 +101,7 @@ it('renders localized location picker copy across its states', function () {
         ->set('selected', ['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette'])
         ->assertSee($localizedCopy['common.location.current'])
         ->assertSee('Jette')
-        ->assertSee($localizedCopy['common.location.change']);
+        ->assertSee($localizedCopy['common.location.change'])
+        ->set('editing', true)
+        ->assertSee($localizedCopy['common.location.cancel']);
 });

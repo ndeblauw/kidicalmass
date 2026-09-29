@@ -404,7 +404,11 @@
     }
     .ho-find__body { min-width: 0; }
     .ho-find__title { color: var(--color-kidical-ink); margin-bottom: 0.75rem; }
-    .ho-find__picker { margin-bottom: 2rem; }
+    .ho-find__picker {
+        margin-bottom: 2rem;
+        /* Lift the field off the light-blue band so its edge reads. */
+        --location-picker-field-bg: color-mix(in oklab, white, transparent 35%);
+    }
     .ho-find__nearest-title {
         color: var(--color-kidical-ink);
         margin-top: 2rem;

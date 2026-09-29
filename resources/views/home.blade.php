@@ -66,11 +66,11 @@
                     @endforeach
 
                     <div class="max-w-lg">
-                        <livewire:location-picker :compact="true" />
+                        <livewire:location-picker />
                     </div>
 
                 @else
-                    <livewire:location-picker :compact="true" />
+                    <livewire:location-picker />
 
                     @if ($nextRideIsFar)
                         <p class="text-kidical-ink/70">{{ __('home.next_rides.far_away') }}</p>

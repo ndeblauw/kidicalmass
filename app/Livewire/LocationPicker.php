@@ -14,8 +14,6 @@ class LocationPicker extends Component
 
     public bool $editing = false;
 
-    public bool $compact = false;
-
     public bool $reactive = false;
 
     /** @var array{zip: string, lat: float, lng: float, name: string}|null */
@@ -51,15 +49,10 @@ class LocationPicker extends Component
         $this->persist($zip, $row->latitude, $row->longitude, $row->name);
     }
 
-    public function setFromCoords(float $lat, float $lng): void
+    public function cancelEditing(): void
     {
-        $nearest = PostalCode::nearestTo($lat, $lng);
-
-        if (! $nearest) {
-            return;
-        }
-
-        $this->persist($nearest->zip, $nearest->latitude, $nearest->longitude, $nearest->name);
+        $this->editing = false;
+        $this->query = '';
     }
 
     public function clear(): void

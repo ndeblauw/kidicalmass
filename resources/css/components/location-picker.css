@@ -3,18 +3,36 @@
     background: color-mix(in oklab, white, transparent 30%) !important;
 }
 
+/* Location picker — one sentence-shaped line in every state:
+   empty    📍 Waar fiets je?  [ Postcode of gemeente ]
+   chosen   📍 Je fietst rond  Gent  wijzig
+   editing  📍 Je fietst rond  [ Gent ]  annuleer
+   The field sits where the place name goes, so choosing fills the gap instead of
+   reflowing the page. Hosts tune the field fill on coloured backgrounds with
+   --location-picker-field-bg.
+
+   Unlayered on purpose (see form-field.css for the precedent): host pages place
+   the picker from inside @layer components, and these rules must not lose to
+   Tailwind utilities on the input. */
 .location-picker {
+    position: relative;
+    min-width: 0;
+}
+
+.location-picker__line {
     display: flex;
-    align-items: flex-start;
-    gap: clamp(0.75rem, 1.5vw, 1.25rem);
-    max-width: 34rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.6rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    color: var(--color-text-body);
 }
 
 .location-picker__pin {
     flex: none;
-    width: clamp(2.25rem, 4vw, 2.75rem);
-    margin-top: 0.15rem;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.2));
+    width: 1.05rem;
+    transform: rotate(-8deg);
 }
 
 .location-picker__pin svg {
@@ -23,115 +41,73 @@
     height: auto;
 }
 
-.location-picker__main {
-    flex: 1 1 auto;
-    min-width: 0;
-    position: relative;
-}
-
-/* The inline label pin only appears in the compact view (where the big pin is hidden). */
-.location-picker__label-pin {
-    display: none;
-}
-
+.location-picker__current,
 .location-picker__label {
-    display: block;
-    font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: clamp(var(--text-lg), 1.6vw, var(--text-2xl));
-    color: white;
-    margin-bottom: 0.6rem;
+    margin: 0;
+    white-space: nowrap;
 }
 
-.location-picker__field {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem 1.25rem;
+.location-picker__label[data-state="empty"] {
+    font-weight: 700;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
+}
+
+.location-picker__name {
+    font-weight: 700;
+    color: var(--color-text-body);
 }
 
 .location-picker__input {
-    flex: 1 1 16rem;
-    min-height: clamp(3.25rem, 5vw, 3.75rem);
-    padding-inline: clamp(1rem, 2vw, 1.4rem);
-    background-color: var(--color-kidical-light-blue);
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    flex: 0 1 auto;
+    /* Wide enough for the longest placeholder ("Code postal ou commune"); wraps under
+       the prompt on narrow screens rather than cropping it. */
+    width: 15.5rem;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding-inline: 0.9rem;
+    background-color: var(--location-picker-field-bg, color-mix(in oklab, var(--color-kidical-ink), transparent 95%));
+    border: 1.5px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
+    border-radius: 10px;
     font-family: var(--font-sans);
-    font-weight: 800;
-    font-size: clamp(var(--text-base), 2vw, var(--text-xl));
+    font-size: var(--text-lg);
+    font-weight: 700;
     color: var(--color-kidical-ink);
-    transition: box-shadow 0.18s, transform 0.18s, background-color 0.18s;
+    transition: box-shadow 0.18s, background-color 0.18s;
 }
 
 .location-picker__input::placeholder {
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 35%);
-    font-weight: 700;
-}
-
-.location-picker__input:focus,
-.location-picker__input:not(:placeholder-shown) {
-    background-color: white;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 45%);
+    font-weight: 600;
 }
 
 .location-picker__input:focus {
     outline: none;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 0 0 3px color-mix(in oklab, white, transparent 35%);
-    transform: translateY(-1px);
+    background-color: white;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-blue), transparent 70%);
 }
 
-.location-picker__geo {
-    display: inline-flex;
-    align-items: center;
-    background: none;
+/* "wijzig" / "annuleer": a quiet inline link beside the sentence. */
+.location-picker__action {
+    background: transparent;
     border: none;
-    cursor: pointer;
+    /* Grow the vertical tap area without shifting the inline layout. */
+    padding: 0.5rem 0;
+    margin-block: -0.5rem;
     font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: var(--text-base);
-    color: white;
-    white-space: nowrap;
-    transition: color 0.18s, opacity 0.18s;
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
+    text-underline-offset: 2px;
+    cursor: pointer;
+    transition: color 0.16s, text-decoration-color 0.16s;
 }
 
-.location-picker__geo:hover {
-    color: var(--color-kidical-yellow);
-}
-
-@media (max-width: 767px) {
-    /* The geo button and suggestion rows are inline text on desktop; give them
-       a comfortable tap height on phones (the input is already >=52px). */
-    .location-picker__geo {
-        min-height: 44px;
-    }
-    .location-picker__suggestion {
-        min-height: 44px;
-    }
-}
-
-.location-picker__geo[disabled] {
-    opacity: 0.8;
-    cursor: default;
-}
-
-.location-picker__geo-inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-}
-
-.location-picker__spinner {
-    width: 1.15rem;
-    height: 1.15rem;
-    color: var(--color-kidical-yellow);
-    animation: lp-spin 0.7s linear infinite;
-}
-
-@keyframes lp-spin {
-    to {
-        transform: rotate(360deg);
-    }
+.location-picker__action:hover {
+    color: var(--color-kidical-blue);
+    text-decoration-color: var(--color-kidical-blue);
 }
 
 .location-picker__suggestions {
@@ -146,7 +122,7 @@
     border-radius: 16px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
     min-width: 20rem;
-    max-width: 28rem;
+    max-width: min(28rem, calc(100vw - 2rem));
 }
 
 .location-picker__suggestion {
@@ -181,204 +157,8 @@
     outline: none;
 }
 
-.location-picker__error {
-    margin: 0.7rem 0 0;
-    padding: 0.6rem 0.9rem;
-    background: color-mix(in oklab, var(--color-kidical-red), transparent 78%);
-    border: 1px solid color-mix(in oklab, white, transparent 60%);
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: var(--text-sm);
-    color: white;
-    max-width: 24rem;
-}
-
-.location-picker__current {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin: 0;
-    padding: 0.6rem 0.6rem 0.6rem 1.1rem;
-    background: white;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: var(--text-lg);
-    color: var(--color-kidical-ink);
-}
-
-.location-picker__current-pin {
-    flex: none;
-    width: 1.25rem;
-    transform: rotate(-8deg);
-}
-
-.location-picker__current-pin svg {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.location-picker__current strong {
-    font-family: var(--font-sans);
-    color: var(--color-kidical-blue);
-    font-weight: 700;
-}
-
-.location-picker__change {
-    background: var(--color-kidical-yellow);
-    color: var(--color-kidical-ink);
-    border: none;
-    border-radius: var(--radius-pill);
-    padding: 0.4rem 0.95rem;
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: var(--text-sm);
-    cursor: pointer;
-    transition: background-color 0.16s, transform 0.16s;
-}
-
-.location-picker__change:hover {
-    background: color-mix(in oklab, var(--color-kidical-yellow), white 12%);
-    transform: translateY(-1px);
-}
-
-/* Compact context: "Je fietst rond" is normal weight, the city name is bold, wijzig is a blue link. */
-.location-picker--compact .location-picker__current strong {
-    color: var(--color-text-body);
-    font-weight: 700;
-}
-
-.location-picker--compact .location-picker__current {
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    border-radius: 0;
-    padding: 0;
-    font-size: var(--text-xl);
-    font-weight: 400;
-    gap: 0.5rem;
-    color: var(--color-text-body);
-}
-
-.location-picker--compact .location-picker__current-pin {
-    width: 1rem;
-}
-
-.location-picker--compact .location-picker__change {
-    background: transparent;
-    border-radius: 0;
-    /* Grow the vertical tap area without shifting the inline layout. */
-    padding-block: 0.5rem;
-    margin-block: -0.5rem;
-    padding-inline: 0;
-    font-size: var(--text-sm);
-    font-weight: 400;
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
-    text-decoration: underline;
-    text-decoration-color: color-mix(in oklab, var(--color-kidical-ink), transparent 70%);
-    text-underline-offset: 2px;
-}
-
-.location-picker--compact .location-picker__change:hover {
-    background: transparent;
-    transform: none;
-    color: var(--color-kidical-blue);
-    text-decoration-color: var(--color-kidical-blue);
-}
-
-/* Compact — compact location picker overrides. Must be unlayered because the
-   base .location-picker__* rules are also unlayered; @layer never beats unlayered.
-   Compound selectors here have higher specificity → win via normal cascade. */
-.location-picker--compact {
-    align-items: flex-start;
-    gap: 0.75rem;
-    max-width: none;
-}
-
-.location-picker--compact .location-picker__pin {
-    display: none;
-}
-
-.location-picker--compact .location-picker__main {
-    flex: 1;
-}
-
-.location-picker--compact .location-picker__label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-family: var(--font-sans);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
-    margin-bottom: 0.3rem;
-}
-
-.location-picker--compact .location-picker__label-pin {
-    display: inline-block;
-    flex: none;
-    width: 1.05rem;
-    transform: rotate(-8deg);
-}
-
-.location-picker--compact .location-picker__label-pin svg {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.location-picker--compact .location-picker__field {
-    flex-wrap: nowrap;
-}
-
-.location-picker--compact .location-picker__input {
-    flex: 1 1 14rem;
-    min-height: 2.75rem;
-    font-size: var(--text-xl);
-    font-weight: 700;
-    box-shadow: none;
-    background-color: color-mix(in oklab, var(--color-kidical-ink), transparent 95%);
-    border: 1.5px solid color-mix(in oklab, var(--color-kidical-ink), transparent 86%);
-    border-radius: 10px;
-    padding-inline: 0.9rem;
-}
-
-.location-picker--compact .location-picker__input:focus {
-    background-color: white;
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-kidical-blue), transparent 70%);
-    transform: none;
-}
-
-.location-picker--compact .location-picker__geo {
-    font-size: var(--text-xl);
-    color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);
-}
-
-/* Underline lives on the inner span: .location-picker__geo-inner is inline-flex
-   (atomic), so a text-decoration on the button itself wouldn't reach the label. */
-.location-picker--compact .location-picker__geo-inner {
-    text-decoration: underline;
-    text-decoration-color: color-mix(in oklab, currentColor, transparent 55%);
-    text-underline-offset: 3px;
-}
-
-.location-picker--compact .location-picker__geo:hover {
-    color: var(--color-kidical-blue);
-}
-
 @media (max-width: 767px) {
-    .location-picker {
-        gap: 0.75rem;
-    }
-
-    .location-picker__field {
-        gap: 0.6rem 1rem;
-    }
-
-    /* Let the geo link drop below the input on phones instead of squeezing it. */
-    .location-picker--compact .location-picker__field {
-        flex-wrap: wrap;
+    .location-picker__suggestion {
+        min-height: 44px;
     }
 }

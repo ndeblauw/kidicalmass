@@ -117,8 +117,7 @@
 
 @media (prefers-reduced-motion: reduce) {
     .location-picker__input,
-    .location-picker__geo,
-    .location-picker__change {
+    .location-picker__action {
         transition: none;
     }
 }

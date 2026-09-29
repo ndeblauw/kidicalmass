@@ -297,7 +297,7 @@
     }
 
     /* Extra air beneath the location line before the rides start. */
-    .home-nextride__body > .location-picker--compact {
+    .home-nextride__body > .location-picker {
         padding-bottom: 2rem;
     }
 

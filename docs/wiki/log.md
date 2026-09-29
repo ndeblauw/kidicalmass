@@ -1,5 +1,14 @@
 # Wiki Log
 
+## [2026-09-29] build | Locatiezoeker: één regel op vier pagina's
+
+De lege locatiezoeker was twee tot drie rijen (vraag, veld, "Gebruik mijn locatie"), de gekozen staat één regel, dus alles eronder sprong bij elke keuze.
+Nu is de lege staat dezelfde zin als de gekozen: "📍 Waar fiets je? [Postcode of gemeente]" wordt "📍 Je fietst rond Gent wijzig".
+"wijzig" maakt van de naam een veld op dezelfde plek, met "annuleer" en Escape om terug te gaan.
+"Gebruik mijn locatie" is weg, net als de ongebruikte grote variant en de `compact`-prop.
+Geldt voor Agenda, Lokale groepen, Home (volgende ritten) en Meehelpen; op mobiel wrappen de afstandstabs van de Agenda nu in plaats van uit beeld te lopen.
+Keuze gemaakt via een lavish-vergelijking van drie routes (één vorm, bar/invite-varianten, headless).
+
 ## [2026-09-29] build | P-11: groepspagina met eigen intro, downloads en FR-namen
 
 Na de klantmeeting van 22/9: de groepspagina is waar elke lokale flyer landt, dus ze moet ook in het Frans kloppen.

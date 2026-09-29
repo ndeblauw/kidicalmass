@@ -39,7 +39,7 @@
                  data-i18n='@json($finderI18n)'>
                 <div class="grp-finder__controls">
                     <div class="grp-finder__picker">
-                        <livewire:location-picker :compact="true" />
+                        <livewire:location-picker />
                     </div>
                     <div class="grp-regions">
                         <button type="button" class="grp-region-btn is-active" data-region="all">
