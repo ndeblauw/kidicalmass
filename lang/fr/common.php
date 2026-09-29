@@ -13,6 +13,8 @@ return [
         'previous' => 'Précédent',
         'next' => 'Suivant',
     ],
+    'distance_km' => ":km\u{00A0}km",
+    'distance_under_km' => 'à moins d\'un km',
     'groups_growth' => [
         'title' => 'Nous grandissons !',
         'groups' => '{1} groupe|[2,*] groupes',
@@ -21,6 +23,8 @@ return [
     'location' => [
         'current' => 'Vous faites du vélo à',
         'change' => 'modifier',
+        'clear' => 'effacer',
+        'clear_label' => 'Effacer votre position',
         'cancel' => 'annuler',
         'prompt' => 'Où faites-vous du vélo ?',
         'placeholder' => 'Code postal ou commune',

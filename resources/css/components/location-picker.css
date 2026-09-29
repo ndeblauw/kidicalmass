@@ -47,6 +47,31 @@
     white-space: nowrap;
 }
 
+/* A long place name ("Woluwe-Saint-Pierre") may wrap the sentence beside the pin,
+   but never breaks the name itself or pushes the line past the viewport. */
+.location-picker__current {
+    flex: 0 1 auto;
+    min-width: 0;
+    white-space: normal;
+}
+
+.location-picker__current .location-picker__name {
+    white-space: nowrap;
+}
+
+/* Chosen state: the pin hangs beside the first line of the sentence, so a wrapped
+   sentence stays next to it instead of dropping below a lone pin. */
+.location-picker__line:has(> .location-picker__current) {
+    position: relative;
+    padding-left: calc(1.05rem + 0.6rem);
+}
+
+.location-picker__line:has(> .location-picker__current) > .location-picker__pin {
+    position: absolute;
+    left: 0;
+    top: calc((1lh - 1.05rem * 54 / 40) / 2);
+}
+
 .location-picker__label[data-state="empty"] {
     font-weight: 700;
     color: color-mix(in oklab, var(--color-kidical-ink), transparent 42%);

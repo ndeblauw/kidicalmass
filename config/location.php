@@ -8,7 +8,9 @@ return [
     'nearby_radius_km' => (float) env('LOCATION_NEARBY_RADIUS_KM', 5),
 
     /*
-     | Radius (km) for the "Ruimere regio" tab on the Kalender filter row.
+     | Radius (km) for "in de regio": the Kalender's second distance band
+     | (rides beyond it land in "Verder in België") and the Meehelpen
+     | nearby-chapters search (VolunteerController).
      */
     'regio_radius_km' => (float) env('LOCATION_REGIO_RADIUS_KM', 30),
 

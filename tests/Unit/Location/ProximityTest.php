@@ -66,3 +66,27 @@ it('returns fewer than n when fewer ranked items exist', function () {
 
     expect($result->pluck('item')->all())->toBe(['jette']);
 });
+
+it('partitions items into ordered distance bands, with unresolvable items far', function () {
+    $origin = ['lat' => 50.8782, 'lng' => 4.3265]; // Jette
+    $coords = [
+        'jette' => ['lat' => 50.8782, 'lng' => 4.3265],      // 0 km
+        'schaarbeek' => ['lat' => 50.8676, 'lng' => 4.3737], // ~3.5 km
+        'antwerpen' => ['lat' => 51.2194, 'lng' => 4.4025],  // ~38 km
+        'vilvoorde' => ['lat' => 50.9281, 'lng' => 4.4250],  // ~9 km
+        'unknown' => null,                                   // no coordinates -> far
+    ];
+    $items = new Collection(['jette', 'schaarbeek', 'antwerpen', 'vilvoorde', 'unknown']);
+
+    $result = Proximity::partitionByBands($items, $origin, ['nearby' => 5, 'region' => 30], fn ($key) => $coords[$key]);
+
+    expect(array_keys($result))->toBe(['nearby', 'region', 'far'])
+        ->and($result['nearby']->pluck('item')->all())->toBe(['jette', 'schaarbeek'])
+        ->and($result['region']->pluck('item')->all())->toBe(['vilvoorde'])
+        ->and($result['far']->pluck('item')->all())->toBe(['antwerpen', 'unknown'])
+        ->and($result['far']->last()['distance_km'])->toBeNull();
+});
+
+it('refuses a caller band named far, which would merge with the overflow bucket', function () {
+    Proximity::partitionByBands(new Collection, ['lat' => 0.0, 'lng' => 0.0], ['far' => 50], fn () => null);
+})->throws(InvalidArgumentException::class);

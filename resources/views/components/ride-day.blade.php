@@ -27,7 +27,7 @@
         :grande="$isGrande" />
     <div class="ride-day__rides">
         @foreach ($rows as $row)
-            <x-ride-row :activity="$row['item']" :commune="$commune" />
+            <x-ride-row :activity="$row['item']" :commune="$commune" :distance-km="$row['distance_km'] ?? null" />
         @endforeach
     </div>
 </section>

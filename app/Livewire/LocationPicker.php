@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\PostalCode;
 use App\Support\Location\CurrentLocation;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Livewire\Component;
@@ -18,6 +19,13 @@ class LocationPicker extends Component
 
     /** @var array{zip: string, lat: float, lng: float, name: string}|null */
     public ?array $selected = null;
+
+    /**
+     * Set by a reactive clear(): the cookie forget only reaches the browser on the
+     * response, so this request still carries the old cookie. Without the flag
+     * render() would fall back to it and keep showing the cleared place.
+     */
+    public bool $cleared = false;
 
     /**
      * @return Collection<int, PostalCode>
@@ -61,6 +69,7 @@ class LocationPicker extends Component
 
         if ($this->reactive) {
             $this->selected = null;
+            $this->cleared = true;
             $this->dispatch('location-selected', payload: null);
 
             return;
@@ -78,6 +87,7 @@ class LocationPicker extends Component
         );
 
         if ($this->reactive) {
+            $this->cleared = false;
             $this->selected = ['zip' => $zip, 'lat' => $lat, 'lng' => $lng, 'name' => $name];
             $this->dispatch('location-selected', payload: $this->selected);
 
@@ -92,10 +102,10 @@ class LocationPicker extends Component
         return url()->previous() ?: url('/');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.location-picker', [
-            'current' => $this->selected ?? CurrentLocation::resolve(),
+            'current' => $this->cleared ? null : ($this->selected ?? CurrentLocation::resolve()),
             'suggestions' => $this->suggestions(),
         ]);
     }

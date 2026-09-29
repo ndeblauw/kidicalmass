@@ -1,4 +1,4 @@
-@props(['activity', 'showDate' => false, 'commune' => null])
+@props(['activity', 'showDate' => false, 'commune' => null, 'distanceKm' => null])
 
 {{-- One row for every ride. The calendar lockup colour carries the type; the
      title carries the name. Inside a chapter the commune is already established
@@ -43,6 +43,14 @@
             <span class="ride-row__weekday">{{ $activity->weekdayLabel }}</span>
         @endif
         <time class="ride-row__time" datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $activity->timeLabel }}</time>
+        @if ($distanceKm !== null)
+            {{-- Distance rides with the time on the short first line, behind a dot, so it
+                 never reads as part of the time ("15u 50 km") and every row keeps one shape.
+                 Below 10 km always one decimal, above it whole km. --}}
+            <span class="ride-row__distance" data-distance-km="{{ $distanceKm }}"><span class="ride-row__sep" aria-hidden="true">·</span> {{ $distanceKm < 1
+                ? __('common.distance_under_km')
+                : __('common.distance_km', ['km' => \Illuminate\Support\Number::format($distanceKm, precision: $distanceKm < 10 ? 1 : 0, locale: app()->getLocale())]) }}</span>
+        @endif
         @if ($venueDisplay)
             <span class="ride-row__where"><span class="ride-row__at" aria-hidden="true">@</span> <span class="ride-row__venue">{{ $venueDisplay }}</span></span>
         @endif

@@ -124,6 +124,15 @@
         padding-block: 1.5rem;
         max-width: 46rem;
     }
+    /* Quiet line above the first distance band ("Nog geen rit binnen 5 km van ...").
+       Hugs the section below it, at the section subline's size, one step quieter. */
+    .kal-lead {
+        margin: 0 0 1rem;
+        font-size: var(--text-lg);
+        line-height: 1.375;
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+        max-width: 46rem;
+    }
     .ride-month + .ride-month {
         margin-top: 3rem;
     }

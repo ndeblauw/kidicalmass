@@ -4,46 +4,20 @@
         :title="__('calendar.hero.title')"
         illustration="img/illustrations/cargo-bike-family.svg">
 
-        {{-- Filter row: shared bar + agenda-only radius tabs. Hidden on past-rides view. --}}
+        {{-- Filter row: the shared bar hosts the location picker. Hidden on past-rides view. --}}
         @if ($when !== 'voorbije')
-            <x-filter-bar>
-                @if ($location)
-                    <div class="filter-bar__radius">
-                        <span class="filter-bar__radius-label">{{ __('calendar.filter_label') }}</span>
-                        <div class="filter-bar__tabs">
-                            <button
-                                type="button"
-                                wire:click="setRadius('dichtbij')"
-                                aria-pressed="{{ $radius === 'dichtbij' ? 'true' : 'false' }}"
-                                class="filter-bar__tab{{ $radius === 'dichtbij' ? ' filter-bar__tab--active' : '' }}"
-                            >{{ __('calendar.radius.nearby') }}</button>
-                            <button
-                                type="button"
-                                wire:click="setRadius('regio')"
-                                aria-pressed="{{ $radius === 'regio' ? 'true' : 'false' }}"
-                                class="filter-bar__tab{{ $radius === 'regio' ? ' filter-bar__tab--active' : '' }}"
-                            >{{ __('calendar.radius.region') }}</button>
-                            <button
-                                type="button"
-                                wire:click="setRadius('belgie')"
-                                aria-pressed="{{ $radius === 'belgie' ? 'true' : 'false' }}"
-                                class="filter-bar__tab{{ $radius === 'belgie' ? ' filter-bar__tab--active' : '' }}"
-                            >{{ __('calendar.radius.belgium') }}</button>
-                        </div>
-                    </div>
-                @endif
-            </x-filter-bar>
+            <x-filter-bar />
         @endif
 
         {{-- Two-column body: agenda left, sticky sidebar right. --}}
         <div class="kal-body">
             <div class="kal-agenda">
 
-                {{-- Screen-reader announcement: filtering re-renders the list silently
-                     otherwise. The text changes with every radius/when switch, so live
-                     regions pick it up. --}}
+                {{-- Screen-reader announcement: switching views re-renders the list silently
+                     otherwise. The text changes with every when switch or location change,
+                     so live regions pick it up. --}}
                 <p class="sr-only" role="status">
-                    @if (! $hasActivities || $isEmpty)
+                    @if (! $hasActivities)
                         {{ __('calendar.none') }}
                     @else
                         {{ trans_choice('calendar.found', $rideCount) }}
@@ -66,18 +40,19 @@
                         @endforeach
                     </div>
 
-                @elseif ($isEmpty)
-                    @php
-                        $radiusLabel = match($radius) {
-                            'regio'  => __('calendar.radius.region'),
-                            'belgie' => __('calendar.radius.belgium'),
-                            default  => __('calendar.radius.nearby'),
-                        };
-                    @endphp
-                    <p class="kal-empty">
-                        {!! __('calendar.empty_radius', ['radius' => $radiusLabel, 'place' => $location['name']]) !!}<br>
-                        {!! __('calendar.empty_radius_hint', ['link' => '<a href="'.localized_route('newsletter.show').'">'.__('calendar.newsletter_link').'</a>']) !!}
-                    </p>
+                @elseif ($sections)
+                    {{-- Nearest first, nothing hidden: distance bands in order, each by date.
+                         Empty leading bands collapse into this one quiet line. --}}
+                    @if ($emptyLead)
+                        <p class="kal-lead" data-proximity-empty-lead>
+                            {{ __('calendar.proximity.none_within', ['km' => \Illuminate\Support\Number::format($emptyLead['km'], maxPrecision: 1, locale: app()->getLocale()), 'place' => $emptyLead['place']]) }}
+                        </p>
+                    @endif
+                    <div class="flex flex-col gap-20">
+                        @foreach ($sections as $section)
+                            <x-ride-proximity-section :band="$section['band']" :radius-km="$section['radius_km']" :by-day="$section['byDay']" />
+                        @endforeach
+                    </div>
 
                 @else
                     <div class="kal-days">

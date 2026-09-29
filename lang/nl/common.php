@@ -8,6 +8,8 @@ return [
     'privacy_cookies' => 'Privacy & cookies',
     'home' => 'Home',
     'time_separator' => 'u',
+    'distance_km' => ":km\u{00A0}km",
+    'distance_under_km' => 'minder dan 1 km',
     'pagination' => [
         'label' => 'Paginering',
         'previous' => 'Vorige',
@@ -25,6 +27,8 @@ return [
     'location' => [
         'current' => 'Je fietst rond',
         'change' => 'wijzig',
+        'clear' => 'wis',
+        'clear_label' => 'Wis je locatie',
         'cancel' => 'annuleer',
         'prompt' => 'Waar fiets je?',
         'placeholder' => 'Postcode of gemeente',

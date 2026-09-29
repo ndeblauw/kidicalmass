@@ -6,13 +6,27 @@
         init() {
             // Picking a location triggers a navigate to the same page; restore the scroll
             // position we stashed just before, so the user stays put instead of jumping to the top.
+            // After a clear, the picker may render in another slot (the homepage moves it below
+            // the list), so bring it back into view if the restored position no longer shows it.
             const y = sessionStorage.getItem('lp-scroll');
+            const keepInView = sessionStorage.getItem('lp-keep-in-view') !== null;
+            sessionStorage.removeItem('lp-keep-in-view');
             if (y !== null) {
                 sessionStorage.removeItem('lp-scroll');
-                requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, parseInt(y, 10))));
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    window.scrollTo(0, parseInt(y, 10));
+                    if (! keepInView) { return; }
+                    const box = this.$root.getBoundingClientRect();
+                    if (box.top < 0 || box.bottom > window.innerHeight) {
+                        this.$root.scrollIntoView({ block: 'center' });
+                    }
+                }));
             }
         },
-        stashScroll() { sessionStorage.setItem('lp-scroll', window.scrollY); },
+        stashScroll(keepInView = false) {
+            sessionStorage.setItem('lp-scroll', window.scrollY);
+            if (keepInView) { sessionStorage.setItem('lp-keep-in-view', '1'); }
+        },
         options() { return [...this.$root.querySelectorAll('[data-option]')]; },
         focusFirst() { this.options()[0]?.focus(); },
         move(dir, current) {
@@ -43,6 +57,7 @@
                 {{ __('common.location.current') }} <strong class="location-picker__name">{{ $current['name'] }}</strong>
             </p>
             <button type="button" wire:click="$set('editing', true)" class="location-picker__action link-plain">{{ __('common.location.change') }}</button>
+            <button type="button" wire:click="clear" @unless ($reactive) x-on:click="stashScroll(true)" @endunless class="location-picker__action link-plain" data-location-clear aria-label="{{ __('common.location.clear_label') }}">{{ __('common.location.clear') }}</button>
         @else
             <label class="location-picker__label" for="location-picker-query" data-state="{{ $current ? 'editing' : 'empty' }}">
                 {{ $current ? __('common.location.current') : __('common.location.prompt') }}

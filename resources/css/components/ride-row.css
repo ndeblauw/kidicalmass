@@ -48,5 +48,14 @@
         color: var(--color-kidical-red);
         flex-shrink: 0;
     }
-
+    /* Distance from the visitor's location follows the time (calendar only). It never
+       breaks inside itself, so "· 50 km" stays one unit. */
+    .ride-row__distance {
+        color: color-mix(in oklab, var(--color-text-body), transparent 30%);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+    .ride-row__sep {
+        color: color-mix(in oklab, var(--color-text-body), transparent 50%);
+    }
 }

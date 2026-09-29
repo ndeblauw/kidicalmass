@@ -57,6 +57,36 @@ it('dispatches a null payload on clear in reactive mode without redirecting', fu
         ->assertNoRedirect();
 });
 
+it('clears the location and redirects in non-reactive mode', function () {
+    Livewire::test(LocationPicker::class)
+        ->call('clear')
+        ->assertRedirect();
+
+    $forgotten = Cookie::queued(config('location.cookie'));
+
+    expect($forgotten)->not->toBeNull()
+        ->and($forgotten->getExpiresTime())->toBeLessThan(time());
+});
+
+it('offers a clear link next to change when a location is set', function () {
+    Livewire::test(LocationPicker::class)
+        ->set('selected', ['zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette'])
+        ->assertSeeHtml('data-location-clear')
+        ->assertSee(__('common.location.clear'));
+});
+
+it('clears the shown location in reactive mode', function () {
+    Livewire::withCookie('kcm_location', json_encode([
+        'zip' => '1090', 'lat' => 50.8782, 'lng' => 4.3265, 'name' => 'Jette',
+    ]));
+
+    Livewire::test(LocationPicker::class, ['reactive' => true])
+        ->assertSeeHtml('data-location-clear')
+        ->call('clear')
+        ->assertDontSeeHtml('data-location-clear')
+        ->assertSee(__('common.location.prompt'));
+});
+
 it('provides shared location picker copy in both locales', function () {
     $keys = [
         'common.location.current',
@@ -66,6 +96,8 @@ it('provides shared location picker copy in both locales', function () {
         'common.location.placeholder',
         'common.location.suggestions_status',
         'common.location.suggestions_label',
+        'common.location.clear',
+        'common.location.clear_label',
     ];
 
     foreach (['nl', 'fr'] as $locale) {
@@ -86,6 +118,8 @@ it('renders localized location picker copy across its states', function () {
         'common.location.current' => 'Localized Current Location',
         'common.location.change' => 'Localized Location Change',
         'common.location.cancel' => 'Localized Location Cancel',
+        'common.location.clear' => 'Localized Location Clear',
+        'common.location.clear_label' => 'Localized Location Clear Label',
     ];
 
     Lang::addLines($localizedCopy, 'fr');
@@ -102,6 +136,8 @@ it('renders localized location picker copy across its states', function () {
         ->assertSee($localizedCopy['common.location.current'])
         ->assertSee('Jette')
         ->assertSee($localizedCopy['common.location.change'])
+        ->assertSee($localizedCopy['common.location.clear'])
+        ->assertSeeHtml($localizedCopy['common.location.clear_label'])
         ->set('editing', true)
         ->assertSee($localizedCopy['common.location.cancel']);
 });
