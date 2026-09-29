@@ -4,7 +4,7 @@ return [
     'hero' => [
         'title' => 'Straten waar kinderen hun plek hebben!',
         'lead' => 'Feestelijke fietstochten voor kinderen en hun ouders. Iedereen mag mee.',
-        'cta' => 'Zoek een rit bij jou',
+        'cta' => 'Fiets mee',
         'mission' => 'Samen maken we ruimte voor de fiets en zorgen we voor veiligere straten voor iedereen.',
     ],
     'next_rides' => [

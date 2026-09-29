@@ -87,6 +87,7 @@
         /* Roomier than 1.0 so the per-line marker highlights below clear each other
            rather than overlapping where the title wraps. */
         line-height: 1.13;
+        text-wrap: balance;
     }
 
     /* inline-block so transforms apply: the ride wrapper slides the whole line in,
@@ -249,21 +250,42 @@
     }
 
     @media (min-width: 768px) {
-        /* Stop the fixed hero just short of a full viewport so the white panel's
-           rounded top sits near the bottom edge at
-           rest (a thin white strip, not a tall reveal). The spacer matches so the
-           panel lands on that seam. */
+        /* The fixed hero runs 2rem past the viewport: the white panel's -2rem overlap
+           lands its rounded top exactly on the fold, so no white shows at rest and the
+           blue band's bottom padding is built beneath the viewport. The spacer matches
+           so the panel lands on that seam. */
         .home-backdrop {
             position: fixed;
             inset: 0 0 auto 0;
             width: 100vw;
             margin-left: 0;
             margin-top: 0;
-            height: calc(100svh - 1rem);
+            height: calc(100svh + 2rem);
         }
 
         .home-hero {
             min-height: 0;
+        }
+
+        /* Laptop viewports: the title and lead scale with viewport height as well as
+           width, so the title stays on two lines and the video keeps as much of the
+           frame as possible. */
+        .home-hero__title {
+            max-width: 24ch;
+            font-size: clamp(2.25rem, min(3.7vw, 7svh), 3.75rem);
+        }
+
+        .home-intro {
+            padding-top: clamp(1.25rem, min(2.2vw, 3.5svh), 2.25rem);
+            padding-bottom: calc(clamp(1.25rem, min(2.2vw, 3.5svh), 2.25rem) + 2rem);
+        }
+
+        .home-intro .intro-text--lead {
+            font-size: clamp(var(--text-2xl), min(2.2vw, 4svh), var(--text-4xl));
+        }
+
+        .home-intro__cta {
+            margin-top: clamp(1rem, 2.5svh, 1.5rem);
         }
 
         .home-backdrop__spacer {
@@ -271,7 +293,7 @@
             width: 100vw;
             margin-left: calc(50% - 50vw);
             margin-top: calc(var(--spacing) * -28);
-            height: calc(100svh - 1rem);
+            height: calc(100svh + 2rem);
         }
     }
 

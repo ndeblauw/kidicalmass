@@ -4,7 +4,7 @@ return [
     'hero' => [
         'title' => 'Des rues où les enfants ont leur place !',
         'lead' => 'Des parades à vélo festives pour les enfants et leurs parents. Tout le monde est le bienvenu.',
-        'cta' => 'Trouver une parade près de chez vous',
+        'cta' => 'Pédalez avec nous',
         'mission' => 'Ensemble, faisons de la place au vélo et créons des rues plus sûres pour toutes et tous.',
     ],
     'next_rides' => [
