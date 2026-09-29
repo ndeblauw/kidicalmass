@@ -14,8 +14,10 @@
     the footer (on-demand signup reveal). Colour story blue -> white -> yellow.
     NL, on the ride/show kit. Structure only here; appearance in resources/css/pages/chapters.css.
     Real now: rides/other-activities split (controller), real stat cards, on-demand reveal,
-    group-specific J2 signup form. Faked (clearly commented): subscribe CTA, volunteer roles,
-    affiches/sponsors.
+    group-specific J2 signup form, per-group hero intro (fallback: shared lead), team from
+    public members only, real downloads (media collection), "In beeld" from the group's own
+    rides only, honest label when the next ride is borrowed from a parent group.
+    Faked (clearly commented): subscribe CTA.
     Plan: docs/superpowers/plans/2026-06-23-chapter-page-v4.md ·
     Design: docs/wiki/design/30-skeleton/chapters.md (§ Critique v4).
 --}}
@@ -36,17 +38,8 @@
         $initialsOf = fn (string $name) => \Illuminate\Support\Str::of($name)->explode(' ')
             ->filter()->map(fn ($p) => mb_strtoupper(mb_substr($p, 0, 1)))->take(2)->implode('');
 
-        // FAUX active volunteers + roles (no per-group volunteer roster/role field yet —
-        // GitHub #37 / D-1). Shown only alongside a real lead, to preview "lead + crew".
-        $fauxVolunteers = $group->publicMembers->isNotEmpty() ? [
-            ['name' => 'Marieke', 'role' => 'roze hesje'],
-            ['name' => 'Tariq', 'role' => 'roze hesje'],
-            ['name' => 'Lien', 'role' => 'communicatie'],
-        ] : [];
-
         $members = $group->publicMembers
-            ->map(fn ($u) => ['name' => $u->name, 'role' => 'trekker', 'initials' => $initialsOf($u->name)])
-            ->concat(collect($fauxVolunteers)->map(fn ($v) => ['name' => $v['name'], 'role' => $v['role'], 'initials' => $initialsOf($v['name'])]));
+            ->map(fn ($u) => ['name' => $u->name, 'role' => 'trekker', 'initials' => $initialsOf($u->name)]);
 
         // Captains (trekkers) lead the row alphabetically, then the "Jij?" invite, then the
         // rest of the crew (roze hesjes etc.) alphabetically — the ask sits at the seam
@@ -64,17 +57,10 @@
         ];
         $illustrationFor = fn (string $name) => $teamIllustrations[crc32($name) % count($teamIllustrations)];
 
-        // FAUX downloads — the flyers/posters a chapter offers (no per-group downloads
-        // source yet; Nico wires the backend). Same frontend-placeholder pattern as
-        // $fauxVolunteers above: design it now, swap the data source later. File type
-        // rides in its own tag, not baked into the label.
-        $fauxDownloads = [
-            ['label' => __('groups.show.downloads_faux.flyer', ['name' => $gemeente]), 'type' => 'PDF', 'url' => '#'],
-            ['label' => __('groups.show.downloads_faux.poster'), 'type' => 'PDF', 'url' => '#'],
-            ['label' => __('groups.show.downloads_faux.coloring'), 'type' => 'PDF', 'url' => '#'],
-        ];
+        // Real downloads: the group's `downloads` media collection (PDF + images).
+        $downloads = $group->getMedia('downloads');
 
-        $hasExtras = $partners->isNotEmpty() || $group->children->isNotEmpty();
+        $hasExtras = $partners->isNotEmpty() || $downloads->isNotEmpty() || $group->children->isNotEmpty();
 
         // Hero cover (section 1) — still the group's own identity photo, the cover of
         // its `gallery` collection. `php artisan dev:seed-group-gallery` populates it.
@@ -95,7 +81,7 @@
             <div class="chapter-head__copy">
                 <h1 class="page-hero__title">Kidical Mass<br>{{ $gemeente }}</h1>
                 <x-intro-text class="chapter-head__lead">
-                    {{ __('groups.show.hero_lead', ['name' => $gemeente]) }}
+                    {{ $group->intro ?? __('groups.show.hero_lead', ['name' => $gemeente]) }}
                 </x-intro-text>
             </div>
 
@@ -135,7 +121,16 @@
             <div class="chapter-parade__main">
                 @if ($upcomingRides->isNotEmpty())
                     @php $nextRide = $upcomingRides->first(); @endphp
-                    <x-next-ride :activity="$nextRide" :commune="$gemeente" />
+                    <x-next-ride
+                        :activity="$nextRide"
+                        :commune="$gemeente"
+                        :heading="$nextRideIsOwn ? null : __('groups.show.borrowed_heading')"
+                        :data-ride-origin="$nextRideIsOwn ? 'own' : 'parent'" />
+                    @if (! $nextRideIsOwn && filled($nextRideArea))
+                        <p class="chapter-parade__borrowed" data-ride-origin-note="parent">
+                            {{ __('groups.show.borrowed_note', ['name' => $gemeente, 'area' => $nextRideArea]) }}
+                        </p>
+                    @endif
                 @else
                     <div class="chapter-next__card chapter-next__card--empty">
                         <p class="chapter-next__empty-lead">{{ __('groups.show.no_ride_lead') }}</p>
@@ -310,51 +305,44 @@
 
     {{-- 8 · AFFICHES + MET DANK AAN — a light-yellow full-width band closing the white
          body (was a quiet white tail with a hairline seam). Real partners (visible,
-         group-scoped) and faux downloads. Press moved to the channel-wide Press page.
+         group-scoped) and real downloads. Press moved to the channel-wide Press page.
          D-11 closed. --}}
     @if ($hasExtras)
         <section class="chapter-extras-band">
             <div class="container mx-auto px-4 chapter-extras-band__inner">
-            @if ($partners->isNotEmpty())
+            @if ($partners->isNotEmpty() || $downloads->isNotEmpty())
                 <div class="chapter-extras">
-                    {{-- One kind of friend, always a text link (never a logo: keeps
-                         volunteer-uploaded artwork out). A plain wrapping run that
-                         stays compact at any length, with no cap. --}}
-                    <div class="chapter-extras__block">
-                        <h3 class="chapter-section__title">{{ __('groups.show.thanks') }}</h3>
-                        <ul class="chapter-partners" role="list">
-                            @foreach ($partners as $partner)
-                                <li class="chapter-partners__item">
-                                    @if ($partner->url)
-                                        <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="chapter-partners__link">{{ $partner->name }}</a>
-                                    @else
-                                        <span class="chapter-partners__name">{{ $partner->name }}</span>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    {{-- Downloads — chapter flyers/posters. FAUX placeholder for now (Nico
-                         wires the source). Sits alongside partners, so empty chapters stay
-                         empty. Compact: icon + label + a small type tag. --}}
-                    @if (! empty($fauxDownloads))
+                    @if ($partners->isNotEmpty())
+                        {{-- One kind of friend, always a text link (never a logo: keeps
+                             volunteer-uploaded artwork out). A plain wrapping run that
+                             stays compact at any length, with no cap. --}}
                         <div class="chapter-extras__block">
+                            <h3 class="chapter-section__title">{{ __('groups.show.thanks') }}</h3>
+                            <ul class="chapter-partners" role="list">
+                                @foreach ($partners as $partner)
+                                    <li class="chapter-partners__item">
+                                        @if ($partner->url)
+                                            <a href="{{ $partner->url }}" target="_blank" rel="noopener noreferrer" class="chapter-partners__link">{{ $partner->name }}</a>
+                                        @else
+                                            <span class="chapter-partners__name">{{ $partner->name }}</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- Downloads: the group's real files. Only rendered when there are any. --}}
+                    @if ($downloads->isNotEmpty())
+                        <div class="chapter-extras__block" data-chapter-downloads>
                             <h3 class="chapter-section__title">{{ __('groups.show.downloads') }}</h3>
                             <ul class="chapter-downloads" role="list">
-                                @foreach ($fauxDownloads as $download)
-                                    @php
-                                        // Same honest-preview pattern as the roze-hesjes materiaal page:
-                                        // no href until the file is real, so keyboard/AT users don't get
-                                        // a link that goes nowhere.
-                                        $available = filled($download['url']) && $download['url'] !== '#';
-                                    @endphp
+                                @foreach ($downloads as $download)
                                     <li class="chapter-downloads__item">
-                                        <a @if ($available) href="{{ $download['url'] }}" @endif
-                                           @class(['chapter-downloads__link', 'chapter-downloads__link--soon' => ! $available])>
+                                        <a href="{{ $download->getUrl() }}" target="_blank" rel="noopener" class="chapter-downloads__link">
                                             <svg class="chapter-downloads__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                            <span class="chapter-downloads__label">{{ $download['label'] }}</span>
-                                            <span class="chapter-downloads__type">{{ $download['type'] }}</span>
+                                            <span class="chapter-downloads__label">{{ filled($download->name) ? $download->name : $download->file_name }}</span>
+                                            <span class="chapter-downloads__type">{{ pathinfo($download->file_name, PATHINFO_EXTENSION) }}</span>
                                         </a>
                                     </li>
                                 @endforeach

@@ -71,7 +71,7 @@
                             @foreach ($orderedGroups as $group)
                                 <li class="grp-card {{ $mineIds->contains($group->id) ? 'grp-card--mine' : '' }}"
                                     data-slug="{{ $group->shortname }}"
-                                    data-region="{{ $group->parent?->name }}">
+                                    data-region="{{ $group->parent?->name_nl }}">
                                     <a href="{{ localized_route('groups.show', ['group' => $group]) }}" class="grp-card__link link-plain">
                                         <span class="grp-card__dot" aria-hidden="true"></span>
                                         <span class="grp-card__main">

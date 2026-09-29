@@ -2,9 +2,17 @@
 
 return [
     'regions' => [
+        'Belgium' => 'België',
         'Brussels Capital Region' => 'Brussel',
         'Wallonia' => 'Wallonië',
         'Flanders' => 'Vlaanderen',
+    ],
+
+    'regions_whole' => [
+        'Belgium' => 'heel België',
+        'Brussels Capital Region' => 'heel Brussel',
+        'Wallonia' => 'heel Wallonië',
+        'Flanders' => 'heel Vlaanderen',
     ],
 
     'index' => [
@@ -42,11 +50,9 @@ return [
             'roze hesje' => 'roze hesje',
             'communicatie' => 'communicatie',
         ],
-        'downloads_faux' => [
-            'flyer' => 'Flyer :name 2026',
-            'poster' => 'Affiche om op te hangen',
-            'coloring' => 'Kleurplaat voor onderweg',
-        ],
+        'borrowed_heading' => 'Parade in de buurt',
+        'borrowed_note' => ':name heeft nog geen eigen parade. Deze parade is voor :area.',
+        'borrowed_area' => 'heel :name',
         'upcoming' => 'Later',
         'no_ride_lead' => 'Nog geen fietstocht gepland.',
         'no_ride_body' => 'Zodra :name vertrekt, staat het in de nieuwsbrief.',

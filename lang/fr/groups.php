@@ -2,9 +2,17 @@
 
 return [
     'regions' => [
+        'Belgium' => 'Belgique',
         'Brussels Capital Region' => 'Bruxelles',
         'Wallonia' => 'Wallonie',
         'Flanders' => 'Flandre',
+    ],
+
+    'regions_whole' => [
+        'Belgium' => 'toute la Belgique',
+        'Brussels Capital Region' => 'tout Bruxelles',
+        'Wallonia' => 'toute la Wallonie',
+        'Flanders' => 'toute la Flandre',
     ],
 
     'index' => [
@@ -42,11 +50,9 @@ return [
             'roze hesje' => 'gilet rose',
             'communicatie' => 'communication',
         ],
-        'downloads_faux' => [
-            'flyer' => 'Flyer :name 2026',
-            'poster' => 'Affiche à imprimer',
-            'coloring' => 'Coloriage pour une animation le jour j',
-        ],
+        'borrowed_heading' => 'Parade près de chez vous',
+        'borrowed_note' => ':name n\'a pas encore sa propre parade. Celle-ci réunit :area.',
+        'borrowed_area' => 'tout :name',
         'upcoming' => 'Plus tard',
         'no_ride_lead' => 'Aucune parade prévue pour le moment.',
         'no_ride_body' => 'Dès que :name se remettra en selle, vous le verrez dans la newsletter.',

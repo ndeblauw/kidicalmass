@@ -6,9 +6,11 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
+use App\Models\Partner;
 use App\Models\PostalCode;
 use App\Support\Location\CurrentLocation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\View\View;
 
 class GroupController extends Controller
@@ -38,7 +40,7 @@ class GroupController extends Controller
         $markers = $this->mapMarkers($groups, $coordsByZip, $regionLabels);
 
         $regionCounts = $groups
-            ->groupBy(fn (Group $group) => $group->parent?->name)
+            ->groupBy(fn (Group $group) => $group->parent?->name_nl)
             ->map->count();
 
         return view('groups.index', compact(
@@ -60,7 +62,7 @@ class GroupController extends Controller
     ): array {
         return $groups->map(function (Group $group) use ($coordsByZip, $regionLabels): array {
             $postalCode = $group->zip ? $coordsByZip->get($group->zip) : null;
-            $region = $group->parent?->name;
+            $region = $group->parent?->name_nl;
 
             return [
                 'name' => $group->name,
@@ -131,24 +133,40 @@ class GroupController extends Controller
             ->where('begin_date', '<', now())
             ->count();
 
-        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name_nl')->get();
+        $partners = $group->partners()->where('visible', true)->with('media')->orderBy('name_nl')->get()->filter(fn (Partner $partner) => filled($partner->name))->values();
         $pressArticles = $group->pressArticles()->with('media')->latest('published_at')->get();
 
-        // The gallery now follows the most recent ride that actually has photos
-        // (group's own rides + parent regions, like the agenda above), so the page
-        // always highlights the latest outing rather than a hand-curated wall.
+        // The gallery follows the most recent ride of this group itself that has
+        // photos. Rides of parent regions are deliberately excluded: their photos
+        // may show another municipality.
         $latestRide = Activity::query()
             ->published()
             ->with('media')
-            ->whereHas('groups', fn ($query) => $query->whereIn('groups.id', $groupIds))
+            ->whereHas('groups', fn ($query) => $query->whereKey($group->id))
             ->where('activity_type', ActivityType::KIDICALMASS)
             ->where('begin_date', '<', now())
             ->whereHas('media', fn ($query) => $query->where('collection_name', 'gallery'))
             ->orderByDesc('begin_date')
             ->first();
 
+        $nextRide = $upcomingRides->first();
+        $nextRideIsOwn = $nextRide?->groups->contains('id', $group->id) ?? false;
+        // For a borrowed ride: the area it is for, as a ready phrase ("heel Brussel",
+        // "toute la Wallonie"), so French gender and articles stay right.
+        $nextRideArea = null;
+        if ($nextRide && ! $nextRideIsOwn) {
+            $ownerId = $groupIds->first(fn (int $id) => $nextRide->groups->contains('id', $id));
+            $owner = $nextRide->groups->firstWhere('id', $ownerId);
+            if ($owner !== null) {
+                $nextRideArea = Lang::has('groups.regions_whole.'.$owner->name_nl)
+                    ? __('groups.regions_whole.'.$owner->name_nl)
+                    : (filled($owner->name) ? __('groups.show.borrowed_area', ['name' => $owner->name]) : null);
+            }
+        }
+
         return view('groups.show', compact(
             'group', 'articles', 'activities', 'partners', 'pressArticles', 'latestRide',
+            'nextRideIsOwn', 'nextRideArea',
             'upcomingRides', 'otherActivities', 'pastRidesCount',
         ));
     }

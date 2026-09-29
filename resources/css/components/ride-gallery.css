@@ -46,7 +46,8 @@
     /* The optional in-grid slot (card slot), set into the wall: one column wide, a compact
        square among the photo squares. On the XL wall it pins to the top-right corner (col 4). */
     .ride-gallery__optin {
-        grid-column: span 1;
+        grid-column: 1 / -1;
+        order: 1; /* small screens: full width, below all the photos */
         /* own stacking context so the daisy can tuck behind the card (z-index: -1)
            without slipping behind the page itself */
         position: relative;
@@ -56,6 +57,12 @@
        so ~80% rises above it while ~20% stays behind the card. Shown only on the XL wall. */
     .ride-gallery__sun {
         display: none;
+    }
+    @media (min-width: 48rem) {
+        .ride-gallery__optin {
+            grid-column: span 1;
+            order: 0;
+        }
     }
     @media (min-width: 80rem) {
         .ride-gallery__cell--feature {

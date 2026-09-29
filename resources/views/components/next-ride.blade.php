@@ -1,6 +1,7 @@
 @props([
     'activity',          // App\Models\Activity — the soonest upcoming kidicalmass ride
     'commune' => null,   // gemeente name, for context (not printed by default)
+    'heading' => null,   // eyebrow override, e.g. for a ride borrowed from a parent group
 ])
 
 {{--
@@ -34,7 +35,7 @@
     <div class="next-ride__body">
         <div class="next-ride__main">
             <div class="next-ride__headline">
-                <h2 class="next-ride__title">{{ __('components.next_ride.heading') }}</h2>
+                <h2 class="next-ride__title">{{ $heading ?? __('components.next_ride.heading') }}</h2>
             </div>
 
             <dl class="next-ride__meta">
@@ -46,13 +47,15 @@
                     <dd><time datetime="{{ $activity->begin_date->format('Y-m-d\TH:i') }}">{{ $dateHeadline }}, {{ $activity->timeLabel }}</time></dd>
                 </div>
 
-                <div class="next-ride__meta-item">
-                    <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                    </x-icon-chip>
-                    <dt class="sr-only">{{ __('components.next_ride.departure') }}</dt>
-                    <dd>{{ $location }}</dd>
-                </div>
+                @if (filled($location))
+                    <div class="next-ride__meta-item">
+                        <x-icon-chip color="light-blue" size="sm" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </x-icon-chip>
+                        <dt class="sr-only">{{ __('components.next_ride.departure') }}</dt>
+                        <dd>{{ $location }}</dd>
+                    </div>
+                @endif
 
                 @if ($distance)
                     <div class="next-ride__meta-item">

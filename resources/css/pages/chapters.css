@@ -130,6 +130,12 @@
         gap: clamp(1.75rem, 3.5vw, 2.75rem);
         align-items: start;
     }
+    /* Honest note under a next-ride card borrowed from a parent group. */
+    .chapter-parade__borrowed {
+        margin-top: 1rem;
+        font-size: var(--text-sm);
+        color: color-mix(in oklab, var(--color-kidical-ink), transparent 30%);
+    }
     .chapter-parade__main {
         min-width: 0;
     }
@@ -797,13 +803,6 @@
     }
     .chapter-downloads__link:hover .chapter-downloads__label {
         text-decoration: underline;
-    }
-    /* Honest preview: a download without a real file yet renders without href. */
-    .chapter-downloads__link--soon {
-        color: color-mix(in oklab, var(--color-kidical-ink), transparent 40%);
-    }
-    .chapter-downloads__link--soon:hover .chapter-downloads__label {
-        text-decoration: none;
     }
     .chapter-downloads__icon {
         flex-shrink: 0;

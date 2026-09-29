@@ -41,6 +41,17 @@ class Group extends Model implements HasMedia
         return $this->localizedValue('name');
     }
 
+    /**
+     * Per-group hero sentence in the active locale; empty when the group has
+     * none, so the page can fall back to the shared lead.
+     */
+    public function getIntroAttribute(): ?string
+    {
+        $value = $this->{'intro_'.app()->getLocale()};
+
+        return filled($value) ? (string) $value : null;
+    }
+
     protected function casts(): array
     {
         return [
@@ -147,6 +158,15 @@ class Group extends Model implements HasMedia
             ->registerMediaConversions(function (Media $media) {
                 $this->registerMediaConversions($media);
             });
+
+        $this
+            ->addMediaCollection('downloads')
+            ->acceptsMimeTypes([
+                'application/pdf',
+                'image/jpeg',
+                'image/png',
+                'image/webp',
+            ]);
     }
 
     public function partners(): HasMany

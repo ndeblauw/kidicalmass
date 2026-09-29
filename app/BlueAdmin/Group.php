@@ -16,7 +16,7 @@ class Group extends BlueAdminModel
 
     public $attributesToShow = ['shortname', 'name_nl', 'name_fr', 'zip', 'parent_id', 'invisible', 'started_at', 'ended_at'];
 
-    public $filepond = ['main', 'gallery'];
+    public $filepond = ['main', 'gallery', 'downloads'];
 
     public $index_load = ['media'];
 
