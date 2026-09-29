@@ -4,6 +4,7 @@ use App\Enums\ActivityType;
 use App\Models\Activity;
 use App\Models\PostalCode;
 use App\Support\Location\NextRideFinder;
+use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
@@ -86,4 +87,33 @@ it('treats a ride with an unresolvable postal code as far with an unknown distan
         ->and($result['is_far'])->toBeTrue()
         ->and($result['distance_km'])->toBeNull()
         ->and($result['has_upcoming'])->toBeTrue();
+});
+
+it('rolls over to the next day at Belgian midnight, not UTC midnight', function () {
+    // Ride dates are Belgian wall-clock time; the app timezone is UTC.
+    Activity::factory()->create([
+        'activity_type' => ActivityType::KIDICALMASS,
+        'title_nl' => 'Kidical Mass Gisteren',
+        'begin_date' => '2026-06-14 14:00:00',
+        'is_published' => true,
+    ]);
+    Activity::factory()->create([
+        'activity_type' => ActivityType::KIDICALMASS,
+        'title_nl' => 'Kidical Mass Vandaag',
+        'begin_date' => '2026-06-15 10:00:00',
+        'is_published' => true,
+    ]);
+
+    $listedTitles = fn (): array => collect(NextRideFinder::find(null)['upcoming_preview'])
+        ->flatMap(fn (array $day) => $day['rows'])
+        ->map(fn (array $row) => $row['item']->title_nl)
+        ->all();
+
+    // 23:30 in Brussels on the 14th: that day's ride is still today.
+    $this->travelTo(CarbonImmutable::parse('2026-06-14 21:30:00', 'UTC'));
+    expect($listedTitles())->toBe(['Kidical Mass Gisteren', 'Kidical Mass Vandaag']);
+
+    // 00:30 in Brussels on the 15th (still the 14th in UTC): the 14th is yesterday.
+    $this->travelTo(CarbonImmutable::parse('2026-06-14 22:30:00', 'UTC'));
+    expect($listedTitles())->toBe(['Kidical Mass Vandaag']);
 });

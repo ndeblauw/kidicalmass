@@ -61,7 +61,9 @@ class ImpactFigures
         return Activity::query()
             ->where('activity_type', ActivityType::KIDICALMASS)
             ->published()
-            ->when($year !== null, fn ($query) => $query->whereYear('begin_date', $year))
+            ->when($year !== null, fn ($query) => $query
+                ->where('begin_date', '>=', sprintf('%04d-01-01 00:00:00', $year))
+                ->where('begin_date', '<', sprintf('%04d-01-01 00:00:00', $year + 1)))
             ->count();
     }
 

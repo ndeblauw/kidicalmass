@@ -24,7 +24,7 @@
                     maxlength="254"
                     spellcheck="false"
                     required
-                    :placeholder="__('forms.newsletter.email_placeholder')"
+                    placeholder="{{ __('forms.newsletter.email_placeholder') }}"
                     @error('email') aria-invalid="true" aria-describedby="newsletter-email-error" @enderror
                     class="newsletter-signup__input"
                 >

@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 
 /**
@@ -11,6 +12,23 @@ use Illuminate\Support\Carbon;
  */
 class RideDate
 {
+    /**
+     * Ride dates are stored and shown as Belgian wall-clock time; the app
+     * timezone (UTC) only labels them.
+     */
+    public const TIMEZONE = 'Europe/Brussels';
+
+    /**
+     * Midnight at the start of today in Belgium, as wall-clock time in the app
+     * timezone so it compares directly with stored ride dates. Between 00:00
+     * and 02:00 Belgian time this is already the new day, where a UTC
+     * startOfDay() would still be yesterday.
+     */
+    public static function startOfToday(): CarbonInterface
+    {
+        return now(self::TIMEZONE)->startOfDay()->shiftTimezone(config('app.timezone'));
+    }
+
     /**
      * Belgian time: "14u" / "14u30" (nl), "14h" / "14h30" (fr). The separator
      * comes from `common.time_separator`; whole hours drop the minutes.

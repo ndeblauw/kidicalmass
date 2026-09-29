@@ -19,6 +19,48 @@ it('suggests postcodes by zip or name', function () {
         ->assertDontSee('Gent');
 });
 
+it('finds a place by any of its names, whatever the case or accents, and labels it in the current locale', function () {
+    PostalCode::create([
+        'zip' => '1000', 'name' => 'Brussel', 'name_nl' => 'Brussel', 'name_fr' => 'Bruxelles',
+        'search_names' => PostalCode::searchNamesFor(['Brussel', 'Bruxelles']),
+        'latitude' => 50.8504, 'longitude' => 4.3488,
+    ]);
+    PostalCode::create([
+        'zip' => '4000', 'name' => 'Liège', 'name_nl' => 'Luik', 'name_fr' => 'Liège',
+        'search_names' => PostalCode::searchNamesFor(['Luik', 'Liège', 'Glain', 'Rocourt']),
+        'latitude' => 50.6337, 'longitude' => 5.5675,
+    ]);
+
+    Livewire::test(LocationPicker::class)
+        ->set('query', 'brussel')
+        ->assertSee('1000')
+        ->assertDontSee('Bruxelles')
+        ->set('query', 'LIEGE')
+        ->assertSee('4000')
+        ->assertSee('Luik')
+        ->set('query', 'Rocourt')
+        ->assertSee('Luik');
+
+    app()->setLocale('fr');
+
+    Livewire::test(LocationPicker::class)
+        ->set('query', 'liège')
+        ->assertSee('4000')
+        ->assertSee('Liège')
+        ->assertDontSee('Luik')
+        ->set('query', 'Bruxelles')
+        ->assertSee('1000');
+});
+
+it('treats LIKE wildcards in the query as plain characters', function () {
+    foreach (['%%', '__', '1_9', '%e'] as $wildcard) {
+        Livewire::test(LocationPicker::class)
+            ->set('query', $wildcard)
+            ->assertDontSee('1090')
+            ->assertDontSee('9000');
+    }
+});
+
 it('sets the location cookie and redirects when a zip is chosen', function () {
     Livewire::test(LocationPicker::class)
         ->call('choose', '1090')

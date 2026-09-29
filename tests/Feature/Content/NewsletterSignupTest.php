@@ -117,6 +117,43 @@ it('rejects an invalid email without calling MailerLite', function () {
         ->assertSet('submitted', false);
 });
 
+it('rejects an address without a real domain before it reaches MailerLite', function () {
+    configureMailerLite();
+    Http::preventStrayRequests();
+
+    Livewire::test(NewsletterSignup::class)
+        ->set('email', 'a@b')
+        ->call('subscribe')
+        ->assertHasErrors(['email' => 'email'])
+        ->assertSet('submitted', false);
+});
+
+it('stops calling MailerLite once one visitor signs up too often', function () {
+    configureMailerLite();
+    fakeMailerLiteSubscription();
+
+    foreach (range(1, NewsletterSignup::MAX_ATTEMPTS_PER_IP) as $attempt) {
+        Livewire::test(NewsletterSignup::class)
+            ->set('email', "ouder{$attempt}@example.be")
+            ->call('subscribe')
+            ->assertSet('submitted', true);
+    }
+
+    Livewire::test(NewsletterSignup::class)
+        ->set('email', 'nog-een-ouder@example.be')
+        ->call('subscribe')
+        ->assertHasErrors(['email'])
+        ->assertSee(__('forms.newsletter.throttled'))
+        ->assertSet('submitted', false);
+
+    Http::assertSentCount(NewsletterSignup::MAX_ATTEMPTS_PER_IP);
+});
+
+it('shows the email placeholder as a real attribute', function () {
+    Livewire::test(NewsletterSignup::class)
+        ->assertSeeHtml('placeholder="'.__('forms.newsletter.email_placeholder').'"');
+});
+
 it('rejects an absurdly long email without calling MailerLite', function () {
     configureMailerLite();
     Http::preventStrayRequests();

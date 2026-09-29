@@ -93,5 +93,6 @@ return [
         'submit' => 'Je m\'inscris',
         'privacy' => 'Votre adresse e-mail sera utilisée uniquement pour la newsletter. Vous pouvez vous désinscrire à tout moment en un clic. En savoir plus dans notre politique de confidentialité.',
         'error' => 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer plus tard.',
+        'throttled' => 'On freine un peu : nous venons de recevoir plusieurs inscriptions de votre part. Réessayez d\'ici un petit quart d\'heure.',
     ],
 ];

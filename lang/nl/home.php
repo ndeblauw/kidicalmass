@@ -12,7 +12,7 @@ return [
         'heading' => 'Volgende ritten',
         'off_season' => 'Het fietsseizoen loopt van maart tot november.',
         'off_season_link' => 'Ontdek hoe een rit werkt →',
-        'far_away' => 'Geen rit vlakbij op dit moment. De eerstvolgende iets verderaf:',
+        'far_away' => 'Geen rit vlakbij op dit moment. Deze rijden het dichtst bij jou:',
         'all' => 'Alle ritten',
     ],
     'routes' => [

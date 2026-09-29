@@ -5,30 +5,20 @@ namespace App\Support\Map;
 use App\Enums\Region;
 use App\Models\Group;
 use App\Models\PostalCode;
+use App\Support\PublicFiguresCache;
 use Illuminate\Support\Arr;
 
 /**
  * Feeds the live list of visible local groups into {@see BelgiumMap} for
  * <x-belgium-map>.
  *
- * Freshness strategy: nothing is stored, so there is nothing to invalidate.
- * Every render reads the small input set (visible groups, their region parent,
- * postcode centroids: three queries, constant in the number of groups) and
- * composes the map in about 0.2 ms. Any change that alters the picture (a group
- * added, deleted, hidden, renamed, moved to another zip, re-parented, a
- * centroid corrected) shows on the next request, whether it came through
- * Eloquent, a query-builder update, a seeder or raw SQL.
- *
- * Why no cache: the three input queries are needed either way to know whether
- * a cached copy is still valid. A cheaper count + max(updated_at) fingerprint
- * would miss changes that do not touch a group's timestamp: raw DB::table()
- * writes, postal_codes centroid edits and renames of a region parent. Caching
- * would then only save the 0.2 ms composition, while the app's default cache
- * store is `database`, so a cache hit costs one more query than it saves. If
- * composition ever gets expensive, key a Cache::remember() on a hash of
- * {@see groups()} plus the locale and a version number for the geometry; the
- * output is plain arrays and therefore cache-safe (cache.serializable_classes
- * is false).
+ * Freshness strategy: the composed map (plain arrays) is cached per locale in
+ * {@see PublicFiguresCache}, which is flushed on every Eloquent save or delete
+ * of a group or postal code, so an admin adding, hiding, renaming, moving or
+ * re-parenting a group shows on the next render. Writes that bypass model
+ * events (raw DB::table() updates, seeder bulk inserts) show once the cache's
+ * backstop TTL runs out. The static outline file is part of the cache version
+ * (its mtime), so replacing it rebuilds the map without a flush.
  *
  * @phpstan-import-type BelgiumMapData from BelgiumMap
  */
@@ -45,8 +35,19 @@ class LocalGroupsMap
      */
     public function data(): array
     {
-        $map = BelgiumMap::fromFile(database_path(self::OUTLINE_PATH))
-            ->compose($this->groups(), Region::BRUSSELS->label());
+        $outline = database_path(self::OUTLINE_PATH);
+
+        return PublicFiguresCache::remember(
+            PublicFiguresCache::BELGIUM_MAP,
+            fn (): array => $this->compose($outline),
+            version: (int) filemtime($outline),
+        );
+    }
+
+    /** @return BelgiumMapData&array{label: string} */
+    private function compose(string $outline): array
+    {
+        $map = BelgiumMap::fromFile($outline)->compose($this->groups(), Region::BRUSSELS->label());
 
         return [...$map, 'label' => $this->label($map['counts'])];
     }

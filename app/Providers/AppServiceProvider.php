@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Group;
+use App\Support\PublicFiguresCache;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -33,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
         $this->configureMissingTranslationKeyHandling();
         $this->registerBladeDirectives();
+
+        PublicFiguresCache::flushOnSourceChanges();
     }
 
     protected function registerBladeDirectives(): void

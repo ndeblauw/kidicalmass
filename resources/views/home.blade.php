@@ -19,7 +19,13 @@
 
         <x-layout-proposal>
         <section class="home-hero">
-            <h1 class="home-hero__title"><span class="home-hero__title-ride"><span class="home-hero__title-line">@foreach (explode(' ', __('home.hero.title')) as $word)<span class="home-hero__word">{{ $word }}</span>@if (! $loop->last) @endif @endforeach</span></span></h1>
+            {{-- One span per word so the words can pop in reading order (the
+                 --word-index drives the stagger). French high punctuation is
+                 glued to its word with a no-break space, so "!" never wraps alone. --}}
+            @php
+                $heroTitleWords = explode(' ', preg_replace('/ +([!?:;»])/u', "\u{00A0}\$1", trim(__('home.hero.title'))));
+            @endphp
+            <h1 class="home-hero__title"><span class="home-hero__title-ride"><span class="home-hero__title-line">@foreach ($heroTitleWords as $word)<span class="home-hero__word" style="--word-index: {{ $loop->index }}">{{ $word }}</span>{{ $loop->last ? '' : ' ' }}@endforeach</span></span></h1>
         </section>
 
         <section class="home-intro">
@@ -37,6 +43,42 @@
 
     {{-- Holds the fixed backdrop's place in normal flow (md+). --}}
     <div class="home-backdrop__spacer" aria-hidden="true"></div>
+
+    {{-- Hero fit check (md+): the pinned backdrop is one viewport (+2rem) tall, so
+         under text zoom or on a short screen the title and blue band can outgrow it
+         and get cropped. When they don't fit, flag the backdrop to stack in normal
+         flow instead (see home.css). Runs inline, right after the markup, so the
+         first paint already has the right mode; the observer re-checks when fonts
+         load or the text size changes. The measurement ignores the mode itself,
+         so switching can't loop. --}}
+    <script>
+        (function () {
+            var backdrop = document.querySelector('.home-backdrop');
+            var hero = backdrop && backdrop.querySelector('.home-hero');
+            var title = backdrop && backdrop.querySelector('.home-hero__title');
+            var intro = backdrop && backdrop.querySelector('.home-intro');
+            if (!hero || !title || !intro) {
+                return;
+            }
+
+            function checkHeroFit() {
+                var heroStyle = getComputedStyle(hero);
+                var rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+                var needed = parseFloat(heroStyle.paddingTop) + title.offsetHeight
+                    + parseFloat(heroStyle.paddingBottom) + intro.offsetHeight;
+                var pinned = window.innerHeight + 2 * rem;
+                backdrop.setAttribute('data-hero-fit', needed > pinned ? 'flow' : 'pinned');
+            }
+
+            checkHeroFit();
+            window.addEventListener('resize', checkHeroFit);
+            if ('ResizeObserver' in window) {
+                var observer = new ResizeObserver(checkHeroFit);
+                observer.observe(title);
+                observer.observe(intro);
+            }
+        })();
+    </script>
 
     {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
     <div class="page-panel page-panel--home">
@@ -61,8 +103,8 @@
                     </p>
 
                 @elseif (! $hasLocation)
-                    @foreach ($upcomingRides as $periodKey => $rows)
-                        <x-ride-day :period-key="$periodKey" :rows="$rows" />
+                    @foreach ($upcomingRides as $day)
+                        <x-ride-day :period-key="$day['date']" :rows="$day['rows']" />
                     @endforeach
 
                     <div class="max-w-lg">
@@ -76,8 +118,8 @@
                         <p class="text-kidical-ink/70">{{ __('home.next_rides.far_away') }}</p>
                     @endif
 
-                    @foreach ($upcomingRides as $periodKey => $rows)
-                        <x-ride-day :period-key="$periodKey" :rows="$rows" />
+                    @foreach ($upcomingRides as $day)
+                        <x-ride-day :period-key="$day['date']" :rows="$day['rows']" />
                     @endforeach
 
                     <div class="flex justify-start">
@@ -166,7 +208,8 @@
                         @foreach ($movementStats as $stat)
                             <div class="home-movement__stat home-movement__stat--{{ $stat['color'] }}" data-stat="{{ $stat['key'] }}">
                                 <dt>{{ $stat['label'] }}</dt>
-                                <dd>{{ $stat['value'] }}</dd>
+                                {{-- Width in digits (a separator counts as half), so home.css can shrink a long figure to fit its column. --}}
+                                <dd style="--stat-digits: {{ mb_strlen($stat['value']) - mb_strlen(preg_replace('/\d/u', '', $stat['value'])) / 2 }}">{{ $stat['value'] }}</dd>
                             </div>
                         @endforeach
                     </dl>

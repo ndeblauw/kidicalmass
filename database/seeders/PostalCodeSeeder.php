@@ -5,6 +5,11 @@ namespace Database\Seeders;
 use App\Models\PostalCode;
 use Illuminate\Database\Seeder;
 
+/**
+ * Loads database/data/be-postcodes.csv (sources and licences in
+ * be-postcodes.SOURCES.md). Columns: zip, name, name_nl, name_fr,
+ * localities (pipe-separated), latitude, longitude.
+ */
 class PostalCodeSeeder extends Seeder
 {
     public function run(): void
@@ -24,15 +29,20 @@ class PostalCodeSeeder extends Seeder
         $now = now();
 
         while (($row = fgetcsv($handle, 0, ',', '"', '')) !== false) {
-            if (count($row) < 4 || $row[0] === '') {
+            if (count($row) < 7 || $row[0] === '') {
                 continue;
             }
 
+            [$zip, $name, $nameNl, $nameFr, $localities, $latitude, $longitude] = $row;
+
             $rows[] = [
-                'zip' => $row[0],
-                'name' => $row[1],
-                'latitude' => (float) $row[2],
-                'longitude' => (float) $row[3],
+                'zip' => $zip,
+                'name' => $name,
+                'name_nl' => $nameNl,
+                'name_fr' => $nameFr,
+                'search_names' => PostalCode::searchNamesFor([$nameNl, $nameFr, $name, ...explode('|', $localities)]),
+                'latitude' => (float) $latitude,
+                'longitude' => (float) $longitude,
                 'created_at' => $now,
                 'updated_at' => $now,
             ];

@@ -1,5 +1,19 @@
 # Wiki Log
 
+## [2026-09-29] build | Home: hardening na audit
+
+Een hardening-audit van Home leverde 25 punten op; Frederik koos er 11 om nu op te lossen.
+De nieuwsbriefinschrijving heeft een limiet per IP en per e-mailadres, een placeholder die echt rendert en strengere e-mailvalidatie, zodat `a@b` een foutmelding in het veld geeft in plaats van een algemene fout van MailerLite.
+De locatiezoeker vindt plaatsen nu op elke Nederlandse of Franse naam, deelgemeenten inbegrepen ("Brussel", "Elsene", "Luik", "Laken"); 4000 heet Luik op de NL-site en Liège op de FR-site.
+Die namen komen uit Statbel, GeoNames en de postcodelijst van bpost; de bpost-lijst noemt geen licentie, en die vraag ligt open in `database/data/be-postcodes.SOURCES.md`.
+Na deploy: `php artisan migrate` en `php artisan db:seed --class=PostalCodeSeeder`.
+Staat er geen rit in de buurt, dan toont Home de dichtstbijzijnde eerst, elk met afstand.
+Cijfers en kaart op Home zijn nu gecachet; elke wijziging aan een groep, rit of jaarcijfer leegt de cache, dus de vorige beslissing "geen cache" is herzien. Queries op `/nl` gingen van 16 naar 11.
+Ritten van gisteren verdwijnen om middernacht Brusselse tijd in plaats van om 02:00.
+De hero-titel animeert in elke taal in leesvolgorde, het Franse "!" breekt niet meer los, en bij 200% tekstgrootte blijft de titel zichtbaar.
+Lange rittitels en grote cijfers blijven binnen hun kolom op smalle telefoons; suggesties in de locatiezoeker krijgen een zichtbare focusrand.
+Nog open uit de audit: de hero-video is niet te pauzeren (ook niet bij reduced motion) en toont op mobiel YouTube-bediening.
+
 ## [2026-09-29] build | Home: Over ons beat with stats + static Belgium map
 
 De Home-spec van juni schrapte cijfers en groepenkaart op Home, omdat Over ons en Lokale groepen ze al tonen.

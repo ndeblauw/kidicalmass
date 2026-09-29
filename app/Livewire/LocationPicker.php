@@ -38,12 +38,7 @@ class LocationPicker extends Component
             return new Collection;
         }
 
-        return PostalCode::query()
-            ->where('zip', 'like', $term.'%')
-            ->orWhere('name', 'like', $term.'%')
-            ->orderBy('zip')
-            ->limit(8)
-            ->get();
+        return PostalCode::search($term);
     }
 
     public function choose(string $zip): void
@@ -54,7 +49,7 @@ class LocationPicker extends Component
             return;
         }
 
-        $this->persist($zip, $row->latitude, $row->longitude, $row->name);
+        $this->persist($zip, $row->latitude, $row->longitude, $row->localizedName());
     }
 
     public function cancelEditing(): void

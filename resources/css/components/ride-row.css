@@ -5,6 +5,7 @@
         display: flex;
         flex-direction: column;
         row-gap: 0.2rem;
+        min-width: 0;
         padding-block: 0.9rem;
     }
     .ride-row:hover .ride-row__place {
@@ -18,6 +19,7 @@
         font-size: clamp(var(--text-xl), 2.25vw, var(--text-3xl));
         line-height: 1.3;
         color: var(--color-kidical-blue);
+        overflow-wrap: anywhere;
         transition: color 0.18s;
     }
 
@@ -31,6 +33,14 @@
         font-family: var(--font-sans);
         font-size: var(--text-xl);
         color: var(--color-text-body);
+    }
+    /* A long unbroken venue breaks inside the row instead of running off a
+       small phone. */
+    .ride-row__where {
+        min-width: 0;
+    }
+    .ride-row__venue {
+        overflow-wrap: anywhere;
     }
     /* Weekday leads the meta line; capitalized here (RideDate keeps it lowercase). */
     .ride-row__weekday {

@@ -113,7 +113,7 @@
                         x-on:keydown.up.prevent="move(-1, $el)"
                         x-on:keydown.escape.prevent="dismiss()"
                     >
-                        <strong>{{ $pc->zip }}</strong> <span>{{ $pc->name }}</span>
+                        <strong>{{ $pc->zip }}</strong> <span>{{ $pc->localizedName() }}</span>
                     </button>
                 </li>
             @endforeach

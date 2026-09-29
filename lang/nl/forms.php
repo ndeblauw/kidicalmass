@@ -93,5 +93,6 @@ return [
         'submit' => 'Schrijf me in',
         'privacy' => 'Je e-mailadres gebruiken we alleen voor de maandelijkse nieuwsbrief. Uitschrijven kan altijd met één klik.',
         'error' => 'Er ging iets mis bij het inschrijven. Probeer het later opnieuw.',
+        'throttled' => 'Even op de rem: we kregen net heel wat inschrijvingen van jou. Probeer het binnen een kwartiertje opnieuw.',
     ],
 ];

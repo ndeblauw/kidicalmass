@@ -7,7 +7,8 @@ namespace App\Support;
  * parades in the reference year, participants in the reference year. Same
  * figures as the /steun-ons deck ({@see ImpactFigures}), Home's own labels and
  * colours. A figure without a real value (no rides, no curated participant
- * count) is dropped, never shown as "0".
+ * count) is dropped, never shown as "0". Cached per locale; see
+ * {@see PublicFiguresCache} for how edits invalidate it.
  */
 class MovementStats
 {
@@ -17,6 +18,14 @@ class MovementStats
      * @return list<array{key: string, value: string, label: string, color: string}>
      */
     public function items(): array
+    {
+        return PublicFiguresCache::remember(PublicFiguresCache::MOVEMENT_STATS, fn (): array => $this->build());
+    }
+
+    /**
+     * @return list<array{key: string, value: string, label: string, color: string}>
+     */
+    private function build(): array
     {
         $year = $this->figures->referenceYear();
 

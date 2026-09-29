@@ -2,14 +2,13 @@
 
 // <x-belgium-map> fed by LocalGroupsMap: one dot per visible non-Brussels group,
 // one counted Brussels bubble, and a picture that follows every change to the
-// groups on the next render (no regeneration step, no cache to clear).
+// groups on the next render (the cached map is flushed on every group change).
 
 use App\Models\Group;
 use App\Models\PostalCode;
 use App\Support\Map\BelgiumMap;
 use App\Support\Map\LocalGroupsMap;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\DB;
 
 beforeEach(function (): void {
     app()->setLocale('nl');
@@ -97,8 +96,8 @@ it('reflects added, hidden and moved groups on the next render', function () {
     Group::factory()->withParent($this->brussels)->create(['name_nl' => 'Ukkel', 'zip' => '1000', 'invisible' => false]);
     expect(renderBelgiumMap())->toContain('data-count="3"');
 
-    // Hidden (through the query builder, bypassing model events and timestamps).
-    DB::table('groups')->where('id', $this->namen->id)->update(['invisible' => true]);
+    // Hidden.
+    $this->namen->update(['invisible' => true]);
     expect(collect(mapDots(renderBelgiumMap()))->pluck('region')->all())->toBe(['flanders']);
 
     // Moved to another postcode.

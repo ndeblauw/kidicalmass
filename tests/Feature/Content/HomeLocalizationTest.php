@@ -25,6 +25,17 @@ it('renders the localized Dutch hero title and provides it in both home locales'
         ->assertSeeText($localizedTitle);
 });
 
+it('keeps French high punctuation glued to the last word of the Home hero title', function () {
+    $this->withoutVite();
+
+    Lang::addLines(['home.hero.title' => 'Des rues pour tous !'], 'fr');
+
+    get('/fr')
+        ->assertOk()
+        ->assertSee("tous\u{00A0}!", escape: false)
+        ->assertDontSee('>!</span>', escape: false);
+});
+
 it('renders shared location picker copy on the Home page without a selected location', function () {
     $this->withoutVite();
 

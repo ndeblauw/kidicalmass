@@ -182,6 +182,14 @@
     outline: none;
 }
 
+/* Keyboard focus gets the site-wide focus ring (3px kidical blue, well above
+   3:1 on white), inset so it stays inside the rounded list without touching
+   the neighbouring rows. The ink tint alone is too faint to track. */
+.location-picker__suggestion:focus-visible {
+    outline: 3px solid var(--color-kidical-blue);
+    outline-offset: -3px;
+}
+
 @media (max-width: 767px) {
     .location-picker__suggestion {
         min-height: 44px;

@@ -12,7 +12,7 @@ return [
         'heading' => 'Prochaines parades à vélo',
         'off_season' => 'La saison Kidical Mass Belgium s’étend de mars à novembre.',
         'off_season_link' => 'Découvrez comment fonctionne une parade Kidical Mass →',
-        'far_away' => 'Il n’y a pas de parade à proximité pour le moment. Les prochaines auront lieu un peu plus loin :',
+        'far_away' => 'Il n’y a pas de parade à proximité pour le moment. Voici les plus proches de chez vous :',
         'all' => 'Toutes les parades',
     ],
     'routes' => [
