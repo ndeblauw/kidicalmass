@@ -22,6 +22,12 @@ return [
             ['src' => 'img/photography/kids-soundbike-flag-obelisk.webp', 'alt' => 'Twee kinderen met hesjes en zonnebril steken hun duim op bij een geluidsfiets onder een grote blauwe vlag.'],
             ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => 'Meisje in een roze jas fietst lachend naar de camera, met twee kinderen naast haar.'],
         ],
+        // Desktop only: fills the left column beside the tall card stack.
+        'photos_more' => [
+            ['src' => 'img/photography/ride-dj-on-boombox-bike.webp', 'alt' => 'Een dj met pet draait muziek op een fiets met een grote boombox.'],
+            ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => 'Een lachende moeder fietst in de zon met twee kinderen met helm in haar bakfiets.'],
+            ['src' => 'img/photography/ride-brussels-kids-from-behind.webp', 'alt' => 'Een groepje kinderen met helm en fluohesje fietst samen door een straat in Brussel.'],
+        ],
     ],
     'faq' => [
         'title' => 'FAQ',

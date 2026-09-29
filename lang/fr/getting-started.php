@@ -22,6 +22,12 @@ return [
             ['src' => 'img/photography/kids-soundbike-flag-obelisk.webp', 'alt' => 'Deux enfants en gilets et lunettes de soleil lèvent le pouce près d\'un vélo à musique sous un grand drapeau bleu.'],
             ['src' => 'img/photography/ride-girl-pink-jacket-crossing.webp', 'alt' => 'Une fille en veste rose sourit à la caméra à vélo, avec deux enfants à ses côtés.'],
         ],
+        // Desktop only: fills the left column beside the tall card stack.
+        'photos_more' => [
+            ['src' => 'img/photography/ride-dj-on-boombox-bike.webp', 'alt' => 'Un DJ en casquette mixe de la musique sur un vélo équipé d\'un grand boombox.'],
+            ['src' => 'img/photography/cargo-bike-mother-two-kids-flag.webp', 'alt' => 'Une maman souriante pédale au soleil avec deux enfants casqués dans son vélo cargo.'],
+            ['src' => 'img/photography/ride-brussels-kids-from-behind.webp', 'alt' => 'Un groupe d\'enfants casqués et en gilet fluo roule ensemble dans une rue de Bruxelles.'],
+        ],
     ],
     'faq' => [
         'title' => 'FAQ',

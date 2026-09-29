@@ -1,5 +1,14 @@
 # Wiki Log
 
+## [2026-09-29] build | P-12: Eerste keer zonder kaartjesanimatie
+
+De scroll-animatie van "Wat je mag verwachten" is weg.
+In de klantmeeting van 22/9 bleek ze op mobiel te dynamisch om de tekst te lezen, zeker met de langere FR-kopij.
+De zes kaarten staan nu gewoon onder elkaar, elk licht gekanteld, en de lichtblauwe band groeit mee.
+Op desktop vullen drie extra foto's (dj-fiets, bakfiets met twee kinderen, kinderen in Brussel) de linkerkolom; op mobiel blijft het bij drie, anders moet je langs zes foto's scrollen voor je bij de kaarten komt.
+Op mobiel schuift de eerste kaart over de onderste foto in plaats van eronder.
+Stages blijven 🟢: Frederik keurde het goed op de preview.
+
 ## [2026-09-29] build | P-14: Over-ons-hub herwerkt na klantmeeting 22/9
 
 Twee stats naast de intro (groepen + deelnemers, `AboutStats::highlights()`), de "Meteen iets regelen"-links als compacte link-feature-cards (`<x-feature-card href>`), en de laatste 3 nieuwsberichten boven de gele closing CTA (vervangt de Nieuws-rij in de inhoudsopgave). Route via nieuwe `AboutController`. P-14 Wire/UI 🟢→🟠 tot Frederiks critique-pass, CMS ⚪→🟠 (Jaarcijfers, nieuws-covers/FR-titels). Commit `28b7901`.

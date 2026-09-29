@@ -19,13 +19,19 @@
         height: 80%;
         object-fit: contain;
     }
-    .gs-expect-scroll {
+    /* The panel's rounded top edge takes the section's light blue, so the band
+       reads as one surface straight up from the hero seam. */
+    .page-panel:has(.gs-expect) {
+        background-color: var(--color-kidical-light-blue);
+        padding-bottom: 0;
+    }
+    .gs-expect {
         width: 100vw;
         margin-left: calc(50% - 50vw);
         background: var(--color-kidical-light-blue);
         padding-block: clamp(3rem, 6vw, 5rem);
     }
-    .gs-expect-pin {
+    .gs-expect-layout {
         padding-inline: 1rem;
         display: flex;
         flex-direction: column;
@@ -34,8 +40,25 @@
         @media (min-width: 768px) {
             padding-inline: max(1rem, calc((100vw - 80rem) / 2 + 1rem));
         }
+
+        /* Desktop: intro + collage on the left, the cards stacked down the
+           right. The right column sets the section height; the left keeps its
+           place at the top. */
+        @media (min-width: 1024px) {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            column-gap: 4rem;
+            padding-block-start: 1rem;
+        }
     }
+    /* The last snapshot runs off the collage stage; on mobile, where the
+       columns stack, the first card slides over it rather than under it.
+       The left column gets its own stacking context so the photos' z-indexes
+       stay inside it. */
     .gs-expect-left {
+        position: relative;
+        z-index: 0;
         display: flex;
         flex-direction: column;
         gap: 2.5rem;
@@ -48,87 +71,53 @@
 
         .gs-expect-collage {
             /* Tall portrait stage so the three snapshots cascade down it (zigzag)
-               with air between them, rather than clustering on a square. The
-               bottom snapshot runs off the stage and tucks under the FAQ band. */
+               with air between them, rather than clustering on a square. */
             aspect-ratio: 2 / 3;
             width: 100%;
             max-width: 30rem;
         }
     }
 
-    /* Scatter for the three snapshots — shared by the stacked and pinned layouts.
-       Each top edge sits at the stage top (no empty gap under the intro); the
-       last one runs past the stage bottom so it slips under the white FAQ band. */
     .gs-expect-collage .photo-collage__photo:nth-child(1) { --pc-x: 32%; --pc-y: 25%; --pc-w: 54%; --pc-r: -6deg; }
     .gs-expect-collage .photo-collage__photo:nth-child(2) { --pc-x: 70%; --pc-y: 55%; --pc-w: 50%; --pc-r: 5deg; }
     .gs-expect-collage .photo-collage__photo:nth-child(3) { --pc-x: 32%; --pc-y: 88%; --pc-w: 53%; --pc-r: -4deg; --pc-pos: center 35%; }
+
+    /* Second collage mirrors the zigzag (right, left, right) so the six photos
+       read as one cascade down the left column. */
+    .gs-expect-collage--more {
+        display: none;
+
+        @media (min-width: 1024px) {
+            display: block;
+        }
+    }
+    /* Taller stage than the first collage: the card column has room to spare,
+       so these three overlap less and each subject stays in view. */
+    .gs-expect-left .gs-expect-collage--more {
+        aspect-ratio: 1 / 2;
+    }
+    .gs-expect-collage--more .photo-collage__photo:nth-child(1) { --pc-x: 66%; --pc-y: 18%; --pc-w: 52%; --pc-r: 4deg; }
+    .gs-expect-collage--more .photo-collage__photo:nth-child(2) { --pc-x: 30%; --pc-y: 47%; --pc-w: 50%; --pc-r: -5deg; }
+    .gs-expect-collage--more .photo-collage__photo:nth-child(3) { --pc-x: 68%; --pc-y: 76%; --pc-w: 52%; --pc-r: 3deg; }
+    .gs-expect-right {
+        position: relative;
+        z-index: 1;
+
+        @media (min-width: 1024px) {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
     .gs-expect-cards {
         display: flex;
         flex-direction: column;
         gap: 2.875rem;
-    }
-    .gs-expect-card {
-        &:nth-child(1) { transform: rotate(-1.5deg); }
-        &:nth-child(2) { transform: rotate(1deg);    }
-        &:nth-child(3) { transform: rotate(-1.5deg); }
-        &:nth-child(4) { transform: rotate(1deg);    }
-        &:nth-child(5) { transform: rotate(-1.5deg); }
-        &:nth-child(6) { transform: rotate(1deg);    }
-    }
-    .gs-expect-scroll--ready {
-        position: relative;
-        padding: 0;
-    }
-    .gs-expect-scroll--ready .gs-expect-pin {
-        position: sticky;
-        top: 0;
-        /* The pin must match the viewport so its overflow edge lands at the viewport
-           edge — a shorter pin would slice cards off mid-screen. The content is then
-           grounded in the lower portion of the stage (see the columns below) so the
-           cards stack low and the FAQ follows right after the last one lands; the
-           empty space ends up above the deck, reading as sky, not dead space below. */
-        height: 100dvh;
-        min-height: 600px;
-        overflow: hidden;
-        background: var(--color-kidical-light-blue);
-        z-index: 1;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        padding: 0;
-        gap: 0;
-    }
-    .gs-expect-scroll--ready .gs-expect-left {
-        /* Intro at the top, photo grounded at the bottom (sky sits in between,
-           reading as sky above a real moment from a ride). */
-        justify-content: space-between;
-        /* No bottom padding: the collage grounds at the pin's bottom edge so its
-           last snapshot runs into the seam and tucks under the FAQ band below. */
-        padding: 6rem 2rem 0 max(2rem, calc((100vw - 80rem) / 2 + 2rem));
-        gap: 2.5rem;
-
-        .gs-expect-collage {
-            aspect-ratio: 2 / 3;
-            width: 100%;
-            max-width: 30rem;
-        }
-    }
-    .gs-expect-scroll--ready .gs-expect-right {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 6rem max(2rem, calc((100vw - 80rem) / 2 + 2rem)) 5rem 2rem;
-    }
-    .gs-expect-scroll--ready .gs-expect-cards {
-        position: relative;
         width: 100%;
         max-width: 500px;
-        
     }
-    .gs-expect-scroll--ready .gs-expect-card {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
+    .gs-expect-card {
+        &:nth-child(odd)  { transform: rotate(-1.5deg); }
+        &:nth-child(even) { transform: rotate(1deg); }
     }
     .gs-faq-section {
         background: white;

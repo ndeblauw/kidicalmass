@@ -212,13 +212,6 @@ header [data-flux-navbar-items][data-current]::after {
     display: none;
 }
 
-@layer components {
-    .page-panel:has(.gs-expect-scroll) {
-        background-color: var(--color-kidical-light-blue);
-        padding-bottom: 0;
-    }
-}
-
 /* Flux form-field styling lives in components/form-field.css (the site's one
    field idiom); the starter-kit defaults that sat here are superseded. */
 
