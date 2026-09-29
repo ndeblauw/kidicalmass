@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ActivityType;
+use App\Enums\Region;
 use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Group;
@@ -22,8 +23,7 @@ class GroupController extends Controller
             ->withCount(['articles', 'activities'])
             ->get();
 
-        $coordsByZip = PostalCode::whereIn('zip', $groups->pluck('zip')->filter()->unique())
-            ->get()->keyBy('zip');
+        $coordsByZip = PostalCode::centroidsByZip($groups->pluck('zip'));
 
         $location = CurrentLocation::resolve();
 
@@ -53,7 +53,7 @@ class GroupController extends Controller
      * @param  Collection<int, Group>  $groups
      * @param  Collection<string, PostalCode>  $coordsByZip
      * @param  array<string, string>  $regionLabels
-     * @return list<array{name: string, slug: string, url: string, region: ?string, regionLabel: ?string, zip: ?string, lat: ?float, lng: ?float}>
+     * @return list<array{name: string, slug: string, url: string, region: ?string, regionLabel: ?string, colorToken: string, zip: ?string, lat: ?float, lng: ?float}>
      */
     private function mapMarkers(
         Collection $groups,
@@ -70,6 +70,7 @@ class GroupController extends Controller
                 'url' => localized_route('groups.show', ['group' => $group]),
                 'region' => $region,
                 'regionLabel' => $region ? ($regionLabels[$region] ?? $region) : null,
+                'colorToken' => Region::colorTokenFor(Region::forGroup($group)),
                 'zip' => $group->zip,
                 'lat' => $postalCode?->latitude,
                 'lng' => $postalCode?->longitude,

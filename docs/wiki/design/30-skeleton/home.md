@@ -3,12 +3,14 @@ title: Home
 tags: []
 sources: [notion, raw/website/index.md]
 phase: design
-updated: 2026-04-13
+updated: 2026-09-29
 ---
 
 Status: ✅ Complete. Page URL: `/` (trilingual: `/nl/`, `/fr/`, `/en/`)
 
-**Summary:** The homepage converts curious visitors into event-goers. Dual CTAs in the hero serve two genuinely different audiences: ready families (→ /events) and curious first-timers (→ /getting-started). The events strip is the most functional element. The chapter map = proof of scale, not navigation. Stats are dynamic and current-season.
+**Summary:** The homepage converts curious visitors into event-goers. Dual CTAs in the hero serve two genuinely different audiences: ready families (→ /events) and curious first-timers (→ /getting-started). The events strip is the most functional element. The chapter map = proof of scale, not navigation. Stats are dynamic and use the same figures as /steun-ons and About.
+
+The current Home structure is in `docs/superpowers/specs/2026-06-06-home-ux-design.md`; where this page disagrees, the spec wins.
 
 ---
 
@@ -80,7 +82,6 @@ Linear scroll, single-column. Story: what is this → next ride → how big is t
 - Hero secondary CTA → /getting-started
 - Event cards → /events/[slug]
 - "See all rides" → /events
-- Chapter map pins → /chapters/[postal-code]
 - "See all chapters" → /chapters
 - Volunteer CTA → /help-out
 - News cards → /about/news/[slug]
@@ -94,11 +95,13 @@ Linear scroll, single-column. Story: what is this → next ride → how big is t
 
 **Events strip:** 3 live events pulled from the Events database, same card component as /events. Always database-driven — no hardcoded events.
 
-**Chapter map:** On the homepage it serves as proof of scale (national reach at a glance), not a discovery directory. Liège appears as a regular pin linking to kidicalmassliege.org. ✅ Decided.
+**Chapter map:** On the homepage it serves as proof of scale (national reach at a glance), not a discovery directory. ✅ Decided.
+It is a static server-rendered map: one dot per local group, all Brussels groups as one counted bubble, no links. The interactive map lives on Chapters.
 
-**Stats:** Chapter count with growth context + parades per season. ✅ Decided.
+**Stats:** Local groups, parades in the reference year and participants in the reference year. ✅ Decided.
 
-**Stats distinction ✅:** Homepage stats (dynamic, current season: active chapter count + parades this season) are deliberately different from the Mission page stats (cumulative impact: 150 parades, 5,500+ participants, 120 volunteers, 16+ communities — manually maintained). Homepage = momentum signal. Mission = total impact. The two sets must not contradict each other.
+**Stats source ✅:** Home, /steun-ons and About read the same figure definitions (`App\Support\ImpactFigures`), so they cannot contradict each other.
+The reference year is the latest curated year figure, with last year as fallback. A figure without a value is left out, never shown as 0.
 
 **Partners bar scope ✅:** The homepage partners bar shows institutional and movement-ally partners only (Bruxelles Mobilité, Clean Cities Campaign, Ville de Bruxelles, Commune de Schaerbeek). Operational/in-kind partners (Loopz, Kidical Mouse) do NOT appear here — they live on /about/partners and /getting-started.
 
@@ -136,11 +139,11 @@ Linear scroll, single-column. Story: what is this → next ride → how big is t
 │  Active across Belgium            See all chapters → │
 │                                                      │
 │  [ MAP — outlined Belgium with coloured chapter pins]│
-│  [ Brussels: clustered pin · Liège: external pin ]   │
+│  [ Brussels: one counted bubble · static, no links ] │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
 │                                                      │
-│      16 active chapters   ·   60 parades this season │
+│   27 groups · 62 parades in 2025 · 5.500 riders      │
 │                                                      │
 ├──────────────────────────────────────────────────────┤
 │  Want to help make rides happen?       Help out →    │
@@ -202,8 +205,8 @@ Linear scroll, single-column. Story: what is this → next ride → how big is t
 │ [ MAP — Belgium ]    │
 │  See all chapters →  │
 ├──────────────────────┤
-│  16 active chapters  │
-│  60 parades/season   │
+│  27 groups · 62      │
+│  parades · 5.500     │
 ├──────────────────────┤
 │  Want to help?       │
 │  Help out →          │
@@ -230,8 +233,8 @@ Linear scroll, single-column. Story: what is this → next ride → how big is t
 - **Primary CTA:** Solid button, highest visual weight. Leads families directly to event discovery.
 - **Secondary CTA:** Text link (not a button). Lower visual weight. First-timers who need orientation before committing.
 - **Events strip:** 3 cards, database-driven, same compact card component as /events. Off-season empty state: "No rides right now — the season runs from March to November."
-- **Chapter map:** Impressionistic scale, not a navigation tool. Brussels cluster expands on tap. Liège opens external site.
-- **Stats bar:** 2 stats only — chapter count and parades this season. Dynamic. Not contradicting the Mission page cumulative stats.
+- **Chapter map:** Impressionistic scale, not a navigation tool. Static: Brussels is one counted bubble, markers have no links.
+- **Stats bar:** 3 stats: local groups, parades and participants in the reference year. Dynamic. Same figures as /steun-ons and About.
 - **Volunteer CTA:** Single line + link. Not a section — a nudge. Appears between stats and news to catch motivated visitors on their way down.
 - **News preview:** Hidden entirely when the news feed is empty. Never shows empty cards.
 - **Partners bar:** Logo strip, institutional and movement-ally only.
@@ -243,5 +246,5 @@ Linear scroll, single-column. Story: what is this → next ride → how big is t
 1. **Hero visual:** Photo vs. looping video — video requires a dedicated asset. Confirm with Leticia whether a high-quality looping video is available or should be produced. Fallback = strong photo.
 2. **Volunteer CTA copy:** "Want to help make rides happen?" is a working example. Needs a final pass against the ToV guide — does it pass the one-line test?
 3. **Off-season behaviour:** The "No rides right now" empty state is decided ✅. Confirm the exact season window (March–November) with Leticia before hardcoding in copy.
-4. **Homepage stats — data source:** "16 active chapters" and "60 parades this season" should be database-driven. Confirm with Nico what fields drive these numbers and whether "this season" resets automatically (e.g., by year, or March–November window).
+4. **Homepage stats: data source ✅:** Visible local groups, published parades in the reference year, and the curated participant count for that year (`App\Support\ImpactFigures`).
 5. **News section:** Hidden when empty ✅ — but at launch, is there at least 1 published article? If not, the news preview section disappears. Confirm content readiness before build.

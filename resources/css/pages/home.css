@@ -430,6 +430,56 @@
     .home-routes.is-ready .scroll-sequence__block.is-inview > *:nth-child(2) { transition-delay: 80ms; }
     .home-routes.is-ready .scroll-sequence__block.is-inview > *:nth-child(3) { transition-delay: 160ms; }
     .home-routes.is-ready .scroll-sequence__block.is-inview > *:nth-child(4) { transition-delay: 240ms; }
+    .home-routes.is-ready .scroll-sequence__block.is-inview > *:nth-child(5) { transition-delay: 320ms; }
+
+    /* ─── Home — beat 4 "Eén beweging" ───
+       A typographic stat row (no cards): big Caprasimo figures in brand colours
+       over a body-size label. <dt> (label) comes first in the markup for
+       semantics; the figure is shown on top. Always three equal columns, down
+       to a 360px phone (a figure never wraps onto a row of its own); a long
+       label wraps inside its own column. */
+    .home-movement__stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem clamp(0.75rem, 3vw, 2.5rem);
+        width: 100%;
+        margin: 0;
+    }
+
+    .home-movement__stat {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        gap: 0.25rem;
+        min-width: 0;
+    }
+
+    .home-movement__stat dd {
+        margin: 0;
+        font-family: var(--font-heading);
+        font-size: clamp(1.75rem, 1.2rem + 2.2vw, var(--text-5xl));
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Body-text label: undo the global small-caps metadata <dt>. */
+    .home-movement__stat dt {
+        font-size: var(--text-lg);
+        font-weight: 400;
+        line-height: 1.3;
+        text-transform: none;
+        letter-spacing: normal;
+        color: var(--color-text-body);
+    }
+
+    .home-movement__stat--blue dd  { color: var(--color-kidical-blue); }
+    .home-movement__stat--green dd { color: var(--color-kidical-green); }
+    .home-movement__stat--red dd   { color: var(--color-kidical-red-text); }
+
+    /* Mobile/tablet: the map sits in the flow under the stats. */
+    .home-movement__map {
+        max-width: 34rem;
+    }
 
     .home-routes .home-routes__illu {
         width: 100%;
@@ -466,11 +516,12 @@
             overflow: visible;
         }
 
-        /* Stop the sticky travel short of the section's bottom so the last block's
-           illustration, which hangs below the photo, still lands on white instead of
-           being painted over by the next (newsletter) section. */
+        /* Beat 4 (the map) is the last and hangs nothing below the stage, so the
+           sticky frame may travel to the section's end: the map then stays level
+           with the beat-4 copy instead of scrolling up ahead of it. Beat 3's bike
+           has ridden off by then. */
         .home-routes .scroll-sequence__media {
-            padding-bottom: 8rem;
+            padding-bottom: 0;
         }
 
         /* The square photo card: centred, breathing room on each side, never taller
@@ -502,6 +553,45 @@
         .home-routes__media.is-active {
             opacity: 1;
             transform: scale(1);
+        }
+
+        /* Beat 4's stage item: the static map, centred in the square stage and
+           crossfading like the collages. It spans the stage's 2rem side gutters
+           too (the collage photos' shadows need them, a flat map does not), so
+           the place names read at close to body-label size. */
+        .home-routes__map {
+            position: absolute;
+            inset: 0 -2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 0.8s ease, transform 1.3s ease;
+        }
+
+        .home-routes__map.is-active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* The stage draws the map on desktop, but it sits in the aria-hidden
+           media column. Keep the inline copy in the accessibility tree, visually
+           hidden, so screen readers still get the map's name once. */
+        .home-movement__map {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        /* The last beat hangs nothing below its copy, so it needs less than the
+           full 78vh: trims the white field above the newsletter band while the
+           map, centred in the sticky frame, stays close to level with the copy. */
+        .home-routes .scroll-sequence__block:last-child {
+            min-height: 64vh;
         }
 
         /* Half-size illustration hanging off the photo's bottom edge so only its
@@ -566,8 +656,14 @@
             transition: opacity 0.3s ease;
         }
 
-        .home-routes__media.is-active {
+        .home-routes__media.is-active,
+        .home-routes__map.is-active {
             transform: none;
+        }
+
+        .home-routes__map {
+            transform: none;
+            transition: opacity 0.3s ease;
         }
     }
 }

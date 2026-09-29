@@ -31,6 +31,17 @@ return [
             'body' => 'Envie de faire partie de l’aventure ? Derrière chaque parade, il y a des parents, des voisins et des bénévoles qui participent, en gilet rose ou en coulisses. Organiser une parade, imaginer un parcours, aider le jour J ou simplement donner un coup de main : chacun peut trouver sa place et contribuer à des rues plus sûres pour les enfants.',
             'cta' => 'Devenez bénévole',
         ],
+        'movement' => [
+            'heading' => 'Un seul mouvement, toute la Belgique',
+            'body' => 'De Bruges à Liège, parents, enfants et voisins prennent la rue. Chaque parade est locale, ensemble nous formons un mouvement.',
+            'cta' => 'Faites notre connaissance',
+            // Typographic stat row (App\Support\MovementStats); :year = the reference year.
+            'stats' => [
+                'groups' => 'groupes locaux',
+                'rides' => 'parades en :year',
+                'participants' => 'participants en :year',
+            ],
+        ],
     ],
     'photos' => [
         'first_time' => [

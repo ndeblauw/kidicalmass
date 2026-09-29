@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Support\Location\CurrentLocation;
 use App\Support\Location\NextRideFinder;
+use App\Support\Map\LocalGroupsMap;
+use App\Support\MovementStats;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     /** @param string $locale Supplied by the {locale} route prefix (set via SetLocale middleware); kept first for route-model binding order. */
-    public function __invoke(string $locale): View
+    public function __invoke(string $locale, LocalGroupsMap $belgiumMap, MovementStats $movementStats): View
     {
         $location = CurrentLocation::resolve();
         $next = NextRideFinder::find($location);
@@ -21,6 +23,8 @@ class HomeController extends Controller
             'nextRideIsFar' => $next['is_far'],
             'hasUpcoming' => $next['has_upcoming'],
             'upcomingRides' => $next['upcoming_preview'],
+            'movementStats' => $movementStats->items(),
+            'belgiumMap' => $belgiumMap->data(),
         ]);
     }
 }

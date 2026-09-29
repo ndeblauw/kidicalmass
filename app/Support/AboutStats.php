@@ -2,25 +2,20 @@
 
 namespace App\Support;
 
-use App\Enums\ActivityType;
-use App\Models\Activity;
-use App\Models\Group;
 use App\Models\YearStat;
-use Illuminate\Support\Number;
 
 /**
- * The About-section impact numbers: one source of truth for the full deck on
- * "Wat we doen" and the two highlights beside the About hub intro. Counts what
- * the database knows (visible groups, all-time published parades) and reads
- * what only humans know (participants, volunteers) from the latest curated
- * {@see YearStat} row. A metric without an honest value yields no card,
- * mirroring {@see SupportStats}.
+ * The About-section impact numbers: one deck for "Wat we doen" and the two
+ * highlights beside the About hub intro. Counts what the database knows
+ * (visible groups, all-time published parades) and reads what only humans know
+ * (participants, volunteers) from the reference year's curated {@see YearStat}
+ * row. Every figure comes from {@see ImpactFigures}, shared with Home and
+ * /steun-ons; this class only picks labels and colours. A metric without an
+ * honest value yields no card, mirroring {@see SupportStats}.
  */
 class AboutStats
 {
-    private ?YearStat $latestYear = null;
-
-    private bool $latestYearLoaded = false;
+    public function __construct(private ImpactFigures $figures = new ImpactFigures) {}
 
     /**
      * The full deck (mission page).
@@ -57,16 +52,13 @@ class AboutStats
     /** @return array{value: string, label: string, color: string} */
     private function groups(string $color): array
     {
-        return $this->card(Group::visible()->count(), __('about.stats.groups'), $color);
+        return $this->card($this->figures->visibleGroups(), __('about.stats.groups'), $color);
     }
 
     /** @return array{value: string, label: string, color: string}|null */
     private function rides(string $color): ?array
     {
-        $rides = Activity::query()
-            ->where('activity_type', ActivityType::KIDICALMASS)
-            ->published()
-            ->count();
+        $rides = $this->figures->rides();
 
         return $rides > 0 ? $this->card($rides, __('about.stats.rides'), $color) : null;
     }
@@ -74,7 +66,7 @@ class AboutStats
     /** @return array{value: string, label: string, color: string}|null */
     private function volunteers(string $color): ?array
     {
-        $latest = $this->latestYear();
+        $latest = $this->figures->referenceYearStat();
 
         return $latest?->volunteers ? $this->card($latest->volunteers, __('about.stats.volunteers'), $color) : null;
     }
@@ -82,32 +74,16 @@ class AboutStats
     /** @return array{value: string, label: string, color: string}|null */
     private function participants(string $color): ?array
     {
-        $latest = $this->latestYear();
+        $latest = $this->figures->referenceYearStat();
 
         return $latest?->participants
             ? $this->card($latest->participants, __('about.stats.participants', ['year' => $latest->year]), $color)
             : null;
     }
 
-    private function latestYear(): ?YearStat
-    {
-        if (! $this->latestYearLoaded) {
-            $this->latestYear = YearStat::query()->orderByDesc('year')->first();
-            $this->latestYearLoaded = true;
-        }
-
-        return $this->latestYear;
-    }
-
     /** @return array{value: string, label: string, color: string} */
     private function card(int $value, string $label, string $color): array
     {
-        return ['value' => $this->format($value), 'label' => $label, 'color' => $color];
-    }
-
-    /** Localised number formatting: 5500 -> "5.500" under nl. */
-    private function format(int $value): string
-    {
-        return Number::format($value, locale: app()->getLocale());
+        return ['value' => ImpactFigures::format($value), 'label' => $label, 'color' => $color];
     }
 }

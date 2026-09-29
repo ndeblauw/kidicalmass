@@ -1,9 +1,9 @@
 ---
 title: Home (P-01) — UX design
 tags: [design, ux, home, skeleton]
-sources: [wiki/strategy/50-user-journeys, wiki/strategy/20-personas, wiki/design/30-skeleton/00-page-registry, wiki/design/30-skeleton/about-journey, docs/tone-of-voice]
+sources: [wiki/log, wiki/strategy/50-user-journeys, wiki/strategy/20-personas, wiki/design/30-skeleton/00-page-registry, wiki/design/30-skeleton/about-journey, docs/tone-of-voice]
 phase: design
-updated: 2026-06-06
+updated: 2026-09-29
 ---
 
 # Home (P-01) — UX design
@@ -50,6 +50,8 @@ Driven by Strategy + the project's no-duplicated-content rule.
 **Keep & elevate**
 - **Hero** — video-led emotional pitch + one dominant CTA. The whole "worth it" job.
 - **Dispatcher spine** — three confident routes, each a *route* not a content dump.
+- **Over ons beat**: closes the spine with proof of scale, as three movement figures and a static map of Belgium with every local group, then a route to About.
+  It proves the movement is real and national; it is not a directory (Chapters owns finding a group) and not an impact report (About owns that).
 
 **Transform**
 - A single quiet **support beat** near the end (→ Steun), kept calm, not a loud band.
@@ -60,10 +62,12 @@ cookie) to surface the **single soonest ride near the visitor** as concrete "wor
 proof and utility for returning families. Not a list. `Bekijk alle ritten →` routes to
 Events. This is the only stateful piece on the page.
 
-**Cut from Home** (each duplicates a page that owns it)
+**Cut from Home** (duplicates a page that owns it)
 - News preview → owned by News (P-18)
-- Stats-as-a-section → owned by About/Mission (P-15)
-- Chapter map placeholder → owned by Chapters (P-10)
+
+**No duplicated content in the Over ons beat**
+- The figures come from the same definitions as /steun-ons and About (`App\Support\ImpactFigures`), so the three pages cannot disagree.
+- The map is static and has no links or interaction; the interactive map stays on Chapters (P-10).
 
 ---
 
@@ -77,8 +81,9 @@ it → the dispatcher routes everything else.
    (Getting Started).
 2. **De volgende rit bij jou** — location-aware single ride card. `Bekijk alle ritten →`
    to Events.
-3. **Dispatcher spine** — three equal routes: `Nieuw hier? → Getting Started` ·
-   `Help mee → Help out` · `Vind je groep → Chapters`.
+3. **Dispatcher spine**: one scroll sequence with four beats: `Nieuw hier? → Getting Started` ·
+   `Vind je groep → Chapters` · `Help mee → Help out` · `Eén beweging, heel België → About`.
+   The fourth beat has no illustration; it shows the figures and the Belgium map (sticky stage on desktop, under the text on mobile).
 4. **Quiet support beat** — one calm line → Steun.
 5. **Closing CTA** — existing `<x-closing-cta>` ("Klaar voor je eerste rit?" → Events).
 
@@ -110,8 +115,9 @@ it → the dispatcher routes everything else.
 │   [📍 picker]  →  [ za 21 jun · Schaarbeek ]   │
 │                     Vertrek … · 3,2 km van jou │
 ├───────────────────────────────────────────────┤
-│ ③ Dispatcher — drie routes                     │
-│   [Nieuw hier?] [Help mee] [Vind je groep]     │
+│ ③ Dispatcher: vier beats (scroll sequence)     │
+│   [Nieuw hier?] [Vind je groep] [Help mee]     │
+│   [Eén beweging: 3 cijfers + kaart België]     │
 ├───────────────────────────────────────────────┤
 │ ④ Steun-beat — één rustige regel  Steun ons → │
 ├───────────────────────────────────────────────┤
@@ -132,6 +138,7 @@ it → the dispatcher routes everything else.
 - **Primary CTA:** `Vind een rit in de buurt` · **Secondary:** `Nieuw hier? Zo werkt het`
 - **Section 2 heading:** `De volgende rit bij jou` · link `Bekijk alle ritten →`
 - **Support beat:** `Kidical Mass draait op vrijwilligers en kleine giften.` · `Steun ons →`
+- **Over ons beat (draft):** `Eén beweging, heel België` · `Van Brugge tot Luik trekken ouders, kinderen en buren de straat op. Elke parade is lokaal, samen zijn we een beweging.` · figures `lokale groepen` / `parades in {jaar}` / `deelnemers in {jaar}` · `Leer ons kennen`
 
 Tone: joyful, local, committed-not-preachy; **no em-dashes** (per tone-of-voice).
 The dropped "gratis / voor iedereen" fact may resurface as a small chip near the hero or
@@ -152,5 +159,8 @@ on the ride card so the free signal isn't lost — decide at build.
 
 ## 7 · Explicitly out of scope
 - Surface/visual design (colour, type, motion) — separate pass on the ride/show kit.
-- Backend changes — relies only on already-built location/proximity + Activity model.
-- News, movement stats, and the Belgium map — owned by other pages, cut from Home.
+- New models or admin screens.
+  Home reuses location/proximity, the Activity model, the curated year figures and the local groups.
+- News: owned by News, cut from Home.
+- An interactive or clickable map on Home.
+  The Over ons beat map is static; finding a group happens on Chapters.

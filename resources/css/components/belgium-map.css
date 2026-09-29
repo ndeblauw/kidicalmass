@@ -1,0 +1,84 @@
+@layer components {
+    /* Static map of Belgium (<x-belgium-map>). Geometry, sizes and label spots
+       come from App\Support\Map\BelgiumMap in SVG user units; dot and bubble
+       colours come inline from App\Enums\Region. This partial only owns the
+       quiet land shape, the marker outlines, the label type and how the markers
+       adapt to the map's own width (a size container, not the viewport). */
+    .belgium-map {
+        container-type: inline-size;
+        width: 100%;
+    }
+
+    .belgium-map__svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .belgium-map__land {
+        fill: color-mix(in oklab, var(--color-kidical-ink), transparent 94%);
+        stroke: var(--color-kidical-hairline);
+        stroke-width: 1.5;
+        stroke-linejoin: round;
+    }
+
+    .belgium-map__dot,
+    .belgium-map__bubble circle {
+        stroke: white;
+        stroke-width: 2;
+    }
+
+    .belgium-map__count {
+        fill: white;
+        font-family: var(--font-heading);
+        font-weight: 700;
+    }
+
+    /* Narrow map (phones): no names, so the markers can grow without hitting
+       them. Scaled around their own centre; the white ring stays thin so the
+       region colour carries. */
+    .belgium-map__dot,
+    .belgium-map__bubble {
+        transform-box: fill-box;
+        transform-origin: center;
+        transform: scale(1.6);
+    }
+
+    .belgium-map__dot,
+    .belgium-map__bubble circle {
+        stroke-width: 1.25;
+    }
+
+    .belgium-map__bubble {
+        transform: scale(1.4);
+    }
+
+    .belgium-map__label {
+        display: none;
+        fill: var(--color-kidical-ink);
+        font-weight: 600;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 3;
+        stroke-linejoin: round;
+    }
+
+    /* Wide enough to read the place names (tablet and up): show them and draw
+       the markers at the size BelgiumMap placed the labels around. */
+    @container (min-width: 26rem) {
+        .belgium-map__label {
+            display: inline;
+        }
+
+        .belgium-map__dot,
+        .belgium-map__bubble {
+            transform: none;
+        }
+
+        .belgium-map__dot,
+        .belgium-map__bubble circle {
+            stroke-width: 2;
+        }
+    }
+}

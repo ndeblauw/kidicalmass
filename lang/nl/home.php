@@ -31,6 +31,17 @@ return [
             'body' => 'Zin om mee te doen? Achter elke parade staan ouders, buren en vrijwilligers die hun steentje bijdragen, met een roze hesje aan of achter de schermen. Een parade organiseren, een parcours uitstippelen, helpen op de dag zelf of gewoon een handje toesteken: iedereen kan zijn plek vinden en bijdragen aan veiligere straten voor kinderen.',
             'cta' => 'Word vrijwilliger',
         ],
+        'movement' => [
+            'heading' => 'Eén beweging, heel België',
+            'body' => 'Van Brugge tot Luik trekken ouders, kinderen en buren de straat op. Elke parade is lokaal, samen zijn we een beweging.',
+            'cta' => 'Leer ons kennen',
+            // Typographic stat row (App\Support\MovementStats); :year = the reference year.
+            'stats' => [
+                'groups' => 'lokale groepen',
+                'rides' => 'parades in :year',
+                'participants' => 'deelnemers in :year',
+            ],
+        ],
     ],
     'photos' => [
         'first_time' => [

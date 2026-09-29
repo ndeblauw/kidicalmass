@@ -25,6 +25,7 @@ test('index passes map markers with resolved coordinates and region counts', fun
     expect($marker['name'])->toBe('Gent');
     expect($marker['region'])->toBe('Flanders');
     expect($marker['regionLabel'])->toBe('Vlaanderen');
+    expect($marker['colorToken'])->toBe('--color-kidical-green');
     expect($marker['lat'])->toBe(51.05);
     expect($marker['lng'])->toBe(3.7167);
     expect($marker['url'])->toBe(localized_route('groups.show', ['group' => $this->gent]));

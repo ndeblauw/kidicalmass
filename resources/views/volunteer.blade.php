@@ -105,7 +105,7 @@
          Mobiel: beide collages gestapeld, geen swap. --}}
     <section class="ho-deal">
         <div class="container mx-auto px-4">
-            <x-scroll-sequence media-side="right" active-margin="-25% 0px -66% 0px">
+            <x-scroll-sequence media-side="right" active-margin="-29% 0px -61% 0px">
                 <x-slot:media>
                     <div class="ho-deal__collage ho-deal__collage--a is-active" data-seq-media="0">
                         <figure class="ho-deal__photo ho-deal__photo--lead">

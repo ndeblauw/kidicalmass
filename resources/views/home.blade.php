@@ -87,11 +87,11 @@
             </div>
         </section>
 
-        {{-- DRIE ROUTES: scrollytelling. Each section reads on its own; one sticky
+        {{-- VIER BEATS: scrollytelling. Each section reads on its own; one sticky
              bike rides in to match the section you're reading (see <x-scroll-sequence>).
              No is-active on the first item, so it rolls in like the rest on first view.
              Mobile: each section shows its own illustration inline (home.css), no ride. --}}
-        <x-scroll-sequence media-side="right" class="home-routes" active-margin="-12% 0px -61% 0px">
+        <x-scroll-sequence media-side="right" class="home-routes" active-margin="-28% 0px -50% 0px">
             @php
                 // One collage per beat (PAT-20). Each is a [data-seq-media] item the
                 // scroll-sequence crossfades; the riding bike below rides per beat.
@@ -125,6 +125,12 @@
                     <img class="home-routes__illu" data-seq-media="0" src="{{ asset('img/illustrations/waving-rider.svg') }}" alt="" loading="lazy">
                     <img class="home-routes__illu" data-seq-media="1" src="{{ asset('img/illustrations/longtail-with-kid.svg') }}" alt="" loading="lazy">
                     <img class="home-routes__illu" data-seq-media="2" src="{{ asset('img/illustrations/volunteer-with-wrench.svg') }}" alt="" loading="lazy">
+
+                    {{-- Beat 4 has no bike: the map takes the stage while the helper
+                         above rides off (it turns is-past), so nothing rides in. --}}
+                    <div class="home-routes__map" data-seq-media="3">
+                        <x-belgium-map :map="$belgiumMap" />
+                    </div>
                 </div>
             </x-slot:media>
 
@@ -147,6 +153,26 @@
                 <h2 class="text-kidical-ink">{{ __('home.routes.help_out.heading') }}</h2>
                 <p class="text-kidical-ink/70">{{ __('home.routes.help_out.body') }}</p>
                 <p><x-cta-button :href="localized_route('volunteer')" variant="secondary">{{ __('home.routes.help_out.cta') }}</x-cta-button></p>
+            </div>
+
+            {{-- Eén beweging: the national picture. No illustration; the static map
+                 (<x-belgium-map>) takes the sticky stage on lg+ and sits inline
+                 under the stats below lg. Figures: App\Support\MovementStats. --}}
+            <div class="scroll-sequence__block home-movement" data-seq-block="3" data-home-movement>
+                <h2 class="text-kidical-ink">{{ __('home.routes.movement.heading') }}</h2>
+                <p class="text-kidical-ink/70">{{ __('home.routes.movement.body') }}</p>
+                @if ($movementStats)
+                    <dl class="home-movement__stats">
+                        @foreach ($movementStats as $stat)
+                            <div class="home-movement__stat home-movement__stat--{{ $stat['color'] }}" data-stat="{{ $stat['key'] }}">
+                                <dt>{{ $stat['label'] }}</dt>
+                                <dd>{{ $stat['value'] }}</dd>
+                            </div>
+                        @endforeach
+                    </dl>
+                @endif
+                <x-belgium-map :map="$belgiumMap" class="home-movement__map" />
+                <p><x-cta-button :href="localized_route('about')" variant="secondary" disc="blue">{{ __('home.routes.movement.cta') }}</x-cta-button></p>
             </div>
         </x-scroll-sequence>
 

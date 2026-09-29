@@ -1,5 +1,18 @@
 # Wiki Log
 
+## [2026-09-29] build | Home: Over ons beat with stats + static Belgium map
+
+De Home-spec van juni schrapte cijfers en groepenkaart op Home, omdat Over ons en Lokale groepen ze al tonen.
+Na de klantmeeting van 22/9 besliste Frederik op 29/9 om ze terug te brengen als vierde beat in de scroll-sequence, na "Help mee".
+De beat "Eén beweging, heel België" toont drie cijfers (lokale groepen, parades en deelnemers in het referentiejaar), een statische kaart van België en de knop "Leer ons kennen" naar Over ons.
+De cijfers komen uit dezelfde definities als /steun-ons en Over ons (`ImpactFigures`), dus de drie pagina's kunnen niet uit elkaar lopen; een cijfer zonder waarde valt weg.
+De kaart is inline SVG, op de server getekend uit een Natural Earth-omtrek (publiek domein, 177 punten, pad van 2 KB), zonder JavaScript, tegels of externe aanvragen.
+Elke zichtbare groep is een stip op het centrum van haar postcode, alle Brusselse groepen samen één blauwe bel met het aantal; op een smalle kaart vallen de plaatsnamen weg.
+Ze wordt bij elke aanvraag opnieuw opgebouwd uit drie queries, dus een nieuwe, verborgen, verhuisde of anders ingedeelde groep staat meteen goed, zonder cache die kan verouderen.
+Regio-kleuren komen nu voor beide kaarten uit de `Region`-enum.
+De spec (`docs/superpowers/specs/2026-06-06-home-ux-design.md`) en `design/30-skeleton/home.md` volgen de nieuwe beslissing.
+FR-kopij is een ontwerp en wacht op review; stages in de registry ongewijzigd tot Frederiks critique.
+
 ## [2026-09-29] build | Locatiezoeker: één regel op vier pagina's
 
 De lege locatiezoeker was twee tot drie rijen (vraag, veld, "Gebruik mijn locatie"), de gekozen staat één regel, dus alles eronder sprong bij elke keuze.

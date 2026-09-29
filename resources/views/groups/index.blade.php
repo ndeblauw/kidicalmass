@@ -5,6 +5,7 @@
     location-picker owns postcode search + geolocation; the map reacts to the
     resolved location on load. Spec: docs/superpowers/specs/2026-06-15-lokale-groepen-list-map-finder-design.md
 --}}
+@use('App\Enums\Region')
 <x-layouts::site :title="__('groups.index.title')" :description="__('meta.chapters')">
 
     <x-page-hero
@@ -18,7 +19,6 @@
 
         @if ($groups->isNotEmpty())
             @php
-                $regionOrder = ['Brussels Capital Region', 'Wallonia', 'Flanders'];
                 $mineIds = $myGroups->pluck('id');
                 $orderedGroups = $groups
                     ->sortBy('zip')
@@ -51,11 +51,14 @@
                                 {{ __('groups.index.regions.nearby') }}
                             </button>
                         @endif
-                        @foreach ($regionOrder as $regionKey)
-                            @php $count = $regionCounts[$regionKey] ?? 0; @endphp
+                        @foreach (Region::cases() as $region)
+                            @php
+                                $regionKey = $region->value;
+                                $count = $regionCounts[$regionKey] ?? 0;
+                            @endphp
                             @if ($count > 0)
                                 <button type="button" class="grp-region-btn" data-region="{{ $regionKey }}">
-                                    <span class="grp-region-btn__dot" aria-hidden="true"></span>
+                                    <span class="grp-region-btn__dot" style="--region-color: var({{ $region->colorToken() }})" aria-hidden="true"></span>
                                     {{ $regionLabels[$regionKey] ?? $regionKey }}
                                     <span class="grp-region-btn__count">{{ $count }}</span>
                                 </button>
@@ -77,7 +80,7 @@
                                     data-slug="{{ $group->shortname }}"
                                     data-region="{{ $group->parent?->name_nl }}">
                                     <a href="{{ localized_route('groups.show', ['group' => $group]) }}" class="grp-card__link link-plain">
-                                        <span class="grp-card__dot" aria-hidden="true"></span>
+                                        <span class="grp-card__dot" style="--region-color: var({{ Region::colorTokenFor(Region::forGroup($group)) }})" aria-hidden="true"></span>
                                         <span class="grp-card__main">
                                             <span class="grp-card__name">{{ $group->name }}@if ($mineIds->contains($group->id))<span class="grp-card__tag">{{ __('groups.index.mine_tag') }}</span>@endif</span>
                                             <span class="grp-card__zip">{{ $group->zip }}<span class="grp-card__km" data-km></span></span>
@@ -139,14 +142,8 @@
                 }
                 const groupWord = (n) => (n === 1 ? i18n.count_singular || 'groep' : i18n.count_plural || 'groepen');
 
-                const styles = getComputedStyle(document.documentElement);
-                const token = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
-                const regionColor = {
-                    'Brussels Capital Region': token('--color-kidical-blue', '#1d67cd'),
-                    Wallonia: token('--color-kidical-orange', '#F0803C'),
-                    Flanders: token('--color-kidical-green', '#5CB85C'),
-                };
-                const fallbackColor = token('--color-kidical-red', '#E63A7B');
+                // Region -> colour token (fallback included) comes from
+                // App\Enums\Region as marker.colorToken; the pin reads it as var().
 
                 const map = L.map(mapEl, { zoomControl: false, scrollWheelZoom: false });
                 L.control.zoom({ position: 'topright' }).addTo(map);
@@ -158,10 +155,9 @@
 
                 const bySlug = {};
                 markers.forEach((m) => {
-                    const color = regionColor[m.region] || fallbackColor;
                     const icon = L.divIcon({
                         className: '',
-                        html: `<span class="grp-pin" data-slug="${m.slug}" style="background:${color}"></span>`,
+                        html: `<span class="grp-pin" data-slug="${m.slug}" style="background:var(${m.colorToken})"></span>`,
                         iconSize: [26, 26],
                         iconAnchor: [13, 26],
                         popupAnchor: [0, -24],

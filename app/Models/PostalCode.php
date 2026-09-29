@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Unguarded;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 #[Unguarded]
 class PostalCode extends Model
@@ -14,6 +15,25 @@ class PostalCode extends Model
             'latitude' => 'float',
             'longitude' => 'float',
         ];
+    }
+
+    /**
+     * Centroid rows for a set of zips in one query, keyed by zip. A zip with
+     * several localities (4000 Liège) resolves to one row, so every map that
+     * places groups (Lokale groepen, <x-belgium-map>) lands them on the same spot.
+     *
+     * @param  iterable<int, string|null>  $zips
+     * @return Collection<string, self>
+     */
+    public static function centroidsByZip(iterable $zips): Collection
+    {
+        $zips = collect($zips)->filter()->unique()->values();
+
+        if ($zips->isEmpty()) {
+            return collect();
+        }
+
+        return static::whereIn('zip', $zips)->orderBy('id')->get()->keyBy('zip');
     }
 
     /**

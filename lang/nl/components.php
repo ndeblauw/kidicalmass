@@ -53,4 +53,18 @@ return [
         'email' => 'Deel via e-mail',
     ],
     'form_privacy' => 'Meer weten? Lees onze privacyverklaring.',
+
+    // Static map of Belgium (<x-belgium-map>): the accessible name read out instead of the drawing.
+    'belgium_map' => [
+        'label' => 'Kaart van België: :parts',
+        'first' => '{1} :count lokale groep :where|[2,*] :count lokale groepen :where',
+        'next' => ':count :where',
+        'and' => 'en',
+        'where' => [
+            'brussels' => 'in Brussel',
+            'wallonia' => 'in Wallonië',
+            'flanders' => 'in Vlaanderen',
+            'other' => 'elders',
+        ],
+    ],
 ];

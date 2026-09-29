@@ -68,18 +68,11 @@
         box-shadow: 0 0 0 3px color-mix(in oklab, white, transparent 70%);
     }
 
-    /* Region colours — shared by selector dots and list-card dots. */
-    .grp-region-btn[data-region="Brussels Capital Region"] .grp-region-btn__dot,
-    .grp-card[data-region="Brussels Capital Region"] .grp-card__dot {
-        background: var(--color-kidical-blue);
-    }
-    .grp-region-btn[data-region="Wallonia"] .grp-region-btn__dot,
-    .grp-card[data-region="Wallonia"] .grp-card__dot {
-        background: var(--color-kidical-orange);
-    }
-    .grp-region-btn[data-region="Flanders"] .grp-region-btn__dot,
-    .grp-card[data-region="Flanders"] .grp-card__dot {
-        background: var(--color-kidical-green);
+    /* Region colours come from App\Enums\Region via an inline --region-color
+       (the same source as the map pins and <x-belgium-map>). */
+    .grp-region-btn__dot,
+    .grp-card__dot {
+        background: var(--region-color);
     }
 
     .grp-finder__picker {

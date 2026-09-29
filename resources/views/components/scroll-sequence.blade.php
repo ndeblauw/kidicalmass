@@ -1,15 +1,15 @@
 @props([
     'mediaSide' => 'right', // right | left — which side the sticky media column sits on (lg+)
-    // IntersectionObserver rootMargin for the active-swap band. The bottom inset
-    // sets how far a block must rise before it takes over the media: the default
-    // swaps near the viewport centre; pass a larger bottom inset to swap later,
-    // once the new block fills the view and the previous one has scrolled off.
+    // IntersectionObserver rootMargin for the active-swap band (top right bottom
+    // left, % or px). A block takes over the media when its top edge crosses the
+    // band's centre line: the default swaps just above 55% of the viewport; move
+    // the band up to swap later, once the new block fills the view.
     'activeMargin' => '-50% 0px -40% 0px',
 ])
 
 {{-- Reusable scrollytelling unit. The text column (default slot) scrolls; the media
      column (`media` slot) is sticky on lg+ and crossfades between its items as each
-     [data-seq-block] reaches the viewport centre. Layout/sticky/crossfade live in
+     [data-seq-block] reaches the active band (see activeMargin). Layout/sticky/crossfade live in
      resources/css/components/scroll-sequence.css; pages style the media items' own
      look and may override the mobile fallback. Alpine drives the crossfade (the public
      layout ships no global JS, but Alpine is already loaded for other components). --}}
@@ -26,14 +26,41 @@
         init() {
             this.$el.classList.add('is-ready'); // lets a page gate JS-driven reveals so copy is never hidden without JS
 
-            // Which block sits at the viewport centre drives the sticky media.
+            // The block that covers most of the active band drives the sticky media.
+            // Picking from every block in the band (not the last one to enter it)
+            // makes the swap symmetric: scrolling down or up, a jump from an
+            // anchor link, all land on the block the reader is looking at. The
+            // swap fires when a block edge crosses the band's centre line.
             if (this.$refs.media) {
-                const center = new IntersectionObserver((entries) => {
-                    entries.forEach(e => {
-                        if (e.isIntersecting) this.setActive(Number(e.target.dataset.seqBlock) || 0);
+                const margin = '{{ $activeMargin }}'.trim().split(/\s+/);
+                const inset = (value) => value.endsWith('%') ? -parseFloat(value) / 100 * window.innerHeight : -parseFloat(value);
+                const inBand = new Set();
+                const pick = () => {
+                    const top = inset(margin[0]);
+                    const bottom = window.innerHeight - inset(margin[2] ?? margin[0]);
+                    let best = null;
+                    let bestOverlap = -Infinity;
+                    inBand.forEach(block => {
+                        const rect = block.getBoundingClientRect();
+                        const overlap = Math.min(rect.bottom, bottom) - Math.max(rect.top, top);
+                        if (overlap > bestOverlap) { best = block; bestOverlap = overlap; }
                     });
-                }, { rootMargin: '{{ $activeMargin }}', threshold: 0 }); // page-tunable band; controls when the active swap (and the ride-away) fires
+                    if (best) this.setActive(Number(best.dataset.seqBlock) || 0);
+                };
+                const center = new IntersectionObserver((entries) => {
+                    entries.forEach(e => e.isIntersecting ? inBand.add(e.target) : inBand.delete(e.target));
+                    pick();
+                }, { rootMargin: '{{ $activeMargin }}', threshold: 0 }); // page-tunable band; its centre line is where the swap (and the ride-away) fires
                 this.$el.querySelectorAll('[data-seq-block]').forEach(b => center.observe(b));
+
+                // Two blocks share the band only around a hand-over; re-pick on
+                // scroll just then, once per frame.
+                let queued = false;
+                window.addEventListener('scroll', () => {
+                    if (inBand.size < 2 || queued) return;
+                    queued = true;
+                    requestAnimationFrame(() => { queued = false; pick(); });
+                }, { passive: true });
             }
 
             // One-time reveal: stagger a block's contents in as it scrolls into view.

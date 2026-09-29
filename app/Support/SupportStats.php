@@ -2,25 +2,20 @@
 
 namespace App\Support;
 
-use App\Enums\ActivityType;
-use App\Models\Activity;
-use App\Models\Group;
-use App\Models\YearStat;
-use Illuminate\Support\Number;
-
 /**
  * Builds the proof-of-impact deck shown on /steun-ons. Three honest metrics:
  *  - lokale groepen  — live count of visible local groups,
  *  - ritten in <jaar> — published rides held in the reference year,
  *  - deelnemers       — a curated per-year figure (no attendance tracking exists).
  *
- * Everything hangs off one reference year (the most recent {@see YearStat}, or
- * the last completed calendar year as a fallback) so both year-bound cards stay
- * in sync. A card is only emitted when it has a real value: an empty year never
- * shows a misleading "0".
+ * The numbers come from {@see ImpactFigures} (shared with Home and About); this
+ * class only picks labels and colours. A card is only emitted when it has a
+ * real value: an empty year never shows a misleading "0".
  */
 class SupportStats
 {
+    public function __construct(private ImpactFigures $figures = new ImpactFigures) {}
+
     /**
      * @return array<int, array{value: string, label: string, color: string}>
      */
@@ -32,24 +27,24 @@ class SupportStats
 
         // Bottom of the stacked deck up to the legible top card.
         $cards[] = [
-            'value' => $this->format(Group::visible()->count()),
+            'value' => ImpactFigures::format($this->figures->visibleGroups()),
             'label' => __('support.stats.groups'),
             'color' => 'red',
         ];
 
-        $rides = $this->rideCount($year);
+        $rides = $this->figures->rides($year);
         if ($rides > 0) {
             $cards[] = [
-                'value' => $this->format($rides),
+                'value' => ImpactFigures::format($rides),
                 'label' => __('support.stats.rides', ['year' => $year]),
                 'color' => 'green',
             ];
         }
 
-        $participants = $this->participantCount($year);
+        $participants = $this->figures->participants();
         if ($participants !== null) {
             $cards[] = [
-                'value' => $this->format($participants),
+                'value' => ImpactFigures::format($participants),
                 'label' => __('support.stats.participants', ['year' => $year]),
                 'color' => 'blue',
             ];
@@ -58,32 +53,9 @@ class SupportStats
         return $cards;
     }
 
-    /**
-     * The most recent year we have a curated row for, falling back to the last
-     * completed calendar year so the rides card still has a year to count.
-     */
+    /** @see ImpactFigures::referenceYear() */
     public function referenceYear(): int
     {
-        return YearStat::max('year') ?? now()->subYear()->year;
-    }
-
-    private function rideCount(int $year): int
-    {
-        return Activity::query()
-            ->where('activity_type', ActivityType::KIDICALMASS)
-            ->published()
-            ->whereYear('begin_date', $year)
-            ->count();
-    }
-
-    private function participantCount(int $year): ?int
-    {
-        return YearStat::where('year', $year)->value('participants');
-    }
-
-    /** Localised number formatting: 5500 -> "5.500" under nl. */
-    private function format(int $value): string
-    {
-        return Number::format($value, locale: app()->getLocale());
+        return $this->figures->referenceYear();
     }
 }
