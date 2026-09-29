@@ -7,7 +7,7 @@
 
 return [
     // Nav + footer CTA labels
-    'nav' => 'Nous soutenir',
+    'nav' => 'Soutenir',
     'cta' => 'Soutenir Kidical Mass',
     'growfunding_url' => 'https://growfunding.be/fr/projects/kidicalmassbelgique',
 

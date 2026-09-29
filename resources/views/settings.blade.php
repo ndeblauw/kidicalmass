@@ -1,4 +1,4 @@
-<x-layouts::site :title="__('Instellingen')">
+<x-layouts::site :title="__('nav.settings')">
 
     {{-- Member workspace chrome (no chapter sub-nav): settings is account-level, but it
          should wear the same calm white shell as the roze-hesje hub, not the red
@@ -23,7 +23,7 @@
     </x-slot:navbar>
 
     <div class="roze-hub-body">
-        <h1 class="roze-hub-title">{{ __('Instellingen') }}</h1>
+        <h1 class="roze-hub-title">{{ __('nav.settings') }}</h1>
 
         <div class="mt-8 space-y-12">
             {{-- Profile --}}

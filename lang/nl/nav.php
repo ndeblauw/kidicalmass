@@ -16,6 +16,9 @@ return [
     'press' => 'Pers',
     'partners' => 'Partners',
     'login' => 'Inloggen',
+    'account' => 'Account',
+    'settings' => 'Instellingen',
+    'admin' => 'Admin',
     'language' => 'Taal',
     'coming_soon' => 'Binnenkort beschikbaar',
 ];

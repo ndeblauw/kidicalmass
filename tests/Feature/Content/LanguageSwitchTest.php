@@ -23,9 +23,9 @@ it('keeps the bound model when switching locale on a detail page', function () {
         ->assertSee('/fr/groupes-locaux/'.$group->getRouteKey(), escape: false);
 });
 
-it('offers no English link and marks EN as coming soon', function () {
+it('offers only live languages, so English stays hidden until it launches', function () {
     get('/nl')
-        ->assertSee('aria-disabled="true"', escape: false)
-        ->assertSee(__('nav.coming_soon', [], 'nl'))
+        ->assertSee('hreflang="fr"', escape: false)
+        ->assertDontSee('>EN<', escape: false)
         ->assertDontSee('href="'.url('/en').'"', escape: false);
 });

@@ -16,6 +16,9 @@ return [
     'press' => 'Presse',
     'partners' => 'Partenaires',
     'login' => 'Connexion',
+    'account' => 'Compte',
+    'settings' => 'Paramètres',
+    'admin' => 'Admin',
     'language' => 'Langue',
     'coming_soon' => 'Bientôt disponible',
 ];

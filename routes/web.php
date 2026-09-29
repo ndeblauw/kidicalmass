@@ -39,14 +39,15 @@ use App\Support\SupportStats;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Bare root → the visitor's preferred browser language (Dutch fallback). A 302
-// (not 301) plus Vary, since the target depends on Accept-Language.
+// Bare root → the language the visitor last browsed in, else their browser's
+// preference (Dutch fallback). A 302 (not 301) plus Vary, since the target
+// depends on the cookie and Accept-Language.
 Route::get('/', function (Request $request) {
     $locale = SetLocale::detectFromRequest($request);
 
     return redirect()
         ->to(localized_route('home', ['locale' => $locale]), 302)
-        ->header('Vary', 'Accept-Language');
+        ->header('Vary', 'Accept-Language, Cookie');
 });
 Route::middleware('setlocale')->group(function (): void {
     Route::get('{locale}', HomeController::class)->where('locale', 'nl')->name('home');

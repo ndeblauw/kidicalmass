@@ -9,7 +9,7 @@
 // are sourced from docs/raw/website/* (le-projet, organisation, press); keep them honest.
 return [
     // Nav + footer CTA labels
-    'nav' => 'Steun ons',
+    'nav' => 'Steun',
     'cta' => 'Steun Kidical Mass',
     'growfunding_url' => 'https://growfunding.be/nl/projects/kidicalmassbelgique',
 

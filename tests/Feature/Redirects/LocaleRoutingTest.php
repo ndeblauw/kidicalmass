@@ -21,8 +21,24 @@ it('redirects the bare root to French when the browser prefers it', function () 
         ->assertRedirect('/fr');
 });
 
-it('varies the root redirect on Accept-Language', function () {
-    get('/')->assertHeader('Vary', 'Accept-Language');
+it('varies the root redirect on Accept-Language and the language cookie', function () {
+    get('/')->assertHeader('Vary', 'Accept-Language, Cookie');
+});
+
+it('remembers the language the visitor last browsed in', function () {
+    get('/fr/agenda')->assertCookie(SetLocale::COOKIE, 'fr');
+});
+
+it('redirects the bare root to the remembered language over the browser preference', function () {
+    $this->withCookie(SetLocale::COOKIE, 'fr')
+        ->get('/', ['Accept-Language' => 'nl-BE,nl;q=0.9'])
+        ->assertRedirect('/fr');
+});
+
+it('ignores a remembered language that is not live', function () {
+    $this->withCookie(SetLocale::COOKIE, 'en')
+        ->get('/', ['Accept-Language' => 'nl-BE,nl;q=0.9'])
+        ->assertRedirect('/nl');
 });
 
 it('serves the home page under its locale with a matching lang attribute', function (string $locale) {
