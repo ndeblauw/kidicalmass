@@ -1,5 +1,15 @@
 # Wiki Log
 
+## [2026-09-29] build | P-11: groepspagina met eigen intro, downloads en FR-namen
+
+Na de klantmeeting van 22/9: de groepspagina is waar elke lokale flyer landt, dus ze moet ook in het Frans kloppen.
+Elke groep heeft nu een eigen hero-intro (NL/FR, bewerkbaar in BlueAdmin; leeg = de gedeelde zin) en een eigen downloads-collectie.
+Een datamigratie vult de Franse gemeentenamen in waar ze nog leeg waren (Schaerbeek, Ixelles, Liège, ...), zonder NL-terugval.
+De verzonnen vrijwilligers en downloads zijn weg; het team en de foto's komen enkel uit de database, en de galerij toont enkel ritten van de groep zelf.
+Leent een groep de rit van haar regio, dan staat er "Parade in de buurt" met de zin "Elsene heeft nog geen eigen parade. Deze parade is voor heel Brussel."
+Op mobiel staat de nieuwsbriefkaart schermbreed onder de foto's.
+P-11 CMS 🔴→🟠: de groepen moeten intro en downloads invullen, en partners en ritten missen nog hun FR-namen. Commit `85e36d2`.
+
 ## [2026-09-29] build | P-12: Eerste keer zonder kaartjesanimatie
 
 De scroll-animatie van "Wat je mag verwachten" is weg.
