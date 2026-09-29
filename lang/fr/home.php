@@ -3,11 +3,11 @@
 return [
     'hero' => [
         'title' => 'Des rues où les enfants ont leur place !',
-        'intro_1' => 'Kidical Mass, ce sont des parades à vélo festives et familiales qui rendent visibles les besoins des enfants dans nos rues.',
-        'intro_2' => 'Ensemble, faisons de la place au vélo et créons des rues plus sûres pour toutes et tous.',
+        'lead' => 'Des parades à vélo festives pour les enfants et leurs parents. Tout le monde est le bienvenu.',
+        'cta' => 'Trouver une parade près de chez vous',
+        'mission' => 'Ensemble, faisons de la place au vélo et créons des rues plus sûres pour toutes et tous.',
     ],
     'next_rides' => [
-        'scroll_cue' => 'Prochaines parades à vélo',
         'heading_nearby' => 'Les prochaines parades à vélo près de chez vous',
         'heading' => 'Prochaines parades à vélo',
         'off_season' => 'La saison Kidical Mass Belgium s’étend de mars à novembre.',

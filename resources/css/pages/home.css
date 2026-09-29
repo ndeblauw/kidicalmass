@@ -52,8 +52,7 @@
         /* Cover: a 16:9 iframe scaled to fill any viewport, centred. */
         position: absolute;
         /* Anchored at 42% (not 50%) so the iframe's centre — where YouTube draws
-           its play/pause overlay — sits behind the title rather than below it,
-           lining the button up with the scrim's masking glow (same anchor). */
+           its play/pause overlay — sits behind the title rather than below it. */
         top: 42%;
         left: 50%;
         width: 177.78vh; /* 16/9 of viewport height */
@@ -77,34 +76,6 @@
         .home-hero__video iframe {
             animation: home-hero-video-in 700ms ease 700ms both;
         }
-    }
-
-    .home-backdrop::after {
-        /* Legibility scrim so the white title holds over any frame. Covers the whole
-           backdrop (the video now fills it), so there's no untinted seam below the
-           hero. Blue-tinted to tie into the brand instead of generic cinema-black.
-           The radial core masks YouTube's big play/pause overlay, which is drawn at
-           the iframe's centre during load/buffer and which controls=0 can't suppress.
-           A wide ellipse (≈2.5× wider than tall) centred on the title at 42% — matching
-           the title's broad shape and the iframe's shifted centre — so it reads as a
-           deliberate focal glow behind the heading rather than a patch below it. */
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        background:
-            radial-gradient(
-                ellipse 475px 190px at 50% 42%,
-                var(--color-kidical-blue) 0%,
-                color-mix(in oklab, var(--color-kidical-blue), transparent 6%) 37%,
-                transparent 100%
-            ),
-            linear-gradient(
-                to top,
-                color-mix(in oklab, var(--color-kidical-blue), transparent 22%),
-                color-mix(in oklab, var(--color-kidical-blue), transparent 48%) 50%,
-                color-mix(in oklab, var(--color-kidical-blue), transparent 35%)
-            );
     }
 
     /* Sole focal point over the video; sized like the inner-page heroes. */
@@ -180,7 +151,7 @@
         color: white;
         /* Bottom padding carries an extra 2rem to offset the white panel's -2rem
            overlap, so the *visible* blue block reads with equal padding above and
-           below the lead, and the seam cue clears the text. */
+           below the lead. */
         padding-top: clamp(1.75rem, 3vw, 2.75rem);
         padding-bottom: calc(clamp(1.75rem, 3vw, 2.75rem) + 2rem);
     }
@@ -192,10 +163,9 @@
         color: white;
     }
 
-    /* Beat 3 — the lead and scroll-cue fade up last, now after the header has
-       revealed (logo then menu). Shifted +0.5s so the blue band lands ~0.5s behind
-       the menu. The arrow's own bounce lives on its svg, so this entrance on the
-       link doesn't collide with it. */
+    /* Beat 3 — the lead fades up last, after the header has revealed (logo then
+       menu), so the blue band lands ~0.5s behind the menu. Beat 4 — the button
+       follows the lead by ~0.3s, so the text is read before the action appears. */
     @media (prefers-reduced-motion: no-preference) {
         /* The band itself is transparent during the hold (video shows through where it
            sits), then fades to brand blue in step with its copy rising. */
@@ -206,40 +176,71 @@
         .home-intro .intro-text {
             animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 2900ms both;
         }
+
+        .home-intro__cta {
+            animation: home-hero-intro-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 3200ms both;
+        }
     }
 
-    /* Scroll cue, styled as a quiet secondary button, straddling the seam between
-       the blue band and the white panel. Absolutely centred on the panel's top edge
-       so half sits in the blue, half in the white — a deliberate join rather than a
-       bare arrow floating in the band. */
-    .home-seam-cue {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 11;
-        display: inline-flex;
-        align-items: center;
+    .home-intro__cta {
+        margin-top: 1.5rem;
+        display: flex;
         justify-content: center;
-        width: 3.25rem;
-        height: 3.25rem;
-        border-radius: var(--radius-pill);
-        background: white;
-        color: var(--color-kidical-blue);
-        box-shadow: var(--shadow-card);
-        background-image: none;
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .home-seam-cue svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        animation: scroll-cue-bounce 1.8s ease-in-out infinite;
-    }
+    /* Phones: the video is a stage, the band a doorway. The video
+       stops at the stage edge instead of running under the band, the title sits at
+       the bottom of the stage so the picture stays clear above it, and the band
+       shrinks to one short line plus a full-width button. */
+    @media (max-width: 767px) {
+        .home-backdrop {
+            --home-stage: clamp(20rem, calc(100svh - 22.5rem), 72svh);
+        }
 
-    .home-seam-cue:hover {
-        transform: translate(-50%, -50%) scale(1.06);
-        box-shadow: var(--shadow-hover);
+        .home-hero {
+            min-height: var(--home-stage);
+            align-items: flex-end;
+            padding: 6rem 1rem 1.75rem;
+        }
+
+        .home-hero__video {
+            bottom: auto;
+            height: var(--home-stage);
+            container-type: size;
+        }
+
+        /* Cover the stage, not the viewport, with just enough overscan to clip
+           YouTube's own chrome. */
+        .home-hero__video iframe {
+            top: 50%;
+            width: max(100cqw, 177.78cqh);
+            height: max(56.25cqw, 100cqh);
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        /* The lead must never read smaller than the button label (--text-xl). */
+        .home-intro {
+            padding-top: 2.5rem;
+            padding-bottom: calc(2.5rem + 2rem);
+        }
+
+        .home-intro .intro-text {
+            font-size: var(--text-2xl);
+            line-height: 1.35;
+        }
+
+        .home-intro__cta {
+            margin-top: 2rem;
+        }
+
+        .home-intro__cta .cta-button {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .home-intro__cta .cta-button__label {
+            text-align: center;
+        }
     }
 
     /* Reserves the backdrop's place in flow once it becomes fixed (md+). */
@@ -249,7 +250,7 @@
 
     @media (min-width: 768px) {
         /* Stop the fixed hero just short of a full viewport so the white panel's
-           rounded top — and the seam cue straddling it — sit near the bottom edge at
+           rounded top sits near the bottom edge at
            rest (a thin white strip, not a tall reveal). The spacer matches so the
            panel lands on that seam. */
         .home-backdrop {

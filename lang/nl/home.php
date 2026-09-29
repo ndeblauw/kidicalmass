@@ -3,11 +3,11 @@
 return [
     'hero' => [
         'title' => 'Straten waar kinderen hun plek hebben!',
-        'intro_1' => 'Kidical Mass zijn feestelijke en gezinsvriendelijke fietstochten die aandacht vragen voor de behoeften van kinderen in onze straten.',
-        'intro_2' => 'Samen maken we ruimte voor de fiets en zorgen we voor veiligere straten voor iedereen.',
+        'lead' => 'Feestelijke fietstochten voor kinderen en hun ouders. Iedereen mag mee.',
+        'cta' => 'Zoek een rit bij jou',
+        'mission' => 'Samen maken we ruimte voor de fiets en zorgen we voor veiligere straten voor iedereen.',
     ],
     'next_rides' => [
-        'scroll_cue' => 'Naar de volgende ritten',
         'heading_nearby' => 'De volgende ritten bij jou in de buurt',
         'heading' => 'Volgende ritten',
         'off_season' => 'Het fietsseizoen loopt van maart tot november.',

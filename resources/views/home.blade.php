@@ -23,11 +23,13 @@
         </section>
 
         <section class="home-intro">
-            <div class="home-intro__inner container mx-auto px-4 text-center">
+            <div class="home-intro__inner container mx-auto px-6 md:px-4 text-center">
                 <x-intro-text size="lead" class="home-intro__lead">
-                    <p>{{ __('home.hero.intro_1') }} <br>
-                    {{ __('home.hero.intro_2') }}</p>
+                    <p>{{ __('home.hero.lead') }}</p>
                 </x-intro-text>
+                <div class="home-intro__cta">
+                    <x-cta-button href="#volgende-rit">{{ __('home.hero.cta') }}</x-cta-button>
+                </div>
             </div>
         </section>
         </x-layout-proposal>
@@ -38,15 +40,6 @@
 
     {{-- White rounded-top panel; scrolls up over the fixed backdrop (shared .page-panel). --}}
     <div class="page-panel page-panel--home">
-        {{-- Scroll cue that straddles the seam where the white panel meets the blue
-             band. Lives on the panel (not the band) so it rides up with the panel as
-             it scrolls over the fixed hero, staying on the seam. --}}
-        <a href="#volgende-rit" class="home-seam-cue" aria-label="{{ __('home.next_rides.scroll_cue') }}">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </a>
-
         <div class="page-panel__inner container mx-auto px-4 space-y-16 md:space-y-20">
         {{-- ② DE VOLGENDE RIT BIJ JOU — location-aware rides (proof + utility).
              A right-facing rider (flag up, matching the "fietsparade" lead) anchors the
@@ -59,6 +52,7 @@
 
             <div class="home-nextride__body space-y-6">
                 <h2 class="text-kidical-ink">{{ $hasLocation ? __('home.next_rides.heading_nearby') : __('home.next_rides.heading') }}</h2>
+                <p class="text-kidical-ink/70">{{ __('home.hero.mission') }}</p>
 
                 @if (! $hasUpcoming)
                     <p class="text-kidical-ink/70">

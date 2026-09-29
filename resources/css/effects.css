@@ -40,11 +40,6 @@
     to { transform: rotate(360deg); }
 }
 
-@keyframes scroll-cue-bounce {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(0.3rem); }
-}
-
 /* The chapter team carousel: each rider drifts in from the right with a slight
    lean + drop, then settles. The from-offset reads per-card custom properties
    (set in chapters.css) so the row arrives organically, not as a rigid sweep. */
