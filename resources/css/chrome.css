@@ -705,6 +705,22 @@ html.mobile-menu-open {
     }
 }
 
+@media (max-width: 1023px) {
+    /* Stack the legal bar: copyright, credits, then a wrapping row of links. */
+    .site-footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        padding-block: 1.5rem;
+    }
+    .site-footer__bottom-links {
+        flex-wrap: wrap;
+        column-gap: 1.5rem;
+        row-gap: 0;
+    }
+}
+
 @keyframes site-header-reveal {
     from {
         opacity: 0;
