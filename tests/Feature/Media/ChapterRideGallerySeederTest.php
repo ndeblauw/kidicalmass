@@ -50,7 +50,6 @@ function createFakePhotoPaths(int $count): array
         $bg = imagecolorallocate($img, 200, 100, 50);
         imagefill($img, 0, 0, $bg);
         imagejpeg($img, $path, 10);
-        imagedestroy($img);
         $paths[] = $path;
     }
 

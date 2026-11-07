@@ -4,7 +4,7 @@ Platform voor KidicalMass-groepen in België. Beheer van groepen, activiteiten, 
 
 ## Vereisten
 
-- PHP 8.4
+- PHP 8.5
 - MySQL
 - Node.js
 - [Laravel Herd](https://herd.laravel.com)

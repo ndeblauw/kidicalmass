@@ -73,6 +73,5 @@ class MediaSeeder extends Seeder
         }
 
         imagejpeg($img, $path, 30);
-        imagedestroy($img);
     }
 }
